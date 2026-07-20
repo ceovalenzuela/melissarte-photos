@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { getEvent } from "@/lib/events";
+import EventInfoCard from "@/components/events/EventInfoCard";
 
 type Props = {
   params: Promise<{
@@ -20,32 +21,20 @@ export default async function EventPage({
   }
 
   return (
-    <main className="mx-auto max-w-5xl p-8">
-      <h1 className="text-3xl font-bold">
-        {event.display_name || event.title}
-      </h1>
+<main className="mx-auto max-w-5xl p-8">
 
-      <div className="mt-8 space-y-3 rounded-xl border bg-white p-6">
-        <p>
-          <strong>Fecha:</strong>{" "}
-          {event.event_date || "Sin fecha"}
-        </p>
+  <h1 className="mb-8 text-3xl font-bold">
+    {event.title}
+  </h1>
 
-        <p>
-          <strong>Tipo:</strong>{" "}
-          {event.event_type || "Sin definir"}
-        </p>
+  <EventInfoCard
+    title={event.title}
+    slug={event.slug}
+    eventDate={event.event_date}
+    type={event.type}
+    status={event.status}
+  />
 
-        <p>
-          <strong>Slug:</strong>{" "}
-          /e/{event.slug}
-        </p>
-
-        <p>
-          <strong>Estado:</strong>{" "}
-          {event.is_active ? "Activo" : "Inactivo"}
-        </p>
-      </div>
-    </main>
+</main>
   );
 }

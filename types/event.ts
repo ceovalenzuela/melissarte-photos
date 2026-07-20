@@ -2,14 +2,12 @@ export interface Event {
   id: string;
   title: string;
   slug: string;
+  event_date: string;
 
-  event_type: string | null;
-  display_name: string | null;
+  type: string | null;
+  status: "draft" | "published";
   welcome_message: string | null;
   cover_image: string | null;
-
-  event_date: string | null;
-  is_active: boolean;
 
   created_at: string;
 }

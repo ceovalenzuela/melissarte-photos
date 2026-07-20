@@ -18,7 +18,7 @@ export default function EventCard({
   return (
     <div className="rounded-xl border bg-white p-5 shadow-sm transition hover:shadow-md">
       <h3 className="text-xl font-semibold">
-        {event.display_name || event.title}
+{event.title}
       </h3>
 
       <p className="mt-2 text-gray-500">

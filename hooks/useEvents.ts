@@ -1,12 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { supabase } from "@/lib/supabase";
+import { generateSlug } from "@/lib/slug";
+
 import { Event } from "@/types/event";
 
 export function useEvents() {
   const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   async function loadEvents() {
     const { data, error } = await supabase
@@ -14,32 +17,78 @@ export function useEvents() {
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (error) {
-      console.error(error);
-      return;
-    }
+    if (error) throw error;
 
     setEvents(data ?? []);
-    setLoading(false);
   }
 
-  async function createEvent(title: string, eventDate: string) {
-    const slug = title
-      .toLowerCase()
-      .trim()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "");
+  async function createEvent(data: {
+    title: string;
+    event_date: string;
+  }) {
+    setLoading(true);
 
-    const { error } = await supabase.from("events").insert({
-      title,
-      slug,
-      event_date: eventDate || null,
-    });
+    try {
+      const { error } = await supabase
+        .from("events")
+        .insert({
+          title: data.title,
+          slug: generateSlug(data.title),
+
+          event_date: data.event_date,
+
+          event_type: null,
+          display_name: null,
+          welcome_message: null,
+          cover_image: null,
+
+          is_active: true,
+        });
+
+      if (error) throw error;
+
+      await loadEvents();
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function updateEvent(
+    id: string,
+    updates: Partial<Event>
+  ) {
+    setLoading(true);
+
+    try {
+      const { error } = await supabase
+        .from("events")
+        .update(updates)
+        .eq("id", id);
+
+      if (error) throw error;
+
+      await loadEvents();
+    } finally {
+      setLoading(false);
+    }
+  }
+
+async function deleteEvent(id: string) {
+  setLoading(true);
+
+  try {
+    const { error } = await supabase
+      .from("events")
+      .delete()
+      .eq("id", id);
 
     if (error) throw error;
 
     await loadEvents();
+  } finally {
+    setLoading(false);
   }
+}
 
   useEffect(() => {
     loadEvents();
@@ -48,7 +97,11 @@ export function useEvents() {
   return {
     events,
     loading,
+
     createEvent,
+    updateEvent,
+    deleteEvent,
+
     refresh: loadEvents,
   };
 }

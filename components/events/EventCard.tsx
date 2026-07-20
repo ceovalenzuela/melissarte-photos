@@ -1,42 +1,48 @@
+import { Event } from "@/types/event";
+
 type Props = {
-  title: string;
-  date: string | null;
-  slug: string;
+  event: Event;
+  onEdit: () => void;
+  onDelete: () => void;
 };
 
 export default function EventCard({
-  title,
-  date,
-  slug,
+  event,
+  onEdit,
+  onDelete,
 }: Props) {
   return (
-    <div
-      className="border rounded-xl p-5 shadow-sm hover:shadow-md transition bg-white"
-    >
+    <div className="rounded-xl border bg-white p-5 shadow-sm transition hover:shadow-md">
       <h3 className="text-xl font-semibold">
-        {title}
+        {event.display_name || event.title}
       </h3>
 
-      <p className="text-gray-500 mt-2">
-        📅 {date ?? "Sin fecha"}
+      <p className="mt-2 text-gray-500">
+        📅 {event.event_date || "Sin fecha"}
       </p>
 
       <p className="text-gray-500">
-        🔗 /e/{slug}
+        🔗 /e/{event.slug}
       </p>
 
-      <div className="flex gap-3 mt-5">
-        <button className="bg-blue-600 text-white px-3 py-2 rounded-lg">
+      <div className="mt-5 flex gap-3">
+        <button className="rounded-lg bg-blue-600 px-3 py-2 text-white">
           Administrar
         </button>
 
-        <button className="border px-3 py-2 rounded-lg">
+        <button
+          onClick={onEdit}
+          className="rounded-lg border px-3 py-2"
+        >
           Editar
         </button>
 
-        <button className="border border-red-500 text-red-500 px-3 py-2 rounded-lg">
-          Eliminar
-        </button>
+<button
+  onClick={onDelete}
+  className="rounded-lg border border-red-500 px-3 py-2 text-red-500"
+>
+  Eliminar
+</button>
       </div>
     </div>
   );

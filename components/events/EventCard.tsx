@@ -1,3 +1,7 @@
+"use client";
+
+import Link from "next/link";
+
 import { Event } from "@/types/event";
 
 type Props = {
@@ -26,23 +30,26 @@ export default function EventCard({
       </p>
 
       <div className="mt-5 flex gap-3">
-        <button className="rounded-lg bg-blue-600 px-3 py-2 text-white">
+        <Link
+          href={`/admin/events/${event.id}`}
+          className="rounded-lg bg-blue-600 px-3 py-2 text-white transition hover:bg-blue-700"
+        >
           Administrar
-        </button>
+        </Link>
 
         <button
           onClick={onEdit}
-          className="rounded-lg border px-3 py-2"
+          className="rounded-lg border px-3 py-2 hover:bg-gray-50"
         >
           Editar
         </button>
 
-<button
-  onClick={onDelete}
-  className="rounded-lg border border-red-500 px-3 py-2 text-red-500"
->
-  Eliminar
-</button>
+        <button
+          onClick={onDelete}
+          className="rounded-lg border border-red-500 px-3 py-2 text-red-500 hover:bg-red-50"
+        >
+          Eliminar
+        </button>
       </div>
     </div>
   );

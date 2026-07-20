@@ -19,7 +19,9 @@ Crear una experiencia para que los invitados compartan y disfruten las fotos de 
 
 ## Próximo Sprint
 
-- Página pública del evento
-- Diseño responsive
-- Subida de fotos
-- Galería
+Sprint 02: Administración del evento
+
+Editar evento.
+Página /admin/events/[id].
+Configuración del evento.
+Navegación desde "Administrar".

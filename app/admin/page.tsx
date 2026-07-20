@@ -35,8 +35,6 @@ export default function AdminPage() {
 <EventCard
   key={event.id}
   event={event}
-  onEdit={() => {}}
-  onDelete={() => deleteEvent(event.id)}
 />
           ))}
         </section>

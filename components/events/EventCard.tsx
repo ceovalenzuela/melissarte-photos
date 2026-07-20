@@ -6,14 +6,10 @@ import { Event } from "@/types/event";
 
 type Props = {
   event: Event;
-  onEdit: () => void;
-  onDelete: () => void;
 };
 
 export default function EventCard({
   event,
-  onEdit,
-  onDelete,
 }: Props) {
   return (
     <div className="rounded-xl border bg-white p-5 shadow-sm transition hover:shadow-md">
@@ -37,19 +33,6 @@ export default function EventCard({
           Administrar
         </Link>
 
-        <button
-          onClick={onEdit}
-          className="rounded-lg border px-3 py-2 hover:bg-gray-50"
-        >
-          Editar
-        </button>
-
-        <button
-          onClick={onDelete}
-          className="rounded-lg border border-red-500 px-3 py-2 text-red-500 hover:bg-red-50"
-        >
-          Eliminar
-        </button>
       </div>
     </div>
   );

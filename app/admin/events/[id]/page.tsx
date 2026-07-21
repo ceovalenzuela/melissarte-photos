@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
-
 import { getEvent } from "@/lib/events";
-import EventInfoCard from "@/components/events/EventInfoCard";
+import EventEditor from "@/components/events/EventEditor";
 
 type Props = {
   params: Promise<{
@@ -27,13 +26,7 @@ export default async function EventPage({
     {event.title}
   </h1>
 
-  <EventInfoCard
-    title={event.title}
-    slug={event.slug}
-    eventDate={event.event_date}
-    type={event.type}
-    status={event.status}
-  />
+<EventEditor event={event} />
 
 </main>
   );

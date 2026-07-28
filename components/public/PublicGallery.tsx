@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 
 import { Photo } from "@/types/photo";
@@ -5,11 +6,13 @@ import { Photo } from "@/types/photo";
 interface Props {
   photos: Photo[];
   loading: boolean;
+  onPhotoClick: (index: number) => void;
 }
 
 export default function PublicGallery({
   photos,
   loading,
+  onPhotoClick,
 }: Props) {
   return (
     <section className="rounded-3xl border border-neutral-200 bg-white p-8 shadow-sm">
@@ -46,13 +49,21 @@ export default function PublicGallery({
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-3">
-          {photos.map((photo) => (
-            <img
+          {photos.map((photo, index) => (
+            <button
               key={photo.id}
-              src={photo.public_url}
-              alt=""
-              className="aspect-square rounded-2xl object-cover"
-            />
+              type="button"
+              onClick={() => onPhotoClick(index)}
+              className="group relative aspect-square overflow-hidden rounded-2xl"
+            >
+              <Image
+                src={photo.public_url}
+                alt={`Fotografía ${index + 1}`}
+                fill
+                sizes="(max-width:768px) 50vw, 33vw"
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+            </button>
           ))}
         </div>
       )}

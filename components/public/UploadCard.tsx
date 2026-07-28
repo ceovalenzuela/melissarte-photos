@@ -51,7 +51,9 @@ export default function UploadCard({
         </div>
 
         <h2 className="text-xl font-semibold">
-          Compartir fotografías
+          {disabled
+  ? "Subiendo fotografías..."
+  : "Compartir fotografías"}
         </h2>
 
         <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-neutral-500">
@@ -59,7 +61,9 @@ export default function UploadCard({
         </p>
 
         <div className="mt-8 inline-flex rounded-full bg-black px-5 py-3 text-sm font-medium text-white">
-          Seleccionar fotografías
+          {disabled
+  ? "Subiendo..."
+  : "Seleccionar fotografías"}
         </div>
       </button>
     </>

@@ -7,6 +7,7 @@ import { updateEvent } from "@/lib/events";
 
 import EventInfoForm from "./EventInfoForm";
 import EventCover from "./EventCover";
+import EventWelcomeMessage from "./EventWelcomeMessage";
 
 interface Props {
   event: Event;
@@ -46,16 +47,15 @@ export default function EventEditor({ event }: Props) {
         saving={saving}
       />
 
-      <EventCover
-        eventId={values.id}
-        coverImage={values.cover_image}
-        onUploaded={(url) =>
-          setValues({
-            ...values,
-            cover_image: url,
-          })
-        }
-      />
+<EventCover
+  values={values}
+  onChange={setValues}
+/>
+
+<EventWelcomeMessage
+  values={values}
+  onChange={setValues}
+/>
     </div>
   );
 }

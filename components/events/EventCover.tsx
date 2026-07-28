@@ -4,17 +4,16 @@ import { useState } from "react";
 import Image from "next/image";
 
 import { uploadCover, updateEvent } from "@/lib/events";
+import { Event } from "@/types/event";
 
 interface Props {
-  eventId: string;
-  coverImage: string | null;
-  onUploaded: (url: string) => void;
+  values: Event;
+  onChange: (values: Event) => void;
 }
 
 export default function EventCover({
-  eventId,
-  coverImage,
-  onUploaded,
+  values,
+  onChange,
 }: Props) {
   const [uploading, setUploading] = useState(false);
 
@@ -22,13 +21,18 @@ export default function EventCover({
     try {
       setUploading(true);
 
-      const url = await uploadCover(file, eventId);
+      const url = await uploadCover(file, values.id);
 
-      await updateEvent(eventId, {
+      await updateEvent(values.id, {
         cover_image: url,
       });
 
-      onUploaded(url);
+      onChange({
+        ...values,
+        cover_image: url,
+      });
+
+      alert("Portada actualizada");
     } catch (error) {
       console.error(error);
       alert("Ocurrió un error al subir la portada.");
@@ -43,9 +47,9 @@ export default function EventCover({
         Portada
       </h2>
 
-      {coverImage ? (
+      {values.cover_image ? (
         <Image
-          src={coverImage}
+          src={values.cover_image}
           alt="Portada del evento"
           width={1200}
           height={600}
@@ -57,7 +61,7 @@ export default function EventCover({
         </div>
       )}
 
-      <label className="inline-flex cursor-pointer items-center rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800">
+      <label className="inline-flex cursor-pointer items-center rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800 disabled:opacity-50">
         {uploading ? "Subiendo..." : "Cambiar portada"}
 
         <input

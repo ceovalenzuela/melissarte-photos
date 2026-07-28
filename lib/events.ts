@@ -16,6 +16,23 @@ export async function getEvent(id: string): Promise<Event | null> {
   return data;
 }
 
+export async function getEventBySlug(
+  slug: string
+): Promise<Event | null> {
+  const { data, error } = await supabase
+    .from("events")
+    .select("*")
+    .eq("slug", slug)
+    .single();
+
+  if (error) {
+    console.error(error);
+    return null;
+  }
+
+  return data;
+}
+
 export async function updateEvent(
   id: string,
   values: Partial<Event>

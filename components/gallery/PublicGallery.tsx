@@ -1,7 +1,9 @@
-import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 
 import { Photo } from "@/types/photo";
+
+import GalleryImage from "./GalleryImage";
+import GallerySkeleton from "./GallerySkeleton";
 
 interface Props {
   photos: Photo[];
@@ -16,7 +18,7 @@ export default function PublicGallery({
 }: Props) {
   return (
     <section className="rounded-3xl border border-neutral-200 bg-white p-8 shadow-sm">
-      <div className="mb-6 flex items-center gap-3">
+      <header className="mb-6 flex items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100">
           <ImageIcon className="h-5 w-5 text-neutral-700" />
         </div>
@@ -30,17 +32,10 @@ export default function PublicGallery({
             {photos.length} fotografías
           </p>
         </div>
-      </div>
+      </header>
 
       {loading ? (
-        <div className="grid grid-cols-2 gap-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div
-              key={i}
-              className="aspect-square animate-pulse rounded-2xl bg-neutral-100"
-            />
-          ))}
-        </div>
+        <GallerySkeleton />
       ) : photos.length === 0 ? (
         <div className="py-12 text-center">
           <p className="text-neutral-500">
@@ -48,22 +43,15 @@ export default function PublicGallery({
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           {photos.map((photo, index) => (
-            <button
+            <GalleryImage
               key={photo.id}
-              type="button"
+              src={photo.public_url}
+              alt={`Fotografía ${index + 1}`}
+              priority={index < 6}
               onClick={() => onPhotoClick(index)}
-              className="group relative aspect-square overflow-hidden rounded-2xl"
-            >
-              <Image
-                src={photo.public_url}
-                alt={`Fotografía ${index + 1}`}
-                fill
-                sizes="(max-width:768px) 50vw, 33vw"
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-            </button>
+            />
           ))}
         </div>
       )}

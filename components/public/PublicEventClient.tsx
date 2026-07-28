@@ -6,8 +6,9 @@ import { Event } from "@/types/event";
 import { Photo } from "@/types/photo";
 
 import UploadCard from "./UploadCard";
-import PublicGallery from "./PublicGallery";
+import PublicGallery from "../gallery/PublicGallery";
 import PhotoLightbox from "./PhotoLightbox";
+import InfiniteScrollTrigger from "@/components/ui/InfiniteScrollTrigger";
 
 import { toast } from "sonner";
 
@@ -16,9 +17,14 @@ import {
   getPhotosByEvent,
 } from "@/lib/photos";
 
+import { subscribeToEventPhotos } from "@/lib/realtime";
+
 interface PublicEventClientProps {
   event: Event;
 }
+
+const INITIAL_BATCH_SIZE = 30;
+const BATCH_SIZE = 30;
 
 export default function PublicEventClient({
   event,
@@ -30,11 +36,16 @@ export default function PublicEventClient({
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  async function loadPhotos() {
-    setLoading(true);
+  const [visibleCount, setVisibleCount] = useState(
+    INITIAL_BATCH_SIZE
+  );
 
+  const visiblePhotos = photos.slice(0, visibleCount);
+
+  async function loadPhotos() {
     try {
       const data = await getPhotosByEvent(event.id);
+
       setPhotos(data ?? []);
     } finally {
       setLoading(false);
@@ -43,15 +54,26 @@ export default function PublicEventClient({
 
   useEffect(() => {
     loadPhotos();
-  }, []);
+
+    const unsubscribe = subscribeToEventPhotos(
+      event.id,
+      loadPhotos
+    );
+
+    return () => {
+      unsubscribe();
+    };
+  }, [event.id]);
+
+  useEffect(() => {
+    setVisibleCount(INITIAL_BATCH_SIZE);
+  }, [event.id]);
 
   async function handleSelect(files: File[]) {
     try {
       setUploading(true);
 
       await uploadPhotos(event.id, files);
-
-      await loadPhotos();
 
       toast.success(
         `${files.length} fotografía${
@@ -72,6 +94,12 @@ export default function PublicEventClient({
     setLightboxOpen(true);
   }
 
+  function loadMorePhotos() {
+    setVisibleCount((current) =>
+      Math.min(current + BATCH_SIZE, photos.length)
+    );
+  }
+
   return (
     <>
       <UploadCard
@@ -80,15 +108,21 @@ export default function PublicEventClient({
       />
 
       <PublicGallery
-        photos={photos}
-        loading={loading}
-        onPhotoClick={handlePhotoClick}
-      />
+  photos={visiblePhotos}
+  loading={loading}
+  onPhotoClick={handlePhotoClick}
+/>
+
+{visibleCount < photos.length && (
+  <InfiniteScrollTrigger
+    onLoadMore={loadMorePhotos}
+  />
+)}
 
       <PhotoLightbox
         open={lightboxOpen}
         index={selectedIndex}
-        photos={photos}
+        photos={visiblePhotos}
         onClose={() => setLightboxOpen(false)}
       />
     </>

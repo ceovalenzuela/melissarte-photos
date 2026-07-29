@@ -49,7 +49,7 @@ export default function UploadButton({
         }
         className="
           fixed
-          bottom-8
+          bottom-10
           right-8
           z-50
           flex

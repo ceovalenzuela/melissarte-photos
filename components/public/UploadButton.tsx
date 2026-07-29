@@ -19,6 +19,8 @@ export default function UploadButton({
   total = 0,
 }: UploadButtonProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const progress =
+  total > 0 ? (completed / total) * 100 : 0;
 
   function handleFiles(
     e: React.ChangeEvent<HTMLInputElement>
@@ -54,6 +56,8 @@ export default function UploadButton({
             : "Compartir mis fotografías"
         }
         className="
+          relative
+          overflow-hidden
           fixed
           bottom-10
           right-8
@@ -92,6 +96,22 @@ export default function UploadButton({
             ? `Compartiendo ${completed} de ${total}`
             : "Compartir mis fotos"}
         </span>
+        {uploading && (
+  <div className="absolute bottom-0 left-0 h-[2px] w-full bg-white/15">
+    <div
+      className="
+        h-full
+        bg-white/90
+        transition-[width]
+        duration-200
+        ease-out
+      "
+      style={{
+        width: `${progress}%`,
+      }}
+    />
+  </div>
+)}
       </button>
     </>
   );

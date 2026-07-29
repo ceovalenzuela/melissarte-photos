@@ -49,18 +49,18 @@ export default function UploadButton({
         }
         className="
           fixed
-          bottom-6
-          right-6
+          bottom-8
+          right-8
           z-50
           flex
           items-center
           gap-3
           rounded-full
-          bg-neutral-900
+          bg-neutral-800
           px-6
           py-3.5
           text-white
-          shadow-lg
+          shadow-md
           transition-all
           duration-200
           hover:bg-black

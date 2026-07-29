@@ -16,24 +16,24 @@ export default function PublicGallery({
 }: Props) {
   return (
     <section>
-      <header className="mb-6">
-  <div className="mx-auto mb-5 h-px w-20 bg-neutral-200" />
+      <header className="mb-8">
+        <div className="mx-auto mb-5 h-px w-24 bg-neutral-200" />
 
-  <p className="text-center text-xs font-medium uppercase tracking-[0.22em] text-neutral-400">
-    Álbum
-  </p>
+        <p className="text-center text-xs font-medium uppercase tracking-[0.22em] text-neutral-400">
+          Álbum
+        </p>
 
-  <p className="mt-2 text-center text-base text-neutral-700">
-    {photos.length} fotografía
-    {photos.length !== 1 ? "s" : ""} compartida
-    {photos.length !== 1 ? "s" : ""}
-  </p>
-</header>
+        <p className="mt-2 text-center text-base text-neutral-700">
+          {photos.length} fotografía
+          {photos.length !== 1 ? "s" : ""} compartida
+          {photos.length !== 1 ? "s" : ""}
+        </p>
+      </header>
 
       {loading ? (
         <GallerySkeleton />
       ) : photos.length === 0 ? (
-        <div className="py-12 text-center text-neutral-500">
+        <div className="rounded-2xl border border-dashed border-neutral-200 py-12 text-center text-neutral-500">
           Todavía no hay fotografías.
         </div>
       ) : (

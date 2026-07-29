@@ -76,6 +76,7 @@ export default function UploadButton({
           active:scale-[0.98]
           disabled:cursor-not-allowed
           disabled:opacity-60
+          relative overflow-hidden
         "
         style={{
           backgroundImage: uploading
@@ -109,6 +110,16 @@ export default function UploadButton({
               : `Compartiendo ${completed} de ${total}`
             : "Compartir mis fotos"}
         </span>
+        {uploading && (
+  <div className="absolute inset-x-0 bottom-0 h-1 bg-white/10">
+    <div
+      className="h-full bg-emerald-400 transition-all duration-300 ease-out"
+      style={{
+        width: `${progress}%`,
+      }}
+    />
+  </div>
+)}
       </button>
     </>
   );

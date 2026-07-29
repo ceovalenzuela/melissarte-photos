@@ -16,15 +16,19 @@ export default function PublicGallery({
 }: Props) {
   return (
     <section>
-      <header className="mb-4 px-1">
-        <h2 className="text-base font-medium tracking-tight text-neutral-900">
-          Álbum
-        </h2>
+      <header className="mb-6">
+  <div className="mx-auto mb-5 h-px w-20 bg-neutral-200" />
 
-        <p className="mt-0.5 text-sm text-neutral-500">
-          {photos.length} foto{photos.length !== 1 ? "s" : ""}
-        </p>
-      </header>
+  <p className="text-center text-xs font-medium uppercase tracking-[0.22em] text-neutral-400">
+    Álbum
+  </p>
+
+  <p className="mt-2 text-center text-base text-neutral-700">
+    {photos.length} fotografía
+    {photos.length !== 1 ? "s" : ""} compartida
+    {photos.length !== 1 ? "s" : ""}
+  </p>
+</header>
 
       {loading ? (
         <GallerySkeleton />

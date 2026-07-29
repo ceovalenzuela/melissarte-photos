@@ -1,6 +1,6 @@
 "use client";
 
-import { Upload } from "lucide-react";
+import { Camera } from "lucide-react";
 import { useRef } from "react";
 
 interface UploadButtonProps {
@@ -23,6 +23,7 @@ export default function UploadButton({
 
     onSelect(files);
 
+    // Permite volver a seleccionar los mismos archivos
     e.target.value = "";
   }
 
@@ -41,45 +42,40 @@ export default function UploadButton({
         type="button"
         disabled={disabled}
         onClick={() => inputRef.current?.click()}
+        aria-label={
+          disabled
+            ? "Compartiendo fotografías"
+            : "Compartir mis fotografías"
+        }
         className="
-          group
           fixed
           bottom-6
           right-6
           z-50
           flex
-          h-16
           items-center
-          justify-center
+          gap-3
           rounded-full
-          bg-black
-          px-5
+          bg-neutral-900
+          px-6
+          py-3.5
           text-white
-          shadow-xl
+          shadow-lg
           transition-all
-          duration-300
-          hover:bg-neutral-900
+          duration-200
+          hover:bg-black
+          active:scale-[0.98]
           disabled:cursor-not-allowed
           disabled:opacity-60
         "
       >
-        <Upload className="h-6 w-6 shrink-0" />
+        <Camera
+          className="h-5 w-5 shrink-0"
+          strokeWidth={2.2}
+        />
 
-        <span
-          className="
-            ml-0
-            max-w-0
-            overflow-hidden
-            whitespace-nowrap
-            opacity-0
-            transition-all
-            duration-300
-            group-hover:ml-3
-            group-hover:max-w-[180px]
-            group-hover:opacity-100
-          "
-        >
-          {disabled ? "Subiendo..." : "Subir fotografías"}
+        <span className="whitespace-nowrap text-sm font-medium">
+          {disabled ? "Compartiendo..." : "Compartir mis fotos"}
         </span>
       </button>
     </>

@@ -16,14 +16,13 @@ export default function PublicGallery({
 }: Props) {
   return (
     <section>
-      <header className="mb-5">
-        <h2 className="text-lg font-semibold tracking-tight text-neutral-900">
+      <header className="mb-4 px-1">
+        <h2 className="text-base font-medium tracking-tight text-neutral-900">
           Álbum
         </h2>
 
-        <p className="mt-1 text-sm text-neutral-500">
-          {photos.length} fotografía
-          {photos.length !== 1 ? "s" : ""}
+        <p className="mt-0.5 text-sm text-neutral-500">
+          {photos.length} foto{photos.length !== 1 ? "s" : ""}
         </p>
       </header>
 

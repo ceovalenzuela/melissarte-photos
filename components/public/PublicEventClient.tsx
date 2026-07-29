@@ -23,6 +23,12 @@ interface PublicEventClientProps {
   event: Event;
 }
 
+interface UploadState {
+  uploading: boolean;
+  completed: number;
+  total: number;
+}
+
 const INITIAL_BATCH_SIZE = 30;
 const BATCH_SIZE = 30;
 
@@ -30,11 +36,11 @@ export default function PublicEventClient({
   event,
 }: PublicEventClientProps) {
   const [photos, setPhotos] = useState<Photo[]>([]);
-  const [uploadState, setUploadState] = useState({
-  uploading: false,
-  completed: 0,
-  total: 0,
-});
+  const [uploadState, setUploadState] = useState<UploadState>({
+    uploading: false,
+    completed: 0,
+    total: 0,
+  });
   const [loading, setLoading] = useState(true);
 
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -74,42 +80,54 @@ export default function PublicEventClient({
   }, [event.id]);
 
   async function handleSelect(files: File[]) {
-  try {
     setUploadState({
       uploading: true,
       completed: 0,
       total: files.length,
     });
 
-    await uploadPhotos(
-      event.id,
-      files,
-      ({ completed, total }) => {
-        setUploadState({
-          uploading: true,
-          completed,
-          total,
-        });
+    try {
+      const result = await uploadPhotos(
+        event.id,
+        files,
+        ({ completed, total }) => {
+          setUploadState({
+            uploading: true,
+            completed,
+            total,
+          });
+        }
+      );
+
+      if (result.failed.length === 0) {
+        toast.success(
+          `${result.success} fotografía${
+            result.success !== 1 ? "s" : ""
+          } subida${
+            result.success !== 1 ? "s" : ""
+          } correctamente`
+        );
+      } else {
+        toast.warning(
+          `Carga completada. ${result.success} fotografía${
+            result.success !== 1 ? "s" : ""
+          } subida${
+            result.success !== 1 ? "s" : ""
+          }. ${result.failed.length} no pudieron subirse.`
+        );
       }
-    );
+    } catch (error) {
+      console.error(error);
 
-    toast.success(
-      `${files.length} fotografía${
-        files.length > 1 ? "s" : ""
-      } subida${files.length > 1 ? "s" : ""} correctamente`
-    );
-  } catch (err) {
-    console.error(err);
-
-    toast.error("Error al subir las fotografías");
-  } finally {
-    setUploadState({
-      uploading: false,
-      completed: 0,
-      total: 0,
-    });
+      toast.error("Ocurrió un error al iniciar la carga.");
+    } finally {
+      setUploadState({
+        uploading: false,
+        completed: 0,
+        total: 0,
+      });
+    }
   }
-}
 
   function handlePhotoClick(index: number) {
     setSelectedIndex(index);
@@ -125,24 +143,24 @@ export default function PublicEventClient({
   return (
     <>
       <UploadButton
-  onSelect={handleSelect}
-  disabled={uploadState.uploading}
-  uploading={uploadState.uploading}
-  completed={uploadState.completed}
-  total={uploadState.total}
-/>
+        onSelect={handleSelect}
+        disabled={uploadState.uploading}
+        uploading={uploadState.uploading}
+        completed={uploadState.completed}
+        total={uploadState.total}
+      />
 
       <PublicGallery
-  photos={visiblePhotos}
-  loading={loading}
-  onPhotoClick={handlePhotoClick}
-/>
+        photos={visiblePhotos}
+        loading={loading}
+        onPhotoClick={handlePhotoClick}
+      />
 
-{visibleCount < photos.length && (
-  <InfiniteScrollTrigger
-    onLoadMore={loadMorePhotos}
-  />
-)}
+      {visibleCount < photos.length && (
+        <InfiniteScrollTrigger
+          onLoadMore={loadMorePhotos}
+        />
+      )}
 
       <PhotoLightbox
         open={lightboxOpen}

@@ -1,5 +1,6 @@
 import { compressImage } from "@/lib/imageCompression";
 import { supabase } from "@/lib/supabase";
+import { createThumbnail } from "@/lib/imageThumbnail";
 
 interface UploadProgress {
   completed: number;
@@ -18,46 +19,87 @@ export interface UploadResult {
   success: number;
 }
 
-function buildFilePath(eventId: string, file: File) {
+export interface Photo {
+  id: string;
+  event_id: string;
+  file_name: string;
+
+  file_path: string;
+  public_url: string;
+
+  thumbnail_path: string;
+  thumbnail_url: string;
+
+  uploaded_at: string;
+}
+
+function buildFilePath(
+  eventId: string,
+  folder: "originals" | "thumbnails",
+  file: File
+) {
   const extension = file.name.split(".").pop() ?? "";
   const fileName = `${crypto.randomUUID()}.${extension}`;
 
   return {
-    filePath: `${eventId}/${fileName}`,
+    filePath: `${eventId}/${folder}/${fileName}`,
   };
 }
 
 async function uploadSinglePhoto(
   eventId: string,
   originalFileName: string,
-  file: File
+  originalFile: File,
+  thumbnailFile: File
 ): Promise<string> {
-  const { filePath } = buildFilePath(eventId, file);
+  const original = buildFilePath(
+    eventId,
+    "originals",
+    originalFile
+  );
 
-  const { error: storageError } = await supabase.storage
+  const thumbnail = buildFilePath(
+    eventId,
+    "thumbnails",
+    thumbnailFile
+  );
+
+  const { error: originalError } = await supabase.storage
     .from("event-photos")
-    .upload(filePath, file);
+    .upload(original.filePath, originalFile);
 
-  if (storageError) throw storageError;
+  if (originalError) throw originalError;
 
-  const { data } = supabase.storage
+  const { error: thumbnailError } = await supabase.storage
     .from("event-photos")
-    .getPublicUrl(filePath);
+    .upload(thumbnail.filePath, thumbnailFile);
 
-  const publicUrl = data.publicUrl;
+  if (thumbnailError) throw thumbnailError;
+
+  const originalUrl = supabase.storage
+    .from("event-photos")
+    .getPublicUrl(original.filePath).data.publicUrl;
+
+  const thumbnailUrl = supabase.storage
+    .from("event-photos")
+    .getPublicUrl(thumbnail.filePath).data.publicUrl;
 
   const { error: dbError } = await supabase
     .from("photos")
     .insert({
       event_id: eventId,
       file_name: originalFileName,
-      file_path: filePath,
-      public_url: publicUrl,
+
+      file_path: original.filePath,
+      public_url: originalUrl,
+
+      thumbnail_path: thumbnail.filePath,
+      thumbnail_url: thumbnailUrl,
     });
 
   if (dbError) throw dbError;
 
-  return publicUrl;
+  return originalUrl;
 }
 
 export async function uploadPhotos(
@@ -75,13 +117,16 @@ export async function uploadPhotos(
     try {
       const compressedFile = await compressImage(file);
 
-      const publicUrl = await uploadSinglePhoto(
-        eventId,
-        file.name,
-        compressedFile
-      );
+const thumbnailFile = await createThumbnail(compressedFile);
 
-      uploaded.push(publicUrl);
+const publicUrl = await uploadSinglePhoto(
+  eventId,
+  file.name,
+  compressedFile,
+  thumbnailFile
+);
+
+uploaded.push(publicUrl);
     } catch (error) {
       console.error(
         "Error al subir la fotografía:",

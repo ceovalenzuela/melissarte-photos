@@ -2,10 +2,9 @@ import { notFound } from "next/navigation";
 
 import { getEventBySlug } from "@/lib/events";
 
-import PublicHero from "@/components/public/PublicHero";
-import PublicWelcome from "@/components/public/PublicWelcome";
 import PublicEventClient from "@/components/public/PublicEventClient";
 import Footer from "@/components/public/Footer";
+import EventHero from "@/components/public/EventHero";
 
 interface Props {
   params: Promise<{
@@ -26,10 +25,8 @@ export default async function PublicEventPage({
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-lg space-y-8 px-4 py-6">
-        <PublicHero event={event} />
-
-        <PublicWelcome event={event} />
+      <div className="mx-auto max-w-6xl space-y-8 px-4 py-6">
+        <EventHero event={event} />
 
         <PublicEventClient event={event} />
 

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Event } from "@/types/event";
 import { Photo } from "@/types/photo";
 
-import UploadCard from "./UploadCard";
+import UploadButton from "./UploadButton";
 import PublicGallery from "../gallery/PublicGallery";
 import PhotoLightbox from "./PhotoLightbox";
 import InfiniteScrollTrigger from "@/components/ui/InfiniteScrollTrigger";
@@ -102,10 +102,10 @@ export default function PublicEventClient({
 
   return (
     <>
-      <UploadCard
-        onSelect={handleSelect}
-        disabled={uploading}
-      />
+      <UploadButton
+  onSelect={handleSelect}
+  disabled={uploading}
+/>
 
       <PublicGallery
   photos={visiblePhotos}

@@ -17,33 +17,36 @@ export default function PublicGallery({
   onPhotoClick,
 }: Props) {
   return (
-    <section className="rounded-3xl border border-neutral-200 bg-white p-8 shadow-sm">
-      <header className="mb-6 flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100">
-          <ImageIcon className="h-5 w-5 text-neutral-700" />
-        </div>
+    <section className="py-2">
 
-        <div>
-          <h2 className="text-xl font-bold">
-            Álbum del evento
-          </h2>
+      <header className="mb-8">
+        <div className="flex items-center gap-3">
 
-          <p className="text-sm text-neutral-500">
-            {photos.length} fotografías
-          </p>
+          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-neutral-100">
+            <ImageIcon className="h-5 w-5 text-neutral-700" />
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight">
+              Álbum del evento
+            </h2>
+
+            <p className="text-sm text-neutral-500">
+              {photos.length} fotografías compartidas
+            </p>
+          </div>
+
         </div>
       </header>
 
       {loading ? (
         <GallerySkeleton />
       ) : photos.length === 0 ? (
-        <div className="py-12 text-center">
-          <p className="text-neutral-500">
-            Todavía no hay fotografías.
-          </p>
+        <div className="py-16 text-center text-neutral-500">
+          Todavía no hay fotografías.
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
           {photos.map((photo, index) => (
             <GalleryImage
               key={photo.id}
@@ -55,6 +58,7 @@ export default function PublicGallery({
           ))}
         </div>
       )}
+
     </section>
   );
 }

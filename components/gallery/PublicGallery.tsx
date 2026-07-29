@@ -1,5 +1,3 @@
-import { ImageIcon } from "lucide-react";
-
 import { Photo } from "@/types/photo";
 
 import GalleryImage from "./GalleryImage";
@@ -17,36 +15,26 @@ export default function PublicGallery({
   onPhotoClick,
 }: Props) {
   return (
-    <section className="py-2">
+    <section>
+      <header className="mb-5">
+        <h2 className="text-lg font-semibold tracking-tight text-neutral-900">
+          Álbum
+        </h2>
 
-      <header className="mb-8">
-        <div className="flex items-center gap-3">
-
-          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-neutral-100">
-            <ImageIcon className="h-5 w-5 text-neutral-700" />
-          </div>
-
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight">
-              Álbum del evento
-            </h2>
-
-            <p className="text-sm text-neutral-500">
-              {photos.length} fotografías compartidas
-            </p>
-          </div>
-
-        </div>
+        <p className="mt-1 text-sm text-neutral-500">
+          {photos.length} fotografía
+          {photos.length !== 1 ? "s" : ""}
+        </p>
       </header>
 
       {loading ? (
         <GallerySkeleton />
       ) : photos.length === 0 ? (
-        <div className="py-16 text-center text-neutral-500">
+        <div className="py-12 text-center text-neutral-500">
           Todavía no hay fotografías.
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-4 lg:gap-4">
           {photos.map((photo, index) => (
             <GalleryImage
               key={photo.id}
@@ -58,7 +46,6 @@ export default function PublicGallery({
           ))}
         </div>
       )}
-
     </section>
   );
 }

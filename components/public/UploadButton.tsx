@@ -20,8 +20,15 @@ export default function UploadButton({
 }: UploadButtonProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const progress =
-    total > 0 ? (completed / total) * 100 : 0;
+  const isPreparing = uploading && completed === 0;
+
+  const buttonLabel = isPreparing
+    ? "Preparando fotografías..."
+    : uploading
+      ? `Compartiendo ${completed} de ${total}`
+      : "Compartir mis fotos";
+
+  const Icon = uploading ? LoaderCircle : Camera;
 
   function handleFiles(
     e: React.ChangeEvent<HTMLInputElement>
@@ -51,11 +58,7 @@ export default function UploadButton({
         type="button"
         disabled={disabled}
         onClick={() => inputRef.current?.click()}
-        aria-label={
-          uploading
-            ? `Compartiendo ${completed} de ${total} fotografías`
-            : "Compartir mis fotografías"
-        }
+        aria-label={buttonLabel}
         className="
           fixed
           bottom-10
@@ -76,50 +79,18 @@ export default function UploadButton({
           active:scale-[0.98]
           disabled:cursor-not-allowed
           disabled:opacity-60
-          relative overflow-hidden
         "
-        style={{
-          backgroundImage: uploading
-            ? `linear-gradient(
-                to right,
-                rgba(255,255,255,.16) ${progress}%,
-                transparent ${progress}%
-              )`
-            : undefined,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "100% 2px",
-          backgroundPosition: "bottom left",
-        }}
       >
-        {uploading ? (
-          <LoaderCircle
-            className="h-5 w-5 shrink-0 animate-spin"
-            strokeWidth={2.2}
-          />
-        ) : (
-          <Camera
-            className="h-5 w-5 shrink-0"
-            strokeWidth={2.2}
-          />
-        )}
+        <Icon
+          className={`h-5 w-5 shrink-0 ${
+            uploading ? "animate-spin" : ""
+          }`}
+          strokeWidth={2.2}
+        />
 
         <span className="whitespace-nowrap text-sm font-medium">
-          {uploading
-            ? completed === 0
-              ? "Preparando fotografías..."
-              : `Compartiendo ${completed} de ${total}`
-            : "Compartir mis fotos"}
+          {buttonLabel}
         </span>
-        {uploading && (
-  <div className="absolute inset-x-0 bottom-0 h-1 bg-white/10">
-    <div
-      className="h-full bg-emerald-400 transition-all duration-300 ease-out"
-      style={{
-        width: `${progress}%`,
-      }}
-    />
-  </div>
-)}
       </button>
     </>
   );

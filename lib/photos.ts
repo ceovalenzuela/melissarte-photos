@@ -1,10 +1,19 @@
 import { supabase } from "@/lib/supabase";
 
+interface UploadProgress {
+  completed: number;
+  total: number;
+}
+
 export async function uploadPhotos(
   eventId: string,
-  files: File[]
+  files: File[],
+  onProgress?: (progress: UploadProgress) => void
 ) {
   const uploaded: string[] = [];
+
+  const total = files.length;
+  let completed = 0;
 
   for (const file of files) {
     const extension = file.name.split(".").pop();
@@ -37,6 +46,13 @@ export async function uploadPhotos(
     if (dbError) throw dbError;
 
     uploaded.push(publicUrl);
+
+    completed++;
+
+    onProgress?.({
+      completed,
+      total,
+    });
   }
 
   return uploaded;

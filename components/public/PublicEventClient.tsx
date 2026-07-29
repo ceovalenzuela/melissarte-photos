@@ -30,7 +30,11 @@ export default function PublicEventClient({
   event,
 }: PublicEventClientProps) {
   const [photos, setPhotos] = useState<Photo[]>([]);
-  const [uploading, setUploading] = useState(false);
+  const [uploadState, setUploadState] = useState({
+  uploading: false,
+  completed: 0,
+  total: 0,
+});
   const [loading, setLoading] = useState(true);
 
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -70,24 +74,42 @@ export default function PublicEventClient({
   }, [event.id]);
 
   async function handleSelect(files: File[]) {
-    try {
-      setUploading(true);
+  try {
+    setUploadState({
+      uploading: true,
+      completed: 0,
+      total: files.length,
+    });
 
-      await uploadPhotos(event.id, files);
+    await uploadPhotos(
+      event.id,
+      files,
+      ({ completed, total }) => {
+        setUploadState({
+          uploading: true,
+          completed,
+          total,
+        });
+      }
+    );
 
-      toast.success(
-        `${files.length} fotografía${
-          files.length > 1 ? "s" : ""
-        } subida${files.length > 1 ? "s" : ""} correctamente`
-      );
-    } catch (err) {
-      console.error(err);
+    toast.success(
+      `${files.length} fotografía${
+        files.length > 1 ? "s" : ""
+      } subida${files.length > 1 ? "s" : ""} correctamente`
+    );
+  } catch (err) {
+    console.error(err);
 
-      toast.error("Error al subir las fotografías");
-    } finally {
-      setUploading(false);
-    }
+    toast.error("Error al subir las fotografías");
+  } finally {
+    setUploadState({
+      uploading: false,
+      completed: 0,
+      total: 0,
+    });
   }
+}
 
   function handlePhotoClick(index: number) {
     setSelectedIndex(index);
@@ -104,7 +126,10 @@ export default function PublicEventClient({
     <>
       <UploadButton
   onSelect={handleSelect}
-  disabled={uploading}
+  disabled={uploadState.uploading}
+  uploading={uploadState.uploading}
+  completed={uploadState.completed}
+  total={uploadState.total}
 />
 
       <PublicGallery

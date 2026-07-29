@@ -1,16 +1,22 @@
 "use client";
 
-import { Camera } from "lucide-react";
+import { Camera, LoaderCircle } from "lucide-react";
 import { useRef } from "react";
 
 interface UploadButtonProps {
   onSelect: (files: File[]) => void;
   disabled?: boolean;
+  uploading?: boolean;
+  completed?: number;
+  total?: number;
 }
 
 export default function UploadButton({
   onSelect,
   disabled = false,
+  uploading = false,
+  completed = 0,
+  total = 0,
 }: UploadButtonProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -43,8 +49,8 @@ export default function UploadButton({
         disabled={disabled}
         onClick={() => inputRef.current?.click()}
         aria-label={
-          disabled
-            ? "Compartiendo fotografías"
+          uploading
+            ? `Compartiendo ${completed} de ${total} fotografías`
             : "Compartir mis fotografías"
         }
         className="
@@ -69,13 +75,22 @@ export default function UploadButton({
           disabled:opacity-60
         "
       >
-        <Camera
-          className="h-5 w-5 shrink-0"
-          strokeWidth={2.2}
-        />
+        {uploading ? (
+          <LoaderCircle
+            className="h-5 w-5 shrink-0 animate-spin"
+            strokeWidth={2.2}
+          />
+        ) : (
+          <Camera
+            className="h-5 w-5 shrink-0"
+            strokeWidth={2.2}
+          />
+        )}
 
         <span className="whitespace-nowrap text-sm font-medium">
-          {disabled ? "Compartiendo..." : "Compartir mis fotos"}
+          {uploading
+            ? `Compartiendo ${completed} de ${total}`
+            : "Compartir mis fotos"}
         </span>
       </button>
     </>

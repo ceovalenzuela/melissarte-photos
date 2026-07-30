@@ -8,7 +8,6 @@ import { Photo } from "@/types/photo";
 import UploadButton from "./UploadButton";
 import PublicGallery from "../gallery/PublicGallery";
 import PhotoLightbox from "./PhotoLightbox";
-import InfiniteScrollTrigger from "@/components/ui/InfiniteScrollTrigger";
 
 import { toast } from "sonner";
 
@@ -29,9 +28,6 @@ interface UploadState {
   total: number;
 }
 
-const INITIAL_BATCH_SIZE = 30;
-const BATCH_SIZE = 30;
-
 export default function PublicEventClient({
   event,
 }: PublicEventClientProps) {
@@ -44,24 +40,22 @@ export default function PublicEventClient({
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [totalPhotos, setTotalPhotos] = useState(0);
 
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
-  const [visibleCount, setVisibleCount] = useState(
-    INITIAL_BATCH_SIZE
-  );
-
-  const visiblePhotos = photos.slice(0, visibleCount);
+  const [selectedIndex, setSelectedIndex] = useState(0); 
 
   async function loadPhotos(currentPage = 0, reset = false) {
   try {
-    const data = await getPhotosByEvent(
-      event.id,
-      currentPage
-    );
+    const result = await getPhotosByEvent(
+  event.id,
+  currentPage
+);
 
-    const newPhotos = data ?? [];
+const newPhotos = result.photos;
+
+setTotalPhotos(result.total);
 
     if (reset) {
       setPhotos(newPhotos);
@@ -80,18 +74,25 @@ export default function PublicEventClient({
     loadPhotos(0, true);
 
     const unsubscribe = subscribeToEventPhotos(
-      event.id,
-      loadPhotos
-    );
-
+  event.id,
+  () => loadPhotos(0, true)
+);
     return () => {
       unsubscribe();
     };
   }, [event.id]);
 
-  useEffect(() => {
-    setVisibleCount(INITIAL_BATCH_SIZE);
-  }, [event.id]);
+  async function handleLoadMore() {
+  if (loadingMore) return;
+
+  setLoadingMore(true);
+
+  try {
+    await loadPhotos(page + 1);
+  } finally {
+    setLoadingMore(false);
+  }
+}
 
   async function handleSelect(files: File[]) {
     setUploadState({
@@ -147,13 +148,6 @@ export default function PublicEventClient({
     setSelectedIndex(index);
     setLightboxOpen(true);
   }
-
-  function loadMorePhotos() {
-    setVisibleCount((current) =>
-      Math.min(current + BATCH_SIZE, photos.length)
-    );
-  }
-
   return (
     <>
       <UploadButton
@@ -165,23 +159,30 @@ export default function PublicEventClient({
       />
 
       <PublicGallery
-        photos={visiblePhotos}
-        loading={loading}
-        onPhotoClick={handlePhotoClick}
-      />
+  photos={photos}
+  totalPhotos={totalPhotos}
+  loading={loading}
+  onPhotoClick={handlePhotoClick}
+/>
 
-      {visibleCount < photos.length && (
-        <InfiniteScrollTrigger
-          onLoadMore={loadMorePhotos}
-        />
-      )}
+{hasMore && (
+  <div className="mt-8 flex justify-center">
+    <button
+  onClick={handleLoadMore}
+  disabled={loadingMore}
+  className="rounded-lg bg-black px-6 py-3 text-white transition hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed"
+>
+  {loadingMore ? "Cargando..." : "Cargar más fotografías"}
+</button>
+  </div>
+)}
 
-      <PhotoLightbox
-        open={lightboxOpen}
-        index={selectedIndex}
-        photos={visiblePhotos}
-        onClose={() => setLightboxOpen(false)}
-      />
+<PhotoLightbox
+  open={lightboxOpen}
+  index={selectedIndex}
+  photos={photos}
+  onClose={() => setLightboxOpen(false)}
+/>
     </>
   );
 }

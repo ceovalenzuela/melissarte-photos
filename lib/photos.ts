@@ -164,9 +164,9 @@ export async function getPhotosByEvent(
   const from = page * limit;
   const to = from + limit - 1;
 
-  const { data, error } = await supabase
+  const { data, error, count } = await supabase
     .from("photos")
-    .select("*")
+    .select("*", { count: "exact" })
     .eq("event_id", eventId)
     .order("uploaded_at", {
       ascending: false,
@@ -175,5 +175,8 @@ export async function getPhotosByEvent(
 
   if (error) throw error;
 
-  return data;
+  return {
+  photos: data ?? [],
+  total: count ?? 0,
+};
 }

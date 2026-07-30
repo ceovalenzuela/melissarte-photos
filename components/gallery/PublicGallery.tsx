@@ -5,12 +5,14 @@ import GallerySkeleton from "./GallerySkeleton";
 
 interface Props {
   photos: Photo[];
+  totalPhotos: number;
   loading: boolean;
   onPhotoClick: (index: number) => void;
 }
 
 export default function PublicGallery({
   photos,
+  totalPhotos,
   loading,
   onPhotoClick,
 }: Props) {
@@ -24,9 +26,9 @@ export default function PublicGallery({
         </p>
 
         <p className="mt-2 text-center text-base text-neutral-700">
-          {photos.length} fotografía
-          {photos.length !== 1 ? "s" : ""} compartida
-          {photos.length !== 1 ? "s" : ""}
+          {totalPhotos} fotografía
+          {totalPhotos !== 1 ? "s" : ""} compartida
+          {totalPhotos !== 1 ? "s" : ""}
         </p>
       </header>
 

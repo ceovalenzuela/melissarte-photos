@@ -115,9 +115,9 @@ export async function uploadPhotos(
 
   for (const file of files) {
     try {
-      const compressedFile = await compressImage(file);
+      const thumbnailFile = await createThumbnail(file);
 
-const thumbnailFile = await createThumbnail(compressedFile);
+const compressedFile = await compressImage(file);
 
 const publicUrl = await uploadSinglePhoto(
   eventId,

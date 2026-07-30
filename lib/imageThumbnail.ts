@@ -1,6 +1,6 @@
 export async function createThumbnail(
   file: File,
-  size = 800
+  size = 1200
 ): Promise<File> {
   return new Promise((resolve, reject) => {
     const image = new Image();

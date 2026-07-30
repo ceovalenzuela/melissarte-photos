@@ -156,14 +156,22 @@ uploaded.push(publicUrl);
   };
 }
 
-export async function getPhotosByEvent(eventId: string) {
+export async function getPhotosByEvent(
+  eventId: string,
+  page = 0,
+  limit = 40
+) {
+  const from = page * limit;
+  const to = from + limit - 1;
+
   const { data, error } = await supabase
     .from("photos")
     .select("*")
     .eq("event_id", eventId)
     .order("uploaded_at", {
       ascending: false,
-    });
+    })
+    .range(from, to);
 
   if (error) throw error;
 

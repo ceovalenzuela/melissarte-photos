@@ -42,6 +42,8 @@ export default function PublicEventClient({
     total: 0,
   });
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
 
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -52,18 +54,30 @@ export default function PublicEventClient({
 
   const visiblePhotos = photos.slice(0, visibleCount);
 
-  async function loadPhotos() {
-    try {
-      const data = await getPhotosByEvent(event.id);
+  async function loadPhotos(currentPage = 0, reset = false) {
+  try {
+    const data = await getPhotosByEvent(
+      event.id,
+      currentPage
+    );
 
-      setPhotos(data ?? []);
-    } finally {
-      setLoading(false);
+    const newPhotos = data ?? [];
+
+    if (reset) {
+      setPhotos(newPhotos);
+    } else {
+      setPhotos((current) => [...current, ...newPhotos]);
     }
+
+    setHasMore(newPhotos.length === 40);
+    setPage(currentPage);
+  } finally {
+    setLoading(false);
   }
+}
 
   useEffect(() => {
-    loadPhotos();
+    loadPhotos(0, true);
 
     const unsubscribe = subscribeToEventPhotos(
       event.id,

@@ -6,6 +6,7 @@ interface Props {
   title: string;
   description: string;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 export default function ActionCard({
@@ -13,11 +14,20 @@ export default function ActionCard({
   title,
   description,
   onClick,
+  disabled = false,
 }: Props) {
   return (
     <button
       onClick={onClick}
-      className="w-full rounded-2xl border p-6 text-left transition hover:bg-neutral-50"
+      disabled={disabled}
+      className={`
+        w-full rounded-2xl border p-6 text-left transition
+        ${
+          disabled
+            ? "cursor-not-allowed opacity-60"
+            : "hover:bg-neutral-50"
+        }
+      `}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-start gap-4">

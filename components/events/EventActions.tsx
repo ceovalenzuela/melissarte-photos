@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Download, QrCode, Share2 } from "lucide-react";
 
 import { Event } from "@/types/event";
@@ -7,7 +8,10 @@ import ActionCard from "@/components/owner/ActionCard";
 import { share } from "@/lib/share";
 import { getEventUrl } from "@/lib/urls";
 import { downloadEventQrCard } from "@/lib/qr";
-import { downloadEventPhotos } from "@/lib/download";
+import {
+  downloadEventPhotos,
+  DownloadStatus,
+} from "@/lib/download";
 
 interface Props {
   event: Event;
@@ -16,36 +20,103 @@ interface Props {
 export default function EventActions({
   event,
 }: Props) {
+  const [isDownloading, setIsDownloading] =
+    useState(false);
+
+  const [status, setStatus] =
+    useState<DownloadStatus>("preparing");
+
+  const [current, setCurrent] = useState(0);
+
+  const [total, setTotal] = useState(0);
+
+  async function handleDownload() {
+    try {
+      setIsDownloading(true);
+
+      setCurrent(0);
+      setTotal(0);
+
+      await downloadEventPhotos(event, {
+        onStatusChange(status) {
+          setStatus(status);
+        },
+
+        onProgress(current, total) {
+          setCurrent(current);
+          setTotal(total);
+        },
+      });
+    } finally {
+      setIsDownloading(false);
+    }
+  }
+
+  function getTitle() {
+    if (!isDownloading) {
+      return "Descargar fotografías";
+    }
+
+    switch (status) {
+      case "preparing":
+        return "Preparando descarga...";
+
+      case "downloading":
+        return `Descargando fotografías (${current} de ${total})...`;
+
+      case "zipping":
+        return "Preparando archivo...";
+    }
+  }
+
+  function getDescription() {
+    if (!isDownloading) {
+      return "Descarga todas las fotografías del evento.";
+    }
+
+    switch (status) {
+      case "preparing":
+        return "Obteniendo información del álbum.";
+
+      case "downloading":
+        return "Esto puede tardar algunos minutos.";
+
+      case "zipping":
+        return "Ya casi está listo.";
+    }
+  }
+
   return (
     <div className="space-y-4">
       <ActionCard
-  icon={<Share2 size={22} />}
-  title="Compartir galería"
-  description="Comparte el enlace con tus invitados."
-  onClick={() =>
-    share({
-      title: event.title,
-      text: "Mira las fotos de nuestro evento.",
-      url: getEventUrl(
-  window.location.origin,
-  event.slug
-),
-    })
-  }
-/>
+        icon={<Share2 size={22} />}
+        title="Compartir galería"
+        description="Comparte el enlace con tus invitados."
+        onClick={() =>
+          share({
+            title: event.title,
+            text: "Mira las fotos de nuestro evento.",
+            url: getEventUrl(
+              window.location.origin,
+              event.slug
+            ),
+          })
+        }
+      />
 
       <ActionCard
-  icon={<QrCode size={22} />}
-  title="Descargar código QR"
-  description="Obtén un código QR listo para imprimir."
-  onClick={() => downloadEventQrCard(event)}
-/>
+        icon={<QrCode size={22} />}
+        title="Descargar código QR"
+        description="Obtén un código QR listo para imprimir."
+        onClick={() => downloadEventQrCard(event)}
+      />
 
       <ActionCard
         icon={<Download size={22} />}
-        title="Descargar fotografías"
-        description="Descarga todas las fotografías del evento."
-        onClick={() => downloadEventPhotos(event)}
+        title={getTitle()}
+        description={getDescription()}
+        onClick={handleDownload}
+        disabled={isDownloading}
       />
     </div>
   );

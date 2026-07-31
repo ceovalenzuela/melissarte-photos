@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import { CalendarDays } from "lucide-react";
 
@@ -7,9 +5,13 @@ import { Event } from "@/types/event";
 
 interface Props {
   event: Event;
+  showWelcomeMessage?: boolean;
 }
 
-export default function EventHero({ event }: Props) {
+export default function EventHero({
+  event,
+  showWelcomeMessage = true,
+}: Props) {
   const formattedDate = new Date(event.event_date).toLocaleDateString(
     "es-MX",
     {
@@ -46,7 +48,7 @@ export default function EventHero({ event }: Props) {
             <span>{formattedDate}</span>
           </div>
 
-          {event.welcome_message && (
+          {showWelcomeMessage && event.welcome_message && (
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/90">
               {event.welcome_message}
             </p>

@@ -1,10 +1,8 @@
 import { notFound } from "next/navigation";
 
-import { getEventBySlug } from "@/lib/events";
-
-import PublicEventClient from "@/components/public/PublicEventClient";
-import Footer from "@/components/public/Footer";
 import EventHero from "@/components/events/EventHero";
+import EventActions from "@/components/events/EventActions";
+import { getEventBySlug } from "@/lib/events";
 
 interface Props {
   params: Promise<{
@@ -12,7 +10,7 @@ interface Props {
   }>;
 }
 
-export default async function PublicEventPage({
+export default async function ClientDashboardPage({
   params,
 }: Props) {
   const { slug } = await params;
@@ -26,11 +24,14 @@ export default async function PublicEventPage({
   return (
     <main className="min-h-screen bg-gray-50">
       <div className="mx-auto max-w-6xl space-y-8 px-4 py-6">
-        <EventHero event={event} />
+        <EventHero
+          event={event}
+          showWelcomeMessage={false}
+        />
 
-        <PublicEventClient event={event} />
-
-        <Footer />
+        <div className="mx-auto max-w-3xl">
+          <EventActions event={event} />
+        </div>
       </div>
     </main>
   );

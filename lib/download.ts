@@ -1,7 +1,7 @@
 import JSZip from "jszip";
 
 import { Event } from "@/types/event";
-import { getAllPhotosByEvent } from "@/lib/photos";
+import { getAllPhotosByEvent, Photo } from "@/lib/photos";
 
 export type DownloadStatus =
   | "preparing"
@@ -17,6 +17,34 @@ interface DownloadOptions {
     current: number,
     total: number
   ) => void;
+}
+
+const BATCH_SIZE = 5;
+
+async function downloadPhoto(
+  photo: Photo,
+  zip: JSZip
+): Promise<boolean> {
+  try {
+    const response = await fetch(photo.public_url);
+
+    if (!response.ok) {
+      return false;
+    }
+
+    const blob = await response.blob();
+
+    zip.file(photo.file_name, blob);
+
+    return true;
+  } catch (error) {
+    console.warn(
+      `No se pudo descargar ${photo.file_name}`,
+      error
+    );
+
+    return false;
+  }
 }
 
 export async function downloadEventPhotos(
@@ -36,28 +64,30 @@ export async function downloadEventPhotos(
 
   options?.onStatusChange?.("downloading");
 
-  let current = 0;
+  let completed = 0;
 
-  for (const photo of photos) {
-    current++;
-
-    options?.onProgress?.(
-      current,
-      photos.length
+  for (
+    let i = 0;
+    i < photos.length;
+    i += BATCH_SIZE
+  ) {
+    const batch = photos.slice(
+      i,
+      i + BATCH_SIZE
     );
 
-    const response = await fetch(photo.public_url);
+    const results = await Promise.all(
+      batch.map((photo) =>
+        downloadPhoto(photo, zip)
+      )
+    );
 
-    if (!response.ok) {
-      console.warn(
-        `No se pudo descargar ${photo.file_name}`
-      );
-      continue;
-    }
+    completed += results.filter(Boolean).length;
 
-    const blob = await response.blob();
-
-    zip.file(photo.file_name, blob);
+    options?.onProgress?.(
+      completed,
+      photos.length
+    );
   }
 
   options?.onStatusChange?.("zipping");

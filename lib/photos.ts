@@ -176,7 +176,23 @@ export async function getPhotosByEvent(
   if (error) throw error;
 
   return {
-  photos: data ?? [],
-  total: count ?? 0,
-};
+    photos: data ?? [],
+    total: count ?? 0,
+  };
+} // <-- ESTA LLAVE FALTABA
+
+export async function getAllPhotosByEvent(
+  eventId: string
+): Promise<Photo[]> {
+  const { data, error } = await supabase
+    .from("photos")
+    .select("*")
+    .eq("event_id", eventId)
+    .order("uploaded_at", {
+      ascending: true,
+    });
+
+  if (error) throw error;
+
+  return data ?? [];
 }

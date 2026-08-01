@@ -227,3 +227,19 @@ export async function getAllPhotosByEvent(
 
   return data ?? [];
 }
+
+export async function getPhotoCount(
+  eventId: string
+): Promise<number> {
+  const { count, error } = await supabase
+    .from("photos")
+    .select("*", {
+      count: "exact",
+      head: true,
+    })
+    .eq("event_id", eventId);
+
+  if (error) throw error;
+
+  return count ?? 0;
+}

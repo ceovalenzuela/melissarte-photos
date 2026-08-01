@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import EventHero from "@/components/events/EventHero";
 import EventActions from "@/components/events/EventActions";
 import { getEventBySlug } from "@/lib/events";
+import GallerySection from "@/components/gallery/GallerySection";
 
 interface Props {
   params: Promise<{
@@ -32,6 +33,9 @@ export default async function ClientDashboardPage({
         <div className="mx-auto max-w-3xl">
           <EventActions event={event} />
         </div>
+        <div className="mx-auto max-w-6xl">
+  <GallerySection event={event} />
+</div>
       </div>
     </main>
   );

@@ -33,6 +33,8 @@ export interface Photo {
   uploaded_at: string;
 }
 
+const BATCH_SIZE = 3;
+
 function buildFilePath(
   eventId: string,
   folder: "originals" | "thumbnails",
@@ -102,10 +104,30 @@ async function uploadSinglePhoto(
   return originalUrl;
 }
 
+async function processPhoto(
+  eventId: string,
+  file: File
+): Promise<string> {
+  const thumbnailFile =
+    await createThumbnail(file);
+
+  const compressedFile =
+    await compressImage(file);
+
+  return uploadSinglePhoto(
+    eventId,
+    file.name,
+    compressedFile,
+    thumbnailFile
+  );
+}
+
 export async function uploadPhotos(
   eventId: string,
   files: File[],
-  onProgress?: (progress: UploadProgress) => void
+  onProgress?: (
+    progress: UploadProgress
+  ) => void
 ): Promise<UploadResult> {
   const uploaded: string[] = [];
   const failed: FailedUpload[] = [];
@@ -113,39 +135,48 @@ export async function uploadPhotos(
   const total = files.length;
   let completed = 0;
 
-  for (const file of files) {
-    try {
-      const thumbnailFile = await createThumbnail(file);
+  for (
+    let i = 0;
+    i < files.length;
+    i += BATCH_SIZE
+  ) {
+    const batch = files.slice(
+      i,
+      i + BATCH_SIZE
+    );
 
-const compressedFile = await compressImage(file);
+    await Promise.all(
+      batch.map(async (file) => {
+        try {
+          const publicUrl =
+            await processPhoto(
+              eventId,
+              file
+            );
 
-const publicUrl = await uploadSinglePhoto(
-  eventId,
-  file.name,
-  compressedFile,
-  thumbnailFile
-);
+          uploaded.push(publicUrl);
+        } catch (error) {
+          console.error(
+            "Error al subir la fotografía:",
+            file.name,
+            error
+          );
 
-uploaded.push(publicUrl);
-    } catch (error) {
-      console.error(
-        "Error al subir la fotografía:",
-        file.name,
-        error
-      );
+          failed.push({
+            file,
+            message:
+              "No se pudo subir la fotografía.",
+          });
+        } finally {
+          completed++;
 
-      failed.push({
-        file,
-        message: "No se pudo subir la fotografía.",
-      });
-    } finally {
-      completed++;
-
-      onProgress?.({
-        completed,
-        total,
-      });
-    }
+          onProgress?.({
+            completed,
+            total,
+          });
+        }
+      })
+    );
   }
 
   return {
@@ -179,7 +210,7 @@ export async function getPhotosByEvent(
     photos: data ?? [],
     total: count ?? 0,
   };
-} // <-- ESTA LLAVE FALTABA
+}
 
 export async function getAllPhotosByEvent(
   eventId: string

@@ -94,6 +94,24 @@ setTotalPhotos(result.total);
   }
 }
 
+useEffect(() => {
+  function handlePopState() {
+    setLightboxOpen(false);
+  }
+
+  window.addEventListener(
+    "popstate",
+    handlePopState
+  );
+
+  return () => {
+    window.removeEventListener(
+      "popstate",
+      handlePopState
+    );
+  };
+}, []);
+
   async function handleSelect(files: File[]) {
     setUploadState({
       uploading: true,
@@ -145,9 +163,14 @@ setTotalPhotos(result.total);
   }
 
   function handlePhotoClick(index: number) {
-    setSelectedIndex(index);
-    setLightboxOpen(true);
-  }
+  window.history.pushState(
+    { lightbox: true },
+    ""
+  );
+
+  setSelectedIndex(index);
+  setLightboxOpen(true);
+}
   return (
     <>
       <UploadButton
@@ -181,7 +204,11 @@ setTotalPhotos(result.total);
   open={lightboxOpen}
   index={selectedIndex}
   photos={photos}
-  onClose={() => setLightboxOpen(false)}
+  onClose={() => {
+  if (lightboxOpen) {
+    window.history.back();
+  }
+}}
 />
     </>
   );

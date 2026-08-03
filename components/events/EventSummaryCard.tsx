@@ -28,7 +28,7 @@ export default function EventSummaryCard({
           </>
         )}
 
-        <div className="my-6 h-px bg-neutral-200" />
+        <div className="my-6 h-px bg-[#E7DCC8]" />
 
         <div className="text-center">
           <p className="text-3xl font-semibold text-[#B08D57]">

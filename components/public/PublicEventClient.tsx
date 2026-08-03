@@ -90,16 +90,16 @@ export default function PublicEventClient({
     <>
   <EventSummaryCard
   totalPhotos={totalPhotos}
-    welcomeMessage={event.welcome_message ?? undefined}
-  >
-    <UploadButton
-      onSelect={handleSelect}
-      disabled={uploadState.uploading}
-      uploading={uploadState.uploading}
-      completed={uploadState.completed}
-      total={uploadState.total}
-    />
-  </EventSummaryCard>
+  welcomeMessage={event.welcome_message ?? undefined}
+>
+  <UploadButton
+    onSelect={handleSelect}
+    disabled={uploadState.uploading}
+    uploading={uploadState.uploading}
+    completed={uploadState.completed}
+    total={uploadState.total}
+  />
+</EventSummaryCard>
 
   <GallerySection
   event={event}

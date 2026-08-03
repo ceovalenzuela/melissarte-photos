@@ -9,6 +9,7 @@ interface UploadButtonProps {
   uploading?: boolean;
   completed?: number;
   total?: number;
+  floating?: boolean;
 }
 
 export default function UploadButton({
@@ -17,6 +18,7 @@ export default function UploadButton({
   uploading = false,
   completed = 0,
   total = 0,
+  floating = false,
 }: UploadButtonProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -55,32 +57,35 @@ export default function UploadButton({
       />
 
       <button
-        type="button"
-        disabled={disabled}
-        onClick={() => inputRef.current?.click()}
-        aria-label={buttonLabel}
-        className="
-          fixed
-          bottom-10
-          right-8
-          z-50
-          flex
-          items-center
-          gap-3
-          rounded-full
-          bg-neutral-800
-          px-6
-          py-3.5
-          text-white
-          shadow-md
-          transition-all
-          duration-200
-          hover:bg-black
-          active:scale-[0.98]
-          disabled:cursor-not-allowed
-          disabled:opacity-60
-        "
-      >
+  type="button"
+  disabled={disabled}
+  onClick={() => inputRef.current?.click()}
+  aria-label={buttonLabel}
+  className={`
+    flex
+    items-center
+    gap-3
+    rounded-full
+    bg-neutral-800
+    px-6
+    py-3.5
+    text-white
+    shadow-md
+    transition-all
+    duration-200
+    hover:bg-black
+    active:scale-[0.98]
+    disabled:cursor-not-allowed
+    disabled:opacity-60
+
+    ${
+      floating
+        ? "fixed bottom-10 right-8 z-50"
+        : ""
+    }
+  `}
+>
+
         <Icon
           className={`h-5 w-5 shrink-0 ${
             uploading ? "animate-spin" : ""

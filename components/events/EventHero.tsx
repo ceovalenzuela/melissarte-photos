@@ -37,12 +37,12 @@ export default function EventHero({
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent" />
 
-        <div className="absolute inset-x-0 bottom-0 px-8 pb-10 pt-16 text-white">
-          <h1 className="text-5xl font-semibold tracking-tight">
+        <div className="absolute inset-x-0 bottom-0 px-8 pb-16 pt-16 text-white">
+          <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">
             {event.title}
           </h1>
 
-          <div className="mt-3 flex items-center gap-2 text-base text-white/85">
+          <div className="mt-4 flex items-center gap-2 text-base text-white/85">
             <CalendarDays size={18} />
             <span>{formattedDate}</span>
           </div>

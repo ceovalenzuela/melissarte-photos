@@ -12,7 +12,7 @@ export default function EventSummaryCard({
   children,
 }: Props) {
   return (
-    <section className="-mt-10 relative z-20 mx-auto w-[92%] max-w-2xl">
+    <section className="-mt-20 relative z-20 mx-auto w-[92%] max-w-2xl">
       <div className="rounded-3xl bg-[#FDFBF8] p-6 shadow-lg">
         <div className="flex justify-center">
           {children}

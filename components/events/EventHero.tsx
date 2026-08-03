@@ -38,7 +38,7 @@ export default function EventHero({
         <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent" />
 
         <div className="absolute inset-x-0 bottom-0 px-8 pb-16 pt-16 text-white">
-          <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">
+          <h1 className="text-4xl md:text-[3.25rem] font-semibold tracking-tight">
             {event.title}
           </h1>
 

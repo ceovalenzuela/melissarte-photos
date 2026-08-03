@@ -36,7 +36,7 @@ export default function EventSummaryCard({
       {totalPhotos}
     </span>
 
-    <span className="ml-2 text-xl font-normal text-[#7D7467]">
+    <span className="ml-2 text-2xl font-normal text-[#7D7467]">
       fotografía{totalPhotos !== 1 ? "s" : ""}
     </span>
   </p>

@@ -19,18 +19,8 @@ export default function PublicGallery({
   return (
     <section>
       <header className="mb-8">
-        <div className="mx-auto mb-5 h-px w-24 bg-neutral-200" />
-
-        <p className="text-center text-xs font-medium uppercase tracking-[0.22em] text-neutral-400">
-          Álbum
-        </p>
-
-        <p className="mt-2 text-center text-base text-neutral-700">
-          {totalPhotos} fotografía
-          {totalPhotos !== 1 ? "s" : ""} compartida
-          {totalPhotos !== 1 ? "s" : ""}
-        </p>
-      </header>
+  <div className="mx-auto h-px w-20 bg-[#E7DCC8]" />
+</header>
 
       {loading ? (
         <GallerySkeleton />

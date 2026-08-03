@@ -31,14 +31,16 @@ export default function EventSummaryCard({
         <div className="my-6 h-px bg-[#E7DCC8]" />
 
         <div className="text-center">
-          <p className="text-3xl font-semibold text-[#B08D57]">
-            {totalPhotos}
-          </p>
+  <p className="text-3xl font-semibold">
+    <span className="text-[#B08D57]">
+      {totalPhotos}
+    </span>
 
-          <p className="mt-1 text-sm text-[#7D7467]">
-            fotografías
-          </p>
-        </div>
+    <span className="ml-2 text-xl font-normal text-[#7D7467]">
+      fotografía{totalPhotos !== 1 ? "s" : ""}
+    </span>
+  </p>
+</div>
       </div>
     </section>
   );

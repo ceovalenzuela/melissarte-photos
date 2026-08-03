@@ -12,6 +12,8 @@ import { uploadPhotos } from "@/lib/photos";
 
 import GallerySection from "@/components/gallery/GallerySection";
 
+import EventSummaryCard from "@/components/events/EventSummaryCard";
+
 interface PublicEventClientProps {
   event: Event;
 }
@@ -84,17 +86,22 @@ export default function PublicEventClient({
 
   return (
     <>
-      <UploadButton
-        onSelect={handleSelect}
-        disabled={uploadState.uploading}
-        uploading={uploadState.uploading}
-        completed={uploadState.completed}
-        total={uploadState.total}
-      />
+  <EventSummaryCard
+    totalPhotos={0}
+    welcomeMessage={event.welcome_message ?? undefined}
+  >
+    <UploadButton
+      onSelect={handleSelect}
+      disabled={uploadState.uploading}
+      uploading={uploadState.uploading}
+      completed={uploadState.completed}
+      total={uploadState.total}
+    />
+  </EventSummaryCard>
 
-      <GallerySection
-  event={event}
-/>
-    </>
+  <GallerySection
+    event={event}
+  />
+</>
   );
 }

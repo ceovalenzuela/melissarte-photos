@@ -9,6 +9,7 @@ import { subscribeToEventPhotos } from "@/lib/realtime";
 
 import PublicGallery from "./PublicGallery";
 import PhotoLightbox from "@/components/public/PhotoLightbox";
+import { ChevronDown } from "lucide-react";
 
 interface Props {
   event: Event;
@@ -137,16 +138,49 @@ async function handleLoadMore() {
     />
 
 {hasMore && (
-  <div className="mt-8 flex justify-center">
+  <div className="mt-10 mb-4 flex justify-center">
     <button
-      onClick={handleLoadMore}
-      disabled={loadingMore}
-      className="rounded-lg bg-black px-6 py-3 text-white transition hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-50"
-    >
-      {loadingMore
-        ? "Cargando..."
-        : "Cargar más fotografías"}
-    </button>
+  onClick={handleLoadMore}
+  disabled={loadingMore}
+  className="
+    group
+    mx-auto
+    flex
+    items-center
+    justify-center
+    rounded-full
+    border
+    border-neutral-300
+    bg-white
+    px-8
+    py-3.5
+    text-sm
+    font-medium
+    text-neutral-800
+    shadow-sm
+    transition-all
+    duration-200
+    hover:border-neutral-400
+    hover:bg-neutral-50
+    active:scale-[0.98]
+    disabled:cursor-not-allowed
+    disabled:opacity-60
+  "
+>
+  <>
+  {!loadingMore && (
+    <ChevronDown
+  size={18}
+  strokeWidth={2.3}
+  className="mr-2 transition-transform duration-200 group-hover:translate-y-0.5"
+/>
+  )}
+
+  {loadingMore
+    ? "Cargando..."
+    : "Ver más fotografías"}
+</>
+</button>
   </div>
 )}
 

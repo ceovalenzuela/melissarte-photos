@@ -17,10 +17,7 @@ export default function PublicGallery({
   onPhotoClick,
 }: Props) {
   return (
-    <section>
-      <header className="mb-8">
-  <div className="mx-auto h-px w-20 bg-[#E7DCC8]" />
-</header>
+    <section className="mt-10">
 
       {loading ? (
         <GallerySkeleton />

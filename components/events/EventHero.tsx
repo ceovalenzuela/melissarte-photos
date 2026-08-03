@@ -10,7 +10,6 @@ interface Props {
 
 export default function EventHero({
   event,
-  showWelcomeMessage = true,
 }: Props) {
   const formattedDate = new Date(event.event_date).toLocaleDateString(
     "es-MX",
@@ -44,15 +43,9 @@ export default function EventHero({
           </h1>
 
           <div className="mt-3 flex items-center gap-2 text-base text-white/85">
-            <CalendarDays size={16} />
+            <CalendarDays size={18} />
             <span>{formattedDate}</span>
           </div>
-
-          {showWelcomeMessage && event.welcome_message && (
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/90">
-              {event.welcome_message}
-            </p>
-          )}
         </div>
       </div>
     </section>

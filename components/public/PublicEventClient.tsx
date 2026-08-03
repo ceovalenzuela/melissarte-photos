@@ -33,6 +33,8 @@ export default function PublicEventClient({
     total: 0,
   });
 
+  const [totalPhotos, setTotalPhotos] =
+  useState(0);
 
   async function handleSelect(files: File[]) {
     setUploadState({
@@ -87,7 +89,7 @@ export default function PublicEventClient({
   return (
     <>
   <EventSummaryCard
-    totalPhotos={0}
+  totalPhotos={totalPhotos}
     welcomeMessage={event.welcome_message ?? undefined}
   >
     <UploadButton
@@ -100,8 +102,9 @@ export default function PublicEventClient({
   </EventSummaryCard>
 
   <GallerySection
-    event={event}
-  />
+  event={event}
+  onTotalPhotosChange={setTotalPhotos}
+/>
 </>
   );
 }

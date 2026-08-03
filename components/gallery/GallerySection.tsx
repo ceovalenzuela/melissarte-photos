@@ -12,10 +12,14 @@ import PhotoLightbox from "@/components/public/PhotoLightbox";
 
 interface Props {
   event: Event;
+  onTotalPhotosChange?: (
+    total: number
+  ) => void;
 }
 
 export default function GallerySection({
   event,
+  onTotalPhotosChange,
 }: Props) {
   const [photos, setPhotos] = useState<Photo[]>([]);
 
@@ -63,7 +67,11 @@ setPage(currentPage);
 
     setTotalPhotos(result.total);
 
-    setLoading(false);
+onTotalPhotosChange?.(
+  result.total
+);
+
+setLoading(false);
   }
 
   function handlePhotoClick(index: number) {

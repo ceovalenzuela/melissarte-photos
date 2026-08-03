@@ -13,16 +13,16 @@ export default function EventSummaryCard({
 }: Props) {
   return (
     <section className="-mt-10 relative z-20 mx-auto w-[92%] max-w-2xl">
-      <div className="rounded-3xl bg-white p-6 shadow-xl">
+      <div className="rounded-3xl bg-[#FDFBF8] p-6 shadow-lg">
         <div className="flex justify-center">
           {children}
         </div>
 
         {welcomeMessage && (
           <>
-            <div className="my-6 h-px bg-neutral-200" />
+            <div className="my-6 h-px bg-[#E7DCC8]" />
 
-            <p className="text-center text-neutral-600 leading-relaxed">
+            <p className="text-center text-[#5C554B] leading-relaxed">
               {welcomeMessage}
             </p>
           </>
@@ -31,11 +31,11 @@ export default function EventSummaryCard({
         <div className="my-6 h-px bg-neutral-200" />
 
         <div className="text-center">
-          <p className="text-3xl font-semibold text-neutral-900">
+          <p className="text-3xl font-semibold text-[#B08D57]">
             {totalPhotos}
           </p>
 
-          <p className="mt-1 text-sm text-neutral-500">
+          <p className="mt-1 text-sm text-[#7D7467]">
             fotografías
           </p>
         </div>

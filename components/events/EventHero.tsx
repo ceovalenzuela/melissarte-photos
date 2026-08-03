@@ -23,7 +23,7 @@ export default function EventHero({
 
   return (
     <section className="relative overflow-hidden rounded-3xl shadow-lg">
-      <div className="relative h-[400px] w-full">
+      <div className="relative h-[460px] w-full">
         {event.cover_image ? (
           <Image
             src={event.cover_image}
@@ -36,14 +36,14 @@ export default function EventHero({
           <div className="h-full w-full bg-gradient-to-br from-zinc-800 via-zinc-900 to-black" />
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent" />
 
-        <div className="absolute inset-x-0 bottom-0 p-8 text-white">
-          <h1 className="text-4xl font-bold tracking-tight">
+        <div className="absolute inset-x-0 bottom-0 px-8 pb-10 pt-16 text-white">
+          <h1 className="text-5xl font-semibold tracking-tight">
             {event.title}
           </h1>
 
-          <div className="mt-3 flex items-center gap-2 text-sm text-white/90">
+          <div className="mt-3 flex items-center gap-2 text-base text-white/85">
             <CalendarDays size={16} />
             <span>{formattedDate}</span>
           </div>

@@ -23,6 +23,7 @@ import { Event } from "@/types/event";
 import { useEffect, useState } from "react";
 import { updateEvent } from "@/lib/events";
 import { Check } from "lucide-react";
+import CoverEditor from "@/components/owner/CoverEditor";
 
 interface Props {
   event: Event;
@@ -79,21 +80,34 @@ async function handleSaveMessage() {
   }
 }
 
+async function handleCoverSave(
+  file: File
+) {
+  console.log(file);
+
+  alert(
+    `Imagen lista para subir.\n\n${file.name}\n${(
+      file.size / 1024
+    ).toFixed(0)} KB`
+  );
+}
+
   return (
     <Dialog>
       <DialogTrigger render={trigger} />
 
       <DialogContent
-        className="
-          max-w-3xl
-          overflow-hidden
-          rounded-3xl
-          border
-          border-[#E7DCC8]
-          bg-[#FDFBF8]
-          p-0
-        "
-      >
+  className="
+    max-w-4xl
+    max-h-[90vh]
+    overflow-y-auto
+    rounded-3xl
+    border
+    border-[#E7DCC8]
+    bg-[#FDFBF8]
+    p-0
+  "
+>
         <DialogHeader className="border-b border-[#E7DCC8] px-8 py-7">
           <DialogTitle className="text-2xl font-semibold text-[#1F1F1F]">
             ✨ Personalizar galería
@@ -109,42 +123,22 @@ async function handleSaveMessage() {
           {/* PORTADA */}
 
           <section>
-            <div className="mb-5 flex items-center gap-3">
-              <ImageIcon
-                size={22}
-                className="text-[#B08D57]"
-              />
+  <div className="mb-5 flex items-center gap-3">
+    <ImageIcon
+      size={22}
+      className="text-[#B08D57]"
+    />
 
-              <h3 className="text-lg font-semibold text-[#1F1F1F]">
-                Portada
-              </h3>
-            </div>
+    <h3 className="text-lg font-semibold text-[#1F1F1F]">
+      Portada
+    </h3>
+  </div>
 
-            <div className="overflow-hidden rounded-2xl border border-[#E7DCC8] bg-white">
-              {event.cover_image ? (
-                <Image
-                  src={event.cover_image}
-                  alt="Portada"
-                  width={1200}
-                  height={600}
-                  className="aspect-[16/7] w-full object-cover"
-                />
-              ) : (
-                <div className="flex aspect-[16/7] items-center justify-center text-sm text-[#7D7467]">
-                  Aún no has agregado una portada.
-                </div>
-              )}
-            </div>
-
-            <div className="mt-5 flex justify-end">
-              <Button
-                variant="outline"
-                className="rounded-full px-6"
-              >
-                Cambiar portada
-              </Button>
-            </div>
-          </section>
+  <CoverEditor
+    image={event.cover_image}
+    onSave={handleCoverSave}
+  />
+</section>
 
           <div className="border-t border-[#E7DCC8]" />
 

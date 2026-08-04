@@ -57,7 +57,7 @@ export default function EventCover({
           alt="Portada del evento"
           width={1200}
           height={600}
-          className="aspect-[16/9] w-full rounded-3xl object-cover"
+          className="aspect-video w-full object-cover"
         />
       ) : (
         <div className="flex aspect-[16/9] w-full items-center justify-center rounded-3xl border border-dashed border-[#E7DCC8] bg-white text-[#7D7467]">

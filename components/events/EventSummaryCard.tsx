@@ -16,7 +16,7 @@ export default function EventSummaryCard({
       <div className="rounded-3xl bg-[#FDFBF8] p-6 shadow-lg">
         {welcomeMessage && (
           <>
-            <p className="text-center leading-relaxed text-[#5C554B]">
+            <p className="py-2 text-center leading-relaxed text-[#5C554B]">
               {welcomeMessage}
             </p>
 
@@ -31,13 +31,13 @@ export default function EventSummaryCard({
         <div className="my-6 h-px bg-[#E7DCC8]" />
 
         <div className="text-center">
-          <p className="text-3xl font-semibold">
+          <p className="text-2xl font-semibold">
             <span className="text-[#B08D57]">
               {totalPhotos}
             </span>
 
-            <span className="ml-2 text-2xl font-normal text-[#7D7467]">
-              fotografías
+            <span className="ml-2 text-xl font-normal text-[#7D7467]">
+              fotos
             </span>
           </p>
         </div>

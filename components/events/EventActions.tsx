@@ -53,38 +53,25 @@ export default function EventActions({
   }
 
   function getTitle() {
-    if (!isDownloading) {
-      return "Descargar fotografías";
-    }
-
-    switch (status) {
-      case "preparing":
-        return "Preparando descarga...";
-
-      case "downloading":
-        return `Descargando fotografías (${current} de ${total})...`;
-
-      case "zipping":
-        return "Preparando archivo...";
-    }
-  }
+  return "Descargar fotografías";
+}
 
   function getDescription() {
-    if (!isDownloading) {
-      return "Descarga todas las fotografías del evento.";
-    }
-
-    switch (status) {
-      case "preparing":
-        return "Obteniendo información del álbum.";
-
-      case "downloading":
-        return "Esto puede tardar algunos minutos.";
-
-      case "zipping":
-        return "Ya casi está listo.";
-    }
+  if (!isDownloading) {
+    return "Descarga todas las fotografías del evento.";
   }
+
+  switch (status) {
+    case "preparing":
+      return "Preparando descarga...";
+
+    case "downloading":
+      return `${current} de ${total} fotografías descargadas`;
+
+    case "zipping":
+      return "Preparando archivo...";
+  }
+}
 
   return (
     <div className="overflow-hidden rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] shadow-sm">

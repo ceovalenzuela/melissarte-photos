@@ -10,6 +10,7 @@ interface Props {
   description: string;
   onClick?: () => void;
   disabled?: boolean;
+  loading?: boolean;
   variant?: "single" | "top" | "middle" | "bottom";
 }
 
@@ -19,7 +20,8 @@ export default function ActionCard({
   description,
   onClick,
   disabled = false,
-  variant = "single",
+loading = false,
+variant = "single",
 }: Props) {
   const roundedClass = {
     single: "rounded-3xl",
@@ -40,29 +42,41 @@ export default function ActionCard({
       onClick={onClick}
       disabled={disabled}
       className={`
-  ${!disabled ? "group" : ""}
-  w-full
+        ${!loading && !disabled ? "group" : ""}
+        w-full
         ${roundedClass}
         ${borderClass}
         border-[#E7DCC8]
         bg-[#FDFBF8]
-        px-7 py-7
+        px-7
+        py-7
         text-left
         transition-colors
         duration-200
 
         ${
-          disabled
-  ? "cursor-progress bg-[#F8F4EE] opacity-80"
-            : "hover:bg-[#FCF8F3]"
-        }
+  loading
+    ? "cursor-progress bg-[#F5EFE6]"
+    : disabled
+      ? "cursor-not-allowed opacity-60"
+      : "hover:bg-[#FCF8F3]"
+}
       `}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-start gap-4">
-          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center text-[#7D7467]">
-  {icon}
-</div>
+          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center">
+            {loading ? (
+              <LoaderCircle
+                size={22}
+                className="animate-spin text-[#B08D57] [animation-duration:1.5s]"
+              />
+            ) : (
+              <div className="text-[#7D7467]">
+                {icon}
+              </div>
+            )}
+          </div>
 
           <div>
             <p className="text-lg font-medium text-[#1F1F1F]">
@@ -75,17 +89,12 @@ export default function ActionCard({
           </div>
         </div>
 
-        {disabled ? (
-  <LoaderCircle
-    size={22}
-    className="animate-spin text-[#B08D57] [animation-duration:1.5s]"
-  />
-) : (
-  <ChevronRight
-    size={22}
-    className="text-[#B8AD9D] transition-transform duration-200 group-hover:translate-x-1"
-  />
-)}
+        {!loading && (
+          <ChevronRight
+            size={22}
+            className="text-[#B8AD9D] transition-transform duration-200 group-hover:translate-x-1"
+          />
+        )}
       </div>
     </button>
   );

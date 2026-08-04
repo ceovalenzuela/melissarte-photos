@@ -106,6 +106,7 @@ export default function EventActions({
   title={getTitle()}
   description={getDescription()}
   onClick={handleDownload}
+  loading={isDownloading}
   disabled={isDownloading}
 />
     </div>

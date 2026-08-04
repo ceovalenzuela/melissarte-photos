@@ -85,11 +85,10 @@ export default function EventDialog({
   render={
     <Button
   className="
-    mt-4
     h-12
-    w-full
     rounded-full
     bg-neutral-800
+    px-7
     text-sm
     font-medium
     text-white
@@ -97,10 +96,10 @@ export default function EventDialog({
     duration-200
     hover:bg-black
   "
-    >
-      <Plus size={16} strokeWidth={2.5} />
-      Nuevo evento
-    </Button>
+>
+  <Plus size={16} strokeWidth={2.5} />
+  Nuevo evento
+</Button>
   }
 />
 

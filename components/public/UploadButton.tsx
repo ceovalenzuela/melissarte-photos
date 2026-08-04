@@ -62,28 +62,31 @@ export default function UploadButton({
   onClick={() => inputRef.current?.click()}
   aria-label={buttonLabel}
   className={`
-    flex
-    items-center
-    gap-3
-    rounded-full
-    bg-neutral-800
-    px-6
-    py-3.5
-    text-white
-    shadow-md
-    transition-all
-    duration-200
-    hover:bg-black
-    active:scale-[0.98]
-    disabled:cursor-not-allowed
-    disabled:opacity-60
+  inline-flex
+  h-12
+  items-center
+  justify-center
+  gap-3
+  rounded-full
+  bg-neutral-800
+  px-7
+  text-sm
+  font-medium
+  text-white
+  shadow-sm
+  transition-all
+  duration-200
+  hover:bg-black
+  active:scale-[0.98]
+  disabled:cursor-not-allowed
+  disabled:opacity-60
 
-    ${
-      floating
-        ? "fixed bottom-10 right-8 z-50"
-        : ""
-    }
-  `}
+  ${
+    floating
+      ? "fixed bottom-8 right-8 z-50"
+      : ""
+  }
+`}
 >
 
         <Icon

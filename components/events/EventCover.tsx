@@ -42,10 +42,14 @@ export default function EventCover({
   }
 
   return (
-    <div className="space-y-4 rounded-xl border bg-white p-6">
-      <h2 className="text-lg font-semibold">
+    <div className="space-y-6 rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] p-8 shadow-sm">
+      <h2 className="text-2xl font-semibold text-[#1F1F1F]">
         Portada
       </h2>
+
+<p className="mt-2 text-sm text-[#7D7467]">
+  Esta imagen será la portada principal de la galería.
+</p>
 
       {values.cover_image ? (
         <Image
@@ -53,15 +57,30 @@ export default function EventCover({
           alt="Portada del evento"
           width={1200}
           height={600}
-          className="h-56 w-full rounded-lg object-cover"
+          className="aspect-[16/9] w-full rounded-3xl object-cover"
         />
       ) : (
-        <div className="flex h-56 items-center justify-center rounded-full border border-dashed text-gray-500">
-          Sin portada
-        </div>
+        <div className="flex aspect-[16/9] w-full items-center justify-center rounded-3xl border border-dashed border-[#E7DCC8] bg-white text-[#7D7467]">
+  Sin portada
+</div>
       )}
 
-      <label className="inline-flex cursor-pointer items-center rounded-full bg-black px-4 py-2 text-white hover:bg-gray-800 disabled:opacity-50">
+      <label className="
+  inline-flex
+  h-12
+  cursor-pointer
+  items-center
+  justify-center
+  rounded-full
+  bg-neutral-800
+  px-7
+  text-sm
+  font-medium
+  text-white
+  transition-colors
+  duration-200
+  hover:bg-black
+">
         {uploading ? "Subiendo..." : "Cambiar portada"}
 
         <input

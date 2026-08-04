@@ -84,22 +84,19 @@ export default function EventDialog({
       <DialogTrigger
   render={
     <Button
-      className="
-        inline-flex
-        h-12
-        items-center
-        justify-center
-        gap-2
-        rounded-full
-        bg-neutral-800
-        px-7
-        text-sm
-        font-medium
-        text-white
-        transition-colors
-        duration-200
-        hover:bg-black
-      "
+  className="
+    mt-4
+    h-12
+    w-full
+    rounded-full
+    bg-neutral-800
+    text-sm
+    font-medium
+    text-white
+    transition-colors
+    duration-200
+    hover:bg-black
+  "
     >
       <Plus size={16} strokeWidth={2.5} />
       Nuevo evento
@@ -109,12 +106,16 @@ export default function EventDialog({
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            {mode === "create"
-              ? "Crear evento"
-              : "Editar evento"}
-          </DialogTitle>
-        </DialogHeader>
+  <DialogTitle className="text-2xl font-semibold text-[#1F1F1F]">
+    {mode === "create"
+      ? "Crear evento"
+      : "Editar evento"}
+  </DialogTitle>
+
+  <p className="mt-2 text-sm text-[#7D7467]">
+    Completa la información básica del evento.
+  </p>
+</DialogHeader>
 
         <EventForm
           title={title}

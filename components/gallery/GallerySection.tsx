@@ -138,34 +138,33 @@ async function handleLoadMore() {
     />
 
 {hasMore && (
-  <div className="mt-10 mb-4 flex justify-center">
+  <div className="mt-8 flex justify-center">
     <button
   onClick={handleLoadMore}
   disabled={loadingMore}
   className="
-    group
-    mx-auto
-    flex
-    items-center
-    justify-center
-    rounded-full
-    border
-    border-neutral-300
-    bg-white
-    px-8
-    py-3.5
-    text-sm
-    font-medium
-    text-neutral-800
-    shadow-sm
-    transition-all
-    duration-200
-    hover:border-neutral-400
-    hover:bg-neutral-50
-    active:scale-[0.98]
-    disabled:cursor-not-allowed
-    disabled:opacity-60
-  "
+  group
+  inline-flex
+  h-12
+  items-center
+  justify-center
+  rounded-full
+  border
+  border-[#E7DCC8]
+  bg-[#FDFBF8]
+  px-7
+  text-sm
+  font-medium
+  text-[#1F1F1F]
+  shadow-sm
+  transition-all
+  duration-200
+  hover:bg-[#FCF8F3]
+  hover:border-[#D9CBB3]
+  active:scale-[0.98]
+  disabled:cursor-not-allowed
+  disabled:opacity-60
+"
 >
   <>
   {!loadingMore && (

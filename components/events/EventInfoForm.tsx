@@ -205,10 +205,10 @@ export default function EventInfoForm({
           onClick={onSave}
           disabled={saving}
           className="
+            h-12
             rounded-full
             bg-neutral-800
-            px-6
-            py-3
+            px-7
             text-sm
             font-medium
             text-white

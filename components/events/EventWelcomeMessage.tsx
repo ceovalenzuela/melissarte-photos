@@ -34,10 +34,16 @@ export default function EventWelcomeMessage({
   }
 
   return (
-    <div className="space-y-4 rounded-xl border bg-white p-6">
-      <h2 className="text-lg font-semibold">
-        Mensaje de bienvenida
-      </h2>
+    <div className="space-y-6 rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] p-8 shadow-sm">
+      <div>
+        <h2 className="text-2xl font-semibold text-[#1F1F1F]">
+          Mensaje de bienvenida
+        </h2>
+
+        <p className="mt-2 text-sm text-[#7D7467]">
+          Este mensaje aparecerá en la parte superior de la galería para recibir a tus invitados.
+        </p>
+      </div>
 
       <textarea
         value={values.welcome_message ?? ""}
@@ -49,15 +55,43 @@ export default function EventWelcomeMessage({
         }
         rows={5}
         placeholder="Escribe el mensaje que verán tus invitados..."
-        className="w-full rounded-lg border p-3 outline-none focus:ring-2 focus:ring-black"
+        className="
+          w-full
+          rounded-2xl
+          border
+          border-[#E7DCC8]
+          bg-white
+          px-4
+          py-3
+          text-[#1F1F1F]
+          outline-none
+          transition-colors
+          resize-none
+          focus:border-[#B08D57]
+        "
       />
 
       <button
         onClick={handleSave}
         disabled={saving}
-        className="rounded-full bg-black px-4 py-2 text-white hover:bg-gray-800 disabled:opacity-50"
+        className="
+          h-12
+          rounded-full
+          bg-neutral-800
+          px-7
+          text-sm
+          font-medium
+          text-white
+          transition-colors
+          duration-200
+          hover:bg-black
+          disabled:cursor-not-allowed
+          disabled:opacity-60
+        "
       >
-        {saving ? "Guardando..." : "Guardar mensaje"}
+        {saving
+          ? "Guardando..."
+          : "Guardar mensaje"}
       </button>
     </div>
   );

@@ -10,19 +10,21 @@ export default function AppHeader({
   children,
 }: AppHeaderProps) {
   return (
-    <header className="border-b bg-white">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            {title}
-          </h1>
+    <header className="mx-auto max-w-7xl px-6 pt-6">
+      <div className="rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] px-8 py-7 shadow-sm">
+        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h1 className="text-4xl font-semibold tracking-tight text-[#1F1F1F]">
+              {title}
+            </h1>
 
-          <p className="text-sm text-muted-foreground">
-            Administra tus eventos y galerías.
-          </p>
+            <p className="mt-2 text-[#7D7467]">
+              Administra tus eventos y galerías.
+            </p>
+          </div>
+
+          {children}
         </div>
-
-        {children}
       </div>
     </header>
   );

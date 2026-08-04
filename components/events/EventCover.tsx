@@ -56,12 +56,12 @@ export default function EventCover({
           className="h-56 w-full rounded-lg object-cover"
         />
       ) : (
-        <div className="flex h-56 items-center justify-center rounded-lg border border-dashed text-gray-500">
+        <div className="flex h-56 items-center justify-center rounded-full border border-dashed text-gray-500">
           Sin portada
         </div>
       )}
 
-      <label className="inline-flex cursor-pointer items-center rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800 disabled:opacity-50">
+      <label className="inline-flex cursor-pointer items-center rounded-full bg-black px-4 py-2 text-white hover:bg-gray-800 disabled:opacity-50">
         {uploading ? "Subiendo..." : "Cambiar portada"}
 
         <input

@@ -55,7 +55,7 @@ export default function EventWelcomeMessage({
       <button
         onClick={handleSave}
         disabled={saving}
-        className="rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800 disabled:opacity-50"
+        className="rounded-full bg-black px-4 py-2 text-white hover:bg-gray-800 disabled:opacity-50"
       >
         {saving ? "Guardando..." : "Guardar mensaje"}
       </button>

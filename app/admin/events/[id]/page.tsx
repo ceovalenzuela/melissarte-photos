@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+
 import { getEvent } from "@/lib/events";
 import EventEditor from "@/components/events/EventEditor";
 
@@ -20,14 +21,20 @@ export default async function EventPage({
   }
 
   return (
-<main className="mx-auto max-w-5xl p-8">
+    <main className="mx-auto max-w-6xl px-6 py-8">
+      <div className="mb-8">
+        <h1 className="text-4xl font-semibold tracking-tight text-[#1F1F1F]">
+          {event.title}
+        </h1>
 
-  <h1 className="mb-8 text-3xl font-bold">
-    {event.title}
-  </h1>
+        <p className="mt-2 text-[#7D7467]">
+          Edita la información del evento y su contenido.
+        </p>
+      </div>
 
-<EventEditor event={event} />
-
-</main>
+      <div className="mx-auto max-w-2xl">
+        <EventEditor event={event} />
+      </div>
+    </main>
   );
 }

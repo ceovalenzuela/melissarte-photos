@@ -27,17 +27,17 @@ export default function AdminPage() {
         />
       </AppHeader>
 
-      <div className="mx-auto max-w-7xl space-y-8 p-6">
+      <div className="mx-auto max-w-7xl space-y-6 p-6">
         <StatsCards totalEvents={events.length} />
 
         <section className="space-y-4">
-          {events.map((event) => (
-<EventCard
-  key={event.id}
-  event={event}
-/>
-          ))}
-        </section>
+  {events.map((event) => (
+    <EventCard
+      key={event.id}
+      event={event}
+    />
+  ))}
+</section>
       </div>
     </main>
   );

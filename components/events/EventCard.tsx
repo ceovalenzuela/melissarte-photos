@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 import { Event } from "@/types/event";
 
@@ -12,27 +13,53 @@ export default function EventCard({
   event,
 }: Props) {
   return (
-    <div className="rounded-xl border bg-white p-5 shadow-sm transition hover:shadow-md">
-      <h3 className="text-xl font-semibold">
-{event.title}
-      </h3>
+    <div className="rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] p-6 shadow-sm">
+      <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div>
+          <h3 className="text-xl font-semibold text-[#1F1F1F]">
+            {event.title}
+          </h3>
 
-      <p className="mt-2 text-gray-500">
-        📅 {event.event_date || "Sin fecha"}
-      </p>
+          <div className="mt-4 space-y-1 text-sm text-[#7D7467]">
+            <p>
+              <span className="font-medium text-[#5C554B]">
+                Fecha:
+              </span>{" "}
+              {event.event_date || "Sin fecha"}
+            </p>
 
-      <p className="text-gray-500">
-        🔗 /e/{event.slug}
-      </p>
+            <p className="truncate">
+              <span className="font-medium text-[#5C554B]">
+                Enlace:
+              </span>{" "}
+              /e/{event.slug}
+            </p>
+          </div>
+        </div>
 
-      <div className="mt-5 flex gap-3">
         <Link
           href={`/admin/events/${event.id}`}
-          className="rounded-lg bg-blue-600 px-3 py-2 text-white transition hover:bg-blue-700"
+          className="
+            inline-flex
+            items-center
+            gap-2
+            self-start
+            rounded-full
+            bg-neutral-800
+            px-7
+            py-3
+            text-sm
+            font-medium
+            text-white
+            transition-colors
+            duration-200
+            hover:bg-black
+          "
         >
           Administrar
-        </Link>
 
+          <ArrowRight size={16} />
+        </Link>
       </div>
     </div>
   );

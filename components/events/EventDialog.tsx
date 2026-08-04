@@ -80,9 +80,26 @@ export default function EventDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={<Button />}>
-        {mode === "create" ? "Nuevo evento" : "Editar"}
-      </DialogTrigger>
+      <DialogTrigger
+  render={
+    <Button
+      className="
+        rounded-full
+        bg-neutral-800
+        px-7
+        py-3
+        text-sm
+        font-medium
+        text-white
+        transition-colors
+        duration-200
+        hover:bg-black
+      "
+    />
+  }
+>
+  {mode === "create" ? "+ Nuevo evento" : "Editar"}
+</DialogTrigger>
 
       <DialogContent>
         <DialogHeader>
@@ -101,7 +118,16 @@ export default function EventDialog({
         />
 
         <Button
-          className="mt-4 w-full"
+  className="
+    mt-4
+    w-full
+    rounded-full
+    bg-neutral-800
+    py-3
+    text-sm
+    font-medium
+    hover:bg-black
+  "
           disabled={loading}
           onClick={handleSubmit}
         >

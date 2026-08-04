@@ -1,5 +1,3 @@
-import { Card, CardContent } from "@/components/ui/card";
-
 type Props = {
   totalEvents: number;
 };
@@ -8,42 +6,15 @@ export default function StatsCards({
   totalEvents,
 }: Props) {
   return (
-    <div className="grid gap-4 md:grid-cols-3">
-      <Card>
-        <CardContent className="p-6">
-          <p className="text-sm text-muted-foreground">
-            Eventos
-          </p>
+    <section className="rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] p-8 text-center shadow-sm">
+      <p className="text-5xl font-semibold text-[#B08D57]">
+        {totalEvents}
+      </p>
 
-          <p className="text-4xl font-bold">
-            {totalEvents}
-          </p>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardContent className="p-6">
-          <p className="text-sm text-muted-foreground">
-            Fotos
-          </p>
-
-          <p className="text-4xl font-bold">
-            0
-          </p>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardContent className="p-6">
-          <p className="text-sm text-muted-foreground">
-            Almacenamiento
-          </p>
-
-          <p className="text-4xl font-bold">
-            0 MB
-          </p>
-        </CardContent>
-      </Card>
-    </div>
+      <p className="mt-2 text-[#7D7467]">
+        Evento{totalEvents !== 1 ? "s" : ""} registrado
+        {totalEvents !== 1 ? "s" : ""}
+      </p>
+    </section>
   );
 }

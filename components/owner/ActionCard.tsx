@@ -1,4 +1,7 @@
-import { ChevronRight } from "lucide-react";
+import {
+  ChevronRight,
+  LoaderCircle,
+} from "lucide-react";
 import { ReactNode } from "react";
 
 interface Props {
@@ -50,7 +53,7 @@ export default function ActionCard({
 
         ${
           disabled
-            ? "cursor-not-allowed opacity-60"
+  ? "cursor-not-allowed bg-[#F8F4EE]"
             : "hover:bg-[#FCF8F3]"
         }
       `}
@@ -72,10 +75,17 @@ export default function ActionCard({
           </div>
         </div>
 
-        <ChevronRight
-  size={22}
-  className="text-[#B8AD9D] transition-transform duration-200 group-hover:translate-x-1"
-/>
+        {disabled ? (
+  <LoaderCircle
+    size={22}
+    className="animate-spin text-[#B08D57]"
+  />
+) : (
+  <ChevronRight
+    size={22}
+    className="text-[#B8AD9D] transition-transform duration-200 group-hover:translate-x-1"
+  />
+)}
       </div>
     </button>
   );

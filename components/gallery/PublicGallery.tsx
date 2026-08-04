@@ -17,12 +17,12 @@ export default function PublicGallery({
   onPhotoClick,
 }: Props) {
   return (
-    <section className="mt-10">
+    <section className="mt-6">
 
       {loading ? (
         <GallerySkeleton />
       ) : photos.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-neutral-200 py-12 text-center text-neutral-500">
+        <div className="rounded-3xl border border-dashed border-neutral-200 py-12 text-center text-neutral-500">
           Todavía no hay fotografías.
         </div>
       ) : (

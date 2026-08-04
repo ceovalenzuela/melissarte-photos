@@ -40,8 +40,8 @@ export default function ActionCard({
       onClick={onClick}
       disabled={disabled}
       className={`
-        group
-        w-full
+  ${!disabled ? "group" : ""}
+  w-full
         ${roundedClass}
         ${borderClass}
         border-[#E7DCC8]
@@ -53,7 +53,7 @@ export default function ActionCard({
 
         ${
           disabled
-  ? "cursor-not-allowed bg-[#F8F4EE]"
+  ? "cursor-progress bg-[#F8F4EE] opacity-80"
             : "hover:bg-[#FCF8F3]"
         }
       `}
@@ -78,7 +78,7 @@ export default function ActionCard({
         {disabled ? (
   <LoaderCircle
     size={22}
-    className="animate-spin text-[#B08D57]"
+    className="animate-spin text-[#B08D57] [animation-duration:1.5s]"
   />
 ) : (
   <ChevronRight

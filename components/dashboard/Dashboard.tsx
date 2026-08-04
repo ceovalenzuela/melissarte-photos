@@ -1,8 +1,8 @@
-import { Event } from "@/types/event";
+import { EventWithStats } from "@/types/event-with-stats";
 import EventsList from "./EventsList";
 
 type Props = {
-  events: Event[];
+  events: EventWithStats[];
 };
 
 export default function Dashboard({ events }: Props) {

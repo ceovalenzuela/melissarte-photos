@@ -1,8 +1,8 @@
-import { Event } from "@/types/event";
+import { EventWithStats } from "@/types/event-with-stats";
 import EventCard from "@/components/events/EventCard";
 
 type Props = {
-  events: Event[];
+  events: EventWithStats[];
 };
 
 export default function EventsList({ events }: Props) {

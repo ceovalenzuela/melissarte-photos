@@ -6,9 +6,14 @@ import { supabase } from "@/lib/supabase";
 import { generateSlug } from "@/lib/slug";
 
 import { Event } from "@/types/event";
+import { EventWithStats } from "@/types/event-with-stats";
+import {
+  getPhotoCounts,
+} from "@/lib/events";
 
 export function useEvents() {
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] =
+  useState<EventWithStats[]>([]);
   const [loading, setLoading] = useState(false);
 
   async function loadEvents() {
@@ -19,7 +24,17 @@ export function useEvents() {
 
     if (error) throw error;
 
-    setEvents(data ?? []);
+    const counts = await getPhotoCounts();
+
+const eventsWithStats = (data ?? []).map(
+  (event) => ({
+    ...event,
+    photoCount:
+      counts[event.id] ?? 0,
+  })
+);
+
+setEvents(eventsWithStats);
   }
 
   async function createEvent(data: {
@@ -30,20 +45,12 @@ export function useEvents() {
 
     try {
       const { error } = await supabase
-        .from("events")
-        .insert({
-          title: data.title,
-          slug: generateSlug(data.title),
-
-          event_date: data.event_date,
-
-          event_type: null,
-          display_name: null,
-          welcome_message: null,
-          cover_image: null,
-
-          is_active: true,
-        });
+  .from("events")
+  .insert({
+    title: data.title,
+    slug: generateSlug(data.title),
+    event_date: data.event_date,
+  });
 
       if (error) throw error;
 

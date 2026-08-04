@@ -13,6 +13,9 @@ import {
   DownloadStatus,
 } from "@/lib/download";
 
+import CustomizationDialog from "@/components/owner/CustomizationDialog";
+import { Sparkles } from "lucide-react";
+
 interface Props {
   event: Event;
 }
@@ -101,7 +104,7 @@ export default function EventActions({
 />
 
 <ActionCard
-  variant="bottom"
+  variant="middle"
   icon={<Download size={22} />}
   title={getTitle()}
   description={getDescription()}
@@ -109,6 +112,19 @@ export default function EventActions({
   loading={isDownloading}
   disabled={isDownloading}
 />
+
+<CustomizationDialog
+  event={event}
+  trigger={
+    <ActionCard
+      variant="last"
+      icon={<Sparkles size={22} />}
+      title="Personalizar galería"
+      description="Edita la portada y el mensaje de bienvenida."
+    />
+  }
+/>
+
     </div>
   );
 }

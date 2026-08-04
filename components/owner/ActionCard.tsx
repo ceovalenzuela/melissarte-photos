@@ -11,7 +11,7 @@ interface Props {
   onClick?: () => void;
   disabled?: boolean;
   loading?: boolean;
-  variant?: "single" | "top" | "middle" | "bottom";
+  variant?: "single" | "top" | "middle" | "last";
 }
 
 export default function ActionCard({
@@ -24,18 +24,18 @@ loading = false,
 variant = "single",
 }: Props) {
   const roundedClass = {
-    single: "rounded-3xl",
-    top: "",
-    middle: "",
-    bottom: "",
-  }[variant];
+  single: "rounded-3xl",
+  top: "",
+  middle: "",
+  last: "",
+}[variant];
 
   const borderClass = {
-    single: "border",
-    top: "border-b",
-    middle: "border-b",
-    bottom: "",
-  }[variant];
+  single: "border",
+  top: "border-b",
+  middle: "border-b",
+  last: "",
+}[variant];
 
   return (
     <button

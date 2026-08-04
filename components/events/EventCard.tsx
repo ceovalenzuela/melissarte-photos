@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-import { Event } from "@/types/event";
+import { EventWithStats } from "@/types/event-with-stats";
 
 type Props = {
-  event: Event;
+  event: EventWithStats;
 };
 
 export default function EventCard({
@@ -20,46 +20,82 @@ export default function EventCard({
             {event.title}
           </h3>
 
-          <div className="mt-3 space-y-1 text-sm text-[#7D7467]">
-            <p>
-              <span className="font-medium text-[#5C554B]">
-                Fecha:
-              </span>{" "}
-              {event.event_date || "Sin fecha"}
+          <div className="mt-3 space-y-2 text-sm text-[#7D7467]">
+            <p className="flex items-center gap-2">
+              <span>📅</span>
+              <span>{event.event_date || "Sin fecha"}</span>
             </p>
 
-            <p className="truncate">
-              <span className="font-medium text-[#5C554B]">
-                Enlace:
-              </span>{" "}
-              /e/{event.slug}
+            <p className="flex items-center gap-2">
+              <span>📷</span>
+
+              <span>
+                {event.photoCount}{" "}
+                {event.photoCount === 1
+                  ? "fotografía"
+                  : "fotografías"}
+              </span>
+            </p>
+
+            <p className="flex items-center gap-2 truncate">
+              <span>🔗</span>
+
+              <Link
+                href={`/e/${event.slug}`}
+                target="_blank"
+                className="truncate text-[#B08D57] transition-colors hover:underline"
+              >
+                /e/{event.slug}
+              </Link>
             </p>
           </div>
         </div>
 
-        <Link
-          href={`/admin/events/${event.id}`}
-          className="
-            inline-flex
-            items-center
-            gap-2
-            self-start
-            rounded-full
-            bg-neutral-800
-            px-7
-            py-3
-            text-sm
-            font-medium
-            text-white
-            transition-colors
-            duration-200
-            hover:bg-black
-          "
-        >
-          Administrar
+        <div className="flex flex-wrap gap-3 self-start">
+          <Link
+  href={`/dashboard/${event.slug}`}
+  className="
+    inline-flex
+    items-center
+    justify-center
+    rounded-full
+    bg-neutral-800
+    px-6
+    py-3
+    text-sm
+    font-medium
+    text-white
+    transition-colors
+    duration-200
+    hover:bg-black
+  "
+>
+  Owner
+</Link>
 
-          <ArrowRight size={16} />
-        </Link>
+          <Link
+            href={`/admin/events/${event.id}`}
+            className="
+              inline-flex
+              items-center
+              gap-2
+              rounded-full
+              bg-neutral-800
+              px-7
+              py-3
+              text-sm
+              font-medium
+              text-white
+              transition-colors
+              duration-200
+              hover:bg-black
+            "
+          >
+            Administrar
+
+            <ArrowRight size={16} />
+          </Link>
+        </div>
       </div>
     </div>
   );

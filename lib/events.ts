@@ -65,3 +65,22 @@ export async function uploadCover(file: File, eventId: string) {
 
   return data.publicUrl;
 }
+
+export async function getPhotoCounts() {
+  const { data, error } = await supabase
+    .from("photos")
+    .select("event_id");
+
+  if (error) {
+    throw error;
+  }
+
+  const counts: Record<string, number> = {};
+
+  for (const photo of data ?? []) {
+    counts[photo.event_id] =
+      (counts[photo.event_id] ?? 0) + 1;
+  }
+
+  return counts;
+}

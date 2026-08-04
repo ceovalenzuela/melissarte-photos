@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 
 import { getEvent } from "@/lib/events";
 import EventEditor from "@/components/events/EventEditor";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 type Props = {
   params: Promise<{
@@ -22,6 +24,24 @@ export default async function EventPage({
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-8">
+      <Link
+  href="/admin"
+  className="
+    mb-6
+    inline-flex
+    items-center
+    gap-2
+    text-sm
+    font-medium
+    text-[#7D7467]
+    transition-colors
+    duration-200
+    hover:text-[#1F1F1F]
+  "
+>
+  <ArrowLeft size={18} />
+  Volver a galerías
+</Link>
       <div className="mb-8">
         <h1 className="text-4xl font-semibold tracking-tight text-[#1F1F1F]">
           {event.title}

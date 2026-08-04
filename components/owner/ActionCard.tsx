@@ -21,34 +21,45 @@ export default function ActionCard({
       onClick={onClick}
       disabled={disabled}
       className={`
-        w-full rounded-2xl border p-6 text-left transition
+        w-full
+        rounded-3xl
+        border
+        border-[#E7DCC8]
+        bg-[#FDFBF8]
+        p-6
+        text-left
+        shadow-sm
+        transition-all
+        duration-200
+
         ${
           disabled
             ? "cursor-not-allowed opacity-60"
-            : "hover:bg-neutral-50"
+            : "hover:bg-[#FCF8F3] hover:shadow-md"
         }
       `}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-start gap-4">
-          <div className="mt-1 text-neutral-700">
+          <div className="mt-1 text-[#7D7467]">
             {icon}
           </div>
 
           <div>
-            <p className="text-lg font-semibold">
+            <p className="text-lg font-semibold text-[#1F1F1F]">
               {title}
             </p>
 
-            <p className="mt-1 text-sm text-neutral-500">
+            <p className="mt-2 text-sm leading-relaxed text-[#7D7467]">
               {description}
             </p>
           </div>
         </div>
 
-        <span className="text-xl text-neutral-400">
-          <ChevronRight />
-        </span>
+        <ChevronRight
+          size={22}
+          className="text-[#B8AD9D]"
+        />
       </div>
     </button>
   );

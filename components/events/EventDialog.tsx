@@ -14,6 +14,7 @@ import {
 import EventForm from "./EventForm";
 
 import { Event } from "@/types/event";
+import { Plus } from "lucide-react";
 
 type Props = {
   mode: "create" | "edit";
@@ -84,10 +85,14 @@ export default function EventDialog({
   render={
     <Button
       className="
+        inline-flex
+        h-12
+        items-center
+        justify-center
+        gap-2
         rounded-full
         bg-neutral-800
         px-7
-        py-3
         text-sm
         font-medium
         text-white
@@ -95,11 +100,12 @@ export default function EventDialog({
         duration-200
         hover:bg-black
       "
-    />
+    >
+      <Plus size={16} strokeWidth={2.5} />
+      Nuevo evento
+    </Button>
   }
->
-  {mode === "create" ? "+ Nuevo evento" : "Editar"}
-</DialogTrigger>
+/>
 
       <DialogContent>
         <DialogHeader>

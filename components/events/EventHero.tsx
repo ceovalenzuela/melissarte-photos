@@ -11,14 +11,13 @@ interface Props {
 export default function EventHero({
   event,
 }: Props) {
-  const formattedDate = new Date(event.event_date).toLocaleDateString(
-    "es-MX",
-    {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    }
-  );
+  const formattedDate = new Date(
+    event.event_date
+  ).toLocaleDateString("es-MX", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 
   return (
     <section className="relative overflow-hidden rounded-3xl shadow-lg">
@@ -29,7 +28,12 @@ export default function EventHero({
             alt={event.title}
             fill
             priority
-            className="object-cover"
+            className="object-cover transition-all duration-300"
+            style={{
+              objectPosition: `center ${
+                event.cover_position_y ?? 50
+              }%`,
+            }}
           />
         ) : (
           <div className="h-full w-full bg-gradient-to-br from-zinc-800 via-zinc-900 to-black" />
@@ -38,7 +42,7 @@ export default function EventHero({
         <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
 
         <div className="absolute inset-x-0 bottom-0 px-8 pb-16 pt-16 text-white">
-          <h1 className="text-4xl md:text-[3.25rem] font-semibold tracking-tight">
+          <h1 className="text-4xl font-semibold tracking-tight md:text-[3.25rem]">
             {event.title}
           </h1>
 

@@ -16,7 +16,7 @@ export default function EventSummaryCard({
       <div className="rounded-3xl bg-[#FDFBF8] p-6 shadow-lg">
         {welcomeMessage && (
           <>
-            <p className="py-2 text-center leading-relaxed text-[#5C554B]">
+            <p className="py-2 text-center font-medium leading-relaxed text-[#5C554B]">
               {welcomeMessage}
             </p>
 

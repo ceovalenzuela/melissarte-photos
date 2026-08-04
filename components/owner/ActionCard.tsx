@@ -7,6 +7,7 @@ interface Props {
   description: string;
   onClick?: () => void;
   disabled?: boolean;
+  variant?: "single" | "top" | "middle" | "bottom";
 }
 
 export default function ActionCard({
@@ -15,27 +16,41 @@ export default function ActionCard({
   description,
   onClick,
   disabled = false,
+  variant = "single",
 }: Props) {
+  const roundedClass = {
+    single: "rounded-3xl",
+    top: "",
+    middle: "",
+    bottom: "",
+  }[variant];
+
+  const borderClass = {
+    single: "border",
+    top: "border-b",
+    middle: "border-b",
+    bottom: "",
+  }[variant];
+
   return (
     <button
       onClick={onClick}
       disabled={disabled}
       className={`
         w-full
-        rounded-3xl
-        border
+        ${roundedClass}
+        ${borderClass}
         border-[#E7DCC8]
         bg-[#FDFBF8]
         p-6
         text-left
-        shadow-sm
-        transition-all
+        transition-colors
         duration-200
 
         ${
           disabled
             ? "cursor-not-allowed opacity-60"
-            : "hover:bg-[#FCF8F3] hover:shadow-md"
+            : "hover:bg-[#FCF8F3]"
         }
       `}
     >

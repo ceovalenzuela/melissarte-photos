@@ -87,37 +87,40 @@ export default function EventActions({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="overflow-hidden rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] shadow-sm">
       <ActionCard
-        icon={<Share2 size={22} />}
-        title="Compartir galería"
-        description="Comparte el enlace con tus invitados."
-        onClick={() =>
-          share({
-            title: event.title,
-            text: "Mira las fotos de nuestro evento.",
-            url: getEventUrl(
-              window.location.origin,
-              event.slug
-            ),
-          })
-        }
-      />
+  variant="top"
+  icon={<Share2 size={22} />}
+  title="Compartir galería"
+  description="Comparte el enlace con tus invitados."
+  onClick={() =>
+    share({
+      title: event.title,
+      text: "Mira las fotos de nuestro evento.",
+      url: getEventUrl(
+        window.location.origin,
+        event.slug
+      ),
+    })
+  }
+/>
 
-      <ActionCard
-        icon={<QrCode size={22} />}
-        title="Descargar código QR"
-        description="Obtén un código QR listo para imprimir."
-        onClick={() => downloadEventQrCard(event)}
-      />
+<ActionCard
+  variant="middle"
+  icon={<QrCode size={22} />}
+  title="Descargar código QR"
+  description="Obtén un código QR listo para imprimir."
+  onClick={() => downloadEventQrCard(event)}
+/>
 
-      <ActionCard
-        icon={<Download size={22} />}
-        title={getTitle()}
-        description={getDescription()}
-        onClick={handleDownload}
-        disabled={isDownloading}
-      />
+<ActionCard
+  variant="bottom"
+  icon={<Download size={22} />}
+  title={getTitle()}
+  description={getDescription()}
+  onClick={handleDownload}
+  disabled={isDownloading}
+/>
     </div>
   );
 }

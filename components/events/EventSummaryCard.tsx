@@ -20,7 +20,7 @@ export default function EventSummaryCard({
               {welcomeMessage}
             </p>
 
-            <div className="my-6 h-px bg-[#E7DCC8]" />
+            <div className="mt-4 mb-5 h-px bg-[#E7DCC8]" />
           </>
         )}
 

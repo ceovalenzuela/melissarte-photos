@@ -36,42 +36,42 @@ export default function HomePage() {
 
           {/* Beneficios */}
 
-          <div className="mx-auto mt-10 max-w-lg space-y-5">
+          <div className="mx-auto mt-10 max-w-md space-y-5">
 
-            <div className="flex items-start gap-3">
-              <CheckCircle2
-                size={20}
-                className="mt-0.5 shrink-0 text-[#A88249]"
-              />
+  <div className="flex items-center justify-center gap-3">
+    <CheckCircle2
+      size={20}
+      className="shrink-0 text-[#A88249]"
+    />
 
-              <p className="text-[#5C554B]">
-                Comparte tu galería mediante un código QR.
-              </p>
-            </div>
+    <p className="text-[#5C554B]">
+      Comparte tu galería mediante un código QR.
+    </p>
+  </div>
 
-            <div className="flex items-start gap-3">
-              <CheckCircle2
-                size={20}
-                className="mt-0.5 shrink-0 text-[#A88249]"
-              />
+  <div className="flex items-center justify-center gap-3">
+    <CheckCircle2
+      size={20}
+      className="shrink-0 text-[#A88249]"
+    />
 
-              <p className="text-[#5C554B]">
-                Tus invitados pueden subir sus fotografías fácilmente.
-              </p>
-            </div>
+    <p className="text-[#5C554B]">
+      Tus invitados pueden subir sus fotografías fácilmente.
+    </p>
+  </div>
 
-            <div className="flex items-start gap-3">
-              <CheckCircle2
-                size={20}
-                className="mt-0.5 shrink-0 text-[#A88249]"
-              />
+  <div className="flex items-center justify-center gap-3">
+    <CheckCircle2
+      size={20}
+      className="shrink-0 text-[#A88249]"
+    />
 
-              <p className="text-[#5C554B]">
-                Descarga todas las fotografías en alta calidad.
-              </p>
-            </div>
+    <p className="text-[#5C554B]">
+      Descarga todas las fotografías en alta calidad.
+    </p>
+  </div>
 
-          </div>
+</div>
 
           {/* Información */}
 

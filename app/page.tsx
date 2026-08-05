@@ -6,7 +6,7 @@ import {
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-[#FDFBF8] px-6 py-10">
+    <main className="min-h-screen bg-white px-6 py-10">
       <div className="mx-auto flex min-h-[calc(100vh-5rem)] max-w-2xl items-center justify-center">
 
         <div className="w-full max-w-3xl">
@@ -95,18 +95,17 @@ export default function HomePage() {
             <Link
               href="/admin/login"
               className="
-                inline-flex
-                items-center
-                rounded-full
-                border
-                border-[#A88249]
-                px-6
-                py-3
-                font-medium
-                text-[#A88249]
-                transition-colors
-                hover:bg-[#F7F3EC]
-              "
+  inline-flex
+  items-center
+  rounded-full
+  bg-[#A88249]
+  px-6
+  py-3
+  font-medium
+  text-white
+  transition-colors
+  hover:bg-[#977640]
+"
             >
               Acceso administrador
             </Link>

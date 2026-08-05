@@ -56,7 +56,20 @@ export default function EventActions({
   }
 
   function getTitle() {
-  return "Descargar fotografías";
+  if (!isDownloading) {
+    return "Descargar fotografías";
+  }
+
+  switch (status) {
+    case "preparing":
+      return "Preparando descarga...";
+
+    case "downloading":
+      return "Descargando fotografías...";
+
+    case "zipping":
+      return "Comprimiendo fotografías...";
+  }
 }
 
   function getDescription() {
@@ -66,13 +79,13 @@ export default function EventActions({
 
   switch (status) {
     case "preparing":
-      return "Preparando descarga...";
+      return "La descarga comenzará automáticamente.";
 
     case "downloading":
-      return `${current} de ${total} fotografías descargadas`;
+      return `${current} de ${total} fotografías`;
 
     case "zipping":
-      return "Preparando archivo...";
+      return "Generando archivo...";
   }
 }
 
@@ -105,7 +118,13 @@ export default function EventActions({
 
 <ActionCard
   variant="middle"
-  icon={<Download size={22} />}
+  icon={
+  isDownloading ? (
+    <div className="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent" />
+  ) : (
+    <Download size={22} />
+  )
+}
   title={getTitle()}
   description={getDescription()}
   onClick={handleDownload}

@@ -22,9 +22,12 @@ const router = useRouter();
 
 async function handleLogout() {
   try {
+    console.log("Logout clicked");
+
     await signOut();
 
-    router.replace("/admin/login");
+router.refresh();
+router.replace("/admin/login");
   } catch (error) {
     console.error(error);
 

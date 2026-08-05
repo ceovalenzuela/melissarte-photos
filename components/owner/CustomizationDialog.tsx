@@ -30,6 +30,7 @@ import {
   uploadCover,
 } from "@/lib/events";
 import { Check } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface Props {
   event: Event;
@@ -40,6 +41,7 @@ export default function CustomizationDialog({
   event,
   trigger,
 }: Props) {
+  const router = useRouter();
   const [coverImage, setCoverImage] = useState(
     event.cover_image
   );
@@ -113,10 +115,12 @@ const [uploadingCover, setUploadingCover] =
     const url = await uploadCover(file, event.id);
 
       await updateEvent(event.id, {
-        cover_image: url,
-      });
+  cover_image: url,
+});
 
-      setCoverImage(url);
+setCoverImage(url);
+
+router.refresh();
       setCoverSaved(true);
 
       setTimeout(() => {

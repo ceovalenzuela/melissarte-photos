@@ -9,7 +9,7 @@ export default function HomePage() {
     <main className="min-h-screen bg-[#FDFBF8] px-6 py-10">
       <div className="mx-auto flex min-h-[calc(100vh-5rem)] max-w-2xl items-center justify-center">
 
-        <div className="w-full rounded-3xl border border-[#E7DCC8] bg-white px-8 py-10 shadow-sm md:px-12 md:py-14">
+        <div className="w-full max-w-3xl">
 
           {/* Logo */}
 

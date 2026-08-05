@@ -4,8 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { signIn } from "@/lib/auth";
+import { supabase } from "@/lib/supabase";
 
 export default function LoginPage() {
+    
 
 const router = useRouter();
 
@@ -30,6 +32,18 @@ async function handleSubmit(
     setError("");
 
     await signIn(email, password);
+
+    const {
+  data: { session },
+} = await supabase.auth.getSession();
+
+console.log("SESSION AFTER LOGIN:", session);
+
+const {
+  data: { user },
+} = await supabase.auth.getUser();
+
+console.log("USER AFTER LOGIN:", user);
 
     router.push("/admin");
   } catch {

@@ -17,12 +17,21 @@ export function useEvents() {
   const [loading, setLoading] = useState(false);
 
   async function loadEvents() {
-    const { data, error } = await supabase
-      .from("events")
-      .select("*")
-      .order("created_at", { ascending: false });
 
-    if (error) throw error;
+const {
+  data: { session },
+} = await supabase.auth.getSession();
+
+const {
+  data: { user },
+} = await supabase.auth.getUser();
+
+    const { data, error } = await supabase
+  .from("events")
+  .select("*")
+  .order("created_at", { ascending: false });
+
+console.log("ERROR:", error);
 
     const counts = await getPhotoCounts();
 

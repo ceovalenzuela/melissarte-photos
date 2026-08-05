@@ -24,17 +24,12 @@ export default function EventHero({
       <div className="relative h-[460px] w-full">
         {event.cover_image ? (
           <Image
-            src={event.cover_image}
-            alt={event.title}
-            fill
-            priority
-            className="object-cover transition-all duration-300"
-            style={{
-              objectPosition: `center ${
-                event.cover_position_y ?? 50
-              }%`,
-            }}
-          />
+  src={event.cover_image}
+  alt={event.title}
+  fill
+  priority
+  className="object-cover"
+/>
         ) : (
           <div className="h-full w-full bg-gradient-to-br from-zinc-800 via-zinc-900 to-black" />
         )}

@@ -49,7 +49,8 @@ export async function updateEvent(
 }
 
 export async function uploadCover(file: File, eventId: string) {
-  const extension = file.name.split(".").pop();
+  const extension =
+  file.name.split(".").pop() ?? "jpg";
 
   const path = `${eventId}-${Date.now()}.${extension}`;
 

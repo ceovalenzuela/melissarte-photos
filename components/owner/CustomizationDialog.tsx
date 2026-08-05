@@ -44,10 +44,12 @@ export default function CustomizationDialog({
     event.cover_image
   );
 
-  const inputRef =
-  useRef<HTMLInputElement>(null);
+const inputRef = useRef<HTMLInputElement>(null);
 
 const [uploadingCover, setUploadingCover] =
+  useState(false);
+
+  const [coverSaved, setCoverSaved] =
   useState(false);
 
   const [editingMessage, setEditingMessage] =
@@ -70,10 +72,7 @@ const [uploadingCover, setUploadingCover] =
 
   setMessage(welcome);
   setOriginalMessage(welcome);
-}, [
-  event.cover_image,
-  event.welcome_message,
-]);
+}, [event]);
 
   const hasChanges =
     message.trim() !== originalMessage.trim();
@@ -100,37 +99,37 @@ const [uploadingCover, setUploadingCover] =
   }
 
   async function handleCoverChange(
-  e: React.ChangeEvent<HTMLInputElement>
-) {
-  const file = e.target.files?.[0];
+    e: React.ChangeEvent<HTMLInputElement>
+  ) {
+    const file = e.target.files?.[0];
 
-  if (!file) return;
+    if (!file) {
+      return;
+    }
 
-  try {
-    setUploadingCover(true);
+    try {
+      setUploadingCover(true);
 
-    const url = await uploadCover(
-      file,
-      event.id
-    );
+    const url = await uploadCover(file, event.id);
 
-    await updateEvent(event.id, {
-  cover_image: url,
-  cover_position_y: 50,
-});
+      await updateEvent(event.id, {
+        cover_image: url,
+      });
 
-    setCoverImage(url);
-  } catch (error) {
-    console.error(error);
-    alert(
-      "No fue posible actualizar la portada."
-    );
-  } finally {
-    setUploadingCover(false);
+      setCoverImage(url);
+      setCoverSaved(true);
 
-    e.target.value = "";
+      setTimeout(() => {
+        setCoverSaved(false);
+      }, 1500);
+    } catch (error) {
+      console.error(error);
+      alert("No fue posible actualizar la portada.");
+    } finally {
+      setUploadingCover(false);
+      e.target.value = "";
+    }
   }
-}
 
   return (
     <Dialog>
@@ -176,18 +175,20 @@ const [uploadingCover, setUploadingCover] =
 
             <div className="overflow-hidden rounded-2xl border border-[#E7DCC8] bg-white">
               {coverImage ? (
-                <div className="relative h-[300px] w-full overflow-hidden">
-                  <Image
-                    src={coverImage}
-                    alt="Portada"
-                    fill
-                    className="object-cover transition-all duration-300"
-                    style={{
-                      objectPosition: `center ${
-                        event.cover_position_y ?? 50
-                      }%`,
-                    }}
-                  />
+                <div
+  className="
+    relative
+    h-[300px]
+    w-full
+    overflow-hidden
+  "
+>
+<Image
+  src={coverImage}
+  alt="Portada"
+  fill
+  className="object-cover"
+/>
                 </div>
               ) : (
                 <div className="flex h-[300px] items-center justify-center text-[#7D7467]">
@@ -206,7 +207,7 @@ const [uploadingCover, setUploadingCover] =
   onChange={handleCoverChange}
 />
 
-              <Button
+ <Button
   variant="outline"
   className="rounded-full px-6"
   disabled={uploadingCover}
@@ -214,9 +215,19 @@ const [uploadingCover, setUploadingCover] =
     inputRef.current?.click()
   }
 >
-  {uploadingCover
-    ? "Subiendo..."
-    : "Cambiar portada"}
+  {uploadingCover ? (
+    "Subiendo..."
+  ) : coverSaved ? (
+    <>
+  <Check
+    size={16}
+    className="mr-2"
+  />
+  Guardado
+</>
+  ) : (
+    "Cambiar portada"
+  )}
 </Button>
             </div>
           </section>

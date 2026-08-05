@@ -1,107 +1,96 @@
 import Link from "next/link";
 import {
   Camera,
-  Images,
-  Download,
-  QrCode,
+  CheckCircle2,
 } from "lucide-react";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-[#FDFBF8] px-6 py-12">
-      <div className="mx-auto flex min-h-[calc(100vh-6rem)] max-w-5xl items-center justify-center">
+    <main className="min-h-screen bg-[#FDFBF8] px-6 py-10">
+      <div className="mx-auto flex min-h-[calc(100vh-5rem)] max-w-2xl items-center justify-center">
 
-        <div className="w-full rounded-3xl border border-[#E7DCC8] bg-white p-10 shadow-sm md:p-14">
+        <div className="w-full rounded-3xl border border-[#E7DCC8] bg-white px-8 py-10 shadow-sm md:px-12 md:py-14">
+
+          {/* Logo */}
 
           <div className="text-center">
 
-            <div className="mb-6 flex justify-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#F7F3EC]">
-                <Images
-                  size={30}
-                  className="text-[#A88249]"
-                />
+            <div className="mb-5 flex justify-center">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#F7F3EC]">
+                <Camera
+  size={26}
+  className="text-[#A88249]"
+/>
               </div>
             </div>
 
-            <h1 className="text-4xl font-semibold tracking-tight text-[#1F1F1F] md:text-5xl">
+            <h1 className="text-4xl font-semibold tracking-tight text-[#1F1F1F]">
               MelissArte Photos
             </h1>
 
-            <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#5C554B]">
-              Comparte y conserva las fotografías de tu evento.
+            <p className="mt-5 text-lg leading-8 text-[#5C554B]">
+              Comparte los mejores momentos de tu evento.
             </p>
 
           </div>
 
-          <div className="mt-14 grid gap-5 md:grid-cols-3">
+          {/* Beneficios */}
 
-            <div className="rounded-2xl border border-[#E7DCC8] bg-[#FDFBF8] p-6">
+          <div className="mx-auto mt-10 max-w-lg space-y-5">
 
-              <QrCode
-                className="text-[#A88249]"
-                size={24}
+            <div className="flex items-start gap-3">
+              <CheckCircle2
+                size={20}
+                className="mt-0.5 shrink-0 text-[#A88249]"
               />
 
-              <h2 className="mt-5 font-semibold text-[#1F1F1F]">
-                Comparte
-              </h2>
-
-              <p className="mt-2 text-sm leading-6 text-[#7D7467]">
+              <p className="text-[#5C554B]">
                 Comparte tu galería mediante un código QR.
               </p>
-
             </div>
 
-            <div className="rounded-2xl border border-[#E7DCC8] bg-[#FDFBF8] p-6">
-
-              <Camera
-                className="text-[#A88249]"
-                size={24}
+            <div className="flex items-start gap-3">
+              <CheckCircle2
+                size={20}
+                className="mt-0.5 shrink-0 text-[#A88249]"
               />
 
-              <h2 className="mt-5 font-semibold text-[#1F1F1F]">
-                Captura momentos
-              </h2>
-
-              <p className="mt-2 text-sm leading-6 text-[#7D7467]">
-                Los invitados pueden subir fotografías desde cualquier dispositivo.
+              <p className="text-[#5C554B]">
+                Tus invitados pueden subir sus fotografías fácilmente.
               </p>
-
             </div>
 
-            <div className="rounded-2xl border border-[#E7DCC8] bg-[#FDFBF8] p-6">
-
-              <Download
-                className="text-[#A88249]"
-                size={24}
+            <div className="flex items-start gap-3">
+              <CheckCircle2
+                size={20}
+                className="mt-0.5 shrink-0 text-[#A88249]"
               />
 
-              <h2 className="mt-5 font-semibold text-[#1F1F1F]">
-                Descarga
-              </h2>
-
-              <p className="mt-2 text-sm leading-6 text-[#7D7467]">
-                Descarga todas las imágenes en alta calidad.
+              <p className="text-[#5C554B]">
+                Descarga todas las fotografías en alta calidad.
               </p>
-
             </div>
 
           </div>
 
-          <div className="mt-14 rounded-2xl bg-[#F7F3EC] px-8 py-8 text-center">
+          {/* Información */}
 
-            <h3 className="text-xl font-semibold text-[#1F1F1F]">
-              ¿Buscas una galería?
-            </h3>
+          <div className="mt-10 rounded-2xl bg-[#F7F3EC] p-6 text-center">
 
-            <p className="mx-auto mt-3 max-w-xl text-[#7D7467]">
-              Accede mediante el enlace o código QR proporcionado por los organizadores del evento.
+            <h2 className="text-lg font-semibold text-[#1F1F1F]">
+              ¿Tienes un enlace o un código QR?
+            </h2>
+
+            <p className="mt-2 text-sm leading-6 text-[#7D7467]">
+              Accede a tu galería desde el enlace o código QR proporcionado
+              por los organizadores del evento.
             </p>
 
           </div>
 
-          <div className="mt-12 text-center">
+          {/* Botón */}
+
+          <div className="mt-8 text-center">
 
             <Link
               href="/admin/login"
@@ -109,13 +98,14 @@ export default function HomePage() {
                 inline-flex
                 items-center
                 rounded-full
-                bg-[#A88249]
-                px-7
+                border
+                border-[#A88249]
+                px-6
                 py-3
                 font-medium
-                text-white
+                text-[#A88249]
                 transition-colors
-                hover:bg-[#977640]
+                hover:bg-[#F7F3EC]
               "
             >
               Acceso administrador
@@ -123,7 +113,9 @@ export default function HomePage() {
 
           </div>
 
-          <p className="mt-12 text-center text-sm text-[#A39A8E]">
+          {/* Footer */}
+
+          <p className="mt-10 text-center text-sm text-[#A39A8E]">
             MelissArte Photos · Galerías digitales para eventos
           </p>
 

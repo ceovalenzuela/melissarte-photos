@@ -29,7 +29,7 @@ export default function EventHero({
 
   return (
     <section className="relative overflow-hidden rounded-3xl shadow-lg">
-      <div className="relative h-[500px] w-full">
+      <div className="relative h-[460px] w-full">
         {event.cover_image ? (
           <Image
             src={event.cover_image}

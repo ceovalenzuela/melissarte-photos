@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { getEventBySlug } from "@/lib/events";
+import { getPhotoCount } from "@/lib/photos";
 
 import PublicEventClient from "@/components/public/PublicEventClient";
 import Footer from "@/components/public/Footer";
@@ -23,10 +24,15 @@ export default async function PublicEventPage({
     notFound();
   }
 
+  const photoCount = await getPhotoCount(event.id);
+
   return (
     <main className="min-h-screen bg-gray-50">
       <div className="mx-auto max-w-6xl space-y-8 px-4 py-6">
-        <EventHero event={event} />
+        <EventHero
+  event={event}
+  photoCount={photoCount}
+/>
 
         <PublicEventClient event={event} />
 

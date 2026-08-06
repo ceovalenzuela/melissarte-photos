@@ -9,11 +9,13 @@ import { Event } from "@/types/event";
 interface Props {
   event: Event;
   photoCount?: number;
+  showWelcomeMessage?: boolean;
 }
 
 export default function EventHero({
   event,
   photoCount = 0,
+  showWelcomeMessage = true,
 }: Props) {
   const [loaded, setLoaded] = useState(false);
 

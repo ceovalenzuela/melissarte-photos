@@ -10,14 +10,14 @@ import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-white px-6 py-10">
+    <main className="min-h-screen bg-white px-6 py-8">
       <div className="mx-auto max-w-5xl">
 
         {/* Hero */}
 
-        <section className="py-12 text-center">
+        <section className="py-8 text-center">
 
-          <div className="mb-6 flex justify-center">
+          <div className="mb-5 flex justify-center">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#F7F3EC]">
               <Camera
                 size={30}
@@ -30,19 +30,15 @@ export default function HomePage() {
             MelissArte Photos
           </h1>
 
-          <h2 className="mt-8 text-3xl font-medium leading-tight text-[#1F1F1F]">
-            Todos los recuerdos de tu evento, en un solo lugar.
+          <h2 className="mt-6 text-3xl font-medium leading-tight text-[#1F1F1F]">
+            Todos los recuerdos de tu evento,
+            <br />
+            en un solo lugar.
           </h2>
 
-          <p className="mx-auto mt-6 max-w-3xl text-xl leading-9 text-[#5C554B]">
-            Reúne en un solo lugar las fotografías que tú y tus invitados
-            capturen durante uno de los días más importantes.
-          </p>
-
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-[#7D7467]">
-            Tú y tus invitados podrán compartir fotografías fácilmente desde
-            cualquier dispositivo y disfrutar todos los recuerdos en una sola
-            galería, sin instalar aplicaciones.
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#5C554B]">
+            Tú y tus invitados podrán compartir fotografías fácilmente,
+            sin instalar aplicaciones.
           </p>
 
         </section>
@@ -51,75 +47,74 @@ export default function HomePage() {
 
         <section className="mt-10">
 
-          <div className="grid gap-5 md:grid-cols-2">
+          <div className="grid gap-4 md:grid-cols-2">
 
-            <div className="flex items-start gap-3 rounded-2xl bg-[#F7F3EC] p-6">
+            <div className="flex items-start gap-3 rounded-2xl bg-[#F7F3EC] p-5">
               <CheckCircle2
-                className="mt-1 shrink-0 text-[#A88249]"
                 size={20}
+                className="mt-1 shrink-0 text-[#A88249]"
               />
 
-              <p className="leading-7 text-[#5C554B]">
-                <strong className="text-[#1F1F1F]">
-                  Todos pueden compartir.
-                </strong>
+              <div>
+                <h3 className="font-semibold text-[#1F1F1F]">
+                  Todos pueden compartir
+                </h3>
 
-                <br />
-
-                Tú y tus invitados pueden subir fotografías fácilmente desde
-                cualquier celular.
-              </p>
+                <p className="mt-1 text-[#5C554B]">
+                  Sube fotografías desde cualquier celular.
+                </p>
+              </div>
             </div>
 
-            <div className="flex items-start gap-3 rounded-2xl bg-[#F7F3EC] p-6">
+            <div className="flex items-start gap-3 rounded-2xl bg-[#F7F3EC] p-5">
               <CheckCircle2
-                className="mt-1 shrink-0 text-[#A88249]"
                 size={20}
+                className="mt-1 shrink-0 text-[#A88249]"
               />
 
-              <p className="leading-7 text-[#5C554B]">
-                <strong className="text-[#1F1F1F]">
-                  Sin instalar aplicaciones.
-                </strong>
+              <div>
+                <h3 className="font-semibold text-[#1F1F1F]">
+                  Sin instalar aplicaciones
+                </h3>
 
-                <br />
-
-                Solo escanea el código QR o abre el enlace de la galería.
-              </p>
+                <p className="mt-1 text-[#5C554B]">
+                  Solo escanea el código QR.
+                </p>
+              </div>
             </div>
 
-            <div className="flex items-start gap-3 rounded-2xl bg-[#F7F3EC] p-6">
+            <div className="flex items-start gap-3 rounded-2xl bg-[#F7F3EC] p-5">
               <CheckCircle2
-                className="mt-1 shrink-0 text-[#A88249]"
                 size={20}
+                className="mt-1 shrink-0 text-[#A88249]"
               />
 
-              <p className="leading-7 text-[#5C554B]">
-                <strong className="text-[#1F1F1F]">
-                  Todos los recuerdos en un solo lugar.
-                </strong>
+              <div>
+                <h3 className="font-semibold text-[#1F1F1F]">
+                  Todos los recuerdos en un solo lugar
+                </h3>
 
-                <br />
-
-                Reúne las fotografías de todos en una sola galería privada.
-              </p>
+                <p className="mt-1 text-[#5C554B]">
+                  Una sola galería para todos.
+                </p>
+              </div>
             </div>
 
-            <div className="flex items-start gap-3 rounded-2xl bg-[#F7F3EC] p-6">
+            <div className="flex items-start gap-3 rounded-2xl bg-[#F7F3EC] p-5">
               <CheckCircle2
-                className="mt-1 shrink-0 text-[#A88249]"
                 size={20}
+                className="mt-1 shrink-0 text-[#A88249]"
               />
 
-              <p className="leading-7 text-[#5C554B]">
-                <strong className="text-[#1F1F1F]">
-                  Descarga todas las fotografías.
-                </strong>
+              <div>
+                <h3 className="font-semibold text-[#1F1F1F]">
+                  Descarga todo el evento
+                </h3>
 
-                <br />
-
-                Conserva todos los recuerdos del evento en un solo archivo ZIP.
-              </p>
+                <p className="mt-1 text-[#5C554B]">
+                  Todas las fotografías en alta calidad.
+                </p>
+              </div>
             </div>
 
           </div>
@@ -128,51 +123,49 @@ export default function HomePage() {
 
         {/* Cómo funciona */}
 
-        <section className="mt-20 rounded-3xl bg-[#F7F3EC] p-10">
+        <section className="mt-14 rounded-3xl bg-[#F7F3EC] p-8">
 
           <h2 className="text-center text-3xl font-semibold text-[#1F1F1F]">
             ¿Cómo funciona?
           </h2>
 
-          <div className="mt-10 grid gap-10 md:grid-cols-3">
+          <div className="mt-8 grid gap-8 md:grid-cols-3">
 
             <div className="text-center">
 
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-lg font-semibold text-[#A88249]">
+              <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-full bg-white font-semibold text-[#A88249]">
                 1
               </div>
 
               <h3 className="font-semibold text-[#1F1F1F]">
-                Comparte el código QR
+                Comparte el QR
               </h3>
 
-              <p className="mt-3 leading-7 text-[#7D7467]">
-                Compártelo con tus invitados para acceder fácilmente a la
-                galería.
+              <p className="mt-2 text-[#7D7467]">
+                Tus invitados acceden a la galería.
               </p>
 
             </div>
 
             <div className="text-center">
 
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-lg font-semibold text-[#A88249]">
+              <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-full bg-white font-semibold text-[#A88249]">
                 2
               </div>
 
               <h3 className="font-semibold text-[#1F1F1F]">
-                Compartan sus fotografías
+                Suban fotografías
               </h3>
 
-              <p className="mt-3 leading-7 text-[#7D7467]">
-                Tú y tus invitados suben los mejores momentos capturados durante
-                el evento.
+              <p className="mt-2 text-[#7D7467]">
+                Cada persona comparte sus mejores momentos.
               </p>
 
             </div>
 
             <div className="text-center">
 
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-lg font-semibold text-[#A88249]">
+              <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-full bg-white font-semibold text-[#A88249]">
                 3
               </div>
 
@@ -180,9 +173,8 @@ export default function HomePage() {
                 Disfruten los recuerdos
               </h3>
 
-              <p className="mt-3 leading-7 text-[#7D7467]">
-                Todas las fotografías quedan reunidas en una sola galería para
-                revivir cada momento.
+              <p className="mt-2 text-[#7D7467]">
+                Todas las fotografías reunidas en un solo lugar.
               </p>
 
             </div>
@@ -193,42 +185,40 @@ export default function HomePage() {
 
         {/* CTA */}
 
-        <section className="mt-20 text-center">
+        <section className="mt-14 text-center">
 
           <h2 className="text-3xl font-semibold text-[#1F1F1F]">
-            ¿Te gustaría ofrecer esta experiencia en tu evento?
+            ¿Quieres una galería como esta para tu evento?
           </h2>
 
-          <p className="mt-5 text-lg text-[#5C554B]">
-            Perfecto para{" "}
-            <span className="font-medium text-[#1F1F1F]">
-              bodas, XV años, cumpleaños y eventos corporativos.
-            </span>
+          <p className="mt-4 text-[#5C554B]">
+            Bodas • XV Años • Cumpleaños • Eventos corporativos
           </p>
 
           <Link
-  href="https://wa.me/525649445427"
-  target="_blank"
-  className="inline-block mt-8"
->
-  <Button
-    className="
-      h-12
-      rounded-full
-      bg-[#A88249]
-      px-8
-      hover:bg-[#977640]
-    "
-  >
-    Solicitar información
-  </Button>
-</Link>
+            href="https://wa.me/521XXXXXXXXXX?text=Hola,%20me%20gustaría%20recibir%20información%20sobre%20MelissArte%20Photos."
+            target="_blank"
+            className="inline-block"
+          >
+            <Button
+              className="
+                mt-7
+                h-12
+                rounded-full
+                bg-[#A88249]
+                px-8
+                hover:bg-[#977640]
+              "
+            >
+              Solicitar información
+            </Button>
+          </Link>
 
         </section>
 
-        {/* Contacto */}
+        {/* Footer */}
 
-        <footer className="mt-20 border-t border-[#E7DCC8] py-10">
+        <footer className="mt-16 border-t border-[#E7DCC8] py-8">
 
           <h3 className="text-center text-xl font-semibold text-[#1F1F1F]">
             MelissArte Photos
@@ -238,10 +228,12 @@ export default function HomePage() {
             Galerías digitales para eventos.
           </p>
 
-          <div className="mt-8 flex flex-wrap justify-center gap-8">
+          <div className="mt-6 flex flex-wrap justify-center gap-8">
 
             <a
-              href="https://wa.me/TUNUMERO"
+              href="https://wa.me/521XXXXXXXXXX"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2 text-[#5C554B] transition-colors hover:text-[#A88249]"
             >
               <MessageCircle size={18} />
@@ -258,7 +250,7 @@ export default function HomePage() {
 
           </div>
 
-          <p className="mt-10 text-center text-sm text-[#A39A8E]">
+          <p className="mt-8 text-center text-sm text-[#A39A8E]">
             © 2026 MelissArte Photos
           </p>
 

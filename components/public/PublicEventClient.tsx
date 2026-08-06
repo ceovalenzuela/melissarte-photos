@@ -89,7 +89,6 @@ export default function PublicEventClient({
   return (
     <>
   <EventSummaryCard
-  totalPhotos={totalPhotos}
   welcomeMessage={event.welcome_message ?? undefined}
 >
   <UploadButton

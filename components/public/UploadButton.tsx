@@ -27,8 +27,8 @@ export default function UploadButton({
   const buttonLabel = isPreparing
     ? "Preparando fotografías..."
     : uploading
-      ? `Compartiendo ${completed} de ${total}`
-      : "Compartir mis fotos";
+      ? `Subiendo ${completed} de ${total}`
+      : "Subir fotografías";
 
   const Icon = uploading ? LoaderCircle : Camera;
 

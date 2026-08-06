@@ -29,7 +29,7 @@ export default function EventHero({
 
   return (
     <section className="relative overflow-hidden rounded-3xl shadow-lg">
-      <div className="relative h-[460px] w-full">
+      <div className="relative h-[500px] w-full">
         {event.cover_image ? (
           <Image
             src={event.cover_image}
@@ -64,20 +64,21 @@ export default function EventHero({
             <span>{formattedDate}</span>
           </div>
 
-          <div className="mt-6">
+          <div className="mt-4">
             <div
               className="
-                inline-flex
-                rounded-full
-                border
-                border-white/15
-                bg-white/10
-                px-4
-                py-2
-                backdrop-blur-lg
+  inline-flex
+  rounded-full
+  border
+  border-white/15
+  bg-white/10
+  px-3
+  py-1.5
+  backdrop-blur-lg
+
               "
             >
-              <span className="text-base font-medium text-white">
+              <span className="text-sm font-medium text-white">
                 {photoCount} fotografías
               </span>
             </div>

@@ -16,6 +16,8 @@ import { Button } from "@/components/ui/button";
 import {
   ImageIcon,
   MessageSquare,
+  Check,
+  Pencil,
 } from "lucide-react";
 
 import { Event } from "@/types/event";
@@ -29,7 +31,7 @@ import {
   updateEvent,
   uploadCover,
 } from "@/lib/events";
-import { Check } from "lucide-react";
+
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -91,6 +93,7 @@ const [uploadingCover, setUploadingCover] =
       setOriginalMessage(message);
 
       setSaved(true);
+      toast.success("Mensaje actualizado.");
 
       setTimeout(() => {
         setSaved(false);
@@ -123,6 +126,7 @@ setCoverImage(url);
 
 router.refresh();
       setCoverSaved(true);
+      toast.success("Portada actualizada.");
 
       setTimeout(() => {
         setCoverSaved(false);
@@ -195,7 +199,7 @@ router.refresh();
   src={coverImage}
   alt="Portada"
   fill
-  className="object-cover"
+  className="rounded-2xl object-cover"
 />
                 </div>
               ) : (
@@ -216,25 +220,43 @@ router.refresh();
 />
 
  <Button
-  variant="outline"
-  className="rounded-full px-6"
   disabled={uploadingCover}
-  onClick={() =>
-    inputRef.current?.click()
-  }
+  onClick={() => inputRef.current?.click()}
+  className="
+    h-12
+    rounded-full
+    border
+    border-[#E7DCC8]
+    bg-white
+    px-6
+    text-sm
+    font-medium
+    text-[#5C554B]
+    transition-colors
+    duration-200
+    hover:bg-[#F7F3EC]
+    disabled:cursor-not-allowed
+    disabled:opacity-60
+  "
 >
   {uploadingCover ? (
     "Subiendo..."
   ) : coverSaved ? (
     <>
-  <Check
-    size={16}
-    className="mr-2"
-  />
-  Guardado
-</>
+      <Check
+        size={16}
+        className="mr-2"
+      />
+      Guardado
+    </>
   ) : (
-    "Cambiar portada"
+    <>
+      <ImageIcon
+        size={16}
+        className="mr-2"
+      />
+      Cambiar portada
+    </>
   )}
 </Button>
             </div>
@@ -268,15 +290,32 @@ router.refresh();
 
                 <div className="mt-6 flex justify-end">
                   <Button
-                    variant="outline"
-                    className="rounded-full px-6"
-                    onClick={() => {
-                      setEditingMessage(true);
-                      setSaved(false);
-                    }}
-                  >
-                    Editar mensaje
-                  </Button>
+  onClick={() => {
+    setEditingMessage(true);
+    setSaved(false);
+  }}
+  className="
+    h-12
+    rounded-full
+    border
+    border-[#E7DCC8]
+    bg-white
+    px-6
+    text-sm
+    font-medium
+    text-[#5C554B]
+    transition-colors
+    duration-200
+    hover:bg-[#F7F3EC]
+  "
+>
+  <Pencil
+    size={16}
+    className="mr-2"
+  />
+
+  Editar mensaje
+</Button>
                 </div>
               </>
             ) : (
@@ -288,6 +327,7 @@ router.refresh();
                   }
                   rows={5}
                   className="
+                    resize-none
                     w-full
                     rounded-2xl
                     border
@@ -303,27 +343,45 @@ router.refresh();
 
                 <div className="mt-6 flex justify-end gap-3">
                   <Button
-                    variant="outline"
-                    onClick={() => {
-                      setMessage(originalMessage);
-                      setEditingMessage(false);
-                      setSaved(false);
-                    }}
-                  >
-                    Cancelar
-                  </Button>
+  onClick={() => {
+    setMessage(originalMessage);
+    setEditingMessage(false);
+    setSaved(false);
+  }}
+  className="
+    h-12
+    rounded-full
+    border
+    border-[#E7DCC8]
+    bg-white
+    px-6
+    text-sm
+    font-medium
+    text-[#5C554B]
+    transition-colors
+    duration-200
+    hover:bg-[#F7F3EC]
+  "
+>
+  Cancelar
+</Button>
 
                   <Button
   onClick={handleSaveMessage}
   disabled={!hasChanges || saving}
   className="
+    h-12
     rounded-full
     bg-[#A88249]
     px-6
+    text-sm
+    font-medium
     text-white
     transition-colors
     duration-200
     hover:bg-[#977640]
+    disabled:cursor-not-allowed
+    disabled:opacity-60
   "
 >
                     {saving ? (

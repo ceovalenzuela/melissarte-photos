@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { updateEvent } from "@/lib/events";
 import { Event } from "@/types/event";
+import { toast } from "sonner";
 
 interface Props {
   values: Event;
@@ -24,10 +25,12 @@ export default function EventWelcomeMessage({
         welcome_message: values.welcome_message,
       });
 
-      alert("Mensaje guardado");
+      toast.success("Mensaje actualizado.");
     } catch (error) {
       console.error(error);
-      alert("Ocurrió un error al guardar.");
+      toast.error(
+  "No fue posible actualizar el mensaje."
+);
     } finally {
       setSaving(false);
     }
@@ -67,7 +70,7 @@ export default function EventWelcomeMessage({
           outline-none
           transition-colors
           resize-none
-          focus:border-[#B08D57]
+          focus:border-[#A88249]
         "
       />
 
@@ -75,23 +78,23 @@ export default function EventWelcomeMessage({
         onClick={handleSave}
         disabled={saving}
         className="
-          h-12
-          rounded-full
-          bg-neutral-800
-          px-7
-          text-sm
-          font-medium
-          text-white
-          transition-colors
-          duration-200
-          hover:bg-black
-          disabled:cursor-not-allowed
-          disabled:opacity-60
-        "
+  h-12
+  rounded-full
+  bg-[#A88249]
+  px-7
+  text-sm
+  font-medium
+  text-white
+  transition-colors
+  duration-200
+  hover:bg-[#977640]
+  disabled:cursor-not-allowed
+  disabled:opacity-60
+"
       >
         {saving
           ? "Guardando..."
-          : "Guardar mensaje"}
+          : "Guardar cambios"}
       </button>
     </div>
   );

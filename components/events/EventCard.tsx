@@ -43,7 +43,7 @@ export default function EventCard({
               <Link
                 href={`/e/${event.slug}`}
                 target="_blank"
-                className="truncate text-[#B08D57] transition-colors hover:underline"
+                className="truncate text-[#A88249] transition-colors hover:underline"
               >
                 /e/{event.slug}
               </Link>
@@ -53,25 +53,27 @@ export default function EventCard({
 
         <div className="flex flex-wrap gap-3 self-start">
           <Link
-  href={`/dashboard/${event.slug}`}
-  className="
-    inline-flex
-    items-center
-    justify-center
-    rounded-full
-    bg-neutral-800
-    px-6
-    py-3
-    text-sm
-    font-medium
-    text-white
-    transition-colors
-    duration-200
-    hover:bg-black
-  "
->
-  Owner
-</Link>
+            href={`/dashboard/${event.slug}`}
+            className="
+              inline-flex
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-[#E7DCC8]
+              bg-white
+              px-6
+              py-3
+              text-sm
+              font-medium
+              text-[#5C554B]
+              transition-colors
+              duration-200
+              hover:bg-[#F7F3EC]
+            "
+          >
+            Vista del propietario
+          </Link>
 
           <Link
             href={`/admin/events/${event.id}`}
@@ -80,7 +82,7 @@ export default function EventCard({
               items-center
               gap-2
               rounded-full
-              bg-neutral-800
+              bg-[#A88249]
               px-7
               py-3
               text-sm
@@ -88,7 +90,7 @@ export default function EventCard({
               text-white
               transition-colors
               duration-200
-              hover:bg-black
+              hover:bg-[#977640]
             "
           >
             Administrar

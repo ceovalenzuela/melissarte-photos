@@ -54,7 +54,7 @@ export default function EventInfoForm({
             text-[#1F1F1F]
             outline-none
             transition-colors
-            focus:border-[#B08D57]
+            focus:border-[#A88249]
           "
           value={values.title}
           onChange={(e) =>
@@ -80,7 +80,7 @@ export default function EventInfoForm({
             text-[#1F1F1F]
             outline-none
             transition-colors
-            focus:border-[#B08D57]
+            focus:border-[#A88249]
           "
           value={values.slug}
           onChange={(e) =>
@@ -107,7 +107,7 @@ export default function EventInfoForm({
             text-[#1F1F1F]
             outline-none
             transition-colors
-            focus:border-[#B08D57]
+            focus:border-[#A88249]
           "
           value={values.event_date ?? ""}
           onChange={(e) =>
@@ -133,7 +133,7 @@ export default function EventInfoForm({
             text-[#1F1F1F]
             outline-none
             transition-colors
-            focus:border-[#B08D57]
+            focus:border-[#A88249]
           "
           value={values.type ?? ""}
           onChange={(e) =>
@@ -178,7 +178,7 @@ export default function EventInfoForm({
             text-[#1F1F1F]
             outline-none
             transition-colors
-            focus:border-[#B08D57]
+            focus:border-[#A88249]
           "
           value={values.status}
           onChange={(e) =>
@@ -202,23 +202,23 @@ export default function EventInfoForm({
 
       <div className="pt-2">
         <button
-          onClick={onSave}
-          disabled={saving}
-          className="
-            h-12
-            rounded-full
-            bg-neutral-800
-            px-7
-            text-sm
-            font-medium
-            text-white
-            transition-colors
-            duration-200
-            hover:bg-black
-            disabled:cursor-not-allowed
-            disabled:opacity-60
-          "
-        >
+  onClick={onSave}
+  disabled={saving}
+  className="
+    h-12
+    rounded-full
+    bg-[#A88249]
+    px-7
+    text-sm
+    font-medium
+    text-white
+    transition-colors
+    duration-200
+    hover:bg-[#977640]
+    disabled:cursor-not-allowed
+    disabled:opacity-60
+  "
+>
           {saving
             ? "Guardando..."
             : "Guardar cambios"}

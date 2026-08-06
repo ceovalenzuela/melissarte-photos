@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 
 import { uploadCover, updateEvent } from "@/lib/events";
 import { Event } from "@/types/event";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { ImageIcon } from "lucide-react";
 
 interface Props {
   values: Event;
@@ -16,6 +19,7 @@ export default function EventCover({
   onChange,
 }: Props) {
   const [uploading, setUploading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   async function handleFile(file: File) {
     try {
@@ -32,10 +36,12 @@ export default function EventCover({
         cover_image: url,
       });
 
-      alert("Portada actualizada");
+      toast.success("Portada actualizada.");
     } catch (error) {
       console.error(error);
-      alert("Ocurrió un error al subir la portada.");
+      toast.error(
+  "No fue posible actualizar la portada."
+);
     } finally {
       setUploading(false);
     }
@@ -57,7 +63,7 @@ export default function EventCover({
           alt="Portada del evento"
           width={1200}
           height={600}
-          className="aspect-video w-full object-cover"
+          className="aspect-video w-full rounded-2xl object-cover"
         />
       ) : (
         <div className="flex aspect-[16/9] w-full items-center justify-center rounded-3xl border border-dashed border-[#E7DCC8] bg-white text-[#7D7467]">
@@ -65,38 +71,51 @@ export default function EventCover({
 </div>
       )}
 
-      <label className="
-  inline-flex
-  h-12
-  cursor-pointer
-  items-center
-  justify-center
-  rounded-full
-  bg-neutral-800
-  px-7
-  text-sm
-  font-medium
-  text-white
-  transition-colors
-  duration-200
-  hover:bg-black
-">
-        {uploading ? "Subiendo..." : "Cambiar portada"}
+      <>
+  <input
+    ref={inputRef}
+    type="file"
+    accept="image/*"
+    className="hidden"
+    id="cover-upload"
+    disabled={uploading}
+    onChange={(e) => {
+      const file = e.target.files?.[0];
 
-        <input
-          type="file"
-          accept="image/*"
-          className="hidden"
-          disabled={uploading}
-          onChange={(e) => {
-            const file = e.target.files?.[0];
+      if (file) {
+        handleFile(file);
+      }
+    }}
+  />
 
-            if (file) {
-              handleFile(file);
-            }
-          }}
-        />
-      </label>
+  <Button
+  type="button"
+  disabled={uploading}
+  onClick={() => inputRef.current?.click()}
+  className="
+    h-12
+    rounded-full
+    bg-[#A88249]
+    px-7
+    text-sm
+    font-medium
+    text-white
+    transition-colors
+    duration-200
+    hover:bg-[#977640]
+    disabled:cursor-not-allowed
+    disabled:opacity-60
+  "
+>
+  {uploading ? (
+    "Subiendo..."
+  ) : (
+    <>
+      Cambiar portada
+    </>
+  )}
+</Button>
+</>
     </div>
   );
 }

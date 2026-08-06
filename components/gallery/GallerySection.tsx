@@ -9,7 +9,10 @@ import { subscribeToEventPhotos } from "@/lib/realtime";
 
 import PublicGallery from "./PublicGallery";
 import PhotoLightbox from "@/components/public/PhotoLightbox";
-import { ChevronDown } from "lucide-react";
+import {
+  Camera,
+  ChevronDown,
+} from "lucide-react";
 
 interface Props {
   event: Event;
@@ -25,6 +28,8 @@ export default function GallerySection({
   const [photos, setPhotos] = useState<Photo[]>([]);
 
   const [loading, setLoading] = useState(true);
+
+  const [error, setError] = useState(false);
 
   const [totalPhotos, setTotalPhotos] =
     useState(0);
@@ -46,34 +51,43 @@ const [loadingMore, setLoadingMore] =
   currentPage = 0,
   reset = false
 ) {
+  try {
+    setError(false);
+
     const result = await getPhotosByEvent(
-  event.id,
-  currentPage
-);
+      event.id,
+      currentPage
+    );
 
     const newPhotos = result.photos;
 
-if (reset) {
-  setPhotos(newPhotos);
-} else {
-  setPhotos((current) => [
-    ...current,
-    ...newPhotos,
-  ]);
-}
+    if (reset) {
+      setPhotos(newPhotos);
+    } else {
+      setPhotos((current) => [
+        ...current,
+        ...newPhotos,
+      ]);
+    }
 
-setHasMore(newPhotos.length === 40);
+    setHasMore(newPhotos.length === 40);
 
-setPage(currentPage);
+    setPage(currentPage);
 
     setTotalPhotos(result.total);
 
-onTotalPhotosChange?.(
-  result.total
-);
+    onTotalPhotosChange?.(
+      result.total
+    );
 
-setLoading(false);
+  } catch (error) {
+    console.error(error);
+
+    setError(true);
+  } finally {
+    setLoading(false);
   }
+}
 
   function handlePhotoClick(index: number) {
   window.history.pushState(
@@ -127,6 +141,34 @@ async function handleLoadMore() {
     );
   };
 }, []);
+
+if (error) {
+  return (
+    <div className="py-20 text-center">
+      <h2 className="text-2xl font-semibold text-[#1F1F1F]">
+        No fue posible cargar las fotografías
+      </h2>
+
+      <p className="mt-3 text-[#7D7467]">
+        Intenta nuevamente en unos momentos.
+      </p>
+    </div>
+  );
+}
+
+if (!loading && photos.length === 0) {
+  return (
+    <div className="py-20 text-center">
+      <h2 className="text-2xl font-semibold text-[#1F1F1F]">
+        Aún no hay fotografías
+      </h2>
+
+      <p className="mt-3 text-[#7D7467]">
+        Las fotografías compartidas durante el evento aparecerán aquí.
+      </p>
+    </div>
+  );
+}
 
   return (
   <>

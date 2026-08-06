@@ -68,7 +68,7 @@ export default function UploadButton({
   justify-center
   gap-3
   rounded-full
-  bg-neutral-800
+  bg-[#A88249]
   px-7
   text-sm
   font-medium
@@ -76,7 +76,7 @@ export default function UploadButton({
   shadow-sm
   transition-all
   duration-200
-  hover:bg-black
+  hover:bg-[#977640]
   active:scale-[0.98]
   disabled:cursor-not-allowed
   disabled:opacity-60

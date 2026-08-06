@@ -31,6 +31,7 @@ import {
 } from "@/lib/events";
 import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface Props {
   event: Event;
@@ -127,9 +128,12 @@ router.refresh();
         setCoverSaved(false);
       }, 1500);
     } catch (error) {
-      console.error(error);
-      alert("No fue posible actualizar la portada.");
-    } finally {
+  console.error(error);
+
+  toast.error(
+    "No fue posible actualizar la portada."
+  );
+} finally {
       setUploadingCover(false);
       e.target.value = "";
     }
@@ -169,7 +173,7 @@ router.refresh();
             <div className="mb-5 flex items-center gap-3">
               <ImageIcon
                 size={22}
-                className="text-[#B08D57]"
+                className="text-[#A88249]"
               />
 
               <h3 className="text-lg font-semibold text-[#1F1F1F]">
@@ -244,7 +248,7 @@ router.refresh();
             <div className="mb-5 flex items-center gap-3">
               <MessageSquare
                 size={22}
-                className="text-[#B08D57]"
+                className="text-[#A88249]"
               />
 
               <h3 className="text-lg font-semibold text-[#1F1F1F]">
@@ -293,7 +297,7 @@ router.refresh();
                     text-[#1F1F1F]
                     outline-none
                     transition-colors
-                    focus:border-[#B08D57]
+                    focus:border-[#A88249]
                   "
                 />
 
@@ -310,10 +314,18 @@ router.refresh();
                   </Button>
 
                   <Button
-                    onClick={handleSaveMessage}
-                    disabled={!hasChanges || saving}
-                    className="rounded-full px-6"
-                  >
+  onClick={handleSaveMessage}
+  disabled={!hasChanges || saving}
+  className="
+    rounded-full
+    bg-[#A88249]
+    px-6
+    text-white
+    transition-colors
+    duration-200
+    hover:bg-[#977640]
+  "
+>
                     {saving ? (
                       "Guardando..."
                     ) : saved ? (

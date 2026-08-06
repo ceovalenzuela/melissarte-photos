@@ -15,6 +15,7 @@ import {
 
 import CustomizationDialog from "@/components/owner/CustomizationDialog";
 import { Sparkles } from "lucide-react";
+import { toast } from "sonner";
 
 interface Props {
   event: Event;
@@ -34,26 +35,40 @@ export default function EventActions({
   const [total, setTotal] = useState(0);
 
   async function handleDownload() {
-    try {
-      setIsDownloading(true);
+  try {
+    setIsDownloading(true);
 
-      setCurrent(0);
-      setTotal(0);
+    setCurrent(0);
+    setTotal(0);
 
-      await downloadEventPhotos(event, {
-        onStatusChange(status) {
-          setStatus(status);
-        },
+    const result = await downloadEventPhotos(event, {
+  onStatusChange(status) {
+    setStatus(status);
+  },
 
-        onProgress(current, total) {
-          setCurrent(current);
-          setTotal(total);
-        },
-      });
-    } finally {
-      setIsDownloading(false);
-    }
+  onProgress(current, total) {
+    setCurrent(current);
+    setTotal(total);
+  },
+});
+
+if (!result.success) {
+  toast.info(
+    "Este evento aún no tiene fotografías."
+  );
+
+  return;
+}
+  } catch (error) {
+    console.error(error);
+
+    toast.error(
+  "No fue posible preparar la descarga."
+);
+  } finally {
+    setIsDownloading(false);
   }
+}
 
   function getTitle() {
   if (!isDownloading) {

@@ -85,17 +85,17 @@ export default function EventDialog({
   render={
     <Button
   className="
-    h-12
-    rounded-full
-    bg-neutral-800
-    px-7
-    text-sm
-    font-medium
-    text-white
-    transition-colors
-    duration-200
-    hover:bg-black
-  "
+  h-12
+  rounded-full
+  bg-[#A88249]
+  px-7
+  text-sm
+  font-medium
+  text-white
+  transition-colors
+  duration-200
+  hover:bg-[#977640]
+"
 >
   <Plus size={16} strokeWidth={2.5} />
   Nuevo evento
@@ -125,15 +125,18 @@ export default function EventDialog({
 
         <Button
   className="
-    mt-4
-    w-full
-    rounded-full
-    bg-neutral-800
-    py-3
-    text-sm
-    font-medium
-    hover:bg-black
-  "
+  mt-4
+  w-full
+  rounded-full
+  bg-[#A88249]
+  py-3
+  text-sm
+  font-medium
+  text-white
+  transition-colors
+  duration-200
+  hover:bg-[#977640]
+"
           disabled={loading}
           onClick={handleSubmit}
         >

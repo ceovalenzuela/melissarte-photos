@@ -69,10 +69,10 @@ variant = "single",
             {loading ? (
               <LoaderCircle
                 size={22}
-                className="animate-spin text-[#B08D57] [animation-duration:1.5s]"
+                className="animate-spin text-[#A88249] [animation-duration:1.5s]"
               />
             ) : (
-              <div className="text-[#7D7467]">
+              <div className="text-[#A88249]">
                 {icon}
               </div>
             )}

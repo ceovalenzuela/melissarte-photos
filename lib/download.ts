@@ -50,15 +50,21 @@ async function downloadPhoto(
 export async function downloadEventPhotos(
   event: Event,
   options?: DownloadOptions
-): Promise<void> {
+): Promise<
+  | { success: true }
+  | { success: false; reason: "NO_PHOTOS" }
+> {
+  try {
   options?.onStatusChange?.("preparing");
 
   const photos = await getAllPhotosByEvent(event.id);
 
   if (photos.length === 0) {
-    alert("Este evento no tiene fotografías.");
-    return;
-  }
+  return {
+    success: false,
+    reason: "NO_PHOTOS",
+  };
+}
 
   const zip = new JSZip();
 
@@ -104,5 +110,15 @@ export async function downloadEventPhotos(
 
   link.click();
 
-  URL.revokeObjectURL(link.href);
+URL.revokeObjectURL(link.href);
+
+return {
+  success: true,
+};
+
+} catch (error) {
+  console.error(error);
+
+  throw error;
+}
 }

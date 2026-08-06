@@ -60,7 +60,7 @@ export default function PublicEventClient({
         toast.success(
           `${result.success} fotografía${
             result.success !== 1 ? "s" : ""
-          } subida${
+          } compartida${
             result.success !== 1 ? "s" : ""
           } correctamente`
         );
@@ -76,7 +76,7 @@ export default function PublicEventClient({
     } catch (error) {
       console.error(error);
 
-      toast.error("Ocurrió un error al iniciar la carga.");
+      toast.error("No fue posible subir las fotografías.");
     } finally {
       setUploadState({
         uploading: false,

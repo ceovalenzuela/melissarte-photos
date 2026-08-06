@@ -243,3 +243,35 @@ export async function getPhotoCount(
 
   return count ?? 0;
 }
+
+export async function deletePhotosByEvent(
+  eventId: string
+) {
+  const photos = await getAllPhotosByEvent(eventId);
+
+  if (photos.length > 0) {
+    const paths = photos.flatMap((photo) => [
+      photo.file_path,
+      photo.thumbnail_path,
+    ]);
+
+    const { error: storageError } =
+      await supabase.storage
+        .from("event-photos")
+        .remove(paths);
+
+    if (storageError) {
+      throw storageError;
+    }
+
+    const { error: photosError } =
+      await supabase
+        .from("photos")
+        .delete()
+        .eq("event_id", eventId);
+
+    if (photosError) {
+      throw photosError;
+    }
+  }
+}

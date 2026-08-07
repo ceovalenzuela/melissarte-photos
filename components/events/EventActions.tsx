@@ -46,8 +46,6 @@ export default function EventActions({
 
   const [qrOpen, setQrOpen] = useState(false);
 
-  const [historyAdded, setHistoryAdded] = useState(false);
-
   const [qrImage, setQrImage] = useState("");
 
   async function handleDownload() {
@@ -97,7 +95,6 @@ async function handleCopyLink() {
 
 toast.success("Enlace copiado.");
 
-window.history.back();
 setQrOpen(false);
   } catch (error) {
     console.error(error);
@@ -162,48 +159,12 @@ useEffect(() => {
   generateQr();
 }, [qrOpen, event.slug]);
 
-useEffect(() => {
-  if (!qrOpen || historyAdded) {
-    return;
-  }
-
-  window.history.pushState(
-    { qrDialog: true },
-    ""
-  );
-
-  setHistoryAdded(true);
-
-  const handlePopState = () => {
-    setQrOpen(false);
-    setHistoryAdded(false);
-  };
-
-  window.addEventListener(
-    "popstate",
-    handlePopState
-  );
-
-  return () => {
-    window.removeEventListener(
-      "popstate",
-      handlePopState
-    );
-  };
-}, [qrOpen, historyAdded]);
-
   return (
     <div className="overflow-hidden rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] shadow-sm">
 
   <Dialog
   open={qrOpen}
-  onOpenChange={(open) => {
-    setQrOpen(open);
-
-    if (!open) {
-      setHistoryAdded(false);
-    }
-  }}
+  onOpenChange={setQrOpen}
 >
   <DialogContent className="max-w-md rounded-3xl px-6 pb-6 pt-5">
     <DialogHeader className="space-y-2">
@@ -231,7 +192,6 @@ useEffect(() => {
   <button
     onClick={() => {
       downloadEventQrCard(event);
-      window.history.back();
       setQrOpen(false);
     }}
     className="

@@ -14,6 +14,8 @@ import GallerySection from "@/components/gallery/GallerySection";
 
 import EventSummaryCard from "@/components/events/EventSummaryCard";
 
+import { useRouter } from "next/navigation";
+
 interface PublicEventClientProps {
   event: Event;
 }
@@ -32,7 +34,8 @@ export default function PublicEventClient({
     completed: 0,
     total: 0,
   });
-
+  
+  const router = useRouter();
   const [totalPhotos, setTotalPhotos] =
   useState(0);
 
@@ -64,12 +67,26 @@ const totalPlural =
 
       if (result.success === result.total) {
   toast.success(
-    `${result.success} fotografía${successPlural} subida${successPlural}.`
+    `${result.success} fotografía${
+      result.success !== 1 ? "s" : ""
+    } subida${
+      result.success !== 1 ? "s" : ""
+    }.`
   );
+
+  router.refresh();
+
 } else if (result.success > 0) {
   toast.warning(
-    `${result.success} de ${result.total} fotografía${totalPlural} subida${successPlural}.\nReintenta las ${result.failed.length} restantes.`
+    `${result.success} de ${result.total} fotografía${
+      result.total !== 1 ? "s" : ""
+    } subida${
+      result.success !== 1 ? "s" : ""
+    }.\nReintenta las ${result.failed.length} restantes.`
   );
+
+  router.refresh();
+
 } else {
   toast.error(
     "No fue posible subir las fotografías."
@@ -78,7 +95,7 @@ const totalPlural =
     } catch (error) {
       console.error(error);
 
-      toast.error("No fue posible subir las fotografías.");
+      toast.error("Ocurrió un error. Revisa tu conexión e intenta nuevamente.");
     } finally {
       setUploadState({
         uploading: false,

@@ -52,11 +52,11 @@ export default function EventHero({
         )}
 
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/65" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/65" />
 
         {/* Título */}
         <div className="absolute inset-x-0 top-0 px-8 pt-10 text-white">
-          <h1 className="max-w-[80%] text-[30px] font-medium leading-tight tracking-tight md:text-4xl">
+          <h1 className="max-w-[80%] text-[30px] font-semibold leading-tight tracking-tight md:text-4xl">
             {event.title}
           </h1>
         </div>

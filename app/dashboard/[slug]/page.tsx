@@ -26,19 +26,21 @@ export default async function ClientDashboardPage({
   const photoCount = await getPhotoCount(event.id);
 
   return (
-    <main className="min-h-screen bg-gray-50">
+   <main className="min-h-screen bg-gray-50">
   <div className="mx-auto max-w-6xl px-4 py-6">
     <EventHero
-  event={event}
-  photoCount={photoCount}
-  showWelcomeMessage={false}
-/>
+      event={event}
+      photoCount={photoCount}
+      showWelcomeMessage={false}
+    />
 
-    <div className="mx-auto mt-6 max-w-3xl">
+    {/* Tarjeta */}
+    <div className="-mt-6 relative z-20 mx-auto w-[92%] max-w-3xl">
       <EventActions event={event} />
     </div>
 
-    <div className="mx-auto mt-5 max-w-6xl">
+    {/* Galería */}
+    <div className="mx-auto mt-8 max-w-6xl">
       <GallerySection event={event} />
     </div>
   </div>

@@ -160,7 +160,7 @@ useEffect(() => {
 }, [qrOpen, event.slug]);
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] shadow-sm">
+    <div className="overflow-hidden rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] shadow-lg">
 
   <Dialog
   open={qrOpen}

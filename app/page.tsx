@@ -220,12 +220,8 @@ export default function HomePage() {
             ¿Te gustaría ofrecer esta experiencia en tu evento?
           </h2>
 
-          <p className="mt-4 text-lg text-[#5C554B]">
-            Estamos listos para ayudarte.
-          </p>
-
           <Link
-            href="https://wa.me/521XXXXXXXXXX?text=Hola,%20me%20gustaría%20recibir%20información%20sobre%20MelissArte%20Photos."
+            href="https://wa.me/525649445427?text=Hola,%20me%20gustaría%20recibir%20información%20sobre%20MelissArte%20Photos."
             target="_blank"
             className="inline-block"
           >
@@ -239,7 +235,7 @@ export default function HomePage() {
                 hover:bg-[#977640]
               "
             >
-              Solicitar información
+              Solicita información
             </Button>
           </Link>
 
@@ -260,7 +256,7 @@ export default function HomePage() {
           <div className="mt-8 flex flex-wrap justify-center gap-8">
 
             <a
-              href="https://wa.me/521XXXXXXXXXX"
+              href="https://wa.me/525649445427"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-[#5C554B] transition-colors hover:text-[#A88249]"
@@ -270,7 +266,7 @@ export default function HomePage() {
             </a>
 
             <a
-              href="mailto:contacto@melissarte.com"
+              href="mailto:melissartedecorativo@gmail.com"
               className="flex items-center gap-2 text-[#5C554B] transition-colors hover:text-[#A88249]"
             >
               <Mail size={18} />

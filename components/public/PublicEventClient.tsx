@@ -56,21 +56,19 @@ export default function PublicEventClient({
         }
       );
 
+const successPlural =
+  result.success !== 1 ? "s" : "";
+
+const totalPlural =
+  result.total !== 1 ? "s" : "";
+
       if (result.success === result.total) {
   toast.success(
-    `${result.success} fotografía${
-      result.success !== 1 ? "s" : ""
-    } subida${
-      result.success !== 1 ? "s" : ""
-    }.`
+    `${result.success} fotografía${successPlural} subida${successPlural}.`
   );
 } else if (result.success > 0) {
   toast.warning(
-    `${result.success} de ${result.total} fotografía${
-      result.total !== 1 ? "s" : ""
-    } subida${
-      result.success !== 1 ? "s" : ""
-    }.\n${result.failed.length} no pudieron subirse.`
+    `${result.success} de ${result.total} fotografía${totalPlural} subida${successPlural}.\nReintenta las ${result.failed.length} restantes.`
   );
 } else {
   toast.error(

@@ -89,13 +89,13 @@ const totalPlural =
 
 } else {
   toast.error(
-    "No fue posible subir las fotografías."
+    "Ocurrió un error. Revisa tu conexión e intenta nuevamente."
   );
 }
     } catch (error) {
       console.error(error);
 
-      toast.error("Ocurrió un error. Revisa tu conexión e intenta nuevamente.");
+      toast.error("No fue posible subir las fotografías. Intenta nuevamente");
     } finally {
       setUploadState({
         uploading: false,

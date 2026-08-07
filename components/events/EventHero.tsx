@@ -15,7 +15,6 @@ interface Props {
 export default function EventHero({
   event,
   photoCount = 0,
-  showWelcomeMessage = true,
 }: Props) {
   const [loaded, setLoaded] = useState(false);
 
@@ -52,14 +51,19 @@ export default function EventHero({
           <div className="h-full w-full bg-gradient-to-br from-zinc-800 via-zinc-900 to-black" />
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/65" />
 
-        <div className="absolute inset-x-0 bottom-0 px-8 pb-12 pt-16 text-white">
-          <h1 className="text-4xl font-semibold tracking-tight md:text-[3.25rem]">
+        {/* Título */}
+        <div className="absolute inset-x-0 top-0 px-8 pt-10 text-white">
+          <h1 className="max-w-[80%] text-[30px] font-medium leading-tight tracking-tight md:text-4xl">
             {event.title}
           </h1>
+        </div>
 
-          <div className="mt-4 flex items-center gap-2 text-base text-white/90">
+        {/* Información */}
+        <div className="absolute inset-x-0 bottom-0 px-8 pb-10 text-white">
+          <div className="flex items-center gap-2 text-base text-white/90">
             <CalendarDays size={18} />
             <span>{formattedDate}</span>
           </div>
@@ -67,15 +71,14 @@ export default function EventHero({
           <div className="mt-4">
             <div
               className="
-  inline-flex
-  rounded-full
-  border
-  border-white/15
-  bg-white/10
-  px-3
-  py-1.5
-  backdrop-blur-lg
-
+                inline-flex
+                rounded-full
+                border
+                border-white/15
+                bg-white/10
+                px-3
+                py-1.5
+                backdrop-blur-lg
               "
             >
               <span className="text-sm font-medium text-white">

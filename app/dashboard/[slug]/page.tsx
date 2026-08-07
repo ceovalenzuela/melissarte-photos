@@ -5,6 +5,7 @@ import EventActions from "@/components/events/EventActions";
 import { getEventBySlug } from "@/lib/events";
 import { getPhotoCount } from "@/lib/photos";
 import GallerySection from "@/components/gallery/GallerySection";
+import Footer from "@/components/public/Footer";
 
 interface Props {
   params: Promise<{
@@ -43,6 +44,9 @@ export default async function ClientDashboardPage({
     <div className="mx-auto mt-8 max-w-6xl">
       <GallerySection event={event} />
     </div>
+    <div className="mt-8">
+  <Footer />
+</div>
   </div>
 </main>
   );

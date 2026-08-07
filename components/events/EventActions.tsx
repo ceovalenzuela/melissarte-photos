@@ -1,12 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Download, QrCode, Share2 } from "lucide-react";
+import { Download, QrCode } from "lucide-react";
 
 import { Event } from "@/types/event";
 import ActionCard from "@/components/owner/ActionCard";
-import { share } from "@/lib/share";
-import { getEventUrl } from "@/lib/urls";
 import { downloadEventQrCard } from "@/lib/qr";
 import {
   downloadEventPhotos,
@@ -16,6 +14,18 @@ import {
 import CustomizationDialog from "@/components/owner/CustomizationDialog";
 import { Sparkles } from "lucide-react";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
+import { useEffect } from "react";
+
+import QRCode from "qrcode";
+import { getEventUrl } from "@/lib/urls";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   event: Event;
@@ -33,6 +43,12 @@ export default function EventActions({
   const [current, setCurrent] = useState(0);
 
   const [total, setTotal] = useState(0);
+
+  const [qrOpen, setQrOpen] = useState(false);
+
+  const [historyAdded, setHistoryAdded] = useState(false);
+
+  const [qrImage, setQrImage] = useState("");
 
   async function handleDownload() {
   try {
@@ -70,6 +86,26 @@ if (!result.success) {
   }
 }
 
+async function handleCopyLink() {
+  try {
+    const url = getEventUrl(
+      window.location.origin,
+      event.slug
+    );
+
+    await navigator.clipboard.writeText(url);
+
+toast.success("Enlace copiado.");
+
+window.history.back();
+  } catch (error) {
+    console.error(error);
+
+    toast.error(
+      "No fue posible copiar el enlace."
+    );
+  }
+}
   function getTitle() {
   if (!isDownloading) {
     return "Descargar fotografías";
@@ -104,31 +140,141 @@ if (!result.success) {
   }
 }
 
+useEffect(() => {
+  if (!qrOpen) return;
+
+  async function generateQr() {
+    const url = getEventUrl(
+      window.location.origin,
+      event.slug
+    );
+
+    const dataUrl = await QRCode.toDataURL(url, {
+      width: 500,
+      margin: 1,
+      errorCorrectionLevel: "H",
+    });
+
+    setQrImage(dataUrl);
+  }
+
+  generateQr();
+}, [qrOpen, event.slug]);
+
+useEffect(() => {
+  if (!qrOpen || historyAdded) {
+    return;
+  }
+
+  window.history.pushState(
+    { qrDialog: true },
+    ""
+  );
+
+  setHistoryAdded(true);
+
+  const handlePopState = () => {
+    setQrOpen(false);
+    setHistoryAdded(false);
+  };
+
+  window.addEventListener(
+    "popstate",
+    handlePopState
+  );
+
+  return () => {
+    window.removeEventListener(
+      "popstate",
+      handlePopState
+    );
+  };
+}, [qrOpen, historyAdded]);
+
   return (
     <div className="overflow-hidden rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] shadow-sm">
-      <ActionCard
-  variant="top"
-  icon={<Share2 size={22} />}
-  title="Compartir galería"
-  description="Comparte el enlace con tus invitados."
-  onClick={() =>
-    share({
-      title: event.title,
-      text: "Mira las fotos de nuestro evento.",
-      url: getEventUrl(
-        window.location.origin,
-        event.slug
-      ),
-    })
-  }
-/>
+
+  <Dialog
+  open={qrOpen}
+  onOpenChange={(open) => {
+    setQrOpen(open);
+
+    if (!open) {
+      setHistoryAdded(false);
+    }
+  }}
+>
+  <DialogContent className="max-w-md rounded-3xl px-6 pb-6 pt-5">
+    <DialogHeader className="space-y-2">
+      <DialogTitle className="text-center text-xl">
+        Código QR
+      </DialogTitle>
+    </DialogHeader>
+
+    <p className="mt-1 text-center text-sm leading-6 text-[#7D7467]">
+  Comparte este código QR o copia el enlace para que tus invitados puedan subir y ver las fotografías del evento.
+</p>
+
+<div className="mt-3 flex justify-center">
+  {qrImage && (
+    <img
+      src={qrImage}
+      alt="Código QR"
+      className="h-72 w-72 rounded-2xl border border-[#E7DCC8] bg-white p-3"
+    />
+  )}
+</div>
+
+<div className="mt-6 space-y-3">
+
+  <button
+    onClick={() => {
+      downloadEventQrCard(event);
+      window.history.back();
+    }}
+    className="
+      h-12
+      w-full
+      rounded-full
+      bg-[#A88249]
+      text-white
+      font-medium
+      transition-colors
+      hover:bg-[#977640]
+    "
+  >
+    Descargar QR
+  </button>
+
+  <button
+    onClick={handleCopyLink}
+    className="
+      h-12
+      w-full
+      rounded-full
+      border
+      border-[#E7DCC8]
+      bg-white
+      text-[#5C554B]
+      font-medium
+      transition-colors
+      hover:bg-[#F7F3EC]
+    "
+  >
+    Copiar enlace
+  </button>
+
+</div>
+
+  </DialogContent>
+</Dialog>
 
 <ActionCard
-  variant="middle"
+  variant="top"
   icon={<QrCode size={22} />}
-  title="Descargar código QR"
-  description="Obtén un código QR listo para imprimir."
-  onClick={() => downloadEventQrCard(event)}
+  title="Código QR"
+  description="Comparte tu galería mediante un código QR o copia el enlace."
+  onClick={() => setQrOpen(true)}
 />
 
 <ActionCard

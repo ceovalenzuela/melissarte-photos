@@ -56,23 +56,27 @@ export default function PublicEventClient({
         }
       );
 
-      if (result.failed.length === 0) {
-        toast.success(
-          `${result.success} fotografía${
-            result.success !== 1 ? "s" : ""
-          } compartida${
-            result.success !== 1 ? "s" : ""
-          } correctamente`
-        );
-      } else {
-        toast.warning(
-          `Carga completada. ${result.success} fotografía${
-            result.success !== 1 ? "s" : ""
-          } subida${
-            result.success !== 1 ? "s" : ""
-          }. ${result.failed.length} no pudieron subirse.`
-        );
-      }
+      if (result.success === result.total) {
+  toast.success(
+    `${result.success} fotografía${
+      result.success !== 1 ? "s" : ""
+    } subida${
+      result.success !== 1 ? "s" : ""
+    }.`
+  );
+} else if (result.success > 0) {
+  toast.warning(
+    `${result.success} de ${result.total} fotografía${
+      result.total !== 1 ? "s" : ""
+    } subida${
+      result.success !== 1 ? "s" : ""
+    }.\n${result.failed.length} no pudieron subirse.`
+  );
+} else {
+  toast.error(
+    "No fue posible subir las fotografías."
+  );
+}
     } catch (error) {
       console.error(error);
 

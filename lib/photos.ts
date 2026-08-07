@@ -33,8 +33,6 @@ export interface Photo {
   uploaded_at: string;
 }
 
-const BATCH_SIZE = 3;
-
 function buildFilePath(
   eventId: string,
   folder: "originals" | "thumbnails",
@@ -135,49 +133,35 @@ export async function uploadPhotos(
   const total = files.length;
   let completed = 0;
 
-  for (
-    let i = 0;
-    i < files.length;
-    i += BATCH_SIZE
-  ) {
-    const batch = files.slice(
-      i,
-      i + BATCH_SIZE
+  for (const file of files) {
+  try {
+    const publicUrl = await processPhoto(
+      eventId,
+      file
     );
 
-    await Promise.all(
-      batch.map(async (file) => {
-        try {
-          const publicUrl =
-            await processPhoto(
-              eventId,
-              file
-            );
-
-          uploaded.push(publicUrl);
-        } catch (error) {
-          console.error(
-            "Error al subir la fotografía:",
-            file.name,
-            error
-          );
-
-          failed.push({
-            file,
-            message:
-              "No se pudo subir la fotografía.",
-          });
-        } finally {
-          completed++;
-
-          onProgress?.({
-            completed,
-            total,
-          });
-        }
-      })
+    uploaded.push(publicUrl);
+  } catch (error) {
+    console.error(
+      "Error al subir la fotografía:",
+      file.name,
+      error
     );
+
+    failed.push({
+      file,
+      message:
+        "No se pudo subir la fotografía.",
+    });
+  } finally {
+    completed++;
+
+    onProgress?.({
+      completed,
+      total,
+    });
   }
+}
 
   return {
     uploaded,

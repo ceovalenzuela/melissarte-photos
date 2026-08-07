@@ -98,6 +98,7 @@ async function handleCopyLink() {
 toast.success("Enlace copiado.");
 
 window.history.back();
+setQrOpen(false);
   } catch (error) {
     console.error(error);
 
@@ -231,6 +232,7 @@ useEffect(() => {
     onClick={() => {
       downloadEventQrCard(event);
       window.history.back();
+      setQrOpen(false);
     }}
     className="
       h-12

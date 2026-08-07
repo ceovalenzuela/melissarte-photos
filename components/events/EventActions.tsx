@@ -262,7 +262,7 @@ useEffect(() => {
       variant="last"
       icon={<Sparkles size={22} />}
       title="Portada y bienvenida"
-      description="Personaliza la portada y el mensaje que verán tus invitados."
+      description="Personaliza la portada y el mensaje para tus invitados."
     />
   }
 />

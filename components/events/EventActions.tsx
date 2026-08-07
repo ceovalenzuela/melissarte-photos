@@ -261,8 +261,8 @@ useEffect(() => {
     <ActionCard
       variant="last"
       icon={<Sparkles size={22} />}
-      title="Personalizar galería"
-      description="Edita la portada y el mensaje de bienvenida."
+      title="Portada y bienvenida"
+      description="Personaliza la portada y el mensaje que verán tus invitados."
     />
   }
 />

@@ -67,7 +67,7 @@ export default function EventHero({
 
         {/* Título */}
         <div className="absolute inset-x-0 top-0 px-8 pt-10 text-white">
-          <h1 className="max-w-[80%] text-[27px] font-semibold leading-tight tracking-tight md:text-4xl">
+          <h1 className="max-w-[80%] text-[27px] font-semibold leading-tight tracking-tight text-white/90 md:text-4xl">
             {event.title}
           </h1>
         </div>

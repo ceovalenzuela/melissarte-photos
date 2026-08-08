@@ -3,7 +3,9 @@ import QRCode from "qrcode";
 import { Event } from "@/types/event";
 import { getEventUrl } from "@/lib/urls";
 
-async function loadImage(src: string): Promise<HTMLImageElement> {
+async function loadImage(
+  src: string
+): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const image = new Image();
 
@@ -45,7 +47,7 @@ export async function downloadEventQrCard(
   }
 
   // ===================================
-  // Calidad máxima
+  // Calidad
   // ===================================
 
   ctx.imageSmoothingEnabled = true;
@@ -56,71 +58,70 @@ export async function downloadEventQrCard(
   // ===================================
 
   ctx.fillStyle = "#FFFFFF";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
 
   // ===================================
-// Logo
-// ===================================
+  // Logo
+  // ===================================
 
-const logoWidth = 700;
+  const logoWidth = 420;
 
-const logoHeight =
-  (logo.height / logo.width) * logoWidth;
+  const logoHeight =
+    (logo.height / logo.width) * logoWidth;
 
-const logoY = 50;
+  const logoY = 80;
 
-ctx.drawImage(
-  logo,
-  (canvas.width - logoWidth) / 2,
-  logoY,
-  logoWidth,
-  logoHeight
-);
-
-// Punto donde termina el logo
-const headerBottom =
-  logoY + logoHeight + 35;
+  ctx.drawImage(
+    logo,
+    (canvas.width - logoWidth) / 2,
+    logoY,
+    logoWidth,
+    logoHeight
+  );
 
   // ===================================
   // Evento
   // ===================================
 
+  const eventY =
+    logoY + logoHeight + 90;
+
   ctx.fillStyle = "#111827";
   ctx.textAlign = "center";
-  ctx.font = "bold 82px Arial";
+  ctx.font = "bold 72px Arial";
 
   ctx.fillText(
     event.title,
     canvas.width / 2,
-    headerBottom
+    eventY
   );
 
   // ===================================
-  // Mensaje
+  // Descripción
   // ===================================
 
-  ctx.fillStyle = "#4B5563";
-  ctx.font = "58px Arial";
+  ctx.fillStyle = "#6B7280";
+  ctx.font = "42px Arial";
 
   ctx.fillText(
-    "Escanea para vivir",
+    "Escanea para acceder a la galería",
     canvas.width / 2,
-    headerBottom + 90
-  );
-
-  ctx.fillText(
-    "y compartir este momento",
-    canvas.width / 2,
-    headerBottom + 165
+    eventY + 75
   );
 
   // ===================================
   // QR
   // ===================================
 
-  const qrSize = 1250;
+  const qrSize = 1350;
 
-  const qrY = headerBottom + 180;
+  const qrY = eventY + 150;
 
   ctx.drawImage(
     qrImage,
@@ -135,12 +136,12 @@ const headerBottom =
   // ===================================
 
   ctx.fillStyle = "#6B7280";
-  ctx.font = "42px Arial";
+  ctx.font = "36px Arial";
 
   ctx.fillText(
     url.replace(/^https?:\/\//, ""),
     canvas.width / 2,
-    qrY + qrSize + 60
+    qrY + qrSize + 90
   );
 
   // ===================================

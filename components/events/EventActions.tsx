@@ -123,7 +123,7 @@ setQrOpen(false);
 
   function getDescription() {
   if (!isDownloading) {
-    return "Descarga un archivo contodas las fotografías del evento.";
+    return "Descarga un archivo con todas las fotografías del evento.";
   }
 
   switch (status) {

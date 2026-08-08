@@ -107,7 +107,7 @@ export async function downloadEventQrCard(
   // ===================================
 
   ctx.fillStyle = "#6B7280";
-  ctx.font = "42px Arial";
+  ctx.font = "62px Arial";
 
   ctx.fillText(
     "Escanea para acceder a la galería",
@@ -136,7 +136,7 @@ export async function downloadEventQrCard(
   // ===================================
 
   ctx.fillStyle = "#6B7280";
-  ctx.font = "36px Arial";
+  ctx.font = "42px Arial";
 
   ctx.fillText(
     url.replace(/^https?:\/\//, ""),

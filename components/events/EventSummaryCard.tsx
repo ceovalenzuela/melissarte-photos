@@ -14,7 +14,7 @@ export default function EventSummaryCard({
       <div className="rounded-3xl bg-[#FDFBF8] p-5 shadow-lg">
         {welcomeMessage && (
           <>
-            <p className="px-2 text-center leading-relaxed text-[#5C554B]">
+            <p className="whitespace-pre-wrap px-2 text-center leading-relaxed text-[#5C554B]">
               {welcomeMessage}
             </p>
 

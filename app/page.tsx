@@ -278,10 +278,6 @@ export default function HomePage() {
 
           </div>
 
-          <p className="mt-10 text-center text-sm text-[#A39A8E]">
-            © 2026 MelissArte Photos
-          </p>
-
         </footer>
 
       </div>

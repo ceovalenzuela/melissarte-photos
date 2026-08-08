@@ -83,6 +83,12 @@ const [uploadingCover, setUploadingCover] =
     message.trim() !== originalMessage.trim();
 
   async function handleSaveMessage() {
+    if (message.length > 150) {
+  toast.error(
+    "El mensaje no puede exceder 150 caracteres."
+  );
+  return;
+}
     try {
       setSaving(true);
 
@@ -320,26 +326,38 @@ router.refresh();
               </>
             ) : (
               <>
-                <textarea
-                  value={message}
-                  onChange={(e) =>
-                    setMessage(e.target.value)
-                  }
-                  rows={5}
-                  className="
-                    resize-none
-                    w-full
-                    rounded-2xl
-                    border
-                    border-[#E7DCC8]
-                    bg-white
-                    p-4
-                    text-[#1F1F1F]
-                    outline-none
-                    transition-colors
-                    focus:border-[#A88249]
-                  "
-                />
+<textarea
+  value={message}
+  onChange={(e) => setMessage(e.target.value)}
+  maxLength={150}
+  placeholder="Escribe un mensaje para recibir a tus invitados..."
+  rows={5}
+  className="
+    w-full
+    resize-none
+    rounded-2xl
+    border
+    border-[#E7DCC8]
+    bg-white
+    p-4
+    text-[#1F1F1F]
+    outline-none
+    transition-colors
+    focus:border-[#A88249]
+  "
+/>
+
+<div className="mt-2 flex justify-end">
+  <span
+    className={`text-xs ${
+      message.length >= 130
+        ? "text-[#A88249]"
+        : "text-[#7D7467]"
+    }`}
+  >
+    {message.length} / 150 caracteres
+  </span>
+</div>
 
                 <div className="mt-6 flex justify-end gap-3">
                   <Button

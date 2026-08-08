@@ -68,7 +68,7 @@ console.log("USER AFTER LOGIN:", user);
     className="mx-auto h-auto w-[180px]"
   />
 
-  <p className="mt-2 text-sm text-[#7D7467]">
+  <p className="mt-1 text-sm text-[#7D7467]">
     Inicia sesión para administrar tus galerías.
   </p>
 </div>

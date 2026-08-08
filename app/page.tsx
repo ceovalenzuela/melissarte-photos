@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export default function HomePage() {
   return (
@@ -15,36 +16,33 @@ export default function HomePage() {
 
         {/* Hero */}
 
-        <section className="py-10 text-center">
+  <section className="py-10 text-center">
 
-          <div className="mb-6 flex justify-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#F7F3EC]">
-              <Camera
-                size={30}
-                className="text-[#A88249]"
-              />
-            </div>
-          </div>
+  <div className="mb-3 flex justify-center">
+  <Image
+    src="/me-logo.png"
+    alt="MelissArte Photos"
+    width={300}
+    height={110}
+    className="h-auto w-[220px]"
+  />
+</div>
 
-          <p className="text-lg font-semibold tracking-wide text-[#A88249]">
-            MelissArte Photos
-          </p>
+<h1 className="text-3xl font-semibold leading-tight tracking-tight text-[#1F1F1F] md:text-4xl">
+  Revive cada momento
+  <br />
+  de tu evento.
+</h1>
 
-          <h1 className="mt-5 text-4xl font-semibold leading-tight tracking-tight text-[#1F1F1F] md:text-5xl">
-            Revive cada momento
-            <br />
-            de tu evento.
-          </h1>
+  <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#5C554B]">
+    Comparte las mejores fotografías de tu evento junto con tus invitados, desde cualquier dispositivo y sin instalar aplicaciones.
+  </p>
 
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#5C554B]">
-            Comparte las mejores fotografías de tu evento junto con tus invitados, desde cualquier dispositivo y sin instalar aplicaciones.
-          </p>
+  <p className="mt-5 text-sm font-medium text-[#7D7467]">
+    Ideal para bodas, XV años, cumpleaños y eventos corporativos.
+  </p>
 
-          <p className="mt-5 text-sm font-medium text-[#7D7467]">
-            Ideal para bodas, XV años, cumpleaños y eventos corporativos.
-          </p>
-
-        </section>
+</section>
 
         {/* Beneficios */}
 
@@ -244,16 +242,21 @@ export default function HomePage() {
         {/* Footer */}
 
         <footer className="mt-20 border-t border-[#E7DCC8] py-8">
+  <div className="flex justify-center">
+    <Image
+      src="/me-logo.png"
+      alt="MelissArte Photos"
+      width={140}
+      height={50}
+      className="h-auto w-[100px]"
+    />
+  </div>
 
-          <h3 className="text-center text-xl font-semibold text-[#1F1F1F]">
-            MelissArte Photos
-          </h3>
+  <p className="mt-1 text-center text-sm text-[#7D7467]">
+    Un servicio de MelissArte.
+  </p>
 
-          <p className="mt-2 text-center text-[#7D7467]">
-            Un servicio de MelissArte.
-          </p>
-
-          <div className="mt-8 flex flex-wrap justify-center gap-8">
+  <div className="mt-8 flex flex-wrap justify-center gap-8">
 
             <a
               href="https://wa.me/525649445427"

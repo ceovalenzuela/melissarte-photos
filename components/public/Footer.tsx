@@ -11,7 +11,7 @@ export default function Footer() {
         className="mx-auto h-auto w-[90px]"
       />
 
-      <p className="mt-2 text-xs text-neutral-400">
+      <p className="mt-1 text-xs text-neutral-400">
         Álbum colaborativo para eventos
       </p>
     </footer>

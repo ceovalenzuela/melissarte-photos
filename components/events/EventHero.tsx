@@ -55,7 +55,7 @@ export default function EventHero({
 <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/65" />
 
 {/* Logo */}
-<div className="absolute right-8 top-6 z-10 md:right-10 md:top-2">
+<div className="absolute right-5 top-5 z-10 md:right-9 md:top-2">
   <Image
     src="/me-logo.png"
     alt="MelissArte Photos"

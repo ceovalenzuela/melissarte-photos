@@ -125,27 +125,27 @@ export default function EventDialog({
 
         <Button
   className="
-  mt-4
-  w-full
-  rounded-full
-  bg-[#A88249]
-  py-3
-  text-sm
-  font-medium
-  text-white
-  transition-colors
-  duration-200
-  hover:bg-[#977640]
-"
-          disabled={loading}
-          onClick={handleSubmit}
-        >
-          {loading
-            ? "Guardando..."
-            : mode === "create"
-            ? "Crear evento"
-            : "Guardar cambios"}
-        </Button>
+    mt-4
+    h-14
+    w-full
+    rounded-full
+    bg-[#A88249]
+    text-base
+    font-medium
+    text-white
+    transition-colors
+    duration-200
+    hover:bg-[#977640]
+  "
+  disabled={loading}
+  onClick={handleSubmit}
+>
+  {loading
+    ? "Guardando..."
+    : mode === "create"
+    ? "Crear evento"
+    : "Guardar cambios"}
+</Button>
       </DialogContent>
     </Dialog>
   );

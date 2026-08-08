@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { signIn } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
+import Image from "next/image";
 
 export default function LoginPage() {
     
@@ -59,14 +60,18 @@ console.log("USER AFTER LOGIN:", user);
     <main className="flex min-h-screen items-center justify-center bg-[#FDFBF8] px-6">
       <div className="w-full max-w-md rounded-3xl border border-[#E7DCC8] bg-white p-8 shadow-sm">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-semibold text-[#1F1F1F]">
-            MelissArte Photos
-          </h1>
+  <Image
+    src="/me-logo.png"
+    alt="MelissArte Photos"
+    width={220}
+    height={80}
+    className="mx-auto h-auto w-[180px]"
+  />
 
-          <p className="mt-2 text-sm text-[#7D7467]">
-            Inicia sesión para administrar tus galerías.
-          </p>
-        </div>
+  <p className="mt-2 text-sm text-[#7D7467]">
+    Inicia sesión para administrar tus galerías.
+  </p>
+</div>
 
         <form
   onSubmit={handleSubmit}

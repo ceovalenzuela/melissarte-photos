@@ -1,20 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { startTransition, useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { Event } from "@/types/event";
 
 import UploadButton from "./UploadButton";
-
-import { toast } from "sonner";
-
-import { uploadPhotos } from "@/lib/photos";
-
+import EventSummaryCard from "@/components/events/EventSummaryCard";
 import GallerySection from "@/components/gallery/GallerySection";
 
-import EventSummaryCard from "@/components/events/EventSummaryCard";
-
-import { useRouter } from "next/navigation";
+import { uploadPhotos } from "@/lib/photos";
 
 interface PublicEventClientProps {
   event: Event;
@@ -29,15 +25,14 @@ interface UploadState {
 export default function PublicEventClient({
   event,
 }: PublicEventClientProps) {
-  const [uploadState, setUploadState] = useState<UploadState>({
-    uploading: false,
-    completed: 0,
-    total: 0,
-  });
-  
+  const [uploadState, setUploadState] =
+    useState<UploadState>({
+      uploading: false,
+      completed: 0,
+      total: 0,
+    });
+
   const router = useRouter();
-  const [totalPhotos, setTotalPhotos] =
-  useState(0);
 
   async function handleSelect(files: File[]) {
     setUploadState({
@@ -59,43 +54,41 @@ export default function PublicEventClient({
         }
       );
 
-const successPlural =
-  result.success !== 1 ? "s" : "";
+      const successPlural =
+        result.success !== 1 ? "s" : "";
 
-const totalPlural =
-  result.total !== 1 ? "s" : "";
+      const totalPlural =
+        result.total !== 1 ? "s" : "";
 
       if (result.success === result.total) {
-  toast.success(
-    `${result.success} fotografía${
-      result.success !== 1 ? "s" : ""
-    } subida${
-      result.success !== 1 ? "s" : ""
-    }.`
-  );
+        toast.success(
+          `${result.success} fotografía${successPlural} subida${successPlural}.`
+        );
 
+        if (navigator.onLine) {
   router.refresh();
-
-} else if (result.success > 0) {
-  toast.warning(
-    `${result.success} de ${result.total} fotografía${
-      result.total !== 1 ? "s" : ""
-    } subida${
-      result.success !== 1 ? "s" : ""
-    }.\nReintenta las ${result.failed.length} restantes.`
-  );
-
-  router.refresh();
-
-} else {
-  toast.error(
-    "Ocurrió un error. Revisa tu conexión e intenta nuevamente."
-  );
 }
+      } else if (result.success > 0) {
+        toast.warning(
+          `${result.success} de ${result.total} fotografía${totalPlural} subida${successPlural}.\nReintenta las ${result.failed.length} restantes.`
+        );
+
+        if (navigator.onLine) {
+          startTransition(() => {
+            router.refresh();
+          });
+        }
+      } else {
+        toast.error(
+          "No se pudo subir ninguna fotografía."
+        );
+      }
     } catch (error) {
       console.error(error);
 
-      toast.error("No fue posible subir las fotografías. Intenta nuevamente");
+      toast.error(
+        "Ocurrió un error. Intenta nuevamente."
+      );
     } finally {
       setUploadState({
         uploading: false,
@@ -107,22 +100,21 @@ const totalPlural =
 
   return (
     <>
-  <EventSummaryCard
-  welcomeMessage={event.welcome_message ?? undefined}
->
-  <UploadButton
-    onSelect={handleSelect}
-    disabled={uploadState.uploading}
-    uploading={uploadState.uploading}
-    completed={uploadState.completed}
-    total={uploadState.total}
-  />
-</EventSummaryCard>
+      <EventSummaryCard
+        welcomeMessage={
+          event.welcome_message ?? undefined
+        }
+      >
+        <UploadButton
+          onSelect={handleSelect}
+          disabled={uploadState.uploading}
+          uploading={uploadState.uploading}
+          completed={uploadState.completed}
+          total={uploadState.total}
+        />
+      </EventSummaryCard>
 
-  <GallerySection
-  event={event}
-  onTotalPhotosChange={setTotalPhotos}
-/>
-</>
+      <GallerySection event={event} />
+    </>
   );
 }

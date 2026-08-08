@@ -46,7 +46,7 @@ export default function HomePage() {
 
         {/* Beneficios */}
 
-        <section className="mt-12">
+        <section className="mt-7">
 
           <div className="grid gap-5 md:grid-cols-2">
 

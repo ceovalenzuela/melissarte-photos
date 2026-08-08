@@ -80,14 +80,14 @@ export default function PublicEventClient({
         }
       } else {
         toast.error(
-          "No se pudo subir ninguna fotografía."
+          "No se pudo subir ninguna fotografía. Intenta nuevamente."
         );
       }
     } catch (error) {
       console.error(error);
 
       toast.error(
-        "Ocurrió un error. Intenta nuevamente."
+        "Ocurrió un error. Revisa tu conexión e intenta nuevamente."
       );
     } finally {
       setUploadState({

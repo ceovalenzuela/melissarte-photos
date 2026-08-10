@@ -101,18 +101,27 @@ export default function PublicEventClient({
   return (
     <>
       <EventSummaryCard
-        welcomeMessage={
-          event.welcome_message ?? undefined
-        }
-      >
-        <UploadButton
-          onSelect={handleSelect}
-          disabled={uploadState.uploading}
-          uploading={uploadState.uploading}
-          completed={uploadState.completed}
-          total={uploadState.total}
-        />
-      </EventSummaryCard>
+  welcomeMessage={event.welcome_message ?? undefined}
+>
+  <div className="flex flex-col items-center">
+    <UploadButton
+      onSelect={handleSelect}
+      disabled={
+        event.status !== "published" ||
+        uploadState.uploading
+      }
+      uploading={uploadState.uploading}
+      completed={uploadState.completed}
+      total={uploadState.total}
+    />
+
+    {event.status !== "published" && (
+      <p className="mt-2 text-center text-xs text-[#7D7467]">
+        Esta galería aún no está activa.
+      </p>
+    )}
+  </div>
+</EventSummaryCard>
 
       <GallerySection event={event} />
     </>

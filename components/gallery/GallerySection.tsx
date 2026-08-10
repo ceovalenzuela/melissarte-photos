@@ -158,8 +158,8 @@ if (error) {
 
 if (!loading && photos.length === 0) {
   return (
-    <div className="py-20 text-center">
-      <h2 className="text-2xl font-semibold text-[#1F1F1F]">
+    <div className="py-10 text-center">
+      <h2 className="text-xl font-semibold text-[#1F1F1F]">
         Aún no hay fotografías
       </h2>
 

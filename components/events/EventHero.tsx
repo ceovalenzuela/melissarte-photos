@@ -54,17 +54,6 @@ export default function EventHero({
         {/* Overlay */}
 <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/65" />
 
-{/* Logo */}
-<div className="absolute bottom-8 right-5 z-10 md:bottom-7 md:right-7">
-  <Image
-    src="/me-logo.png"
-    alt="MelissArte Photos"
-    width={110}
-    height={40}
-    className="h-auto w-[78px] opacity-99 md:w-[100px]"
-  />
-</div>
-
         {/* Título */}
         <div className="absolute inset-x-0 top-0 px-8 pt-7 text-white">
           <h1 className="max-w-[80%] text-[27px] font-semibold leading-tight tracking-tight text-white/85 md:text-4xl">

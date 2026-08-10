@@ -34,6 +34,7 @@ import {
 
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabase";
 
 interface Props {
   event: Event;
@@ -45,6 +46,10 @@ export default function CustomizationDialog({
   trigger,
 }: Props) {
   const router = useRouter();
+  const token =
+  typeof window !== "undefined"
+    ? new URLSearchParams(window.location.search).get("token")
+    : null;
   const [coverImage, setCoverImage] = useState(
     event.cover_image
   );
@@ -83,71 +88,128 @@ const [uploadingCover, setUploadingCover] =
     message.trim() !== originalMessage.trim();
 
   async function handleSaveMessage() {
-    if (message.length > 150) {
-  toast.error(
-    "El mensaje no puede exceder 150 caracteres."
-  );
-  return;
-}
-    try {
-      setSaving(true);
+  if (message.length > 150) {
+    toast.error(
+      "El mensaje no puede exceder 150 caracteres."
+    );
+    return;
+  }
 
+  try {
+    setSaving(true);
+
+    // Organizador: utiliza el token privado
+    if (token) {
+      const { data, error } = await supabase.rpc(
+        "update_event_with_token",
+        {
+          p_event_id: event.id,
+          p_token: token,
+          p_welcome_message: message,
+        }
+      );
+
+      if (error) {
+        console.error(error);
+        throw error;
+      }
+
+      if (!data) {
+        throw new Error(
+          "El token no corresponde a este evento."
+        );
+      }
+    } else {
+      // Administrador: mantiene el funcionamiento actual
       await updateEvent(event.id, {
         welcome_message: message,
       });
-
-      setOriginalMessage(message);
-
-      setSaved(true);
-      toast.success("Mensaje actualizado.");
-
-      setTimeout(() => {
-        setSaved(false);
-        setEditingMessage(false);
-      }, 1200);
-    } finally {
-      setSaving(false);
     }
+
+    setOriginalMessage(message);
+
+    setSaved(true);
+    toast.success("Mensaje actualizado.");
+
+    setTimeout(() => {
+      setSaved(false);
+      setEditingMessage(false);
+    }, 1200);
+  } catch (error) {
+    console.error(error);
+
+    toast.error(
+      "No fue posible actualizar el mensaje."
+    );
+  } finally {
+    setSaving(false);
   }
+}
 
   async function handleCoverChange(
-    e: React.ChangeEvent<HTMLInputElement>
-  ) {
-    const file = e.target.files?.[0];
+  e: React.ChangeEvent<HTMLInputElement>
+) {
+  const file = e.target.files?.[0];
 
-    if (!file) {
-      return;
-    }
+  if (!file) {
+    return;
+  }
 
-    try {
-      setUploadingCover(true);
+  try {
+    setUploadingCover(true);
 
     const url = await uploadCover(file, event.id);
 
+    // Organizador: utiliza el token privado
+    if (token) {
+      const { data, error } = await supabase.rpc(
+        "update_event_cover_with_token",
+        {
+          p_event_id: event.id,
+          p_token: token,
+          p_cover_image: url,
+        }
+      );
+
+      if (error) {
+        console.error(error);
+        throw error;
+      }
+
+      if (!data) {
+        throw new Error(
+          "El token no corresponde a este evento."
+        );
+      }
+    } else {
+      // Administrador: mantiene el funcionamiento actual
       await updateEvent(event.id, {
-  cover_image: url,
-});
-
-setCoverImage(url);
-
-router.refresh();
-      setCoverSaved(true);
-      toast.success("Portada actualizada.");
-
-      setTimeout(() => {
-        setCoverSaved(false);
-      }, 1500);
-    } catch (error) {
-  console.error(error);
-
-  toast.error(
-    "No fue posible actualizar la portada."
-  );
-} finally {
-      setUploadingCover(false);
-      e.target.value = "";
+        cover_image: url,
+      });
     }
+
+    setCoverImage(url);
+
+    router.refresh();
+
+    setCoverSaved(true);
+
+    toast.success("Portada actualizada.");
+
+    setTimeout(() => {
+      setCoverSaved(false);
+    }, 1500);
+  } catch (error) {
+    console.error(error);
+
+    toast.error(
+      "No fue posible actualizar la portada."
+    );
+  } finally {
+    setUploadingCover(false);
+    e.target.value = "";
   }
+}
 
   return (
     <Dialog>

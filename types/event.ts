@@ -11,6 +11,7 @@ export interface Event {
 
   cover_image: string | null;
   cover_position_y: number;
+  organizer_token?: string;
 
   created_at: string;
 }

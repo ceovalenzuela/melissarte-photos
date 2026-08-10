@@ -6,23 +6,49 @@ import { getEventBySlug } from "@/lib/events";
 import { getPhotoCount } from "@/lib/photos";
 import GallerySection from "@/components/gallery/GallerySection";
 import Footer from "@/components/public/Footer";
+import { supabase } from "@/lib/supabase";
 
 interface Props {
   params: Promise<{
     slug: string;
   }>;
+  searchParams: Promise<{
+    token?: string;
+  }>;
 }
 
 export default async function ClientDashboardPage({
   params,
+  searchParams,
 }: Props) {
   const { slug } = await params;
+  const { token } = await searchParams;
 
   const event = await getEventBySlug(slug);
 
-  if (!event) {
-    notFound();
-  }
+if (!event) {
+  notFound();
+}
+
+if (!token) {
+  notFound();
+}
+
+const { data: authorizedEvents, error: tokenError } =
+  await supabase.rpc(
+    "get_event_by_organizer_token",
+    {
+      p_token: token,
+    }
+  );
+
+if (
+  tokenError ||
+  !authorizedEvents?.length ||
+  authorizedEvents[0].id !== event.id
+) {
+  notFound();
+}
 
   const photoCount = await getPhotoCount(event.id);
 

@@ -3,7 +3,7 @@ import { Event } from "@/types/event";
 
 export async function getEvent(id: string): Promise<Event | null> {
   const { data, error } = await supabase
-    .from("events")
+    .from("events_public")
     .select("*")
     .eq("id", id)
     .single();
@@ -19,18 +19,23 @@ export async function getEvent(id: string): Promise<Event | null> {
 export async function getEventBySlug(
   slug: string
 ): Promise<Event | null> {
-  const { data, error } = await supabase
-    .from("events")
-    .select("*")
-    .eq("slug", slug)
-    .single();
+  const { data, error } = await supabase.rpc(
+    "get_public_event_by_slug",
+    {
+      p_slug: slug,
+    }
+  );
 
   if (error) {
-    console.error(error);
+    console.error(
+      "ERROR getEventBySlug:",
+      JSON.stringify(error, null, 2)
+    );
+
     return null;
   }
 
-  return data;
+  return data?.[0] ?? null;
 }
 
 export async function updateEvent(

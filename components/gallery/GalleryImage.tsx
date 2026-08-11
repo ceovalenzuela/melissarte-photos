@@ -32,17 +32,24 @@ function GalleryImage({
         bg-neutral-100
         transition-transform
         duration-200
-        active:scale-[0.98]
+        active:scale-[0.985]
         focus:outline-none
         focus:ring-2
-        focus:ring-neutral-400
+        focus:ring-neutral-300
         focus:ring-offset-2
       "
     >
       {!error ? (
         <>
           {!loaded && (
-            <div className="absolute inset-0 animate-pulse bg-neutral-100" />
+            <div
+              className="
+                absolute
+                inset-0
+                animate-pulse
+                bg-neutral-100
+              "
+            />
           )}
 
           <img
@@ -52,9 +59,11 @@ function GalleryImage({
             decoding="async"
             className={[
               "h-full w-full object-cover",
-              "transition-all duration-300 ease-out",
-              loaded ? "opacity-100 scale-100" : "opacity-0 scale-[1.03]",
-              "group-hover:scale-[1.03]",
+              "transition-all duration-500 ease-out",
+              loaded
+                ? "scale-100 opacity-100"
+                : "scale-[1.025] opacity-0",
+              "group-hover:scale-[1.02]",
             ].join(" ")}
             onLoad={() => setLoaded(true)}
             onError={() => {
@@ -62,9 +71,34 @@ function GalleryImage({
               setError(true);
             }}
           />
+
+          {/* Sutil acabado al pasar el cursor */}
+          <div
+            className="
+              pointer-events-none
+              absolute
+              inset-0
+              bg-black/[0.03]
+              opacity-0
+              transition-opacity
+              duration-300
+              group-hover:opacity-100
+            "
+          />
         </>
       ) : (
-        <div className="flex h-full w-full items-center justify-center bg-neutral-100 text-sm text-neutral-400">
+        <div
+          className="
+            flex
+            h-full
+            w-full
+            items-center
+            justify-center
+            bg-neutral-100
+            text-sm
+            text-neutral-400
+          "
+        >
           Sin imagen
         </div>
       )}

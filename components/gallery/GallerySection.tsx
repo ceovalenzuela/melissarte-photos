@@ -214,131 +214,120 @@ export default function GallerySection({
 
   return (
     <>
-      <div className="mb-4 flex items-center justify-end">
-        <div className="relative">
-          <button
-            type="button"
-            onClick={() =>
-              setSortMenuOpen(
-                (open) => !open
-              )
+  <div className="mb-2 flex justify-end">
+  <div className="relative">
+    <button
+      type="button"
+      onClick={() =>
+        setSortMenuOpen((open) => !open)
+      }
+      className="
+        group
+        inline-flex
+        items-center
+        gap-1.5
+        border-b
+        border-[#D9CBB3]
+        pb-1
+        text-xs
+        font-medium
+        text-[#6F665B]
+        transition-colors
+        duration-200
+        hover:text-[#3F3A34]
+        focus:outline-none
+      "
+      aria-expanded={sortMenuOpen}
+      aria-haspopup="menu"
+    >
+      {sortOrder === "newest"
+        ? "Más recientes"
+        : "Más antiguas"}
+
+      <ChevronDown
+        size={14}
+        strokeWidth={1.8}
+        className={`
+          transition-transform
+          duration-200
+          ${
+            sortMenuOpen
+              ? "rotate-180"
+              : ""
+          }
+        `}
+      />
+    </button>
+
+    {sortMenuOpen && (
+      <div
+        className="
+          absolute
+          right-0
+          z-30
+          mt-2
+          w-40
+          overflow-hidden
+          rounded-xl
+          border
+          border-[#E7DCC8]
+          bg-[#FDFBF8]
+          p-1
+          shadow-md
+        "
+        role="menu"
+      >
+        <button
+          type="button"
+          role="menuitem"
+          onClick={() =>
+            handleSortChange("newest")
+          }
+          className={`
+            w-full
+            rounded-lg
+            px-3
+            py-2
+            text-left
+            text-xs
+            transition-colors
+            ${
+              sortOrder === "newest"
+                ? "bg-[#F3ECE2] font-medium text-[#1F1F1F]"
+                : "text-[#6F665B] hover:bg-[#F8F4EE]"
             }
-            className="
-              inline-flex
-              h-10
-              items-center
-              gap-2
-              rounded-full
-              border
-              border-[#E7DCC8]
-              bg-[#FDFBF8]
-              px-4
-              text-sm
-              font-medium
-              text-[#1F1F1F]
-              shadow-sm
-              transition-all
-              duration-200
-              hover:border-[#D9CBB3]
-              hover:bg-[#FCF8F3]
-              focus:outline-none
-              focus:ring-2
-              focus:ring-[#D9CBB3]
-              focus:ring-offset-2
-            "
-            aria-expanded={sortMenuOpen}
-            aria-haspopup="menu"
-          >
-            {sortOrder === "newest"
-              ? "Más recientes"
-              : "Más antiguas"}
+          `}
+        >
+          Más recientes
+        </button>
 
-            <ChevronDown
-              size={16}
-              strokeWidth={2}
-              className={`
-                transition-transform
-                duration-200
-                ${sortMenuOpen
-                  ? "rotate-180"
-                  : ""}
-              `}
-            />
-          </button>
-
-          {sortMenuOpen && (
-            <div
-              className="
-                absolute
-                right-0
-                z-30
-                mt-2
-                w-44
-                overflow-hidden
-                rounded-2xl
-                border
-                border-[#E7DCC8]
-                bg-[#FDFBF8]
-                p-1
-                shadow-lg
-              "
-              role="menu"
-            >
-              <button
-                type="button"
-                role="menuitem"
-                onClick={() =>
-                  handleSortChange(
-                    "newest"
-                  )
-                }
-                className={`
-                  w-full
-                  rounded-xl
-                  px-3
-                  py-2.5
-                  text-left
-                  text-sm
-                  transition-colors
-                  ${
-                    sortOrder === "newest"
-                      ? "bg-[#F3ECE2] font-medium text-[#1F1F1F]"
-                      : "text-[#5F584F] hover:bg-[#F8F4EE]"
-                  }
-                `}
-              >
-                Más recientes
-              </button>
-
-              <button
-                type="button"
-                role="menuitem"
-                onClick={() =>
-                  handleSortChange(
-                    "oldest"
-                  )
-                }
-                className={`
-                  w-full
-                  rounded-xl
-                  px-3
-                  py-2.5
-                  text-left
-                  text-sm
-                  transition-colors
-                  ${
-                    sortOrder === "oldest"
-                      ? "bg-[#F3ECE2] font-medium text-[#1F1F1F]"
-                      : "text-[#5F584F] hover:bg-[#F8F4EE]"
-                  }
-                `}
-              >
-                Más antiguas
-              </button>
-            </div>
-          )}
-        </div>
+        <button
+          type="button"
+          role="menuitem"
+          onClick={() =>
+            handleSortChange("oldest")
+          }
+          className={`
+            w-full
+            rounded-lg
+            px-3
+            py-2
+            text-left
+            text-xs
+            transition-colors
+            ${
+              sortOrder === "oldest"
+                ? "bg-[#F3ECE2] font-medium text-[#1F1F1F]"
+                : "text-[#6F665B] hover:bg-[#F8F4EE]"
+            }
+          `}
+        >
+          Más antiguas
+        </button>
       </div>
+    )}
+  </div>
+</div>
 
       <PublicGallery
         photos={photos}

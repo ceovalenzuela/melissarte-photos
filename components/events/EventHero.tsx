@@ -28,19 +28,19 @@ export default function EventHero({
 
   return (
     <section className="relative overflow-hidden rounded-3xl shadow-lg">
-      <div className="relative h-[460px] w-full">
+      <div className="relative h-[360px] w-full md:h-[460px]">
         {event.cover_image ? (
   <>
-    {/* Fondo de la misma fotografía */}
+    {/* Fondo desenfocado solo en escritorio */}
     <Image
       src={event.cover_image}
       alt=""
       fill
       priority
-      className="scale-110 object-cover blur-2xl"
+      className="hidden scale-110 object-cover blur-2xl md:block"
     />
 
-    {/* Fotografía completa */}
+    {/* Fotografía principal */}
     <Image
       src={event.cover_image}
       alt={event.title}
@@ -48,7 +48,7 @@ export default function EventHero({
       priority
       onLoad={() => setLoaded(true)}
       className={`
-        object-contain
+        object-cover md:object-contain
         transition-all
         duration-700
         ${

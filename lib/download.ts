@@ -6,7 +6,8 @@ import { getAllPhotosByEvent, Photo } from "@/lib/photos";
 export type DownloadStatus =
   | "preparing"
   | "downloading"
-  | "zipping";
+  | "zipping"
+  | "error";
 
 interface DownloadOptions {
   onStatusChange?: (
@@ -53,72 +54,88 @@ export async function downloadEventPhotos(
 ): Promise<
   | { success: true }
   | { success: false; reason: "NO_PHOTOS" }
+  | { success: false; reason: "DOWNLOAD_ERROR" }
 > {
   try {
-  options?.onStatusChange?.("preparing");
+    options?.onStatusChange?.("preparing");
 
-  const photos = await getAllPhotosByEvent(event.id);
+    const photos = await getAllPhotosByEvent(event.id);
 
-  if (photos.length === 0) {
+    if (photos.length === 0) {
+      return {
+        success: false,
+        reason: "NO_PHOTOS",
+      };
+    }
+
+    const zip = new JSZip();
+
+    options?.onStatusChange?.("downloading");
+
+    let completed = 0;
+
+    for (
+      let i = 0;
+      i < photos.length;
+      i += BATCH_SIZE
+    ) {
+      const batch = photos.slice(
+        i,
+        i + BATCH_SIZE
+      );
+
+      const results = await Promise.all(
+        batch.map((photo) =>
+          downloadPhoto(photo, zip)
+        )
+      );
+
+      const batchFailed = results.some(
+        (success) => !success
+      );
+
+      if (batchFailed) {
+        options?.onStatusChange?.("error");
+
+        return {
+          success: false,
+          reason: "DOWNLOAD_ERROR",
+        };
+      }
+
+      completed += results.length;
+
+      options?.onProgress?.(
+        completed,
+        photos.length
+      );
+    }
+
+    options?.onStatusChange?.("zipping");
+
+    const zipBlob = await zip.generateAsync({
+      type: "blob",
+    });
+
+    const link = document.createElement("a");
+
+    link.href = URL.createObjectURL(zipBlob);
+
+    link.download = `${event.title}.zip`;
+
+    link.click();
+
+    URL.revokeObjectURL(link.href);
+
+    return {
+      success: true,
+    };
+  } catch {
+  options?.onStatusChange?.("error");
+
   return {
     success: false,
-    reason: "NO_PHOTOS",
+    reason: "DOWNLOAD_ERROR",
   };
-}
-
-  const zip = new JSZip();
-
-  options?.onStatusChange?.("downloading");
-
-  let completed = 0;
-
-  for (
-    let i = 0;
-    i < photos.length;
-    i += BATCH_SIZE
-  ) {
-    const batch = photos.slice(
-      i,
-      i + BATCH_SIZE
-    );
-
-    const results = await Promise.all(
-      batch.map((photo) =>
-        downloadPhoto(photo, zip)
-      )
-    );
-
-    completed += results.filter(Boolean).length;
-
-    options?.onProgress?.(
-      completed,
-      photos.length
-    );
-  }
-
-  options?.onStatusChange?.("zipping");
-
-  const zipBlob = await zip.generateAsync({
-    type: "blob",
-  });
-
-  const link = document.createElement("a");
-
-  link.href = URL.createObjectURL(zipBlob);
-
-  link.download = `${event.title}.zip`;
-
-  link.click();
-
-URL.revokeObjectURL(link.href);
-
-return {
-  success: true,
-};
-
-} catch (error) {
-  console.error(error);
-
-  throw error;
 }
 }

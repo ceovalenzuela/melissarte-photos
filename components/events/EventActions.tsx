@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Download, QrCode } from "lucide-react";
 
 import { Event } from "@/types/event";
@@ -20,8 +20,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-
-import { useEffect } from "react";
 
 import QRCode from "qrcode";
 import { getEventUrl } from "@/lib/urls";
@@ -49,115 +47,142 @@ export default function EventActions({
   const [qrImage, setQrImage] = useState("");
 
   async function handleDownload() {
-  try {
-    setIsDownloading(true);
+    try {
+      setIsDownloading(true);
 
-    setCurrent(0);
-    setTotal(0);
+      setCurrent(0);
+      setTotal(0);
 
-    const result = await downloadEventPhotos(event, {
-  onStatusChange(status) {
-    setStatus(status);
-  },
+      const result = await downloadEventPhotos(
+        event,
+        {
+          onStatusChange(status) {
+            setStatus(status);
+          },
 
-  onProgress(current, total) {
-    setCurrent(current);
-    setTotal(total);
-  },
-});
+          onProgress(current, total) {
+            setCurrent(current);
+            setTotal(total);
+          },
+        }
+      );
 
-if (!result.success) {
-  toast.info(
-    "Este evento aún no tiene fotografías."
-  );
+      if (!result.success) {
+        if (result.reason === "NO_PHOTOS") {
+          toast.info(
+            "Este evento aún no tiene fotografías."
+          );
+        }
 
-  return;
-}
-  } catch (error) {
-    console.error(error);
+        if (
+          result.reason === "DOWNLOAD_ERROR"
+        ) {
+          toast.error(
+            "No se pudo completar la descarga. Revisa tu conexión e inténtalo nuevamente."
+          );
+        }
 
-    toast.error(
-  "No fue posible preparar la descarga."
-);
-  } finally {
-    setIsDownloading(false);
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+
+      toast.error(
+        "No se pudo completar la descarga. Revisa tu conexión e inténtalo nuevamente."
+      );
+    } finally {
+      setIsDownloading(false);
+    }
   }
-}
 
-async function handleCopyLink() {
-  try {
-    const url = getEventUrl(
-      window.location.origin,
-      event.slug
-    );
+  async function handleCopyLink() {
+    try {
+      const url = getEventUrl(
+        window.location.origin,
+        event.slug
+      );
 
-    await navigator.clipboard.writeText(url);
+      await navigator.clipboard.writeText(url);
 
-toast.success("Enlace copiado.");
+      toast.success("Enlace copiado.");
 
-setQrOpen(false);
-  } catch (error) {
-    console.error(error);
+      setQrOpen(false);
+    } catch (error) {
+      console.error(error);
 
-    toast.error(
-      "No fue posible copiar el enlace."
-    );
+      toast.error(
+        "No fue posible copiar el enlace."
+      );
+    }
   }
-}
+
   function getTitle() {
-  if (!isDownloading) {
-    return "Descargar fotografías";
+    if (!isDownloading) {
+      return "Descargar fotografías";
+    }
+
+    switch (status) {
+      case "preparing":
+        return "Preparando descarga...";
+
+      case "downloading":
+        return "Descargando fotografías...";
+
+      case "zipping":
+        return "Comprimiendo fotografías...";
+
+      case "error":
+        return "Descarga no completada";
+
+      default:
+        return "Descargar fotografías";
+    }
   }
-
-  switch (status) {
-    case "preparing":
-      return "Preparando descarga...";
-
-    case "downloading":
-      return "Descargando fotografías...";
-
-    case "zipping":
-      return "Comprimiendo fotografías...";
-  }
-}
 
   function getDescription() {
-  if (!isDownloading) {
-    return "Descarga un archivo con todas las fotografías del evento.";
+    if (!isDownloading) {
+      return "Descarga todas las fotografías del evento.";
+    }
+
+    switch (status) {
+      case "preparing":
+        return "La descarga comenzará automáticamente.";
+
+      case "downloading":
+        return `${current} de ${total} fotografías`;
+
+      case "zipping":
+        return "Generando archivo...";
+
+      case "error":
+        return "Revisa tu conexión e inténtalo nuevamente.";
+
+      default:
+        return "";
+    }
   }
 
-  switch (status) {
-    case "preparing":
-      return "La descarga comenzará automáticamente.";
+  useEffect(() => {
+    if (!qrOpen) return;
 
-    case "downloading":
-      return `${current} de ${total} fotografías`;
+    async function generateQr() {
+      const url = getEventUrl(
+        window.location.origin,
+        event.slug
+      );
 
-    case "zipping":
-      return "Generando archivo...";
-  }
-}
+      const dataUrl =
+        await QRCode.toDataURL(url, {
+          width: 500,
+          margin: 1,
+          errorCorrectionLevel: "H",
+        });
 
-useEffect(() => {
-  if (!qrOpen) return;
+      setQrImage(dataUrl);
+    }
 
-  async function generateQr() {
-    const url = getEventUrl(
-      window.location.origin,
-      event.slug
-    );
-
-    const dataUrl = await QRCode.toDataURL(url, {
-      width: 500,
-      margin: 1,
-      errorCorrectionLevel: "H",
-    });
-
-    setQrImage(dataUrl);
-  }
-
-  generateQr();
-}, [qrOpen, event.slug]);
+    generateQr();
+  }, [qrOpen, event.slug]);
 
   return (
     <div className="overflow-hidden rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] shadow-lg">

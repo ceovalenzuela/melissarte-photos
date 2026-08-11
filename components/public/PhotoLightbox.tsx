@@ -2,6 +2,7 @@
 
 import Lightbox from "yet-another-react-lightbox";
 import Download from "yet-another-react-lightbox/plugins/download";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
 import "yet-another-react-lightbox/styles.css";
 
@@ -25,7 +26,7 @@ export default function PhotoLightbox({
       open={open}
       close={onClose}
       index={index}
-      plugins={[Download]}
+      plugins={[Download, Zoom]}
       slides={photos.map((photo) => ({
         src: photo.public_url,
         download: {

@@ -4,13 +4,15 @@ import { Event } from "@/types/event";
 import { useEffect, useState } from "react";
 import { Photo } from "@/types/photo";
 
-import { getPhotosByEvent } from "@/lib/photos";
+import {
+  getPhotosByEvent,
+  PhotoSortOrder,
+} from "@/lib/photos";
 import { subscribeToEventPhotos } from "@/lib/realtime";
 
 import PublicGallery from "./PublicGallery";
 import PhotoLightbox from "@/components/public/PhotoLightbox";
 import {
-  Camera,
   ChevronDown,
 } from "lucide-react";
 
@@ -34,207 +36,373 @@ export default function GallerySection({
   const [totalPhotos, setTotalPhotos] =
     useState(0);
 
-const [lightboxOpen, setLightboxOpen] =
-  useState(false);
+  const [lightboxOpen, setLightboxOpen] =
+    useState(false);
 
-const [selectedIndex, setSelectedIndex] =
-  useState(0);
+  const [selectedIndex, setSelectedIndex] =
+    useState(0);
 
   const [page, setPage] = useState(0);
 
-const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(true);
 
-const [loadingMore, setLoadingMore] =
-  useState(false);
+  const [loadingMore, setLoadingMore] =
+    useState(false);
+
+  const [sortOrder, setSortOrder] =
+    useState<PhotoSortOrder>("newest");
+
+  const [sortMenuOpen, setSortMenuOpen] =
+    useState(false);
 
   async function loadPhotos(
-  currentPage = 0,
-  reset = false
-) {
-  try {
-    setError(false);
+    currentPage = 0,
+    reset = false,
+    order: PhotoSortOrder = sortOrder
+  ) {
+    try {
+      setError(false);
 
-    const result = await getPhotosByEvent(
-      event.id,
-      currentPage
-    );
+      const result = await getPhotosByEvent(
+        event.id,
+        currentPage,
+        40,
+        order
+      );
 
-    const newPhotos = result.photos;
+      const newPhotos = result.photos;
 
-    if (reset) {
-      setPhotos(newPhotos);
-    } else {
-      setPhotos((current) => [
-        ...current,
-        ...newPhotos,
-      ]);
+      if (reset) {
+        setPhotos(newPhotos);
+      } else {
+        setPhotos((current) => [
+          ...current,
+          ...newPhotos,
+        ]);
+      }
+
+      setHasMore(newPhotos.length === 40);
+
+      setPage(currentPage);
+
+      setTotalPhotos(result.total);
+
+      onTotalPhotosChange?.(
+        result.total
+      );
+    } catch (error) {
+      console.error(error);
+
+      setError(true);
+    } finally {
+      setLoading(false);
     }
-
-    setHasMore(newPhotos.length === 40);
-
-    setPage(currentPage);
-
-    setTotalPhotos(result.total);
-
-    onTotalPhotosChange?.(
-      result.total
-    );
-
-  } catch (error) {
-    console.error(error);
-
-    setError(true);
-  } finally {
-    setLoading(false);
   }
-}
 
   function handlePhotoClick(index: number) {
-  window.history.pushState(
-    { lightbox: true },
-    ""
-  );
+    window.history.pushState(
+      { lightbox: true },
+      ""
+    );
 
-  setSelectedIndex(index);
-  setLightboxOpen(true);
-}
-
-async function handleLoadMore() {
-  if (loadingMore) return;
-
-  setLoadingMore(true);
-
-  try {
-    await loadPhotos(page + 1);
-  } finally {
-    setLoadingMore(false);
-  }
-}
-
-  useEffect(() => {
-  loadPhotos(0, true);
-
-  const unsubscribe = subscribeToEventPhotos(
-    event.id,
-    () => loadPhotos(0, true)
-  );
-
-  return () => {
-    unsubscribe();
-  };
-}, [event.id]);
-
-  useEffect(() => {
-  function handlePopState() {
-    setLightboxOpen(false);
+    setSelectedIndex(index);
+    setLightboxOpen(true);
   }
 
-  window.addEventListener(
-    "popstate",
-    handlePopState
-  );
+  async function handleLoadMore() {
+    if (loadingMore) return;
 
-  return () => {
-    window.removeEventListener(
+    setLoadingMore(true);
+
+    try {
+      await loadPhotos(
+        page + 1,
+        false,
+        sortOrder
+      );
+    } finally {
+      setLoadingMore(false);
+    }
+  }
+
+  async function handleSortChange(
+    order: PhotoSortOrder
+  ) {
+    if (order === sortOrder) {
+      setSortMenuOpen(false);
+      return;
+    }
+
+    setSortOrder(order);
+    setSortMenuOpen(false);
+
+    setLoading(true);
+    setPage(0);
+    setHasMore(true);
+    setPhotos([]);
+
+    await loadPhotos(
+      0,
+      true,
+      order
+    );
+  }
+
+  useEffect(() => {
+    loadPhotos(0, true, sortOrder);
+
+    const unsubscribe =
+      subscribeToEventPhotos(
+        event.id,
+        () => loadPhotos(
+          0,
+          true,
+          sortOrder
+        )
+      );
+
+    return () => {
+      unsubscribe();
+    };
+  }, [event.id]);
+
+  useEffect(() => {
+    function handlePopState() {
+      setLightboxOpen(false);
+    }
+
+    window.addEventListener(
       "popstate",
       handlePopState
     );
-  };
-}, []);
 
-if (error) {
+    return () => {
+      window.removeEventListener(
+        "popstate",
+        handlePopState
+      );
+    };
+  }, []);
+
+  if (error) {
+    return (
+      <div className="py-20 text-center">
+        <h2 className="text-2xl font-semibold text-[#1F1F1F]">
+          No fue posible cargar las fotografías
+        </h2>
+
+        <p className="mt-3 text-[#7D7467]">
+          Intenta nuevamente en unos momentos.
+        </p>
+      </div>
+    );
+  }
+
+  if (!loading && photos.length === 0) {
+    return (
+      <div className="py-10 text-center">
+        <h2 className="text-xl font-semibold text-[#1F1F1F]">
+          Aún no hay fotografías
+        </h2>
+
+        <p className="mt-3 text-[#7D7467]">
+          Las fotografías compartidas durante el evento aparecerán aquí.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className="py-20 text-center">
-      <h2 className="text-2xl font-semibold text-[#1F1F1F]">
-        No fue posible cargar las fotografías
-      </h2>
+    <>
+      <div className="mb-4 flex items-center justify-end">
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() =>
+              setSortMenuOpen(
+                (open) => !open
+              )
+            }
+            className="
+              inline-flex
+              h-10
+              items-center
+              gap-2
+              rounded-full
+              border
+              border-[#E7DCC8]
+              bg-[#FDFBF8]
+              px-4
+              text-sm
+              font-medium
+              text-[#1F1F1F]
+              shadow-sm
+              transition-all
+              duration-200
+              hover:border-[#D9CBB3]
+              hover:bg-[#FCF8F3]
+              focus:outline-none
+              focus:ring-2
+              focus:ring-[#D9CBB3]
+              focus:ring-offset-2
+            "
+            aria-expanded={sortMenuOpen}
+            aria-haspopup="menu"
+          >
+            {sortOrder === "newest"
+              ? "Más recientes"
+              : "Más antiguas"}
 
-      <p className="mt-3 text-[#7D7467]">
-        Intenta nuevamente en unos momentos.
-      </p>
-    </div>
+            <ChevronDown
+              size={16}
+              strokeWidth={2}
+              className={`
+                transition-transform
+                duration-200
+                ${sortMenuOpen
+                  ? "rotate-180"
+                  : ""}
+              `}
+            />
+          </button>
+
+          {sortMenuOpen && (
+            <div
+              className="
+                absolute
+                right-0
+                z-30
+                mt-2
+                w-44
+                overflow-hidden
+                rounded-2xl
+                border
+                border-[#E7DCC8]
+                bg-[#FDFBF8]
+                p-1
+                shadow-lg
+              "
+              role="menu"
+            >
+              <button
+                type="button"
+                role="menuitem"
+                onClick={() =>
+                  handleSortChange(
+                    "newest"
+                  )
+                }
+                className={`
+                  w-full
+                  rounded-xl
+                  px-3
+                  py-2.5
+                  text-left
+                  text-sm
+                  transition-colors
+                  ${
+                    sortOrder === "newest"
+                      ? "bg-[#F3ECE2] font-medium text-[#1F1F1F]"
+                      : "text-[#5F584F] hover:bg-[#F8F4EE]"
+                  }
+                `}
+              >
+                Más recientes
+              </button>
+
+              <button
+                type="button"
+                role="menuitem"
+                onClick={() =>
+                  handleSortChange(
+                    "oldest"
+                  )
+                }
+                className={`
+                  w-full
+                  rounded-xl
+                  px-3
+                  py-2.5
+                  text-left
+                  text-sm
+                  transition-colors
+                  ${
+                    sortOrder === "oldest"
+                      ? "bg-[#F3ECE2] font-medium text-[#1F1F1F]"
+                      : "text-[#5F584F] hover:bg-[#F8F4EE]"
+                  }
+                `}
+              >
+                Más antiguas
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <PublicGallery
+        photos={photos}
+        totalPhotos={totalPhotos}
+        loading={loading}
+        onPhotoClick={handlePhotoClick}
+      />
+
+      {hasMore && (
+        <div className="mt-8 flex justify-center">
+          <button
+            onClick={handleLoadMore}
+            disabled={loadingMore}
+            className="
+              group
+              inline-flex
+              h-12
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-[#E7DCC8]
+              bg-[#FDFBF8]
+              px-7
+              text-sm
+              font-medium
+              text-[#1F1F1F]
+              shadow-sm
+              transition-all
+              duration-200
+              hover:bg-[#FCF8F3]
+              hover:border-[#D9CBB3]
+              active:scale-[0.98]
+              disabled:cursor-not-allowed
+              disabled:opacity-60
+            "
+          >
+            <>
+              {!loadingMore && (
+                <ChevronDown
+                  size={18}
+                  strokeWidth={2.3}
+                  className="mr-2 transition-transform duration-200 group-hover:translate-y-0.5"
+                />
+              )}
+
+              {loadingMore
+                ? "Cargando..."
+                : "Ver más fotografías"}
+            </>
+          </button>
+        </div>
+      )}
+
+      <PhotoLightbox
+        open={lightboxOpen}
+        index={selectedIndex}
+        photos={photos}
+        onClose={() => {
+          if (lightboxOpen) {
+            window.history.back();
+          }
+        }}
+      />
+    </>
   );
-}
-
-if (!loading && photos.length === 0) {
-  return (
-    <div className="py-10 text-center">
-      <h2 className="text-xl font-semibold text-[#1F1F1F]">
-        Aún no hay fotografías
-      </h2>
-
-      <p className="mt-3 text-[#7D7467]">
-        Las fotografías compartidas durante el evento aparecerán aquí.
-      </p>
-    </div>
-  );
-}
-
-  return (
-  <>
-    <PublicGallery
-      photos={photos}
-      totalPhotos={totalPhotos}
-      loading={loading}
-      onPhotoClick={handlePhotoClick}
-    />
-
-{hasMore && (
-  <div className="mt-8 flex justify-center">
-    <button
-  onClick={handleLoadMore}
-  disabled={loadingMore}
-  className="
-  group
-  inline-flex
-  h-12
-  items-center
-  justify-center
-  rounded-full
-  border
-  border-[#E7DCC8]
-  bg-[#FDFBF8]
-  px-7
-  text-sm
-  font-medium
-  text-[#1F1F1F]
-  shadow-sm
-  transition-all
-  duration-200
-  hover:bg-[#FCF8F3]
-  hover:border-[#D9CBB3]
-  active:scale-[0.98]
-  disabled:cursor-not-allowed
-  disabled:opacity-60
-"
->
-  <>
-  {!loadingMore && (
-    <ChevronDown
-  size={18}
-  strokeWidth={2.3}
-  className="mr-2 transition-transform duration-200 group-hover:translate-y-0.5"
-/>
-  )}
-
-  {loadingMore
-    ? "Cargando..."
-    : "Ver más fotografías"}
-</>
-</button>
-  </div>
-)}
-
-    <PhotoLightbox
-      open={lightboxOpen}
-      index={selectedIndex}
-      photos={photos}
-      onClose={() => {
-        if (lightboxOpen) {
-          window.history.back();
-        }
-      }}
-    />
-  </>
-);
 }

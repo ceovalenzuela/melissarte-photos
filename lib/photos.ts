@@ -134,34 +134,34 @@ export async function uploadPhotos(
   let completed = 0;
 
   for (const file of files) {
-  try {
-    const publicUrl = await processPhoto(
-      eventId,
-      file
-    );
+    try {
+      const publicUrl = await processPhoto(
+        eventId,
+        file
+      );
 
-    uploaded.push(publicUrl);
-  } catch (error) {
-    console.error(
-      "Error al subir la fotografía:",
-      file.name,
-      error
-    );
+      uploaded.push(publicUrl);
+    } catch (error) {
+      console.error(
+        "Error al subir la fotografía:",
+        file.name,
+        error
+      );
 
-    failed.push({
-      file,
-      message:
-        "No se pudo subir la fotografía.",
-    });
-  } finally {
-    completed++;
+      failed.push({
+        file,
+        message:
+          "No se pudo subir la fotografía.",
+      });
+    } finally {
+      completed++;
 
-    onProgress?.({
-      completed,
-      total,
-    });
+      onProgress?.({
+        completed,
+        total,
+      });
+    }
   }
-}
 
   return {
     uploaded,
@@ -171,10 +171,15 @@ export async function uploadPhotos(
   };
 }
 
+export type PhotoSortOrder =
+  | "newest"
+  | "oldest";
+
 export async function getPhotosByEvent(
   eventId: string,
   page = 0,
-  limit = 40
+  limit = 40,
+  sortOrder: PhotoSortOrder = "newest"
 ) {
   const from = page * limit;
   const to = from + limit - 1;
@@ -184,7 +189,7 @@ export async function getPhotosByEvent(
     .select("*", { count: "exact" })
     .eq("event_id", eventId)
     .order("uploaded_at", {
-      ascending: false,
+      ascending: sortOrder === "oldest",
     })
     .range(from, to);
 

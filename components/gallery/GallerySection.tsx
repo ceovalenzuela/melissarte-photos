@@ -229,7 +229,7 @@ export default function GallerySection({
         border-b
         border-[#D9CBB3]
         pb-1
-        text-xs
+        text-sm
         font-medium
         text-[#6F665B]
         transition-colors
@@ -289,7 +289,7 @@ export default function GallerySection({
             px-3
             py-2
             text-left
-            text-xs
+            text-sm
             transition-colors
             ${
               sortOrder === "newest"
@@ -313,7 +313,7 @@ export default function GallerySection({
             px-3
             py-2
             text-left
-            text-xs
+            text-sm
             transition-colors
             ${
               sortOrder === "oldest"
@@ -337,50 +337,50 @@ export default function GallerySection({
       />
 
       {hasMore && (
-        <div className="mt-8 flex justify-center">
-          <button
-            onClick={handleLoadMore}
-            disabled={loadingMore}
-            className="
-              group
-              inline-flex
-              h-12
-              items-center
-              justify-center
-              rounded-full
-              border
-              border-[#E7DCC8]
-              bg-[#FDFBF8]
-              px-7
-              text-sm
-              font-medium
-              text-[#1F1F1F]
-              shadow-sm
-              transition-all
-              duration-200
-              hover:bg-[#FCF8F3]
-              hover:border-[#D9CBB3]
-              active:scale-[0.98]
-              disabled:cursor-not-allowed
-              disabled:opacity-60
-            "
-          >
-            <>
-              {!loadingMore && (
-                <ChevronDown
-                  size={18}
-                  strokeWidth={2.3}
-                  className="mr-2 transition-transform duration-200 group-hover:translate-y-0.5"
-                />
-              )}
+  <div className="mt-8 flex justify-center">
+    <button
+      type="button"
+      onClick={handleLoadMore}
+      disabled={loadingMore}
+      className="
+        group
+        inline-flex
+        items-center
+        gap-1.5
+        border-b
+        border-[#D9CBB3]
+        pb-1
+        text-sm
+        font-medium
+        text-[#6F665B]
+        transition-all
+        duration-200
+        hover:border-[#BFAE91]
+        hover:text-[#3F3A34]
+        disabled:cursor-not-allowed
+        disabled:opacity-50
+      "
+    >
+      {loadingMore ? (
+        "Cargando..."
+      ) : (
+        <>
+          <span>Ver más fotografías</span>
 
-              {loadingMore
-                ? "Cargando..."
-                : "Ver más fotografías"}
-            </>
-          </button>
-        </div>
+          <ChevronDown
+            size={14}
+            strokeWidth={1.8}
+            className="
+              transition-transform
+              duration-200
+              group-hover:translate-y-0.5
+            "
+          />
+        </>
       )}
+    </button>
+  </div>
+)}
 
       <PhotoLightbox
         open={lightboxOpen}

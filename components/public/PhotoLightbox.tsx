@@ -36,6 +36,10 @@ export default function PhotoLightbox({
           filename: photo.file_name,
         },
       }))}
+      render={{
+        iconZoomIn: () => null,
+        iconZoomOut: () => null,
+      }}
     />
   );
 }

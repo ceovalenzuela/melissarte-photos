@@ -17,7 +17,7 @@ export default function PublicGallery({
   onPhotoClick,
 }: Props) {
   return (
-    <section className="mt-6">
+    <section className="mt-2">
 
       {loading ? (
         <GallerySkeleton />

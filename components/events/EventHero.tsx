@@ -30,24 +30,36 @@ export default function EventHero({
     <section className="relative overflow-hidden rounded-3xl shadow-lg">
       <div className="relative h-[460px] w-full">
         {event.cover_image ? (
-          <Image
-            src={event.cover_image}
-            alt={event.title}
-            fill
-            priority
-            onLoad={() => setLoaded(true)}
-            className={`
-              object-cover
-              transition-all
-              duration-700
-              ${
-                loaded
-                  ? "scale-100 opacity-100"
-                  : "scale-[1.02] opacity-0"
-              }
-            `}
-          />
-        ) : (
+  <>
+    {/* Fondo de la misma fotografía */}
+    <Image
+      src={event.cover_image}
+      alt=""
+      fill
+      priority
+      className="scale-110 object-cover blur-2xl"
+    />
+
+    {/* Fotografía completa */}
+    <Image
+      src={event.cover_image}
+      alt={event.title}
+      fill
+      priority
+      onLoad={() => setLoaded(true)}
+      className={`
+        object-contain
+        transition-all
+        duration-700
+        ${
+          loaded
+            ? "scale-100 opacity-100"
+            : "scale-[1.02] opacity-0"
+        }
+      `}
+    />
+  </>
+) : (
           <div className="h-full w-full bg-gradient-to-br from-zinc-800 via-zinc-900 to-black" />
         )}
 

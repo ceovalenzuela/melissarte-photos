@@ -38,9 +38,30 @@ export default function EventCard({
     <div className="rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] px-8 py-5 shadow-sm">
       <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div>
-          <h3 className="text-xl font-semibold text-[#1F1F1F]">
-            {event.title}
-          </h3>
+          <div className="flex flex-wrap items-center gap-3">
+  <h3 className="text-xl font-semibold text-[#1F1F1F]">
+    {event.title}
+  </h3>
+
+  <span
+    className={`
+      inline-flex
+      items-center
+      rounded-full
+      px-3
+      py-1
+      text-xs
+      font-medium
+      ${
+        event.status === "published"
+          ? "bg-green-50 text-green-700"
+          : "bg-amber-50 text-amber-700"
+      }
+    `}
+  >
+    {event.status === "published" ? "Publicado" : "Borrador"}
+  </span>
+</div>
 
           <div className="mt-3 space-y-2 text-sm text-[#7D7467]">
             <p className="flex items-center gap-2">

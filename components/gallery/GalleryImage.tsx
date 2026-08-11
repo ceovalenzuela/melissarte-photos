@@ -1,7 +1,6 @@
 "use client";
 
 import { memo, useState } from "react";
-import Image from "next/image";
 
 interface Props {
   src: string;
@@ -46,14 +45,13 @@ function GalleryImage({
             <div className="absolute inset-0 animate-pulse bg-neutral-100" />
           )}
 
-          <Image
+          <img
             src={src}
             alt={alt}
-            fill
-            priority={priority}
-            sizes="(max-width:768px) 50vw, (max-width:1024px) 33vw, 25vw"
+            loading={priority ? "eager" : "lazy"}
+            decoding="async"
             className={[
-              "object-cover",
+              "h-full w-full object-cover",
               "transition-all duration-300 ease-out",
               loaded ? "opacity-100 scale-100" : "opacity-0 scale-[1.03]",
               "group-hover:scale-[1.03]",

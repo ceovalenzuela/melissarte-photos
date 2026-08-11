@@ -15,7 +15,7 @@ export default function Footer() {
 </Link>
 
       <p className="mt-1 text-xs text-neutral-400">
-        Álbum colaborativo para tu evento
+        Tus recuerdos, en un solo lugar.
       </p>
     </footer>
   );

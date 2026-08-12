@@ -117,7 +117,7 @@ export default function PublicEventClient({
 
     {event.status !== "published" && (
       <p className="mt-2 text-center text-xs text-[#7D7467]">
-        Esta galería aún no está activa.
+        Pronto podrás disfrutar de esta galería
       </p>
     )}
   </div>

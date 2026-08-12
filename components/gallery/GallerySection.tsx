@@ -222,21 +222,25 @@ export default function GallerySection({
         setSortMenuOpen((open) => !open)
       }
       className="
-        group
-        inline-flex
-        items-center
-        gap-1.5
-        border-b
-        border-[#D9CBB3]
-        pb-1
-        text-sm
-        font-medium
-        text-[#6F665B]
-        transition-colors
-        duration-200
-        hover:text-[#3F3A34]
-        focus:outline-none
-      "
+  group
+  inline-flex
+  items-center
+  gap-1.5
+  rounded-full
+  border
+  border-[#D9CBB3]
+  bg-transparent
+  px-3
+  py-1.5
+  text-sm
+  font-medium
+  text-[#6F665B]
+  transition-colors
+  duration-200
+  hover:bg-[#F8F4EE]
+  hover:text-[#3F3A34]
+  focus:outline-none
+"
       aria-expanded={sortMenuOpen}
       aria-haspopup="menu"
     >
@@ -343,23 +347,26 @@ export default function GallerySection({
   onClick={handleLoadMore}
   disabled={loadingMore}
   className="
-    group
-    inline-flex
-    items-center
-    gap-2
-    border-b
-    border-[#D9CBB3]
-    pb-1
-    text-base
-    font-medium
-    text-[#5F574D]
-    transition-all
-    duration-200
-    hover:border-[#BFAE91]
-    hover:text-[#3F3A34]
-    disabled:cursor-not-allowed
-    disabled:opacity-50
-  "
+  group
+  inline-flex
+  items-center
+  gap-2
+  rounded-full
+  border
+  border-[#D9CBB3]
+  bg-transparent
+  px-4
+  py-2
+  text-sm
+  font-medium
+  text-[#5F574D]
+  transition-all
+  duration-200
+  hover:bg-[#F8F4EE]
+  hover:text-[#3F3A34]
+  disabled:cursor-not-allowed
+  disabled:opacity-50
+"
 >
   {loadingMore ? (
     <span className="inline-flex items-center gap-2">

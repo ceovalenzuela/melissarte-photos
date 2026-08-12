@@ -222,9 +222,23 @@ export default function HomePage() {
               Galería personalizada
             </p>
 
-            <p className="mt-1 text-4xl font-semibold text-[#1F1F1F]">
-              $449 MXN
-            </p>
+            <div className="mt-1">
+  <p className="text-xs font-medium uppercase tracking-wide text-[#A88249]">
+    Precio de lanzamiento
+  </p>
+
+  <p className="mt-1 text-sm text-[#7D7467] line-through">
+    $499 MXN
+  </p>
+
+  <p className="text-4xl font-semibold text-[#A88249]">
+    $399 MXN
+  </p>
+
+  <p className="mt-1 text-sm font-medium text-[#A88249]">
+    Ahorras $100
+  </p>
+</div>
 
             <div className="mt-4 space-y-1.5 text-sm text-[#5C554B]">
               <p>📸 Fotografías ilimitadas</p>

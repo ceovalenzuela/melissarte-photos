@@ -260,7 +260,7 @@ export default function EventActions({
   variant="top"
   icon={<QrCode size={22} />}
   title="Código QR"
-  description="Descarga el QR o copia el enlace de tu galería y compártelo con tus invitados."
+  description="Descarga el QR o copia el enlace de tu galería y compártelo."
   onClick={() => setQrOpen(true)}
 />
 
@@ -287,7 +287,7 @@ export default function EventActions({
       variant="last"
       icon={<Sparkles size={22} />}
       title="Portada y bienvenida"
-      description="Personaliza la portada y el mensaje de bienvenida para tus invitados."
+      description="Personaliza la portada y el mensaje para tus invitados."
     />
   }
 />

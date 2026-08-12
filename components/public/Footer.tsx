@@ -14,7 +14,7 @@ export default function Footer() {
   />
 </Link>
 
-      <p className="mt-1 text-xs text-neutral-400">
+      <p className="mt-0 text-xs text-neutral-400">
         Tus recuerdos, en un solo lugar.
       </p>
     </footer>

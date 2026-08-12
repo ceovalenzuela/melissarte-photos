@@ -154,11 +154,12 @@ export default function GallerySection({
     const unsubscribe =
       subscribeToEventPhotos(
         event.id,
-        () => loadPhotos(
-          0,
-          true,
-          sortOrder
-        )
+        () =>
+          loadPhotos(
+            0,
+            true,
+            sortOrder
+          )
       );
 
     return () => {
@@ -214,204 +215,215 @@ export default function GallerySection({
 
   return (
     <>
-  <div className="mb-2 flex justify-end">
-  <div className="relative">
-    <button
-      type="button"
-      onClick={() =>
-        setSortMenuOpen((open) => !open)
-      }
-      className="
-  group
-  inline-flex
-  items-center
-  gap-1.5
-  rounded-full
-  border
-  border-[#D9CBB3]
-  bg-transparent
-  px-3
-  py-1.5
-  text-sm
-  font-medium
-  text-[#6F665B]
-  transition-colors
-  duration-200
-  hover:bg-[#F8F4EE]
-  hover:text-[#3F3A34]
-  focus:outline-none
-"
-      aria-expanded={sortMenuOpen}
-      aria-haspopup="menu"
-    >
-      {sortOrder === "newest"
-        ? "Más recientes"
-        : "Más antiguas"}
+      <div className="-mt-3">
+        <div className="mb-2 flex justify-end">
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() =>
+                setSortMenuOpen(
+                  (open) => !open
+                )
+              }
+              className="
+                group
+                inline-flex
+                items-center
+                gap-1.5
+                rounded-full
+                border
+                border-[#D9CBB3]
+                bg-transparent
+                px-3
+                py-1.5
+                text-sm
+                font-medium
+                text-[#6F665B]
+                transition-colors
+                duration-200
+                hover:bg-[#F8F4EE]
+                hover:text-[#3F3A34]
+                focus:outline-none
+              "
+              aria-expanded={sortMenuOpen}
+              aria-haspopup="menu"
+            >
+              {sortOrder === "newest"
+                ? "Más recientes"
+                : "Más antiguas"}
 
-      <ChevronDown
-        size={14}
-        strokeWidth={1.8}
-        className={`
-          transition-transform
-          duration-200
-          ${
-            sortMenuOpen
-              ? "rotate-180"
-              : ""
-          }
-        `}
-      />
-    </button>
+              <ChevronDown
+                size={14}
+                strokeWidth={1.8}
+                className={`
+                  transition-transform
+                  duration-200
+                  ${
+                    sortMenuOpen
+                      ? "rotate-180"
+                      : ""
+                  }
+                `}
+              />
+            </button>
 
-    {sortMenuOpen && (
-      <div
-        className="
-          absolute
-          right-0
-          z-30
-          mt-2
-          w-40
-          overflow-hidden
-          rounded-xl
-          border
-          border-[#E7DCC8]
-          bg-[#FDFBF8]
-          p-1
-          shadow-md
-        "
-        role="menu"
-      >
-        <button
-          type="button"
-          role="menuitem"
-          onClick={() =>
-            handleSortChange("newest")
-          }
-          className={`
-            w-full
-            rounded-lg
-            px-3
-            py-2
-            text-left
-            text-sm
-            transition-colors
-            ${
-              sortOrder === "newest"
-                ? "bg-[#F3ECE2] font-medium text-[#1F1F1F]"
-                : "text-[#6F665B] hover:bg-[#F8F4EE]"
+            {sortMenuOpen && (
+              <div
+                className="
+                  absolute
+                  right-0
+                  z-30
+                  mt-2
+                  w-40
+                  overflow-hidden
+                  rounded-xl
+                  border
+                  border-[#E7DCC8]
+                  bg-[#FDFBF8]
+                  p-1
+                  shadow-md
+                "
+                role="menu"
+              >
+                <button
+                  type="button"
+                  role="menuitem"
+                  onClick={() =>
+                    handleSortChange(
+                      "newest"
+                    )
+                  }
+                  className={`
+                    w-full
+                    rounded-lg
+                    px-3
+                    py-2
+                    text-left
+                    text-sm
+                    transition-colors
+                    ${
+                      sortOrder === "newest"
+                        ? "bg-[#F3ECE2] font-medium text-[#1F1F1F]"
+                        : "text-[#6F665B] hover:bg-[#F8F4EE]"
+                    }
+                  `}
+                >
+                  Más recientes
+                </button>
+
+                <button
+                  type="button"
+                  role="menuitem"
+                  onClick={() =>
+                    handleSortChange(
+                      "oldest"
+                    )
+                  }
+                  className={`
+                    w-full
+                    rounded-lg
+                    px-3
+                    py-2
+                    text-left
+                    text-sm
+                    transition-colors
+                    ${
+                      sortOrder === "oldest"
+                        ? "bg-[#F3ECE2] font-medium text-[#1F1F1F]"
+                        : "text-[#6F665B] hover:bg-[#F8F4EE]"
+                    }
+                  `}
+                >
+                  Más antiguas
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <PublicGallery
+          photos={photos}
+          totalPhotos={totalPhotos}
+          loading={loading}
+          onPhotoClick={handlePhotoClick}
+        />
+
+        {hasMore && (
+          <div className="mt-10 flex justify-center">
+            <button
+              type="button"
+              onClick={handleLoadMore}
+              disabled={loadingMore}
+              className="
+                group
+                inline-flex
+                items-center
+                gap-2
+                rounded-full
+                border
+                border-[#D9CBB3]
+                bg-transparent
+                px-4
+                py-2
+                text-sm
+                font-medium
+                text-[#5F574D]
+                transition-all
+                duration-200
+                hover:bg-[#F8F4EE]
+                hover:text-[#3F3A34]
+                disabled:cursor-not-allowed
+                disabled:opacity-50
+              "
+            >
+              {loadingMore ? (
+                <span className="inline-flex items-center gap-2">
+                  <span
+                    className="
+                      h-3.5
+                      w-3.5
+                      animate-spin
+                      rounded-full
+                      border
+                      border-[#D9CBB3]
+                      border-t-[#6F665B]
+                    "
+                  />
+
+                  Cargando...
+                </span>
+              ) : (
+                <>
+                  <span>
+                    Ver más fotografías
+                  </span>
+
+                  <ChevronDown
+                    size={16}
+                    strokeWidth={1.8}
+                    className="
+                      transition-transform
+                      duration-200
+                      group-hover:translate-y-0.5
+                    "
+                  />
+                </>
+              )}
+            </button>
+          </div>
+        )}
+
+        <PhotoLightbox
+          open={lightboxOpen}
+          index={selectedIndex}
+          photos={photos}
+          onClose={() => {
+            if (lightboxOpen) {
+              window.history.back();
             }
-          `}
-        >
-          Más recientes
-        </button>
-
-        <button
-          type="button"
-          role="menuitem"
-          onClick={() =>
-            handleSortChange("oldest")
-          }
-          className={`
-            w-full
-            rounded-lg
-            px-3
-            py-2
-            text-left
-            text-sm
-            transition-colors
-            ${
-              sortOrder === "oldest"
-                ? "bg-[#F3ECE2] font-medium text-[#1F1F1F]"
-                : "text-[#6F665B] hover:bg-[#F8F4EE]"
-            }
-          `}
-        >
-          Más antiguas
-        </button>
+          }}
+        />
       </div>
-    )}
-  </div>
-</div>
-
-      <PublicGallery
-        photos={photos}
-        totalPhotos={totalPhotos}
-        loading={loading}
-        onPhotoClick={handlePhotoClick}
-      />
-
-      {hasMore && (
-  <div className="mt-10 flex justify-center">
-    <button
-  type="button"
-  onClick={handleLoadMore}
-  disabled={loadingMore}
-  className="
-  group
-  inline-flex
-  items-center
-  gap-2
-  rounded-full
-  border
-  border-[#D9CBB3]
-  bg-transparent
-  px-4
-  py-2
-  text-sm
-  font-medium
-  text-[#5F574D]
-  transition-all
-  duration-200
-  hover:bg-[#F8F4EE]
-  hover:text-[#3F3A34]
-  disabled:cursor-not-allowed
-  disabled:opacity-50
-"
->
-  {loadingMore ? (
-    <span className="inline-flex items-center gap-2">
-      <span
-        className="
-          h-3.5
-          w-3.5
-          animate-spin
-          rounded-full
-          border
-          border-[#D9CBB3]
-          border-t-[#6F665B]
-        "
-      />
-      Cargando...
-    </span>
-  ) : (
-    <>
-      <span>Ver más fotografías</span>
-
-      <ChevronDown
-        size={16}
-        strokeWidth={1.8}
-        className="
-          transition-transform
-          duration-200
-          group-hover:translate-y-0.5
-        "
-      />
-    </>
-  )}
-</button>
-  </div>
-)}
-
-      <PhotoLightbox
-        open={lightboxOpen}
-        index={selectedIndex}
-        photos={photos}
-        onClose={() => {
-          if (lightboxOpen) {
-            window.history.back();
-          }
-        }}
-      />
     </>
   );
 }

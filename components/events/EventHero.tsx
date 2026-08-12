@@ -28,7 +28,7 @@ export default function EventHero({
 
   return (
     <section className="relative overflow-hidden rounded-3xl shadow-lg">
-      <div className="relative h-[430px] w-full md:h-[460px]">
+      <div className="relative h-[460px] w-full md:h-[460px]">
         {event.cover_image ? (
           <>
             {/* Fondo desenfocado solo en escritorio */}
@@ -42,25 +42,22 @@ export default function EventHero({
 
             {/* Fotografía principal */}
             <Image
-  src={event.cover_image}
-  alt={event.title}
-  fill
-  priority
-  onLoad={() => setLoaded(true)}
-  style={{
-    objectPosition: `center ${event.cover_position_y || 55}%`,
-  }}
-  className={`
-    object-cover md:object-contain
-    transition-all
-    duration-700
-    ${
-      loaded
-        ? "scale-100 opacity-100"
-        : "scale-[1.02] opacity-0"
-    }
-  `}
-/>
+              src={event.cover_image}
+              alt={event.title}
+              fill
+              priority
+              onLoad={() => setLoaded(true)}
+              className={`
+                object-cover md:object-contain
+                transition-all
+                duration-700
+                ${
+                  loaded
+                    ? "scale-100 opacity-100"
+                    : "scale-[1.02] opacity-0"
+                }
+              `}
+            />
           </>
         ) : (
           <div className="h-full w-full bg-gradient-to-br from-zinc-800 via-zinc-900 to-black" />

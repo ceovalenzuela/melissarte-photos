@@ -68,14 +68,14 @@ export default function EventHero({
 
         {/* Título */}
         <div className="absolute inset-x-0 top-0 px-8 pt-4 text-white md:pt-7">
-          <h1 className="max-w-[80%] text-[22px] font-semibold leading-tight tracking-tight text-white/70 md:text-3xl">
+          <h1 className="max-w-[80%] text-[22px] font-semibold leading-tight tracking-tight text-white/75 md:text-3xl">
             {event.title}
           </h1>
         </div>
 
         {/* Información */}
         <div className="absolute inset-x-0 bottom-0 px-8 pb-10 text-white">
-          <div className="flex items-center gap-2 text-base text-white/70">
+          <div className="flex items-center gap-2 text-base text-white/75">
             <CalendarDays size={18} />
             <span>{formattedDate}</span>
           </div>
@@ -93,7 +93,7 @@ export default function EventHero({
                 backdrop-blur-lg
               "
             >
-              <span className="text-sm font-medium text-white/70">
+              <span className="text-sm font-medium text-white/75">
                 {photoCount} fotografías
               </span>
             </div>

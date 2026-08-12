@@ -1,129 +1,108 @@
 "use client";
 
-import { startTransition, useState } from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { useState } from "react";
+import Image from "next/image";
+import { CalendarDays } from "lucide-react";
 
 import { Event } from "@/types/event";
 
-import UploadButton from "./UploadButton";
-import EventSummaryCard from "@/components/events/EventSummaryCard";
-import GallerySection from "@/components/gallery/GallerySection";
-
-import { uploadPhotos } from "@/lib/photos";
-
-interface PublicEventClientProps {
+interface Props {
   event: Event;
+  photoCount?: number;
+  showWelcomeMessage?: boolean;
 }
 
-interface UploadState {
-  uploading: boolean;
-  completed: number;
-  total: number;
-}
-
-export default function PublicEventClient({
+export default function EventHero({
   event,
-}: PublicEventClientProps) {
-  const [uploadState, setUploadState] =
-    useState<UploadState>({
-      uploading: false,
-      completed: 0,
-      total: 0,
-    });
+  photoCount = 0,
+}: Props) {
+  const [loaded, setLoaded] = useState(false);
 
-  const router = useRouter();
-
-  async function handleSelect(files: File[]) {
-    setUploadState({
-      uploading: true,
-      completed: 0,
-      total: files.length,
-    });
-
-    try {
-      const result = await uploadPhotos(
-        event.id,
-        files,
-        ({ completed, total }) => {
-          setUploadState({
-            uploading: true,
-            completed,
-            total,
-          });
-        }
-      );
-
-      const successPlural =
-        result.success !== 1 ? "s" : "";
-
-      const totalPlural =
-        result.total !== 1 ? "s" : "";
-
-      if (result.success === result.total) {
-        toast.success(
-          `${result.success} fotografía${successPlural} subida${successPlural}.`
-        );
-
-        if (navigator.onLine) {
-  router.refresh();
-}
-      } else if (result.success > 0) {
-        toast.warning(
-          `${result.success} de ${result.total} fotografía${totalPlural} subida${successPlural}.\nReintenta las ${result.failed.length} restantes.`
-        );
-
-        if (navigator.onLine) {
-          startTransition(() => {
-            router.refresh();
-          });
-        }
-      } else {
-        toast.error(
-          "Ocurrió un error. Revisa tu conexión e intenta nuevamente."
-        );
-      }
-    } catch (error) {
-      console.error(error);
-
-      toast.error(
-        "No se pudo subir ninguna fotografía. Intenta Nuevamente."
-      );
-    } finally {
-      setUploadState({
-        uploading: false,
-        completed: 0,
-        total: 0,
-      });
-    }
-  }
+  const formattedDate = new Date(
+    event.event_date
+  ).toLocaleDateString("es-MX", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 
   return (
-    <>
-      <EventSummaryCard
-  welcomeMessage={event.welcome_message ?? undefined}
->
-  <div className="flex flex-col items-center">
-    <UploadButton
-      onSelect={handleSelect}
-      disabled={
-        event.status !== "published" ||
-        uploadState.uploading
-      }
-      uploading={uploadState.uploading}
-      completed={uploadState.completed}
-      total={uploadState.total}
-    />
+    <section className="relative overflow-hidden rounded-3xl shadow-lg">
+      <div className="relative h-[430px] w-full md:h-[460px]">
+        {event.cover_image ? (
+          <>
+            {/* Fondo desenfocado */}
+            <Image
+              src={event.cover_image}
+              alt=""
+              fill
+              priority
+              className="scale-110 object-cover blur-2xl"
+            />
 
-    {event.status !== "published" && (
-      <p className="mt-2 text-center text-xs text-[#7D7467]">
-        Pronto podrás disfrutar de esta galería
-      </p>
-    )}
-  </div>
-</EventSummaryCard>
+            {/* Fotografía principal */}
+            <Image
+              src={event.cover_image}
+              alt={event.title}
+              fill
+              priority
+              onLoad={() => setLoaded(true)}
+              style={{
+                objectPosition: `center ${event.cover_position_y}%`,
+              }}
+              className={`
+                object-contain
+                transition-all
+                duration-700
+                ${
+                  loaded
+                    ? "scale-100 opacity-100"
+                    : "scale-[1.02] opacity-0"
+                }
+              `}
+            />
+          </>
+        ) : (
+          <div className="h-full w-full bg-gradient-to-br from-zinc-800 via-zinc-900 to-black" />
+        )}
 
-      <GallerySection event={event} />
-    </>
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/65" />
+
+        {/* Título */}
+        <div className="absolute inset-x-0 top-0 px-8 pt-4 text-white md:pt-7">
+          <h1 className="max-w-[80%] text-[22px] font-semibold leading-tight tracking-tight text-white/70 md:text-3xl">
+            {event.title}
+          </h1>
+        </div>
+
+        {/* Información */}
+        <div className="absolute inset-x-0 bottom-0 px-8 pb-10 text-white">
+          <div className="flex items-center gap-2 text-base text-white/85">
+            <CalendarDays size={18} />
+            <span>{formattedDate}</span>
+          </div>
+
+          <div className="mt-4">
+            <div
+              className="
+                inline-flex
+                rounded-full
+                border
+                border-white/15
+                bg-white/10
+                px-3
+                py-1.5
+                backdrop-blur-lg
+              "
+            >
+              <span className="text-sm font-medium text-white/85">
+                {photoCount} fotografías
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

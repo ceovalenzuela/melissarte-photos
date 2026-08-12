@@ -115,7 +115,7 @@ export default function EventCard({
               hover:bg-[#F7F3EC]
             "
           >
-            Vista del propietario
+            Vista del organizador
           </Link>
 
           <button

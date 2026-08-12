@@ -49,7 +49,7 @@ variant = "single",
         border-[#E7DCC8]
         bg-[#FDFBF8]
         px-7
-        py-7
+        py-6
         text-left
         transition-colors
         duration-200

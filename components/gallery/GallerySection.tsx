@@ -337,48 +337,61 @@ export default function GallerySection({
       />
 
       {hasMore && (
-  <div className="mt-8 flex justify-center">
+  <div className="mt-10 flex justify-center">
     <button
-      type="button"
-      onClick={handleLoadMore}
-      disabled={loadingMore}
-      className="
-        group
-        inline-flex
-        items-center
-        gap-1.5
-        border-b
-        border-[#D9CBB3]
-        pb-1
-        text-sm
-        font-medium
-        text-[#6F665B]
-        transition-all
-        duration-200
-        hover:border-[#BFAE91]
-        hover:text-[#3F3A34]
-        disabled:cursor-not-allowed
-        disabled:opacity-50
-      "
-    >
-      {loadingMore ? (
-        "Cargando..."
-      ) : (
-        <>
-          <span>Ver más fotografías</span>
+  type="button"
+  onClick={handleLoadMore}
+  disabled={loadingMore}
+  className="
+    group
+    inline-flex
+    items-center
+    gap-2
+    border-b
+    border-[#D9CBB3]
+    pb-1
+    text-base
+    font-medium
+    text-[#5F574D]
+    transition-all
+    duration-200
+    hover:border-[#BFAE91]
+    hover:text-[#3F3A34]
+    disabled:cursor-not-allowed
+    disabled:opacity-50
+  "
+>
+  {loadingMore ? (
+    <span className="inline-flex items-center gap-2">
+      <span
+        className="
+          h-3.5
+          w-3.5
+          animate-spin
+          rounded-full
+          border
+          border-[#D9CBB3]
+          border-t-[#6F665B]
+        "
+      />
+      Cargando...
+    </span>
+  ) : (
+    <>
+      <span>Ver más fotografías</span>
 
-          <ChevronDown
-            size={14}
-            strokeWidth={1.8}
-            className="
-              transition-transform
-              duration-200
-              group-hover:translate-y-0.5
-            "
-          />
-        </>
-      )}
-    </button>
+      <ChevronDown
+        size={16}
+        strokeWidth={1.8}
+        className="
+          transition-transform
+          duration-200
+          group-hover:translate-y-0.5
+        "
+      />
+    </>
+  )}
+</button>
   </div>
 )}
 

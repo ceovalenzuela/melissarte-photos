@@ -444,7 +444,7 @@ export default function GallerySection({
   return (
     <>
       <div className="-mt-3">
-        <div className="mb-2 flex items-center justify-end gap-2">
+        <div className="mb-2 flex items-center justify-center gap-2 sm:justify-end">
           <button
             type="button"
             onClick={handleOpenPresentation}
@@ -678,7 +678,7 @@ export default function GallerySection({
             />
 
             {qrDataUrl && (
-              <div className="absolute bottom-5 right-5 z-20 flex flex-col items-center rounded-2xl bg-black/45 p-2.5 text-center backdrop-blur-sm sm:bottom-7 sm:right-7">
+              <div className="absolute bottom-24 right-4 z-20 flex flex-col items-center rounded-2xl bg-black/45 p-2.5 text-center backdrop-blur-sm sm:bottom-7 sm:right-7">
                 <img
                   src={qrDataUrl}
                   alt="Código QR para compartir fotografías"

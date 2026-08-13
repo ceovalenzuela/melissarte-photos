@@ -48,7 +48,7 @@ export default function HomePage() {
         {/* Beneficios */}
 
         <section className="mt-5">
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 md:grid-cols-3">
 
             <div className="rounded-2xl bg-[#F7F3EC] p-5">
               <div className="flex items-start gap-3">
@@ -109,6 +109,50 @@ export default function HomePage() {
                   <p className="mt-1.5 text-sm leading-6 text-[#5C554B]">
                     Reúne las fotografías de todos en un mismo lugar para no
                     perder ningún recuerdo.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+
+            <div className="rounded-2xl bg-[#F7F3EC] p-5">
+              <div className="flex items-start gap-3">
+
+                <CheckCircle2
+                  size={20}
+                  className="mt-1 shrink-0 text-[#A88249]"
+                />
+
+                <div>
+                  <h3 className="font-semibold text-[#1F1F1F]">
+                    Presentación en vivo
+                  </h3>
+
+                  <p className="mt-1.5 text-sm leading-6 text-[#5C554B]">
+                    Proyecta las fotografías del evento en tiempo real y
+                    disfruta los recuerdos mientras llegan.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+
+            <div className="rounded-2xl bg-[#F7F3EC] p-5">
+              <div className="flex items-start gap-3">
+
+                <CheckCircle2
+                  size={20}
+                  className="mt-1 shrink-0 text-[#A88249]"
+                />
+
+                <div>
+                  <h3 className="font-semibold text-[#1F1F1F]">
+                    Fotos en tiempo real
+                  </h3>
+
+                  <p className="mt-1.5 text-sm leading-6 text-[#5C554B]">
+                    Las nuevas fotografías aparecen automáticamente en la
+                    presentación mientras tus invitados las comparten.
                   </p>
                 </div>
 
@@ -243,6 +287,7 @@ export default function HomePage() {
             <div className="mt-4 space-y-1.5 text-sm text-[#5C554B]">
               <p>📸 Fotografías ilimitadas</p>
               <p>📱 QR y enlace para compartir</p>
+              <p>📺 Presentación de fotos en vivo</p>
               <p>⏰ Disponible durante el evento y 15 días después</p>
             </div>
 

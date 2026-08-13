@@ -204,17 +204,34 @@ export async function getPhotosByEvent(
 export async function getAllPhotosByEvent(
   eventId: string
 ): Promise<Photo[]> {
-  const { data, error } = await supabase
-    .from("photos")
-    .select("*")
-    .eq("event_id", eventId)
-    .order("uploaded_at", {
-      ascending: true,
-    });
+  const allPhotos: Photo[] = [];
+  const pageSize = 500;
+  let from = 0;
 
-  if (error) throw error;
+  while (true) {
+    const { data, error } = await supabase
+      .from("photos")
+      .select("*")
+      .eq("event_id", eventId)
+      .order("uploaded_at", {
+        ascending: true,
+      })
+      .range(from, from + pageSize - 1);
 
-  return data ?? [];
+    if (error) throw error;
+
+    const page = data ?? [];
+
+    allPhotos.push(...page);
+
+    if (page.length < pageSize) {
+      break;
+    }
+
+    from += pageSize;
+  }
+
+  return allPhotos;
 }
 
 export async function getPhotoCount(

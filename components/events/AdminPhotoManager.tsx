@@ -25,6 +25,10 @@ export default function AdminPhotoManager({
   const [deletingPhotoId, setDeletingPhotoId] =
     useState<string | null>(null);
 
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+
   async function loadPhotos() {
     try {
       setLoading(true);
@@ -38,6 +42,8 @@ export default function AdminPhotoManager({
 
       setPhotos(result.photos);
       setTotalPhotos(result.total);
+      setPage(0);
+      setHasMore(result.total > result.photos.length);
     } catch (error) {
       console.error(error);
       toast.error(
@@ -70,9 +76,11 @@ export default function AdminPhotoManager({
         current.filter((item) => item.id !== photo.id)
       );
 
-      setTotalPhotos((current) =>
-        Math.max(0, current - 1)
-      );
+      setTotalPhotos((current) => {
+        const nextTotal = Math.max(0, current - 1);
+        setHasMore(nextTotal > photos.length - 1);
+        return nextTotal;
+      });
 
       toast.success("Fotografía eliminada.");
     } catch (error) {
@@ -83,6 +91,43 @@ export default function AdminPhotoManager({
       );
     } finally {
       setDeletingPhotoId(null);
+    }
+  }
+
+  async function handleLoadMore() {
+    if (loadingMore || !hasMore) {
+      return;
+    }
+
+    try {
+      setLoadingMore(true);
+
+      const nextPage = page + 1;
+
+      const result = await getPhotosByEvent(
+        eventId,
+        nextPage,
+        40,
+        "newest"
+      );
+
+      setPhotos((current) => [
+        ...current,
+        ...result.photos,
+      ]);
+
+      setPage(nextPage);
+      setTotalPhotos(result.total);
+      setHasMore(
+        (nextPage + 1) * 40 < result.total
+      );
+    } catch (error) {
+      console.error(error);
+      toast.error(
+        "No fue posible cargar más fotografías."
+      );
+    } finally {
+      setLoadingMore(false);
     }
   }
 
@@ -164,9 +209,42 @@ export default function AdminPhotoManager({
         </div>
       )}
 
-      {!loading && totalPhotos > 40 && (
-        <p className="text-xs text-[#7D7467]">
-          Mostrando las 40 fotografías más recientes.
+      {!loading && hasMore && (
+        <div className="flex justify-center">
+          <button
+            type="button"
+            onClick={handleLoadMore}
+            disabled={loadingMore}
+            className="
+              inline-flex
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-[#D9CBB3]
+              bg-transparent
+              px-5
+              py-2.5
+              text-sm
+              font-medium
+              text-[#5F574D]
+              transition-colors
+              duration-200
+              hover:bg-[#F8F4EE]
+              disabled:cursor-not-allowed
+              disabled:opacity-50
+            "
+          >
+            {loadingMore
+              ? "Cargando..."
+              : "Ver más fotografías"}
+          </button>
+        </div>
+      )}
+
+      {!loading && totalPhotos > 0 && (
+        <p className="text-center text-xs text-[#7D7467]">
+          Mostrando {photos.length} de {totalPhotos} fotografías.
         </p>
       )}
     </div>

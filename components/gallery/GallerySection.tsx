@@ -883,7 +883,7 @@ useEffect(() => {
             />
 
             {qrDataUrl && (
-              <div className="absolute bottom-5 right-5 z-20 flex flex-col items-center rounded-2xl bg-black/45 p-2.5 text-center backdrop-blur-sm sm:bottom-7 sm:right-7">
+              <div className="absolute bottom-28 right-5 z-20 flex flex-col items-center rounded-2xl bg-black/45 p-2.5 text-center backdrop-blur-sm sm:bottom-7 sm:right-7">
                 <img
                   src={qrDataUrl}
                   alt="Código QR para compartir fotografías"
@@ -960,11 +960,11 @@ useEffect(() => {
               />
             </div>
 
-            <div className="absolute bottom-24 left-5 z-20 max-w-[55vw] sm:bottom-8 sm:left-8">
-              <h1 className="max-w-[80%] text-[22px] font-semibold leading-tight tracking-tight text-white/75 md:text-3xl">
-  {event.title}
-</h1>
-            </div>
+            <div className="absolute bottom-24 left-5 z-20 max-w-[90vw] sm:bottom-8 sm:left-8 md:max-w-[90vw]">
+  <h2 className="text-xl font-medium tracking-wide text-white/80 drop-shadow-lg sm:text-2xl md:whitespace-nowrap md:text-5xl">
+    {event.title}
+  </h2>
+</div>
 
             <div className="absolute right-4 top-4 rounded-full bg-black/30 px-3 py-1.5 text-xs text-white/80 backdrop-blur-sm">
               {presentationIndex + 1} / {presentationPhotos.length}

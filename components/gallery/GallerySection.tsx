@@ -8,6 +8,7 @@ import QRCode from "qrcode";
 import {
   getPhotosByEvent,
   getAllPhotosByEvent,
+  deletePhotoWithToken,
   PhotoSortOrder,
 } from "@/lib/photos";
 import { subscribeToEventPhotos } from "@/lib/realtime";
@@ -50,7 +51,7 @@ export default function GallerySection({
     useState(0);
 
   const [lightboxPhotos, setLightboxPhotos] =
-    useState<Photo[]>([]);
+  useState<Photo[]>([]);
 
   const [page, setPage] = useState(0);
 
@@ -58,6 +59,12 @@ export default function GallerySection({
 
   const [loadingMore, setLoadingMore] =
     useState(false);
+
+  const [organizerToken, setOrganizerToken] =
+    useState<string | null>(null);
+
+  const [deletingPhotoId, setDeletingPhotoId] =
+    useState<string | null>(null);
 
   const [sortOrder, setSortOrder] =
     useState<PhotoSortOrder>("newest");
@@ -80,6 +87,14 @@ export default function GallerySection({
   const [qrDataUrl, setQrDataUrl] = useState("");
 
   const presentationOpenRef = useRef(false);
+  const presentationPhotosRef = useRef<Photo[]>([]);
+
+  useEffect(() => {
+    const token =
+      new URLSearchParams(window.location.search).get("token");
+
+    setOrganizerToken(token);
+  }, []);
 
   async function loadPhotos(
     currentPage = 0,
@@ -125,49 +140,93 @@ export default function GallerySection({
     }
   }
 
+  async function handleDeletePhoto(photo: Photo) {
+    if (!organizerToken || deletingPhotoId) {
+      return;
+    }
+
+    const confirmed = window.confirm(
+      "¿Eliminar esta fotografía?\n\nEsta acción no se puede deshacer."
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      setDeletingPhotoId(photo.id);
+
+      await deletePhotoWithToken(
+        event.id,
+        photo.id,
+        organizerToken
+      );
+
+      setPhotos((current) =>
+        current.filter((item) => item.id !== photo.id)
+      );
+
+      setPresentationPhotos((current) =>
+        current.filter((item) => item.id !== photo.id)
+      );
+
+      setTotalPhotos((current) =>
+        Math.max(0, current - 1)
+      );
+
+      onTotalPhotosChange?.(
+        Math.max(0, totalPhotos - 1)
+      );
+    } catch (error) {
+      console.error(error);
+
+      window.alert(
+        "No fue posible eliminar la fotografía. Intenta nuevamente."
+      );
+    } finally {
+      setDeletingPhotoId(null);
+    }
+  }
+
   async function handlePhotoClick(index: number) {
-    const clickedPhoto = photos[index];
-    if (!clickedPhoto) return;
+  try {
+    const allPhotos =
+      await getAllPhotosByEvent(event.id);
+
+    const orderedPhotos =
+      sortOrder === "newest"
+        ? [...allPhotos].reverse()
+        : allPhotos;
+
+    const selectedPhoto = photos[index];
+
+    const fullIndex =
+      orderedPhotos.findIndex(
+        (photo) =>
+          photo.id === selectedPhoto.id
+      );
 
     window.history.pushState(
       { lightbox: true },
       ""
     );
 
-    try {
-      const allPhotos = await getAllPhotosByEvent(
-        event.id
-      );
+    setLightboxPhotos(orderedPhotos);
 
-      // Keep the Lightbox in the same order as the
-      // visible gallery: newest → oldest.
-      const lightboxOrder = [
-        ...allPhotos,
-      ].reverse();
+    setSelectedIndex(
+      fullIndex >= 0
+        ? fullIndex
+        : 0
+    );
 
-      const fullIndex = lightboxOrder.findIndex(
-        (photo) => photo.id === clickedPhoto.id
-      );
-
-      setLightboxPhotos(
-        lightboxOrder.length > 0
-          ? lightboxOrder
-          : photos
-      );
-      setSelectedIndex(
-        fullIndex >= 0 ? fullIndex : index
-      );
-    } catch (error) {
-      console.error(
-        "No fue posible cargar todas las fotografías para el visor:",
-        error
-      );
-      setLightboxPhotos(photos);
-      setSelectedIndex(index);
-    } finally {
-      setLightboxOpen(true);
-    }
+    setLightboxOpen(true);
+  } catch (error) {
+    console.error(
+      "No fue posible cargar las fotografías:",
+      error
+    );
   }
+}
 
   async function handleLoadMore() {
     if (loadingMore) return;
@@ -193,10 +252,14 @@ export default function GallerySection({
 
       if (allPhotos.length === 0) return;
 
-      const presentationOrder = [...allPhotos].reverse();
+      presentationPhotosRef.current =
+  allPhotos;
 
-      setPresentationPhotos(presentationOrder);
-      setPresentationIndex(0);
+setPresentationPhotos(
+  allPhotos
+);
+
+setPresentationIndex(0);
       setPresentationPlaying(true);
       presentationOpenRef.current = true;
       setPresentationOpen(true);
@@ -235,57 +298,100 @@ export default function GallerySection({
   }
 
   useEffect(() => {
-    loadPhotos(0, true, sortOrder);
+  loadPhotos(0, true, sortOrder);
 
-    const unsubscribe =
-      subscribeToEventPhotos(
-        event.id,
-        async () => {
-          await loadPhotos(
-            0,
-            true,
-            sortOrder
+  const unsubscribe =
+    subscribeToEventPhotos(
+      event.id,
+      async () => {
+        await loadPhotos(
+          0,
+          true,
+          sortOrder
+        );
+
+        if (!presentationOpenRef.current) {
+          return;
+        }
+
+        try {
+          const allPhotos =
+            await getAllPhotosByEvent(
+              event.id
+            );
+
+          const currentPhotos =
+            presentationPhotosRef.current;
+
+          const currentIds = new Set(
+            currentPhotos.map(
+              (photo) => photo.id
+            )
           );
 
-          if (presentationOpenRef.current) {
-            try {
-              const allPhotos =
-                await getAllPhotosByEvent(
-                  event.id
-                );
+          const newPhotos =
+            allPhotos.filter(
+              (photo) =>
+                !currentIds.has(photo.id)
+            );
 
-              const presentationOrder = [
-                ...allPhotos,
-              ].reverse();
+          const currentIdsSet = new Set(
+            allPhotos.map(
+              (photo) => photo.id
+            )
+          );
 
-              setPresentationPhotos(
-                (currentPhotos) => {
-                  const currentNewestId =
-                    currentPhotos[0]?.id;
+          const hadDeletedPhotos =
+            currentPhotos.some(
+              (photo) =>
+                !currentIdsSet.has(photo.id)
+            );
 
-                  const newNewestId =
-                    presentationOrder[0]?.id;
+          presentationPhotosRef.current =
+            allPhotos;
 
-                  if (
-                    currentNewestId !== newNewestId
-                  ) {
-                    setPresentationIndex(0);
-                  }
+          setPresentationPhotos(
+            allPhotos
+          );
 
-                  return presentationOrder;
-                }
+          if (newPhotos.length > 0) {
+            const newestPhoto =
+              newPhotos[newPhotos.length - 1];
+
+            const newestIndex =
+              allPhotos.findIndex(
+                (photo) =>
+                  photo.id ===
+                  newestPhoto.id
               );
-            } catch (error) {
-              console.error(error);
-            }
-          }
-        }
-      );
 
-    return () => {
-      unsubscribe();
-    };
-  }, [event.id]);
+            if (newestIndex >= 0) {
+              setPresentationIndex(
+                newestIndex
+              );
+            }
+          } else if (hadDeletedPhotos) {
+            setPresentationIndex(
+              (current) =>
+                Math.min(
+                  current,
+                  Math.max(
+                    0,
+                    allPhotos.length - 1
+                  )
+                )
+            );
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    );
+
+  return () => {
+    unsubscribe();
+  };
+}, [event.id]);
 
   useEffect(() => {
     function handlePopState() {
@@ -325,59 +431,115 @@ export default function GallerySection({
       });
   }, [presentationOpen]);
 
-  useEffect(() => {
-    if (!presentationOpen) return;
+useEffect(() => {
+  if (!presentationOpen) return;
 
-    let checking = false;
+  let checking = false;
 
-    const checkForNewPhotos = async () => {
-      if (checking) return;
+  const checkForPhotoChanges = async () => {
+    if (checking) return;
 
-      checking = true;
+    checking = true;
 
-      try {
-        const allPhotos = await getAllPhotosByEvent(event.id);
-        const presentationOrder = [...allPhotos].reverse();
-
-        setPresentationPhotos((currentPhotos) => {
-          const currentNewestId =
-            currentPhotos[0]?.id;
-
-          const newNewestId =
-            presentationOrder[0]?.id;
-
-          if (currentNewestId === newNewestId) {
-            return currentPhotos;
-          }
-
-          // A new photo is now the first item because
-          // the presentation is ordered newest → oldest.
-          setPresentationIndex(0);
-
-          return presentationOrder;
-        });
-      } catch (error) {
-        console.error(
-          "No fue posible actualizar la presentación en vivo:",
-          error
+    try {
+      const allPhotos =
+        await getAllPhotosByEvent(
+          event.id
         );
-      } finally {
-        checking = false;
+
+      const currentPhotos =
+        presentationPhotosRef.current;
+
+      const currentIds = new Set(
+        currentPhotos.map(
+          (photo) => photo.id
+        )
+      );
+
+      const allIds = new Set(
+        allPhotos.map(
+          (photo) => photo.id
+        )
+      );
+
+      const newPhotos =
+        allPhotos.filter(
+          (photo) =>
+            !currentIds.has(photo.id)
+        );
+
+      const deletedPhotos =
+        currentPhotos.filter(
+          (photo) =>
+            !allIds.has(photo.id)
+        );
+
+      if (
+        newPhotos.length === 0 &&
+        deletedPhotos.length === 0
+      ) {
+        return;
       }
-    };
 
-    // Check shortly after opening, then every 5 seconds.
-    checkForNewPhotos();
+      presentationPhotosRef.current =
+        allPhotos;
 
-    const liveTimer = window.setInterval(
-      checkForNewPhotos,
+      setPresentationPhotos(
+        allPhotos
+      );
+
+      if (newPhotos.length > 0) {
+        const newestPhoto =
+          newPhotos[newPhotos.length - 1];
+
+        const newestIndex =
+          allPhotos.findIndex(
+            (photo) =>
+              photo.id ===
+              newestPhoto.id
+          );
+
+        if (newestIndex >= 0) {
+          setPresentationIndex(
+            newestIndex
+          );
+        }
+      } else {
+        setPresentationIndex(
+          (current) =>
+            Math.min(
+              current,
+              Math.max(
+                0,
+                allPhotos.length - 1
+              )
+            )
+        );
+      }
+    } catch (error) {
+      console.error(
+        "No fue posible actualizar la presentación en vivo:",
+        error
+      );
+    } finally {
+      checking = false;
+    }
+  };
+
+  checkForPhotoChanges();
+
+  const liveTimer =
+    window.setInterval(
+      checkForPhotoChanges,
       5000
     );
 
-    return () => {
-      window.clearInterval(liveTimer);
-    };
-  }, [presentationOpen, event.id]);
+  return () => {
+    window.clearInterval(
+      liveTimer
+    );
+  };
+}, [presentationOpen, event.id]);
 
   useEffect(() => {
     if (!presentationOpen || !presentationPlaying) {
@@ -481,7 +643,7 @@ export default function GallerySection({
   return (
     <>
       <div className="-mt-3">
-        <div className="mx-auto mb-2 flex w-[92%] max-w-2xl items-center justify-between gap-2 sm:mx-0 sm:w-auto sm:max-w-none sm:justify-end">
+        <div className="mb-2 flex items-center justify-end gap-2">
           <button
             type="button"
             onClick={handleOpenPresentation}
@@ -491,18 +653,21 @@ export default function GallerySection({
               gap-1.5
               rounded-full
               border
-              border-[#CDB58F]
-              bg-[#CDB58F]
+              border-[#A88249]
+              bg-[#A88249]
               px-3.5
               py-1.5
               text-sm
               font-medium
               text-white
               shadow-sm
+              opacity-100
               transition-colors
               duration-200
-              hover:bg-[#BFA57B]
-              hover:border-[#BFA57B]
+              hover:bg-[#977640]
+              hover:border-[#977640]
+              disabled:opacity-100
+              disabled:cursor-pointer
               focus:outline-none
             "
           >
@@ -639,6 +804,9 @@ export default function GallerySection({
           totalPhotos={totalPhotos}
           loading={loading}
           onPhotoClick={handlePhotoClick}
+          canDeletePhotos={Boolean(organizerToken)}
+          deletingPhotoId={deletingPhotoId}
+          onDeletePhoto={handleDeletePhoto}
         />
 
         {hasMore && (
@@ -715,7 +883,7 @@ export default function GallerySection({
             />
 
             {qrDataUrl && (
-              <div className="absolute bottom-23 right-4 z-20 flex flex-col items-center rounded-2xl bg-black/45 p-2.5 text-center backdrop-blur-sm sm:bottom-7 sm:right-7">
+              <div className="absolute bottom-5 right-5 z-20 flex flex-col items-center rounded-2xl bg-black/45 p-2.5 text-center backdrop-blur-sm sm:bottom-7 sm:right-7">
                 <img
                   src={qrDataUrl}
                   alt="Código QR para compartir fotografías"
@@ -805,19 +973,13 @@ export default function GallerySection({
         )}
 
         <PhotoLightbox
-          open={lightboxOpen}
-          index={selectedIndex}
-          photos={
-            lightboxPhotos.length > 0
-              ? lightboxPhotos
-              : photos
-          }
+  open={lightboxOpen}
+  index={selectedIndex}
+  photos={lightboxPhotos}
           onClose={() => {
             if (lightboxOpen) {
               window.history.back();
             }
-            setLightboxOpen(false);
-            setLightboxPhotos([]);
           }}
         />
       </div>

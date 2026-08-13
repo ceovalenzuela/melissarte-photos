@@ -248,6 +248,34 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* Galería demo */}
+
+        <section className="mt-10 rounded-3xl bg-[#F7F3EC] p-6 text-center md:p-8">
+
+          <p className="text-sm font-medium uppercase tracking-wide text-[#A88249]">
+            Conoce la experiencia
+          </p>
+
+          <h2 className="mt-2 text-2xl font-semibold text-[#1F1F1F] md:text-3xl">
+            Así se verá tu galería
+          </h2>
+
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#7D7467] md:text-base">
+            Explora una galería demo y descubre cómo tus invitados podrán
+            compartir, disfrutar y ver las fotografías de tu evento en tiempo real.
+          </p>
+
+          <a
+            href="https://fotos.melissartedecorativo.com/e/boda-sofia-y-alejandro"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex h-12 items-center justify-center rounded-full bg-[#A88249] px-8 text-base font-medium text-white shadow-sm transition-colors duration-200 hover:bg-[#977640]"
+          >
+            Ver galería demo →
+          </a>
+
+        </section>
+
         {/* Precio y CTA */}
 
         <section className="mt-10 text-center">
@@ -288,7 +316,7 @@ export default function HomePage() {
               <p>📸 Fotografías ilimitadas</p>
               <p>📱 QR y enlace para compartir</p>
               <p>📺 Presentación de fotos en vivo</p>
-              <p>⏰ Disponible durante el evento y 15 días después</p>
+              <p>⏰ Disponible durante el evento y 30 días después</p>
             </div>
 
             <Link

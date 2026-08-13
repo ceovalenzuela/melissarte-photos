@@ -250,34 +250,138 @@ export async function getPhotoCount(
   return count ?? 0;
 }
 
+export async function deletePhotoWithToken(
+  eventId: string,
+  photoId: string,
+  token: string
+) {
+  const { data, error } = await supabase.rpc(
+    "delete_photo_with_token",
+    {
+      p_event_id: eventId,
+      p_photo_id: photoId,
+      p_token: token,
+    }
+  );
+
+  if (error) {
+    throw error;
+  }
+
+  const authorizedPhoto = Array.isArray(data)
+    ? data[0]
+    : data;
+
+  if (
+    !authorizedPhoto?.file_path ||
+    !authorizedPhoto?.thumbnail_path
+  ) {
+    throw new Error(
+      "No tienes permiso para eliminar esta fotografía."
+    );
+  }
+
+  const paths = [
+    authorizedPhoto.file_path,
+    authorizedPhoto.thumbnail_path,
+  ];
+
+  const { error: storageError } =
+    await supabase.storage
+      .from("event-photos")
+      .remove(paths);
+
+  if (storageError) {
+    throw storageError;
+  }
+
+  const { data: deleted, error: deleteError } =
+    await supabase.rpc(
+      "delete_photo_record_with_token",
+      {
+        p_event_id: eventId,
+        p_photo_id: photoId,
+        p_token: token,
+      }
+    );
+
+  if (deleteError) {
+    throw deleteError;
+  }
+
+  if (!deleted) {
+    throw new Error(
+      "La fotografía no pudo eliminarse de la galería."
+    );
+  }
+}
+
+export async function deletePhoto(photo: Photo) {
+  const paths = [
+    photo.file_path,
+    photo.thumbnail_path,
+  ];
+
+  const { error: storageError } =
+    await supabase.storage
+      .from("event-photos")
+      .remove(paths);
+
+  if (storageError) {
+    throw storageError;
+  }
+
+  const { data, error } = await supabase.rpc(
+    "delete_photo_admin",
+    {
+      p_photo_id: photo.id,
+    }
+  );
+
+  if (error) {
+    throw error;
+  }
+
+  if (!data) {
+    throw new Error(
+      "La fotografía no pudo eliminarse."
+    );
+  }
+}
+
 export async function deletePhotosByEvent(
   eventId: string
 ) {
   const photos = await getAllPhotosByEvent(eventId);
 
-  if (photos.length > 0) {
-    const paths = photos.flatMap((photo) => [
-      photo.file_path,
-      photo.thumbnail_path,
-    ]);
-
-    const { error: storageError } =
-      await supabase.storage
-        .from("event-photos")
-        .remove(paths);
-
-    if (storageError) {
-      throw storageError;
-    }
-
-    const { error: photosError } =
-      await supabase
-        .from("photos")
-        .delete()
-        .eq("event_id", eventId);
-
-    if (photosError) {
-      throw photosError;
-    }
+  if (photos.length === 0) {
+    return 0;
   }
+
+  const paths = photos.flatMap((photo) => [
+    photo.file_path,
+    photo.thumbnail_path,
+  ]);
+
+  const { error: storageError } =
+    await supabase.storage
+      .from("event-photos")
+      .remove(paths);
+
+  if (storageError) {
+    throw storageError;
+  }
+
+  const { data, error } = await supabase.rpc(
+    "delete_photos_admin",
+    {
+      p_event_id: eventId,
+    }
+  );
+
+  if (error) {
+    throw error;
+  }
+
+  return data ?? 0;
 }

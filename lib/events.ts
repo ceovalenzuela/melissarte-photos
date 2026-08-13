@@ -73,19 +73,34 @@ export async function uploadCover(file: File, eventId: string) {
 }
 
 export async function getPhotoCounts() {
-  const { data, error } = await supabase
-    .from("photos")
-    .select("event_id");
-
-  if (error) {
-    throw error;
-  }
-
   const counts: Record<string, number> = {};
 
-  for (const photo of data ?? []) {
-    counts[photo.event_id] =
-      (counts[photo.event_id] ?? 0) + 1;
+  const pageSize = 1000;
+  let from = 0;
+
+  while (true) {
+    const { data, error } = await supabase
+      .from("photos")
+      .select("event_id")
+      .order("event_id")
+      .range(from, from + pageSize - 1);
+
+    if (error) {
+      throw error;
+    }
+
+    const page = data ?? [];
+
+    for (const photo of page) {
+      counts[photo.event_id] =
+        (counts[photo.event_id] ?? 0) + 1;
+    }
+
+    if (page.length < pageSize) {
+      break;
+    }
+
+    from += pageSize;
   }
 
   return counts;

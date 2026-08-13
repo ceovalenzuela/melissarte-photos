@@ -28,10 +28,9 @@ export default function EventHero({
 
   return (
     <section className="relative overflow-hidden rounded-3xl shadow-lg">
-      <div className="relative h-[460px] w-full md:h-[460px]">
+      <div className="relative h-[360px] w-full md:h-[460px]">
         {event.cover_image ? (
           <>
-            {/* Fondo desenfocado solo en escritorio */}
             <Image
               src={event.cover_image}
               alt=""
@@ -40,7 +39,6 @@ export default function EventHero({
               className="hidden scale-110 object-cover blur-2xl md:block"
             />
 
-            {/* Fotografía principal */}
             <Image
               src={event.cover_image}
               alt={event.title}
@@ -63,19 +61,16 @@ export default function EventHero({
           <div className="h-full w-full bg-gradient-to-br from-zinc-800 via-zinc-900 to-black" />
         )}
 
-        {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/65" />
 
-        {/* Título */}
-        <div className="absolute inset-x-0 top-0 px-8 pt-4 text-white md:pt-7">
-          <h1 className="max-w-[80%] text-[22px] font-semibold leading-tight tracking-tight text-white/75 md:text-3xl">
+        <div className="absolute inset-x-0 top-0 px-8 pt-3 text-white md:pt-7">
+          <h1 className="max-w-[80%] text-[27px] font-semibold leading-tight tracking-tight text-white/85 md:text-4xl">
             {event.title}
           </h1>
         </div>
 
-        {/* Información */}
         <div className="absolute inset-x-0 bottom-0 px-8 pb-10 text-white">
-          <div className="flex items-center gap-2 text-base text-white/75">
+          <div className="flex items-center gap-2 text-base text-white/85">
             <CalendarDays size={18} />
             <span>{formattedDate}</span>
           </div>
@@ -93,7 +88,7 @@ export default function EventHero({
                 backdrop-blur-lg
               "
             >
-              <span className="text-sm font-medium text-white/75">
+              <span className="text-sm font-medium text-white/85">
                 {photoCount} fotografías
               </span>
             </div>

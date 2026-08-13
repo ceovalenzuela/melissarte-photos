@@ -18,6 +18,18 @@ export function subscribeToEventPhotos(
         callback();
       }
     )
+    .on(
+      "postgres_changes",
+      {
+        event: "DELETE",
+        schema: "public",
+        table: "photos",
+        filter: `event_id=eq.${eventId}`,
+      },
+      () => {
+        callback();
+      }
+    )
     .subscribe();
 
   return () => {

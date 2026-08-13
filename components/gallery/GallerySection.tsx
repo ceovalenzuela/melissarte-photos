@@ -49,6 +49,9 @@ export default function GallerySection({
   const [selectedIndex, setSelectedIndex] =
     useState(0);
 
+  const [lightboxPhotos, setLightboxPhotos] =
+    useState<Photo[]>([]);
+
   const [page, setPage] = useState(0);
 
   const [hasMore, setHasMore] = useState(true);
@@ -122,14 +125,48 @@ export default function GallerySection({
     }
   }
 
-  function handlePhotoClick(index: number) {
+  async function handlePhotoClick(index: number) {
+    const clickedPhoto = photos[index];
+    if (!clickedPhoto) return;
+
     window.history.pushState(
       { lightbox: true },
       ""
     );
 
-    setSelectedIndex(index);
-    setLightboxOpen(true);
+    try {
+      const allPhotos = await getAllPhotosByEvent(
+        event.id
+      );
+
+      // Keep the Lightbox in the same order as the
+      // visible gallery: newest → oldest.
+      const lightboxOrder = [
+        ...allPhotos,
+      ].reverse();
+
+      const fullIndex = lightboxOrder.findIndex(
+        (photo) => photo.id === clickedPhoto.id
+      );
+
+      setLightboxPhotos(
+        lightboxOrder.length > 0
+          ? lightboxOrder
+          : photos
+      );
+      setSelectedIndex(
+        fullIndex >= 0 ? fullIndex : index
+      );
+    } catch (error) {
+      console.error(
+        "No fue posible cargar todas las fotografías para el visor:",
+        error
+      );
+      setLightboxPhotos(photos);
+      setSelectedIndex(index);
+    } finally {
+      setLightboxOpen(true);
+    }
   }
 
   async function handleLoadMore() {
@@ -444,7 +481,7 @@ export default function GallerySection({
   return (
     <>
       <div className="-mt-3">
-        <div className="mb-2 flex items-center justify-between gap-2 sm:justify-end">
+        <div className="mx-auto mb-2 flex w-[92%] max-w-2xl items-center justify-between gap-2 sm:mx-0 sm:w-auto sm:max-w-none sm:justify-end">
           <button
             type="button"
             onClick={handleOpenPresentation}
@@ -770,11 +807,17 @@ export default function GallerySection({
         <PhotoLightbox
           open={lightboxOpen}
           index={selectedIndex}
-          photos={photos}
+          photos={
+            lightboxPhotos.length > 0
+              ? lightboxPhotos
+              : photos
+          }
           onClose={() => {
             if (lightboxOpen) {
               window.history.back();
             }
+            setLightboxOpen(false);
+            setLightboxPhotos([]);
           }}
         />
       </div>

@@ -444,7 +444,7 @@ export default function GallerySection({
   return (
     <>
       <div className="-mt-3">
-        <div className="mb-2 flex items-center justify-center gap-2 sm:justify-end">
+        <div className="mb-2 flex items-center justify-between gap-2 sm:justify-end">
           <button
             type="button"
             onClick={handleOpenPresentation}

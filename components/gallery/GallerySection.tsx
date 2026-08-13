@@ -678,7 +678,7 @@ export default function GallerySection({
             />
 
             {qrDataUrl && (
-              <div className="absolute bottom-22 right-4 z-20 flex flex-col items-center rounded-2xl bg-black/45 p-2.5 text-center backdrop-blur-sm sm:bottom-7 sm:right-7">
+              <div className="absolute bottom-23 right-4 z-20 flex flex-col items-center rounded-2xl bg-black/45 p-2.5 text-center backdrop-blur-sm sm:bottom-7 sm:right-7">
                 <img
                   src={qrDataUrl}
                   alt="Código QR para compartir fotografías"

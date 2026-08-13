@@ -883,11 +883,11 @@ useEffect(() => {
             />
 
             {qrDataUrl && (
-              <div className="absolute bottom-28 right-5 z-20 flex flex-col items-center rounded-2xl bg-black/45 p-2.5 text-center backdrop-blur-sm sm:bottom-7 sm:right-7">
+              <div className="absolute bottom-20 right-5 z-20 flex flex-col items-center rounded-2xl bg-black/45 p-2 text-center backdrop-blur-sm sm:bottom-7 sm:right-7">
                 <img
                   src={qrDataUrl}
                   alt="Código QR para compartir fotografías"
-                  className="block h-20 w-20 rounded-lg bg-white p-1 sm:h-24 sm:w-24"
+                  className="block h-16 w-16 rounded-lg bg-white p-1 sm:h-24 sm:w-24"
                 />
                 <p className="mt-2 w-full text-center text-[10px] font-medium leading-tight text-white">
                   Escanea para compartir tus fotos
@@ -960,8 +960,8 @@ useEffect(() => {
               />
             </div>
 
-            <div className="absolute bottom-24 left-5 z-20 max-w-[90vw] sm:bottom-8 sm:left-8 md:max-w-[90vw]">
-  <h2 className="text-xl font-medium tracking-wide text-white/80 drop-shadow-lg sm:text-2xl md:whitespace-nowrap md:text-5xl">
+            <div className="absolute bottom-20 left-5 z-20 max-w-[55%] sm:bottom-8 sm:left-8 sm:max-w-[70%]">
+  <h2 className="text-xl font-medium leading-tight tracking-wide text-white/80 drop-shadow-lg sm:text-2xl md:whitespace-nowrap md:text-5xl">
     {event.title}
   </h2>
 </div>

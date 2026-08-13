@@ -643,7 +643,7 @@ useEffect(() => {
   return (
     <>
       <div className="-mt-3">
-        <div className="mb-2 flex items-center justify-end gap-2">
+        <div className="mb-2 flex items-center justify-between gap-2 md:justify-end">
           <button
             type="button"
             onClick={handleOpenPresentation}
@@ -961,9 +961,9 @@ useEffect(() => {
             </div>
 
             <div className="absolute bottom-24 left-5 z-20 max-w-[55vw] sm:bottom-8 sm:left-8">
-              <h2 className="text-xl font-medium tracking-wide text-white/80 drop-shadow-lg sm:text-2xl md:text-3xl">
-                {event.title}
-              </h2>
+              <h1 className="max-w-[80%] text-[22px] font-semibold leading-tight tracking-tight text-white/75 md:text-3xl">
+  {event.title}
+</h1>
             </div>
 
             <div className="absolute right-4 top-4 rounded-full bg-black/30 px-3 py-1.5 text-xs text-white/80 backdrop-blur-sm">

@@ -887,9 +887,9 @@ useEffect(() => {
                 <img
                   src={qrDataUrl}
                   alt="Código QR para compartir fotografías"
-                  className="block h-16 w-16 rounded-lg bg-white p-1 sm:h-24 sm:w-24"
+                  className="block h-16 w-16 rounded-lg bg-white p-1 sm:h-32 sm:w-32"
                 />
-                <p className="mt-2 w-full text-center text-[10px] font-medium leading-tight text-white">
+                <p className="mt-2 w-full text-center text-[10px] font-medium leading-tight text-white sm:text-sm">
                   Escanea para compartir tus fotos
                 </p>
               </div>
@@ -956,7 +956,7 @@ useEffect(() => {
               <img
                 src="/me-logo.png"
                 alt="MelissArte Photos"
-                className="h-auto w-[96px] opacity-80 sm:w-[112px]"
+                className="h-auto w-[96px] opacity-80 sm:w-[128px]"
               />
             </div>
 

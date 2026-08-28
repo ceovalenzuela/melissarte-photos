@@ -18,13 +18,18 @@ export default function EventHero({
 }: Props) {
   const [loaded, setLoaded] = useState(false);
 
-  const formattedDate = new Date(
-    event.event_date
-  ).toLocaleDateString("es-MX", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+const [year, month, day] =
+  event.event_date.split("-");
+
+const formattedDate = new Date(
+  Number(year),
+  Number(month) - 1,
+  Number(day)
+).toLocaleDateString("es-MX", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
 
   return (
     <section className="relative overflow-hidden rounded-3xl shadow-lg">

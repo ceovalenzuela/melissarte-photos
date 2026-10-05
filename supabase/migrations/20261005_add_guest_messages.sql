@@ -134,3 +134,33 @@ begin
   end if;
 end
 $$;
+
+-- Admin access: the existing admin is authenticated with Supabase Auth.
+drop policy if exists "Authenticated users can read all event messages"
+  on public.messages;
+
+create policy "Authenticated users can read all event messages"
+  on public.messages
+  for select
+  to authenticated
+  using (auth.uid() is not null);
+
+drop policy if exists "Authenticated users can delete event messages"
+  on public.messages;
+
+create policy "Authenticated users can delete event messages"
+  on public.messages
+  for delete
+  to authenticated
+  using (auth.uid() is not null);
+
+drop policy if exists "Authenticated users can delete event message audio"
+  on storage.objects;
+
+create policy "Authenticated users can delete event message audio"
+  on storage.objects
+  for delete
+  to authenticated
+  using (
+    bucket_id = 'event-messages'
+  );

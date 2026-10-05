@@ -19,13 +19,17 @@ import { Message } from "@/types/message";
 
 interface Props {
   eventId: string;
+  isPublished: boolean;
 }
 
 type MessageTab = "text" | "audio";
 
 const MESSAGE_LIST_LIMIT = 24;
 
-export default function GuestMessages({\n  eventId,\n  isPublished,\n}: Props) {
+export default function GuestMessages({
+  eventId,
+  isPublished,
+}: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -55,6 +59,12 @@ export default function GuestMessages({\n  eventId,\n  isPublished,\n}: Props) {
   }, [eventId]);
 
   useEffect(() => {
+    if (!isPublished) {
+      setMessages([]);
+      setLoading(false);
+      return;
+    }
+
     loadMessages();
 
     const unsubscribe =
@@ -144,6 +154,7 @@ export default function GuestMessages({\n  eventId,\n  isPublished,\n}: Props) {
           <button
             type="button"
             onClick={() => setOpen(true)}
+            disabled={!isPublished}
             className="
               mt-4
               inline-flex
@@ -167,6 +178,10 @@ export default function GuestMessages({\n  eventId,\n  isPublished,\n}: Props) {
               hover:border-[#977640]
               hover:bg-[#977640]
               hover:shadow-md
+              disabled:cursor-not-allowed
+              disabled:opacity-60
+              disabled:hover:translate-y-0
+              disabled:hover:shadow-sm
             "
           >
             <MessageCircle size={16} />
@@ -174,227 +189,236 @@ export default function GuestMessages({\n  eventId,\n  isPublished,\n}: Props) {
           </button>
         </div>
 
-        {!isPublished ? (\n          <p className="mt-3 text-center text-xs text-[#7D7467]">\n            Pronto podrás dejar y escuchar mensajes cuando la galería esté publicada.\n          </p>\n        ) : (\n        <div className="mt-6 flex flex-col items-center gap-3">
-          <div className="inline-flex rounded-full border border-[#E1D5C1] bg-[#FBF9F5] p-1">
-            <button
-              type="button"
-              onClick={() => setActiveTab("text")}
-              className={`
-                inline-flex
-                items-center
-                gap-1.5
-                rounded-full
-                px-3.5
-                py-1.5
-                text-xs
-                font-medium
-                transition-all
-                ${activeTab === "text"
-                  ? "bg-white text-[#3F3A34] shadow-sm"
-                  : "text-[#8B8378] hover:text-[#3F3A34]"
-                }
-              `}
-            >
-              <PenLine size={14} />
-              Escritos
-              <span className="text-[10px] tabular-nums text-[#A49B8F]">
-                {textMessages.length}
-              </span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setActiveTab("audio")}
-              className={`
-                inline-flex
-                items-center
-                gap-1.5
-                rounded-full
-                px-3.5
-                py-1.5
-                text-xs
-                font-medium
-                transition-all
-                ${activeTab === "audio"
-                  ? "bg-white text-[#3F3A34] shadow-sm"
-                  : "text-[#8B8378] hover:text-[#3F3A34]"
-                }
-              `}
-            >
-              <Mic size={14} />
-              Audios
-              <span className="text-[10px] tabular-nums text-[#A49B8F]">
-                {audioMessages.length}
-              </span>
-            </button>
-          </div>
-
-          {activeMessages.length > 1 && (
-            <div className="hidden items-center justify-center gap-1.5 md:flex">
-              <button
-                type="button"
-                onClick={() =>
-                  scrollCarousel(
-                    activeCarouselRef,
-                    "left"
-                  )
-                }
-                aria-label="Ver anteriores"
-                className="
-                  flex
-                  h-8
-                  w-8
-                  items-center
-                  justify-center
-                  rounded-full
-                  border
-                  border-[#E1D5C1]
-                  bg-white
-                  text-[#6F665B]
-                  transition
-                  hover:bg-[#F8F4EE]
-                "
-              >
-                <ChevronLeft size={16} />
-              </button>
-
-              <button
-                type="button"
-                onClick={() =>
-                  scrollCarousel(
-                    activeCarouselRef,
-                    "right"
-                  )
-                }
-                aria-label="Ver siguientes"
-                className="
-                  flex
-                  h-8
-                  w-8
-                  items-center
-                  justify-center
-                  rounded-full
-                  border
-                  border-[#E1D5C1]
-                  bg-white
-                  text-[#6F665B]
-                  transition
-                  hover:bg-[#F8F4EE]
-                "
-              >
-                <ChevronRight size={16} />
-              </button>
-            </div>
-          )}
-        </div>
-
-        {loading ? (
-          <div className="mt-5 h-28 rounded-2xl border border-[#E7DCC8] bg-[#FDFBF8]" />
-        ) : activeMessages.length === 0 ? (
-          <div className="mt-5 rounded-2xl border border-dashed border-[#E1D5C1] bg-[#FDFBF8] px-5 py-7 text-center">
-            <p className="text-sm text-[#7D7467]">
-              Aún no hay {activeTab === "audio" ? "audios" : "mensajes escritos"}.
-            </p>
-
-            <button
-              type="button"
-              onClick={() => setOpen(true)}
-              className="mt-2 text-xs font-medium text-[#A88249] underline underline-offset-4 hover:text-[#977640]"
-            >
-              Dejar el primero
-            </button>
-          </div>
-        ) : (
-          <div
-            ref={activeCarouselRef}
-            className="
-              mt-5
-              flex
-              items-stretch
-              snap-x
-              snap-mandatory
-              gap-3
-              overflow-x-auto
-              px-1
-              pb-2
-              [scrollbar-width:none]
-              [&::-webkit-scrollbar]:hidden
-              md:gap-4
-            "
-          >
-            {activeTab === "text"
-              ? textMessages.map((message) => (
-                  <article
-                    key={message.id}
-                    className="
-                      min-w-[82%]
-                      h-[184px]
-                      min-h-[184px]
-                      flex
-                      snap-start
-                      flex-col
-                      rounded-2xl
-                      border
-                      border-[#E7DCC8]
-                      bg-[#FDFBF8]
-                      p-5
-                      shadow-sm
-                      transition-all
-                      duration-300
-                      hover:-translate-y-0.5
-                      hover:shadow-md
-                      sm:min-w-[46%]
-                      lg:min-w-[32%]
-                    "
-                  >
-                    <div className="flex items-center justify-between gap-3">
-                      <p className="truncate text-sm font-semibold text-[#3F3A34]">
-                        {message.author_name || "Invitado"}
-                      </p>
-
-                      <Heart
-                        size={14}
-                        className="shrink-0 text-[#C5A36A]"
-                        fill="currentColor"
-                      />
-                    </div>
-
-                    <div className="mt-4 flex gap-2.5">
-                      <span className="font-serif text-3xl leading-none text-[#D5BD94]">
-                        “
-                      </span>
-
-                      <p className="line-clamp-4 whitespace-pre-wrap text-sm leading-6 text-[#5C554B]">
-                        {message.content}
-                      </p>
-                    </div>
-                  </article>
-                ))
-              : audioMessages.map((message) => (
-                  <div
-                    key={message.id}
-                    className="
-                      min-w-[82%]
-                      h-[184px]
-                      min-h-[184px]
-                      snap-start
-                      sm:min-w-[46%]
-                      lg:min-w-[32%]
-                    "
-                  >
-                    <GuestAudioMessageCard
-                      message={message}
-                    />
-                  </div>
-                ))}
-          </div>
-        )}
-
-        {activeMessages.length > 1 && (
-          <p className="mt-1 text-center text-[10px] tracking-wide text-[#A49B8F] md:hidden">
-            Desliza para ver más
+        {!isPublished ? (
+          <p className="mt-3 text-center text-xs text-[#7D7467]">
+            Pronto podrás dejar y escuchar mensajes cuando la galería esté publicada.
           </p>
+        ) : (
+          <>
+            <div className="mt-6 flex flex-col items-center gap-3">
+              <div className="inline-flex rounded-full border border-[#E1D5C1] bg-[#FBF9F5] p-1">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("text")}
+                  className={`
+                    inline-flex
+                    items-center
+                    gap-1.5
+                    rounded-full
+                    px-3.5
+                    py-1.5
+                    text-xs
+                    font-medium
+                    transition-all
+                    ${activeTab === "text"
+                      ? "bg-white text-[#3F3A34] shadow-sm"
+                      : "text-[#8B8378] hover:text-[#3F3A34]"
+                    }
+                  `}
+                >
+                  <PenLine size={14} />
+                  Escritos
+                  <span className="text-[10px] tabular-nums text-[#A49B8F]">
+                    {textMessages.length}
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("audio")}
+                  className={`
+                    inline-flex
+                    items-center
+                    gap-1.5
+                    rounded-full
+                    px-3.5
+                    py-1.5
+                    text-xs
+                    font-medium
+                    transition-all
+                    ${activeTab === "audio"
+                      ? "bg-white text-[#3F3A34] shadow-sm"
+                      : "text-[#8B8378] hover:text-[#3F3A34]"
+                    }
+                  `}
+                >
+                  <Mic size={14} />
+                  Audios
+                  <span className="text-[10px] tabular-nums text-[#A49B8F]">
+                    {audioMessages.length}
+                  </span>
+                </button>
+              </div>
+
+              {activeMessages.length > 1 && (
+                <div className="hidden items-center justify-center gap-1.5 md:flex">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      scrollCarousel(
+                        activeCarouselRef,
+                        "left"
+                      )
+                    }
+                    aria-label="Ver anteriores"
+                    className="
+                      flex
+                      h-8
+                      w-8
+                      items-center
+                      justify-center
+                      rounded-full
+                      border
+                      border-[#E1D5C1]
+                      bg-white
+                      text-[#6F665B]
+                      transition
+                      hover:bg-[#F8F4EE]
+                    "
+                  >
+                    <ChevronLeft size={16} />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      scrollCarousel(
+                        activeCarouselRef,
+                        "right"
+                      )
+                    }
+                    aria-label="Ver siguientes"
+                    className="
+                      flex
+                      h-8
+                      w-8
+                      items-center
+                      justify-center
+                      rounded-full
+                      border
+                      border-[#E1D5C1]
+                      bg-white
+                      text-[#6F665B]
+                      transition
+                      hover:bg-[#F8F4EE]
+                    "
+                  >
+                    <ChevronRight size={16} />
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {loading ? (
+              <div className="mt-5 h-28 rounded-2xl border border-[#E7DCC8] bg-[#FDFBF8]" />
+            ) : activeMessages.length === 0 ? (
+              <div className="mt-5 rounded-2xl border border-dashed border-[#E1D5C1] bg-[#FDFBF8] px-5 py-7 text-center">
+                <p className="text-sm text-[#7D7467]">
+                  Aún no hay {activeTab === "audio" ? "audios" : "mensajes escritos"}.
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() => setOpen(true)}
+                  className="mt-2 text-xs font-medium text-[#A88249] underline underline-offset-4 hover:text-[#977640]"
+                >
+                  Dejar el primero
+                </button>
+              </div>
+            ) : (
+              <div
+                ref={activeCarouselRef}
+                className="
+                  mt-5
+                  flex
+                  items-stretch
+                  snap-x
+                  snap-mandatory
+                  gap-3
+                  overflow-x-auto
+                  px-1
+                  pb-2
+                  [scrollbar-width:none]
+                  [&::-webkit-scrollbar]:hidden
+                  md:gap-4
+                "
+              >
+                {activeTab === "text"
+                  ? textMessages.map((message) => (
+                      <article
+                        key={message.id}
+                        className="
+                          min-w-[82%]
+                          h-[184px]
+                          min-h-[184px]
+                          flex
+                          snap-start
+                          flex-col
+                          rounded-2xl
+                          border
+                          border-[#E7DCC8]
+                          bg-[#FDFBF8]
+                          p-5
+                          shadow-sm
+                          transition-all
+                          duration-300
+                          hover:-translate-y-0.5
+                          hover:shadow-md
+                          sm:min-w-[46%]
+                          lg:min-w-[32%]
+                        "
+                      >
+                        <div className="flex items-center justify-between gap-3">
+                          <p className="truncate text-sm font-semibold text-[#3F3A34]">
+                            {message.author_name || "Invitado"}
+                          </p>
+
+                          <Heart
+                            size={14}
+                            className="shrink-0 text-[#C5A36A]"
+                            fill="currentColor"
+                          />
+                        </div>
+
+                        <div className="mt-4 flex gap-2.5">
+                          <span className="font-serif text-3xl leading-none text-[#D5BD94]">
+                            “
+                          </span>
+
+                          <p className="line-clamp-4 whitespace-pre-wrap text-sm leading-6 text-[#5C554B]">
+                            {message.content}
+                          </p>
+                        </div>
+                      </article>
+                    ))
+                  : audioMessages.map((message) => (
+                      <div
+                        key={message.id}
+                        className="
+                          min-w-[82%]
+                          h-[184px]
+                          min-h-[184px]
+                          snap-start
+                          sm:min-w-[46%]
+                          lg:min-w-[32%]
+                        "
+                      >
+                        <GuestAudioMessageCard
+                          message={message}
+                        />
+                      </div>
+                    ))}
+              </div>
+            )}
+
+            {activeMessages.length > 1 && (
+              <p className="mt-1 text-center text-[10px] tracking-wide text-[#A49B8F] md:hidden">
+                Desliza para ver más
+              </p>
+            )}
+          </>
         )}
+
       </div>
 
       <GuestMessageDialog

@@ -162,7 +162,6 @@ export async function downloadEventMessagesPdf(
         size: 10,
         font: boldFont,
         color: rgb(0.64, 0.50, 0.29),
-        characterSpacing: 2,
       });
 
       y -= 28;

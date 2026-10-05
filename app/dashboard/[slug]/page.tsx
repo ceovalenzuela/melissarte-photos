@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import EventHero from "@/components/events/EventHero";
 import EventActions from "@/components/events/EventActions";
+import AdminMessageManager from "@/components/events/AdminMessageManager";
 import { getEventBySlug } from "@/lib/events";
 import { getPhotoCount } from "@/lib/photos";
 import GallerySection from "@/components/gallery/GallerySection";
@@ -70,6 +71,9 @@ if (
     <div className="mx-auto mt-8 max-w-6xl">
       <GallerySection event={event} />
     </div>
+
+    <AdminMessageManager event={event} />
+
     <div className="mt-8">
   <Footer />
 </div>

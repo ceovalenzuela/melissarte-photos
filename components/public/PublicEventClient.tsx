@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { Event } from "@/types/event";
 
 import UploadButton from "./UploadButton";
+import GuestMessages from "./GuestMessages";
 import EventSummaryCard from "@/components/events/EventSummaryCard";
 import GallerySection from "@/components/gallery/GallerySection";
 
@@ -66,8 +67,8 @@ export default function PublicEventClient({
         );
 
         if (navigator.onLine) {
-  router.refresh();
-}
+          router.refresh();
+        }
       } else if (result.success > 0) {
         toast.warning(
           `${result.success} de ${result.total} fotografía${totalPlural} subida${successPlural}.\nReintenta las ${result.failed.length} restantes.`
@@ -87,7 +88,7 @@ export default function PublicEventClient({
       console.error(error);
 
       toast.error(
-        "No se pudo subir ninguna fotografía. Intenta Nuevamente."
+        "No se pudo subir ninguna fotografía. Intenta nuevamente."
       );
     } finally {
       setUploadState({
@@ -101,29 +102,33 @@ export default function PublicEventClient({
   return (
     <>
       <EventSummaryCard
-  welcomeMessage={event.welcome_message ?? undefined}
->
-  <div className="flex flex-col items-center">
-    <UploadButton
-      onSelect={handleSelect}
-      disabled={
-        event.status !== "published" ||
-        uploadState.uploading
-      }
-      uploading={uploadState.uploading}
-      completed={uploadState.completed}
-      total={uploadState.total}
-    />
+        welcomeMessage={event.welcome_message ?? undefined}
+      >
+        <div className="flex flex-col items-center">
+          <UploadButton
+            onSelect={handleSelect}
+            disabled={
+              event.status !== "published" ||
+              uploadState.uploading
+            }
+            uploading={uploadState.uploading}
+            completed={uploadState.completed}
+            total={uploadState.total}
+          />
 
-    {event.status !== "published" && (
-      <p className="mt-2 text-center text-xs text-[#7D7467]">
-        Pronto podrás disfrutar de esta galería
-      </p>
-    )}
-  </div>
-</EventSummaryCard>
+          {event.status !== "published" && (
+            <p className="mt-2 text-center text-xs text-[#7D7467]">
+              Pronto podrás disfrutar de esta galería
+            </p>
+          )}
+        </div>
+      </EventSummaryCard>
 
       <GallerySection event={event} />
+
+      {event.status === "published" && (
+        <GuestMessages eventId={event.id} />
+      )}
     </>
   );
 }

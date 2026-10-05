@@ -85,10 +85,31 @@ create policy "Guests can create messages for published events"
   to anon, authenticated
   with check (public.is_published_event(event_id));
 
-insert into storage.buckets (id, name, public)
-values ('event-messages', 'event-messages', true)
+insert into storage.buckets (
+  id,
+  name,
+  public,
+  file_size_limit,
+  allowed_mime_types
+)
+values (
+  'event-messages',
+  'event-messages',
+  true,
+  1048576,
+  array[
+    'audio/webm',
+    'audio/ogg',
+    'audio/mp4',
+    'audio/mpeg',
+    'audio/x-m4a'
+  ]::text[]
+)
 on conflict (id) do update
-set public = true;
+set
+  public = true,
+  file_size_limit = 1048576,
+  allowed_mime_types = excluded.allowed_mime_types;
 
 drop policy if exists "Public can read event message audio"
   on storage.objects;

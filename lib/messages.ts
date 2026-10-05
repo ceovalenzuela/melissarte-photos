@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import { Message } from "@/types/message";
 
-const MAX_TEXT_LENGTH = 300;
+const MAX_TEXT_LENGTH = 180;
 const MAX_AUDIO_SECONDS = 60;
 const MAX_AUDIO_BYTES = 1024 * 1024;
 const DEFAULT_MESSAGE_LIMIT = 24;
@@ -46,7 +46,7 @@ export async function createTextMessage(
 
   if (normalizedContent.length > MAX_TEXT_LENGTH) {
     throw new Error(
-      "El mensaje no puede exceder 300 caracteres."
+      "El mensaje no puede exceder 180 caracteres."
     );
   }
 

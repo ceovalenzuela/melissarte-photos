@@ -1,3 +1,4 @@
+import { Message } from "@/types/message";
 import { supabase } from "./supabase";
 
 export function subscribeToEventPhotos(
@@ -37,9 +38,14 @@ export function subscribeToEventPhotos(
   };
 }
 
+interface MessageRealtimeHandlers {
+  onInsert?: (message: Message) => void;
+  onDelete?: (messageId: string) => void;
+}
+
 export function subscribeToEventMessages(
   eventId: string,
-  callback: () => void
+  handlers: MessageRealtimeHandlers
 ) {
   const channel = supabase
     .channel(`messages-${eventId}`)
@@ -51,8 +57,10 @@ export function subscribeToEventMessages(
         table: "messages",
         filter: `event_id=eq.${eventId}`,
       },
-      () => {
-        callback();
+      (payload) => {
+        handlers.onInsert?.(
+          payload.new as Message
+        );
       }
     )
     .on(
@@ -63,8 +71,13 @@ export function subscribeToEventMessages(
         table: "messages",
         filter: `event_id=eq.${eventId}`,
       },
-      () => {
-        callback();
+      (payload) => {
+        const oldMessage =
+          payload.old as Partial<Message>;
+
+        if (oldMessage.id) {
+          handlers.onDelete?.(oldMessage.id);
+        }
       }
     )
     .subscribe();

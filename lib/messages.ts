@@ -87,7 +87,7 @@ export async function createAudioMessage(
     .upload(filePath, audioBlob, {
       contentType: audioBlob.type || "audio/webm",
       upsert: false,
-      cacheControl: "3600",
+      cacheControl: "31536000",
     });
 
   if (uploadError) throw uploadError;

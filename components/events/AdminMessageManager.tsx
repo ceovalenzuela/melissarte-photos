@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 import {
-  Download,
-  FileText,
   Heart,
   Mic,
   PenLine,
@@ -15,10 +13,6 @@ import {
   deleteMessage,
   getMessagesByEvent,
 } from "@/lib/messages";
-import {
-  downloadEventAudioMessagesZip,
-  downloadEventMessagesPdf,
-} from "@/lib/message-download";
 import { Event } from "@/types/event";
 import { Message } from "@/types/message";
 
@@ -27,8 +21,6 @@ interface Props {
 }
 
 type MessageTab = "text" | "audio";
-type Downloading = "pdf" | "audio" | null;
-
 const MESSAGE_LIST_LIMIT = 100;
 
 export default function AdminMessageManager({
@@ -40,49 +32,6 @@ export default function AdminMessageManager({
     useState<string | null>(null);
   const [activeTab, setActiveTab] =
     useState<MessageTab>("text");
-  const [downloading, setDownloading] =
-    useState<Downloading>(null);
-
-  async function loadMessages() {
-    try {
-      setLoading(true);
-
-      setMessages(
-        await getMessagesByEvent(
-          event.id,
-          MESSAGE_LIST_LIMIT
-        )
-      );
-    } catch (error) {
-      console.error(error);
-
-      toast.error(
-        "No fue posible cargar los mensajes."
-      );
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    loadMessages();
-  }, [event.id]);
-
-  const textMessages = messages.filter(
-    (message) =>
-      message.message_type === "text"
-  );
-
-  const audioMessages = messages.filter(
-    (message) =>
-      message.message_type === "audio"
-  );
-
-  const activeMessages =
-    activeTab === "text"
-      ? textMessages
-      : audioMessages;
-
   async function handleDelete(message: Message) {
     const confirmed = confirm(
       "¿Eliminar este mensaje?\n\nEsta acción no se puede deshacer."
@@ -113,78 +62,6 @@ export default function AdminMessageManager({
     }
   }
 
-  async function handleDownloadPdf() {
-    if (textMessages.length === 0) {
-      toast.info(
-        "Este evento aún no tiene mensajes escritos."
-      );
-      return;
-    }
-
-    try {
-      setDownloading("pdf");
-
-      const result =
-        await downloadEventMessagesPdf(event);
-
-      if (!result.success) {
-        toast.error(
-          "No se pudo generar el libro de firmas."
-        );
-        return;
-      }
-
-      toast.success(
-        "Libro de firmas descargado."
-      );
-    } catch (error) {
-      console.error(error);
-
-      toast.error(
-        "No se pudo generar el libro de firmas."
-      );
-    } finally {
-      setDownloading(null);
-    }
-  }
-
-  async function handleDownloadAudio() {
-    if (audioMessages.length === 0) {
-      toast.info(
-        "Este evento aún no tiene mensajes de voz."
-      );
-      return;
-    }
-
-    try {
-      setDownloading("audio");
-
-      const result =
-        await downloadEventAudioMessagesZip(
-          event
-        );
-
-      if (!result.success) {
-        toast.error(
-          "No se pudo completar la descarga de audios."
-        );
-        return;
-      }
-
-      toast.success(
-        "Audios descargados en un ZIP."
-      );
-    } catch (error) {
-      console.error(error);
-
-      toast.error(
-        "No se pudo completar la descarga de audios."
-      );
-    } finally {
-      setDownloading(null);
-    }
-  }
-
   return (
     <div className="space-y-5 rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] p-8 shadow-sm">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -206,77 +83,7 @@ export default function AdminMessageManager({
           </p>
         </div>
 
-        {messages.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={handleDownloadPdf}
-              disabled={
-                downloading !== null ||
-                textMessages.length === 0
-              }
-              className="
-                inline-flex
-                h-9
-                items-center
-                justify-center
-                gap-2
-                rounded-full
-                bg-[#A88249]
-                px-4
-                text-xs
-                font-medium
-                text-white
-                transition
-                hover:bg-[#977640]
-                disabled:cursor-not-allowed
-                disabled:opacity-50
-              "
-            >
-              {downloading === "pdf" ? (
-                <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-              ) : (
-                <FileText size={14} />
-              )}
-              Libro de firmas
-            </button>
 
-            <button
-              type="button"
-              onClick={handleDownloadAudio}
-              disabled={
-                downloading !== null ||
-                audioMessages.length === 0
-              }
-              className="
-                inline-flex
-                h-9
-                items-center
-                justify-center
-                gap-2
-                rounded-full
-                border
-                border-[#D9CBB3]
-                bg-white
-                px-4
-                text-xs
-                font-medium
-                text-[#5F574D]
-                transition
-                hover:bg-[#F8F4EE]
-                disabled:cursor-not-allowed
-                disabled:opacity-50
-              "
-            >
-              {downloading === "audio" ? (
-                <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#D9CBB3] border-t-[#6F665B]" />
-              ) : (
-                <Download size={14} />
-              )}
-              Audios ZIP
-            </button>
-          </div>
-        )}
       </div>
 
       {messages.length > 0 && (

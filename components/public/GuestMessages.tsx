@@ -124,17 +124,17 @@ export default function GuestMessages({ eventId }: Props) {
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col items-center text-center">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#A88249]">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.24em] text-[#A88249]">
               Un espacio para compartir
             </p>
 
             <div className="mt-1.5 flex items-center justify-center gap-2">
-              <h2 className="text-2xl font-semibold tracking-tight text-[#1F1F1F] md:text-3xl">
+              <h2 className="text-xl font-semibold tracking-tight text-[#1F1F1F] md:text-2xl">
                 Palabras y recuerdos de este día
               </h2>
 
               {messages.length > 0 && (
-                <span className="rounded-full bg-[#F3ECE2] px-2.5 py-1 text-[11px] font-medium tabular-nums text-[#8B8378]">
+                <span className="rounded-full bg-[#F3ECE2] px-2 py-0.5 text-[10px] font-medium tabular-nums text-[#8B8378]">
                   {messages.length}
                 </span>
               )}
@@ -169,12 +169,12 @@ export default function GuestMessages({ eventId }: Props) {
               hover:shadow-md
             "
           >
-            <MessageCircle size={16} />
+            <MessageCircle size={15} />
             Dejar un mensaje
           </button>
         </div>
 
-        <div className="mt-6 flex flex-col items-center gap-3">
+        <div className="mt-5 flex flex-col items-center gap-3">
           <div className="inline-flex rounded-full border border-[#E1D5C1] bg-[#FBF9F5] p-1">
             <button
               type="button"
@@ -184,9 +184,9 @@ export default function GuestMessages({ eventId }: Props) {
                 items-center
                 gap-1.5
                 rounded-full
-                px-3.5
+                px-3
                 py-1.5
-                text-xs
+                text-[11px]
                 font-medium
                 transition-all
                 ${activeTab === "text"
@@ -195,9 +195,9 @@ export default function GuestMessages({ eventId }: Props) {
                 }
               `}
             >
-              <PenLine size={14} />
+              <PenLine size={13} />
               Escritos
-              <span className="text-[10px] tabular-nums text-[#A49B8F]">
+              <span className="text-[9px] tabular-nums text-[#A49B8F]">
                 {textMessages.length}
               </span>
             </button>
@@ -221,7 +221,7 @@ export default function GuestMessages({ eventId }: Props) {
                 }
               `}
             >
-              <Mic size={14} />
+              <Mic size={13} />
               Audios
               <span className="text-[10px] tabular-nums text-[#A49B8F]">
                 {audioMessages.length}

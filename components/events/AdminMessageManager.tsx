@@ -1,8 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
-  ChevronLeft,
-  ChevronRight,
   Download,
   FileText,
   Heart,
@@ -10,7 +9,6 @@ import {
   PenLine,
   Trash2,
 } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import {
@@ -24,8 +22,6 @@ import {
 import { Event } from "@/types/event";
 import { Message } from "@/types/message";
 
-import GuestAudioMessageCard from "@/components/public/GuestAudioMessageCard";
-
 interface Props {
   event: Event;
 }
@@ -33,7 +29,7 @@ interface Props {
 type MessageTab = "text" | "audio";
 type Downloading = "pdf" | "audio" | null;
 
-const MESSAGE_LIST_LIMIT = 24;
+const MESSAGE_LIST_LIMIT = 100;
 
 export default function AdminMessageManager({
   event,
@@ -47,32 +43,30 @@ export default function AdminMessageManager({
   const [downloading, setDownloading] =
     useState<Downloading>(null);
 
-  const textCarouselRef =
-    useRef<HTMLDivElement | null>(null);
-  const audioCarouselRef =
-    useRef<HTMLDivElement | null>(null);
-
-  const loadMessages = useCallback(async () => {
+  async function loadMessages() {
     try {
-      const result = await getMessagesByEvent(
-        event.id,
-        MESSAGE_LIST_LIMIT
-      );
+      setLoading(true);
 
-      setMessages(result);
+      setMessages(
+        await getMessagesByEvent(
+          event.id,
+          MESSAGE_LIST_LIMIT
+        )
+      );
     } catch (error) {
       console.error(error);
+
       toast.error(
         "No fue posible cargar los mensajes."
       );
     } finally {
       setLoading(false);
     }
-  }, [event.id]);
+  }
 
   useEffect(() => {
     loadMessages();
-  }, [loadMessages]);
+  }, [event.id]);
 
   const textMessages = messages.filter(
     (message) =>
@@ -89,33 +83,6 @@ export default function AdminMessageManager({
       ? textMessages
       : audioMessages;
 
-  const activeCarouselRef =
-    activeTab === "text"
-      ? textCarouselRef
-      : audioCarouselRef;
-
-  function scrollCarousel(
-    ref: React.RefObject<HTMLDivElement | null>,
-    direction: "left" | "right"
-  ) {
-    const element = ref.current;
-
-    if (!element) return;
-
-    const amount = Math.max(
-      element.clientWidth * 0.9,
-      280
-    );
-
-    element.scrollBy({
-      left:
-        direction === "right"
-          ? amount
-          : -amount,
-      behavior: "smooth",
-    });
-  }
-
   async function handleDelete(message: Message) {
     const confirmed = confirm(
       "¿Eliminar este mensaje?\n\nEsta acción no se puede deshacer."
@@ -125,6 +92,7 @@ export default function AdminMessageManager({
 
     try {
       setDeletingMessageId(message.id);
+
       await deleteMessage(message);
 
       setMessages((current) =>
@@ -136,6 +104,7 @@ export default function AdminMessageManager({
       toast.success("Mensaje eliminado.");
     } catch (error) {
       console.error(error);
+
       toast.error(
         "No fue posible eliminar el mensaje."
       );
@@ -145,8 +114,6 @@ export default function AdminMessageManager({
   }
 
   async function handleDownloadPdf() {
-    if (downloading !== null) return;
-
     if (textMessages.length === 0) {
       toast.info(
         "Este evento aún no tiene mensajes escritos."
@@ -172,6 +139,7 @@ export default function AdminMessageManager({
       );
     } catch (error) {
       console.error(error);
+
       toast.error(
         "No se pudo generar el libro de firmas."
       );
@@ -181,8 +149,6 @@ export default function AdminMessageManager({
   }
 
   async function handleDownloadAudio() {
-    if (downloading !== null) return;
-
     if (audioMessages.length === 0) {
       toast.info(
         "Este evento aún no tiene mensajes de voz."
@@ -210,6 +176,7 @@ export default function AdminMessageManager({
       );
     } catch (error) {
       console.error(error);
+
       toast.error(
         "No se pudo completar la descarga de audios."
       );
@@ -219,26 +186,28 @@ export default function AdminMessageManager({
   }
 
   return (
-    <section className="mt-10 border-t border-[#E7DCC8] pt-8 md:mt-12 md:pt-10">
-      <div className="mx-auto max-w-6xl">
-        <div className="flex flex-col items-center text-center">
-          <p className="text-[9px] font-semibold uppercase tracking-[0.24em] text-[#A88249]">
-            Un espacio para compartir
-          </p>
-
-          <div className="mt-1.5 flex items-center justify-center gap-2">
-            <h2 className="text-xl font-semibold tracking-tight text-[#1F1F1F] md:text-2xl">
-              Palabras y recuerdos de este día
+    <div className="space-y-5 rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] p-8 shadow-sm">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-semibold text-[#1F1F1F]">
+              Mensajes
             </h2>
 
-            {messages.length > 0 && (
-              <span className="rounded-full bg-[#F3ECE2] px-2 py-0.5 text-[10px] font-medium tabular-nums text-[#8B8378]">
-                {messages.length}
-              </span>
-            )}
+            <span className="rounded-full bg-[#F3ECE2] px-2 py-0.5 text-[10px] font-medium tabular-nums text-[#8B8378]">
+              {messages.length}
+            </span>
           </div>
 
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+          <p className="mt-1 text-sm text-[#7D7467]">
+            {messages.length === 0
+              ? "Esta galería no tiene mensajes."
+              : `${messages.length} ${messages.length === 1 ? "mensaje" : "mensajes"} en esta galería.`}
+          </p>
+        </div>
+
+        {messages.length > 0 && (
+          <div className="flex flex-wrap gap-2">
             <button
               type="button"
               onClick={handleDownloadPdf}
@@ -258,7 +227,6 @@ export default function AdminMessageManager({
                 text-xs
                 font-medium
                 text-white
-                shadow-sm
                 transition
                 hover:bg-[#977640]
                 disabled:cursor-not-allowed
@@ -308,9 +276,11 @@ export default function AdminMessageManager({
               Audios ZIP
             </button>
           </div>
-        </div>
+        )}
+      </div>
 
-        <div className="mt-5 flex flex-col items-center gap-3">
+      {messages.length > 0 && (
+        <div className="flex justify-center sm:justify-start">
           <div className="inline-flex rounded-full border border-[#E1D5C1] bg-[#FBF9F5] p-1">
             <button
               type="button"
@@ -364,252 +334,103 @@ export default function AdminMessageManager({
               </span>
             </button>
           </div>
-
-          {activeMessages.length > 1 && (
-            <div className="hidden items-center justify-center gap-1.5 md:flex">
-              <button
-                type="button"
-                onClick={() =>
-                  scrollCarousel(
-                    activeCarouselRef,
-                    "left"
-                  )
-                }
-                aria-label="Ver anteriores"
-                className="
-                  flex
-                  h-8
-                  w-8
-                  items-center
-                  justify-center
-                  rounded-full
-                  border
-                  border-[#E1D5C1]
-                  bg-white
-                  text-[#6F665B]
-                  transition
-                  hover:bg-[#F8F4EE]
-                "
-              >
-                <ChevronLeft size={16} />
-              </button>
-
-              <button
-                type="button"
-                onClick={() =>
-                  scrollCarousel(
-                    activeCarouselRef,
-                    "right"
-                  )
-                }
-                aria-label="Ver siguientes"
-                className="
-                  flex
-                  h-8
-                  w-8
-                  items-center
-                  justify-center
-                  rounded-full
-                  border
-                  border-[#E1D5C1]
-                  bg-white
-                  text-[#6F665B]
-                  transition
-                  hover:bg-[#F8F4EE]
-                "
-              >
-                <ChevronRight size={16} />
-              </button>
-            </div>
-          )}
         </div>
+      )}
 
-        {loading ? (
-          <div className="mt-5 h-28 rounded-2xl border border-[#E7DCC8] bg-[#FDFBF8]" />
-        ) : activeMessages.length === 0 ? (
-          <div className="mt-5 rounded-2xl border border-dashed border-[#E1D5C1] bg-[#FDFBF8] px-5 py-7 text-center">
-            <p className="text-sm text-[#7D7467]">
-              Aún no hay{" "}
-              {activeTab === "audio"
-                ? "audios"
-                : "mensajes escritos"}.
-            </p>
-          </div>
-        ) : (
-          <div
-            ref={activeCarouselRef}
-            className="
-              mt-5
-              flex
-              items-stretch
-              snap-x
-              snap-mandatory
-              gap-3
-              overflow-x-auto
-              px-1
-              pb-2
-              [scrollbar-width:none]
-              [&::-webkit-scrollbar]:hidden
-              md:gap-4
-            "
-          >
-            {activeTab === "text"
-              ? textMessages.map((message) => (
-                  <article
-                    key={message.id}
-                    className="
-                      relative
-                      min-w-[82%]
-                      h-[184px]
-                      min-h-[184px]
-                      flex
-                      snap-start
-                      flex-col
-                      rounded-2xl
-                      border
-                      border-[#E7DCC8]
-                      bg-[#FDFBF8]
-                      p-5
-                      shadow-sm
-                      transition-all
-                      duration-300
-                      hover:-translate-y-0.5
-                      hover:shadow-md
-                      sm:min-w-[46%]
-                      lg:min-w-[32%]
-                    "
-                  >
-                    <div className="flex items-center justify-between gap-3 pr-8">
-                      <p className="truncate text-sm font-semibold text-[#3F3A34]">
-                        {message.author_name || "Invitado"}
-                      </p>
+      {loading ? (
+        <p className="text-sm text-[#7D7467]">
+          Cargando mensajes...
+        </p>
+      ) : messages.length === 0 ? (
+        <p className="text-sm text-[#7D7467]">
+          Esta galería no tiene mensajes.
+        </p>
+      ) : activeMessages.length === 0 ? (
+        <p className="text-sm text-[#7D7467]">
+          No hay {
+            activeTab === "audio"
+              ? "mensajes de voz"
+              : "mensajes escritos"
+          }.
+        </p>
+      ) : (
+        <div className="space-y-3">
+          {activeMessages.map((message) => (
+            <article
+              key={message.id}
+              className="relative rounded-2xl border border-[#E7DCC8] bg-white p-4 pr-12"
+            >
+              <div className="flex items-center gap-2">
+                <p className="truncate text-sm font-semibold text-[#3F3A34]">
+                  {message.author_name || "Invitado"}
+                </p>
 
-                      <Heart
-                        size={14}
-                        className="shrink-0 text-[#C5A36A]"
-                        fill="currentColor"
-                      />
-                    </div>
+                <Heart
+                  size={13}
+                  className="shrink-0 text-[#C5A36A]"
+                  fill="currentColor"
+                />
+              </div>
 
-                    <div className="mt-4 flex gap-2.5">
-                      <span className="font-serif text-3xl leading-none text-[#D5BD94]">
-                        “
-                      </span>
+              {message.message_type === "text" ? (
+                <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-[#5C554B]">
+                  {message.content}
+                </p>
+              ) : message.public_url ? (
+                <audio
+                  controls
+                  preload="metadata"
+                  src={message.public_url}
+                  className="mt-2 w-full"
+                />
+              ) : (
+                <p className="mt-2 text-sm text-[#9A9287]">
+                  Este audio no está disponible.
+                </p>
+              )}
 
-                      <p className="line-clamp-4 whitespace-pre-wrap text-sm leading-6 text-[#5C554B]">
-                        {message.content}
-                      </p>
-                    </div>
+              <button
+                type="button"
+                onClick={() => handleDelete(message)}
+                disabled={
+                  deletingMessageId === message.id
+                }
+                aria-label="Eliminar mensaje"
+                className="
+                  absolute
+                  right-2
+                  top-2
+                  flex
+                  h-8
+                  w-8
+                  items-center
+                  justify-center
+                  rounded-full
+                  bg-black/5
+                  text-[#6F665B]
+                  transition-colors
+                  hover:bg-red-50
+                  hover:text-red-600
+                  disabled:cursor-wait
+                  disabled:opacity-60
+                "
+              >
+                {deletingMessageId === message.id ? (
+                  <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#D9CBB3] border-t-[#6F665B]" />
+                ) : (
+                  <Trash2 size={15} />
+                )}
+              </button>
+            </article>
+          ))}
+        </div>
+      )}
 
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleDelete(message)
-                      }
-                      disabled={
-                        deletingMessageId ===
-                        message.id
-                      }
-                      aria-label="Eliminar mensaje"
-                      className="
-                        absolute
-                        right-3
-                        top-3
-                        flex
-                        h-8
-                        w-8
-                        items-center
-                        justify-center
-                        rounded-full
-                        bg-black/5
-                        text-[#6F665B]
-                        transition-colors
-                        hover:bg-red-50
-                        hover:text-red-600
-                        disabled:cursor-wait
-                        disabled:opacity-60
-                      "
-                    >
-                      {deletingMessageId ===
-                      message.id ? (
-                        <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#D9CBB3] border-t-[#6F665B]" />
-                      ) : (
-                        <Trash2 size={15} />
-                      )}
-                    </button>
-                  </article>
-                ))
-              : audioMessages.map((message) => (
-                  <div
-                    key={message.id}
-                    className="
-                      relative
-                      min-w-[82%]
-                      h-[184px]
-                      min-h-[184px]
-                      snap-start
-                      sm:min-w-[46%]
-                      lg:min-w-[32%]
-                    "
-                  >
-                    <GuestAudioMessageCard
-                      message={message}
-                    />
-
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleDelete(message)
-                      }
-                      disabled={
-                        deletingMessageId ===
-                        message.id
-                      }
-                      aria-label="Eliminar mensaje de voz"
-                      className="
-                        absolute
-                        right-3
-                        top-3
-                        z-10
-                        flex
-                        h-8
-                        w-8
-                        items-center
-                        justify-center
-                        rounded-full
-                        bg-black/5
-                        text-[#6F665B]
-                        transition-colors
-                        hover:bg-red-50
-                        hover:text-red-600
-                        disabled:cursor-wait
-                        disabled:opacity-60
-                      "
-                    >
-                      {deletingMessageId ===
-                      message.id ? (
-                        <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#D9CBB3] border-t-[#6F665B]" />
-                      ) : (
-                        <Trash2 size={15} />
-                      )}
-                    </button>
-                  </div>
-                ))}
-          </div>
-        )}
-
-        {activeMessages.length > 1 && (
-          <p className="mt-1 text-center text-[10px] tracking-wide text-[#A49B8F] md:hidden">
-            Desliza para ver más
-          </p>
-        )}
-
-        {!loading && messages.length > 0 && (
-          <p className="mt-2 text-center text-[10px] tracking-wide text-[#A49B8F]">
-            Mostrando los 24 mensajes más recientes.
-          </p>
-        )}
-      </div>
-    </section>
+      {!loading && messages.length > 0 && (
+        <p className="text-center text-xs text-[#7D7467]">
+          Mostrando hasta {MESSAGE_LIST_LIMIT} mensajes recientes.
+        </p>
+      )}
+    </div>
   );
 }

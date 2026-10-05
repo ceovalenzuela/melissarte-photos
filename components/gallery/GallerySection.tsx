@@ -81,6 +81,8 @@ export default function GallerySection({
   const [presentationIndex, setPresentationIndex] =
     useState(0);
 
+  const GALLERY_PAGE_SIZE = 24;
+
   const [presentationPlaying, setPresentationPlaying] =
     useState(true);
 
@@ -107,7 +109,7 @@ export default function GallerySection({
       const result = await getPhotosByEvent(
         event.id,
         currentPage,
-        40,
+        GALLERY_PAGE_SIZE,
         order
       );
 
@@ -122,7 +124,7 @@ export default function GallerySection({
         ]);
       }
 
-      setHasMore(newPhotos.length === 40);
+      setHasMore(newPhotos.length === GALLERY_PAGE_SIZE);
 
       setPage(currentPage);
 

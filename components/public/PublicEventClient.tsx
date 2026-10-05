@@ -127,7 +127,7 @@ export default function PublicEventClient({
       <GallerySection event={event} />
 
       {event.status === "published" && (
-        <GuestMessages eventId={event.id} />
+        <GuestMessages\n          eventId={event.id}\n          isPublished={event.status === "published"}\n        />
       )}
     </>
   );

@@ -130,7 +130,7 @@ export default function GuestMessages({ eventId }: Props) {
 
             <div className="mt-1.5 flex items-center justify-center gap-2">
               <h2 className="text-2xl font-semibold tracking-tight text-[#1F1F1F] md:text-3xl">
-                De quienes compartieron este día
+                Palabras de tus invitados
               </h2>
 
               {messages.length > 0 && (
@@ -328,8 +328,8 @@ export default function GuestMessages({ eventId }: Props) {
                     key={message.id}
                     className="
                       min-w-[82%]
-                      min-h-[176px]
-                      h-full
+                      h-[184px]
+                      min-h-[184px]
                       flex
                       snap-start
                       flex-col
@@ -364,7 +364,7 @@ export default function GuestMessages({ eventId }: Props) {
                         “
                       </span>
 
-                      <p className="line-clamp-5 whitespace-pre-wrap text-sm leading-6 text-[#5C554B]">
+                      <p className="line-clamp-4 whitespace-pre-wrap text-sm leading-6 text-[#5C554B]">
                         {message.content}
                       </p>
                     </div>
@@ -375,8 +375,8 @@ export default function GuestMessages({ eventId }: Props) {
                     key={message.id}
                     className="
                       min-w-[82%]
-                      min-h-[176px]
-                      h-full
+                      h-[184px]
+                      min-h-[184px]
                       snap-start
                       sm:min-w-[46%]
                       lg:min-w-[32%]

@@ -128,7 +128,7 @@ export default function EventEditor({ event }: Props) {
 
       <AdminPhotoManager eventId={values.id} />
 
-      <AdminMessageManager eventId={values.id} />
+      <AdminMessageManager event={values} />
 
       <div className="space-y-6 rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] p-8 shadow-sm">
         <div>

@@ -23,6 +23,8 @@ interface Props {
 
 type MessageTab = "text" | "audio";
 
+const MESSAGE_LIST_LIMIT = 24;
+
 export default function GuestMessages({ eventId }: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [open, setOpen] = useState(false);
@@ -37,7 +39,10 @@ export default function GuestMessages({ eventId }: Props) {
 
   const loadMessages = useCallback(async () => {
     try {
-      const result = await getMessagesByEvent(eventId, 100);
+      const result = await getMessagesByEvent(
+        eventId,
+        MESSAGE_LIST_LIMIT
+      );
       setMessages(result);
     } catch (error) {
       console.error(
@@ -53,10 +58,23 @@ export default function GuestMessages({ eventId }: Props) {
     loadMessages();
 
     const unsubscribe =
-      subscribeToEventMessages(
-        eventId,
-        loadMessages
-      );
+      subscribeToEventMessages(eventId, {
+        onInsert: (message) => {
+          setMessages((current) => [
+            message,
+            ...current.filter(
+              (item) => item.id !== message.id
+            ),
+          ].slice(0, MESSAGE_LIST_LIMIT));
+        },
+        onDelete: (messageId) => {
+          setMessages((current) =>
+            current.filter(
+              (message) => message.id !== messageId
+            )
+          );
+        },
+      });
 
     return unsubscribe;
   }, [eventId, loadMessages]);
@@ -292,13 +310,13 @@ export default function GuestMessages({ eventId }: Props) {
             className="
               mt-5
               flex
+              items-stretch
               snap-x
               snap-mandatory
               gap-3
               overflow-x-auto
               px-1
               pb-2
-              items-stretch
               [scrollbar-width:none]
               [&::-webkit-scrollbar]:hidden
               md:gap-4
@@ -310,12 +328,12 @@ export default function GuestMessages({ eventId }: Props) {
                     key={message.id}
                     className="
                       min-w-[82%]
-                      snap-start
-                      rounded-2xl
                       min-h-[176px]
                       h-full
                       flex
+                      snap-start
                       flex-col
+                      rounded-2xl
                       border
                       border-[#E7DCC8]
                       bg-[#FDFBF8]
@@ -357,14 +375,16 @@ export default function GuestMessages({ eventId }: Props) {
                     key={message.id}
                     className="
                       min-w-[82%]
-                      snap-start
                       min-h-[176px]
                       h-full
+                      snap-start
                       sm:min-w-[46%]
                       lg:min-w-[32%]
                     "
                   >
-                    <GuestAudioMessageCard message={message} />
+                    <GuestAudioMessageCard
+                      message={message}
+                    />
                   </div>
                 ))}
           </div>

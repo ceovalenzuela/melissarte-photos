@@ -104,13 +104,13 @@ export default function GuestMessages({ eventId }: Props) {
   return (
     <section className="mt-10 border-t border-[#E7DCC8] pt-8 md:mt-12 md:pt-10">
       <div className="mx-auto max-w-6xl">
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex flex-col items-center text-center">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#A88249]">
               Mensajes
             </p>
 
-            <div className="mt-1.5 flex items-center gap-2">
+            <div className="mt-1.5 flex items-center justify-center gap-2">
               <h2 className="text-2xl font-semibold tracking-tight text-[#1F1F1F] md:text-3xl">
                 De quienes compartieron este día
               </h2>
@@ -127,13 +127,13 @@ export default function GuestMessages({ eventId }: Props) {
             type="button"
             onClick={() => setOpen(true)}
             className="
+              mt-4
               inline-flex
               h-10
               shrink-0
               items-center
               justify-center
               gap-2
-              self-start
               rounded-full
               border
               border-[#A88249]
@@ -149,7 +149,6 @@ export default function GuestMessages({ eventId }: Props) {
               hover:border-[#977640]
               hover:bg-[#977640]
               hover:shadow-md
-              sm:self-auto
             "
           >
             <MessageCircle size={16} />
@@ -157,7 +156,7 @@ export default function GuestMessages({ eventId }: Props) {
           </button>
         </div>
 
-        <div className="mt-6 flex items-center justify-between gap-4">
+        <div className="mt-6 flex flex-col items-center gap-3">
           <div className="inline-flex rounded-full border border-[#E1D5C1] bg-[#FBF9F5] p-1">
             <button
               type="button"
@@ -213,7 +212,7 @@ export default function GuestMessages({ eventId }: Props) {
           </div>
 
           {activeMessages.length > 1 && (
-            <div className="hidden items-center gap-1.5 md:flex">
+            <div className="hidden items-center justify-center gap-1.5 md:flex">
               <button
                 type="button"
                 onClick={() =>

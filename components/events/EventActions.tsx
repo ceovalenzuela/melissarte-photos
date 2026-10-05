@@ -48,6 +48,55 @@ export default function EventActions({
 
   const [qrImage, setQrImage] = useState("");
 
+  async function handleDownload() {
+    try {
+      setIsDownloading(true);
+
+      setCurrent(0);
+      setTotal(0);
+
+      const result = await downloadEventPhotos(
+        event,
+        {
+          onStatusChange(status) {
+            setStatus(status);
+          },
+
+          onProgress(current, total) {
+            setCurrent(current);
+            setTotal(total);
+          },
+        }
+      );
+
+      if (!result.success) {
+        if (result.reason === "NO_PHOTOS") {
+          toast.info(
+            "Este evento aún no tiene fotografías."
+          );
+        }
+
+        if (
+          result.reason === "DOWNLOAD_ERROR"
+        ) {
+          toast.error(
+            "No se pudo completar la descarga. Revisa tu conexión e inténtalo nuevamente."
+          );
+        }
+
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+
+      toast.error(
+        "No se pudo completar la descarga. Revisa tu conexión e inténtalo nuevamente."
+      );
+    } finally {
+      setIsDownloading(false);
+    }
+  }
+
   function getTitle() {
     if (!isDownloading) {
       return "Descargar fotografías";

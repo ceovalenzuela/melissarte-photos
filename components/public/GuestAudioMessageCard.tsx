@@ -118,8 +118,8 @@ export default function GuestAudioMessageCard({
         bg-white
         p-5
         shadow-sm
-        min-h-[176px]
-        h-full
+        h-[184px]
+        min-h-[184px]
         transition-all
         duration-300
         hover:-translate-y-0.5

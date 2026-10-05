@@ -129,7 +129,12 @@ export default function GuestMessageDialog({
 
       const stream =
         await navigator.mediaDevices.getUserMedia({
-          audio: true,
+          audio: {
+            channelCount: 1,
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true,
+          },
         });
 
       streamRef.current = stream;
@@ -146,11 +151,18 @@ export default function GuestMessageDialog({
         MediaRecorder.isTypeSupported(type)
       );
 
-      const recorder = supportedMimeType
-        ? new MediaRecorder(stream, {
-            mimeType: supportedMimeType,
-          })
-        : new MediaRecorder(stream);
+      const recorderOptions: MediaRecorderOptions = {
+        audioBitsPerSecond: 24000,
+      };
+
+      if (supportedMimeType) {
+        recorderOptions.mimeType = supportedMimeType;
+      }
+
+      const recorder = new MediaRecorder(
+        stream,
+        recorderOptions
+      );
 
       recorderRef.current = recorder;
 

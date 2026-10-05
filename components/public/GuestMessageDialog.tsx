@@ -460,7 +460,7 @@ export default function GuestMessageDialog({
                   onChange={(event) =>
                     setText(event.target.value)
                   }
-                  maxLength={300}
+                  maxLength={180}
                   rows={6}
                   autoFocus
                   placeholder="Escribe algo bonito para los anfitriones..."

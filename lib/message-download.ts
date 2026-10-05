@@ -341,9 +341,11 @@ export async function downloadEventMessagesPdf(
     });
 
     const bytes = await pdf.save();
+    const pdfBuffer = new ArrayBuffer(bytes.byteLength);
+    new Uint8Array(pdfBuffer).set(bytes);
 
     triggerDownload(
-      new Blob([bytes], {
+      new Blob([pdfBuffer], {
         type: "application/pdf",
       }),
       safeFileName(event.title) +

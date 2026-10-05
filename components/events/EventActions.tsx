@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import {
   Download,
-  FileText,
-  MessageCircle,
   QrCode,
   Sparkles,
 } from "lucide-react";
@@ -16,11 +14,6 @@ import {
   downloadEventPhotos,
   DownloadStatus,
 } from "@/lib/download";
-import {
-  downloadEventAudioMessagesZip,
-  downloadEventMessagesPdf,
-} from "@/lib/message-download";
-import { getMessagesByEvent } from "@/lib/messages";
 
 import CustomizationDialog from "@/components/owner/CustomizationDialog";
 import { toast } from "sonner";
@@ -38,8 +31,6 @@ interface Props {
   event: Event;
 }
 
-type MessageDownload = "pdf" | "audio" | null;
-
 export default function EventActions({
   event,
 }: Props) {
@@ -56,178 +47,6 @@ export default function EventActions({
   const [qrOpen, setQrOpen] = useState(false);
 
   const [qrImage, setQrImage] = useState("");
-
-  const [messagesOpen, setMessagesOpen] =
-    useState(false);
-
-  const [messageCounts, setMessageCounts] =
-    useState({
-      text: 0,
-      audio: 0,
-    });
-
-  const [loadingMessages, setLoadingMessages] =
-    useState(false);
-
-  const [messageDownloading, setMessageDownloading] =
-    useState<MessageDownload>(null);
-
-  async function handleDownload() {
-    try {
-      setIsDownloading(true);
-
-      setCurrent(0);
-      setTotal(0);
-
-      const result = await downloadEventPhotos(
-        event,
-        {
-          onStatusChange(status) {
-            setStatus(status);
-          },
-
-          onProgress(current, total) {
-            setCurrent(current);
-            setTotal(total);
-          },
-        }
-      );
-
-      if (!result.success) {
-        if (result.reason === "NO_PHOTOS") {
-          toast.info(
-            "Este evento aún no tiene fotografías."
-          );
-        }
-
-        if (
-          result.reason === "DOWNLOAD_ERROR"
-        ) {
-          toast.error(
-            "No se pudo completar la descarga. Revisa tu conexión e inténtalo nuevamente."
-          );
-        }
-
-        return;
-      }
-    } catch (error) {
-      console.error(error);
-
-      toast.error(
-        "No se pudo completar la descarga. Revisa tu conexión e inténtalo nuevamente."
-      );
-    } finally {
-      setIsDownloading(false);
-    }
-  }
-
-  async function loadMessageCounts() {
-    try {
-      setLoadingMessages(true);
-
-      const messages =
-        await getMessagesByEvent(
-          event.id,
-          100
-        );
-
-      setMessageCounts({
-        text: messages.filter(
-          (message) =>
-            message.message_type === "text"
-        ).length,
-        audio: messages.filter(
-          (message) =>
-            message.message_type === "audio"
-        ).length,
-      });
-    } catch (error) {
-      console.error(error);
-
-      toast.error(
-        "No fue posible cargar los mensajes."
-      );
-    } finally {
-      setLoadingMessages(false);
-    }
-  }
-
-  function handleOpenMessages() {
-    setMessagesOpen(true);
-    loadMessageCounts();
-  }
-
-  async function handleDownloadMessagesPdf() {
-    if (messageCounts.text === 0) {
-      toast.info(
-        "Este evento aún no tiene mensajes escritos."
-      );
-      return;
-    }
-
-    try {
-      setMessageDownloading("pdf");
-
-      const result =
-        await downloadEventMessagesPdf(event);
-
-      if (!result.success) {
-        toast.error(
-          "No se pudo generar el libro de firmas."
-        );
-        return;
-      }
-
-      toast.success(
-        "Libro de firmas descargado."
-      );
-    } catch (error) {
-      console.error(error);
-
-      toast.error(
-        "No se pudo generar el libro de firmas."
-      );
-    } finally {
-      setMessageDownloading(null);
-    }
-  }
-
-  async function handleDownloadAudioZip() {
-    if (messageCounts.audio === 0) {
-      toast.info(
-        "Este evento aún no tiene mensajes de voz."
-      );
-      return;
-    }
-
-    try {
-      setMessageDownloading("audio");
-
-      const result =
-        await downloadEventAudioMessagesZip(
-          event
-        );
-
-      if (!result.success) {
-        toast.error(
-          "No se pudo completar la descarga de audios."
-        );
-        return;
-      }
-
-      toast.success(
-        "Audios descargados en un ZIP."
-      );
-    } catch (error) {
-      console.error(error);
-
-      toast.error(
-        "No se pudo completar la descarga de audios."
-      );
-    } finally {
-      setMessageDownloading(null);
-    }
-  }
 
   function getTitle() {
     if (!isDownloading) {
@@ -527,19 +346,6 @@ export default function EventActions({
         onClick={handleDownload}
         loading={isDownloading}
         disabled={isDownloading}
-      />
-
-      <ActionCard
-        variant="middle"
-        icon={<MessageCircle size={22} />}
-        title="Mensajes"
-        description={
-          event.status === "published"
-            ? "Consulta y descarga los mensajes escritos y de voz de tus invitados."
-            : "Disponible cuando la galería esté publicada."
-        }
-        onClick={handleOpenMessages}
-        disabled={event.status !== "published"}
       />
 
       <CustomizationDialog

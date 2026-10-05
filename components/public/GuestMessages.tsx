@@ -25,7 +25,7 @@ type MessageTab = "text" | "audio";
 
 const MESSAGE_LIST_LIMIT = 24;
 
-export default function GuestMessages({ eventId }: Props) {
+export default function GuestMessages({\n  eventId,\n  isPublished,\n}: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -77,7 +77,7 @@ export default function GuestMessages({ eventId }: Props) {
       });
 
     return unsubscribe;
-  }, [eventId, loadMessages]);
+  }, [eventId, isPublished, loadMessages]);
 
   const textMessages = messages.filter(
     (message) => message.message_type === "text"
@@ -174,7 +174,7 @@ export default function GuestMessages({ eventId }: Props) {
           </button>
         </div>
 
-        <div className="mt-6 flex flex-col items-center gap-3">
+        {!isPublished ? (\n          <p className="mt-3 text-center text-xs text-[#7D7467]">\n            Pronto podrás dejar y escuchar mensajes cuando la galería esté publicada.\n          </p>\n        ) : (\n        <div className="mt-6 flex flex-col items-center gap-3">
           <div className="inline-flex rounded-full border border-[#E1D5C1] bg-[#FBF9F5] p-1">
             <button
               type="button"

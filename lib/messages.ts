@@ -116,3 +116,60 @@ export async function createAudioMessage(
     throw dbError;
   }
 }
+
+export async function deleteMessage(message: Message) {
+  if (message.file_path) {
+    const { error: storageError } =
+      await supabase.storage
+        .from("event-messages")
+        .remove([message.file_path]);
+
+    if (storageError) {
+      throw storageError;
+    }
+  }
+
+  const { error } = await supabase
+    .from("messages")
+    .delete()
+    .eq("id", message.id);
+
+  if (error) throw error;
+}
+
+export async function deleteMessagesByEvent(
+  eventId: string
+) {
+  const messages = await getMessagesByEvent(
+    eventId,
+    1000
+  );
+
+  if (messages.length === 0) {
+    return 0;
+  }
+
+  const paths = messages
+    .map((message) => message.file_path)
+    .filter((path): path is string => Boolean(path));
+
+  if (paths.length > 0) {
+    const { error: storageError } =
+      await supabase.storage
+        .from("event-messages")
+        .remove(paths);
+
+    if (storageError) {
+      throw storageError;
+    }
+  }
+
+  const { error } = await supabase
+    .from("messages")
+    .delete()
+    .eq("event_id", eventId);
+
+  if (error) throw error;
+
+  return messages.length;
+}

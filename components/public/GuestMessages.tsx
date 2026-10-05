@@ -210,9 +210,9 @@ export default function GuestMessages({ eventId }: Props) {
                 items-center
                 gap-1.5
                 rounded-full
-                px-3.5
+                px-3
                 py-1.5
-                text-xs
+                text-[11px]
                 font-medium
                 transition-all
                 ${activeTab === "audio"
@@ -223,7 +223,7 @@ export default function GuestMessages({ eventId }: Props) {
             >
               <Mic size={13} />
               Audios
-              <span className="text-[10px] tabular-nums text-[#A49B8F]">
+              <span className="text-[9px] tabular-nums text-[#A49B8F]">
                 {audioMessages.length}
               </span>
             </button>

@@ -533,8 +533,13 @@ export default function EventActions({
         variant="middle"
         icon={<MessageCircle size={22} />}
         title="Mensajes"
-        description="Consulta y descarga los mensajes escritos y de voz de tus invitados."
+        description={
+          event.status === "published"
+            ? "Consulta y descarga los mensajes escritos y de voz de tus invitados."
+            : "Disponible cuando la galería esté publicada."
+        }
         onClick={handleOpenMessages}
+        disabled={event.status !== "published"}
       />
 
       <CustomizationDialog

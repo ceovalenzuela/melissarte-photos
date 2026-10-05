@@ -125,12 +125,12 @@ export default function GuestMessages({ eventId }: Props) {
         <div className="flex flex-col items-center text-center">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#A88249]">
-              Mensajes
+              Un espacio para compartir
             </p>
 
             <div className="mt-1.5 flex items-center justify-center gap-2">
               <h2 className="text-2xl font-semibold tracking-tight text-[#1F1F1F] md:text-3xl">
-                Palabras de tus invitados
+                Palabras y recuerdos de este día
               </h2>
 
               {messages.length > 0 && (

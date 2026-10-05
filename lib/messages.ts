@@ -3,6 +3,8 @@ import { Message } from "@/types/message";
 
 const MAX_TEXT_LENGTH = 300;
 const MAX_AUDIO_SECONDS = 60;
+const MAX_AUDIO_BYTES = 1024 * 1024;
+const DEFAULT_MESSAGE_LIMIT = 24;
 
 function getAudioExtension(mimeType: string) {
   if (mimeType.includes("mp4")) return "m4a";
@@ -17,7 +19,7 @@ function normalizeAuthorName(authorName: string) {
 
 export async function getMessagesByEvent(
   eventId: string,
-  limit = 50
+  limit = DEFAULT_MESSAGE_LIMIT
 ): Promise<Message[]> {
   const { data, error } = await supabase
     .from("messages")
@@ -71,6 +73,12 @@ export async function createAudioMessage(
 ) {
   if (!audioBlob.size) {
     throw new Error("La grabación está vacía.");
+  }
+
+  if (audioBlob.size > MAX_AUDIO_BYTES) {
+    throw new Error(
+      "La grabación es demasiado grande. Intenta grabar un mensaje más corto."
+    );
   }
 
   const duration = Math.min(
@@ -137,13 +145,42 @@ export async function deleteMessage(message: Message) {
   if (error) throw error;
 }
 
+export async function getAllMessagesByEvent(
+  eventId: string
+): Promise<Message[]> {
+  const allMessages: Message[] = [];
+  const pageSize = 500;
+  let from = 0;
+
+  while (true) {
+    const { data, error } = await supabase
+      .from("messages")
+      .select("*")
+      .eq("event_id", eventId)
+      .order("created_at", {
+        ascending: true,
+      })
+      .range(from, from + pageSize - 1);
+
+    if (error) throw error;
+
+    const page = (data ?? []) as Message[];
+    allMessages.push(...page);
+
+    if (page.length < pageSize) {
+      break;
+    }
+
+    from += pageSize;
+  }
+
+  return allMessages;
+}
+
 export async function deleteMessagesByEvent(
   eventId: string
 ) {
-  const messages = await getMessagesByEvent(
-    eventId,
-    1000
-  );
+  const messages = await getAllMessagesByEvent(eventId);
 
   if (messages.length === 0) {
     return 0;

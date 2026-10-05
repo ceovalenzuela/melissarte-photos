@@ -136,18 +136,19 @@ export default function GuestMessages({ eventId }: Props) {
               self-start
               rounded-full
               border
-              border-[#D9CBB3]
-              bg-transparent
+              border-[#A88249]
+              bg-[#A88249]
               px-4
               text-sm
               font-medium
-              text-[#5F574D]
+              text-white
+              shadow-sm
               transition-all
               duration-200
               hover:-translate-y-0.5
-              hover:border-[#A88249]
-              hover:bg-[#F8F4EE]
-              hover:text-[#3F3A34]
+              hover:border-[#977640]
+              hover:bg-[#977640]
+              hover:shadow-md
               sm:self-auto
             "
           >
@@ -298,6 +299,7 @@ export default function GuestMessages({ eventId }: Props) {
               overflow-x-auto
               px-1
               pb-2
+              items-stretch
               [scrollbar-width:none]
               [&::-webkit-scrollbar]:hidden
               md:gap-4
@@ -311,6 +313,10 @@ export default function GuestMessages({ eventId }: Props) {
                       min-w-[82%]
                       snap-start
                       rounded-2xl
+                      min-h-[176px]
+                      h-full
+                      flex
+                      flex-col
                       border
                       border-[#E7DCC8]
                       bg-[#FDFBF8]
@@ -353,6 +359,8 @@ export default function GuestMessages({ eventId }: Props) {
                     className="
                       min-w-[82%]
                       snap-start
+                      min-h-[176px]
+                      h-full
                       sm:min-w-[46%]
                       lg:min-w-[32%]
                     "

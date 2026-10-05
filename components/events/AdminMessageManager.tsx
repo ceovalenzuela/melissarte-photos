@@ -21,6 +21,7 @@ interface Props {
 }
 
 type MessageTab = "text" | "audio";
+
 const MESSAGE_LIST_LIMIT = 100;
 
 export default function AdminMessageManager({
@@ -32,6 +33,47 @@ export default function AdminMessageManager({
     useState<string | null>(null);
   const [activeTab, setActiveTab] =
     useState<MessageTab>("text");
+
+  async function loadMessages() {
+    try {
+      setLoading(true);
+
+      setMessages(
+        await getMessagesByEvent(
+          event.id,
+          MESSAGE_LIST_LIMIT
+        )
+      );
+    } catch (error) {
+      console.error(error);
+
+      toast.error(
+        "No fue posible cargar los mensajes."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    loadMessages();
+  }, [event.id]);
+
+  const textMessages = messages.filter(
+    (message) =>
+      message.message_type === "text"
+  );
+
+  const audioMessages = messages.filter(
+    (message) =>
+      message.message_type === "audio"
+  );
+
+  const activeMessages =
+    activeTab === "text"
+      ? textMessages
+      : audioMessages;
+
   async function handleDelete(message: Message) {
     const confirmed = confirm(
       "¿Eliminar este mensaje?\n\nEsta acción no se puede deshacer."
@@ -64,26 +106,24 @@ export default function AdminMessageManager({
 
   return (
     <div className="space-y-5 rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] p-8 shadow-sm">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <div className="flex items-center gap-2">
-            <h2 className="text-xl font-semibold text-[#1F1F1F]">
-              Mensajes
-            </h2>
+      <div>
+        <div className="flex items-center gap-2">
+          <h2 className="text-xl font-semibold text-[#1F1F1F]">
+            Mensajes
+          </h2>
 
+          {messages.length > 0 && (
             <span className="rounded-full bg-[#F3ECE2] px-2 py-0.5 text-[10px] font-medium tabular-nums text-[#8B8378]">
               {messages.length}
             </span>
-          </div>
-
-          <p className="mt-1 text-sm text-[#7D7467]">
-            {messages.length === 0
-              ? "Esta galería no tiene mensajes."
-              : `${messages.length} ${messages.length === 1 ? "mensaje" : "mensajes"} en esta galería.`}
-          </p>
+          )}
         </div>
 
-
+        <p className="mt-2 text-sm text-[#7D7467]">
+          {messages.length === 0
+            ? "Esta galería no tiene mensajes."
+            : `${messages.length} ${messages.length === 1 ? "mensaje" : "mensajes"} en esta galería.`}
+        </p>
       </div>
 
       {messages.length > 0 && (
@@ -154,18 +194,25 @@ export default function AdminMessageManager({
         </p>
       ) : activeMessages.length === 0 ? (
         <p className="text-sm text-[#7D7467]">
-          No hay {
-            activeTab === "audio"
-              ? "mensajes de voz"
-              : "mensajes escritos"
-          }.
+          No hay{" "}
+          {activeTab === "audio"
+            ? "mensajes de voz"
+            : "mensajes escritos"}.
         </p>
       ) : (
         <div className="space-y-3">
           {activeMessages.map((message) => (
             <article
               key={message.id}
-              className="relative rounded-2xl border border-[#E7DCC8] bg-white p-4 pr-12"
+              className="
+                relative
+                rounded-2xl
+                border
+                border-[#E7DCC8]
+                bg-white
+                p-4
+                pr-12
+              "
             >
               <div className="flex items-center gap-2">
                 <p className="truncate text-sm font-semibold text-[#3F3A34]">

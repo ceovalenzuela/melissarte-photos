@@ -1,6 +1,26 @@
 -- MelissArte Photos
 -- Guest text and audio messages
 
+create or replace function public.is_published_event(
+  p_event_id uuid
+)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.events
+    where id = p_event_id
+      and status = 'published'
+  );
+$$;
+
+revoke all on function public.is_published_event(uuid) from public;
+grant execute on function public.is_published_event(uuid) to anon, authenticated;
+
 create table if not exists public.messages (
   id uuid primary key default gen_random_uuid(),
   event_id uuid not null references public.events(id) on delete cascade,
@@ -54,14 +74,7 @@ create policy "Public can read messages from published events"
   on public.messages
   for select
   to anon, authenticated
-  using (
-    exists (
-      select 1
-      from public.events
-      where events.id = messages.event_id
-        and events.status = 'published'
-    )
-  );
+  using (public.is_published_event(event_id));
 
 drop policy if exists "Guests can create messages for published events"
   on public.messages;
@@ -70,14 +83,7 @@ create policy "Guests can create messages for published events"
   on public.messages
   for insert
   to anon, authenticated
-  with check (
-    exists (
-      select 1
-      from public.events
-      where events.id = messages.event_id
-        and events.status = 'published'
-    )
-  );
+  with check (public.is_published_event(event_id));
 
 insert into storage.buckets (id, name, public)
 values ('event-messages', 'event-messages', true)
@@ -105,10 +111,26 @@ create policy "Guests can upload event message audio"
   with check (
     bucket_id = 'event-messages'
     and (storage.foldername(name))[2] = 'audio'
-    and exists (
-      select 1
-      from public.events
-      where events.id::text = (storage.foldername(name))[1]
-        and events.status = 'published'
+    and public.is_published_event(
+      nullif((storage.foldername(name))[1], '')::uuid
     )
   );
+
+do $$
+begin
+  if exists (
+    select 1
+    from pg_publication
+    where pubname = 'supabase_realtime'
+  )
+  and not exists (
+    select 1
+    from pg_publication_tables
+    where pubname = 'supabase_realtime'
+      and schemaname = 'public'
+      and tablename = 'messages'
+  ) then
+    execute 'alter publication supabase_realtime add table public.messages';
+  end if;
+end
+$$;

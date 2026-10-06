@@ -72,48 +72,41 @@ export async function uploadCover(file: File, eventId: string) {
   return data.publicUrl;
 }
 
-export async function getPhotoCounts() {
-  const counts: Record<string, number> = {};
-
-  const pageSize = 1000;
-  let from = 0;
-
-  while (true) {
-    const { data, error } = await supabase
-      .from("photos")
-      .select("event_id")
-      .order("event_id")
-      .range(from, from + pageSize - 1);
-
-    if (error) {
-      throw error;
-    }
-
-    const page = data ?? [];
-
-    for (const photo of page) {
-      counts[photo.event_id] =
-        (counts[photo.event_id] ?? 0) + 1;
-    }
-
-    if (page.length < pageSize) {
-      break;
-    }
-
-    from += pageSize;
-  }
-
-  return counts;
-}
-
-export async function deleteEvent(id: string) {
-  const { error } = await supabase
-    .from("events")
-    .delete()
-    .eq("id", id);
+export async function getEventContentStats() {
+  const { data, error } = await supabase.rpc(
+    "get_admin_event_stats"
+  );
 
   if (error) {
-    console.error(error);
+    console.error("No fue posible cargar las estadísticas de eventos:", error);
     throw error;
   }
+
+  return (data ?? []).reduce(
+    (
+      result: Record<
+        string,
+        {
+          photoCount: number;
+          messageCount: number;
+          lastActivityAt: string | null;
+        }
+      >,
+      item: {
+        event_id: string;
+        photo_count: number | string | null;
+        message_count: number | string | null;
+        last_activity_at: string | null;
+      }
+    ) => {
+      result[item.event_id] = {
+        photoCount: Number(item.photo_count ?? 0),
+        messageCount: Number(item.message_count ?? 0),
+        lastActivityAt: item.last_activity_at ?? null,
+      };
+
+      return result;
+    },
+    {}
+  );
 }

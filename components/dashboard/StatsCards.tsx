@@ -1,20 +1,105 @@
+import {
+  CalendarDays,
+  CircleCheck,
+  FileEdit,
+  LayoutGrid,
+} from "lucide-react";
+
+import { EventWithStats } from "@/types/event-with-stats";
+
 type Props = {
-  totalEvents: number;
+  events: EventWithStats[];
 };
 
-export default function StatsCards({
-  totalEvents,
-}: Props) {
-  return (
-    <section className="rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] p-8 text-center shadow-sm">
-      <p className="text-5xl font-semibold text-[#B08D57]">
-        {totalEvents}
-      </p>
+function formatDate(date: string) {
+  const [year, month, day] = date.split("-");
 
-      <p className="mt-2 text-[#7D7467]">
-        Evento{totalEvents !== 1 ? "s" : ""} registrado
-        {totalEvents !== 1 ? "s" : ""}
-      </p>
+  return new Date(
+    Number(year),
+    Number(month) - 1,
+    Number(day)
+  ).toLocaleDateString("es-MX", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+export default function StatsCards({ events }: Props) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const published = events.filter(
+    (event) => event.status === "published"
+  ).length;
+
+  const drafts = events.filter(
+    (event) => event.status === "draft"
+  ).length;
+
+  const upcomingEvents = events
+    .filter((event) => {
+      const [year, month, day] = event.event_date.split("-");
+      const eventDate = new Date(
+        Number(year),
+        Number(month) - 1,
+        Number(day)
+      );
+
+      return eventDate >= today;
+    })
+    .sort((a, b) => a.event_date.localeCompare(b.event_date));
+
+  const nextEvent = upcomingEvents[0] ?? null;
+
+  const items = [
+    {
+      icon: <LayoutGrid size={17} />,
+      value: events.length.toString(),
+      label: events.length === 1 ? "Evento" : "Eventos",
+    },
+    {
+      icon: <CircleCheck size={17} />,
+      value: published.toString(),
+      label: "Publicados",
+    },
+    {
+      icon: <FileEdit size={17} />,
+      value: drafts.toString(),
+      label: "Borradores",
+    },
+    {
+      icon: <CalendarDays size={17} />,
+      value: nextEvent ? formatDate(nextEvent.event_date) : "—",
+      label: nextEvent ? nextEvent.title : "Sin próximos eventos",
+    },
+  ];
+
+  return (
+    <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      {items.map((item) => (
+        <div
+          key={item.label}
+          className="rounded-2xl border border-[#E7DCC8] bg-[#FDFBF8] px-5 py-4 shadow-sm"
+        >
+          <div className="flex items-center gap-2 text-[#A88249]">
+            {item.icon}
+            <span className="truncate text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8B8378]">
+              {item.label}
+            </span>
+          </div>
+
+          <p className="mt-2 truncate text-xl font-semibold text-[#1F1F1F]">
+            {item.value}
+          </p>
+
+          {nextEvent && item.label === nextEvent.title && (
+            <p className="mt-1 text-xs text-[#7D7467]">
+              Próximo evento
+            </p>
+          )}
+        </div>
+      ))}
     </section>
   );
 }

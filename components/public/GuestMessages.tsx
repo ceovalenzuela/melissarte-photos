@@ -235,7 +235,7 @@ export default function GuestMessages({
             </div>
 
             <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#7D7467]">
-              Fotos, palabras y voces de quienes fueron parte de este momento.
+              Palabras y voces de quienes fueron parte de este momento.
             </p>
           </div>
 

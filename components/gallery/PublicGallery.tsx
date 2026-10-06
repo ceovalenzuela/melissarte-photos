@@ -37,7 +37,7 @@ export default function PublicGallery({
           {photos.map((photo, index) => (
             <div
               key={photo.id}
-              className="group relative"
+              className={`group relative ${index === 0 || index % 9 === 0 ? "col-span-2" : ""}`}
             >
               <GalleryImage
                 src={photo.thumbnail_url}

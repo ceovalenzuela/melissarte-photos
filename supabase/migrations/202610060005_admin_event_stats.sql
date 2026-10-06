@@ -1,5 +1,9 @@
 -- Estadísticas agregadas para el panel administrativo.
--- Evita recorrer toda la tabla de fotografías desde el navegador.
+-- Calcula los conteos y la última actividad en la base de datos
+-- para evitar recorrer las tablas de contenido desde el navegador.
+
+create index if not exists photos_event_id_uploaded_at_idx
+  on public.photos (event_id, uploaded_at desc);
 
 create or replace function public.get_admin_event_stats()
 returns table (
@@ -13,6 +17,22 @@ stable
 security definer
 set search_path = public
 as $$
+  with photo_stats as (
+    select
+      event_id,
+      count(*)::bigint as photo_count,
+      max(uploaded_at) as last_photo_at
+    from public.photos
+    group by event_id
+  ),
+  message_stats as (
+    select
+      event_id,
+      count(*)::bigint as message_count,
+      max(created_at) as last_message_at
+    from public.messages
+    group by event_id
+  )
   select
     e.id as event_id,
     coalesce(p.photo_count, 0)::bigint as photo_count,
@@ -23,20 +43,10 @@ as $$
       else greatest(p.last_photo_at, m.last_message_at)
     end as last_activity_at
   from public.events e
-  left join lateral (
-    select
-      count(*) as photo_count,
-      max(uploaded_at) as last_photo_at
-    from public.photos
-    where event_id = e.id
-  ) p on true
-  left join lateral (
-    select
-      count(*) as message_count,
-      max(created_at) as last_message_at
-    from public.messages
-    where event_id = e.id
-  ) m on true;
+  left join photo_stats p
+    on p.event_id = e.id
+  left join message_stats m
+    on m.event_id = e.id;
 $$;
 
 revoke all on function public.get_admin_event_stats() from public;

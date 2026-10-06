@@ -699,8 +699,7 @@ useEffect(() => {
             "
           >
             <Play size={13} strokeWidth={2} />
-            <span className="sm:hidden">Ver presentación</span>
-            <span className="hidden sm:inline">Ver presentación en vivo</span>
+            Ver presentación en vivo
           </button>
 
           <div className="relative">

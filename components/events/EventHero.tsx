@@ -84,7 +84,7 @@ export default function EventHero({
           <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 sm:mt-5 sm:gap-x-5">
             <div className="flex items-center gap-2 text-sm text-white/78 sm:text-base">
               <CalendarDays size={16} className="text-[#D5BD94]" />
-              <span className="capitalize">{formattedDate}</span>
+              <span>{formattedDate}</span>
             </div>
 
           </div>

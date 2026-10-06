@@ -148,7 +148,7 @@ export default function GuestMessages({
     try {
       setDeletingMessageId(message.id);
 
-      await deleteMessage(message, organizerToken);
+      await deleteMessage(message, organizerToken, eventId);
 
       setMessages((current) =>
         current.filter(

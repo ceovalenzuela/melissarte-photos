@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { CalendarDays, Camera } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 
 import { Event } from "@/types/event";
 
@@ -14,7 +14,6 @@ interface Props {
 
 export default function EventHero({
   event,
-  photoCount = 0,
 }: Props) {
   const [loaded, setLoaded] = useState(false);
 

@@ -248,6 +248,15 @@ Deno.serve(async (req) => {
   try {
     assertCronSecret(req);
 
+    let dryRun = false;
+
+    try {
+      const body = await req.json();
+      dryRun = body?.dry_run === true;
+    } catch {
+      // Empty request body is valid for the scheduled job.
+    }
+
     const secretKeysRaw = Deno.env.get(
       "SUPABASE_SECRET_KEYS"
     );
@@ -301,10 +310,21 @@ Deno.serve(async (req) => {
       deleted: 0,
       failed: 0,
       details: [] as Array<Record<string, unknown>>,
+      dry_run: dryRun,
     };
 
     for (const event of (events ?? []) as ExpiredEvent[]) {
       try {
+        if (dryRun) {
+          results.details.push({
+            event_id: event.id,
+            title: event.title,
+            event_date: event.event_date,
+            status: "would_delete",
+          });
+          continue;
+        }
+
         const counts = await cleanupEvent(
           supabaseAdmin,
           event

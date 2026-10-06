@@ -64,16 +64,6 @@ export default function EventHero({
 
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(16,15,13,0.18)_0%,transparent_34%,rgba(16,15,13,0.78)_100%)]" />
 
-        <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-4 px-4 pt-4 text-white sm:px-7 sm:pt-7">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/15 px-2.5 py-1.5 backdrop-blur-md">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#D5BD94] shadow-[0_0_0_3px_rgba(213,189,148,0.12)]" />
-            <span className="text-[8px] font-semibold uppercase tracking-[0.22em] text-white/80">
-              Galería en vivo
-            </span>
-          </div>
-
-        </div>
-
         <div className="absolute inset-x-0 bottom-0 px-5 pb-7 text-white sm:px-7 sm:pb-9 md:px-9 md:pb-10">
           <h1 className="max-w-[13ch] font-[var(--font-display)] text-[clamp(2.9rem,11vw,4.5rem)] font-semibold leading-[0.88] tracking-[-0.025em] text-white sm:max-w-4xl md:text-[5.25rem]">
             {event.title}

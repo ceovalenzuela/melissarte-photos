@@ -29,6 +29,15 @@ export default function EventHero({
     year: "numeric",
   });
 
+  const titleLength = event.title.trim().length;
+
+  const titleSizeClass =
+    titleLength > 46
+      ? "text-[clamp(2.35rem,8vw,3.8rem)] sm:text-[3.8rem] md:text-[4.55rem]"
+      : titleLength > 30
+        ? "text-[clamp(2.55rem,9vw,4.15rem)] sm:text-[4.15rem] md:text-[4.8rem]"
+        : "text-[clamp(2.8rem,10vw,4.5rem)] sm:text-[4.5rem] md:text-[5rem]";
+
   return (
     <section className="relative overflow-hidden rounded-[2rem] bg-[#181715] shadow-[0_24px_70px_rgba(31,31,31,0.16)]">
       <div className="relative h-[450px] w-full sm:h-[520px] md:h-[580px]">
@@ -49,12 +58,15 @@ export default function EventHero({
               priority
               onLoad={() => setLoaded(true)}
               style={{
-                objectPosition: `center ${event.cover_position_y ?? 50}%`,
+                objectPosition: `center ${Math.max(
+                  0,
+                  Math.min(100, (event.cover_position_y ?? 50) - 8)
+                )}%`,
               }}
               className={
                 loaded
-                  ? "object-cover scale-100 opacity-100 transition-all duration-[1200ms]"
-                  : "object-cover scale-[1.025] opacity-0 transition-all duration-[1200ms]"
+                  ? "object-cover scale-100 brightness-[1.08] saturate-[1.03] opacity-100 transition-all duration-[1200ms]"
+                  : "object-cover scale-[1.025] brightness-[1.08] saturate-[1.03] opacity-0 transition-all duration-[1200ms]"
               }
             />
           </>
@@ -62,10 +74,10 @@ export default function EventHero({
           <div className="h-full w-full bg-[radial-gradient(circle_at_top,#3A362E,transparent_55%),#181715]" />
         )}
 
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(16,15,13,0.18)_0%,transparent_34%,rgba(16,15,13,0.78)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(16,15,13,0)_0%,rgba(16,15,13,0)_54%,rgba(16,15,13,0.9)_100%)]" />
 
         <div className="absolute inset-x-0 bottom-0 px-5 pb-7 text-white sm:px-7 sm:pb-9 md:px-9 md:pb-10">
-          <h1 className="max-w-[13ch] font-[var(--font-display)] text-[clamp(2.9rem,11vw,4.5rem)] font-semibold leading-[0.88] tracking-[-0.025em] text-white sm:max-w-4xl md:text-[5.25rem]">
+          <h1 className={`max-w-[14ch] text-balance font-[var(--font-display)] ${titleSizeClass} font-semibold leading-[0.9] tracking-[-0.025em] text-white sm:max-w-4xl`}>
             {event.title}
           </h1>
 

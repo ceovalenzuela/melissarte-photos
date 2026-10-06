@@ -14,6 +14,7 @@
 
 create extension if not exists pg_cron;
 create extension if not exists pg_net;
+create extension if not exists supabase_vault with schema vault;
 
 select cron.unschedule(jobid)
 from cron.job

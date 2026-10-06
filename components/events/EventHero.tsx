@@ -59,10 +59,11 @@ export default function EventHero({
               alt={event.title}
               fill
               priority
-              onLoad={(image) => {
+              onLoad={(event) => {
                 setLoaded(true);
                 setIsPortrait(
-                  image.naturalHeight > image.naturalWidth
+                  event.currentTarget.naturalHeight >
+                    event.currentTarget.naturalWidth
                 );
               }}
               style={{

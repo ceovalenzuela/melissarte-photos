@@ -4,7 +4,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Download,
-  Heart,
   MessageCircle,
   Mic,
   PenLine,
@@ -215,16 +214,16 @@ export default function GuestMessages({
       : audioCarouselRef;
 
   return (
-    <section className="mt-10 border-t border-[#E7DCC8] pt-8 md:mt-12 md:pt-10">
+    <section className="mt-16 border-t border-[#E7DCC8] pt-12 md:mt-20 md:pt-14">
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col items-center text-center">
           <div>
-            <p className="text-[9px] font-semibold uppercase tracking-[0.24em] text-[#A88249]">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.28em] text-[#A88249]">
               Un espacio para compartir
             </p>
 
-            <div className="mt-1.5 flex items-center justify-center gap-2">
-              <h2 className="text-xl font-semibold tracking-tight text-[#1F1F1F] md:text-2xl">
+            <div className="mt-2 flex items-center justify-center gap-2">
+              <h2 className="font-[var(--font-display)] text-[2rem] font-semibold leading-none tracking-[-0.02em] text-[#1F1F1F] md:text-[2.5rem]">
                 Palabras y recuerdos de este día
               </h2>
 
@@ -234,6 +233,10 @@ export default function GuestMessages({
                 </span>
               )}
             </div>
+
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#7D7467]">
+              Palabras y recuerdos de este día, compartidos por quienes estuvieron contigo.
+            </p>
           </div>
 
           {showComposer && (
@@ -266,7 +269,7 @@ export default function GuestMessages({
               "
             >
               <MessageCircle size={15} />
-              Dejar un mensaje
+              Dejar un recuerdo
             </button>
           )}
 
@@ -503,7 +506,7 @@ export default function GuestMessages({
                       border-[#E7DCC8]
                       bg-[#FDFBF8]
                       p-5
-                      shadow-sm
+                      shadow-[0_8px_28px_rgba(53,44,34,0.06)]
                       transition-all
                       duration-300
                       hover:-translate-y-0.5
@@ -513,17 +516,14 @@ export default function GuestMessages({
                     "
                   >
                     <div className="flex items-center justify-between gap-3">
-                      <p className="truncate text-sm font-semibold text-[#3F3A34]">
-                        {message.author_name || "Invitado"}
-                      </p>
+                      <div className="flex min-w-0 items-center gap-2">
+                        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#C5A36A]" />
+                        <p className="truncate text-sm font-semibold text-[#3F3A34]">
+                          {message.author_name || "Invitado"}
+                        </p>
+                      </div>
 
                       <div className="flex shrink-0 items-center gap-2">
-                        <Heart
-                          size={14}
-                          className="text-[#C5A36A]"
-                          fill="currentColor"
-                        />
-
                         {canDelete && (
                           <button
                             type="button"

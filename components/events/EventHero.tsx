@@ -36,10 +36,10 @@ export default function EventHero({
 
   const titleSizeClass =
     titleLength > 46
-      ? "text-[clamp(2.1rem,7.1vw,3.3rem)] sm:text-[3.3rem] md:text-[3.65rem]"
+      ? "text-[clamp(2rem,6.7vw,3rem)] sm:text-[3rem] md:text-[3.4rem]"
       : titleLength > 30
-        ? "text-[clamp(2.25rem,7.9vw,3.6rem)] sm:text-[3.6rem] md:text-[3.9rem]"
-        : "text-[clamp(2.4rem,8.4vw,3.85rem)] sm:text-[3.85rem] md:text-[4.15rem]";
+        ? "text-[clamp(2.1rem,7.3vw,3.25rem)] sm:text-[3.25rem] md:text-[3.6rem]"
+        : "text-[clamp(2.2rem,7.8vw,3.5rem)] sm:text-[3.5rem] md:text-[3.8rem]";
 
   return (
     <section className="relative overflow-hidden rounded-[2rem] bg-[#181715] shadow-[0_24px_70px_rgba(31,31,31,0.16)]">
@@ -67,12 +67,14 @@ export default function EventHero({
                 );
               }}
               style={{
-                "--hero-object-position-mobile": `center ${Math.max(
-                  0,
-                  Math.min(100, (event.cover_position_y ?? 50) - 8)
-                )}%`,
+                "--hero-object-position-mobile": isPortrait
+                  ? "center 58%"
+                  : `center ${Math.max(
+                      0,
+                      Math.min(100, (event.cover_position_y ?? 50) - 8)
+                    )}%`,
                 "--hero-object-position-desktop": isPortrait
-                  ? "center center"
+                  ? "center 58%"
                   : `center ${Math.max(
                       0,
                       Math.min(100, (event.cover_position_y ?? 50) - 8)

@@ -1,4 +1,5 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 
 type DeleteMessageBody = {
   message_id?: unknown;
@@ -44,6 +45,12 @@ function getServiceKey() {
 }
 
 Deno.serve(async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response("ok", {
+      headers: corsHeaders,
+    });
+  }
+
   if (req.method !== "POST") {
     return new Response("Method Not Allowed", {
       status: 405,
@@ -66,7 +73,10 @@ Deno.serve(async (req) => {
     if (!messageId || !organizerToken) {
       return Response.json(
         { error: "Faltan datos para eliminar el mensaje." },
-        { status: 400 }
+        {
+          status: 400,
+          headers: corsHeaders,
+        }
       );
     }
 
@@ -91,7 +101,10 @@ Deno.serve(async (req) => {
     if (!message) {
       return Response.json(
         { error: "El mensaje no existe." },
-        { status: 404 }
+        {
+          status: 404,
+          headers: corsHeaders,
+        }
       );
     }
 
@@ -112,7 +125,10 @@ Deno.serve(async (req) => {
     if (!event) {
       return Response.json(
         { error: "El token no corresponde a este evento." },
-        { status: 403 }
+        {
+          status: 403,
+          headers: corsHeaders,
+        }
       );
     }
 
@@ -142,9 +158,14 @@ Deno.serve(async (req) => {
       );
     }
 
-    return Response.json({
-      success: true,
-    });
+    return Response.json(
+      {
+        success: true,
+      },
+      {
+        headers: corsHeaders,
+      }
+    );
   } catch (error) {
     console.error(error);
 
@@ -155,7 +176,10 @@ Deno.serve(async (req) => {
             ? error.message
             : "No fue posible eliminar el mensaje.",
       },
-      { status: 500 }
+      {
+        status: 500,
+        headers: corsHeaders,
+      }
     );
   }
 });

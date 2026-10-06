@@ -18,7 +18,6 @@ import GuestAudioMessageCard from "./GuestAudioMessageCard";
 
 import {
   deleteMessage,
-  getAllMessagesByEvent,
   getMessagesByEvent,
 } from "@/lib/messages";
 import {

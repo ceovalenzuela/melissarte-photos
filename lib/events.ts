@@ -110,3 +110,15 @@ export async function getEventContentStats() {
     {}
   );
 }
+
+export async function deleteEvent(id: string) {
+  const { error } = await supabase
+    .from("events")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.error(error);
+    throw error;
+  }
+}

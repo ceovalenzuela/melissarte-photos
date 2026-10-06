@@ -327,7 +327,7 @@ export default function GuestMessageDialog({
             )}
 
             <div>
-              <DialogTitle className="text-xl font-semibold text-[#1F1F1F]">
+              <DialogTitle className="font-[var(--font-display)] text-2xl font-semibold leading-none text-[#1F1F1F]">
                 {mode === "choice"
                   ? "Deja un recuerdo 💌"
                   : mode === "text"
@@ -397,8 +397,8 @@ export default function GuestMessageDialog({
                     text-center
                     transition-all
                     hover:-translate-y-0.5
+                    hover:border-[#D8C8AE]
                     hover:bg-[#FAF6EF]
-                    hover:shadow-sm
                   "
                 >
                   <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#F3ECE2]">
@@ -485,7 +485,7 @@ export default function GuestMessageDialog({
 
                 <div className="mt-2 flex justify-end">
                   <span className="text-xs text-[#8B8378]">
-                    {text.length} / 300
+                    {text.length} / 180
                   </span>
                 </div>
               </div>

@@ -1,0 +1,2 @@
+[functions.cleanup-expired-events]
+verify_jwt = false

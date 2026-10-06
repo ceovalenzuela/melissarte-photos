@@ -57,21 +57,27 @@ export default function StatsCards({ events }: Props) {
       icon: <LayoutGrid size={17} />,
       value: events.length.toString(),
       label: events.length === 1 ? "Evento" : "Eventos",
+      description: "Registrados",
     },
     {
       icon: <CircleCheck size={17} />,
       value: published.toString(),
       label: "Publicados",
+      description: "Activos",
     },
     {
       icon: <FileEdit size={17} />,
       value: drafts.toString(),
       label: "Borradores",
+      description: "Pendientes",
     },
     {
       icon: <CalendarDays size={17} />,
-      value: nextEvent ? formatDate(nextEvent.event_date) : "—",
-      label: nextEvent ? nextEvent.title : "Sin próximos eventos",
+      value: nextEvent ? nextEvent.title : "—",
+      label: "Próximo evento",
+      description: nextEvent
+        ? formatDate(nextEvent.event_date)
+        : "Sin eventos próximos",
     },
   ];
 
@@ -93,11 +99,9 @@ export default function StatsCards({ events }: Props) {
             {item.value}
           </p>
 
-          {nextEvent && item.label === nextEvent.title && (
-            <p className="mt-1 text-xs text-[#7D7467]">
-              Próximo evento
-            </p>
-          )}
+          <p className="mt-1 truncate text-xs text-[#7D7467]">
+            {item.description}
+          </p>
         </div>
       ))}
     </section>

@@ -32,7 +32,7 @@ export default function EventHero({
 
   return (
     <section className="relative overflow-hidden rounded-[2rem] bg-[#181715] shadow-[0_24px_70px_rgba(31,31,31,0.16)]">
-      <div className="relative h-[500px] w-full sm:h-[540px] md:h-[580px]">
+      <div className="relative h-[450px] w-full sm:h-[520px] md:h-[580px]">
         {event.cover_image ? (
           <>
             <Image
@@ -65,10 +65,10 @@ export default function EventHero({
 
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(16,15,13,0.18)_0%,transparent_34%,rgba(16,15,13,0.78)_100%)]" />
 
-        <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-4 px-5 pt-5 text-white sm:px-7 sm:pt-7">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/15 px-3 py-1.5 backdrop-blur-md">
+        <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-4 px-4 pt-4 text-white sm:px-7 sm:pt-7">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/15 px-2.5 py-1.5 backdrop-blur-md">
             <span className="h-1.5 w-1.5 rounded-full bg-[#D5BD94] shadow-[0_0_0_3px_rgba(213,189,148,0.12)]" />
-            <span className="text-[9px] font-semibold uppercase tracking-[0.24em] text-white/80">
+            <span className="text-[8px] font-semibold uppercase tracking-[0.22em] text-white/80">
               Galería en vivo
             </span>
           </div>
@@ -76,14 +76,14 @@ export default function EventHero({
         </div>
 
         <div className="absolute inset-x-0 bottom-0 px-5 pb-7 text-white sm:px-7 sm:pb-9 md:px-9 md:pb-10">
-          <h1 className="max-w-4xl font-[var(--font-display)] text-[3.3rem] font-semibold leading-[0.88] tracking-[-0.025em] text-white sm:text-[4.5rem] md:text-[5.25rem]">
+          <h1 className="max-w-[13ch] font-[var(--font-display)] text-[clamp(2.9rem,11vw,4.5rem)] font-semibold leading-[0.88] tracking-[-0.025em] text-white sm:max-w-4xl md:text-[5.25rem]">
             {event.title}
           </h1>
 
-          <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
+          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 sm:mt-5 sm:gap-x-5">
             <div className="flex items-center gap-2 text-sm text-white/78 sm:text-base">
               <CalendarDays size={16} className="text-[#D5BD94]" />
-              <span>{formattedDate}</span>
+              <span className="capitalize">{formattedDate}</span>
             </div>
 
           </div>

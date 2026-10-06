@@ -1,5 +1,4 @@
 import { supabase } from "@/lib/supabase";
-import { FunctionsHttpError } from "@supabase/supabase-js";
 import { Message } from "@/types/message";
 
 const MAX_TEXT_LENGTH = 180;
@@ -128,44 +127,61 @@ export async function createAudioMessage(
 
 export async function deleteMessage(
   message: Message,
-  organizerToken?: string
+  organizerToken?: string,
+  eventId?: string
 ) {
-  if (organizerToken) {
-    const { data, error } =
-      await supabase.functions.invoke(
-        "delete-message-with-token",
-        {
-          body: {
-            message_id: message.id,
-            organizer_token: organizerToken,
-          },
-        }
-      );
+  if (organizerToken && eventId) {
+    const { data, error } = await supabase.rpc(
+      "delete_message_with_token",
+      {
+        p_event_id: eventId,
+        p_message_id: message.id,
+        p_token: organizerToken,
+      }
+    );
 
     if (error) {
-      if (error instanceof FunctionsHttpError) {
-        let message = "No fue posible eliminar el mensaje.";
-
-        try {
-          const body = await error.context.json();
-
-          if (typeof body?.error === "string" && body.error.trim()) {
-            message = body.error;
-          }
-        } catch {
-          // Keep the generic message when the function error body is unavailable.
-        }
-
-        throw new Error(message);
-      }
-
       throw error;
     }
 
-    if (!data?.success) {
+    const authorizedMessage = Array.isArray(data)
+      ? data[0]
+      : data;
+
+    if (!authorizedMessage?.id) {
       throw new Error(
-        data?.error ||
-          "No fue posible eliminar el mensaje."
+        "No tienes permiso para eliminar este mensaje."
+      );
+    }
+
+    if (authorizedMessage.file_path) {
+      const { error: storageError } =
+        await supabase.storage
+          .from("event-messages")
+          .remove([authorizedMessage.file_path]);
+
+      if (storageError) {
+        throw storageError;
+      }
+    }
+
+    const { data: deleted, error: deleteError } =
+      await supabase.rpc(
+        "delete_message_record_with_token",
+        {
+          p_event_id: eventId,
+          p_message_id: message.id,
+          p_token: organizerToken,
+        }
+      );
+
+    if (deleteError) {
+      throw deleteError;
+    }
+
+    if (!deleted) {
+      throw new Error(
+        "El mensaje no pudo eliminarse."
       );
     }
 

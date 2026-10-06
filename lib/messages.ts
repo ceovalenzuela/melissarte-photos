@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase";
+import { FunctionsHttpError } from "@supabase/supabase-js";
 import { Message } from "@/types/message";
 
 const MAX_TEXT_LENGTH = 180;
@@ -141,7 +142,25 @@ export async function deleteMessage(
         }
       );
 
-    if (error) throw error;
+    if (error) {
+      if (error instanceof FunctionsHttpError) {
+        let message = "No fue posible eliminar el mensaje.";
+
+        try {
+          const body = await error.context.json();
+
+          if (typeof body?.error === "string" && body.error.trim()) {
+            message = body.error;
+          }
+        } catch {
+          // Keep the generic message when the function error body is unavailable.
+        }
+
+        throw new Error(message);
+      }
+
+      throw error;
+    }
 
     if (!data?.success) {
       throw new Error(

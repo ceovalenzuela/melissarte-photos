@@ -123,7 +123,7 @@ export default function GuestAudioMessageCard({
         border-[#E7DCC8]
         bg-white
         p-5
-        shadow-sm
+        shadow-[0_8px_28px_rgba(53,44,34,0.06)]
         h-[184px]
         min-h-[184px]
         transition-all
@@ -214,7 +214,7 @@ export default function GuestAudioMessageCard({
         </button>
 
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold text-[#3F3A34]">
+          <p className="truncate font-[var(--font-display)] text-lg font-semibold leading-none text-[#3F3A34]">
             {message.author_name || "Invitado"}
           </p>
 

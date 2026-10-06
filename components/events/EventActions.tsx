@@ -267,7 +267,6 @@ export default function EventActions({
       </Dialog>
 
       <ActionCard
-        variant="single"
         icon={<QrCode size={22} />}
         title="Comparte tu galería"
         description="Descarga el QR o copia el enlace para tus invitados."
@@ -294,7 +293,6 @@ export default function EventActions({
         event={event}
         trigger={
           <ActionCard
-            variant="single"
             icon={<Sparkles size={22} />}
             title="Personaliza tu galería"
             description="Cambia la portada y el mensaje de bienvenida."

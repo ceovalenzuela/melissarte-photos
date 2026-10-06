@@ -11,7 +11,6 @@ interface Props {
   onClick?: () => void;
   disabled?: boolean;
   loading?: boolean;
-  variant?: "single" | "top" | "middle" | "last";
 }
 
 export default function ActionCard({

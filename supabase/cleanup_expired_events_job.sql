@@ -1,5 +1,5 @@
 -- Melissarte Photos
--- Job de limpieza: elimina eventos y sus archivos 30 días después de la fecha del evento.
+-- Job de limpieza: conserva el evento y elimina todo su contenido 30 días después de la fecha del evento.
 --
 -- Antes de ejecutar:
 -- 1) Despliega la Edge Function:

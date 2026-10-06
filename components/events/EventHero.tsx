@@ -78,7 +78,7 @@ export default function EventHero({
 
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(16,15,13,0)_0%,rgba(16,15,13,0)_54%,rgba(16,15,13,0.9)_100%)]" />
 
-        <div className="absolute inset-x-0 bottom-0 px-5 pb-7 text-white sm:px-7 sm:pb-9 md:px-9 md:pb-10">
+        <div className="absolute inset-x-0 bottom-0 px-5 pb-10 text-white sm:px-7 sm:pb-11 md:px-9 md:pb-12">
           <h1 className={`max-w-[15ch] text-balance font-[var(--font-display)] ${titleSizeClass} font-semibold leading-[0.92] tracking-[-0.025em] text-white sm:max-w-4xl`}>
             {event.title}
           </h1>

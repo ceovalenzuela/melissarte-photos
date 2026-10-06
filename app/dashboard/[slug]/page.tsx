@@ -55,7 +55,7 @@ export default async function ClientDashboardPage({
       <div className="mx-auto max-w-6xl px-3 py-4 sm:px-4 sm:py-6">
         <EventHero event={event} photoCount={photoCount} showWelcomeMessage={false} />
 
-        <div className="relative z-20 mx-auto -mt-5 w-[92%] max-w-5xl sm:-mt-6">
+        <div className="mx-auto mt-6 max-w-6xl">
           <EventActions event={event} />
         </div>
 
@@ -63,15 +63,13 @@ export default async function ClientDashboardPage({
           <GallerySection event={event} />
         </div>
 
-        <section className="mt-12 border-t border-[#E7DCC8] pt-10">
-          <GuestMessages
-            eventId={event.id}
-            event={event}
-            canDelete
-            showComposer={false}
-            showDownloads
-          />
-        </section>
+        <GuestMessages
+          eventId={event.id}
+          event={event}
+          canDelete
+          showComposer={false}
+          showDownloads
+        />
 
         <div className="mt-10">
           <Footer />

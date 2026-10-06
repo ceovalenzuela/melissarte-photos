@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 
 import EventHero from "@/components/events/EventHero";
 import EventActions from "@/components/events/EventActions";
-import AdminMessageManager from "@/components/events/AdminMessageManager";
+import GuestMessages from "@/components/public/GuestMessages";
 import { getEventBySlug } from "@/lib/events";
 import { getPhotoCount } from "@/lib/photos";
 import GallerySection from "@/components/gallery/GallerySection";
@@ -72,7 +72,13 @@ if (
       <GallerySection event={event} />
     </div>
 
-    <AdminMessageManager event={event} />
+    <GuestMessages
+      eventId={event.id}
+      event={event}
+      canDelete
+      showComposer={false}
+      showDownloads
+    />
 
     <div className="mt-8">
   <Footer />

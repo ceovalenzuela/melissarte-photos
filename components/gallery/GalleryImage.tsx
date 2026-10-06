@@ -31,7 +31,7 @@ function GalleryImage({
           "overflow-hidden",
           "rounded-[1.15rem]",
           featured
-            ? "col-span-2 aspect-[16/10] md:aspect-[16/9]"
+            ? "aspect-[16/10] md:aspect-[16/9]"
             : "aspect-square",
           "bg-neutral-100",
           "transition-transform",
@@ -42,7 +42,8 @@ function GalleryImage({
           "focus:ring-2",
           "focus:ring-neutral-300",
           "focus:ring-offset-2",
-        ].join(" ")}    >
+        ].join(" ")}
+    >
       {!error ? (
         <>
           {!loaded && (

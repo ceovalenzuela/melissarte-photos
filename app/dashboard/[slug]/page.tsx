@@ -69,6 +69,7 @@ export default async function ClientDashboardPage({
           canDelete
           showComposer={false}
           showDownloads
+          organizerToken={token}
         />
 
         <div className="mt-10">

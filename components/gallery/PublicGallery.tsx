@@ -35,7 +35,7 @@ export default function PublicGallery({
       ) : (
         <div className="columns-2 gap-2.5 md:columns-3 md:gap-3.5 xl:columns-4 xl:gap-4">
           {photos.map((photo, index) => (
-            <div key={photo.id} className="break-inside-avoid">
+            <div key={photo.id} className="group relative break-inside-avoid">
               <GalleryImage
                 src={photo.thumbnail_url}
                 alt={`Fotografía ${index + 1}`}

@@ -3,34 +3,60 @@
 import {
   ChevronLeft,
   ChevronRight,
+  Download,
   Heart,
   MessageCircle,
   Mic,
   PenLine,
+  Trash2,
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 import GuestMessageDialog from "./GuestMessageDialog";
 import GuestAudioMessageCard from "./GuestAudioMessageCard";
 
-import { getMessagesByEvent } from "@/lib/messages";
+import {
+  deleteMessage,
+  getAllMessagesByEvent,
+  getMessagesByEvent,
+} from "@/lib/messages";
+import {
+  downloadEventAudioMessagesZip,
+  downloadEventMessagesPdf,
+} from "@/lib/message-download";
 import { subscribeToEventMessages } from "@/lib/realtime";
 import { Message } from "@/types/message";
+import { Event } from "@/types/event";
 
 interface Props {
   eventId: string;
+  event?: Event;
+  canDelete?: boolean;
+  showComposer?: boolean;
+  showDownloads?: boolean;
 }
 
 type MessageTab = "text" | "audio";
 
 const MESSAGE_LIST_LIMIT = 24;
 
-export default function GuestMessages({ eventId }: Props) {
+export default function GuestMessages({
+  eventId,
+  event,
+  canDelete = false,
+  showComposer = true,
+  showDownloads = false,
+}: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] =
     useState<MessageTab>("text");
+  const [deletingMessageId, setDeletingMessageId] =
+    useState<string | null>(null);
+  const [downloading, setDownloading] =
+    useState<"pdf" | "audio" | null>(null);
 
   const textCarouselRef =
     useRef<HTMLDivElement | null>(null);
@@ -109,6 +135,76 @@ export default function GuestMessages({ eventId }: Props) {
     });
   }
 
+  async function handleDelete(message: Message) {
+    if (!canDelete) return;
+
+    const confirmed = confirm(
+      "¿Eliminar este mensaje?\n\nEsta acción no se puede deshacer."
+    );
+
+    if (!confirmed) return;
+
+    try {
+      setDeletingMessageId(message.id);
+
+      await deleteMessage(message);
+
+      setMessages((current) =>
+        current.filter(
+          (item) => item.id !== message.id
+        )
+      );
+
+      toast.success("Mensaje eliminado.");
+    } catch (error) {
+      console.error(error);
+
+      toast.error(
+        "No fue posible eliminar el mensaje."
+      );
+    } finally {
+      setDeletingMessageId(null);
+    }
+  }
+
+  async function handleDownload(
+    type: "pdf" | "audio"
+  ) {
+    if (!event || downloading) return;
+
+    try {
+      setDownloading(type);
+
+      const result =
+        type === "pdf"
+          ? await downloadEventMessagesPdf(event)
+          : await downloadEventAudioMessagesZip(event);
+
+      if (!result.success) {
+        toast.error(
+          type === "pdf"
+            ? "No hay mensajes escritos para descargar."
+            : "No hay mensajes de voz para descargar."
+        );
+        return;
+      }
+
+      toast.success(
+        type === "pdf"
+          ? "Libro de firmas generado."
+          : "ZIP de mensajes de voz generado."
+      );
+    } catch (error) {
+      console.error(error);
+
+      toast.error(
+        "No fue posible preparar la descarga."
+      );
+    } finally {
+      setDownloading(null);
+    }
+  }
+
   const activeMessages =
     activeTab === "text"
       ? textMessages
@@ -141,37 +237,101 @@ export default function GuestMessages({ eventId }: Props) {
             </div>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            className="
-              mt-4
-              inline-flex
-              h-10
-              shrink-0
-              items-center
-              justify-center
-              gap-2
-              rounded-full
-              border
-              border-[#A88249]
-              bg-[#A88249]
-              px-4
-              text-sm
-              font-medium
-              text-white
-              shadow-sm
-              transition-all
-              duration-200
-              hover:-translate-y-0.5
-              hover:border-[#977640]
-              hover:bg-[#977640]
-              hover:shadow-md
-            "
-          >
-            <MessageCircle size={15} />
-            Dejar un mensaje
-          </button>
+          {showComposer && (
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              className="
+                mt-4
+                inline-flex
+                h-10
+                shrink-0
+                items-center
+                justify-center
+                gap-2
+                rounded-full
+                border
+                border-[#A88249]
+                bg-[#A88249]
+                px-4
+                text-sm
+                font-medium
+                text-white
+                shadow-sm
+                transition-all
+                duration-200
+                hover:-translate-y-0.5
+                hover:border-[#977640]
+                hover:bg-[#977640]
+                hover:shadow-md
+              "
+            >
+              <MessageCircle size={15} />
+              Dejar un mensaje
+            </button>
+          )}
+
+          {showDownloads && event && (
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+              <button
+                type="button"
+                onClick={() => handleDownload("pdf")}
+                disabled={Boolean(downloading)}
+                className="
+                  inline-flex
+                  h-9
+                  items-center
+                  gap-2
+                  rounded-full
+                  border
+                  border-[#E1D5C1]
+                  bg-white
+                  px-3.5
+                  text-xs
+                  font-medium
+                  text-[#5C554B]
+                  transition
+                  hover:bg-[#F8F4EE]
+                  disabled:cursor-not-allowed
+                  disabled:opacity-50
+                "
+              >
+                <Download size={14} />
+                {downloading === "pdf"
+                  ? "Generando..."
+                  : "Libro de firmas"}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleDownload("audio")}
+                disabled={Boolean(downloading)}
+                className="
+                  inline-flex
+                  h-9
+                  items-center
+                  gap-2
+                  rounded-full
+                  border
+                  border-[#E1D5C1]
+                  bg-white
+                  px-3.5
+                  text-xs
+                  font-medium
+                  text-[#5C554B]
+                  transition
+                  hover:bg-[#F8F4EE]
+                  disabled:cursor-not-allowed
+                  disabled:opacity-50
+                "
+              >
+                <Download size={14} />
+                {downloading === "audio"
+                  ? "Generando..."
+                  : "Audios ZIP"}
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="mt-5 flex flex-col items-center gap-3">
@@ -293,16 +453,21 @@ export default function GuestMessages({ eventId }: Props) {
         ) : activeMessages.length === 0 ? (
           <div className="mt-5 rounded-2xl border border-dashed border-[#E1D5C1] bg-[#FDFBF8] px-5 py-7 text-center">
             <p className="text-sm text-[#7D7467]">
-              Aún no hay {activeTab === "audio" ? "audios" : "mensajes escritos"}.
+              Aún no hay{" "}
+              {activeTab === "audio"
+                ? "audios"
+                : "mensajes escritos"}.
             </p>
 
-            <button
-              type="button"
-              onClick={() => setOpen(true)}
-              className="mt-2 text-xs font-medium text-[#A88249] underline underline-offset-4 hover:text-[#977640]"
-            >
-              Dejar el primero
-            </button>
+            {showComposer && (
+              <button
+                type="button"
+                onClick={() => setOpen(true)}
+                className="mt-2 text-xs font-medium text-[#A88249] underline underline-offset-4 hover:text-[#977640]"
+              >
+                Dejar el primero
+              </button>
+            )}
           </div>
         ) : (
           <div
@@ -327,6 +492,7 @@ export default function GuestMessages({ eventId }: Props) {
                   <article
                     key={message.id}
                     className="
+                      relative
                       min-w-[82%]
                       h-[184px]
                       min-h-[184px]
@@ -352,11 +518,47 @@ export default function GuestMessages({ eventId }: Props) {
                         {message.author_name || "Invitado"}
                       </p>
 
-                      <Heart
-                        size={14}
-                        className="shrink-0 text-[#C5A36A]"
-                        fill="currentColor"
-                      />
+                      <div className="flex shrink-0 items-center gap-2">
+                        <Heart
+                          size={14}
+                          className="text-[#C5A36A]"
+                          fill="currentColor"
+                        />
+
+                        {canDelete && (
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleDelete(message)
+                            }
+                            disabled={
+                              deletingMessageId ===
+                              message.id
+                            }
+                            aria-label="Eliminar mensaje"
+                            className="
+                              flex
+                              h-7
+                              w-7
+                              items-center
+                              justify-center
+                              rounded-full
+                              border
+                              border-[#E7DCC8]
+                              bg-white
+                              text-[#8B8378]
+                              transition
+                              hover:border-[#D8C8AE]
+                              hover:bg-[#F8F4EE]
+                              hover:text-[#9C625C]
+                              disabled:cursor-not-allowed
+                              disabled:opacity-50
+                            "
+                          >
+                            <Trash2 size={13} />
+                          </button>
+                        )}
+                      </div>
                     </div>
 
                     <div className="mt-4 flex gap-2.5">
@@ -374,6 +576,7 @@ export default function GuestMessages({ eventId }: Props) {
                   <div
                     key={message.id}
                     className="
+                      relative
                       min-w-[82%]
                       h-[184px]
                       min-h-[184px]
@@ -384,6 +587,13 @@ export default function GuestMessages({ eventId }: Props) {
                   >
                     <GuestAudioMessageCard
                       message={message}
+                      canDelete={canDelete}
+                      deleting={
+                        deletingMessageId === message.id
+                      }
+                      onDelete={() =>
+                        handleDelete(message)
+                      }
                     />
                   </div>
                 ))}
@@ -397,12 +607,14 @@ export default function GuestMessages({ eventId }: Props) {
         )}
       </div>
 
-      <GuestMessageDialog
-        eventId={eventId}
-        open={open}
-        onOpenChange={setOpen}
-        onSubmitted={loadMessages}
-      />
+      {showComposer && (
+        <GuestMessageDialog
+          eventId={eventId}
+          open={open}
+          onOpenChange={setOpen}
+          onSubmitted={loadMessages}
+        />
+      )}
     </section>
   );
 }

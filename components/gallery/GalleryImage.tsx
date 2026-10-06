@@ -25,23 +25,24 @@ function GalleryImage({
       type="button"
       onClick={onClick}
       aria-label={alt}
-      className="
-        group
-        relative
-        overflow-hidden
-        rounded-[1.15rem]
-        ${featured ? "col-span-2 aspect-[16/10] md:aspect-[16/9]" : "aspect-square"}
-        bg-neutral-100
-        transition-transform
-        duration-200
-        active:scale-[0.985]
-        shadow-[0_8px_28px_rgba(53,44,34,0.06)]
-        focus:outline-none
-        focus:ring-2
-        focus:ring-neutral-300
-        focus:ring-offset-2
-      "
-    >
+        className={[
+          "group",
+          "relative",
+          "overflow-hidden",
+          "rounded-[1.15rem]",
+          featured
+            ? "col-span-2 aspect-[16/10] md:aspect-[16/9]"
+            : "aspect-square",
+          "bg-neutral-100",
+          "transition-transform",
+          "duration-200",
+          "active:scale-[0.985]",
+          "shadow-[0_8px_28px_rgba(53,44,34,0.06)]",
+          "focus:outline-none",
+          "focus:ring-2",
+          "focus:ring-neutral-300",
+          "focus:ring-offset-2",
+        ].join(" ")}    >
       {!error ? (
         <>
           {!loaded && (

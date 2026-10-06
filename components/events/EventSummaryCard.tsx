@@ -10,7 +10,7 @@ export default function EventSummaryCard({
   children,
 }: Props) {
   return (
-    <section className="relative z-20 mx-auto mt-6 w-[92%] max-w-3xl">
+    <section className="relative z-20 mx-auto -mt-7 w-[92%] max-w-3xl sm:-mt-8">
       <div className="rounded-[1.75rem] border border-white/70 bg-[#FDFBF8]/95 px-5 py-5 shadow-[0_18px_55px_rgba(53,44,34,0.12)] backdrop-blur-xl sm:px-6">
         {welcomeMessage && (
           <>

@@ -166,7 +166,17 @@ export default function EventActions({
   }, [qrOpen, event.slug]);
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] shadow-lg">
+    <section>
+      <div className="mb-3">
+        <p className="text-[9px] font-semibold uppercase tracking-[0.24em] text-[#A88249]">
+          Acciones principales
+        </p>
+        <h2 className="mt-1 font-[var(--font-display)] text-2xl font-semibold tracking-[-0.02em] text-[#1F1F1F]">
+          Comparte y administra tu galería
+        </h2>
+      </div>
+
+      <div className="grid gap-3 md:grid-cols-3">
       <Dialog
         open={qrOpen}
         onOpenChange={setQrOpen}
@@ -257,15 +267,15 @@ export default function EventActions({
       </Dialog>
 
       <ActionCard
-        variant="top"
+        variant="single"
         icon={<QrCode size={22} />}
-        title="Código QR"
-        description="Descarga el QR o copia el enlace de tu galería y compártelo."
+        title="Compartir galería"
+        description="Descarga el QR o copia el enlace para tus invitados."
         onClick={() => setQrOpen(true)}
       />
 
       <ActionCard
-        variant="middle"
+        variant="single"
         icon={
           isDownloading ? (
             <div className="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent" />
@@ -273,8 +283,8 @@ export default function EventActions({
             <Download size={22} />
           )
         }
-        title={getTitle()}
-        description={getDescription()}
+        title={getTitle().replace("fotografías", "fotos")}
+        description={getDescription().replace("fotografías", "fotos")}
         onClick={handleDownload}
         loading={isDownloading}
         disabled={isDownloading}
@@ -284,13 +294,14 @@ export default function EventActions({
         event={event}
         trigger={
           <ActionCard
-            variant="last"
+            variant="single"
             icon={<Sparkles size={22} />}
-            title="Portada y bienvenida"
-            description="Personaliza la portada y el mensaje para tus invitados."
+            title="Personalizar"
+            description="Cambia la portada y el mensaje de bienvenida."
           />
         }
       />
-    </div>
+      </div>
+    </section>
   );
 }

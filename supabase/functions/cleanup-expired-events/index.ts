@@ -300,7 +300,7 @@ Deno.serve(async (req) => {
       .toISOString()
       .slice(0, 10);
 
-    const { data: events, error } = await supabaseAdmin
+    const { data: queriedEvents, error } = await supabaseAdmin
       .from("events")
       .select("id,title,event_date")
       .lte("event_date", cutoffDate)
@@ -309,6 +309,14 @@ Deno.serve(async (req) => {
         ascending: true,
       })
       .limit(MAX_EVENTS_PER_RUN);
+
+    if (error) {
+      throw new Error(
+        `No se pudieron consultar los eventos vencidos: ${error.message}`
+      );
+    }
+
+    let events = queriedEvents ?? [];
 
     if (requestedEventId) {
       const selectedEvent = (events ?? []).find(
@@ -333,12 +341,6 @@ Deno.serve(async (req) => {
       }
 
       events = [selectedEvent];
-    }
-
-    if (error) {
-      throw new Error(
-        `No se pudieron consultar los eventos vencidos: ${error.message}`
-      );
     }
 
     const results = {

@@ -28,7 +28,7 @@ export default async function PublicEventPage({
 
   return (
     <main className="min-h-screen bg-[#FBF9F5]">
-      <div className="mx-auto max-w-6xl space-y-10 px-3 py-4 sm:px-4 sm:py-6 md:space-y-12">
+      <div className="mx-auto max-w-6xl px-3 py-4 sm:px-4 sm:py-6">
         <EventHero
   event={event}
   photoCount={photoCount}
@@ -36,7 +36,9 @@ export default async function PublicEventPage({
 
         <PublicEventClient event={event} />
 
-        <Footer />
+        <div className="mt-10">
+          <Footer />
+        </div>
       </div>
     </main>
   );

@@ -644,8 +644,31 @@ useEffect(() => {
 
   return (
     <>
-      <div className="-mt-3">
-        <div className="mb-2 flex items-center justify-between gap-2 md:justify-end">
+      <div className="mt-12">
+        <div className="mb-7 text-center">
+          <p className="text-[9px] font-semibold uppercase tracking-[0.28em] text-[#A88249]">
+            Galería en vivo
+          </p>
+
+          <div className="mt-2 flex items-center justify-center gap-2">
+            <h2 className="font-[var(--font-display)] text-[2rem] font-semibold leading-none tracking-[-0.02em] text-[#1F1F1F] sm:text-[2.5rem]">
+              Recuerdos de este día
+            </h2>
+
+            {totalPhotos > 0 && (
+              <span className="rounded-full bg-[#F3ECE2] px-2.5 py-1 text-[10px] font-medium tabular-nums text-[#8B8378]">
+                {totalPhotos}
+              </span>
+            )}
+          </div>
+
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#7D7467]">
+            Las nuevas fotografías aparecen aquí en tiempo real.
+          </p>
+        </div>
+
+        <div className="mb-3 flex items-center justify-between gap-2">
+
           <button
             type="button"
             onClick={handleOpenPresentation}
@@ -656,7 +679,7 @@ useEffect(() => {
               rounded-full
               border
               border-[#A88249]
-              bg-[#A88249]
+              bg-[#1F1F1F]
               px-3.5
               py-1.5
               text-sm
@@ -666,8 +689,8 @@ useEffect(() => {
               opacity-100
               transition-colors
               duration-200
-              hover:bg-[#977640]
-              hover:border-[#977640]
+              hover:bg-[#2B2925]
+              hover:border-[#2B2925]
               disabled:opacity-100
               disabled:cursor-pointer
               focus:outline-none
@@ -879,9 +902,10 @@ useEffect(() => {
         {presentationOpen && presentationPhotos.length > 0 && (
           <div className="fixed inset-0 z-[100] flex h-[100dvh] w-full items-center justify-center bg-[#111111]">
             <img
+              key={presentationPhotos[presentationIndex].id}
               src={presentationPhotos[presentationIndex].public_url}
               alt={presentationPhotos[presentationIndex].file_name}
-              className="h-full w-full object-contain"
+              className="h-full w-full object-contain animate-[melissarte-fade_700ms_ease-out]"
             />
 
             {qrDataUrl && (

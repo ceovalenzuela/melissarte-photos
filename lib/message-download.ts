@@ -111,14 +111,14 @@ export async function downloadEventMessagesPdf(
 
     const pdf = await PDFDocument.create();
 
-    const regularFont = await pdf.embedFont(
-      StandardFonts.Helvetica
+    const bodyFont = await pdf.embedFont(
+      StandardFonts.TimesRoman
     );
-    const boldFont = await pdf.embedFont(
-      StandardFonts.HelveticaBold
+    const bodyItalicFont = await pdf.embedFont(
+      StandardFonts.TimesRomanItalic
     );
-    const italicFont = await pdf.embedFont(
-      StandardFonts.HelveticaOblique
+    const bodyBoldFont = await pdf.embedFont(
+      StandardFonts.TimesRomanBold
     );
 
     const pageWidth = 595.28;
@@ -126,218 +126,357 @@ export async function downloadEventMessagesPdf(
     const marginX = 54;
     const contentWidth = pageWidth - marginX * 2;
 
+    const colors = {
+      ink: rgb(0.14, 0.12, 0.10),
+      muted: rgb(0.43, 0.39, 0.34),
+      softMuted: rgb(0.59, 0.54, 0.48),
+      gold: rgb(0.66, 0.51, 0.29),
+      cream: rgb(0.985, 0.974, 0.952),
+      paper: rgb(0.996, 0.991, 0.982),
+      line: rgb(0.87, 0.81, 0.71),
+      white: rgb(1, 1, 1),
+    };
+
+    function drawCenteredText(
+      page: ReturnType<typeof pdf.addPage>,
+      text: string,
+      y: number,
+      size: number,
+      font: any,
+      color: any
+    ) {
+      const width = font.widthOfTextAtSize(text, size);
+
+      page.drawText(text, {
+        x: (pageWidth - width) / 2,
+        y,
+        size,
+        font,
+        color,
+      });
+    }
+
+    function drawPageFrame(page: ReturnType<typeof pdf.addPage>) {
+      page.drawRectangle({
+        x: 22,
+        y: 22,
+        width: pageWidth - 44,
+        height: pageHeight - 44,
+        borderWidth: 0.7,
+        borderColor: colors.line,
+      });
+
+      page.drawLine({
+        start: { x: 42, y: pageHeight - 54 },
+        end: { x: pageWidth - 42, y: pageHeight - 54 },
+        thickness: 0.5,
+        color: colors.line,
+      });
+
+      page.drawLine({
+        start: { x: 42, y: 48 },
+        end: { x: pageWidth - 42, y: 48 },
+        thickness: 0.5,
+        color: colors.line,
+      });
+    }
+
+    // Portada
     let page = pdf.addPage([
       pageWidth,
       pageHeight,
     ]);
 
-    let y = pageHeight - 64;
+    drawPageFrame(page);
 
-    function drawHeader(firstPage: boolean) {
-      if (!firstPage) {
-        page.drawText("Libro de firmas", {
-          x: marginX,
-          y: pageHeight - 38,
-          size: 9,
-          font: boldFont,
-          color: rgb(0.64, 0.50, 0.29),
-        });
+    drawCenteredText(
+      page,
+      "LIBRO DE FIRMAS",
+      682,
+      10,
+      bodyBoldFont,
+      colors.gold
+    );
 
-        page.drawLine({
-          start: { x: marginX, y: pageHeight - 48 },
-          end: {
-            x: pageWidth - marginX,
-            y: pageHeight - 48,
-          },
-          thickness: 0.6,
-          color: rgb(0.91, 0.86, 0.78),
-        });
+    const titleLines = wrapText(
+      sanitizePdfText(event.title),
+      bodyBoldFont,
+      28,
+      400
+    ).slice(0, 4);
 
-        return pageHeight - 72;
-      }
+    let coverY = 614;
 
+    for (const line of titleLines) {
+      drawCenteredText(
+        page,
+        line,
+        coverY,
+        28,
+        bodyBoldFont,
+        colors.ink
+      );
+      coverY -= 34;
+    }
+
+    page.drawLine({
+      start: {
+        x: pageWidth / 2 - 52,
+        y: coverY - 6,
+      },
+      end: {
+        x: pageWidth / 2 + 52,
+        y: coverY - 6,
+      },
+      thickness: 1,
+      color: colors.gold,
+    });
+
+    drawCenteredText(
+      page,
+      sanitizePdfText(formatEventDate(event.event_date)),
+      coverY - 34,
+      13,
+      bodyItalicFont,
+      colors.muted
+    );
+
+    drawCenteredText(
+      page,
+      "Palabras compartidas por quienes acompañaron este día.",
+      coverY - 88,
+      11,
+      bodyItalicFont,
+      colors.softMuted
+    );
+
+    page.drawText("“", {
+      x: pageWidth / 2 - 18,
+      y: 292,
+      size: 64,
+      font: bodyItalicFont,
+      color: colors.gold,
+    });
+
+    page.drawLine({
+      start: { x: pageWidth / 2 - 34, y: 214 },
+      end: { x: pageWidth / 2 + 34, y: 214 },
+      thickness: 0.8,
+      color: colors.gold,
+    });
+
+    drawCenteredText(
+      page,
+      messages.length +
+        (messages.length === 1
+          ? " mensaje"
+          : " mensajes"),
+      184,
+      9,
+      bodyBoldFont,
+      colors.softMuted
+    );
+
+    // Páginas de mensajes
+    page = pdf.addPage([
+      pageWidth,
+      pageHeight,
+    ]);
+
+    let y = pageHeight - 82;
+
+    function drawMessageHeader() {
       page.drawText("LIBRO DE FIRMAS", {
         x: marginX,
-        y,
-        size: 10,
-        font: boldFont,
-        color: rgb(0.64, 0.50, 0.29),
+        y: pageHeight - 38,
+        size: 9,
+        font: bodyBoldFont,
+        color: colors.gold,
       });
 
-      y -= 28;
+      const title = sanitizePdfText(event.title);
+      const titleWidth = bodyBoldFont.widthOfTextAtSize(
+        title,
+        8
+      );
 
-      const titleLines = wrapText(
-        sanitizePdfText(event.title),
-        boldFont,
-        25,
-        contentWidth
-      ).slice(0, 3);
-
-      for (const line of titleLines) {
-        page.drawText(line, {
-          x: marginX,
-          y,
-          size: 25,
-          font: boldFont,
-          color: rgb(0.12, 0.10, 0.09),
+      if (titleWidth <= 225) {
+        page.drawText(title, {
+          x:
+            pageWidth -
+            marginX -
+            titleWidth,
+          y: pageHeight - 38,
+          size: 8,
+          font: bodyItalicFont,
+          color: colors.softMuted,
         });
-
-        y -= 30;
       }
 
-      y -= 2;
+      page.drawLine({
+        start: { x: marginX, y: pageHeight - 50 },
+        end: {
+          x: pageWidth - marginX,
+          y: pageHeight - 50,
+        },
+        thickness: 0.6,
+        color: colors.line,
+      });
 
-      page.drawText(
-        sanitizePdfText(
-          formatEventDate(event.event_date)
-        ),
+      y = pageHeight - 78;
+    }
+
+    function drawFooter(
+      targetPage: ReturnType<typeof pdf.addPage>,
+      pageIndex: number,
+      totalPages: number
+    ) {
+      targetPage.drawText(
+        "Melissarte Photos · Recuerdos compartidos",
         {
           x: marginX,
-          y,
-          size: 11,
-          font: italicFont,
-          color: rgb(0.43, 0.39, 0.34),
+          y: 30,
+          size: 7.5,
+          font: bodyItalicFont,
+          color: colors.softMuted,
         }
       );
 
-      y -= 24;
+      const pageNumber = String(pageIndex) +
+        " / " +
+        String(totalPages);
 
-      page.drawLine({
-        start: { x: marginX, y },
-        end: { x: pageWidth - marginX, y },
-        thickness: 0.8,
-        color: rgb(0.87, 0.81, 0.71),
+      const pageNumberWidth =
+        bodyFont.widthOfTextAtSize(pageNumber, 7.5);
+
+      targetPage.drawText(pageNumber, {
+        x:
+          pageWidth -
+          marginX -
+          pageNumberWidth,
+        y: 30,
+        size: 7.5,
+        font: bodyFont,
+        color: colors.softMuted,
       });
-
-      return y - 28;
     }
 
-    y = drawHeader(true);
+    drawPageFrame(page);
+    drawMessageHeader();
 
     for (const [index, message] of messages.entries()) {
       const author = sanitizePdfText(
         message.author_name?.trim() || "Invitado"
       );
+
       const body = sanitizePdfText(
         message.content?.trim() || ""
       );
 
       let bodyLines = wrapText(
         body,
-        regularFont,
-        11,
-        contentWidth - 42
+        bodyFont,
+        11.5,
+        contentWidth - 72
       );
 
-      if (bodyLines.length > 7) {
+      if (bodyLines.length > 8) {
         bodyLines = [
-          ...bodyLines.slice(0, 6),
+          ...bodyLines.slice(0, 7),
           "...",
         ];
       }
 
       const cardHeight = Math.max(
-        82,
-        43 + bodyLines.length * 17
+        92,
+        52 + bodyLines.length * 18
       );
 
-      if (y - cardHeight < 54) {
+      if (y - cardHeight < 72) {
         page = pdf.addPage([
           pageWidth,
           pageHeight,
         ]);
-        y = drawHeader(false);
+
+        drawPageFrame(page);
+        drawMessageHeader();
       }
+
+      const cardY = y - cardHeight;
 
       page.drawRectangle({
         x: marginX,
-        y: y - cardHeight,
+        y: cardY,
         width: contentWidth,
         height: cardHeight,
-        borderWidth: 0.8,
-        borderColor: rgb(0.91, 0.86, 0.78),
-        color: rgb(0.995, 0.984, 0.969),
+        color: colors.paper,
+        borderWidth: 0.7,
+        borderColor: colors.line,
+      });
+
+      page.drawRectangle({
+        x: marginX,
+        y: cardY,
+        width: 4,
+        height: cardHeight,
+        color: colors.gold,
+      });
+
+      page.drawText("“", {
+        x: marginX + 16,
+        y: y - 38,
+        size: 26,
+        font: bodyItalicFont,
+        color: colors.gold,
       });
 
       page.drawText(author, {
-        x: marginX + 16,
-        y: y - 23,
-        size: 11,
-        font: boldFont,
-        color: rgb(0.25, 0.23, 0.20),
+        x: marginX + 43,
+        y: y - 24,
+        size: 11.5,
+        font: bodyBoldFont,
+        color: colors.ink,
       });
 
-      const label = "Mensaje " + String(index + 1).padStart(2, "0");
+      const label = String(index + 1).padStart(2, "0");
 
       page.drawText(label, {
         x:
           pageWidth -
           marginX -
-          16 -
-          regularFont.widthOfTextAtSize(
-            label,
-            8
-          ),
-        y: y - 22,
+          17 -
+          bodyFont.widthOfTextAtSize(label, 8),
+        y: y - 24,
         size: 8,
-        font: regularFont,
-        color: rgb(0.59, 0.54, 0.48),
+        font: bodyFont,
+        color: colors.softMuted,
       });
 
-      let bodyY = y - 47;
+      let bodyY = y - 49;
 
       for (const line of bodyLines) {
         page.drawText(line, {
-          x: marginX + 16,
+          x: marginX + 43,
           y: bodyY,
-          size: 11,
-          font: regularFont,
-          color: rgb(0.36, 0.33, 0.29),
+          size: 11.5,
+          font: bodyFont,
+          color: colors.muted,
         });
 
-        bodyY -= 17;
+        bodyY -= 18;
       }
 
-      y -= cardHeight + 12;
+      y = cardY - 14;
     }
 
     const pages = pdf.getPages();
-    const footerLabel =
-      messages.length +
-      (messages.length === 1
-        ? " mensaje compartido"
-        : " mensajes compartidos");
 
     pages.forEach((currentPage, pageIndex) => {
-      currentPage.drawText(footerLabel, {
-        x: marginX,
-        y: 28,
-        size: 8,
-        font: regularFont,
-        color: rgb(0.59, 0.54, 0.48),
-      });
-
-      const pageNumber =
-        String(pageIndex + 1) +
-        " / " +
-        String(pages.length);
-
-      const pageNumberWidth =
-        regularFont.widthOfTextAtSize(
-          pageNumber,
-          8
-        );
-
-      currentPage.drawText(pageNumber, {
-        x:
-          pageWidth -
-          marginX -
-          pageNumberWidth,
-        y: 28,
-        size: 8,
-        font: regularFont,
-        color: rgb(0.59, 0.54, 0.48),
-      });
+      drawFooter(
+        currentPage,
+        pageIndex + 1,
+        pages.length
+      );
     });
 
     const bytes = await pdf.save();

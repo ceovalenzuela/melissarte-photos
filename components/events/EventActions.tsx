@@ -122,7 +122,7 @@ export default function EventActions({
 
   function getDescription() {
     if (!isDownloading) {
-      return "Descarga todas las fotografías del evento en un solo archivo.";
+      return "Todas las fotos en un archivo ZIP";
     }
 
     switch (status) {

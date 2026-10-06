@@ -12,6 +12,7 @@ import {
   PhotoSortOrder,
 } from "@/lib/photos";
 import { subscribeToEventPhotos } from "@/lib/realtime";
+import { getEventUrl } from "@/lib/urls";
 
 import PublicGallery from "./PublicGallery";
 import PhotoLightbox from "@/components/public/PhotoLightbox";
@@ -419,7 +420,10 @@ setPresentationIndex(0);
       return;
     }
 
-    const galleryUrl = window.location.href.split("#")[0];
+    const galleryUrl = getEventUrl(
+      window.location.origin,
+      event.slug
+    );
 
     QRCode.toDataURL(galleryUrl, {
       width: 180,

@@ -219,15 +219,17 @@ async function cleanupEvent(
     );
   }
 
-  const { error: eventDeleteError } =
+  const { error: purgeMarkError } =
     await supabaseAdmin
       .from("events")
-      .delete()
+      .update({
+        content_purged_at: new Date().toISOString(),
+      })
       .eq("id", event.id);
 
-  if (eventDeleteError) {
+  if (purgeMarkError) {
     throw new Error(
-      `No se pudo eliminar el evento: ${eventDeleteError.message}`
+      `No se pudo marcar el contenido del evento como purgado: ${purgeMarkError.message}`
     );
   }
 
@@ -293,6 +295,7 @@ Deno.serve(async (req) => {
       .from("events")
       .select("id,title,event_date")
       .lte("event_date", cutoffDate)
+      .is("content_purged_at", null)
       .order("event_date", {
         ascending: true,
       })

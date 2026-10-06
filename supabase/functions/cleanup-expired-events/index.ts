@@ -252,10 +252,18 @@ Deno.serve(async (req) => {
     assertCronSecret(req);
 
     let dryRun = false;
+    let requestedEventId: string | null = null;
 
     try {
       const body = await req.json();
       dryRun = body?.dry_run === true;
+
+      if (
+        typeof body?.event_id === "string" &&
+        body.event_id.trim()
+      ) {
+        requestedEventId = body.event_id.trim();
+      }
     } catch {
       // Empty request body is valid for the scheduled job.
     }
@@ -302,6 +310,31 @@ Deno.serve(async (req) => {
       })
       .limit(MAX_EVENTS_PER_RUN);
 
+    if (requestedEventId) {
+      const selectedEvent = (events ?? []).find(
+        (event) => event.id === requestedEventId
+      );
+
+      if (!selectedEvent) {
+        return Response.json(
+          {
+            cutoff_date: cutoffDate,
+            found: 0,
+            deleted: 0,
+            failed: 0,
+            dry_run: dryRun,
+            requested_event_id: requestedEventId,
+            details: [],
+            message:
+              "El evento solicitado no existe, ya fue purgado o todavía no cumple los 30 días.",
+          },
+          { status: 200 }
+        );
+      }
+
+      events = [selectedEvent];
+    }
+
     if (error) {
       throw new Error(
         `No se pudieron consultar los eventos vencidos: ${error.message}`
@@ -315,6 +348,7 @@ Deno.serve(async (req) => {
       failed: 0,
       details: [] as Array<Record<string, unknown>>,
       dry_run: dryRun,
+      requested_event_id: requestedEventId,
     };
 
     for (const event of (events ?? []) as ExpiredEvent[]) {

@@ -667,13 +667,14 @@ useEffect(() => {
           </p>
         </div>
 
-        <div className="mb-3 flex items-center justify-between gap-2">
+        <div className="mb-4 flex items-center justify-between gap-2">
 
           <button
             type="button"
             onClick={handleOpenPresentation}
             className="
               inline-flex
+              h-9
               items-center
               gap-1.5
               rounded-full

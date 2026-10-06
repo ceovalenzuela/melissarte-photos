@@ -223,6 +223,7 @@ async function cleanupEvent(
     await supabaseAdmin
       .from("events")
       .update({
+        status: "draft",
         content_purged_at: new Date().toISOString(),
       })
       .eq("id", event.id);

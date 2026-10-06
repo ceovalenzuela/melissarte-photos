@@ -68,13 +68,13 @@ export default function EventHero({
               }}
               style={{
                 "--hero-object-position-mobile": isPortrait
-                  ? "center 58%"
+                  ? "center 65%"
                   : `center ${Math.max(
                       0,
                       Math.min(100, (event.cover_position_y ?? 50) - 8)
                     )}%`,
                 "--hero-object-position-desktop": isPortrait
-                  ? "center 58%"
+                  ? "center 65%"
                   : `center ${Math.max(
                       0,
                       Math.min(100, (event.cover_position_y ?? 50) - 8)

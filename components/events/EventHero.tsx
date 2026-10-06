@@ -23,24 +23,26 @@ export default function EventHero({
     Number(year),
     Number(month) - 1,
     Number(day)
-  ).toLocaleDateString("es-MX", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  )
+    .toLocaleDateString("es-MX", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    })
+    .toLowerCase();
 
   const titleLength = event.title.trim().length;
 
   const titleSizeClass =
     titleLength > 46
-      ? "text-[clamp(2.35rem,8vw,3.8rem)] sm:text-[3.8rem] md:text-[4.55rem]"
+      ? "text-[clamp(2.2rem,7.4vw,3.45rem)] sm:text-[3.45rem] md:text-[4.15rem]"
       : titleLength > 30
-        ? "text-[clamp(2.55rem,9vw,4.15rem)] sm:text-[4.15rem] md:text-[4.8rem]"
-        : "text-[clamp(2.8rem,10vw,4.5rem)] sm:text-[4.5rem] md:text-[5rem]";
+        ? "text-[clamp(2.35rem,8.2vw,3.75rem)] sm:text-[3.75rem] md:text-[4.35rem]"
+        : "text-[clamp(2.5rem,8.8vw,4rem)] sm:text-[4rem] md:text-[4.6rem]";
 
   return (
     <section className="relative overflow-hidden rounded-[2rem] bg-[#181715] shadow-[0_24px_70px_rgba(31,31,31,0.16)]">
-      <div className="relative h-[450px] w-full sm:h-[520px] md:h-[580px]">
+      <div className="relative h-[460px] w-full sm:h-[530px] md:h-[590px]">
         {event.cover_image ? (
           <>
             <Image
@@ -77,7 +79,7 @@ export default function EventHero({
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(16,15,13,0)_0%,rgba(16,15,13,0)_54%,rgba(16,15,13,0.9)_100%)]" />
 
         <div className="absolute inset-x-0 bottom-0 px-5 pb-7 text-white sm:px-7 sm:pb-9 md:px-9 md:pb-10">
-          <h1 className={`max-w-[14ch] text-balance font-[var(--font-display)] ${titleSizeClass} font-semibold leading-[0.9] tracking-[-0.025em] text-white sm:max-w-4xl`}>
+          <h1 className={`max-w-[15ch] text-balance font-[var(--font-display)] ${titleSizeClass} font-semibold leading-[0.92] tracking-[-0.025em] text-white sm:max-w-4xl`}>
             {event.title}
           </h1>
 

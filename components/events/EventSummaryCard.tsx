@@ -15,7 +15,7 @@ export default function EventSummaryCard({
         {welcomeMessage && (
           <>
             <div className="mx-auto max-w-2xl text-center">
-              <p className="font-[var(--font-display)] text-[1.35rem] font-medium leading-6 text-[#3F3A34] sm:text-[1.55rem] sm:leading-7">
+              <p className="font-[var(--font-display)] text-[1.15rem] font-medium leading-6 text-[#3F3A34] sm:text-[1.3rem] sm:leading-6">
                 {welcomeMessage}
               </p>
             </div>

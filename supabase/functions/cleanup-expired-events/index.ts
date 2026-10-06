@@ -248,9 +248,27 @@ Deno.serve(async (req) => {
   try {
     assertCronSecret(req);
 
+    const secretKeysRaw = Deno.env.get(
+      "SUPABASE_SECRET_KEYS"
+    );
+
+    const secretKeys = secretKeysRaw
+      ? JSON.parse(secretKeysRaw)
+      : {};
+
+    const serviceKey =
+      secretKeys.default ??
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+    if (!serviceKey) {
+      throw new Error(
+        "No fue posible obtener la secret key de Supabase."
+      );
+    }
+
     const supabaseAdmin = createClient(
       getRequiredEnv("SUPABASE_URL"),
-      getRequiredEnv("SUPABASE_SERVICE_ROLE_KEY")
+      serviceKey
     );
 
     const cutoff = new Date();

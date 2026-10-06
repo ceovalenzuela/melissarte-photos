@@ -1,6 +1,6 @@
 "use client";
 
-import { Pause, Play, Volume2 } from "lucide-react";
+import { Pause, Play, Trash2, Volume2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { Message } from "@/types/message";
@@ -141,43 +141,41 @@ export default function GuestAudioMessageCard({
         src={message.public_url ?? undefined}
       />
 
-      <div className="flex items-center gap-3 pr-1">
-        {canDelete && (
-          <button
-            type="button"
-            onClick={onDelete}
-            disabled={deleting}
-            aria-label="Eliminar mensaje"
-            className="
-              absolute
-              right-3
-              top-3
-              z-10
-              flex
-              h-7
-              w-7
-              items-center
-              justify-center
-              rounded-full
-              border
-              border-[#E7DCC8]
-              bg-white
-              text-[#8B8378]
-              shadow-sm
-              transition
-              hover:border-[#D8C8AE]
-              hover:bg-[#F8F4EE]
-              hover:text-[#9C625C]
-              disabled:cursor-not-allowed
-              disabled:opacity-50
-            "
-          >
-            <Trash2 size={13} />
-          </button>
-        )}
-      </div>
+      {canDelete && (
+        <button
+          type="button"
+          onClick={onDelete}
+          disabled={deleting}
+          aria-label="Eliminar mensaje"
+          className="
+            absolute
+            right-3
+            top-3
+            z-10
+            flex
+            h-7
+            w-7
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-[#E7DCC8]
+            bg-white
+            text-[#8B8378]
+            shadow-sm
+            transition
+            hover:border-[#D8C8AE]
+            hover:bg-[#F8F4EE]
+            hover:text-[#9C625C]
+            disabled:cursor-not-allowed
+            disabled:opacity-50
+          "
+        >
+          <Trash2 size={13} />
+        </button>
+      )}
 
-      <div className="flex items-center gap-3 pr-10">
+      <div className="flex items-center gap-3">
         <button
           type="button"
           onClick={togglePlayback}

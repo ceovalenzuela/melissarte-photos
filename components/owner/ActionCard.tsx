@@ -42,59 +42,39 @@ variant = "single",
       onClick={onClick}
       disabled={disabled}
       className={`
-        ${!loading && !disabled ? "group" : ""}
-        w-full
-        ${roundedClass}
-        ${borderClass}
-        border-[#E7DCC8]
-        bg-[#FDFBF8]
-        px-7
-        py-6
-        text-left
-        transition-colors
-        duration-200
-
+        group flex min-h-[150px] w-full flex-col justify-between rounded-2xl
+        border border-[#E7DCC8] bg-[#FDFBF8] p-5 text-left
+        shadow-[0_8px_28px_rgba(53,44,34,0.05)]
+        transition-all duration-200
         ${
-  loading
-    ? "cursor-progress bg-[#F5EFE6]"
-    : disabled
-      ? "cursor-not-allowed opacity-60"
-      : "hover:bg-[#FCF8F3]"
-}
+          loading
+            ? "cursor-progress bg-[#F5EFE6]"
+            : disabled
+              ? "cursor-not-allowed opacity-60"
+              : "hover:-translate-y-0.5 hover:border-[#D8C8AE] hover:bg-[#FFFCF8] hover:shadow-[0_12px_32px_rgba(53,44,34,0.08)]"
+        }
       `}
     >
-      <div className="flex items-center justify-between">
-        <div className="flex items-start gap-4">
-          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center">
-            {loading ? (
-              <LoaderCircle
-                size={22}
-                className="animate-spin text-[#A88249] [animation-duration:1.5s]"
-              />
-            ) : (
-              <div className="text-[#A88249]">
-                {icon}
-              </div>
-            )}
-          </div>
-
-          <div>
-            <p className="text-lg font-medium text-[#1F1F1F]">
-              {title}
-            </p>
-
-            <p className="mt-2 text-sm leading-relaxed text-[#7D7467]">
-              {description}
-            </p>
-          </div>
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F3ECE2] text-[#A88249]">
+          {loading ? (
+            <LoaderCircle size={20} className="animate-spin [animation-duration:1.5s]" />
+          ) : (
+            icon
+          )}
         </div>
 
         {!loading && (
           <ChevronRight
-            size={22}
-            className="text-[#B8AD9D] transition-transform duration-200 group-hover:translate-x-1"
+            size={18}
+            className="mt-1 text-[#B8AD9D] transition-transform duration-200 group-hover:translate-x-1"
           />
         )}
+      </div>
+
+      <div className="mt-6">
+        <p className="text-base font-semibold text-[#1F1F1F]">{title}</p>
+        <p className="mt-1.5 text-xs leading-5 text-[#7D7467]">{description}</p>
       </div>
     </button>
   );

@@ -274,64 +274,80 @@ export default function GuestMessages({
           )}
 
           {showDownloads && event && (
-            <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
-              <button
-                type="button"
-                onClick={() => handleDownload("pdf")}
-                disabled={Boolean(downloading)}
-                className="
-                  inline-flex
-                  h-9
-                  items-center
-                  gap-2
-                  rounded-full
-                  border
-                  border-[#E1D5C1]
-                  bg-white
-                  px-3.5
-                  text-xs
-                  font-medium
-                  text-[#5C554B]
-                  transition
-                  hover:bg-[#F8F4EE]
-                  disabled:cursor-not-allowed
-                  disabled:opacity-50
-                "
-              >
-                <Download size={14} />
-                {downloading === "pdf"
-                  ? "Generando..."
-                  : "Libro de firmas"}
-              </button>
+            <div className="mt-5 w-full max-w-2xl">
+              <p className="text-xs leading-5 text-[#8B8378]">
+                Conserva los mensajes que dejaron tus invitados y llévatelos contigo al terminar el evento.
+              </p>
 
-              <button
-                type="button"
-                onClick={() => handleDownload("audio")}
-                disabled={Boolean(downloading)}
-                className="
-                  inline-flex
-                  h-9
-                  items-center
-                  gap-2
-                  rounded-full
-                  border
-                  border-[#E1D5C1]
-                  bg-white
-                  px-3.5
-                  text-xs
-                  font-medium
-                  text-[#5C554B]
-                  transition
-                  hover:bg-[#F8F4EE]
-                  disabled:cursor-not-allowed
-                  disabled:opacity-50
-                "
-              >
-                <Download size={14} />
-                {downloading === "audio"
-                  ? "Generando..."
-                  : "Audios ZIP"}
-              </button>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                <button
+                  type="button"
+                  onClick={() => handleDownload("pdf")}
+                  disabled={Boolean(downloading)}
+                  className="
+                    flex
+                    items-center
+                    justify-between
+                    gap-4
+                    rounded-2xl
+                    border
+                    border-[#E1D5C1]
+                    bg-white
+                    px-4
+                    py-3
+                    text-left
+                    transition-all
+                    hover:bg-[#F8F4EE]
+                    disabled:cursor-not-allowed
+                    disabled:opacity-50
+                  "
+                >
+                  <span className="min-w-0">
+                    <span className="block text-xs font-semibold text-[#3F3A34]">
+                      Libro de firmas
+                    </span>
+                    <span className="mt-0.5 block text-[11px] leading-4 text-[#8B8378]">
+                      Todos los mensajes escritos en un PDF.
+                    </span>
+                  </span>
+
+                  <Download size={15} className="shrink-0 text-[#8B6D3B]" />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleDownload("audio")}
+                  disabled={Boolean(downloading)}
+                  className="
+                    flex
+                    items-center
+                    justify-between
+                    gap-4
+                    rounded-2xl
+                    border
+                    border-[#E1D5C1]
+                    bg-white
+                    px-4
+                    py-3
+                    text-left
+                    transition-all
+                    hover:bg-[#F8F4EE]
+                    disabled:cursor-not-allowed
+                    disabled:opacity-50
+                  "
+                >
+                  <span className="min-w-0">
+                    <span className="block text-xs font-semibold text-[#3F3A34]">
+                      Mensajes de voz
+                    </span>
+                    <span className="mt-0.5 block text-[11px] leading-4 text-[#8B8378]">
+                      Todos los audios en un archivo ZIP.
+                    </span>
+                  </span>
+
+                  <Download size={15} className="shrink-0 text-[#8B6D3B]" />
+                </button>
+              </div>
             </div>
           )}
         </div>

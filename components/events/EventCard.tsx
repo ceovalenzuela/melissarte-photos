@@ -17,8 +17,30 @@ import { EventWithStats } from "@/types/event-with-stats";
 
 type Props = {
   event: EventWithStats;
-  formatActivity: (value: string | null) => string;
+  formatActivity?: (value: string | null) => string;
 };
+
+function defaultFormatActivity(value: string | null) {
+  if (!value) return "Sin actividad";
+
+  const diff = Date.now() - new Date(value).getTime();
+
+  if (diff < 60_000) return "Hace menos de un minuto";
+
+  const minutes = Math.floor(diff / 60_000);
+  if (minutes < 60) return "Hace " + minutes + " min";
+
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return "Hace " + hours + " h";
+
+  const days = Math.floor(hours / 24);
+  if (days < 30) return "Hace " + days + " d";
+
+  return new Date(value).toLocaleDateString("es-MX", {
+    day: "numeric",
+    month: "short",
+  });
+}
 
 function formatDate(date: string) {
   const [year, month, day] = date.split("-");
@@ -36,7 +58,7 @@ function formatDate(date: string) {
 
 export default function EventCard({
   event,
-  formatActivity,
+  formatActivity = defaultFormatActivity,
 }: Props) {
   const [copied, setCopied] = useState(false);
 

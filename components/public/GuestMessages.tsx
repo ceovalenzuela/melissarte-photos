@@ -235,7 +235,7 @@ export default function GuestMessages({
             </div>
 
             <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#7D7467]">
-              Un espacio para compartir palabras y voces, entre quienes viven y celebran este momento.
+              Fotos, palabras y voces para compartir y volver a disfrutar juntos.
             </p>
           </div>
 

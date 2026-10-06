@@ -172,7 +172,7 @@ export default function EventActions({
           Acciones principales
         </p>
         <h2 className="mt-1 font-[var(--font-display)] text-2xl font-semibold tracking-[-0.02em] text-[#1F1F1F]">
-          Comparte y administra tu galería
+          Gestiona tu galería
         </h2>
       </div>
 
@@ -269,7 +269,7 @@ export default function EventActions({
       <ActionCard
         variant="single"
         icon={<QrCode size={22} />}
-        title="Compartir galería"
+        title="Comparte tu galería"
         description="Descarga el QR o copia el enlace para tus invitados."
         onClick={() => setQrOpen(true)}
       />
@@ -283,7 +283,7 @@ export default function EventActions({
             <Download size={22} />
           )
         }
-        title={getTitle().replace("fotografías", "fotos")}
+        title={isDownloading ? getTitle().replace("fotografías", "fotos") : "Descarga tus fotos"}
         description={getDescription().replace("fotografías", "fotos")}
         onClick={handleDownload}
         loading={isDownloading}
@@ -296,7 +296,7 @@ export default function EventActions({
           <ActionCard
             variant="single"
             icon={<Sparkles size={22} />}
-            title="Personalizar"
+            title="Personaliza tu galería"
             description="Cambia la portada y el mensaje de bienvenida."
           />
         }

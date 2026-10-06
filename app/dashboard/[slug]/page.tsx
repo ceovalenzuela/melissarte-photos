@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
-import EventHero from "@/components/events/EventHero";
 import EventActions from "@/components/events/EventActions";
+import OwnerEventHeader from "@/components/owner/OwnerEventHeader";
 import GuestMessages from "@/components/public/GuestMessages";
 import { getEventBySlug } from "@/lib/events";
 import { getPhotoCount } from "@/lib/photos";
@@ -53,37 +53,54 @@ if (
 
   const photoCount = await getPhotoCount(event.id);
 
+  const { count: messageCount } = await supabase
+    .from("messages")
+    .select("*", { count: "exact", head: true })
+    .eq("event_id", event.id);
+
   return (
-   <main className="min-h-screen bg-gray-50">
-  <div className="mx-auto max-w-6xl px-4 py-6">
-    <EventHero
-      event={event}
-      photoCount={photoCount}
-      showWelcomeMessage={false}
-    />
+    <main className="min-h-screen bg-[#FBF9F5]">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-5 sm:py-8">
+        <OwnerEventHeader event={event} />
 
-    {/* Tarjeta */}
-    <div className="-mt-6 relative z-20 mx-auto w-[92%] max-w-3xl">
-      <EventActions event={event} />
-    </div>
+        <EventActions event={event} />
 
-    {/* Galería */}
-    <div className="mx-auto mt-8 max-w-6xl">
-      <GallerySection event={event} />
-    </div>
+        <section className="mt-10 border-t border-[#E7DCC8] pt-8">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="text-[9px] font-semibold uppercase tracking-[0.24em] text-[#A88249]">
+                Contenido
+              </p>
+              <h2 className="mt-1 font-[var(--font-display)] text-2xl font-semibold tracking-[-0.02em] text-[#1F1F1F]">
+                Lo que está pasando en tu galería
+              </h2>
+            </div>
 
-    <GuestMessages
-      eventId={event.id}
-      event={event}
-      canDelete
-      showComposer={false}
-      showDownloads
-    />
+            <div className="flex items-center gap-4 text-xs text-[#7D7467]">
+              <span><strong className="font-semibold text-[#3F3A34]">{photoCount}</strong> fotos</span>
+              <span><strong className="font-semibold text-[#3F3A34]">{messageCount ?? 0}</strong> recuerdos</span>
+            </div>
+          </div>
 
-    <div className="mt-8">
-  <Footer />
-</div>
-  </div>
-</main>
+          <div className="mt-6">
+            <GallerySection event={event} />
+          </div>
+        </section>
+
+        <section className="mt-12 border-t border-[#E7DCC8] pt-10">
+          <GuestMessages
+            eventId={event.id}
+            event={event}
+            canDelete
+            showComposer={false}
+            showDownloads
+          />
+        </section>
+
+        <div className="mt-10">
+          <Footer />
+        </div>
+      </div>
+    </main>
   );
 }

@@ -219,12 +219,12 @@ export default function GuestMessages({
         <div className="flex flex-col items-center text-center">
           <div>
             <p className="text-[9px] font-semibold uppercase tracking-[0.28em] text-[#A88249]">
-              Un espacio para compartir
+              Recuerdos compartidos
             </p>
 
             <div className="mt-2 flex items-center justify-center gap-2">
               <h2 className="font-[var(--font-display)] text-[2rem] font-semibold leading-none tracking-[-0.02em] text-[#1F1F1F] md:text-[2.5rem]">
-                Palabras y recuerdos de este día
+                Lo que vivimos juntos
               </h2>
 
               {messages.length > 0 && (
@@ -235,7 +235,7 @@ export default function GuestMessages({
             </div>
 
             <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#7D7467]">
-              Fotos, palabras y voces para compartir y volver a disfrutar juntos.
+              Fotos, palabras y voces de quienes fueron parte de este momento.
             </p>
           </div>
 

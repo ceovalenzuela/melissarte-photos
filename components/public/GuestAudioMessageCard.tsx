@@ -7,6 +7,9 @@ import { Message } from "@/types/message";
 
 interface Props {
   message: Message;
+  canDelete?: boolean;
+  deleting?: boolean;
+  onDelete?: () => void;
 }
 
 function formatTime(value: number) {
@@ -16,6 +19,9 @@ function formatTime(value: number) {
 
 export default function GuestAudioMessageCard({
   message,
+  canDelete = false,
+  deleting = false,
+  onDelete,
 }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [playing, setPlaying] = useState(false);
@@ -126,6 +132,7 @@ export default function GuestAudioMessageCard({
         hover:shadow-md
         flex
         flex-col
+        relative
       "
     >
       <audio
@@ -134,7 +141,43 @@ export default function GuestAudioMessageCard({
         src={message.public_url ?? undefined}
       />
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 pr-1">
+        {canDelete && (
+          <button
+            type="button"
+            onClick={onDelete}
+            disabled={deleting}
+            aria-label="Eliminar mensaje"
+            className="
+              absolute
+              right-3
+              top-3
+              z-10
+              flex
+              h-7
+              w-7
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-[#E7DCC8]
+              bg-white
+              text-[#8B8378]
+              shadow-sm
+              transition
+              hover:border-[#D8C8AE]
+              hover:bg-[#F8F4EE]
+              hover:text-[#9C625C]
+              disabled:cursor-not-allowed
+              disabled:opacity-50
+            "
+          >
+            <Trash2 size={13} />
+          </button>
+        )}
+      </div>
+
+      <div className="flex items-center gap-3 pr-10">
         <button
           type="button"
           onClick={togglePlayback}

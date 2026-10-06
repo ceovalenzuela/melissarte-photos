@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Photo } from "@/types/photo";
 import { Trash2 } from "lucide-react";
 
@@ -24,10 +23,6 @@ export default function PublicGallery({
   deletingPhotoId = null,
   onDeletePhoto,
 }: Props) {
-  const [orientations, setOrientations] = useState<
-    Record<string, "portrait" | "square" | "landscape">
-  >({});
-
   return (
     <section className="mt-2">
 
@@ -38,28 +33,15 @@ export default function PublicGallery({
           Todavía no hay fotografías.
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-2.5 md:grid-cols-3 md:gap-3.5 lg:grid-cols-4 lg:gap-4">
+        <div className="columns-2 gap-2.5 md:columns-3 md:gap-3.5 xl:columns-4 xl:gap-4">
           {photos.map((photo, index) => (
-            <div
-              key={photo.id}
-              className={
-                orientations[photo.id] === "landscape"
-                  ? "group relative col-span-2"
-                  : "group relative"
-              }
-            >
+            <div key={photo.id} className="break-inside-avoid">
               <GalleryImage
                 src={photo.thumbnail_url}
                 alt={`Fotografía ${index + 1}`}
                 priority={index < 6}
                 onClick={() => onPhotoClick(index)}
-                featured={false}
-                onOrientationChange={(orientation) =>
-                  setOrientations((current) => ({
-                    ...current,
-                    [photo.id]: orientation,
-                  }))
-                }
+
               />
 
               {canDeletePhotos && onDeletePhoto && (

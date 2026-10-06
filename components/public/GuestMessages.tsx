@@ -316,7 +316,7 @@ export default function GuestMessages({
 
                   <span className="min-w-0">
                     <span className="block text-sm font-semibold text-[#2F2A24]">
-                      Libro de firmas
+                      Descarga el libro de firmas
                     </span>
                     <span className="mt-0.5 block text-[11px] leading-4 text-[#746B60]">
                       Todos los mensajes escritos en un PDF.
@@ -361,7 +361,7 @@ export default function GuestMessages({
 
                   <span className="min-w-0">
                     <span className="block text-sm font-semibold text-[#2F2A24]">
-                      Mensajes de voz
+                      Descarga los mensajes de voz
                     </span>
                     <span className="mt-0.5 block text-[11px] leading-4 text-[#746B60]">
                       Todos los audios en un archivo ZIP.

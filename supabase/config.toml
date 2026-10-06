@@ -1,5 +1,2 @@
 [functions.cleanup-expired-events]
 verify_jwt = false
-
-[functions.delete-message-with-token]
-verify_jwt = false

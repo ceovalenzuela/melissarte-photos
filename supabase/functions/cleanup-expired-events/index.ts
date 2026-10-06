@@ -302,9 +302,10 @@ Deno.serve(async (req) => {
 
     const { data: queriedEvents, error } = await supabaseAdmin
       .from("events")
-      .select("id,title,event_date")
+      .select("id,title,event_date,content_purge_exempt")
       .lte("event_date", cutoffDate)
       .is("content_purged_at", null)
+      .eq("content_purge_exempt", false)
       .order("event_date", {
         ascending: true,
       })

@@ -4,6 +4,7 @@ import {
   ArrowLeft,
   Check,
   Mic,
+  PenLine,
   Square,
   Trash2,
   Volume2,
@@ -400,8 +401,11 @@ export default function GuestMessageDialog({
                     hover:shadow-sm
                   "
                 >
-                  <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#F3ECE2] text-xl">
-                    ✍️
+                  <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#F3ECE2]">
+                    <PenLine
+                      size={22}
+                      className="text-[#A88249]"
+                    />
                   </span>
                   <span className="font-medium text-[#3F3A34]">
                     Escrito

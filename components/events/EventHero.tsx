@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, Camera, Sparkles } from "lucide-react";
 
 import { Event } from "@/types/event";
 
@@ -18,22 +18,21 @@ export default function EventHero({
 }: Props) {
   const [loaded, setLoaded] = useState(false);
 
-const [year, month, day] =
-  event.event_date.split("-");
+  const [year, month, day] = event.event_date.split("-");
 
-const formattedDate = new Date(
-  Number(year),
-  Number(month) - 1,
-  Number(day)
-).toLocaleDateString("es-MX", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-});
+  const formattedDate = new Date(
+    Number(year),
+    Number(month) - 1,
+    Number(day)
+  ).toLocaleDateString("es-MX", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 
   return (
-    <section className="relative overflow-hidden rounded-3xl shadow-lg">
-      <div className="relative h-[460px] w-full md:h-[460px]">
+    <section className="relative overflow-hidden rounded-[2rem] bg-[#181715] shadow-[0_24px_70px_rgba(31,31,31,0.16)]">
+      <div className="relative h-[500px] w-full sm:h-[540px] md:h-[580px]">
         {event.cover_image ? (
           <>
             <Image
@@ -41,7 +40,7 @@ const formattedDate = new Date(
               alt=""
               fill
               priority
-              className="hidden scale-110 object-cover blur-2xl md:block"
+              className="scale-110 object-cover blur-3xl opacity-45"
             />
 
             <Image
@@ -50,51 +49,57 @@ const formattedDate = new Date(
               fill
               priority
               onLoad={() => setLoaded(true)}
-              className={`
-                object-cover md:object-contain
-                transition-all
-                duration-700
-                ${
-                  loaded
-                    ? "scale-100 opacity-100"
-                    : "scale-[1.02] opacity-0"
-                }
-              `}
+              style={{
+                objectPosition: `center ${event.cover_position_y ?? 50}%`,
+              }}
+              className={
+                loaded
+                  ? "object-cover scale-100 opacity-100 transition-all duration-[1200ms]"
+                  : "object-cover scale-[1.025] opacity-0 transition-all duration-[1200ms]"
+              }
             />
           </>
         ) : (
-          <div className="h-full w-full bg-gradient-to-br from-zinc-800 via-zinc-900 to-black" />
+          <div className="h-full w-full bg-[radial-gradient(circle_at_top,#3A362E,transparent_55%),#181715]" />
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/65" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(16,15,13,0.18)_0%,transparent_34%,rgba(16,15,13,0.78)_100%)]" />
 
-        <div className="absolute inset-x-0 top-0 px-8 pt-3 text-white md:pt-7">
-          <h1 className="max-w-[80%] text-[22px] font-semibold leading-tight tracking-tight text-white/75 md:text-3xl">
-            {event.title}
-          </h1>
-        </div>
-
-        <div className="absolute inset-x-0 bottom-0 px-8 pb-10 text-white">
-          <div className="flex items-center gap-2 text-base text-white/75">
-            <CalendarDays size={18} />
-            <span>{formattedDate}</span>
+        <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-4 px-5 pt-5 text-white sm:px-7 sm:pt-7">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/15 px-3 py-1.5 backdrop-blur-md">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#D5BD94] shadow-[0_0_0_3px_rgba(213,189,148,0.12)]" />
+            <span className="text-[9px] font-semibold uppercase tracking-[0.24em] text-white/80">
+              Galería en vivo
+            </span>
           </div>
 
-          <div className="mt-4">
-            <div
-              className="
-                inline-flex
-                rounded-full
-                border
-                border-white/15
-                bg-white/10
-                px-3
-                py-1.5
-                backdrop-blur-lg
-              "
-            >
-              <span className="text-sm font-medium text-white/75">
-                {photoCount} fotografías
+          <div className="hidden items-center gap-2 rounded-full border border-white/10 bg-black/15 px-3 py-1.5 backdrop-blur-md sm:inline-flex">
+            <Sparkles size={13} className="text-[#D5BD94]" />
+            <span className="text-xs text-white/75">Melissarte Photos</span>
+          </div>
+        </div>
+
+        <div className="absolute inset-x-0 bottom-0 px-5 pb-7 text-white sm:px-7 sm:pb-9 md:px-9 md:pb-10">
+          <p className="mb-2 text-[9px] font-semibold uppercase tracking-[0.28em] text-white/60">
+            Un día para recordar
+          </p>
+
+          <h1 className="max-w-4xl font-[var(--font-display)] text-[3.3rem] font-semibold leading-[0.88] tracking-[-0.025em] text-white sm:text-[4.5rem] md:text-[5.25rem]">
+            {event.title}
+          </h1>
+
+          <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
+            <div className="flex items-center gap-2 text-sm text-white/78 sm:text-base">
+              <CalendarDays size={16} className="text-[#D5BD94]" />
+              <span>{formattedDate}</span>
+            </div>
+
+            <span className="hidden h-1 w-1 rounded-full bg-white/35 sm:block" />
+
+            <div className="flex items-center gap-2 text-sm text-white/78 sm:text-base">
+              <Camera size={16} className="text-[#D5BD94]" />
+              <span>
+                {photoCount} {photoCount === 1 ? "recuerdo" : "recuerdos"}
               </span>
             </div>
           </div>

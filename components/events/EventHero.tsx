@@ -35,10 +35,10 @@ export default function EventHero({
 
   const titleSizeClass =
     titleLength > 46
-      ? "text-[clamp(2.2rem,7.4vw,3.45rem)] sm:text-[3.45rem] md:text-[4.15rem]"
+      ? "text-[clamp(2.2rem,7.4vw,3.45rem)] sm:text-[3.45rem] md:text-[3.8rem]"
       : titleLength > 30
-        ? "text-[clamp(2.35rem,8.2vw,3.75rem)] sm:text-[3.75rem] md:text-[4.35rem]"
-        : "text-[clamp(2.5rem,8.8vw,4rem)] sm:text-[4rem] md:text-[4.6rem]";
+        ? "text-[clamp(2.35rem,8.2vw,3.75rem)] sm:text-[3.75rem] md:text-[4rem]"
+        : "text-[clamp(2.5rem,8.8vw,4rem)] sm:text-[4rem] md:text-[4.25rem]";
 
   return (
     <section className="relative overflow-hidden rounded-[2rem] bg-[#181715] shadow-[0_24px_70px_rgba(31,31,31,0.16)]">

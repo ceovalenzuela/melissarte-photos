@@ -130,19 +130,23 @@ export async function deleteMessage(
   organizerToken?: string
 ) {
   if (organizerToken) {
-    const { data, error } = await supabase.rpc(
-      "delete_message_with_token",
-      {
-        p_message_id: message.id,
-        p_token: organizerToken,
-      }
-    );
+    const { data, error } =
+      await supabase.functions.invoke(
+        "delete-message-with-token",
+        {
+          body: {
+            message_id: message.id,
+            organizer_token: organizerToken,
+          },
+        }
+      );
 
     if (error) throw error;
 
-    if (!data) {
+    if (!data?.success) {
       throw new Error(
-        "El token no corresponde a este mensaje."
+        data?.error ||
+          "No fue posible eliminar el mensaje."
       );
     }
 

@@ -160,8 +160,13 @@ export default function GuestMessages({
     } catch (error) {
       console.error(error);
 
+      const messageText =
+        error instanceof Error
+          ? error.message
+          : String(error);
+
       toast.error(
-        "No fue posible eliminar el mensaje."
+        messageText || "No fue posible eliminar el mensaje."
       );
     } finally {
       setDeletingMessageId(null);

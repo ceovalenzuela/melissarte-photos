@@ -10,10 +10,12 @@ import {
   Copy,
   ExternalLink,
   MessageCircle,
+  QrCode,
 } from "lucide-react";
 import { toast } from "sonner";
 
 import { EventWithStats } from "@/types/event-with-stats";
+import { downloadEventQrCard } from "@/lib/qr";
 
 type Props = {
   event: EventWithStats;
@@ -60,23 +62,44 @@ export default function EventCard({
   event,
   formatActivity = defaultFormatActivity,
 }: Props) {
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<"guest" | "organizer" | null>(null);
+  const [downloadingQr, setDownloadingQr] = useState(false);
 
-  async function handleCopyPublicLink() {
+  async function handleCopyLink(type: "guest" | "organizer") {
     try {
-      const url = window.location.origin + "/e/" + event.slug;
+      const url =
+        type === "guest"
+          ? window.location.origin + "/e/" + event.slug
+          : window.location.origin + "/mi-galeria/" + event.organizer_token;
 
       await navigator.clipboard.writeText(url);
 
-      setCopied(true);
-      toast.success("Enlace público copiado.");
+      setCopied(type);
+      toast.success(
+        type === "guest"
+          ? "Enlace de invitados copiado."
+          : "Enlace del organizador copiado."
+      );
 
       window.setTimeout(() => {
-        setCopied(false);
+        setCopied(null);
       }, 1500);
     } catch (error) {
       console.error(error);
       toast.error("No fue posible copiar el enlace.");
+    }
+  }
+
+  async function handleDownloadQr() {
+    try {
+      setDownloadingQr(true);
+      await downloadEventQrCard(event);
+      toast.success("QR descargado.");
+    } catch (error) {
+      console.error(error);
+      toast.error("No fue posible descargar el QR.");
+    } finally {
+      setDownloadingQr(false);
     }
   }
 
@@ -135,20 +158,35 @@ export default function EventCard({
 
           <button
             type="button"
-            onClick={handleCopyPublicLink}
+            onClick={() => handleCopyLink("guest")}
             className="inline-flex h-9 items-center gap-1.5 rounded-full border border-[#E7DCC8] bg-white px-3.5 text-xs font-medium text-[#5C554B] transition-colors hover:bg-[#F7F3EC]"
           >
             <Copy size={14} />
-            {copied ? "Copiado" : "Copiar enlace"}
+            {copied === "guest" ? "Copiado" : "Copiar invitados"}
           </button>
 
-          <Link
-            href={"/mi-galeria/" + event.organizer_token}
-            target="_blank"
-            className="text-xs font-medium text-[#8A7044] underline-offset-4 hover:underline"
+          <button
+            type="button"
+            onClick={() => handleCopyLink("organizer")}
+            className="inline-flex h-9 items-center gap-1.5 rounded-full border border-[#E7DCC8] bg-white px-3.5 text-xs font-medium text-[#5C554B] transition-colors hover:bg-[#F7F3EC]"
           >
-            Vista organizador
-          </Link>
+            <Copy size={14} />
+            {copied === "organizer" ? "Copiado" : "Copiar organizador"}
+          </button>
+
+          <button
+            type="button"
+            onClick={handleDownloadQr}
+            disabled={downloadingQr}
+            className="inline-flex h-9 items-center gap-1.5 rounded-full border border-[#E7DCC8] bg-white px-3.5 text-xs font-medium text-[#5C554B] transition-colors hover:bg-[#F7F3EC] disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {downloadingQr ? (
+              <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#A88249] border-t-transparent" />
+            ) : (
+              <QrCode size={14} />
+            )}
+            {downloadingQr ? "Generando..." : "Descargar QR"}
+          </button>
 
           <Link
             href={"/admin/events/" + event.id}

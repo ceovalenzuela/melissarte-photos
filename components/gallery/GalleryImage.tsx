@@ -66,7 +66,7 @@ function GalleryImage({
               "h-full w-full object-cover",
               "transition-all duration-700 ease-out",
               loaded
-                ? "scale-100 opacity-100"
+                ? "scale-100 opacity-100 motion-safe:animate-[melissarte-rise_600ms_ease-out]"
                 : "scale-[1.025] opacity-0",
               "group-hover:scale-[1.025] group-hover:brightness-[1.02]",
             ].join(" ")}

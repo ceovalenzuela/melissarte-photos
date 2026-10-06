@@ -127,7 +127,12 @@ export default function EventEditor({ event, stats }: Props) {
 
       <section>
         <div className="mb-3">
-          <h2 className="text-lg font-semibold text-[#1F1F1F]">Contenido</h2>
+          <div className="flex flex-wrap items-center gap-2">
+            <h2 className="text-lg font-semibold text-[#1F1F1F]">Contenido</h2>
+            <span className="text-xs text-[#8B8378]">
+              {stats.photoCount} {stats.photoCount === 1 ? "foto" : "fotos"} · {stats.messageCount} {stats.messageCount === 1 ? "recuerdo" : "recuerdos"}
+            </span>
+          </div>
           <p className="mt-1 text-sm text-[#7D7467]">Modera fotografías y recuerdos compartidos por los invitados.</p>
         </div>
         <div className="space-y-5">
@@ -153,7 +158,7 @@ export default function EventEditor({ event, stats }: Props) {
               type="button"
               variant="outline"
               onClick={handleEmptyGallery}
-              disabled={emptying || stats.photoCount === 0}
+              disabled={emptying}
               className="mt-4 h-10 rounded-full border-[#D8C7A8] px-5 text-sm"
             >
               {emptying ? "Vaciando..." : "Vaciar galería"}

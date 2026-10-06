@@ -34,6 +34,7 @@ interface Props {
   canDelete?: boolean;
   showComposer?: boolean;
   showDownloads?: boolean;
+  organizerToken?: string;
 }
 
 type MessageTab = "text" | "audio";
@@ -46,6 +47,7 @@ export default function GuestMessages({
   canDelete = false,
   showComposer = true,
   showDownloads = false,
+  organizerToken,
 }: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [open, setOpen] = useState(false);
@@ -146,7 +148,7 @@ export default function GuestMessages({
     try {
       setDeletingMessageId(message.id);
 
-      await deleteMessage(message);
+      await deleteMessage(message, organizerToken);
 
       setMessages((current) =>
         current.filter(

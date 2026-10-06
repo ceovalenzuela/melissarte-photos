@@ -8,6 +8,7 @@ interface Props {
   priority?: boolean;
   onClick: () => void;
   featured?: boolean;
+  onOrientationChange?: (orientation: "portrait" | "square" | "landscape") => void;
 }
 
 function GalleryImage({
@@ -16,6 +17,7 @@ function GalleryImage({
   priority = false,
   onClick,
   featured = false,
+  onOrientationChange,
 }: Props) {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
@@ -35,7 +37,7 @@ function GalleryImage({
           imageRatio === "portrait"
             ? "aspect-[4/5]"
             : imageRatio === "landscape"
-              ? "aspect-[4/3]"
+              ? "aspect-[3/2]"
               : "aspect-square",
           "bg-neutral-100",
           "transition-transform",
@@ -82,14 +84,15 @@ function GalleryImage({
               const ratio =
                 image.naturalWidth / image.naturalHeight;
 
-              setImageRatio(
+              const orientation =
                 ratio < 0.82
                   ? "portrait"
                   : ratio > 1.18
                     ? "landscape"
-                    : "square"
-              );
+                    : "square";
 
+              setImageRatio(orientation);
+              onOrientationChange?.(orientation);
               setLoaded(true);
             }}
             onError={() => {

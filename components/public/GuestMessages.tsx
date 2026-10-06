@@ -291,7 +291,7 @@ export default function GuestMessages({
                 <button
                   type="button"
                   onClick={() => handleDownload("pdf")}
-                  disabled={Boolean(downloading)}
+                  disabled={disabled || Boolean(downloading)}
                   className="
                     flex
                     items-center
@@ -310,7 +310,11 @@ export default function GuestMessages({
                     hover:bg-[#F3EBDD]
                     hover:shadow-[0_10px_24px_rgba(74,60,42,0.08)]
                     disabled:cursor-not-allowed
-                    disabled:opacity-50
+                    disabled:opacity-60
+                    disabled:hover:translate-y-0
+                    disabled:hover:border-[#D8C7A8]
+                    disabled:hover:bg-[#F7F1E7]
+                    disabled:hover:shadow-[0_6px_20px_rgba(74,60,42,0.06)]
                   "
                 >
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#A88249] text-white shadow-sm">

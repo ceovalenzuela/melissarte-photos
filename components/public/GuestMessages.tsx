@@ -4,6 +4,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Download,
+  FileText,
   MessageCircle,
   Mic,
   PenLine,
@@ -287,31 +288,42 @@ export default function GuestMessages({
                   className="
                     flex
                     items-center
-                    justify-between
-                    gap-4
+                    gap-3
                     rounded-2xl
                     border
-                    border-[#E1D5C1]
-                    bg-white
+                    border-[#D8C7A8]
+                    bg-[#F7F1E7]
                     px-4
-                    py-3
+                    py-3.5
                     text-left
+                    shadow-[0_6px_20px_rgba(74,60,42,0.06)]
                     transition-all
-                    hover:bg-[#F8F4EE]
+                    hover:-translate-y-0.5
+                    hover:border-[#CDB990]
+                    hover:bg-[#F3EBDD]
+                    hover:shadow-[0_10px_24px_rgba(74,60,42,0.08)]
                     disabled:cursor-not-allowed
                     disabled:opacity-50
                   "
                 >
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#A88249] text-white shadow-sm">
+                    {downloading === "pdf" ? (
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                    ) : (
+                      <FileText size={18} strokeWidth={1.9} />
+                    )}
+                  </span>
+
                   <span className="min-w-0">
-                    <span className="block text-xs font-semibold text-[#3F3A34]">
+                    <span className="block text-sm font-semibold text-[#2F2A24]">
                       Libro de firmas
                     </span>
-                    <span className="mt-0.5 block text-[11px] leading-4 text-[#8B8378]">
+                    <span className="mt-0.5 block text-[11px] leading-4 text-[#746B60]">
                       Todos los mensajes escritos en un PDF.
                     </span>
                   </span>
 
-                  <Download size={15} className="shrink-0 text-[#8B6D3B]" />
+                  <Download size={15} className="ml-auto shrink-0 text-[#8B6D3B]" />
                 </button>
 
                 <button
@@ -321,31 +333,42 @@ export default function GuestMessages({
                   className="
                     flex
                     items-center
-                    justify-between
-                    gap-4
+                    gap-3
                     rounded-2xl
                     border
-                    border-[#E1D5C1]
-                    bg-white
+                    border-[#D8C7A8]
+                    bg-[#F7F1E7]
                     px-4
-                    py-3
+                    py-3.5
                     text-left
+                    shadow-[0_6px_20px_rgba(74,60,42,0.06)]
                     transition-all
-                    hover:bg-[#F8F4EE]
+                    hover:-translate-y-0.5
+                    hover:border-[#CDB990]
+                    hover:bg-[#F3EBDD]
+                    hover:shadow-[0_10px_24px_rgba(74,60,42,0.08)]
                     disabled:cursor-not-allowed
                     disabled:opacity-50
                   "
                 >
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#A88249] text-white shadow-sm">
+                    {downloading === "audio" ? (
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                    ) : (
+                      <Mic size={18} strokeWidth={1.9} />
+                    )}
+                  </span>
+
                   <span className="min-w-0">
-                    <span className="block text-xs font-semibold text-[#3F3A34]">
+                    <span className="block text-sm font-semibold text-[#2F2A24]">
                       Mensajes de voz
                     </span>
-                    <span className="mt-0.5 block text-[11px] leading-4 text-[#8B8378]">
+                    <span className="mt-0.5 block text-[11px] leading-4 text-[#746B60]">
                       Todos los audios en un archivo ZIP.
                     </span>
                   </span>
 
-                  <Download size={15} className="shrink-0 text-[#8B6D3B]" />
+                  <Download size={15} className="ml-auto shrink-0 text-[#8B6D3B]" />
                 </button>
               </div>
             </div>

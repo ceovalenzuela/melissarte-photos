@@ -125,7 +125,30 @@ export async function createAudioMessage(
   }
 }
 
-export async function deleteMessage(message: Message) {
+export async function deleteMessage(
+  message: Message,
+  organizerToken?: string
+) {
+  if (organizerToken) {
+    const { data, error } = await supabase.rpc(
+      "delete_message_with_token",
+      {
+        p_message_id: message.id,
+        p_token: organizerToken,
+      }
+    );
+
+    if (error) throw error;
+
+    if (!data) {
+      throw new Error(
+        "El token no corresponde a este mensaje."
+      );
+    }
+
+    return;
+  }
+
   if (message.file_path) {
     const { error: storageError } =
       await supabase.storage

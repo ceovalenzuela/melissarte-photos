@@ -16,6 +16,7 @@ export default function EventHero({
   event,
 }: Props) {
   const [loaded, setLoaded] = useState(false);
+  const [isPortrait, setIsPortrait] = useState(false);
 
   const [year, month, day] = event.event_date.split("-");
 
@@ -58,17 +59,28 @@ export default function EventHero({
               alt={event.title}
               fill
               priority
-              onLoad={() => setLoaded(true)}
+              onLoad={(image) => {
+                setLoaded(true);
+                setIsPortrait(
+                  image.naturalHeight > image.naturalWidth
+                );
+              }}
               style={{
-                objectPosition: `center ${Math.max(
+                "--hero-object-position-mobile": `center ${Math.max(
                   0,
                   Math.min(100, (event.cover_position_y ?? 50) - 8)
                 )}%`,
-              }}
+                "--hero-object-position-desktop": isPortrait
+                  ? "center center"
+                  : `center ${Math.max(
+                      0,
+                      Math.min(100, (event.cover_position_y ?? 50) - 8)
+                    )}%`,
+              } as React.CSSProperties}
               className={
                 loaded
-                  ? "object-cover scale-100 brightness-[1.08] saturate-[1.03] opacity-100 transition-all duration-[1200ms]"
-                  : "object-cover scale-[1.025] brightness-[1.08] saturate-[1.03] opacity-0 transition-all duration-[1200ms]"
+                  ? "object-cover [object-position:var(--hero-object-position-mobile)] md:[object-position:var(--hero-object-position-desktop)] scale-100 brightness-[1.08] saturate-[1.03] opacity-100 transition-all duration-[1200ms]"
+                  : "object-cover [object-position:var(--hero-object-position-mobile)] md:[object-position:var(--hero-object-position-desktop)] scale-[1.025] brightness-[1.08] saturate-[1.03] opacity-0 transition-all duration-[1200ms]"
               }
             />
           </>

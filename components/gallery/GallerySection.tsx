@@ -644,7 +644,7 @@ useEffect(() => {
 
   return (
     <>
-      <div className="mt-12">
+      <div className="mt-8 sm:mt-10">
         <div className="mb-7 text-center">
           <p className="inline-flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.28em] text-[#A88249]">
             <span className="h-1.5 w-1.5 rounded-full bg-[#A88249] shadow-[0_0_0_3px_rgba(168,130,73,0.12)]" />

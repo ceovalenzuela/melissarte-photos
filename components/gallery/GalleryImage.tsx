@@ -19,6 +19,7 @@ function GalleryImage({
 }: Props) {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
+  const [portrait, setPortrait] = useState(false);
 
   return (
     <button
@@ -57,20 +58,33 @@ function GalleryImage({
             />
           )}
 
+          {portrait && loaded && (
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 scale-110 bg-neutral-100 bg-cover bg-center opacity-35 blur-2xl"
+              style={{ backgroundImage: `url("${src}")` }}
+            />
+          )}
+
           <img
             src={src}
             alt={alt}
             loading={priority ? "eager" : "lazy"}
             decoding="async"
             className={[
-              "h-full w-full object-cover",
+              "relative z-10 h-full w-full",
+              portrait ? "object-contain" : "object-cover",
               "transition-all duration-700 ease-out",
               loaded
                 ? "scale-100 opacity-100 motion-safe:animate-[melissarte-rise_600ms_ease-out]"
                 : "scale-[1.025] opacity-0",
               "group-hover:scale-[1.025] group-hover:brightness-[1.02]",
             ].join(" ")}
-            onLoad={() => setLoaded(true)}
+            onLoad={(event) => {
+              const image = event.currentTarget;
+              setPortrait(image.naturalHeight > image.naturalWidth * 1.08);
+              setLoaded(true);
+            }}
             onError={() => {
               setLoaded(true);
               setError(true);

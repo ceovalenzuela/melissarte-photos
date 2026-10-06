@@ -7,6 +7,7 @@ interface Props {
   alt: string;
   priority?: boolean;
   onClick: () => void;
+  featured?: boolean;
 }
 
 function GalleryImage({
@@ -14,6 +15,7 @@ function GalleryImage({
   alt,
   priority = false,
   onClick,
+  featured = false,
 }: Props) {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
@@ -26,13 +28,14 @@ function GalleryImage({
       className="
         group
         relative
-        aspect-square
         overflow-hidden
-        rounded-xl
+        rounded-[1.15rem]
+        ${featured ? "col-span-2 aspect-[16/10] md:aspect-[16/9]" : "aspect-square"}
         bg-neutral-100
         transition-transform
         duration-200
         active:scale-[0.985]
+        shadow-[0_8px_28px_rgba(53,44,34,0.06)]
         focus:outline-none
         focus:ring-2
         focus:ring-neutral-300
@@ -59,11 +62,11 @@ function GalleryImage({
             decoding="async"
             className={[
               "h-full w-full object-cover",
-              "transition-all duration-500 ease-out",
+              "transition-all duration-700 ease-out",
               loaded
                 ? "scale-100 opacity-100"
                 : "scale-[1.025] opacity-0",
-              "group-hover:scale-[1.02]",
+              "group-hover:scale-[1.025] group-hover:brightness-[1.02]",
             ].join(" ")}
             onLoad={() => setLoaded(true)}
             onError={() => {

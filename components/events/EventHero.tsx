@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { CalendarDays, Camera, Sparkles } from "lucide-react";
+import { CalendarDays, Camera } from "lucide-react";
 
 import { Event } from "@/types/event";
 
@@ -73,17 +73,9 @@ export default function EventHero({
             </span>
           </div>
 
-          <div className="hidden items-center gap-2 rounded-full border border-white/10 bg-black/15 px-3 py-1.5 backdrop-blur-md sm:inline-flex">
-            <Sparkles size={13} className="text-[#D5BD94]" />
-            <span className="text-xs text-white/75">Melissarte Photos</span>
-          </div>
         </div>
 
         <div className="absolute inset-x-0 bottom-0 px-5 pb-7 text-white sm:px-7 sm:pb-9 md:px-9 md:pb-10">
-          <p className="mb-2 text-[9px] font-semibold uppercase tracking-[0.28em] text-white/60">
-            Un día para recordar
-          </p>
-
           <h1 className="max-w-4xl font-[var(--font-display)] text-[3.3rem] font-semibold leading-[0.88] tracking-[-0.025em] text-white sm:text-[4.5rem] md:text-[5.25rem]">
             {event.title}
           </h1>
@@ -94,14 +86,6 @@ export default function EventHero({
               <span>{formattedDate}</span>
             </div>
 
-            <span className="hidden h-1 w-1 rounded-full bg-white/35 sm:block" />
-
-            <div className="flex items-center gap-2 text-sm text-white/78 sm:text-base">
-              <Camera size={16} className="text-[#D5BD94]" />
-              <span>
-                {photoCount} {photoCount === 1 ? "recuerdo" : "recuerdos"}
-              </span>
-            </div>
           </div>
         </div>
       </div>

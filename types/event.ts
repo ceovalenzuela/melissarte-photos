@@ -6,6 +6,7 @@ export interface Event {
 
   type: string | null;
   status: "draft" | "published";
+  messages_enabled: boolean;
 
   welcome_message: string | null;
 

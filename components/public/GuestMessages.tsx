@@ -231,7 +231,7 @@ export default function GuestMessages({
             <p className="text-[9px] font-semibold uppercase tracking-[0.28em] text-[#A88249]">
               {showDownloads
                 ? "Recuerdos de tu evento"
-                : "Recuerdos compartidos"}
+                : "MENSAJES"}
             </p>
 
             <div className="mt-2 flex items-center justify-center gap-2">
@@ -251,7 +251,7 @@ export default function GuestMessages({
             <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#7D7467]">
               {showDownloads
                 ? "Aquí encontrarás las palabras y voces que dejaron para ti."
-                : "Palabras y voces de quienes fueron parte de este momento."}
+                : "Déjanos un mensaje o audio para recordar este momento juntos."}
             </p>
           </div>
 
@@ -292,7 +292,7 @@ export default function GuestMessages({
               "
             >
               <MessageCircle size={15} />
-              Dejar un recuerdo
+              Dejar un mensaje
             </button>
           )}
 
@@ -533,11 +533,12 @@ export default function GuestMessages({
                 </p>
               </>
             ) : (
-              <p className="text-sm text-[#7D7467]">
-                Aún no hay{" "}
-                {activeTab === "audio"
-                  ? "audios"
-                  : "mensajes escritos"}.
+              <p className="text-sm font-medium text-[#3F3A34]">
+                {showDownloads
+                  ? "Aún no hay mensajes."
+                  : activeTab === "audio"
+                    ? "Aún no hay audios."
+                    : "Aún no hay mensajes."}
               </p>
             )}
 
@@ -548,7 +549,9 @@ export default function GuestMessages({
                 disabled={disabled}
                 className="mt-2 text-xs font-medium text-[#A88249] underline underline-offset-4 hover:text-[#977640] disabled:cursor-not-allowed disabled:opacity-50"
               >
-                Dejar el primero
+                {activeTab === "audio"
+                  ? "Sé el primero en compartir un mensaje."
+                  : "Sé el primero en compartir unas palabras."}
               </button>
             )}
           </div>

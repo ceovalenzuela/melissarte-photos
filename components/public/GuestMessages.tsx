@@ -229,12 +229,16 @@ export default function GuestMessages({
         <div className="flex flex-col items-center text-center">
           <div>
             <p className="text-[9px] font-semibold uppercase tracking-[0.28em] text-[#A88249]">
-              Recuerdos compartidos
+              {showDownloads
+                ? "Recuerdos de tu evento"
+                : "Recuerdos compartidos"}
             </p>
 
             <div className="mt-2 flex items-center justify-center gap-2">
               <h2 className="font-[var(--font-display)] text-[2rem] font-semibold leading-none tracking-[-0.02em] text-[#1F1F1F] md:text-[2.5rem]">
-                Lo que vivimos juntos
+                {showDownloads
+                  ? "Lo que tus invitados compartieron"
+                  : "Lo que vivimos juntos"}
               </h2>
 
               {messages.length > 0 && (
@@ -245,7 +249,9 @@ export default function GuestMessages({
             </div>
 
             <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#7D7467]">
-              Palabras y voces de quienes fueron parte de este momento.
+              {showDownloads
+                ? "Aquí encontrarás las palabras y voces que dejaron para ti."
+                : "Palabras y voces de quienes fueron parte de este momento."}
             </p>
           </div>
 
@@ -336,7 +342,7 @@ export default function GuestMessages({
 
                   <span className="min-w-0">
                     <span className="block text-sm font-semibold text-[#2F2A24]">
-                      Descarga el libro de firmas
+                      Descargar libro de firmas
                     </span>
                     <span className="mt-0.5 block text-[11px] leading-4 text-[#746B60]">
                       Todos los mensajes escritos en un PDF.
@@ -385,10 +391,10 @@ export default function GuestMessages({
 
                   <span className="min-w-0">
                     <span className="block text-sm font-semibold text-[#2F2A24]">
-                      Descarga los mensajes de voz
+                      Descargar mensajes de voz
                     </span>
                     <span className="mt-0.5 block text-[11px] leading-4 text-[#746B60]">
-                      Todos los audios en un archivo ZIP.
+                      Todos los mensajes de voz reunidos en un archivo ZIP.
                     </span>
                   </span>
 
@@ -517,12 +523,23 @@ export default function GuestMessages({
           <div className="mt-5 h-28 rounded-2xl border border-[#E7DCC8] bg-[#FDFBF8]" />
         ) : activeMessages.length === 0 ? (
           <div className="mt-5 rounded-2xl border border-dashed border-[#E1D5C1] bg-[#FDFBF8] px-5 py-7 text-center">
-            <p className="text-sm text-[#7D7467]">
-              Aún no hay{" "}
-              {activeTab === "audio"
-                ? "audios"
-                : "mensajes escritos"}.
-            </p>
+            {showDownloads ? (
+              <>
+                <p className="text-sm font-medium text-[#3F3A34]">
+                  Aún no hay mensajes.
+                </p>
+                <p className="mt-1 text-xs leading-5 text-[#7D7467]">
+                  Cuando tus invitados compartan sus palabras, aparecerán aquí.
+                </p>
+              </>
+            ) : (
+              <p className="text-sm text-[#7D7467]">
+                Aún no hay{" "}
+                {activeTab === "audio"
+                  ? "audios"
+                  : "mensajes escritos"}.
+              </p>
+            )}
 
             {showComposer && (
               <button

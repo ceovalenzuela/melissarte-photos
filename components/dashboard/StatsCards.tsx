@@ -58,18 +58,21 @@ export default function StatsCards({ events }: Props) {
       value: events.length.toString(),
       label: events.length === 1 ? "Evento" : "Eventos",
       description: "Registrados",
+      className: "",
     },
     {
       icon: <CircleCheck size={17} />,
       value: published.toString(),
       label: "Publicados",
       description: "Activos",
+      className: "",
     },
     {
       icon: <FileEdit size={17} />,
       value: drafts.toString(),
       label: "Borradores",
       description: "Pendientes",
+      className: "",
     },
     {
       icon: <CalendarDays size={17} />,
@@ -78,24 +81,32 @@ export default function StatsCards({ events }: Props) {
       description: nextEvent
         ? formatDate(nextEvent.event_date)
         : "Sin eventos próximos",
+      className: "col-span-2 sm:col-span-1",
     },
   ];
 
   return (
-    <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+    <section className="grid min-w-0 grid-cols-2 gap-3 lg:grid-cols-4">
       {items.map((item) => (
         <div
           key={item.label}
-          className="rounded-2xl border border-[#E7DCC8] bg-[#FDFBF8] px-5 py-4 shadow-sm"
+          className={`min-w-0 rounded-2xl border border-[#E7DCC8] bg-[#FDFBF8] px-4 py-4 shadow-sm sm:px-5 ${item.className}`}
         >
-          <div className="flex items-center gap-2 text-[#A88249]">
+          <div className="flex min-w-0 items-center gap-2 text-[#A88249]">
             {item.icon}
-            <span className="truncate text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8B8378]">
+            <span className="min-w-0 truncate text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8B8378]">
               {item.label}
             </span>
           </div>
 
-          <p className="mt-2 truncate text-xl font-semibold text-[#1F1F1F]">
+          <p
+            className={
+              item.label === "Próximo evento"
+                ? "mt-2 overflow-hidden text-ellipsis whitespace-nowrap text-base font-semibold text-[#1F1F1F] sm:text-xl"
+                : "mt-2 text-xl font-semibold text-[#1F1F1F]"
+            }
+            title={item.label === "Próximo evento" ? item.value : undefined}
+          >
             {item.value}
           </p>
 

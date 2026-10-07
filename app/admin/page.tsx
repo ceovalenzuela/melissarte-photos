@@ -131,7 +131,7 @@ export default function AdminPage() {
   }, [events, search, status, sortOrder]);
 
   return (
-    <main className="min-h-screen bg-[#F7F5F1]">
+    <main className="min-h-screen min-w-0 bg-[#F7F5F1]">
       <AppHeader title="Galerías">
         <EventDialog
           mode="create"
@@ -141,13 +141,16 @@ export default function AdminPage() {
         />
       </AppHeader>
 
-      <div className="mx-auto max-w-7xl space-y-5 p-6">
+      <div className="mx-auto max-w-7xl min-w-0 space-y-5 px-4 py-5 sm:p-6">
         <StatsCards events={events} />
 
-        <section className="rounded-2xl border border-[#E7DCC8] bg-[#FDFBF8] p-4 shadow-sm">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-            <div className="relative min-w-0 flex-1 lg:max-w-xl">
-              <Search size={17} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9A9287]" />
+        <section className="min-w-0 rounded-2xl border border-[#E7DCC8] bg-[#FDFBF8] p-4 shadow-sm">
+          <div className="flex min-w-0 flex-col gap-3">
+            <div className="relative min-w-0 w-full">
+              <Search
+                size={17}
+                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9A9287]"
+              />
 
               <input
                 type="search"
@@ -169,43 +172,75 @@ export default function AdminPage() {
               )}
             </div>
 
-            <div className="flex flex-col gap-2 sm:flex-row">
-              <label className="relative">
+            <div className="grid min-w-0 grid-cols-1 gap-2 sm:grid-cols-2">
+              <label className="relative min-w-0">
                 <span className="sr-only">Filtrar por estado</span>
-                <ListFilter size={15} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9A9287]" />
+                <ListFilter
+                  size={15}
+                  className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9A9287]"
+                />
                 <select
                   value={status}
-                  onChange={(event) => setStatus(event.target.value as StatusFilter)}
-                  className="h-11 rounded-xl border border-[#E7DCC8] bg-white pl-9 pr-8 text-sm text-[#5C554B] outline-none focus:border-[#A88249]"
+                  onChange={(event) =>
+                    setStatus(event.target.value as StatusFilter)
+                  }
+                  className="h-11 w-full min-w-0 appearance-none rounded-xl border border-[#E7DCC8] bg-white pl-9 pr-9 text-sm text-[#5C554B] outline-none focus:border-[#A88249]"
                 >
                   <option value="all">Todos los estados</option>
                   <option value="published">Publicados</option>
                   <option value="draft">Borradores</option>
                 </select>
+                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#7D7467]">
+                  <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4">
+                    <path
+                      d="m6 8 4 4 4-4"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
               </label>
 
-              <label>
+              <label className="relative min-w-0">
                 <span className="sr-only">Ordenar eventos</span>
                 <select
                   value={sortOrder}
-                  onChange={(event) => setSortOrder(event.target.value as SortOrder)}
-                  className="h-11 rounded-xl border border-[#E7DCC8] bg-white px-3 text-sm text-[#5C554B] outline-none focus:border-[#A88249]"
+                  onChange={(event) =>
+                    setSortOrder(event.target.value as SortOrder)
+                  }
+                  className="h-11 w-full min-w-0 appearance-none rounded-xl border border-[#E7DCC8] bg-white px-3.5 pr-9 text-sm text-[#5C554B] outline-none focus:border-[#A88249]"
                 >
                   <option value="upcoming">Próximos eventos</option>
                   <option value="activity">Última actividad</option>
                   <option value="created_desc">Más recientes</option>
                   <option value="created_asc">Más antiguos</option>
                 </select>
+                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#7D7467]">
+                  <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4">
+                    <path
+                      d="m6 8 4 4 4-4"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
               </label>
             </div>
-          </div>
 
-          <p className="mt-3 text-xs text-[#8B8378]">
-            {filteredEvents.length} {filteredEvents.length === 1 ? "evento encontrado" : "eventos encontrados"}
-          </p>
+            <p className="text-xs text-[#8B8378]">
+              {filteredEvents.length}{" "}
+              {filteredEvents.length === 1
+                ? "evento encontrado"
+                : "eventos encontrados"}
+            </p>
+          </div>
         </section>
 
-        <section className="space-y-3">
+        <section className="min-w-0 space-y-3">
           {loading && events.length === 0 ? (
             <div className="rounded-2xl border border-[#E7DCC8] bg-[#FDFBF8] p-8 text-center text-sm text-[#7D7467]">
               Cargando galerías...
@@ -221,6 +256,7 @@ export default function AdminPage() {
                 onClick={() => {
                   setSearch("");
                   setStatus("all");
+                  setSortOrder("upcoming");
                 }}
                 className="mt-2 text-xs font-medium text-[#A88249] underline underline-offset-4 hover:text-[#977640]"
               >

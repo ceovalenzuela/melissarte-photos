@@ -235,7 +235,7 @@ export default function GuestMessages({
             </p>
 
             <div className="mt-2 flex items-center justify-center gap-2">
-              <h2 className="font-[var(--font-display)] text-[2rem] font-semibold leading-none tracking-[-0.02em] text-[#1F1F1F] md:text-[2.5rem]">
+              <h2 className="font-[var(--font-display)] text-2xl font-semibold leading-none tracking-[-0.02em] text-[#1F1F1F]">
                 {showDownloads
                   ? "Lo que tus invitados compartieron"
                   : "Comparte tus palabras"}

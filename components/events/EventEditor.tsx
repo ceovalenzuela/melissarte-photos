@@ -45,6 +45,7 @@ export default function EventEditor({ event, stats }: Props) {
         event_date: values.event_date,
         type: values.type,
         status: values.status,
+        messages_enabled: values.messages_enabled,
       });
 
       toast.success("Cambios guardados.");

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import EventHero from "@/components/events/EventHero";
 import EventActions from "@/components/events/EventActions";
+import GuestMessages from "@/components/public/GuestMessages";
 import { getEventBySlug } from "@/lib/events";
 import { getPhotoCount } from "@/lib/photos";
 import GallerySection from "@/components/gallery/GallerySection";
@@ -26,54 +27,55 @@ export default async function ClientDashboardPage({
 
   const event = await getEventBySlug(slug);
 
-if (!event) {
-  notFound();
-}
+  if (!event) {
+    notFound();
+  }
 
-if (!token) {
-  notFound();
-}
+  if (!token) {
+    notFound();
+  }
 
-const { data: authorizedEvents, error: tokenError } =
-  await supabase.rpc(
-    "get_event_by_organizer_token",
-    {
+  const { data: authorizedEvents, error: tokenError } =
+    await supabase.rpc("get_event_by_organizer_token", {
       p_token: token,
-    }
-  );
+    });
 
-if (
-  tokenError ||
-  !authorizedEvents?.length ||
-  authorizedEvents[0].id !== event.id
-) {
-  notFound();
-}
+  if (
+    tokenError ||
+    !authorizedEvents?.length ||
+    authorizedEvents[0].id !== event.id
+  ) {
+    notFound();
+  }
 
   const photoCount = await getPhotoCount(event.id);
 
   return (
-   <main className="min-h-screen bg-gray-50">
-  <div className="mx-auto max-w-6xl px-4 py-6">
-    <EventHero
-      event={event}
-      photoCount={photoCount}
-      showWelcomeMessage={false}
-    />
+    <main className="min-h-screen bg-[#FBF9F5]">
+      <div className="mx-auto max-w-6xl px-3 py-4 sm:px-4 sm:py-6">
+        <EventHero event={event} photoCount={photoCount} showWelcomeMessage={false} />
 
-    {/* Tarjeta */}
-    <div className="-mt-6 relative z-20 mx-auto w-[92%] max-w-3xl">
-      <EventActions event={event} />
-    </div>
+        <div className="mx-auto mt-6 max-w-6xl">
+          <EventActions event={event} />
+        </div>
 
-    {/* Galería */}
-    <div className="mx-auto mt-8 max-w-6xl">
-      <GallerySection event={event} />
-    </div>
-    <div className="mt-8">
-  <Footer />
-</div>
-  </div>
-</main>
+        <div className="mx-auto mt-10 max-w-6xl sm:mt-12">
+          <GallerySection event={event} />
+        </div>
+
+        <GuestMessages
+          eventId={event.id}
+          event={event}
+          canDelete
+          showComposer={false}
+          showDownloads
+          organizerToken={token}
+        />
+
+        <div className="mt-10">
+          <Footer />
+        </div>
+      </div>
+    </main>
   );
 }

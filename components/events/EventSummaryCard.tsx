@@ -10,19 +10,25 @@ export default function EventSummaryCard({
   children,
 }: Props) {
   return (
-    <section className="-mt-14 relative z-20 mx-auto w-[92%] max-w-2xl">
-      <div className="rounded-3xl bg-[#FDFBF8] p-4 shadow-lg">
+    <section className="relative z-20 mx-auto -mt-5 w-[92%] max-w-3xl sm:-mt-6">
+      <div className="rounded-[1.75rem] border border-white/70 bg-[#FDFBF8]/95 px-5 py-5 shadow-[0_18px_55px_rgba(53,44,34,0.12)] backdrop-blur-xl sm:px-6">
         {welcomeMessage && (
           <>
-            <p className="whitespace-pre-wrap px-2 text-center text-base leading-6 text-[#5C554B]">
-              {welcomeMessage}
-            </p>
+            <div className="mx-auto max-w-2xl text-center">
+              <p className="whitespace-pre-line font-[var(--font-display)] text-[1rem] font-medium leading-[1.5] text-[#3F3A34] sm:text-[1.08rem] sm:leading-[1.5]">
+                {welcomeMessage}
+              </p>
+            </div>
 
             <div className="my-4 h-px bg-[#E7DCC8]" />
           </>
         )}
 
-        <div className="flex justify-center">
+        <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:justify-center sm:gap-4">
+          <p className="text-xs uppercase tracking-[0.18em] text-[#9A9287]">
+            Comparte tus momentos
+          </p>
+
           {children}
         </div>
       </div>

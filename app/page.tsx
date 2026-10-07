@@ -1,389 +1,375 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
-  CheckCircle2,
-  Mail,
+  ArrowRight,
+  BookOpen,
+  Camera,
+  Check,
+  Download,
   MessageCircle,
+  Mic,
+  Sparkles,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
+
+const demoUrl =
+  "https://fotos.melissartedecorativo.com/e/boda-sofia-y-alejandro";
+
+const purchaseUrl =
+  "https://melissartedecorativo.com/products/galeria-digital-para-tu-evento";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-white px-6 py-6 md:py-8">
-      <div className="mx-auto max-w-5xl">
-
-        {/* Hero */}
-
-        <section className="py-6 text-center md:py-8">
-
-          <div className="mb-2 flex justify-center">
+    <main className="min-h-screen overflow-hidden bg-[#F8F6F2] text-[#1F1F1F]">
+      {/* Hero */}
+      <section className="relative px-5 pb-14 pt-5 sm:px-8 sm:pb-20 sm:pt-7">
+        <div className="mx-auto max-w-6xl">
+          <header className="flex items-center justify-center">
             <Image
               src="/me-logo.png"
               alt="MelissArte Photos"
               width={300}
               height={110}
-              className="h-auto w-[190px] md:w-[220px]"
+              priority
+              className="h-auto w-[150px] sm:w-[175px]"
             />
-          </div>
-
-          <h1 className="text-3xl font-semibold leading-tight tracking-tight text-[#1F1F1F] md:text-4xl">
-            Revive cada momento
-            <br />
-            de tu evento.
-          </h1>
-
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-[#5C554B] md:text-lg md:leading-8">
-            Reúne las fotografías de tu evento en un solo lugar y permite que
-            tus invitados también compartan sus fotos, directamente desde su
-            celular.
-          </p>
-
-          <p className="mt-3 text-sm font-medium text-[#7D7467]">
-            Sin aplicaciones. Sin registros. Solo escanea y comparte.
-          </p>
-
-        </section>
-
-        {/* Beneficios */}
-
-        <section className="mt-5">
-          <div className="grid gap-4 md:grid-cols-3">
-
-            <div className="rounded-2xl bg-[#F7F3EC] p-5">
-              <div className="flex items-start gap-3">
-
-                <CheckCircle2
-                  size={20}
-                  className="mt-1 shrink-0 text-[#A88249]"
-                />
-
-                <div>
-                  <h3 className="font-semibold text-[#1F1F1F]">
-                    Comparte fácilmente
-                  </h3>
-
-                  <p className="mt-1.5 text-sm leading-6 text-[#5C554B]">
-                    Tú y tus invitados pueden subir fotografías desde cualquier
-                    celular.
-                  </p>
-                </div>
-
-              </div>
-            </div>
-
-            <div className="rounded-2xl bg-[#F7F3EC] p-5">
-              <div className="flex items-start gap-3">
-
-                <CheckCircle2
-                  size={20}
-                  className="mt-1 shrink-0 text-[#A88249]"
-                />
-
-                <div>
-                  <h3 className="font-semibold text-[#1F1F1F]">
-                    Acceso mediante QR
-                  </h3>
-
-                  <p className="mt-1.5 text-sm leading-6 text-[#5C554B]">
-                    Solo escanea el código QR o abre el enlace de la galería.
-                  </p>
-                </div>
-
-              </div>
-            </div>
-
-            <div className="rounded-2xl bg-[#F7F3EC] p-5">
-              <div className="flex items-start gap-3">
-
-                <CheckCircle2
-                  size={20}
-                  className="mt-1 shrink-0 text-[#A88249]"
-                />
-
-                <div>
-                  <h3 className="font-semibold text-[#1F1F1F]">
-                    Una sola galería
-                  </h3>
-
-                  <p className="mt-1.5 text-sm leading-6 text-[#5C554B]">
-                    Reúne las fotografías de todos en un mismo lugar para no
-                    perder ningún recuerdo.
-                  </p>
-                </div>
-
-              </div>
-            </div>
-
-            <div className="rounded-2xl bg-[#F7F3EC] p-5">
-              <div className="flex items-start gap-3">
-
-                <CheckCircle2
-                  size={20}
-                  className="mt-1 shrink-0 text-[#A88249]"
-                />
-
-                <div>
-                  <h3 className="font-semibold text-[#1F1F1F]">
-                    Presentación en vivo
-                  </h3>
-
-                  <p className="mt-1.5 text-sm leading-6 text-[#5C554B]">
-                    Proyecta las fotografías del evento en tiempo real y
-                    disfruta los recuerdos mientras llegan.
-                  </p>
-                </div>
-
-              </div>
-            </div>
-
-            <div className="rounded-2xl bg-[#F7F3EC] p-5">
-              <div className="flex items-start gap-3">
-
-                <CheckCircle2
-                  size={20}
-                  className="mt-1 shrink-0 text-[#A88249]"
-                />
-
-                <div>
-                  <h3 className="font-semibold text-[#1F1F1F]">
-                    Fotos en tiempo real
-                  </h3>
-
-                  <p className="mt-1.5 text-sm leading-6 text-[#5C554B]">
-                    Las nuevas fotografías aparecen automáticamente en la
-                    presentación mientras tus invitados las comparten.
-                  </p>
-                </div>
-
-              </div>
-            </div>
-
-            <div className="rounded-2xl bg-[#F7F3EC] p-5">
-              <div className="flex items-start gap-3">
-
-                <CheckCircle2
-                  size={20}
-                  className="mt-1 shrink-0 text-[#A88249]"
-                />
-
-                <div>
-                  <h3 className="font-semibold text-[#1F1F1F]">
-                    Descarga en alta calidad
-                  </h3>
-
-                  <p className="mt-1.5 text-sm leading-6 text-[#5C554B]">
-                    Conserva todas las fotografías del evento en un solo
-                    archivo.
-                  </p>
-                </div>
-
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        {/* Cómo funciona */}
-
-        <section className="mt-10 rounded-3xl bg-[#F7F3EC] p-6 md:p-8">
-
-          <h2 className="text-center text-2xl font-semibold text-[#1F1F1F] md:text-3xl">
-            ¿Cómo funciona?
-          </h2>
-
-          <div className="mt-7 grid gap-7 md:grid-cols-3">
-
-            <div className="text-center">
-
-              <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-white text-lg font-semibold text-[#A88249]">
-                1
-              </div>
-
-              <h3 className="font-semibold text-[#1F1F1F]">
-                Comparte el QR
-              </h3>
-
-              <p className="mt-2 text-sm leading-6 text-[#7D7467]">
-                Tus invitados escanean el código y entran fácilmente a la
-                galería.
-              </p>
-
-            </div>
-
-            <div className="text-center">
-
-              <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-white text-lg font-semibold text-[#A88249]">
-                2
-              </div>
-
-              <h3 className="font-semibold text-[#1F1F1F]">
-                Comparte tus fotos
-              </h3>
-
-              <p className="mt-2 text-sm leading-6 text-[#7D7467]">
-                Cada invitado puede subir las fotografías que tomó durante el
-                evento.
-              </p>
-
-            </div>
-
-            <div className="text-center">
-
-              <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-white text-lg font-semibold text-[#A88249]">
-                3
-              </div>
-
-              <h3 className="font-semibold text-[#1F1F1F]">
-                Guarda tus recuerdos
-              </h3>
-
-              <p className="mt-2 text-sm leading-6 text-[#7D7467]">
-                Después del evento, descarga todas las fotografías desde tu
-                galería.
-              </p>
-
-            </div>
-
-          </div>
-        </section>
-
-        {/* Galería demo */}
-
-        <section className="mt-10 rounded-3xl bg-[#F7F3EC] p-6 text-center md:p-8">
-
-          <p className="text-sm font-medium uppercase tracking-wide text-[#A88249]">
-            Conoce la experiencia
-          </p>
-
-          <h2 className="mt-2 text-2xl font-semibold text-[#1F1F1F] md:text-3xl">
-            Así se verá tu galería
-          </h2>
-
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#7D7467] md:text-base">
-            Explora una galería demo y descubre cómo tus invitados podrán
-            compartir, disfrutar y ver las fotografías de tu evento en tiempo real.
-          </p>
-
-          <a
-            href="https://fotos.melissartedecorativo.com/e/boda-sofia-y-alejandro"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-6 inline-flex h-12 items-center justify-center rounded-full bg-[#A88249] px-8 text-base font-medium text-white shadow-sm transition-colors duration-200 hover:bg-[#977640]"
-          >
-            Ver galería demo →
-          </a>
-
-        </section>
-
-        {/* Precio y CTA */}
-
-        <section className="mt-10 text-center">
-
-          <p className="text-sm font-medium uppercase tracking-wide text-[#A88249]">
-            Galería Digital para tu evento
-          </p>
-
-          <h2 className="mt-2 text-2xl font-semibold text-[#1F1F1F] md:text-3xl">
-            Todos tus recuerdos en un solo lugar.
-          </h2>
-
-          <div className="mx-auto mt-5 max-w-md rounded-3xl bg-[#F7F3EC] p-6">
-
-            <p className="text-sm text-[#7D7467]">
-              Galería personalizada
+          </header>
+
+          <div className="mx-auto mt-12 max-w-4xl text-center sm:mt-16">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#A88249]">
+              Galería digital para eventos
             </p>
 
-            <div className="mt-1">
-  <p className="text-xs font-medium uppercase tracking-wide text-[#A88249]">
-    Precio de lanzamiento
-  </p>
+            <h1 className="mt-5 font-[var(--font-display)] text-[clamp(3.4rem,11vw,6.5rem)] font-semibold leading-[0.84] tracking-[-0.04em] text-[#1F1F1F]">
+              Todos los momentos.
+              <span className="block text-[#A88249]">En un solo lugar.</span>
+            </h1>
 
-  <p className="mt-1 text-sm text-[#7D7467] line-through">
-    $499 MXN
-  </p>
+            <p className="mx-auto mt-7 max-w-2xl text-base leading-7 text-[#625A50] sm:text-lg sm:leading-8">
+              Fotos, mensajes escritos y voces de tus invitados, reunidos en
+              una galería creada especialmente para tu evento.
+            </p>
 
-  <p className="text-4xl font-semibold text-[#A88249]">
-    $399 MXN
-  </p>
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Link href={demoUrl} target="_blank" rel="noopener noreferrer">
+                <Button
+                  className="h-12 rounded-full bg-[#1F1F1F] px-7 text-sm font-medium text-white shadow-[0_14px_30px_rgba(31,31,31,0.14)] hover:bg-[#2E2B27]"
+                >
+                  Ver galería demo
+                  <ArrowRight size={17} className="ml-2" />
+                </Button>
+              </Link>
 
-  <p className="mt-1 text-sm font-medium text-[#A88249]">
-    Ahorras $100
-  </p>
-</div>
-
-            <div className="mt-4 space-y-1.5 text-sm text-[#5C554B]">
-              <p>📸 Fotografías ilimitadas</p>
-              <p>📱 QR y enlace para compartir</p>
-              <p>📺 Presentación de fotos en vivo</p>
-              <p>⏰ Disponible durante el evento y 30 días después</p>
+              <Link href={purchaseUrl}>
+                <Button
+                  variant="outline"
+                  className="h-12 rounded-full border-[#D9CDBB] bg-[#FBFAF8] px-7 text-sm font-medium text-[#2A2723] hover:bg-white"
+                >
+                  Crear mi galería
+                </Button>
+              </Link>
             </div>
 
-            <Link
-              href="https://melissartedecorativo.com/products/galeria-digital"
-              className="mt-6 inline-block"
-            >
-              <Button
-                className="
-                  h-12
-                  rounded-full
-                  bg-[#A88249]
-                  px-8
-                  text-base
-                  hover:bg-[#977640]
-                "
+            <div className="mx-auto mt-8 flex max-w-2xl flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-[#7D7467]">
+              <span>Fotos ilimitadas</span>
+              <span>QR + enlace</span>
+              <span>Mensajes escritos y de voz</span>
+              <span>30 días</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Promise */}
+      <section className="border-t border-[#EAE2D8] px-5 py-16 sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-5xl">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#A88249]">
+              No guardes solo las fotos
+            </p>
+            <h2 className="mt-4 font-[var(--font-display)] text-4xl font-semibold leading-none tracking-[-0.025em] text-[#1F1F1F] sm:text-5xl">
+              Guarda también lo que se sintió.
+            </h2>
+            <p className="mt-5 text-base leading-7 text-[#6C645A]">
+              Cada invitado puede aportar algo distinto. Una fotografía, unas
+              palabras o incluso su propia voz.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
+            {[
+              {
+                icon: Camera,
+                eyebrow: "01 · Fotografías",
+                title: "Todos comparten",
+                text: "Reúne las fotos que tus invitados tomaron desde sus propios celulares.",
+              },
+              {
+                icon: MessageCircle,
+                eyebrow: "02 · Mensajes",
+                title: "Palabras que quedan",
+                text: "Dedicatorias, recuerdos y buenos deseos que podrás conservar después del evento.",
+              },
+              {
+                icon: Mic,
+                eyebrow: "03 · Voces",
+                title: "Escucha el momento",
+                text: "Mensajes de voz de quienes estuvieron ahí, para volver a escucharlos cuando quieras.",
+              },
+            ].map(({ icon: Icon, eyebrow, title, text }) => (
+              <article
+                key={eyebrow}
+                className="rounded-[1.6rem] border border-[#E5DCCF] bg-[#FFFDF9] p-7 shadow-[0_12px_35px_rgba(74,59,40,0.06)]"
               >
-                Comprar mi galería
-              </Button>
-            </Link>
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#F1E7D7] text-[#A88249]">
+                  <Icon size={19} />
+                </div>
+                <p className="mt-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A88249]">
+                  {eyebrow}
+                </p>
+                <h3 className="mt-2 font-[var(--font-display)] text-3xl font-semibold leading-none tracking-[-0.02em] text-[#28241F]">
+                  {title}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-[#6D655B]">{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
+      {/* Book of signatures */}
+      <section className="bg-[#1B1A17] px-5 py-16 text-white sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#D5BD94]">
+              Libro de firmas digital
+            </p>
+            <h2 className="mt-4 font-[var(--font-display)] text-5xl font-semibold leading-[0.9] tracking-[-0.03em] sm:text-6xl">
+              Un recuerdo que también puedes volver a escuchar.
+            </h2>
+            <p className="mt-6 text-base leading-7 text-white/65 sm:text-lg sm:leading-8">
+              Los mensajes de tus invitados se convierten en parte de la
+              historia de tu evento. Escritos para leerlos y voces para
+              escucharlas otra vez.
+            </p>
           </div>
 
-        </section>
+          <div className="mx-auto mt-10 grid max-w-4xl gap-3 sm:grid-cols-2">
+            {[
+              ["Mensajes escritos", MessageCircle],
+              ["Mensajes de voz", Mic],
+              ["Libro de firmas en PDF", BookOpen],
+              ["Audios en archivo ZIP", Download],
+            ].map(([label, Icon]) => (
+              <div
+                key={label as string}
+                className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3.5"
+              >
+                <Icon size={17} className="shrink-0 text-[#D5BD94]" />
+                <span className="text-sm text-white/80">{label as string}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-        {/* Footer */}
-
-        <footer className="mt-12 border-t border-[#E7DCC8] py-6">
-
-          <div className="flex justify-center">
-            <Image
-              src="/me-logo.png"
-              alt="MelissArte Photos"
-              width={140}
-              height={50}
-              className="h-auto w-[90px]"
-            />
+      {/* How it works */}
+      <section className="bg-[#EEE8DE] px-5 py-16 sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#A88249]">
+              Así de fácil
+            </p>
+            <h2 className="mt-4 font-[var(--font-display)] text-4xl font-semibold leading-none tracking-[-0.025em] sm:text-5xl">
+              Comparte. Vive. Recuerda.
+            </h2>
           </div>
 
-          <p className="mt-1 text-center text-sm text-[#7D7467]">
-            Un servicio de MelissArte.
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
+            {[
+              ["01", "Comparte", "Coloca el QR o comparte el enlace de tu galería con tus invitados."],
+              ["02", "Vive", "Recibe fotos, mensajes escritos y audios mientras el evento sucede."],
+              ["03", "Recuerda", "Descarga tus fotografías, el libro de firmas y los mensajes de voz."],
+            ].map(([number, title, text]) => (
+              <article
+                key={number}
+                className="rounded-[1.6rem] border border-[#DED3C3] bg-[#F9F6F0] p-7"
+              >
+                <span className="font-[var(--font-display)] text-5xl font-semibold leading-none text-[#B89968]">
+                  {number}
+                </span>
+                <h3 className="mt-5 font-[var(--font-display)] text-3xl font-semibold leading-none">
+                  {title}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-[#756C61]">{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Experience statement */}
+      <section className="px-5 py-16 sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-5xl">
+          <div className="relative overflow-hidden rounded-[2.2rem] bg-[#1B1A17] px-6 py-12 text-center text-white shadow-[0_30px_80px_rgba(31,31,31,0.18)] sm:px-12 sm:py-16">
+            <div className="pointer-events-none absolute -left-16 -top-16 h-44 w-44 rounded-full bg-[#D5BD94]/10 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-20 -right-10 h-52 w-52 rounded-full bg-[#A88249]/10 blur-3xl" />
+
+            <div className="relative mx-auto max-w-3xl">
+              <div className="flex justify-center gap-3 text-[#D5BD94]">
+                <Camera size={18} />
+                <MessageCircle size={18} />
+                <Mic size={18} />
+              </div>
+
+              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.24em] text-[#D5BD94]">
+                Todo forma parte del recuerdo
+              </p>
+
+              <h2 className="mt-4 font-[var(--font-display)] text-5xl font-semibold leading-[0.9] tracking-[-0.03em] sm:text-6xl">
+                Una galería que guarda más que fotografías.
+              </h2>
+
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/65 sm:text-lg">
+                Desde el primer mensaje hasta la última fotografía, tus
+                invitados dejan una parte de su experiencia para que puedas
+                volver a vivirla después.
+              </p>
+
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-xs text-white/55">
+                <span className="rounded-full border border-white/10 px-3 py-1.5">Fotos</span>
+                <span className="rounded-full border border-white/10 px-3 py-1.5">Mensajes</span>
+                <span className="rounded-full border border-white/10 px-3 py-1.5">Voces</span>
+                <span className="rounded-full border border-white/10 px-3 py-1.5">Libro de firmas</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section className="px-5 pb-16 sm:px-8 sm:pb-20">
+        <div className="mx-auto max-w-5xl">
+          <div className="grid overflow-hidden rounded-[2.2rem] border border-[#E4DACD] bg-[#FFFDF9] shadow-[0_18px_60px_rgba(74,59,40,0.07)] lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="bg-[#EEE7DC] p-7 sm:p-10">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#A88249]">
+                Precio de lanzamiento
+              </p>
+              <h2 className="mt-4 max-w-sm font-[var(--font-display)] text-5xl font-semibold leading-[0.9] tracking-[-0.03em]">
+                Tu historia merece quedarse.
+              </h2>
+              <p className="mt-5 max-w-sm text-sm leading-6 text-[#6E665C]">
+                Crea una galería personalizada para tu boda, XV años o evento
+                especial.
+              </p>
+
+              <div className="mt-8 flex items-end gap-3">
+                <span className="text-sm text-[#8B8174] line-through">$449 MXN</span>
+                <span className="font-[var(--font-display)] text-6xl font-semibold leading-none text-[#A88249]">
+                  $349
+                </span>
+                <span className="mb-1 text-sm font-medium text-[#7A6A52]">MXN</span>
+              </div>
+
+              <p className="mt-2 text-sm font-medium text-[#A88249]">Ahorras $100 MXN</p>
+
+              <Link href={purchaseUrl}>
+                <Button className="mt-7 h-12 w-full rounded-full bg-[#1F1F1F] text-sm font-medium text-white hover:bg-[#2E2B27]">
+                  Crear mi galería
+                  <ArrowRight size={17} className="ml-2" />
+                </Button>
+              </Link>
+            </div>
+
+            <div className="p-7 sm:p-10">
+              <p className="text-sm font-medium text-[#2F2A25]">Todo incluido</p>
+
+              <div className="mt-6 space-y-3">
+                {[
+                  "Fotografías ilimitadas",
+                  "QR y enlace personalizado",
+                  "Presentación de fotos en vivo",
+                  "Mensajes escritos de invitados",
+                  "Mensajes de voz de invitados",
+                  "Libro de firmas en PDF",
+                  "Descarga de audios en ZIP",
+                  "Disponible durante el evento y 30 días después",
+                ].map((item) => (
+                  <div key={item} className="flex items-start gap-3">
+                    <Check size={17} className="mt-0.5 shrink-0 text-[#A88249]" />
+                    <span className="text-sm leading-6 text-[#615950]">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="px-5 pb-10 sm:px-8 sm:pb-14">
+        <div className="mx-auto max-w-4xl text-center">
+          <div className="flex justify-center gap-3 text-[#A88249]">
+            <Camera size={17} />
+            <Sparkles size={17} />
+            <Mic size={17} />
+          </div>
+
+          <p className="mt-5 font-[var(--font-display)] text-4xl font-semibold leading-none tracking-[-0.025em] text-[#1F1F1F] sm:text-5xl">
+            Hay momentos que pasan una sola vez.
           </p>
+          <h2 className="mt-2 font-[var(--font-display)] text-4xl font-semibold leading-none tracking-[-0.025em] text-[#A88249] sm:text-5xl">
+            Haz que todos puedan quedarse contigo.
+          </h2>
 
-          <div className="mt-6 flex flex-wrap justify-center gap-6">
+          <Link href={purchaseUrl}>
+            <Button className="mt-8 h-12 rounded-full bg-[#A88249] px-8 text-sm font-medium text-white shadow-[0_14px_30px_rgba(168,130,73,0.18)] hover:bg-[#977640]">
+              Crear mi galería
+              <ArrowRight size={17} className="ml-2" />
+            </Button>
+          </Link>
+        </div>
+      </section>
 
-            <a
-              href="https://wa.me/525649445427"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm text-[#5C554B] transition-colors hover:text-[#A88249]"
-            >
-              <MessageCircle size={18} />
-              Habla con nosotros
-            </a>
+      {/* Footer */}
+      <footer className="border-t border-[#E5DCCF] bg-[#F8F6F2] px-5 py-8 sm:px-8">
+        <div className="mx-auto max-w-6xl">
+          <div className="flex flex-col items-center justify-between gap-5 sm:flex-row">
+            <div className="flex items-center gap-3">
+              <Image
+                src="/me-logo.png"
+                alt="MelissArte Photos"
+                width={140}
+                height={50}
+                className="h-auto w-[90px]"
+              />
+              <span className="text-xs text-[#81786D]">Un servicio de MelissArte.</span>
+            </div>
 
-            <a
-              href="mailto:melissartedecorativo@gmail.com"
-              className="flex items-center gap-2 text-sm text-[#5C554B] transition-colors hover:text-[#A88249]"
-            >
-              <Mail size={18} />
-              Correo electrónico
-            </a>
-
+            <div className="flex items-center gap-5">
+              <a
+                href="https://wa.me/528133867050"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-medium text-[#5F574D] transition-colors hover:text-[#A88249]"
+              >
+                WhatsApp
+              </a>
+              <a
+                href="mailto:melissartedecorativo@gmail.com"
+                className="text-xs font-medium text-[#5F574D] transition-colors hover:text-[#A88249]"
+              >
+                Correo
+              </a>
+            </div>
           </div>
 
-        </footer>
-
-      </div>
+          <div className="mt-5 text-center text-[11px] text-[#A0988E] sm:text-left">
+            © {new Date().getFullYear()} MelissArte Photos
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }

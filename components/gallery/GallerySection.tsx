@@ -12,6 +12,7 @@ import {
   PhotoSortOrder,
 } from "@/lib/photos";
 import { subscribeToEventPhotos } from "@/lib/realtime";
+import { getEventUrl } from "@/lib/urls";
 
 import PublicGallery from "./PublicGallery";
 import PhotoLightbox from "@/components/public/PhotoLightbox";
@@ -81,6 +82,8 @@ export default function GallerySection({
   const [presentationIndex, setPresentationIndex] =
     useState(0);
 
+  const GALLERY_PAGE_SIZE = 24;
+
   const [presentationPlaying, setPresentationPlaying] =
     useState(true);
 
@@ -107,7 +110,7 @@ export default function GallerySection({
       const result = await getPhotosByEvent(
         event.id,
         currentPage,
-        40,
+        GALLERY_PAGE_SIZE,
         order
       );
 
@@ -122,7 +125,7 @@ export default function GallerySection({
         ]);
       }
 
-      setHasMore(newPhotos.length === 40);
+      setHasMore(newPhotos.length === GALLERY_PAGE_SIZE);
 
       setPage(currentPage);
 
@@ -417,7 +420,10 @@ setPresentationIndex(0);
       return;
     }
 
-    const galleryUrl = window.location.href.split("#")[0];
+    const galleryUrl = getEventUrl(
+      window.location.origin,
+      event.slug
+    );
 
     QRCode.toDataURL(galleryUrl, {
       width: 180,
@@ -642,19 +648,44 @@ useEffect(() => {
 
   return (
     <>
-      <div className="-mt-3">
-        <div className="mb-2 flex items-center justify-between gap-2 md:justify-end">
+      <div className="mt-8 sm:mt-10">
+        <div className="mb-7 text-center">
+          <p className="inline-flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.28em] text-[#A88249]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#A88249] shadow-[0_0_0_3px_rgba(168,130,73,0.12)]" />
+            Galería en vivo
+          </p>
+
+          <div className="mt-2 flex items-center justify-center gap-2">
+            <h2 className="font-[var(--font-display)] text-[2rem] font-semibold leading-none tracking-[-0.02em] text-[#1F1F1F] sm:text-[2.5rem]">
+              Recuerdos de este día
+            </h2>
+
+            {totalPhotos > 0 && (
+              <span className="rounded-full bg-[#F3ECE2] px-2.5 py-1 text-[10px] font-medium tabular-nums text-[#8B8378]">
+                {totalPhotos}
+              </span>
+            )}
+          </div>
+
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#7D7467]">
+            Las nuevas fotografías aparecen aquí en tiempo real.
+          </p>
+        </div>
+
+        <div className="mb-4 flex items-center justify-between gap-2">
+
           <button
             type="button"
             onClick={handleOpenPresentation}
             className="
               inline-flex
+              h-9
               items-center
               gap-1.5
               rounded-full
               border
               border-[#A88249]
-              bg-[#A88249]
+              bg-[#1F1F1F]
               px-3.5
               py-1.5
               text-sm
@@ -664,15 +695,15 @@ useEffect(() => {
               opacity-100
               transition-colors
               duration-200
-              hover:bg-[#977640]
-              hover:border-[#977640]
+              hover:bg-[#2B2925]
+              hover:border-[#2B2925]
               disabled:opacity-100
               disabled:cursor-pointer
               focus:outline-none
             "
           >
             <Play size={13} strokeWidth={2} />
-            Presentación en vivo
+            Ver presentación en vivo
           </button>
 
           <div className="relative">
@@ -877,9 +908,10 @@ useEffect(() => {
         {presentationOpen && presentationPhotos.length > 0 && (
           <div className="fixed inset-0 z-[100] flex h-[100dvh] w-full items-center justify-center bg-[#111111]">
             <img
+              key={presentationPhotos[presentationIndex].id}
               src={presentationPhotos[presentationIndex].public_url}
               alt={presentationPhotos[presentationIndex].file_name}
-              className="h-full w-full object-contain"
+              className="h-full w-full object-contain animate-[melissarte-fade_700ms_ease-out]"
             />
 
             {qrDataUrl && (

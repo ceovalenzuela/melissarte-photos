@@ -7,43 +7,44 @@ import { generateSlug } from "@/lib/slug";
 
 import { Event } from "@/types/event";
 import { EventWithStats } from "@/types/event-with-stats";
-import {
-  getPhotoCounts,
-} from "@/lib/events";
+import { getEventContentStats } from "@/lib/events";
 
 export function useEvents() {
-  const [events, setEvents] =
-  useState<EventWithStats[]>([]);
+  const [events, setEvents] = useState<EventWithStats[]>([]);
   const [loading, setLoading] = useState(false);
 
   async function loadEvents() {
+    try {
+      setLoading(true);
 
-const {
-  data: { session },
-} = await supabase.auth.getSession();
+      const { data, error } = await supabase
+        .from("events")
+        .select("*")
+        .order("created_at", { ascending: false });
 
-const {
-  data: { user },
-} = await supabase.auth.getUser();
+      if (error) throw error;
 
-    const { data, error } = await supabase
-  .from("events")
-  .select("*")
-  .order("created_at", { ascending: false });
+      const stats = await getEventContentStats();
 
-console.log("ERROR:", error);
+      const eventsWithStats = (data ?? []).map(
+        (event) => ({
+          ...event,
+          photoCount:
+            stats[event.id]?.photoCount ?? 0,
+          messageCount:
+            stats[event.id]?.messageCount ?? 0,
+          lastActivityAt:
+            stats[event.id]?.lastActivityAt ?? null,
+        })
+      );
 
-    const counts = await getPhotoCounts();
-
-const eventsWithStats = (data ?? []).map(
-  (event) => ({
-    ...event,
-    photoCount:
-      counts[event.id] ?? 0,
-  })
-);
-
-setEvents(eventsWithStats);
+      setEvents(eventsWithStats);
+    } catch (error) {
+      console.error("No fue posible cargar los eventos:", error);
+      setEvents([]);
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function createEvent(data: {
@@ -54,12 +55,12 @@ setEvents(eventsWithStats);
 
     try {
       const { error } = await supabase
-  .from("events")
-  .insert({
-    title: data.title,
-    slug: generateSlug(data.title),
-    event_date: data.event_date,
-  });
+        .from("events")
+        .insert({
+          title: data.title,
+          slug: generateSlug(data.title),
+          event_date: data.event_date,
+        });
 
       if (error) throw error;
 
@@ -89,22 +90,22 @@ setEvents(eventsWithStats);
     }
   }
 
-async function deleteEvent(id: string) {
-  setLoading(true);
+  async function deleteEvent(id: string) {
+    setLoading(true);
 
-  try {
-    const { error } = await supabase
-      .from("events")
-      .delete()
-      .eq("id", id);
+    try {
+      const { error } = await supabase
+        .from("events")
+        .delete()
+        .eq("id", id);
 
-    if (error) throw error;
+      if (error) throw error;
 
-    await loadEvents();
-  } finally {
-    setLoading(false);
+      await loadEvents();
+    } finally {
+      setLoading(false);
+    }
   }
-}
 
   useEffect(() => {
     loadEvents();
@@ -113,11 +114,9 @@ async function deleteEvent(id: string) {
   return {
     events,
     loading,
-
     createEvent,
     updateEvent,
     deleteEvent,
-
     refresh: loadEvents,
   };
 }

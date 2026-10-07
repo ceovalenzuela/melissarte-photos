@@ -11,7 +11,6 @@ interface Props {
   onClick?: () => void;
   disabled?: boolean;
   loading?: boolean;
-  variant?: "single" | "top" | "middle" | "last";
 }
 
 export default function ActionCard({
@@ -20,82 +19,62 @@ export default function ActionCard({
   description,
   onClick,
   disabled = false,
-loading = false,
-variant = "single",
+  loading = false,
 }: Props) {
-  const roundedClass = {
-  single: "rounded-3xl",
-  top: "",
-  middle: "",
-  last: "",
-}[variant];
-
-  const borderClass = {
-  single: "border",
-  top: "border-b",
-  middle: "border-b",
-  last: "",
-}[variant];
-
   return (
     <button
       onClick={onClick}
       disabled={disabled}
       className={`
-        ${!loading && !disabled ? "group" : ""}
+        group
+        flex
+        min-h-[96px]
         w-full
-        ${roundedClass}
-        ${borderClass}
-        border-[#E7DCC8]
-        bg-[#FDFBF8]
-        px-7
-        py-6
+        items-center
+        gap-3
+        rounded-2xl
+        border
+        border-[#D8C7A8]
+        bg-[#F7F1E7]
+        px-4
+        py-3.5
         text-left
-        transition-colors
+        shadow-[0_6px_20px_rgba(74,60,42,0.06)]
+        transition-all
         duration-200
-
         ${
-  loading
-    ? "cursor-progress bg-[#F5EFE6]"
-    : disabled
-      ? "cursor-not-allowed opacity-60"
-      : "hover:bg-[#FCF8F3]"
-}
+          loading
+            ? "cursor-progress bg-[#F3EBDD]"
+            : disabled
+              ? "cursor-not-allowed opacity-60"
+              : "hover:-translate-y-0.5 hover:border-[#CDB990] hover:bg-[#F3EBDD] hover:shadow-[0_10px_24px_rgba(74,60,42,0.08)]"
+        }
       `}
     >
-      <div className="flex items-center justify-between">
-        <div className="flex items-start gap-4">
-          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center">
-            {loading ? (
-              <LoaderCircle
-                size={22}
-                className="animate-spin text-[#A88249] [animation-duration:1.5s]"
-              />
-            ) : (
-              <div className="text-[#A88249]">
-                {icon}
-              </div>
-            )}
-          </div>
-
-          <div>
-            <p className="text-lg font-medium text-[#1F1F1F]">
-              {title}
-            </p>
-
-            <p className="mt-2 text-sm leading-relaxed text-[#7D7467]">
-              {description}
-            </p>
-          </div>
-        </div>
-
-        {!loading && (
-          <ChevronRight
-            size={22}
-            className="text-[#B8AD9D] transition-transform duration-200 group-hover:translate-x-1"
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#A88249] text-white shadow-sm">
+        {loading ? (
+          <LoaderCircle
+            size={18}
+            className="animate-spin [animation-duration:1.5s]"
           />
+        ) : (
+          icon
         )}
       </div>
+
+      <div className="min-w-0">
+        <p className="text-sm font-semibold text-[#2F2A24]">{title}</p>
+        <p className="mt-0.5 text-[11px] leading-4 text-[#746B60]">
+          {description}
+        </p>
+      </div>
+
+      {!loading && (
+        <ChevronRight
+          size={17}
+          className="ml-auto shrink-0 text-[#8B6D3B] transition-transform duration-200 group-hover:translate-x-1"
+        />
+      )}
     </button>
   );
 }

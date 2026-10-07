@@ -23,21 +23,26 @@ function GalleryImage({
       type="button"
       onClick={onClick}
       aria-label={alt}
-      className="
-        group
-        relative
-        aspect-square
-        overflow-hidden
-        rounded-xl
-        bg-neutral-100
-        transition-transform
-        duration-200
-        active:scale-[0.985]
-        focus:outline-none
-        focus:ring-2
-        focus:ring-neutral-300
-        focus:ring-offset-2
-      "
+        className="
+          group
+          relative
+          mb-2.5
+          block
+          w-full
+          break-inside-avoid
+          overflow-hidden
+          rounded-[1.15rem]
+          bg-neutral-100
+          shadow-[0_8px_28px_rgba(53,44,34,0.06)]
+          transition-transform
+          duration-200
+          active:scale-[0.985]
+          focus:outline-none
+          focus:ring-2
+          focus:ring-neutral-300
+          focus:ring-offset-2
+          md:mb-3.5
+        "
     >
       {!error ? (
         <>
@@ -58,12 +63,12 @@ function GalleryImage({
             loading={priority ? "eager" : "lazy"}
             decoding="async"
             className={[
-              "h-full w-full object-cover",
-              "transition-all duration-500 ease-out",
+              "relative z-10 block h-auto w-full",
+              "transition-all duration-700 ease-out",
               loaded
-                ? "scale-100 opacity-100"
+                ? "scale-100 opacity-100 motion-safe:animate-[melissarte-rise_600ms_ease-out]"
                 : "scale-[1.025] opacity-0",
-              "group-hover:scale-[1.02]",
+              "group-hover:scale-[1.02] group-hover:brightness-[1.02]",
             ].join(" ")}
             onLoad={() => setLoaded(true)}
             onError={() => {

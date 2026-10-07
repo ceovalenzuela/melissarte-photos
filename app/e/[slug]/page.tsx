@@ -27,8 +27,8 @@ export default async function PublicEventPage({
   const photoCount = await getPhotoCount(event.id);
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-6xl space-y-8 px-4 py-6">
+    <main className="min-h-screen bg-[#FBF9F5]">
+      <div className="mx-auto max-w-6xl px-3 py-4 sm:px-4 sm:py-6">
         <EventHero
   event={event}
   photoCount={photoCount}
@@ -36,7 +36,9 @@ export default async function PublicEventPage({
 
         <PublicEventClient event={event} />
 
-        <Footer />
+        <div className="mt-10">
+          <Footer />
+        </div>
       </div>
     </main>
   );

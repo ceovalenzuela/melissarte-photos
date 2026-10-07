@@ -1,26 +1,34 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { AlertTriangle } from "lucide-react";
 
 import { Event } from "@/types/event";
-import { updateEvent } from "@/lib/events";
+import { updateEvent, deleteEvent } from "@/lib/events";
+import { deleteMessagesByEvent } from "@/lib/messages";
+import { deletePhotosByEvent } from "@/lib/photos";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 import EventInfoForm from "./EventInfoForm";
 import EventCover from "./EventCover";
 import EventWelcomeMessage from "./EventWelcomeMessage";
-
-import { deleteEvent } from "@/lib/events";
-import { deletePhotosByEvent } from "@/lib/photos";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
+import AdminMessageManager from "./AdminMessageManager";
 import AdminPhotoManager from "./AdminPhotoManager";
+
+interface EventStats {
+  photoCount: number;
+  messageCount: number;
+  lastActivityAt: string | null;
+}
 
 interface Props {
   event: Event;
+  stats: EventStats;
 }
 
-export default function EventEditor({ event }: Props) {
+export default function EventEditor({ event, stats }: Props) {
   const [values, setValues] = useState(event);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -34,7 +42,6 @@ export default function EventEditor({ event }: Props) {
 
       await updateEvent(values.id, {
         title: values.title,
-        slug: values.slug,
         event_date: values.event_date,
         type: values.type,
         status: values.status,
@@ -51,127 +58,128 @@ export default function EventEditor({ event }: Props) {
 
   async function handleEmptyGallery() {
     const confirmed = confirm(
-  "¿Vaciar esta galería?\n\nSe eliminarán todas las fotografías, pero el evento seguirá existiendo. Esta acción no se puede deshacer."
-);
+      "¿Vaciar esta galería?\n\nSe eliminarán todas las fotografías, pero el evento seguirá existiendo. Esta acción no se puede deshacer."
+    );
 
-    if (!confirmed) {
-      return;
-    }
+    if (!confirmed) return;
 
     try {
       setEmptying(true);
-
       await deletePhotosByEvent(values.id);
-
       toast.success("Galería vaciada.");
     } catch (error) {
       console.error(error);
-
-      toast.error(
-        "No fue posible vaciar la galería."
-      );
+      toast.error("No fue posible vaciar la galería.");
     } finally {
       setEmptying(false);
     }
   }
 
   async function handleDelete() {
-  const confirmed = confirm(
-    "¿Eliminar este evento?\n\nSe eliminarán todas las fotografías y esta acción no se puede deshacer."
-  );
-
-  if (!confirmed) {
-    return;
-  }
-
-  try {
-    setDeleting(true);
-
-    await deletePhotosByEvent(values.id);
-
-    await deleteEvent(values.id);
-
-    toast.success("Evento eliminado.");
-
-    router.push("/admin");
-  } catch (error) {
-    console.error(error);
-
-    toast.error(
-      "No fue posible eliminar el evento."
+    const confirmed = confirm(
+      "¿Eliminar este evento?\n\nSe eliminarán todas las fotografías, mensajes y el evento. Esta acción no se puede deshacer."
     );
-  } finally {
-    setDeleting(false);
+
+    if (!confirmed) return;
+
+    try {
+      setDeleting(true);
+
+      await deletePhotosByEvent(values.id);
+      await deleteMessagesByEvent(values.id);
+      await deleteEvent(values.id);
+
+      toast.success("Evento eliminado.");
+      router.push("/admin");
+    } catch (error) {
+      console.error(error);
+      toast.error("No fue posible eliminar el evento.");
+    } finally {
+      setDeleting(false);
+    }
   }
-}
 
   return (
-    <div className="space-y-5">
-      <EventInfoForm
-        values={values}
-        onChange={setValues}
-        onSave={handleSave}
-        saving={saving}
-      />
+    <div className="space-y-8">
+      <section>
+        <div className="mb-3">
+          <h2 className="text-lg font-semibold text-[#1F1F1F]">Configuración</h2>
+          <p className="mt-1 text-sm text-[#7D7467]">Información básica y estado de la galería.</p>
+        </div>
+        <EventInfoForm
+          values={values}
+          onChange={setValues}
+          onSave={handleSave}
+          saving={saving}
+        />
+      </section>
 
-<EventCover
-  values={values}
-  onChange={setValues}
-/>
+      <section>
+        <div className="mb-3">
+          <h2 className="text-lg font-semibold text-[#1F1F1F]">Apariencia</h2>
+          <p className="mt-1 text-sm text-[#7D7467]">La portada y el mensaje que verán tus invitados.</p>
+        </div>
+        <div className="grid gap-5 lg:grid-cols-2">
+          <EventCover values={values} onChange={setValues} />
+          <EventWelcomeMessage values={values} onChange={setValues} />
+        </div>
+      </section>
 
-<EventWelcomeMessage
-  values={values}
-  onChange={setValues}
-/>
+      <section>
+        <div className="mb-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <h2 className="text-lg font-semibold text-[#1F1F1F]">Contenido</h2>
+            <span className="text-xs text-[#8B8378]">
+              {stats.photoCount} {stats.photoCount === 1 ? "foto" : "fotos"} · {stats.messageCount} {stats.messageCount === 1 ? "recuerdo" : "recuerdos"}
+            </span>
+          </div>
+          <p className="mt-1 text-sm text-[#7D7467]">Modera fotografías y recuerdos compartidos por los invitados.</p>
+        </div>
+        <div className="space-y-5">
+          <AdminPhotoManager eventId={values.id} />
+          <AdminMessageManager event={values} />
+        </div>
+      </section>
 
-<AdminPhotoManager eventId={values.id} />
+      <section>
+        <div className="mb-3 flex items-center gap-2">
+          <AlertTriangle size={18} className="text-[#A15B50]" />
+          <div>
+            <h2 className="text-lg font-semibold text-[#1F1F1F]">Zona de riesgo</h2>
+            <p className="mt-1 text-sm text-[#7D7467]">Acciones permanentes sobre el contenido o el evento.</p>
+          </div>
+        </div>
 
-<div className="space-y-6 rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] p-8 shadow-sm">
-  <div>
-    <h2 className="text-xl font-semibold text-[#1F1F1F]">
-      Vaciar galería
-    </h2>
+        <div className="space-y-4">
+          <div className="rounded-2xl border border-[#E7DCC8] bg-[#FDFBF8] p-6 shadow-sm">
+            <h3 className="text-base font-semibold text-[#1F1F1F]">Vaciar galería</h3>
+            <p className="mt-1.5 text-sm text-[#7D7467]">Elimina todas las fotografías y conserva la configuración del evento.</p>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleEmptyGallery}
+              disabled={emptying}
+              className="mt-4 h-10 rounded-full border-[#D8C7A8] px-5 text-sm"
+            >
+              {emptying ? "Vaciando..." : "Vaciar galería"}
+            </Button>
+          </div>
 
-    <p className="mt-2 text-sm text-[#7D7467]">
-      Elimina todas las fotografías de este evento sin eliminar el evento.
-    </p>
-  </div>
-
-  <Button
-    variant="destructive"
-    onClick={handleEmptyGallery}
-    disabled={emptying}
-    className="h-12 rounded-full px-7"
-  >
-    {emptying ? "Vaciando..." : "Vaciar galería"}
-  </Button>
-</div>
-
-<div className="space-y-6 rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] p-8 shadow-sm">
-  <div>
-    <h2 className="text-2xl font-semibold text-[#1F1F1F]">
-      Eliminar evento
-    </h2>
-
-    <p className="mt-2 text-sm text-[#7D7467]">
-      Se eliminará permanentemente el evento y todas las fotografías asociadas. Esta acción no se puede deshacer.
-    </p>
-  </div>
-
-  <div className="mt-6">
-  <Button
-    variant="destructive"
-    onClick={handleDelete}
-    disabled={deleting}
-    className="h-12 rounded-full px-7"
-  >
-    {deleting
-      ? "Eliminando..."
-      : "Eliminar evento"}
-  </Button>
-</div>
-</div>
-
+          <div className="rounded-2xl border border-[#E7C9C4] bg-[#FFF9F8] p-6 shadow-sm">
+            <h3 className="text-base font-semibold text-[#7D403A]">Eliminar evento</h3>
+            <p className="mt-1.5 text-sm text-[#8B665F]">Elimina permanentemente el evento, sus fotografías y sus mensajes.</p>
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={handleDelete}
+              disabled={deleting}
+              className="mt-4 h-10 rounded-full px-5 text-sm"
+            >
+              {deleting ? "Eliminando..." : "Eliminar evento"}
+            </Button>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

@@ -178,7 +178,7 @@ export type PhotoSortOrder =
 export async function getPhotosByEvent(
   eventId: string,
   page = 0,
-  limit = 40,
+  limit = 24,
   sortOrder: PhotoSortOrder = "newest"
 ) {
   const from = page * limit;

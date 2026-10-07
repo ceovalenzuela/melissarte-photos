@@ -33,17 +33,15 @@ export default function PublicGallery({
           Todavía no hay fotografías.
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-4 lg:gap-4">
+        <div className="columns-2 gap-2.5 md:columns-3 md:gap-3.5 xl:columns-4 xl:gap-4">
           {photos.map((photo, index) => (
-            <div
-              key={photo.id}
-              className="group relative"
-            >
+            <div key={photo.id} className="group relative break-inside-avoid">
               <GalleryImage
                 src={photo.thumbnail_url}
                 alt={`Fotografía ${index + 1}`}
                 priority={index < 6}
                 onClick={() => onPhotoClick(index)}
+
               />
 
               {canDeletePhotos && onDeletePhoto && (

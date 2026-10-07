@@ -26,6 +26,7 @@ type Props = {
   createEvent: (data: {
     title: string;
     event_date: string;
+    messages_enabled: boolean;
   }) => Promise<void>;
 
   updateEvent: (

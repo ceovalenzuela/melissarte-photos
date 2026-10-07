@@ -238,7 +238,7 @@ export default function GuestMessages({
               <h2 className="font-[var(--font-display)] text-[2rem] font-semibold leading-none tracking-[-0.02em] text-[#1F1F1F] md:text-[2.5rem]">
                 {showDownloads
                   ? "Lo que tus invitados compartieron"
-                  : "Lo que vivimos juntos"}
+                  : "Comparte tus palabras"}
               </h2>
 
               {messages.length > 0 && (

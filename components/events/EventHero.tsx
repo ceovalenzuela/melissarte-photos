@@ -43,7 +43,7 @@ export default function EventHero({
 
   const heroImageClass = loaded
     ? isPortrait
-      ? "object-cover md:object-contain md:p-5 [object-position:var(--hero-object-position-mobile)] md:[object-position:center]"
+      ? "object-cover md:object-contain [object-position:var(--hero-object-position-mobile)] md:[object-position:center]"
       : "object-cover [object-position:var(--hero-object-position-mobile)] md:[object-position:var(--hero-object-position-desktop)]"
     : "object-cover [object-position:var(--hero-object-position-mobile)] md:[object-position:var(--hero-object-position-desktop)]";
 

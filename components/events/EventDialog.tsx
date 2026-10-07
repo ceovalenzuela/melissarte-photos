@@ -45,16 +45,19 @@ export default function EventDialog({
 
   const [title, setTitle] = useState("");
   const [eventDate, setEventDate] = useState("");
+  const [messagesEnabled, setMessagesEnabled] = useState(false);
 
   useEffect(() => {
     if (mode === "edit" && event) {
       setTitle(event.title);
       setEventDate(event.event_date ?? "");
+      setMessagesEnabled(event.messages_enabled ?? false);
     }
 
     if (mode === "create") {
       setTitle("");
       setEventDate("");
+      setMessagesEnabled(false);
     }
   }, [mode, event, open]);
 
@@ -65,10 +68,12 @@ export default function EventDialog({
       await createEvent({
         title,
         event_date: eventDate,
+        messages_enabled: messagesEnabled,
       });
 
       setTitle("");
       setEventDate("");
+      setMessagesEnabled(false);
     } else if (event) {
       await updateEvent(event.id, {
         title,
@@ -121,6 +126,8 @@ export default function EventDialog({
           eventDate={eventDate}
           onTitleChange={setTitle}
           onDateChange={setEventDate}
+          messagesEnabled={messagesEnabled}
+          onMessagesEnabledChange={setMessagesEnabled}
         />
 
         <Button

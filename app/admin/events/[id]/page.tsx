@@ -133,7 +133,6 @@ export default async function EventPage({ params }: Props) {
             <div className="flex flex-wrap gap-2">
               <Link
                 href={"/e/" + typedEvent.slug}
-                target="_blank"
                 className="inline-flex h-9 items-center gap-1.5 rounded-full border border-[#E7DCC8] bg-white px-3.5 text-xs font-medium text-[#5C554B] transition-colors hover:bg-[#F7F3EC]"
               >
                 <ExternalLink size={14} />
@@ -141,7 +140,6 @@ export default async function EventPage({ params }: Props) {
               </Link>
               <Link
                 href={"/mi-galeria/" + typedEvent.organizer_token}
-                target="_blank"
                 className="inline-flex h-9 items-center rounded-full border border-[#E7DCC8] bg-white px-3.5 text-xs font-medium text-[#5C554B] transition-colors hover:bg-[#F7F3EC]"
               >
                 Vista organizador

@@ -8,7 +8,6 @@ import {
   Download,
   MessageCircle,
   Mic,
-  Sparkles,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -18,6 +17,37 @@ const demoUrl =
 
 const purchaseUrl =
   "https://melissartedecorativo.com/products/galeria-digital-para-tu-evento";
+
+const features = [
+  {
+    icon: Camera,
+    eyebrow: "01 · Fotografías",
+    title: "Todos comparten",
+    text: "Tus invitados suben las fotos que toman durante el evento desde su celular.",
+  },
+  {
+    icon: MessageCircle,
+    eyebrow: "02 · Mensajes",
+    title: "Palabras que quedan",
+    text: "Recibe dedicatorias, recuerdos y buenos deseos que podrás conservar.",
+  },
+  {
+    icon: Mic,
+    eyebrow: "03 · Voces",
+    title: "Escucha sus voces",
+    text: "Mensajes de voz de quienes estuvieron ahí, para volver a escucharlos después.",
+  },
+];
+
+const included = [
+  "Fotografías ilimitadas",
+  "QR y enlace personalizado",
+  "Presentación de fotos en vivo",
+  "Mensajes escritos y de voz",
+  "Libro de firmas en PDF",
+  "Audios en archivo ZIP",
+  "Disponible durante el evento y 30 días después",
+];
 
 export default function HomePage() {
   return (
@@ -47,8 +77,8 @@ export default function HomePage() {
             </h1>
 
             <p className="mx-auto mt-7 max-w-2xl text-base leading-7 text-[#625A50] sm:text-lg sm:leading-8">
-              Fotos, mensajes escritos y voces de tus invitados, reunidos en
-              una galería creada especialmente para tu evento.
+              Tus invitados comparten fotos, mensajes y voces en una galería
+              creada especialmente para tu evento.
             </p>
 
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -81,43 +111,24 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Promise */}
+      {/* What guests can add */}
       <section className="border-t border-[#EAE2D8] px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-5xl">
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#A88249]">
-              No guardes solo las fotos
+              Tu evento, visto por todos
             </p>
             <h2 className="mt-4 font-[var(--font-display)] text-4xl font-semibold leading-none tracking-[-0.025em] text-[#1F1F1F] sm:text-5xl">
-              Guarda también lo que se sintió.
+              Cada invitado deja algo.
             </h2>
             <p className="mt-5 text-base leading-7 text-[#6C645A]">
-              Cada invitado puede aportar algo distinto. Una fotografía, unas
-              palabras o incluso su propia voz.
+              En lugar de pedir las fotos después, deja que todos las
+              compartan mientras el evento sucede.
             </p>
           </div>
 
           <div className="mt-12 grid gap-5 md:grid-cols-3">
-            {[
-              {
-                icon: Camera,
-                eyebrow: "01 · Fotografías",
-                title: "Todos comparten",
-                text: "Reúne las fotos que tus invitados tomaron desde sus propios celulares.",
-              },
-              {
-                icon: MessageCircle,
-                eyebrow: "02 · Mensajes",
-                title: "Palabras que quedan",
-                text: "Dedicatorias, recuerdos y buenos deseos que podrás conservar después del evento.",
-              },
-              {
-                icon: Mic,
-                eyebrow: "03 · Voces",
-                title: "Escucha el momento",
-                text: "Mensajes de voz de quienes estuvieron ahí, para volver a escucharlos cuando quieras.",
-              },
-            ].map(({ icon: Icon, eyebrow, title, text }) => (
+            {features.map(({ icon: Icon, eyebrow, title, text }) => (
               <article
                 key={eyebrow}
                 className="rounded-[1.6rem] border border-[#E5DCCF] bg-[#FFFDF9] p-7 shadow-[0_12px_35px_rgba(74,59,40,0.06)]"
@@ -138,38 +149,63 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Book of signatures */}
+      {/* Keep it after the event */}
       <section className="bg-[#1B1A17] px-5 py-16 text-white sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-6xl">
-          <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#D5BD94]">
-              Libro de firmas digital
+              Después del evento
             </p>
             <h2 className="mt-4 font-[var(--font-display)] text-5xl font-semibold leading-[0.9] tracking-[-0.03em] sm:text-6xl">
-              Un recuerdo que también puedes volver a escuchar.
+              Lo mejor no termina esa noche.
             </h2>
-            <p className="mt-6 text-base leading-7 text-white/65 sm:text-lg sm:leading-8">
-              Los mensajes de tus invitados se convierten en parte de la
-              historia de tu evento. Escritos para leerlos y voces para
-              escucharlas otra vez.
+            <p className="mt-6 max-w-xl text-base leading-7 text-white/65 sm:text-lg sm:leading-8">
+              Cuando termine la celebración, tus recuerdos siguen contigo.
+              Conserva las fotografías y descarga todo lo que tus invitados
+              dejaron.
             </p>
+
+            <div className="mt-8 flex flex-wrap gap-2">
+              <span className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-white/65">
+                Libro de firmas en PDF
+              </span>
+              <span className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-white/65">
+                Audios en ZIP
+              </span>
+              <span className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-white/65">
+                Fotografías
+              </span>
+            </div>
           </div>
 
-          <div className="mx-auto mt-10 grid max-w-4xl gap-3 sm:grid-cols-2">
-            {[
-              ["Mensajes escritos", MessageCircle],
-              ["Mensajes de voz", Mic],
-              ["Libro de firmas en PDF", BookOpen],
-              ["Audios en archivo ZIP", Download],
-            ].map(([label, Icon]) => (
-              <div
-                key={label as string}
-                className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3.5"
-              >
-                <Icon size={17} className="shrink-0 text-[#D5BD94]" />
-                <span className="text-sm text-white/80">{label as string}</span>
+          <div className="rounded-[1.8rem] border border-white/10 bg-white/[0.04] p-6 sm:p-7">
+            <div className="flex items-start gap-4 border-b border-white/10 pb-5">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#A88249] text-white">
+                <BookOpen size={19} />
               </div>
-            ))}
+              <div>
+                <p className="font-[var(--font-display)] text-2xl font-semibold">
+                  Libro de firmas
+                </p>
+                <p className="mt-1 text-sm leading-6 text-white/55">
+                  Todos los mensajes escritos reunidos en un PDF.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4 pt-5">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#A88249] text-white">
+                <Download size={19} />
+              </div>
+              <div>
+                <p className="font-[var(--font-display)] text-2xl font-semibold">
+                  Tus recuerdos, contigo
+                </p>
+                <p className="mt-1 text-sm leading-6 text-white/55">
+                  Descarga tus fotos y mensajes de voz al terminar el evento.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -179,18 +215,30 @@ export default function HomePage() {
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#A88249]">
-              Así de fácil
+              Así funciona
             </p>
             <h2 className="mt-4 font-[var(--font-display)] text-4xl font-semibold leading-none tracking-[-0.025em] sm:text-5xl">
-              Comparte. Vive. Recuerda.
+              Tres pasos y listo.
             </h2>
           </div>
 
           <div className="mt-12 grid gap-5 md:grid-cols-3">
             {[
-              ["01", "Comparte", "Coloca el QR o comparte el enlace de tu galería con tus invitados."],
-              ["02", "Vive", "Recibe fotos, mensajes escritos y audios mientras el evento sucede."],
-              ["03", "Recuerda", "Descarga tus fotografías, el libro de firmas y los mensajes de voz."],
+              [
+                "01",
+                "Comparte",
+                "Coloca el QR o comparte el enlace de tu galería con tus invitados.",
+              ],
+              [
+                "02",
+                "Disfruta",
+                "Ellos suben fotos y dejan mensajes mientras el evento sucede.",
+              ],
+              [
+                "03",
+                "Conserva",
+                "Al terminar, descarga tus fotos, el libro de firmas y los audios.",
+              ],
             ].map(([number, title, text]) => (
               <article
                 key={number}
@@ -209,47 +257,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Experience statement */}
-      <section className="px-5 py-16 sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-5xl">
-          <div className="relative overflow-hidden rounded-[2.2rem] bg-[#1B1A17] px-6 py-12 text-center text-white shadow-[0_30px_80px_rgba(31,31,31,0.18)] sm:px-12 sm:py-16">
-            <div className="pointer-events-none absolute -left-16 -top-16 h-44 w-44 rounded-full bg-[#D5BD94]/10 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-20 -right-10 h-52 w-52 rounded-full bg-[#A88249]/10 blur-3xl" />
-
-            <div className="relative mx-auto max-w-3xl">
-              <div className="flex justify-center gap-3 text-[#D5BD94]">
-                <Camera size={18} />
-                <MessageCircle size={18} />
-                <Mic size={18} />
-              </div>
-
-              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.24em] text-[#D5BD94]">
-                Todo forma parte del recuerdo
-              </p>
-
-              <h2 className="mt-4 font-[var(--font-display)] text-5xl font-semibold leading-[0.9] tracking-[-0.03em] sm:text-6xl">
-                Una galería que guarda más que fotografías.
-              </h2>
-
-              <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/65 sm:text-lg">
-                Desde el primer mensaje hasta la última fotografía, tus
-                invitados dejan una parte de su experiencia para que puedas
-                volver a vivirla después.
-              </p>
-
-              <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-xs text-white/55">
-                <span className="rounded-full border border-white/10 px-3 py-1.5">Fotos</span>
-                <span className="rounded-full border border-white/10 px-3 py-1.5">Mensajes</span>
-                <span className="rounded-full border border-white/10 px-3 py-1.5">Voces</span>
-                <span className="rounded-full border border-white/10 px-3 py-1.5">Libro de firmas</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Pricing */}
-      <section className="px-5 pb-16 sm:px-8 sm:pb-20">
+      <section className="px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-5xl">
           <div className="grid overflow-hidden rounded-[2.2rem] border border-[#E4DACD] bg-[#FFFDF9] shadow-[0_18px_60px_rgba(74,59,40,0.07)] lg:grid-cols-[0.9fr_1.1fr]">
             <div className="bg-[#EEE7DC] p-7 sm:p-10">
@@ -257,7 +266,7 @@ export default function HomePage() {
                 Precio de lanzamiento
               </p>
               <h2 className="mt-4 max-w-sm font-[var(--font-display)] text-5xl font-semibold leading-[0.9] tracking-[-0.03em]">
-                Tu historia merece quedarse.
+                Una forma distinta de guardar tu evento.
               </h2>
               <p className="mt-5 max-w-sm text-sm leading-6 text-[#6E665C]">
                 Crea una galería personalizada para tu boda, XV años o evento
@@ -265,14 +274,20 @@ export default function HomePage() {
               </p>
 
               <div className="mt-8 flex items-end gap-3">
-                <span className="text-sm text-[#8B8174] line-through">$449 MXN</span>
+                <span className="text-sm text-[#8B8174] line-through">
+                  $449 MXN
+                </span>
                 <span className="font-[var(--font-display)] text-6xl font-semibold leading-none text-[#A88249]">
                   $349
                 </span>
-                <span className="mb-1 text-sm font-medium text-[#7A6A52]">MXN</span>
+                <span className="mb-1 text-sm font-medium text-[#7A6A52]">
+                  MXN
+                </span>
               </div>
 
-              <p className="mt-2 text-sm font-medium text-[#A88249]">Ahorras $100 MXN</p>
+              <p className="mt-2 text-sm font-medium text-[#A88249]">
+                Ahorras $100 MXN
+              </p>
 
               <Link href={purchaseUrl}>
                 <Button className="mt-7 h-12 w-full rounded-full bg-[#1F1F1F] text-sm font-medium text-white hover:bg-[#2E2B27]">
@@ -286,19 +301,15 @@ export default function HomePage() {
               <p className="text-sm font-medium text-[#2F2A25]">Todo incluido</p>
 
               <div className="mt-6 space-y-3">
-                {[
-                  "Fotografías ilimitadas",
-                  "QR y enlace personalizado",
-                  "Presentación de fotos en vivo",
-                  "Mensajes escritos de invitados",
-                  "Mensajes de voz de invitados",
-                  "Libro de firmas en PDF",
-                  "Descarga de audios en ZIP",
-                  "Disponible durante el evento y 30 días después",
-                ].map((item) => (
+                {included.map((item) => (
                   <div key={item} className="flex items-start gap-3">
-                    <Check size={17} className="mt-0.5 shrink-0 text-[#A88249]" />
-                    <span className="text-sm leading-6 text-[#615950]">{item}</span>
+                    <Check
+                      size={17}
+                      className="mt-0.5 shrink-0 text-[#A88249]"
+                    />
+                    <span className="text-sm leading-6 text-[#615950]">
+                      {item}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -310,17 +321,12 @@ export default function HomePage() {
       {/* Final CTA */}
       <section className="px-5 pb-10 sm:px-8 sm:pb-14">
         <div className="mx-auto max-w-4xl text-center">
-          <div className="flex justify-center gap-3 text-[#A88249]">
-            <Camera size={17} />
-            <Sparkles size={17} />
-            <Mic size={17} />
-          </div>
-
-          <p className="mt-5 font-[var(--font-display)] text-4xl font-semibold leading-none tracking-[-0.025em] text-[#1F1F1F] sm:text-5xl">
-            Hay momentos que pasan una sola vez.
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#A88249]">
+            Tu evento merece recordarse completo
           </p>
-          <h2 className="mt-2 font-[var(--font-display)] text-4xl font-semibold leading-none tracking-[-0.025em] text-[#A88249] sm:text-5xl">
-            Haz que todos puedan quedarse contigo.
+
+          <h2 className="mt-4 font-[var(--font-display)] text-4xl font-semibold leading-[0.95] tracking-[-0.025em] text-[#1F1F1F] sm:text-5xl">
+            Haz que tus invitados también formen parte del recuerdo.
           </h2>
 
           <Link href={purchaseUrl}>
@@ -344,7 +350,9 @@ export default function HomePage() {
                 height={50}
                 className="h-auto w-[90px]"
               />
-              <span className="text-xs text-[#81786D]">Un servicio de MelissArte.</span>
+              <span className="text-xs text-[#81786D]">
+                Un servicio de MelissArte.
+              </span>
             </div>
 
             <div className="flex items-center gap-5">

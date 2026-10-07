@@ -656,7 +656,7 @@ useEffect(() => {
           </p>
 
           <div className="mt-2 flex items-center justify-center gap-2">
-            <h2 className="font-[var(--font-display)] text-[2rem] font-semibold leading-none tracking-[-0.02em] text-[#1F1F1F] sm:text-[2.5rem]">
+            <h2 className="font-[var(--font-display)] text-2xl font-semibold leading-none tracking-[-0.02em] text-[#1F1F1F]">
               Recuerdos de este día
             </h2>
 

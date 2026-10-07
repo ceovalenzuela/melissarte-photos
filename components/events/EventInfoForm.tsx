@@ -104,6 +104,54 @@ export default function EventInfoForm({
       <div className="border-t border-[#E7DCC8] pt-5">
         <div className="mb-3">
           <p className="text-sm font-medium text-[#5C554B]">
+            Mensajes de invitados
+          </p>
+          <p className="mt-1 text-xs text-[#8B8378]">
+            Controla si los invitados pueden dejar mensajes escritos y de voz en esta galería.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => update("messages_enabled", !values.messages_enabled)}
+          className={
+            values.messages_enabled
+              ? "flex w-full items-center justify-between gap-4 rounded-xl border border-[#B9CDBF] bg-[#F1F8F3] px-4 py-3 text-left text-[#316D45]"
+              : "flex w-full items-center justify-between gap-4 rounded-xl border border-[#E7DCC8] bg-white px-4 py-3 text-left text-[#6F665B] hover:bg-[#F8F4EE]"
+          }
+        >
+          <span>
+            <span className="block text-sm font-medium">
+              {values.messages_enabled ? "Mensajes habilitados" : "Mensajes deshabilitados"}
+            </span>
+            <span className="mt-0.5 block text-xs opacity-80">
+              {values.messages_enabled
+                ? "Tus invitados pueden compartir palabras y voces."
+                : "La sección de mensajes no se mostrará a los invitados."}
+            </span>
+          </span>
+          <span
+            className={
+              values.messages_enabled
+                ? "relative h-6 w-11 rounded-full bg-[#A88249]"
+                : "relative h-6 w-11 rounded-full bg-[#D9D2C7]"
+            }
+            aria-hidden="true"
+          >
+            <span
+              className={
+                values.messages_enabled
+                  ? "absolute left-6 top-1 h-4 w-4 rounded-full bg-white shadow-sm"
+                  : "absolute left-1 top-1 h-4 w-4 rounded-full bg-white shadow-sm"
+              }
+            />
+          </span>
+        </button>
+      </div>
+
+      <div className="border-t border-[#E7DCC8] pt-5">
+        <div className="mb-3">
+          <p className="text-sm font-medium text-[#5C554B]">
             Estado de la galería
           </p>
           <p className="mt-1 text-xs text-[#8B8378]">

@@ -8,6 +8,7 @@ import {
   Download,
   MessageCircle,
   Mic,
+  Sparkles,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -208,25 +209,42 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Demo CTA */}
+      {/* Experience statement */}
       <section className="px-5 py-16 sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-5xl overflow-hidden rounded-[2.2rem] bg-[#1B1A17] px-6 py-12 text-center text-white shadow-[0_30px_80px_rgba(31,31,31,0.18)] sm:px-12 sm:py-16">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#D5BD94]">
-            Conoce la experiencia
-          </p>
-          <h2 className="mx-auto mt-4 max-w-3xl font-[var(--font-display)] text-5xl font-semibold leading-[0.9] tracking-[-0.03em] sm:text-6xl">
-            Una galería que se siente como parte del evento.
-          </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/65 sm:text-lg">
-            Explora una galería demo y descubre cómo tus invitados pueden
-            compartir fotos, dejar recuerdos y grabar su voz.
-          </p>
-          <Link href={demoUrl} target="_blank" rel="noopener noreferrer">
-            <Button className="mt-8 h-12 rounded-full bg-[#D5BD94] px-7 text-sm font-medium text-[#211E1A] hover:bg-[#E2CFAD]">
-              Ver galería demo
-              <ArrowRight size={17} className="ml-2" />
-            </Button>
-          </Link>
+        <div className="mx-auto max-w-5xl">
+          <div className="relative overflow-hidden rounded-[2.2rem] bg-[#1B1A17] px-6 py-12 text-center text-white shadow-[0_30px_80px_rgba(31,31,31,0.18)] sm:px-12 sm:py-16">
+            <div className="pointer-events-none absolute -left-16 -top-16 h-44 w-44 rounded-full bg-[#D5BD94]/10 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-20 -right-10 h-52 w-52 rounded-full bg-[#A88249]/10 blur-3xl" />
+
+            <div className="relative mx-auto max-w-3xl">
+              <div className="flex justify-center gap-3 text-[#D5BD94]">
+                <Camera size={18} />
+                <MessageCircle size={18} />
+                <Mic size={18} />
+              </div>
+
+              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.24em] text-[#D5BD94]">
+                Todo forma parte del recuerdo
+              </p>
+
+              <h2 className="mt-4 font-[var(--font-display)] text-5xl font-semibold leading-[0.9] tracking-[-0.03em] sm:text-6xl">
+                Una galería que guarda más que fotografías.
+              </h2>
+
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/65 sm:text-lg">
+                Desde el primer mensaje hasta la última fotografía, tus
+                invitados dejan una parte de su experiencia para que puedas
+                volver a vivirla después.
+              </p>
+
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-xs text-white/55">
+                <span className="rounded-full border border-white/10 px-3 py-1.5">Fotos</span>
+                <span className="rounded-full border border-white/10 px-3 py-1.5">Mensajes</span>
+                <span className="rounded-full border border-white/10 px-3 py-1.5">Voces</span>
+                <span className="rounded-full border border-white/10 px-3 py-1.5">Libro de firmas</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -292,7 +310,13 @@ export default function HomePage() {
       {/* Final CTA */}
       <section className="px-5 pb-10 sm:px-8 sm:pb-14">
         <div className="mx-auto max-w-4xl text-center">
-          <p className="font-[var(--font-display)] text-4xl font-semibold leading-none tracking-[-0.025em] text-[#1F1F1F] sm:text-5xl">
+          <div className="flex justify-center gap-3 text-[#A88249]">
+            <Camera size={17} />
+            <Sparkles size={17} />
+            <Mic size={17} />
+          </div>
+
+          <p className="mt-5 font-[var(--font-display)] text-4xl font-semibold leading-none tracking-[-0.025em] text-[#1F1F1F] sm:text-5xl">
             Hay momentos que pasan una sola vez.
           </p>
           <h2 className="mt-2 font-[var(--font-display)] text-4xl font-semibold leading-none tracking-[-0.025em] text-[#A88249] sm:text-5xl">
@@ -325,7 +349,7 @@ export default function HomePage() {
 
             <div className="flex items-center gap-5">
               <a
-                href="https://wa.me/525649445427"
+                href="https://wa.me/528133867050"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs font-medium text-[#5F574D] transition-colors hover:text-[#A88249]"

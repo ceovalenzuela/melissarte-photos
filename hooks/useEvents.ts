@@ -50,6 +50,7 @@ export function useEvents() {
   async function createEvent(data: {
     title: string;
     event_date: string;
+    messages_enabled: boolean;
   }) {
     setLoading(true);
 
@@ -60,6 +61,7 @@ export function useEvents() {
           title: data.title,
           slug: generateSlug(data.title),
           event_date: data.event_date,
+          messages_enabled: data.messages_enabled,
         });
 
       if (error) throw error;

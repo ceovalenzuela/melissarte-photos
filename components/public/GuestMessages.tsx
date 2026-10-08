@@ -61,9 +61,7 @@ export default function GuestMessages({
   const [downloading, setDownloading] =
     useState<"pdf" | "audio" | null>(null);
 
-  const textCarouselRef =
-    useRef<HTMLDivElement | null>(null);
-  const audioCarouselRef =
+  const carouselRef =
     useRef<HTMLDivElement | null>(null);
 
   const loadMessages = useCallback(async () => {
@@ -116,11 +114,17 @@ export default function GuestMessages({
     (message) => message.message_type === "audio"
   );
 
+  useEffect(() => {
+    carouselRef.current?.scrollTo({
+      left: 0,
+      behavior: "auto",
+    });
+  }, [activeTab]);
+
   function scrollCarousel(
-    ref: React.RefObject<HTMLDivElement | null>,
     direction: "left" | "right"
   ) {
-    const element = ref.current;
+    const element = carouselRef.current;
 
     if (!element) return;
 
@@ -217,11 +221,6 @@ export default function GuestMessages({
     activeTab === "text"
       ? textMessages
       : audioMessages;
-
-  const activeCarouselRef =
-    activeTab === "text"
-      ? textCarouselRef
-      : audioCarouselRef;
 
   return (
     <section className="mt-16 border-t border-[#E7DCC8] pt-12 md:mt-20 md:pt-14">
@@ -465,10 +464,7 @@ export default function GuestMessages({
               <button
                 type="button"
                 onClick={() =>
-                  scrollCarousel(
-                    activeCarouselRef,
-                    "left"
-                  )
+                  scrollCarousel("left")
                 }
                 aria-label="Ver anteriores"
                 className="
@@ -492,10 +488,7 @@ export default function GuestMessages({
               <button
                 type="button"
                 onClick={() =>
-                  scrollCarousel(
-                    activeCarouselRef,
-                    "right"
-                  )
+                  scrollCarousel("right")
                 }
                 aria-label="Ver siguientes"
                 className="
@@ -557,7 +550,7 @@ export default function GuestMessages({
           </div>
         ) : (
           <div
-            ref={activeCarouselRef}
+            ref={carouselRef}
             className="
               mt-5
               flex

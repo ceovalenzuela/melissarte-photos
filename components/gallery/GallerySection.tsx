@@ -452,6 +452,17 @@ setPresentationIndex(0);
   }, []);
 
   useEffect(() => {
+    const shouldOpenPresentation =
+      new URLSearchParams(window.location.search).get("presentation") === "1";
+
+    if (!shouldOpenPresentation || loading || presentationOpen) {
+      return;
+    }
+
+    handleOpenPresentation();
+  }, [loading, presentationOpen, event.id]);
+
+  useEffect(() => {
     if (!presentationOpen) {
       setQrDataUrl("");
       return;

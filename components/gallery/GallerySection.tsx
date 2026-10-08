@@ -61,6 +61,9 @@ export default function GallerySection({
   const [loadingMore, setLoadingMore] =
     useState(false);
 
+  const [animateGalleryPhotos, setAnimateGalleryPhotos] =
+    useState(true);
+
   const [organizerToken, setOrganizerToken] =
     useState<string | null>(null);
 
@@ -235,13 +238,47 @@ export default function GallerySection({
     if (loadingMore) return;
 
     setLoadingMore(true);
+    setAnimateGalleryPhotos(false);
 
     try {
-      await loadPhotos(
-        page + 1,
-        false,
+      const nextPage = page + 1;
+      const result = await getPhotosByEvent(
+        event.id,
+        nextPage,
+        GALLERY_PAGE_SIZE,
         sortOrder
       );
+
+      // Pre-carga todas las miniaturas antes de agregarlas al DOM.
+      // Así el navegador no va revelando las fotos en distintos momentos
+      // y la nueva tanda aparece de forma mucho más estable.
+      await Promise.all(
+        result.photos.map(
+          (photo) =>
+            new Promise<void>((resolve) => {
+              const image = new Image();
+
+              image.onload = () => resolve();
+              image.onerror = () => resolve();
+              image.src = photo.thumbnail_url;
+            })
+        )
+      );
+
+      setPhotos((current) => [
+        ...current,
+        ...result.photos,
+      ]);
+
+      setHasMore(
+        result.photos.length === GALLERY_PAGE_SIZE
+      );
+      setPage(nextPage);
+      setTotalPhotos(result.total);
+      onTotalPhotosChange?.(result.total);
+    } catch (error) {
+      console.error(error);
+      setError(true);
     } finally {
       setLoadingMore(false);
     }
@@ -835,6 +872,7 @@ useEffect(() => {
           totalPhotos={totalPhotos}
           loading={loading}
           onPhotoClick={handlePhotoClick}
+          animatePhotos={animateGalleryPhotos}
           canDeletePhotos={Boolean(organizerToken)}
           deletingPhotoId={deletingPhotoId}
           onDeletePhoto={handleDeletePhoto}

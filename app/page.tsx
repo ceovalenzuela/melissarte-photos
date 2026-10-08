@@ -84,52 +84,9 @@ export default function HomePage() {
               <span>Fotos ilimitadas</span>
               <span>QR + enlace</span>
               <span>Mensajes escritos y de voz</span>
-              <span>30 días</span>
             </div>
           </div>
 
-          {/* Hero event image */}
-          <div className="mx-auto mt-12 max-w-5xl sm:mt-16">
-            <div className="grid overflow-hidden rounded-[2rem] border border-[#E2D8CA] bg-[#FBF9F5] shadow-[0_30px_80px_rgba(48,38,25,0.11)] md:grid-cols-[0.9fr_1.1fr] md:items-stretch">
-              <div className="flex flex-col justify-center p-7 sm:p-10 md:p-12">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#A88249]">
-                  Recuerdos que se comparten
-                </p>
-                <h2 className="mt-4 font-[var(--font-display)] text-3xl font-semibold leading-[0.95] tracking-[-0.025em] text-[#302B25] sm:text-4xl">
-                  Tu evento, también contado por tus invitados.
-                </h2>
-                <p className="mt-5 text-sm leading-6 text-[#6C645A] sm:text-base sm:leading-7">
-                  Una forma sencilla de reunir las fotografías, palabras y voces que hacen especial cada celebración.
-                </p>
-
-                <div className="mt-7 flex flex-wrap gap-x-5 gap-y-3 text-xs font-medium text-[#6D655B]">
-                  <span className="flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#A88249]" />
-                    Fotos ilimitadas
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#A88249]" />
-                    Mensajes y voces
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#A88249]" />
-                    Presentación en vivo
-                  </span>
-                </div>
-              </div>
-
-              <div className="relative min-h-[300px] sm:min-h-[380px] md:min-h-[440px]">
-                <Image
-                  src="https://frnmkhffpbykbtvhpkxq.supabase.co/storage/v1/object/public/event-covers/061b9c0c-3688-4a8d-b24d-cdf0c296318c-1791435877254.png"
-                  alt="Boda Sofía y Alejandro"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 55vw"
-                  className="object-cover object-center"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 

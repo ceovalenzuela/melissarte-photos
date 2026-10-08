@@ -16,6 +16,8 @@ import {
 import { Event } from "@/types/event";
 import { Message } from "@/types/message";
 
+import GuestAudioMessageCard from "@/components/public/GuestAudioMessageCard";
+
 interface Props {
   event: Event;
 }
@@ -201,82 +203,77 @@ export default function AdminMessageManager({
         </p>
       ) : (
         <div className="space-y-3">
-          {activeMessages.map((message) => (
-            <article
-              key={message.id}
-              className="
-                relative
-                rounded-2xl
-                border
-                border-[#E7DCC8]
-                bg-white
-                p-4
-                pr-12
-              "
-            >
-              <div className="flex items-center gap-2">
-                <p className="truncate text-sm font-semibold text-[#3F3A34]">
-                  {message.author_name || "Invitado"}
-                </p>
+          {activeMessages.map((message) =>
+            message.message_type === "audio" && message.public_url ? (
+              <GuestAudioMessageCard
+                key={message.id}
+                message={message}
+                canDelete
+                deleting={deletingMessageId === message.id}
+                onDelete={() => handleDelete(message)}
+              />
+            ) : (
+              <article
+                key={message.id}
+                className="
+                  relative
+                  rounded-2xl
+                  border
+                  border-[#E7DCC8]
+                  bg-white
+                  p-4
+                  pr-12
+                "
+              >
+                <div className="flex items-center gap-2">
+                  <p className="truncate text-sm font-semibold text-[#3F3A34]">
+                    {message.author_name || "Invitado"}
+                  </p>
 
-                <Heart
-                  size={13}
-                  className="shrink-0 text-[#C5A36A]"
-                  fill="currentColor"
-                />
-              </div>
+                  <Heart
+                    size={13}
+                    className="shrink-0 text-[#C5A36A]"
+                    fill="currentColor"
+                  />
+                </div>
 
-              {message.message_type === "text" ? (
                 <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-[#5C554B]">
                   {message.content}
                 </p>
-              ) : message.public_url ? (
-                <audio
-                  controls
-                  preload="metadata"
-                  src={message.public_url}
-                  className="mt-2 w-full"
-                />
-              ) : (
-                <p className="mt-2 text-sm text-[#9A9287]">
-                  Este audio no está disponible.
-                </p>
-              )}
 
-              <button
-                type="button"
-                onClick={() => handleDelete(message)}
-                disabled={
-                  deletingMessageId === message.id
-                }
-                aria-label="Eliminar mensaje"
-                className="
-                  absolute
-                  right-2
-                  top-2
-                  flex
-                  h-8
-                  w-8
-                  items-center
-                  justify-center
-                  rounded-full
-                  bg-black/5
-                  text-[#6F665B]
-                  transition-colors
-                  hover:bg-red-50
-                  hover:text-red-600
-                  disabled:cursor-wait
-                  disabled:opacity-60
-                "
-              >
-                {deletingMessageId === message.id ? (
-                  <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#D9CBB3] border-t-[#6F665B]" />
-                ) : (
-                  <Trash2 size={15} />
-                )}
-              </button>
-            </article>
-          ))}
+                <button
+                  type="button"
+                  onClick={() => handleDelete(message)}
+                  disabled={deletingMessageId === message.id}
+                  aria-label="Eliminar mensaje"
+                  className="
+                    absolute
+                    right-2
+                    top-2
+                    flex
+                    h-8
+                    w-8
+                    items-center
+                    justify-center
+                    rounded-full
+                    bg-black/5
+                    text-[#6F665B]
+                    transition-colors
+                    hover:bg-red-50
+                    hover:text-red-600
+                    disabled:cursor-wait
+                    disabled:opacity-60
+                  "
+                >
+                  {deletingMessageId === message.id ? (
+                    <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#D9CBB3] border-t-[#6F665B]" />
+                  ) : (
+                    <Trash2 size={15} />
+                  )}
+                </button>
+              </article>
+            )
+          )}
         </div>
       )}
 

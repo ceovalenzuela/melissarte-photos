@@ -88,64 +88,100 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Real gallery preview */}
-          <div className="mx-auto mt-12 max-w-5xl">
-            <div className="relative mx-auto max-w-[340px] rounded-[2.4rem] border-[8px] border-[#211F1C] bg-[#211F1C] p-1.5 shadow-[0_30px_80px_rgba(48,38,25,0.22)] sm:max-w-[390px]">
-              <div className="absolute left-1/2 top-2 z-20 h-5 w-24 -translate-x-1/2 rounded-full bg-[#211F1C]" />
-              <div className="overflow-hidden rounded-[1.9rem] bg-[#FBF9F5]">
-                <div className="relative h-[500px]">
+          {/* Faithful gallery preview */}
+          <div className="mx-auto mt-12 max-w-4xl">
+            <div className="overflow-hidden rounded-[2rem] border border-[#E2D8CA] bg-[#FBF9F5] shadow-[0_30px_80px_rgba(48,38,25,0.13)]">
+              <div className="border-b border-[#E8DFD4] bg-white/80 px-4 py-3 sm:px-5">
+                <div className="mx-auto flex max-w-2xl items-center justify-between text-[9px] font-semibold uppercase tracking-[0.18em] text-[#A88249]">
+                  <span>Galería de tu evento</span>
+                  <span className="rounded-full bg-[#F3ECE2] px-2.5 py-1 text-[#8B6D3B]">Vista previa</span>
+                </div>
+              </div>
+
+              <div className="mx-auto max-w-2xl px-3 py-4 sm:px-6 sm:py-6">
+                {/* Real cover */}
+                <div className="relative aspect-[2/1] overflow-hidden rounded-[1.35rem] bg-[#E8E0D5]">
                   <Image
-                    src={galleryPhotos[0]}
-                    alt="Galería real de Boda Sofía y Alejandro"
+                    src="https://frnmkhffpbykbtvhpkxq.supabase.co/storage/v1/object/public/event-covers/061b9c0c-3688-4a8d-b24d-cdf0c296318c-1791435877254.png"
+                    alt="Portada real de Boda Sofía y Alejandro"
                     fill
                     priority
-                    sizes="390px"
+                    sizes="(max-width: 768px) 90vw, 640px"
                     className="object-cover object-center"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/10" />
-                  <div className="absolute inset-x-0 bottom-0 p-6 text-left text-white">
-                    <p className="text-[9px] font-semibold uppercase tracking-[0.24em] text-[#D5BD94]">
-                      Galería en vivo
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-5 text-white sm:p-7">
+                    <p className="font-[var(--font-display)] text-2xl font-semibold leading-none sm:text-4xl">
+                      Boda Sofía y Alejandro
                     </p>
-                    <p className="mt-2 font-[var(--font-display)] text-3xl font-semibold leading-none">
-                      Boda Sofía
-                      <br />
-                      y Alejandro
-                    </p>
-                    <p className="mt-2 text-xs text-white/75">
-                      Las nuevas fotografías aparecen aquí en tiempo real.
+                    <p className="mt-2 text-[11px] text-white/80 sm:text-xs">
+                      3 de octubre de 2026
                     </p>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-1.5 bg-[#FBF9F5] p-1.5">
-                  {galleryPhotos.slice(1, 5).map((photo, index) => (
-                    <div key={photo} className="relative aspect-[1.15] overflow-hidden rounded-xl">
+
+                {/* Real welcome card */}
+                <div className="mt-3 rounded-[1.2rem] border border-[#E8DFD4] bg-white p-5 shadow-[0_10px_30px_rgba(74,59,40,0.05)] sm:p-6">
+                  <p className="font-[var(--font-display)] text-2xl font-semibold leading-tight text-[#302B25] sm:text-3xl">
+                    ¡Bienvenidos a nuestra galería! 💛
+                  </p>
+                  <p className="mt-3 max-w-xl text-xs leading-5 text-[#6D655B] sm:text-sm sm:leading-6">
+                    Comparte las fotografías que tomaste durante nuestra boda y ayúdanos a guardar todos esos momentos.
+                  </p>
+                  <div className="my-4 h-px bg-[#EAE2D8]" />
+                  <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#A88249]">
+                    Comparte tus momentos
+                  </p>
+                  <span className="mt-3 inline-flex rounded-full bg-[#A88249] px-4 py-2 text-[10px] font-medium text-white shadow-sm">
+                    Subir fotografías
+                  </span>
+                </div>
+
+                {/* Real live gallery header */}
+                <div className="mt-6 flex items-start justify-between gap-4">
+                  <div>
+                    <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.18em] text-[#A88249]">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#A88249]" />
+                      Galería en vivo
+                    </div>
+                    <p className="mt-2 font-[var(--font-display)] text-2xl font-semibold leading-none text-[#302B25] sm:text-3xl">
+                      Recuerdos de este día <span className="text-[#8B8174]">52</span>
+                    </p>
+                    <p className="mt-2 text-[10px] leading-5 text-[#81786D] sm:text-xs">
+                      Las nuevas fotografías aparecen aquí en tiempo real.
+                    </p>
+                  </div>
+                  <span className="hidden shrink-0 rounded-full bg-[#1F1F1F] px-3 py-2 text-[9px] font-medium text-white sm:inline-flex">
+                    Ver presentación en vivo
+                  </span>
+                </div>
+
+                {/* Real photo masonry */}
+                <div className="mt-4 columns-2 gap-2.5 sm:gap-3">
+                  {galleryPhotos.map((photo, index) => (
+                    <div key={photo} className="mb-2.5 break-inside-avoid overflow-hidden rounded-xl bg-[#E8E0D5] sm:mb-3">
                       <Image
                         src={photo}
-                        alt={`Fotografía de ejemplo ${index + 2}`}
-                        fill
-                        sizes="180px"
-                        className="object-cover"
+                        alt={`Fotografía real de la galería, ejemplo ${index + 1}`}
+                        width={420}
+                        height={520}
+                        sizes="(max-width: 640px) 44vw, 300px"
+                        className="h-auto w-full object-cover"
                       />
                     </div>
                   ))}
                 </div>
-                <div className="flex items-center justify-center gap-2 bg-[#FBF9F5] px-4 py-4 text-[10px] text-[#7D7467]">
-                  <span className="rounded-full bg-[#1F1F1F] px-3 py-1.5 font-medium text-white">
-                    ▶ Ver presentación en vivo
-                  </span>
-                  <span className="rounded-full border border-[#DCCFBD] px-3 py-1.5">
+
+                <div className="mt-2 flex justify-center">
+                  <span className="rounded-full border border-[#DCCFBD] px-4 py-2 text-[9px] text-[#7D7467]">
                     Más recientes
                   </span>
                 </div>
               </div>
             </div>
-
-            <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-[10px] uppercase tracking-[0.16em] text-[#8B8174]">
-              <span className="rounded-full border border-[#DDD2C2] bg-white/70 px-3 py-1.5">Galería real</span>
-              <span className="rounded-full border border-[#DDD2C2] bg-white/70 px-3 py-1.5">Fotos en vivo</span>
-              <span className="rounded-full border border-[#DDD2C2] bg-white/70 px-3 py-1.5">Presentación</span>
-            </div>
+            <p className="mt-4 text-center text-[10px] uppercase tracking-[0.16em] text-[#8B8174]">
+              La misma experiencia de la galería demo, adaptada a esta página.
+            </p>
           </div>
         </div>
       </section>

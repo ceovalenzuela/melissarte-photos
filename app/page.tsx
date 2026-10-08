@@ -149,46 +149,33 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Keep it after the event */}
+      {/* After the event */}
       <section className="bg-[#1B1A17] px-5 py-16 text-white sm:px-8 sm:py-20">
         <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#D5BD94]">
-              Después del evento
+              Tu galería, contigo
             </p>
             <h2 className="mt-4 font-[var(--font-display)] text-5xl font-semibold leading-[0.9] tracking-[-0.03em] sm:text-6xl">
-              Lo mejor no termina esa noche.
+              Los recuerdos no terminan esa noche.
             </h2>
             <p className="mt-6 max-w-xl text-base leading-7 text-white/65 sm:text-lg sm:leading-8">
-              Cuando termine la celebración, tus recuerdos siguen contigo.
-              Conserva las fotografías y descarga todo lo que tus invitados
-              dejaron.
+              Tu galería se habilita 1 día antes del evento y permanece disponible
+              durante la celebración y hasta 30 días después.
             </p>
-
-            <div className="mt-8 flex flex-wrap gap-2">
-              <span className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-white/65">
-                Libro de firmas en PDF
-              </span>
-              <span className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-white/65">
-                Audios en ZIP
-              </span>
-              <span className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-white/65">
-                Fotografías
-              </span>
-            </div>
           </div>
 
           <div className="rounded-[1.8rem] border border-white/10 bg-white/[0.04] p-6 sm:p-7">
             <div className="flex items-start gap-4 border-b border-white/10 pb-5">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#A88249] text-white">
-                <BookOpen size={19} />
+                <Camera size={19} />
               </div>
               <div>
                 <p className="font-[var(--font-display)] text-2xl font-semibold">
-                  Libro de firmas
+                  Comparte en vivo
                 </p>
                 <p className="mt-1 text-sm leading-6 text-white/55">
-                  Todos los mensajes escritos reunidos en un PDF.
+                  Puedes proyectar la galería y ver cómo aparecen las fotografías mientras sucede el evento.
                 </p>
               </div>
             </div>
@@ -199,10 +186,10 @@ export default function HomePage() {
               </div>
               <div>
                 <p className="font-[var(--font-display)] text-2xl font-semibold">
-                  Tus recuerdos, contigo
+                  Conserva todo
                 </p>
                 <p className="mt-1 text-sm leading-6 text-white/55">
-                  Descarga tus fotos y mensajes de voz al terminar el evento.
+                  Descarga tus fotografías y, si elegiste Recuerdos, también tus mensajes y audios.
                 </p>
               </div>
             </div>
@@ -260,60 +247,108 @@ export default function HomePage() {
       {/* Pricing */}
       <section className="px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-5xl">
-          <div className="grid overflow-hidden rounded-[2.2rem] border border-[#E4DACD] bg-[#FFFDF9] shadow-[0_18px_60px_rgba(74,59,40,0.07)] lg:grid-cols-[0.9fr_1.1fr]">
-            <div className="bg-[#EEE7DC] p-7 sm:p-10">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#A88249]">
-                Precio de lanzamiento
-              </p>
-              <h2 className="mt-4 max-w-sm font-[var(--font-display)] text-5xl font-semibold leading-[0.9] tracking-[-0.03em]">
-                Una forma distinta de guardar tu evento.
-              </h2>
-              <p className="mt-5 max-w-sm text-sm leading-6 text-[#6E665C]">
-                Crea una galería personalizada para tu boda, XV años o evento
-                especial.
-              </p>
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#A88249]">
+              Elige tu experiencia
+            </p>
+            <h2 className="mt-4 font-[var(--font-display)] text-4xl font-semibold leading-none tracking-[-0.025em] text-[#1F1F1F] sm:text-5xl">
+              Tú decides cómo guardar el recuerdo.
+            </h2>
+            <p className="mt-5 text-base leading-7 text-[#6C645A]">
+              Ambas opciones incluyen una galería personalizada, QR y enlace para compartir, fotografías ilimitadas y presentación en vivo.
+            </p>
+          </div>
 
-              <div className="mt-8 flex items-end gap-3">
-                <span className="text-sm text-[#8B8174] line-through">
-                  $449 MXN
-                </span>
-                <span className="font-[var(--font-display)] text-6xl font-semibold leading-none text-[#A88249]">
-                  $349
-                </span>
-                <span className="mb-1 text-sm font-medium text-[#7A6A52]">
-                  MXN
-                </span>
+          <div className="mt-12 grid gap-5 lg:grid-cols-2">
+            <article className="rounded-[1.8rem] border border-[#E4DACD] bg-[#FFFDF9] p-7 shadow-[0_12px_40px_rgba(74,59,40,0.05)] sm:p-9">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#A88249]">
+                    📸 Galería Esencial
+                  </p>
+                  <p className="mt-3 text-sm leading-6 text-[#6D655B]">
+                    Para reunir y compartir las fotografías de tu evento en un solo lugar.
+                  </p>
+                </div>
+                <div className="shrink-0 text-right">
+                  <p className="font-[var(--font-display)] text-4xl font-semibold leading-none text-[#A88249]">
+                    $349
+                  </p>
+                  <p className="mt-1 text-xs text-[#8B8174]">MXN</p>
+                </div>
               </div>
 
-              <p className="mt-2 text-sm font-medium text-[#A88249]">
-                Ahorras $100 MXN
-              </p>
-
-              <Link href={purchaseUrl}>
-                <Button className="mt-7 h-12 w-full rounded-full bg-[#1F1F1F] text-sm font-medium text-white hover:bg-[#2E2B27]">
-                  Crear mi galería
-                  <ArrowRight size={17} className="ml-2" />
-                </Button>
-              </Link>
-            </div>
-
-            <div className="p-7 sm:p-10">
-              <p className="text-sm font-medium text-[#2F2A25]">Todo incluido</p>
-
-              <div className="mt-6 space-y-3">
-                {included.map((item) => (
+              <div className="mt-7 space-y-3 border-t border-[#EAE2D8] pt-6">
+                {[
+                  "Fotografías ilimitadas",
+                  "QR y enlace personalizado",
+                  "Galería con nombre, fecha, portada y bienvenida",
+                  "Modo presentación en vivo",
+                  "Descarga de fotografías en ZIP",
+                ].map((item) => (
                   <div key={item} className="flex items-start gap-3">
-                    <Check
-                      size={17}
-                      className="mt-0.5 shrink-0 text-[#A88249]"
-                    />
-                    <span className="text-sm leading-6 text-[#615950]">
-                      {item}
-                    </span>
+                    <Check size={17} className="mt-0.5 shrink-0 text-[#A88249]" />
+                    <span className="text-sm leading-6 text-[#615950]">{item}</span>
                   </div>
                 ))}
               </div>
-            </div>
+
+              <Link href={purchaseUrl}>
+                <Button variant="outline" className="mt-7 h-12 w-full rounded-full border-[#D1C2AC] bg-[#FBFAF8] text-sm font-medium text-[#2A2723] hover:bg-white">
+                  Elegir Galería Esencial
+                  <ArrowRight size={17} className="ml-2" />
+                </Button>
+              </Link>
+            </article>
+
+            <article className="relative rounded-[1.8rem] border border-[#CDB990] bg-[#F3ECE2] p-7 shadow-[0_14px_45px_rgba(74,59,40,0.08)] sm:p-9">
+              <span className="absolute right-6 top-6 rounded-full bg-[#A88249] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
+                Más completa
+              </span>
+
+              <div className="flex items-start justify-between gap-4 pr-24">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8B6D3B]">
+                    ✨ Galería Recuerdos
+                  </p>
+                  <p className="mt-3 text-sm leading-6 text-[#6D655B]">
+                    Además de las fotografías, conserva las palabras y voces de tus invitados.
+                  </p>
+                </div>
+                <div className="shrink-0 text-right">
+                  <p className="font-[var(--font-display)] text-4xl font-semibold leading-none text-[#A88249]">
+                    $449
+                  </p>
+                  <p className="mt-1 text-xs text-[#8B8174]">MXN</p>
+                </div>
+              </div>
+
+              <div className="mt-7 border-t border-[#DCCDB6] pt-6">
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-[#8B6D3B]">
+                  Incluye todo lo de Esencial, más:
+                </p>
+                <div className="space-y-3">
+                  {[
+                    "Mensajes escritos de tus invitados",
+                    "Mensajes de voz de hasta 60 segundos",
+                    "Libro de firmas digital en PDF",
+                    "Mensajes de voz descargables en ZIP",
+                  ].map((item) => (
+                    <div key={item} className="flex items-start gap-3">
+                      <Check size={17} className="mt-0.5 shrink-0 text-[#A88249]" />
+                      <span className="text-sm leading-6 text-[#615950]">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <Link href={purchaseUrl}>
+                <Button className="mt-7 h-12 w-full rounded-full bg-[#1F1F1F] text-sm font-medium text-white hover:bg-[#2E2B27]">
+                  Elegir Galería Recuerdos
+                  <ArrowRight size={17} className="ml-2" />
+                </Button>
+              </Link>
+            </article>
           </div>
         </div>
       </section>

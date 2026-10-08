@@ -88,103 +88,100 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Faithful gallery preview */}
-          <div className="mx-auto mt-12 max-w-4xl">
+          {/* Faithful mobile gallery preview */}
+          <div className="mx-auto mt-12 max-w-[360px] sm:max-w-[380px]">
             <div className="overflow-hidden rounded-[2rem] border border-[#E2D8CA] bg-[#FBF9F5] shadow-[0_30px_80px_rgba(48,38,25,0.13)]">
-              <div className="border-b border-[#E8DFD4] bg-white/80 px-4 py-3 sm:px-5">
-                <div className="mx-auto flex max-w-2xl items-center justify-between text-[9px] font-semibold uppercase tracking-[0.18em] text-[#A88249]">
-                  <span>Galería de tu evento</span>
-                  <span className="rounded-full bg-[#F3ECE2] px-2.5 py-1 text-[#8B6D3B]">Vista previa</span>
-                </div>
-              </div>
-
-              <div className="mx-auto max-w-2xl px-3 py-4 sm:px-6 sm:py-6">
-                {/* Real cover */}
-                <div className="relative aspect-[2/1] overflow-hidden rounded-[1.35rem] bg-[#E8E0D5]">
+              <div className="px-2.5 py-2 sm:px-3">
+                {/* Real mobile cover */}
+                <div className="relative aspect-[0.92] overflow-hidden rounded-[1.45rem] bg-[#E8E0D5]">
                   <Image
                     src="https://frnmkhffpbykbtvhpkxq.supabase.co/storage/v1/object/public/event-covers/061b9c0c-3688-4a8d-b24d-cdf0c296318c-1791435877254.png"
                     alt="Portada real de Boda Sofía y Alejandro"
                     fill
                     priority
-                    sizes="(max-width: 768px) 90vw, 640px"
+                    sizes="360px"
                     className="object-cover object-center"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 p-5 text-white sm:p-7">
-                    <p className="font-[var(--font-display)] text-2xl font-semibold leading-none sm:text-4xl">
-                      Boda Sofía y Alejandro
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-5 text-white sm:p-6">
+                    <p className="font-[var(--font-display)] text-[2rem] font-semibold leading-[0.9] tracking-[-0.025em]">
+                      Boda Sofía
+                      <br />
+                      y Alejandro
                     </p>
-                    <p className="mt-2 text-[11px] text-white/80 sm:text-xs">
+                    <p className="mt-3 flex items-center gap-1.5 text-[10px] text-white/85">
+                      <span>▣</span>
                       3 de octubre de 2026
                     </p>
                   </div>
                 </div>
 
-                {/* Real welcome card */}
-                <div className="mt-3 rounded-[1.2rem] border border-[#E8DFD4] bg-white p-5 shadow-[0_10px_30px_rgba(74,59,40,0.05)] sm:p-6">
-                  <p className="font-[var(--font-display)] text-2xl font-semibold leading-tight text-[#302B25] sm:text-3xl">
+                {/* Real mobile welcome card */}
+                <div className="relative z-10 mx-3 -mt-3 rounded-[1.35rem] border border-[#E8DFD4] bg-white px-5 py-5 text-center shadow-[0_14px_35px_rgba(74,59,40,0.10)]">
+                  <p className="font-[var(--font-display)] text-[15px] font-medium leading-5 text-[#302B25]">
                     ¡Bienvenidos a nuestra galería! 💛
                   </p>
-                  <p className="mt-3 max-w-xl text-xs leading-5 text-[#6D655B] sm:text-sm sm:leading-6">
+                  <p className="mt-5 text-[11px] leading-5 text-[#5F574D]">
                     Comparte las fotografías que tomaste durante nuestra boda y ayúdanos a guardar todos esos momentos.
                   </p>
                   <div className="my-4 h-px bg-[#EAE2D8]" />
-                  <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#A88249]">
+                  <p className="text-[8px] font-semibold uppercase tracking-[0.2em] text-[#8B8174]">
                     Comparte tus momentos
                   </p>
-                  <span className="mt-3 inline-flex rounded-full bg-[#A88249] px-4 py-2 text-[10px] font-medium text-white shadow-sm">
+                  <span className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#C8AB7B] px-4 py-2 text-[9px] font-medium text-white shadow-sm">
+                    <Camera size={11} />
                     Subir fotografías
                   </span>
+                  <p className="mt-2 text-[8px] text-[#8B8174]">
+                    Pronto podrás disfrutar de esta galería
+                  </p>
                 </div>
 
-                {/* Real live gallery header */}
-                <div className="mt-6 flex items-start justify-between gap-4">
-                  <div>
-                    <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.18em] text-[#A88249]">
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#A88249]" />
-                      Galería en vivo
-                    </div>
-                    <p className="mt-2 font-[var(--font-display)] text-2xl font-semibold leading-none text-[#302B25] sm:text-3xl">
-                      Recuerdos de este día <span className="text-[#8B8174]">52</span>
-                    </p>
-                    <p className="mt-2 text-[10px] leading-5 text-[#81786D] sm:text-xs">
-                      Las nuevas fotografías aparecen aquí en tiempo real.
-                    </p>
+                {/* Real mobile live gallery header */}
+                <div className="px-2.5 pb-5 pt-7 text-center">
+                  <div className="flex items-center justify-center gap-2 text-[8px] font-semibold uppercase tracking-[0.22em] text-[#A88249]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#A88249]" />
+                    Galería en vivo
                   </div>
-                  <span className="hidden shrink-0 rounded-full bg-[#1F1F1F] px-3 py-2 text-[9px] font-medium text-white sm:inline-flex">
-                    Ver presentación en vivo
+                  <p className="mt-2 font-[var(--font-display)] text-[1.35rem] font-semibold leading-none text-[#302B25]">
+                    Recuerdos de este día <span className="ml-1 text-[10px] font-normal text-[#A39A8F]">52</span>
+                  </p>
+                  <p className="mt-2 text-[9px] leading-4 text-[#81786D]">
+                    Las nuevas fotografías aparecen aquí en tiempo real.
+                  </p>
+                </div>
+
+                {/* Real mobile gallery controls */}
+                <div className="flex items-center justify-between gap-2 px-2.5 pb-3">
+                  <span className="rounded-full bg-[#1F1F1F] px-3 py-2 text-[8px] font-medium text-white">
+                    ▶ Ver presentación en vivo
+                  </span>
+                  <span className="rounded-full border border-[#DCCFBD] bg-white px-3 py-2 text-[8px] text-[#7D7467]">
+                    Más recientes⌄
                   </span>
                 </div>
 
-                {/* Real photo masonry */}
-                <div className="mt-4 columns-2 gap-2.5 sm:gap-3">
+                {/* Real mobile photo masonry */}
+                <div className="columns-2 gap-2.5 px-2.5 pb-2.5">
                   {galleryPhotos.map((photo, index) => (
-                    <div key={photo} className="mb-2.5 break-inside-avoid overflow-hidden rounded-xl bg-[#E8E0D5] sm:mb-3">
+                    <div key={photo} className="mb-2.5 break-inside-avoid overflow-hidden rounded-xl bg-[#E8E0D5]">
                       <Image
                         src={photo}
                         alt={`Fotografía real de la galería, ejemplo ${index + 1}`}
                         width={420}
                         height={520}
-                        sizes="(max-width: 640px) 44vw, 300px"
+                        sizes="170px"
                         className="h-auto w-full object-cover"
                       />
                     </div>
                   ))}
                 </div>
-
-                <div className="mt-2 flex justify-center">
-                  <span className="rounded-full border border-[#DCCFBD] px-4 py-2 text-[9px] text-[#7D7467]">
-                    Más recientes
-                  </span>
-                </div>
               </div>
             </div>
             <p className="mt-4 text-center text-[10px] uppercase tracking-[0.16em] text-[#8B8174]">
-              La misma experiencia de la galería demo, adaptada a esta página.
+              Así se verá tu galería desde el celular.
             </p>
           </div>
-        </div>
-      </section>
 
       {/* What guests can add */}
       <section className="border-t border-[#EAE2D8] px-5 py-16 sm:px-8 sm:py-20">

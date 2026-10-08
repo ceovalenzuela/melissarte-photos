@@ -305,7 +305,7 @@ export default function HomePage() {
             <p className="mt-6 max-w-xl text-base leading-7 text-white/65 sm:text-lg sm:leading-8">
               Proyecta la galería durante tu evento y deja que las fotografías de tus invitados aparezcan mientras sucede la celebración.
             </p>
-            <Link href={demoUrl} target="_blank" rel="noopener noreferrer">
+            <Link href={demoUrl + "?presentation=1"} target="_blank" rel="noopener noreferrer">
               <Button className="mt-7 h-12 rounded-full bg-white px-6 text-sm font-medium text-[#1F1F1F] hover:bg-white/90">
                 Ver presentación en vivo
                 <ArrowRight size={17} className="ml-2" />

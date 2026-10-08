@@ -267,7 +267,7 @@ export default function HomePage() {
             <h2 className="mt-4 font-[var(--font-display)] text-5xl font-semibold leading-[0.9] tracking-[-0.03em] sm:text-6xl">
               Tus recuerdos también pueden verse en vivo.
             </h2>
-            <p className="mt-6 max-w-xl text-base leading-7 text-[#6C645A] sm:text-lg sm:leading-8">
+            <p className="mt-6 max-w-xl text-base leading-7 text-white/65 sm:text-lg sm:leading-8">
               Proyecta la galería durante tu evento y deja que las fotografías de tus invitados aparezcan mientras sucede la celebración.
             </p>
             <Link href={demoUrl} target="_blank" rel="noopener noreferrer">
@@ -278,7 +278,7 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="relative overflow-hidden rounded-[1.8rem] border border-[#EAE2D8] bg-white/[0.04] p-3 shadow-[0_25px_70px_rgba(0,0,0,0.25)]">
+          <div className="relative overflow-hidden rounded-[1.8rem] border border-white/10 bg-white/[0.04] p-3 shadow-[0_25px_70px_rgba(0,0,0,0.25)]">
             <div className="relative aspect-[16/10] overflow-hidden rounded-[1.3rem]">
               <Image
                 src={galleryPhotos[4]}
@@ -296,7 +296,7 @@ export default function HomePage() {
                 <p className="mt-2 font-[var(--font-display)] text-2xl font-semibold sm:text-3xl">
                   Boda Sofía y Alejandro
                 </p>
-                <p className="mt-1 text-xs text-[#6C645A]">
+                <p className="mt-1 text-xs text-white/65">
                   Las fotografías aparecen conforme tus invitados las comparten.
                 </p>
               </div>

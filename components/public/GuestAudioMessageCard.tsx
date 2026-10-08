@@ -63,12 +63,18 @@ export default function GuestAudioMessageCard({
     }
 
     function handleTimeUpdate() {
-      setCurrentTime(audio.currentTime);
+      const currentAudio = audioRef.current;
+      if (!currentAudio) return;
+
+      setCurrentTime(currentAudio.currentTime);
     }
 
     function handleLoadedMetadata() {
-      if (Number.isFinite(audio.duration)) {
-        setDuration(audio.duration);
+      const currentAudio = audioRef.current;
+      if (!currentAudio) return;
+
+      if (Number.isFinite(currentAudio.duration)) {
+        setDuration(currentAudio.duration);
       }
     }
 

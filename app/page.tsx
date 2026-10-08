@@ -348,7 +348,7 @@ export default function HomePage() {
               Tu galería, contigo
             </p>
             <h2 className="mt-4 font-[var(--font-display)] text-5xl font-semibold leading-[0.9] tracking-[-0.03em] sm:text-6xl">
-              Los recuerdos no terminan esa noche.
+              Los recuerdos no terminan ese día.
             </h2>
             <p className="mt-6 max-w-xl text-base leading-7 text-[#6C645A] sm:text-lg sm:leading-8">
               Tu galería se habilita 1 día antes del evento y permanece disponible durante la celebración y hasta 30 días después.

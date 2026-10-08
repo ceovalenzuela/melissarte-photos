@@ -93,7 +93,7 @@ export default function HomePage() {
             <div className="overflow-hidden rounded-[2rem] border border-[#E2D8CA] bg-[#FBF9F5] shadow-[0_30px_80px_rgba(48,38,25,0.13)]">
               <div className="px-2.5 py-2 sm:px-3">
                 {/* Real mobile cover */}
-                <div className="relative aspect-[2.65] overflow-hidden rounded-[1.35rem] bg-[#E8E0D5]">
+                <div className="relative aspect-[0.88] overflow-hidden rounded-[1.35rem] bg-[#E8E0D5]">
                   <Image
                     src="https://frnmkhffpbykbtvhpkxq.supabase.co/storage/v1/object/public/event-covers/061b9c0c-3688-4a8d-b24d-cdf0c296318c-1791435877254.png"
                     alt="Portada real de Boda Sofía y Alejandro"
@@ -103,8 +103,8 @@ export default function HomePage() {
                     className="object-cover object-center"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 p-4 text-white">
-                    <p className="font-[var(--font-display)] text-[1.7rem] font-semibold leading-[0.9] tracking-[-0.025em]">
+                  <div className="absolute inset-x-0 bottom-0 p-4 text-white sm:p-5">
+                    <p className="font-[var(--font-display)] text-[1.65rem] font-semibold leading-[0.9] tracking-[-0.025em]">
                       Boda Sofía
                       <br />
                       y Alejandro
@@ -163,7 +163,7 @@ export default function HomePage() {
 
                 {/* Real mobile photo masonry */}
                 <div className="columns-2 gap-2.5 px-2.5 pb-2.5">
-                  {galleryPhotos.map((photo, index) => (
+                  {galleryPhotos.slice(0, 5).map((photo, index) => (
                     <div key={photo} className="mb-2.5 break-inside-avoid overflow-hidden rounded-xl bg-[#E8E0D5]">
                       <Image
                         src={photo}

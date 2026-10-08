@@ -63,14 +63,16 @@ export default async function ClientDashboardPage({
           <GallerySection event={event} />
         </div>
 
-        <GuestMessages
-          eventId={event.id}
-          event={event}
-          canDelete
-          showComposer={false}
-          showDownloads
-          organizerToken={token}
-        />
+        {event.messages_enabled && (
+          <GuestMessages
+            eventId={event.id}
+            event={event}
+            canDelete
+            showComposer={false}
+            showDownloads
+            organizerToken={token}
+          />
+        )}
 
         <div className="mt-10">
           <Footer />

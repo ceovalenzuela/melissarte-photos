@@ -182,6 +182,8 @@ export default function HomePage() {
               Así se verá tu galería desde el celular.
             </p>
           </div>
+        </div>
+      </section>
 
       {/* What guests can add */}
       <section className="border-t border-[#EAE2D8] px-5 py-16 sm:px-8 sm:py-20">

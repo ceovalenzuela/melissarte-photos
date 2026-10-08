@@ -35,7 +35,28 @@ export async function getEventBySlug(
     return null;
   }
 
-  return data?.[0] ?? null;
+  const event = data?.[0] ?? null;
+
+  if (!event) {
+    return null;
+  }
+
+  const { data: messagesEnabled, error: messagesEnabledError } =
+    await supabase.rpc("get_event_messages_enabled", {
+      p_slug: slug,
+    });
+
+  if (messagesEnabledError) {
+    console.error(
+      "ERROR get_event_messages_enabled:",
+      JSON.stringify(messagesEnabledError, null, 2)
+    );
+  }
+
+  return {
+    ...event,
+    messages_enabled: messagesEnabled ?? false,
+  };
 }
 
 export async function updateEvent(

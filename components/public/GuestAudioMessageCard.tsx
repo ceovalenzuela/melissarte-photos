@@ -1,0 +1,384 @@
+"use client";
+
+import { Pause, Play, Trash2, Volume2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+
+import { Message } from "@/types/message";
+
+interface Props {
+  message: Message;
+  canDelete?: boolean;
+  deleting?: boolean;
+  onDelete?: () => void;
+}
+
+function formatTime(value: number) {
+  const seconds = Math.max(0, Math.floor(value));
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
+}
+
+let activeAudio: HTMLAudioElement | null = null;
+
+export default function GuestAudioMessageCard({
+  message,
+  canDelete = false,
+  deleting = false,
+  onDelete,
+}: Props) {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const playPointerRef = useRef({ x: 0, y: 0, moved: false });
+  const [playing, setPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(
+    message.duration_seconds ?? 0
+  );
+  const [blockedByOtherAudio, setBlockedByOtherAudio] = useState(false);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    function handlePlay() {
+      setPlaying(true);
+      setBlockedByOtherAudio(false);
+    }
+
+    function handlePause() {
+      setPlaying(false);
+    }
+
+    function handleEnded() {
+      setPlaying(false);
+      setCurrentTime(0);
+
+      if (activeAudio === audio) {
+        activeAudio = null;
+      }
+
+      window.dispatchEvent(
+        new CustomEvent("guest-audio-ended", {
+          detail: { audio },
+        })
+      );
+    }
+
+    function handleTimeUpdate() {
+      setCurrentTime(audio.currentTime);
+    }
+
+    function handleLoadedMetadata() {
+      if (Number.isFinite(audio.duration)) {
+        setDuration(audio.duration);
+      }
+    }
+
+    function handleOtherAudioStarted(event: Event) {
+      const otherAudio = (event as CustomEvent<{ audio: HTMLAudioElement }>).detail?.audio;
+
+      if (otherAudio && otherAudio !== audio) {
+        setBlockedByOtherAudio(true);
+      }
+    }
+
+    function handleOtherAudioEnded(event: Event) {
+      const endedAudio = (event as CustomEvent<{ audio: HTMLAudioElement }>).detail?.audio;
+
+      if (endedAudio && endedAudio !== audio) {
+        setBlockedByOtherAudio(false);
+      }
+    }
+
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
+    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    window.addEventListener("guest-audio-started", handleOtherAudioStarted);
+    window.addEventListener("guest-audio-ended", handleOtherAudioEnded);
+
+    return () => {
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      window.removeEventListener("guest-audio-started", handleOtherAudioStarted);
+      window.removeEventListener("guest-audio-ended", handleOtherAudioEnded);
+
+      if (activeAudio === audio) {
+        activeAudio = null;
+      }
+    };
+  }, []);
+
+  async function togglePlayback() {
+    const audio = audioRef.current;
+
+    if (!audio) return;
+
+    if (!audio.paused) {
+      audio.pause();
+      return;
+    }
+
+    // Only one message can be played at a time. Other messages remain
+    // locked until the current one finishes.
+    if (activeAudio && activeAudio !== audio && !activeAudio.ended) {
+      setBlockedByOtherAudio(true);
+      return;
+    }
+
+    try {
+      activeAudio = audio;
+      setBlockedByOtherAudio(false);
+
+      window.dispatchEvent(
+        new CustomEvent("guest-audio-started", {
+          detail: { audio },
+        })
+      );
+
+      await audio.play();
+    } catch (error) {
+      if (activeAudio === audio) {
+        activeAudio = null;
+      }
+
+      console.error("No fue posible reproducir el audio:", error);
+    }
+  }
+
+  function handlePlayPointerDown(
+    event: React.PointerEvent<HTMLButtonElement>
+  ) {
+    playPointerRef.current = {
+      x: event.clientX,
+      y: event.clientY,
+      moved: false,
+    };
+  }
+
+  function handlePlayPointerMove(
+    event: React.PointerEvent<HTMLButtonElement>
+  ) {
+    const dx = Math.abs(event.clientX - playPointerRef.current.x);
+    const dy = Math.abs(event.clientY - playPointerRef.current.y);
+
+    if (dx > 8 || dy > 8) {
+      playPointerRef.current.moved = true;
+    }
+  }
+
+  function handlePlayClick() {
+    if (playPointerRef.current.moved) return;
+    void togglePlayback();
+  }
+
+  function handleSeek(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
+    const audio = audioRef.current;
+
+    if (!audio || blockedByOtherAudio) return;
+
+    const nextTime = Number(event.target.value);
+
+    audio.currentTime = nextTime;
+    setCurrentTime(nextTime);
+  }
+
+  const progress =
+    duration > 0
+      ? Math.min(100, (currentTime / duration) * 100)
+      : 0;
+
+  const displayedDuration = duration || message.duration_seconds || 0;
+
+  return (
+    <article
+      className="
+        min-w-0
+        snap-start
+        rounded-3xl
+        border
+        border-[#E7DCC8]
+        bg-white
+        p-5
+        shadow-[0_8px_28px_rgba(53,44,34,0.06)]
+        h-[184px]
+        min-h-[184px]
+        transition-all
+        duration-300
+        hover:-translate-y-0.5
+        hover:shadow-md
+        flex
+        flex-col
+        relative
+      "
+    >
+      <audio
+        ref={audioRef}
+        preload="metadata"
+        src={message.public_url ?? undefined}
+      />
+
+      {canDelete && (
+        <button
+          type="button"
+          onClick={onDelete}
+          disabled={deleting}
+          aria-label="Eliminar mensaje"
+          className="
+            absolute
+            right-3
+            top-3
+            z-10
+            flex
+            h-7
+            w-7
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-[#E7DCC8]
+            bg-white
+            text-[#8B8378]
+            shadow-sm
+            transition
+            hover:border-[#D8C8AE]
+            hover:bg-[#F8F4EE]
+            hover:text-[#9C625C]
+            disabled:cursor-not-allowed
+            disabled:opacity-50
+          "
+        >
+          <Trash2 size={13} />
+        </button>
+      )}
+
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          onPointerDown={handlePlayPointerDown}
+          onPointerMove={handlePlayPointerMove}
+          onClick={handlePlayClick}
+          disabled={blockedByOtherAudio}
+          className="
+            flex
+            h-12
+            w-12
+            shrink-0
+            items-center
+            justify-center
+            rounded-full
+            bg-[#A88249]
+            text-white
+            shadow-sm
+            transition-transform
+            duration-200
+            hover:scale-105
+            hover:bg-[#977640]
+            active:scale-95
+            disabled:cursor-not-allowed
+            disabled:opacity-45
+            disabled:hover:scale-100
+          "
+          aria-label={
+            blockedByOtherAudio
+              ? "Espera a que termine el otro mensaje"
+              : playing
+                ? "Pausar mensaje de voz"
+                : "Reproducir mensaje de voz"
+          }
+        >
+          {playing ? (
+            <Pause size={19} fill="currentColor" />
+          ) : (
+            <Play
+              size={19}
+              fill="currentColor"
+              className="ml-0.5"
+            />
+          )}
+        </button>
+
+        <div className="min-w-0 flex-1">
+          <p className="truncate font-[var(--font-display)] text-lg font-semibold leading-none text-[#3F3A34]">
+            {message.author_name || "Invitado"}
+          </p>
+
+          <div className="mt-1 flex items-center gap-2">
+            <Volume2
+              size={13}
+              className="shrink-0 text-[#A88249]"
+            />
+
+            <div className="flex h-4 flex-1 items-end gap-[3px] overflow-hidden">
+              {[
+                45, 70, 55, 85, 62, 92, 48, 74, 58, 82,
+                66, 90, 52, 76, 60, 88, 54, 72, 50, 80,
+              ].map((height, index) => (
+                <span
+                  key={index}
+                  className={`
+                    w-1 shrink-0 rounded-full
+                    transition-all duration-300
+                    ${playing
+                      ? "bg-[#A88249]"
+                      : "bg-[#DCCBAE]"
+                    }
+                  `}
+                  style={{
+                    height: `${height}%`,
+                  }}
+                />
+              ))}
+            </div>
+
+            <span className="shrink-0 text-[11px] tabular-nums text-[#9A9287]">
+              {formatTime(displayedDuration)}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-4">
+        <input
+          type="range"
+          min={0}
+          max={Math.max(duration, 1)}
+          step={0.1}
+          value={Math.min(currentTime, Math.max(duration, 1))}
+          onChange={handleSeek}
+          disabled={blockedByOtherAudio}
+          aria-label="Progreso del mensaje de voz"
+          className="
+            h-3
+            w-full
+            cursor-pointer
+            appearance-none
+            rounded-full
+            bg-transparent
+            accent-[#A88249]
+            disabled:cursor-not-allowed
+            disabled:opacity-60
+          "
+          style={{
+            background: `linear-gradient(
+              to right,
+              #A88249 0%,
+              #A88249 ${progress}%,
+              #EEE7DC ${progress}%,
+              #EEE7DC 100%
+            )`,
+          }}
+        />
+
+        <div className="mt-0.5 flex justify-between text-[10px] tabular-nums text-[#A49B8F]">
+          <span>{formatTime(currentTime)}</span>
+          <span>{formatTime(displayedDuration)}</span>
+        </div>
+      </div>
+    </article>
+  );
+}

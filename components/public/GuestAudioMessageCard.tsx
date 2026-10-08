@@ -37,7 +37,7 @@ export default function GuestAudioMessageCard({
 
   useEffect(() => {
     setIsCoarsePointer(window.matchMedia("(pointer: coarse)").matches);
-  }, [isCoarsePointer]);
+  }, []);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -361,8 +361,12 @@ export default function GuestAudioMessageCard({
           step={0.1}
           value={Math.min(currentTime, Math.max(duration, 1))}
           onChange={handleSeek}
-          disabled={blockedByOtherAudio}
-          aria-label="Progreso del mensaje de voz"
+          disabled={blockedByOtherAudio || isCoarsePointer}
+          aria-label={
+            isCoarsePointer
+              ? "La barra de progreso se controla en computadora"
+              : "Progreso del mensaje de voz"
+          }
           className="
             h-3
             w-full

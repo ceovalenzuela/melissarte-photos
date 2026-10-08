@@ -284,7 +284,7 @@ export default function HomePage() {
                 ))}
               </div>
 
-              <Link href={purchaseUrl}>
+              <Link href="https://melissartedecorativo.com/products/galeria-digital-para-tu-evento?variant=67687177715805">
                 <Button variant="outline" className="mt-7 h-12 w-full rounded-full border-[#D1C2AC] bg-[#FBFAF8] text-sm font-medium text-[#2A2723] hover:bg-white">
                   Elegir Galería Esencial
                   <ArrowRight size={17} className="ml-2" />
@@ -297,7 +297,7 @@ export default function HomePage() {
                 Más completa
               </span>
 
-              <div className="flex items-start justify-between gap-4 pr-24">
+              <div className="flex items-start justify-between gap-4 pr-24 pt-8">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8B6D3B]">
                     ✨ Galería Recuerdos
@@ -333,7 +333,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <Link href={purchaseUrl}>
+              <Link href="https://melissartedecorativo.com/products/galeria-digital-para-tu-evento?variant=67687177748573">
                 <Button className="mt-7 h-12 w-full rounded-full bg-[#1F1F1F] text-sm font-medium text-white hover:bg-[#2E2B27]">
                   Elegir Galería Recuerdos
                   <ArrowRight size={17} className="ml-2" />

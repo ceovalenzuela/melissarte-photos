@@ -33,6 +33,11 @@ export default function GuestAudioMessageCard({
     message.duration_seconds ?? 0
   );
   const [blockedByOtherAudio, setBlockedByOtherAudio] = useState(false);
+  const [isCoarsePointer, setIsCoarsePointer] = useState(false);
+
+  useEffect(() => {
+    setIsCoarsePointer(window.matchMedia("(pointer: coarse)").matches);
+  }, [isCoarsePointer]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -185,7 +190,7 @@ export default function GuestAudioMessageCard({
   ) {
     const audio = audioRef.current;
 
-    if (!audio || blockedByOtherAudio) return;
+    if (!audio || blockedByOtherAudio || isCoarsePointer) return;
 
     const nextTime = Number(event.target.value);
 

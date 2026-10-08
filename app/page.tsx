@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowRight,
-  BookOpen,
   Camera,
   Check,
   Download,
@@ -39,15 +38,7 @@ const features = [
   },
 ];
 
-const included = [
-  "Fotografías ilimitadas",
-  "QR y enlace personalizado",
-  "Presentación de fotos en vivo",
-  "Mensajes escritos y de voz",
-  "Libro de firmas en PDF",
-  "Audios en archivo ZIP",
-  "Disponible durante el evento y 30 días después",
-];
+
 
 export default function HomePage() {
   return (

@@ -6,6 +6,7 @@ interface Props {
   src: string;
   alt: string;
   priority?: boolean;
+  animateOnLoad?: boolean;
   onClick: () => void;
 }
 
@@ -13,6 +14,7 @@ function GalleryImage({
   src,
   alt,
   priority = false,
+  animateOnLoad = true,
   onClick,
 }: Props) {
   const [loaded, setLoaded] = useState(false);
@@ -66,7 +68,9 @@ function GalleryImage({
               "relative z-10 block h-auto w-full",
               "transition-all duration-700 ease-out",
               loaded
-                ? "scale-100 opacity-100 motion-safe:animate-[melissarte-rise_600ms_ease-out]"
+                ? animateOnLoad
+                  ? "scale-100 opacity-100 motion-safe:animate-[melissarte-rise_600ms_ease-out]"
+                  : "scale-100 opacity-100"
                 : "scale-[1.025] opacity-0",
               "group-hover:scale-[1.02] group-hover:brightness-[1.02]",
             ].join(" ")}

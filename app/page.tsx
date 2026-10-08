@@ -17,25 +17,13 @@ const demoUrl =
 const purchaseUrl =
   "https://melissartedecorativo.com/products/galeria-digital-para-tu-evento";
 
-const features = [
-  {
-    icon: Camera,
-    eyebrow: "01 · Fotografías",
-    title: "Todos comparten",
-    text: "Tus invitados suben las fotos que toman durante el evento desde su celular.",
-  },
-  {
-    icon: MessageCircle,
-    eyebrow: "02 · Mensajes",
-    title: "Palabras que quedan",
-    text: "Recibe dedicatorias, recuerdos y buenos deseos que podrás conservar.",
-  },
-  {
-    icon: Mic,
-    eyebrow: "03 · Voces",
-    title: "Escucha sus voces",
-    text: "Mensajes de voz de quienes estuvieron ahí, para volver a escucharlos después.",
-  },
+const galleryPhotos = [
+  "https://frnmkhffpbykbtvhpkxq.supabase.co/storage/v1/object/public/event-photos/061b9c0c-3688-4a8d-b24d-cdf0c296318c/thumbnails/4907817f-65a5-4872-a2fc-8e9a710be6d8.webp",
+  "https://frnmkhffpbykbtvhpkxq.supabase.co/storage/v1/object/public/event-photos/061b9c0c-3688-4a8d-b24d-cdf0c296318c/thumbnails/93ec353b-5b74-42cb-ae0b-f17a75a40b03.webp",
+  "https://frnmkhffpbykbtvhpkxq.supabase.co/storage/v1/object/public/event-photos/061b9c0c-3688-4a8d-b24d-cdf0c296318c/thumbnails/371d072e-6887-4399-9f04-c94a53b9e1ff.webp",
+  "https://frnmkhffpbykbtvhpkxq.supabase.co/storage/v1/object/public/event-photos/061b9c0c-3688-4a8d-b24d-cdf0c296318c/thumbnails/53ed537a-e016-40e7-8842-6a30758e23ac.webp",
+  "https://frnmkhffpbykbtvhpkxq.supabase.co/storage/v1/object/public/event-photos/061b9c0c-3688-4a8d-b24d-cdf0c296318c/thumbnails/565a3b0d-24f0-4fd3-9bd9-d907783d9dd9.webp",
+  "https://frnmkhffpbykbtvhpkxq.supabase.co/storage/v1/object/public/event-photos/061b9c0c-3688-4a8d-b24d-cdf0c296318c/thumbnails/32d4c2bf-fd05-413f-9004-a0325a5c04ec.webp",
 ];
 
 
@@ -99,6 +87,66 @@ export default function HomePage() {
               <span>30 días</span>
             </div>
           </div>
+
+          {/* Real gallery preview */}
+          <div className="mx-auto mt-12 max-w-5xl">
+            <div className="relative mx-auto max-w-[340px] rounded-[2.4rem] border-[8px] border-[#211F1C] bg-[#211F1C] p-1.5 shadow-[0_30px_80px_rgba(48,38,25,0.22)] sm:max-w-[390px]">
+              <div className="absolute left-1/2 top-2 z-20 h-5 w-24 -translate-x-1/2 rounded-full bg-[#211F1C]" />
+              <div className="overflow-hidden rounded-[1.9rem] bg-[#FBF9F5]">
+                <div className="relative h-[500px]">
+                  <Image
+                    src={galleryPhotos[0]}
+                    alt="Galería real de Boda Sofía y Alejandro"
+                    fill
+                    priority
+                    sizes="390px"
+                    className="object-cover object-center"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/10" />
+                  <div className="absolute inset-x-0 bottom-0 p-6 text-left text-white">
+                    <p className="text-[9px] font-semibold uppercase tracking-[0.24em] text-[#D5BD94]">
+                      Galería en vivo
+                    </p>
+                    <p className="mt-2 font-[var(--font-display)] text-3xl font-semibold leading-none">
+                      Boda Sofía
+                      <br />
+                      y Alejandro
+                    </p>
+                    <p className="mt-2 text-xs text-white/75">
+                      Las nuevas fotografías aparecen aquí en tiempo real.
+                    </p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-1.5 bg-[#FBF9F5] p-1.5">
+                  {galleryPhotos.slice(1, 5).map((photo, index) => (
+                    <div key={photo} className="relative aspect-[1.15] overflow-hidden rounded-xl">
+                      <Image
+                        src={photo}
+                        alt={`Fotografía de ejemplo ${index + 2}`}
+                        fill
+                        sizes="180px"
+                        className="object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-center justify-center gap-2 bg-[#FBF9F5] px-4 py-4 text-[10px] text-[#7D7467]">
+                  <span className="rounded-full bg-[#1F1F1F] px-3 py-1.5 font-medium text-white">
+                    ▶ Ver presentación en vivo
+                  </span>
+                  <span className="rounded-full border border-[#DCCFBD] px-3 py-1.5">
+                    Más recientes
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-[10px] uppercase tracking-[0.16em] text-[#8B8174]">
+              <span className="rounded-full border border-[#DDD2C2] bg-white/70 px-3 py-1.5">Galería real</span>
+              <span className="rounded-full border border-[#DDD2C2] bg-white/70 px-3 py-1.5">Fotos en vivo</span>
+              <span className="rounded-full border border-[#DDD2C2] bg-white/70 px-3 py-1.5">Presentación</span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -118,46 +166,162 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="mt-12 grid gap-5 md:grid-cols-3">
-            {features.map(({ icon: Icon, eyebrow, title, text }) => (
-              <article
-                key={eyebrow}
-                className="rounded-[1.6rem] border border-[#E5DCCF] bg-[#FFFDF9] p-7 shadow-[0_12px_35px_rgba(74,59,40,0.06)]"
-              >
+          <div className="mt-12 space-y-6">
+            <article className="grid overflow-hidden rounded-[1.8rem] border border-[#E5DCCF] bg-[#FFFDF9] shadow-[0_16px_45px_rgba(74,59,40,0.07)] md:grid-cols-[1.05fr_0.95fr] md:items-center">
+              <div className="order-2 p-7 sm:p-9 md:order-1">
                 <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#F1E7D7] text-[#A88249]">
-                  <Icon size={19} />
+                  <Camera size={19} />
                 </div>
                 <p className="mt-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A88249]">
-                  {eyebrow}
+                  01 · Fotografías
+                </p>
+                <h3 className="mt-2 font-[var(--font-display)] text-3xl font-semibold leading-none tracking-[-0.02em] text-[#28241F] sm:text-4xl">
+                  Todos comparten.
+                </h3>
+                <p className="mt-4 max-w-md text-sm leading-6 text-[#6D655B]">
+                  Tus invitados suben las fotos que toman durante el evento y aparecen en la galería mientras todo sucede.
+                </p>
+              </div>
+              <div className="order-1 grid grid-cols-2 gap-2 bg-[#EEE8DE] p-3 md:order-2">
+                {galleryPhotos.slice(0, 4).map((photo, index) => (
+                  <div key={photo} className="relative aspect-[1.08] overflow-hidden rounded-2xl">
+                    <Image
+                      src={photo}
+                      alt={`Fotografía compartida por invitados ${index + 1}`}
+                      fill
+                      sizes="(max-width: 768px) 45vw, 260px"
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            </article>
+
+            <div className="grid gap-6 md:grid-cols-2">
+              <article className="rounded-[1.8rem] border border-[#E5DCCF] bg-[#F3ECE2] p-7 shadow-[0_12px_35px_rgba(74,59,40,0.05)] sm:p-9">
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/70 text-[#A88249]">
+                  <MessageCircle size={19} />
+                </div>
+                <p className="mt-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A88249]">
+                  02 · Mensajes
                 </p>
                 <h3 className="mt-2 font-[var(--font-display)] text-3xl font-semibold leading-none tracking-[-0.02em] text-[#28241F]">
-                  {title}
+                  Palabras que quedan.
                 </h3>
-                <p className="mt-3 text-sm leading-6 text-[#6D655B]">{text}</p>
+                <div className="mt-6 rounded-2xl border border-[#DED0BB] bg-[#FBF9F5] p-5 shadow-sm">
+                  <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#A88249]">
+                    Comparte tus palabras
+                  </p>
+                  <p className="mt-3 font-[var(--font-display)] text-xl leading-tight text-[#302B25]">
+                    “Qué bonito poder guardar este día para siempre.”
+                  </p>
+                  <p className="mt-3 text-xs text-[#8B8174]">
+                    Dedicatorias y recuerdos de tus invitados.
+                  </p>
+                </div>
               </article>
-            ))}
+
+              <article className="rounded-[1.8rem] border border-[#E5DCCF] bg-[#FFFDF9] p-7 shadow-[0_12px_35px_rgba(74,59,40,0.05)] sm:p-9">
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#F1E7D7] text-[#A88249]">
+                  <Mic size={19} />
+                </div>
+                <p className="mt-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A88249]">
+                  03 · Voces
+                </p>
+                <h3 className="mt-2 font-[var(--font-display)] text-3xl font-semibold leading-none tracking-[-0.02em] text-[#28241F]">
+                  Escucha sus voces.
+                </h3>
+                <div className="mt-6 rounded-2xl border border-[#E1D5C1] bg-[#F8F4EE] p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#A88249] text-white">
+                      <Mic size={17} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="h-1.5 rounded-full bg-[#DCCEB9]">
+                        <div className="h-1.5 w-[62%] rounded-full bg-[#A88249]" />
+                      </div>
+                      <div className="mt-2 flex justify-between text-[10px] text-[#8B8174]">
+                        <span>0:18</span>
+                        <span>0:29</span>
+                      </div>
+                    </div>
+                    <span className="text-xs font-medium text-[#6D655B]">▶</span>
+                  </div>
+                  <p className="mt-3 text-xs text-[#8B8174]">
+                    Mensajes de voz para volver a escuchar después.
+                  </p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Live presentation */}
+      <section className="bg-[#1B1A17] px-5 py-16 text-white sm:px-8 sm:py-20">
+        <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#D5BD94]">
+              Galería en vivo
+            </p>
+            <h2 className="mt-4 font-[var(--font-display)] text-5xl font-semibold leading-[0.9] tracking-[-0.03em] sm:text-6xl">
+              Tus recuerdos también pueden verse en vivo.
+            </h2>
+            <p className="mt-6 max-w-xl text-base leading-7 text-[#6C645A] sm:text-lg sm:leading-8">
+              Proyecta la galería durante tu evento y deja que las fotografías de tus invitados aparezcan mientras sucede la celebración.
+            </p>
+            <Link href={demoUrl} target="_blank" rel="noopener noreferrer">
+              <Button className="mt-7 h-12 rounded-full bg-white px-6 text-sm font-medium text-[#1F1F1F] hover:bg-white/90">
+                Ver presentación en vivo
+                <ArrowRight size={17} className="ml-2" />
+              </Button>
+            </Link>
+          </div>
+
+          <div className="relative overflow-hidden rounded-[1.8rem] border border-[#EAE2D8] bg-white/[0.04] p-3 shadow-[0_25px_70px_rgba(0,0,0,0.25)]">
+            <div className="relative aspect-[16/10] overflow-hidden rounded-[1.3rem]">
+              <Image
+                src={galleryPhotos[4]}
+                alt="Presentación en vivo de la galería"
+                fill
+                sizes="(max-width: 1024px) 90vw, 560px"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-5 sm:p-7">
+                <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.2em] text-[#D5BD94]">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#D5BD94]" />
+                  Presentación en vivo
+                </div>
+                <p className="mt-2 font-[var(--font-display)] text-2xl font-semibold sm:text-3xl">
+                  Boda Sofía y Alejandro
+                </p>
+                <p className="mt-1 text-xs text-[#6C645A]">
+                  Las fotografías aparecen conforme tus invitados las comparten.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* After the event */}
-      <section className="bg-[#1B1A17] px-5 py-16 text-white sm:px-8 sm:py-20">
+      <section className="bg-[#F8F6F2] px-5 py-16 text-[#1F1F1F] sm:px-8 sm:py-20">
         <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#D5BD94]">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#A88249]">
               Tu galería, contigo
             </p>
             <h2 className="mt-4 font-[var(--font-display)] text-5xl font-semibold leading-[0.9] tracking-[-0.03em] sm:text-6xl">
               Los recuerdos no terminan esa noche.
             </h2>
-            <p className="mt-6 max-w-xl text-base leading-7 text-white/65 sm:text-lg sm:leading-8">
-              Tu galería se habilita 1 día antes del evento y permanece disponible
-              durante la celebración y hasta 30 días después.
+            <p className="mt-6 max-w-xl text-base leading-7 text-[#6C645A] sm:text-lg sm:leading-8">
+              Tu galería se habilita 1 día antes del evento y permanece disponible durante la celebración y hasta 30 días después.
             </p>
           </div>
 
-          <div className="rounded-[1.8rem] border border-white/10 bg-white/[0.04] p-6 sm:p-7">
-            <div className="flex items-start gap-4 border-b border-white/10 pb-5">
+          <div className="rounded-[1.8rem] border border-[#E4DACD] bg-[#FFFDF9] p-6 shadow-[0_14px_40px_rgba(74,59,40,0.06)] sm:p-7">
+            <div className="flex items-start gap-4 border-b border-[#EAE2D8] pb-5">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#A88249] text-white">
                 <Camera size={19} />
               </div>
@@ -165,7 +329,7 @@ export default function HomePage() {
                 <p className="font-[var(--font-display)] text-2xl font-semibold">
                   Comparte en vivo
                 </p>
-                <p className="mt-1 text-sm leading-6 text-white/55">
+                <p className="mt-1 text-sm leading-6 text-[#6D655B]">
                   Puedes proyectar la galería y ver cómo aparecen las fotografías mientras sucede el evento.
                 </p>
               </div>
@@ -179,7 +343,7 @@ export default function HomePage() {
                 <p className="font-[var(--font-display)] text-2xl font-semibold">
                   Conserva todo
                 </p>
-                <p className="mt-1 text-sm leading-6 text-white/55">
+                <p className="mt-1 text-sm leading-6 text-[#6D655B]">
                   Descarga tus fotografías y, si elegiste Recuerdos, también tus mensajes y audios.
                 </p>
               </div>

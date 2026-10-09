@@ -269,12 +269,12 @@ export default function GallerySection({
         ...current,
         ...result.photos,
       ]);
-      setNewlyAddedPhotoIds(
-        result.photos.map((photo) => photo.id)
-      );
-      window.setTimeout(() => {
-        setNewlyAddedPhotoIds([]);
-      }, 2200);
+      setNewlyAddedPhotoIds((current) => [
+        ...current,
+        ...result.photos
+          .map((photo) => photo.id)
+          .filter((id) => !current.includes(id)),
+      ]);
 
       setHasMore(
         result.photos.length === GALLERY_PAGE_SIZE

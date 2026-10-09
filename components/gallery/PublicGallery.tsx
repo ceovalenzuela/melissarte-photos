@@ -51,9 +51,10 @@ export default function PublicGallery({
                 }
                 animationDelay={
                   newlyAddedPhotoIds.includes(photo.id)
-                    ? Math.min(newlyAddedPhotoIds.indexOf(photo.id) * 45, 900)
+                    ? Math.min(newlyAddedPhotoIds.indexOf(photo.id) * 30, 600)
                     : 0
                 }
+                subtleEntrance={newlyAddedPhotoIds.includes(photo.id)}
                 onClick={() => onPhotoClick(index)}
 
               />

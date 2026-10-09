@@ -57,6 +57,7 @@ export default function UploadButton({
       />
 
       <button
+  id="subir-fotografias"
   type="button"
   disabled={disabled}
   onClick={() => inputRef.current?.click()}

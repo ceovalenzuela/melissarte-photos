@@ -44,17 +44,7 @@ export default function PublicGallery({
                 src={photo.thumbnail_url}
                 alt={`Fotografía ${index + 1}`}
                 priority={index < 6}
-                animateOnLoad={
-                  newlyAddedPhotoIds.length > 0
-                    ? newlyAddedPhotoIds.includes(photo.id)
-                    : animatePhotos
-                }
-                animationDelay={
-                  newlyAddedPhotoIds.includes(photo.id)
-                    ? Math.min(newlyAddedPhotoIds.indexOf(photo.id) * 30, 600)
-                    : 0
-                }
-                subtleEntrance={newlyAddedPhotoIds.includes(photo.id)}
+                animateOnLoad={animatePhotos}
                 onClick={() => onPhotoClick(index)}
 
               />

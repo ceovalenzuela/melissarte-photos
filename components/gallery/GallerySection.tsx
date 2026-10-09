@@ -687,15 +687,33 @@ useEffect(() => {
   }
 
   if (!loading && photos.length === 0) {
-    return (
-      <div className="py-10 text-center">
-        <h2 className="text-xl font-semibold text-[#1F1F1F]">
-          Aún no hay fotografías
-        </h2>
+    const galleryIsPublished = event.status === "published";
 
-        <p className="mt-3 text-[#7D7467]">
+    return (
+      <div className="mt-5 rounded-2xl border border-dashed border-[#E1D5C1] bg-[#FDFBF8] px-5 py-7 text-center">
+        <p className="text-sm font-medium text-[#3F3A34]">
+          Aún no hay fotografías.
+        </p>
+
+        <p className="mt-1 text-xs leading-5 text-[#7D7467]">
           Las fotografías compartidas durante el evento aparecerán aquí.
         </p>
+
+        {galleryIsPublished ? (
+          <button
+            type="button"
+            onClick={() =>
+              document.getElementById("subir-fotografias")?.click()
+            }
+            className="mt-2 text-xs font-medium text-[#A88249] underline underline-offset-4 transition-colors hover:text-[#977640]"
+          >
+            Sé el primero en compartir una fotografía.
+          </button>
+        ) : (
+          <p className="mt-2 text-xs font-medium text-[#B0A79C]">
+            Sé el primero en compartir una fotografía.
+          </p>
+        )}
       </div>
     );
   }

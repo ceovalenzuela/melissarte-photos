@@ -7,6 +7,7 @@ interface Props {
   alt: string;
   priority?: boolean;
   animateOnLoad?: boolean;
+  animationDelay?: number;
   onClick: () => void;
 }
 
@@ -15,6 +16,7 @@ function GalleryImage({
   alt,
   priority = false,
   animateOnLoad = true,
+  animationDelay = 0,
   onClick,
 }: Props) {
   const [loaded, setLoaded] = useState(false);
@@ -74,6 +76,7 @@ function GalleryImage({
                 : "scale-[1.025] opacity-0",
               "group-hover:scale-[1.02] group-hover:brightness-[1.02]",
             ].join(" ")}
+            style={{ animationDelay: `${animationDelay}ms` }}
             onLoad={() => setLoaded(true)}
             onError={() => {
               setLoaded(true);

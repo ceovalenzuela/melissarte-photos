@@ -132,7 +132,7 @@
 @keyframes melissarte-gallery-enter {
   from {
     opacity: 1;
-    transform: translateY(16px) scale(0.99);
+    transform: translateY(8px) scale(0.995);
   }
   to {
     opacity: 1;

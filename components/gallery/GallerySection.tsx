@@ -61,8 +61,9 @@ export default function GallerySection({
   const [loadingMore, setLoadingMore] =
     useState(false);
 
-  const [animateGalleryPhotos, setAnimateGalleryPhotos] =
-    useState(true);
+  const [newlyAddedPhotoIds, setNewlyAddedPhotoIds] =
+    useState<string[]>([]);
+
 
   const [organizerToken, setOrganizerToken] =
     useState<string | null>(null);
@@ -238,7 +239,6 @@ export default function GallerySection({
     if (loadingMore) return;
 
     setLoadingMore(true);
-    setAnimateGalleryPhotos(false);
 
     try {
       const nextPage = page + 1;
@@ -269,6 +269,12 @@ export default function GallerySection({
         ...current,
         ...result.photos,
       ]);
+      setNewlyAddedPhotoIds(
+        result.photos.map((photo) => photo.id)
+      );
+      window.setTimeout(() => {
+        setNewlyAddedPhotoIds([]);
+      }, 2200);
 
       setHasMore(
         result.photos.length === GALLERY_PAGE_SIZE
@@ -883,7 +889,8 @@ useEffect(() => {
           totalPhotos={totalPhotos}
           loading={loading}
           onPhotoClick={handlePhotoClick}
-          animatePhotos={animateGalleryPhotos}
+          animatePhotos={true}
+          newlyAddedPhotoIds={newlyAddedPhotoIds}
           canDeletePhotos={Boolean(organizerToken)}
           deletingPhotoId={deletingPhotoId}
           onDeletePhoto={handleDeletePhoto}

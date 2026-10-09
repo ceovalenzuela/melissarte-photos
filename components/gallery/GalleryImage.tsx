@@ -8,6 +8,7 @@ interface Props {
   priority?: boolean;
   animateOnLoad?: boolean;
   animationDelay?: number;
+  subtleEntrance?: boolean;
   onClick: () => void;
 }
 
@@ -17,6 +18,7 @@ function GalleryImage({
   priority = false,
   animateOnLoad = true,
   animationDelay = 0,
+  subtleEntrance = false,
   onClick,
 }: Props) {
   const [loaded, setLoaded] = useState(false);
@@ -70,10 +72,14 @@ function GalleryImage({
               "relative z-10 block h-auto w-full",
               "transition-all duration-700 ease-out",
               loaded
-                ? animateOnLoad
-                  ? "scale-100 opacity-100 motion-safe:animate-[melissarte-rise_600ms_ease-out]"
-                  : "scale-100 opacity-100"
-                : "scale-[1.025] opacity-0",
+                ? subtleEntrance
+                  ? "scale-100 opacity-100 motion-safe:animate-[melissarte-gallery-enter_650ms_cubic-bezier(0.22,1,0.36,1)]"
+                  : animateOnLoad
+                    ? "scale-100 opacity-100 motion-safe:animate-[melissarte-rise_600ms_ease-out]"
+                    : "scale-100 opacity-100"
+                : subtleEntrance
+                  ? "scale-[0.99] opacity-100"
+                  : "scale-[1.025] opacity-0",
               "group-hover:scale-[1.02] group-hover:brightness-[1.02]",
             ].join(" ")}
             style={{ animationDelay: `${animationDelay}ms` }}

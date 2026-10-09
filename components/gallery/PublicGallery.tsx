@@ -10,6 +10,7 @@ interface Props {
   loading: boolean;
   onPhotoClick: (index: number) => void;
   animatePhotos?: boolean;
+  newlyAddedPhotoIds?: string[];
   canDeletePhotos?: boolean;
   deletingPhotoId?: string | null;
   onDeletePhoto?: (photo: Photo) => void;
@@ -21,6 +22,7 @@ export default function PublicGallery({
   loading,
   onPhotoClick,
   animatePhotos = true,
+  newlyAddedPhotoIds = [],
   canDeletePhotos = false,
   deletingPhotoId = null,
   onDeletePhoto,
@@ -42,7 +44,16 @@ export default function PublicGallery({
                 src={photo.thumbnail_url}
                 alt={`Fotografía ${index + 1}`}
                 priority={index < 6}
-                animateOnLoad={animatePhotos}
+                animateOnLoad={
+                  newlyAddedPhotoIds.length > 0
+                    ? newlyAddedPhotoIds.includes(photo.id)
+                    : animatePhotos
+                }
+                animationDelay={
+                  newlyAddedPhotoIds.includes(photo.id)
+                    ? Math.min(newlyAddedPhotoIds.indexOf(photo.id) * 45, 900)
+                    : 0
+                }
                 onClick={() => onPhotoClick(index)}
 
               />

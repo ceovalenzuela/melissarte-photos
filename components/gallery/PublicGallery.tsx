@@ -45,6 +45,7 @@ export default function PublicGallery({
                 alt={`Fotografía ${index + 1}`}
                 priority={index < 6}
                 animateOnLoad={animatePhotos}
+                subtleEntrance={newlyAddedPhotoIds.includes(photo.id)}
                 onClick={() => onPhotoClick(index)}
 
               />

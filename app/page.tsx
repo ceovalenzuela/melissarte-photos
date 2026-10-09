@@ -32,7 +32,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen overflow-hidden bg-[#F8F6F2] text-[#1F1F1F]">
       {/* Hero */}
-      <section className="relative px-5 pb-14 pt-5 sm:px-8 sm:pb-20 sm:pt-7">
+      <section className="relative px-5 pb-14 pt-5 sm:px-8 sm:pb-20 sm:pt-7 melissarte-reveal">
         <div className="mx-auto max-w-6xl">
           <header className="flex items-center justify-center">
             <Image
@@ -91,7 +91,7 @@ export default function HomePage() {
       </section>
 
       {/* What guests can add */}
-      <section className="border-t border-[#EAE2D8] px-5 py-16 sm:px-8 sm:py-20">
+      <section className="border-t border-[#EAE2D8] px-5 py-16 sm:px-8 sm:py-20 melissarte-reveal melissarte-reveal-delay-1">
         <div className="mx-auto max-w-5xl">
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#A88249]">
@@ -198,7 +198,7 @@ export default function HomePage() {
       </section>
 
       {/* Live presentation */}
-      <section className="bg-[#1B1A17] px-5 py-16 text-white sm:px-8 sm:py-20">
+      <section className="bg-[#1B1A17] px-5 py-16 text-white sm:px-8 sm:py-20 melissarte-reveal melissarte-reveal-delay-2">
         <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#D5BD94]">
@@ -246,7 +246,7 @@ export default function HomePage() {
       </section>
 
       {/* After the event */}
-      <section className="bg-[#F8F6F2] px-5 py-16 text-[#1F1F1F] sm:px-8 sm:py-20">
+      <section className="bg-[#F8F6F2] px-5 py-16 text-[#1F1F1F] sm:px-8 sm:py-20 melissarte-reveal melissarte-reveal-delay-1">
         <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#A88249]">
@@ -293,7 +293,7 @@ export default function HomePage() {
       </section>
 
       {/* How it works */}
-      <section className="bg-[#EEE8DE] px-5 py-16 sm:px-8 sm:py-20">
+      <section className="bg-[#EEE8DE] px-5 py-16 sm:px-8 sm:py-20 melissarte-reveal melissarte-reveal-delay-2">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#A88249]">
@@ -340,7 +340,7 @@ export default function HomePage() {
       </section>
 
       {/* Pricing */}
-      <section className="px-5 py-16 sm:px-8 sm:py-20">
+      <section className="px-5 py-16 sm:px-8 sm:py-20 melissarte-reveal melissarte-reveal-delay-1">
         <div className="mx-auto max-w-5xl">
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#A88249]">
@@ -355,8 +355,8 @@ export default function HomePage() {
           </div>
 
           <div className="mt-12 grid gap-5 lg:grid-cols-2">
-            <article className="rounded-[1.8rem] border border-[#E4DACD] bg-[#FFFDF9] p-7 shadow-[0_12px_40px_rgba(74,59,40,0.05)] sm:p-9">
-              <div className="flex items-start justify-between gap-4 pt-8">
+            <article className="melissarte-hover-card rounded-[1.8rem] border border-[#E4DACD] bg-[#FFFDF9] p-7 shadow-[0_12px_40px_rgba(74,59,40,0.05)] sm:p-9">
+              <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 pt-8">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#A88249]">
                     📸 Galería Esencial
@@ -396,12 +396,12 @@ export default function HomePage() {
               </Link>
             </article>
 
-            <article className="relative rounded-[1.8rem] border border-[#CDB990] bg-[#F3ECE2] p-7 shadow-[0_14px_45px_rgba(74,59,40,0.08)] sm:p-9">
+            <article className="melissarte-hover-card relative rounded-[1.8rem] border border-[#CDB990] bg-[#F3ECE2] p-7 shadow-[0_14px_45px_rgba(74,59,40,0.08)] sm:p-9">
               <span className="absolute right-6 top-6 rounded-full bg-[#A88249] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
                 Más completa
               </span>
 
-              <div className="flex items-start justify-between gap-4 pr-24 pt-8">
+              <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 pt-8">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8B6D3B]">
                     ✨ Galería Recuerdos
@@ -449,7 +449,7 @@ export default function HomePage() {
       </section>
 
       {/* Final CTA */}
-      <section className="px-5 pb-10 sm:px-8 sm:pb-14">
+      <section className="px-5 pb-10 sm:px-8 sm:pb-14 melissarte-reveal melissarte-reveal-delay-2">
         <div className="mx-auto max-w-4xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#A88249]">
             Tu evento merece recordarse completo

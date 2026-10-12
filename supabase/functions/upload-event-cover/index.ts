@@ -28,6 +28,9 @@ function getServiceKey() {
   return key;
 }
 
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const ORGANIZER_TOKEN_PATTERN = /^[A-Za-z0-9_-]{22,}$/;
+
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (req.method !== "POST") return jsonResponse({ error: "Método no permitido." }, 405);
@@ -36,11 +39,12 @@ Deno.serve(async (req: Request) => {
     const body = await req.json();
     const eventId = typeof body.event_id === "string" ? body.event_id.trim() : "";
     const token = typeof body.organizer_token === "string" ? body.organizer_token.trim() : "";
-    const contentType = typeof body.content_type === "string" ? body.content_type.toLowerCase() : "";
+    const contentType = typeof body.content_type === "string" ? body.content_type.trim().toLowerCase() : "";
 
-    if (!eventId || !token) {
-      return jsonResponse({ error: "Faltan datos para validar la portada." }, 400);
+    if (!UUID_PATTERN.test(eventId) || !ORGANIZER_TOKEN_PATTERN.test(token)) {
+      return jsonResponse({ error: "Los datos para validar la portada no son válidos." }, 400);
     }
+
     const allowedTypes: Record<string, string> = {
       "image/jpeg": "jpg",
       "image/png": "png",

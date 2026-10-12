@@ -13,6 +13,7 @@ import {
 } from "@/lib/photos";
 import { subscribeToEventPhotos } from "@/lib/realtime";
 import { getEventUrl } from "@/lib/urls";
+import { toast } from "sonner";
 
 import PublicGallery from "./PublicGallery";
 import PhotoLightbox from "@/components/public/PhotoLightbox";
@@ -184,11 +185,18 @@ export default function GallerySection({
       onTotalPhotosChange?.(
         Math.max(0, totalPhotos - 1)
       );
+
+      toast.success("Fotografía eliminada.");
     } catch (error) {
       console.error(error);
 
-      window.alert(
-        "No fue posible eliminar la fotografía. Intenta nuevamente."
+      const messageText =
+        error instanceof Error
+          ? error.message
+          : String(error);
+
+      toast.error(
+        messageText || "No fue posible eliminar la fotografía."
       );
     } finally {
       setDeletingPhotoId(null);

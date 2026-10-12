@@ -29,7 +29,6 @@ export async function getMessagesByEvent(
     .limit(limit);
 
   if (error) throw error;
-
   return (data ?? []) as Message[];
 }
 
@@ -39,29 +38,20 @@ export async function createTextMessage(
   content: string
 ) {
   const normalizedContent = content.trim();
-
-  if (!normalizedContent) {
-    throw new Error("El mensaje está vacío.");
-  }
-
+  if (!normalizedContent) throw new Error("El mensaje está vacío.");
   if (normalizedContent.length > MAX_TEXT_LENGTH) {
-    throw new Error(
-      "El mensaje no puede exceder 180 caracteres."
-    );
+    throw new Error("El mensaje no puede exceder 180 caracteres.");
   }
 
-  const { error } = await supabase
-    .from("messages")
-    .insert({
-      event_id: eventId,
-      message_type: "text",
-      author_name: normalizeAuthorName(authorName),
-      content: normalizedContent,
-      file_path: null,
-      public_url: null,
-      duration_seconds: null,
-    });
-
+  const { error } = await supabase.from("messages").insert({
+    event_id: eventId,
+    message_type: "text",
+    author_name: normalizeAuthorName(authorName),
+    content: normalizedContent,
+    file_path: null,
+    public_url: null,
+    duration_seconds: null,
+  });
   if (error) throw error;
 }
 
@@ -71,21 +61,12 @@ export async function createAudioMessage(
   audioBlob: Blob,
   durationSeconds: number
 ) {
-  if (!audioBlob.size) {
-    throw new Error("La grabación está vacía.");
-  }
-
+  if (!audioBlob.size) throw new Error("La grabación está vacía.");
   if (audioBlob.size > MAX_AUDIO_BYTES) {
-    throw new Error(
-      "La grabación es demasiado grande. Intenta grabar un mensaje más corto."
-    );
+    throw new Error("La grabación es demasiado grande. Intenta grabar un mensaje más corto.");
   }
 
-  const duration = Math.min(
-    Math.max(Math.round(durationSeconds), 1),
-    MAX_AUDIO_SECONDS
-  );
-
+  const duration = Math.min(Math.max(Math.round(durationSeconds), 1), MAX_AUDIO_SECONDS);
   const extension = getAudioExtension(audioBlob.type);
   const fileName = `${crypto.randomUUID()}.${extension}`;
   const filePath = `${eventId}/audio/${fileName}`;
@@ -97,30 +78,24 @@ export async function createAudioMessage(
       upsert: false,
       cacheControl: "31536000",
     });
-
   if (uploadError) throw uploadError;
 
   const publicUrl = supabase.storage
     .from("event-messages")
     .getPublicUrl(filePath).data.publicUrl;
 
-  const { error: dbError } = await supabase
-    .from("messages")
-    .insert({
-      event_id: eventId,
-      message_type: "audio",
-      author_name: normalizeAuthorName(authorName),
-      content: null,
-      file_path: filePath,
-      public_url: publicUrl,
-      duration_seconds: duration,
-    });
+  const { error: dbError } = await supabase.from("messages").insert({
+    event_id: eventId,
+    message_type: "audio",
+    author_name: normalizeAuthorName(authorName),
+    content: null,
+    file_path: filePath,
+    public_url: publicUrl,
+    duration_seconds: duration,
+  });
 
   if (dbError) {
-    await supabase.storage
-      .from("event-messages")
-      .remove([filePath]);
-
+    await supabase.storage.from("event-messages").remove([filePath]);
     throw dbError;
   }
 }
@@ -131,85 +106,39 @@ export async function deleteMessage(
   eventId?: string
 ) {
   if (organizerToken && eventId) {
-    const { data, error } = await supabase.rpc(
-      "delete_message_with_token",
+    const { data, error } = await supabase.functions.invoke(
+      "delete-message-with-token",
       {
-        p_event_id: eventId,
-        p_message_id: message.id,
-        p_token: organizerToken,
+        body: {
+          event_id: eventId,
+          message_id: message.id,
+          organizer_token: organizerToken,
+        },
       }
     );
 
-    if (error) {
-      throw error;
+    if (error) throw error;
+    if (data?.success !== true) {
+      throw new Error(data?.error ?? "El mensaje no pudo eliminarse.");
     }
-
-    const authorizedMessage = Array.isArray(data)
-      ? data[0]
-      : data;
-
-    if (!authorizedMessage?.id) {
-      throw new Error(
-        "No tienes permiso para eliminar este mensaje."
-      );
-    }
-
-    if (authorizedMessage.file_path) {
-      const { error: storageError } =
-        await supabase.storage
-          .from("event-messages")
-          .remove([authorizedMessage.file_path]);
-
-      if (storageError) {
-        throw storageError;
-      }
-    }
-
-    const { data: deleted, error: deleteError } =
-      await supabase.rpc(
-        "delete_message_record_with_token",
-        {
-          p_event_id: eventId,
-          p_message_id: message.id,
-          p_token: organizerToken,
-        }
-      );
-
-    if (deleteError) {
-      throw deleteError;
-    }
-
-    if (!deleted) {
-      throw new Error(
-        "El mensaje no pudo eliminarse."
-      );
-    }
-
     return;
   }
 
   if (message.file_path) {
-    const { error: storageError } =
-      await supabase.storage
-        .from("event-messages")
-        .remove([message.file_path]);
-
-    if (storageError) {
-      throw storageError;
-    }
+    const { error: storageError } = await supabase.storage
+      .from("event-messages")
+      .remove([message.file_path]);
+    if (storageError) throw storageError;
   }
 
   const { error } = await supabase
     .from("messages")
     .delete()
     .eq("id", message.id);
-
   if (error) throw error;
 }
 
-export async function getAllMessagesByEvent(
-  eventId: string
-): Promise<Message[]> {
+export async function getAllMessagesByEvent(eventId: string): Promise<Message[]> {
   const allMessages: Message[] = [];
   const pageSize = 500;
   let from = 0;
@@ -219,56 +148,35 @@ export async function getAllMessagesByEvent(
       .from("messages")
       .select("*")
       .eq("event_id", eventId)
-      .order("created_at", {
-        ascending: true,
-      })
+      .order("created_at", { ascending: true })
       .range(from, from + pageSize - 1);
 
     if (error) throw error;
-
     const page = (data ?? []) as Message[];
     allMessages.push(...page);
-
-    if (page.length < pageSize) {
-      break;
-    }
-
+    if (page.length < pageSize) break;
     from += pageSize;
   }
 
   return allMessages;
 }
 
-export async function deleteMessagesByEvent(
-  eventId: string
-) {
+export async function deleteMessagesByEvent(eventId: string) {
   const messages = await getAllMessagesByEvent(eventId);
-
-  if (messages.length === 0) {
-    return 0;
-  }
+  if (messages.length === 0) return 0;
 
   const paths = messages
     .map((message) => message.file_path)
     .filter((path): path is string => Boolean(path));
 
   if (paths.length > 0) {
-    const { error: storageError } =
-      await supabase.storage
-        .from("event-messages")
-        .remove(paths);
-
-    if (storageError) {
-      throw storageError;
-    }
+    const { error: storageError } = await supabase.storage
+      .from("event-messages")
+      .remove(paths);
+    if (storageError) throw storageError;
   }
 
-  const { error } = await supabase
-    .from("messages")
-    .delete()
-    .eq("event_id", eventId);
-
+  const { error } = await supabase.from("messages").delete().eq("event_id", eventId);
   if (error) throw error;
-
   return messages.length;
 }

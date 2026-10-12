@@ -14,11 +14,11 @@ function jsonResponse(body: Record<string, unknown>, status = 200) {
 }
 
 function getServiceKey() {
-  const secretKeysRaw = Deno.env.get("SUPABASE_SECRET_KEYS");
-  if (secretKeysRaw) {
+  const raw = Deno.env.get("SUPABASE_SECRET_KEYS");
+  if (raw) {
     try {
-      const secretKeys = JSON.parse(secretKeysRaw);
-      if (secretKeys.default) return secretKeys.default;
+      const keys = JSON.parse(raw);
+      if (keys.default) return keys.default;
     } catch {
       throw new Error("SUPABASE_SECRET_KEYS no contiene JSON válido.");
     }
@@ -36,12 +36,10 @@ Deno.serve(async (req: Request) => {
     const body = await req.json();
     const eventId = typeof body.event_id === "string" ? body.event_id.trim() : "";
     const token = typeof body.organizer_token === "string" ? body.organizer_token.trim() : "";
-    const fileName = typeof body.file_name === "string" ? body.file_name : "";
     const contentType = typeof body.content_type === "string" ? body.content_type.toLowerCase() : "";
-    const encoded = typeof body.file_base64 === "string" ? body.file_base64 : "";
 
-    if (!eventId || !token || !fileName || !encoded) {
-      return jsonResponse({ error: "Faltan datos para subir la portada." }, 400);
+    if (!eventId || !token) {
+      return jsonResponse({ error: "Faltan datos para validar la portada." }, 400);
     }
     const allowedTypes: Record<string, string> = {
       "image/jpeg": "jpg",
@@ -50,13 +48,6 @@ Deno.serve(async (req: Request) => {
     };
     if (!(contentType in allowedTypes)) {
       return jsonResponse({ error: "Formato no permitido. Usa JPG, PNG o WebP." }, 415);
-    }
-
-    const base64 = encoded.replace(/^data:[^;]+;base64,/, "");
-    const approximateBytes = Math.floor(base64.length * 3 / 4) -
-      (base64.endsWith("==") ? 2 : base64.endsWith("=") ? 1 : 0);
-    if (approximateBytes <= 0 || approximateBytes > 10 * 1024 * 1024) {
-      return jsonResponse({ error: "La portada debe pesar máximo 10 MiB." }, 413);
     }
 
     const supabaseAdmin = createClient(
@@ -74,19 +65,19 @@ Deno.serve(async (req: Request) => {
     if (eventError) throw new Error("No se pudo validar el evento.");
     if (!event) return jsonResponse({ error: "El token no corresponde a este evento." }, 403);
 
-    const bytes = Uint8Array.from(atob(base64), (char) => char.charCodeAt(0));
-    const path = `${eventId}-${Date.now()}.${allowedTypes[contentType]}`;
-    const { error: uploadError } = await supabaseAdmin.storage
+    const path = `${eventId}-${crypto.randomUUID()}.${allowedTypes[contentType]}`;
+    const { data: signed, error: signedError } = await supabaseAdmin.storage
       .from("event-covers")
-      .upload(path, bytes, { contentType, upsert: false });
-    if (uploadError) throw new Error(`No se pudo subir la portada: ${uploadError.message}`);
+      .createSignedUploadUrl(path, { upsert: false });
+    if (signedError || !signed) {
+      throw new Error(`No se pudo preparar la carga de portada: ${signedError?.message ?? "error desconocido"}`);
+    }
 
-    const { data } = supabaseAdmin.storage.from("event-covers").getPublicUrl(path);
-    return jsonResponse({ success: true, public_url: data.publicUrl });
+    return jsonResponse({ success: true, path, token: signed.token });
   } catch (error) {
     console.error(error);
     return jsonResponse({
-      error: error instanceof Error ? error.message : "No fue posible subir la portada.",
+      error: error instanceof Error ? error.message : "No fue posible preparar la carga de portada.",
     }, 500);
   }
 });

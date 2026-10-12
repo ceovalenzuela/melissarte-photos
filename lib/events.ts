@@ -74,10 +74,44 @@ export async function updateEvent(
   }
 }
 
-export async function uploadCover(file: File, eventId: string) {
-  const extension =
-  file.name.split(".").pop() ?? "jpg";
+export async function uploadCover(
+  file: File,
+  eventId: string,
+  organizerToken?: string | null
+) {
+  if (organizerToken) {
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    let binary = "";
+    const chunkSize = 0x8000;
 
+    for (let offset = 0; offset < bytes.length; offset += chunkSize) {
+      binary += String.fromCharCode(
+        ...bytes.subarray(offset, offset + chunkSize)
+      );
+    }
+
+    const { data, error } = await supabase.functions.invoke(
+      "upload-event-cover",
+      {
+        body: {
+          event_id: eventId,
+          organizer_token: organizerToken,
+          file_name: file.name,
+          content_type: file.type,
+          file_base64: btoa(binary),
+        },
+      }
+    );
+
+    if (error) throw error;
+    if (!data?.success || typeof data.public_url !== "string") {
+      throw new Error(data?.error ?? "No fue posible subir la portada.");
+    }
+
+    return data.public_url as string;
+  }
+
+  const extension = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
   const path = `${eventId}-${Date.now()}.${extension}`;
 
   const { error } = await supabase.storage

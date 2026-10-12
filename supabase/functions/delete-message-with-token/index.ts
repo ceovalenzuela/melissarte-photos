@@ -40,24 +40,24 @@ function getServiceKey() {
   return serviceKey;
 }
 
+const UUID = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}";
+function isUuid(value: string) {
+  return new RegExp(`^${UUID}$`, "i").test(value);
+}
+
 Deno.serve(async (req: Request) => {
-  if (req.method === "OPTIONS") {
-    return new Response("ok", { headers: corsHeaders });
-  }
-  if (req.method !== "POST") {
-    return jsonResponse({ error: "Método no permitido." }, 405);
-  }
+  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+  if (req.method !== "POST") return jsonResponse({ error: "Método no permitido." }, 405);
 
   try {
     const body = (await req.json()) as DeleteMessageBody;
     const eventId = typeof body.event_id === "string" ? body.event_id.trim() : "";
     const messageId = typeof body.message_id === "string" ? body.message_id.trim() : "";
-    const organizerToken = typeof body.organizer_token === "string"
-      ? body.organizer_token.trim()
-      : "";
+    const organizerToken = typeof body.organizer_token === "string" ? body.organizer_token.trim() : "";
 
-    if (!eventId || !messageId || !organizerToken) {
-      return jsonResponse({ error: "Faltan datos para eliminar el mensaje." }, 400);
+    if (!isUuid(eventId) || !isUuid(messageId) || organizerToken.length < 22 ||
+        !/^[A-Za-z0-9_-]+$/.test(organizerToken)) {
+      return jsonResponse({ error: "Los datos para eliminar el mensaje no son válidos." }, 400);
     }
 
     const supabaseAdmin = createClient(getRequiredEnv("SUPABASE_URL"), getServiceKey());
@@ -83,13 +83,16 @@ Deno.serve(async (req: Request) => {
     if (!event) return jsonResponse({ error: "El token no corresponde a este evento." }, 403);
 
     if (message.file_path) {
+      const audioPathPattern = new RegExp(`^${eventId}/audio/${UUID}\\.(webm|ogg|m4a)$`, "i");
+      if (!audioPathPattern.test(message.file_path)) {
+        return jsonResponse({ error: "La ruta del audio no corresponde a este evento." }, 409);
+      }
+
       const { error: storageError } = await supabaseAdmin.storage
         .from("event-messages")
         .remove([message.file_path]);
 
-      if (storageError) {
-        throw new Error(`No se pudo eliminar el archivo de audio: ${storageError.message}`);
-      }
+      if (storageError) throw new Error(`No se pudo eliminar el archivo de audio: ${storageError.message}`);
     }
 
     const { data: deletedMessage, error: deleteError } = await supabaseAdmin

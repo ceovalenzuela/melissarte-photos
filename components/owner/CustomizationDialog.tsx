@@ -158,7 +158,7 @@ const [uploadingCover, setUploadingCover] =
   try {
     setUploadingCover(true);
 
-    const url = await uploadCover(file, event.id);
+    const url = await uploadCover(file, event.id, token);
 
     // Organizador: utiliza el token privado
     if (token) {

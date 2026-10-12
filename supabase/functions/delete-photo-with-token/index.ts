@@ -40,24 +40,24 @@ function getServiceKey() {
   return serviceKey;
 }
 
+const UUID = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}";
+function isUuid(value: string) {
+  return new RegExp(`^${UUID}$`, "i").test(value);
+}
+
 Deno.serve(async (req: Request) => {
-  if (req.method === "OPTIONS") {
-    return new Response("ok", { headers: corsHeaders });
-  }
-  if (req.method !== "POST") {
-    return jsonResponse({ error: "Método no permitido." }, 405);
-  }
+  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+  if (req.method !== "POST") return jsonResponse({ error: "Método no permitido." }, 405);
 
   try {
     const body = (await req.json()) as DeletePhotoBody;
     const eventId = typeof body.event_id === "string" ? body.event_id.trim() : "";
     const photoId = typeof body.photo_id === "string" ? body.photo_id.trim() : "";
-    const organizerToken = typeof body.organizer_token === "string"
-      ? body.organizer_token.trim()
-      : "";
+    const organizerToken = typeof body.organizer_token === "string" ? body.organizer_token.trim() : "";
 
-    if (!eventId || !photoId || !organizerToken) {
-      return jsonResponse({ error: "Faltan datos para eliminar la fotografía." }, 400);
+    if (!isUuid(eventId) || !isUuid(photoId) || organizerToken.length < 22 ||
+        !/^[A-Za-z0-9_-]+$/.test(organizerToken)) {
+      return jsonResponse({ error: "Los datos para eliminar la fotografía no son válidos." }, 400);
     }
 
     const supabaseAdmin = createClient(getRequiredEnv("SUPABASE_URL"), getServiceKey());
@@ -82,20 +82,18 @@ Deno.serve(async (req: Request) => {
     if (eventError) throw new Error(`No se pudo validar el evento: ${eventError.message}`);
     if (!event) return jsonResponse({ error: "El token no corresponde a este evento." }, 403);
 
-    const paths = [photo.file_path, photo.thumbnail_path].filter(
-      (path): path is string => typeof path === "string" && path.length > 0,
-    );
-    if (paths.length !== 2) {
-      throw new Error("La fotografía no tiene las rutas de archivo esperadas.");
+    const originalPattern = new RegExp(`^${eventId}/originals/${UUID}\\.(jpg|jpeg|png|webp)$`, "i");
+    const thumbnailPattern = new RegExp(`^${eventId}/thumbnails/${UUID}\\.webp$`, "i");
+    if (typeof photo.file_path !== "string" || !originalPattern.test(photo.file_path) ||
+        typeof photo.thumbnail_path !== "string" || !thumbnailPattern.test(photo.thumbnail_path)) {
+      return jsonResponse({ error: "Las rutas de los archivos no corresponden a esta fotografía." }, 409);
     }
 
     const { error: storageError } = await supabaseAdmin.storage
       .from("event-photos")
-      .remove(paths);
+      .remove([photo.file_path, photo.thumbnail_path]);
 
-    if (storageError) {
-      throw new Error(`No se pudieron eliminar los archivos de la fotografía: ${storageError.message}`);
-    }
+    if (storageError) throw new Error(`No se pudieron eliminar los archivos de la fotografía: ${storageError.message}`);
 
     const { data: deletedPhoto, error: deleteError } = await supabaseAdmin
       .from("photos")

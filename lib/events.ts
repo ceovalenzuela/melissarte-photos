@@ -74,10 +74,45 @@ export async function updateEvent(
   }
 }
 
-export async function uploadCover(file: File, eventId: string) {
-  const extension =
-  file.name.split(".").pop() ?? "jpg";
+export async function uploadCover(
+  file: File,
+  eventId: string,
+  organizerToken?: string | null
+) {
+  if (organizerToken) {
+    const { data, error } = await supabase.functions.invoke(
+      "upload-event-cover",
+      {
+        body: {
+          event_id: eventId,
+          organizer_token: organizerToken,
+          content_type: file.type,
+        },
+      }
+    );
 
+    if (error) throw error;
+    if (!data?.success || typeof data.path !== "string" || typeof data.token !== "string") {
+      throw new Error(data?.error ?? "No fue posible preparar la carga de portada.");
+    }
+
+    const { error: uploadError } = await supabase.storage
+      .from("event-covers")
+      .uploadToSignedUrl(data.path, data.token, file, {
+        contentType: file.type,
+        upsert: false,
+      });
+
+    if (uploadError) throw uploadError;
+
+    const { data: publicData } = supabase.storage
+      .from("event-covers")
+      .getPublicUrl(data.path);
+
+    return publicData.publicUrl;
+  }
+
+  const extension = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
   const path = `${eventId}-${Date.now()}.${extension}`;
 
   const { error } = await supabase.storage
@@ -92,7 +127,6 @@ export async function uploadCover(file: File, eventId: string) {
 
   return data.publicUrl;
 }
-
 export async function getEventContentStats() {
   const { data, error } = await supabase.rpc(
     "get_admin_event_stats"

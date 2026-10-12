@@ -23,10 +23,13 @@ export interface Photo {
   id: string;
   event_id: string;
   file_name: string;
+
   file_path: string;
   public_url: string;
+
   thumbnail_path: string;
   thumbnail_url: string;
+
   uploaded_at: string;
 }
 
@@ -38,7 +41,9 @@ function buildFilePath(
   const extension = file.name.split(".").pop() ?? "";
   const fileName = `${crypto.randomUUID()}.${extension}`;
 
-  return { filePath: `${eventId}/${folder}/${fileName}` };
+  return {
+    filePath: `${eventId}/${folder}/${fileName}`,
+  };
 }
 
 async function uploadSinglePhoto(
@@ -47,71 +52,128 @@ async function uploadSinglePhoto(
   originalFile: File,
   thumbnailFile: File
 ): Promise<string> {
-  const original = buildFilePath(eventId, "originals", originalFile);
-  const thumbnail = buildFilePath(eventId, "thumbnails", thumbnailFile);
+  const original = buildFilePath(
+    eventId,
+    "originals",
+    originalFile
+  );
+
+  const thumbnail = buildFilePath(
+    eventId,
+    "thumbnails",
+    thumbnailFile
+  );
 
   const { error: originalError } = await supabase.storage
     .from("event-photos")
     .upload(original.filePath, originalFile);
+
   if (originalError) throw originalError;
 
   const { error: thumbnailError } = await supabase.storage
     .from("event-photos")
     .upload(thumbnail.filePath, thumbnailFile);
+
   if (thumbnailError) throw thumbnailError;
 
   const originalUrl = supabase.storage
     .from("event-photos")
     .getPublicUrl(original.filePath).data.publicUrl;
+
   const thumbnailUrl = supabase.storage
     .from("event-photos")
     .getPublicUrl(thumbnail.filePath).data.publicUrl;
 
-  const { error: dbError } = await supabase.from("photos").insert({
-    event_id: eventId,
-    file_name: originalFileName,
-    file_path: original.filePath,
-    public_url: originalUrl,
-    thumbnail_path: thumbnail.filePath,
-    thumbnail_url: thumbnailUrl,
-  });
+  const { error: dbError } = await supabase
+    .from("photos")
+    .insert({
+      event_id: eventId,
+      file_name: originalFileName,
+
+      file_path: original.filePath,
+      public_url: originalUrl,
+
+      thumbnail_path: thumbnail.filePath,
+      thumbnail_url: thumbnailUrl,
+    });
+
   if (dbError) throw dbError;
 
   return originalUrl;
 }
 
-async function processPhoto(eventId: string, file: File): Promise<string> {
-  const thumbnailFile = await createThumbnail(file);
-  const compressedFile = await compressImage(file);
-  return uploadSinglePhoto(eventId, file.name, compressedFile, thumbnailFile);
+async function processPhoto(
+  eventId: string,
+  file: File
+): Promise<string> {
+  const thumbnailFile =
+    await createThumbnail(file);
+
+  const compressedFile =
+    await compressImage(file);
+
+  return uploadSinglePhoto(
+    eventId,
+    file.name,
+    compressedFile,
+    thumbnailFile
+  );
 }
 
 export async function uploadPhotos(
   eventId: string,
   files: File[],
-  onProgress?: (progress: UploadProgress) => void
+  onProgress?: (
+    progress: UploadProgress
+  ) => void
 ): Promise<UploadResult> {
   const uploaded: string[] = [];
   const failed: FailedUpload[] = [];
+
   const total = files.length;
   let completed = 0;
 
   for (const file of files) {
     try {
-      uploaded.push(await processPhoto(eventId, file));
+      const publicUrl = await processPhoto(
+        eventId,
+        file
+      );
+
+      uploaded.push(publicUrl);
     } catch (error) {
-      console.error("Error al subir la fotografía:", file.name, error);
-      failed.push({ file, message: "No se pudo subir la fotografía." });
+      console.error(
+        "Error al subir la fotografía:",
+        file.name,
+        error
+      );
+
+      failed.push({
+        file,
+        message:
+          "No se pudo subir la fotografía.",
+      });
     } finally {
       completed++;
-      onProgress?.({ completed, total });
+
+      onProgress?.({
+        completed,
+        total,
+      });
     }
   }
 
-  return { uploaded, failed, total, success: uploaded.length };
+  return {
+    uploaded,
+    failed,
+    total,
+    success: uploaded.length,
+  };
 }
 
-export type PhotoSortOrder = "newest" | "oldest";
+export type PhotoSortOrder =
+  | "newest"
+  | "oldest";
 
 export async function getPhotosByEvent(
   eventId: string,
@@ -126,14 +188,22 @@ export async function getPhotosByEvent(
     .from("photos")
     .select("*", { count: "exact" })
     .eq("event_id", eventId)
-    .order("uploaded_at", { ascending: sortOrder === "oldest" })
+    .order("uploaded_at", {
+      ascending: sortOrder === "oldest",
+    })
     .range(from, to);
 
   if (error) throw error;
-  return { photos: data ?? [], total: count ?? 0 };
+
+  return {
+    photos: data ?? [],
+    total: count ?? 0,
+  };
 }
 
-export async function getAllPhotosByEvent(eventId: string): Promise<Photo[]> {
+export async function getAllPhotosByEvent(
+  eventId: string
+): Promise<Photo[]> {
   const allPhotos: Photo[] = [];
   const pageSize = 500;
   let from = 0;
@@ -143,26 +213,40 @@ export async function getAllPhotosByEvent(eventId: string): Promise<Photo[]> {
       .from("photos")
       .select("*")
       .eq("event_id", eventId)
-      .order("uploaded_at", { ascending: true })
+      .order("uploaded_at", {
+        ascending: true,
+      })
       .range(from, from + pageSize - 1);
 
     if (error) throw error;
+
     const page = data ?? [];
+
     allPhotos.push(...page);
-    if (page.length < pageSize) break;
+
+    if (page.length < pageSize) {
+      break;
+    }
+
     from += pageSize;
   }
 
   return allPhotos;
 }
 
-export async function getPhotoCount(eventId: string): Promise<number> {
+export async function getPhotoCount(
+  eventId: string
+): Promise<number> {
   const { count, error } = await supabase
     .from("photos")
-    .select("*", { count: "exact", head: true })
+    .select("*", {
+      count: "exact",
+      head: true,
+    })
     .eq("event_id", eventId);
 
   if (error) throw error;
+
   return count ?? 0;
 }
 
@@ -184,38 +268,78 @@ export async function deletePhotoWithToken(
 
   if (error) throw error;
   if (data?.success !== true) {
-    throw new Error(data?.error ?? "La fotografía no pudo eliminarse de la galería.");
+    throw new Error(
+      data?.error ?? "La fotografía no pudo eliminarse de la galería."
+    );
   }
 }
 
 export async function deletePhoto(photo: Photo) {
-  const paths = [photo.file_path, photo.thumbnail_path];
+  const paths = [
+    photo.file_path,
+    photo.thumbnail_path,
+  ];
 
-  const { error: storageError } = await supabase.storage
-    .from("event-photos")
-    .remove(paths);
-  if (storageError) throw storageError;
+  const { error: storageError } =
+    await supabase.storage
+      .from("event-photos")
+      .remove(paths);
 
-  const { data, error } = await supabase.rpc("delete_photo_admin", {
-    p_photo_id: photo.id,
-  });
-  if (error) throw error;
-  if (!data) throw new Error("La fotografía no pudo eliminarse.");
+  if (storageError) {
+    throw storageError;
+  }
+
+  const { data, error } = await supabase.rpc(
+    "delete_photo_admin",
+    {
+      p_photo_id: photo.id,
+    }
+  );
+
+  if (error) {
+    throw error;
+  }
+
+  if (!data) {
+    throw new Error(
+      "La fotografía no pudo eliminarse."
+    );
+  }
 }
 
-export async function deletePhotosByEvent(eventId: string) {
+export async function deletePhotosByEvent(
+  eventId: string
+) {
   const photos = await getAllPhotosByEvent(eventId);
-  if (photos.length === 0) return 0;
 
-  const paths = photos.flatMap((photo) => [photo.file_path, photo.thumbnail_path]);
-  const { error: storageError } = await supabase.storage
-    .from("event-photos")
-    .remove(paths);
-  if (storageError) throw storageError;
+  if (photos.length === 0) {
+    return 0;
+  }
 
-  const { data, error } = await supabase.rpc("delete_photos_admin", {
-    p_event_id: eventId,
-  });
-  if (error) throw error;
+  const paths = photos.flatMap((photo) => [
+    photo.file_path,
+    photo.thumbnail_path,
+  ]);
+
+  const { error: storageError } =
+    await supabase.storage
+      .from("event-photos")
+      .remove(paths);
+
+  if (storageError) {
+    throw storageError;
+  }
+
+  const { data, error } = await supabase.rpc(
+    "delete_photos_admin",
+    {
+      p_event_id: eventId,
+    }
+  );
+
+  if (error) {
+    throw error;
+  }
+
   return data ?? 0;
 }

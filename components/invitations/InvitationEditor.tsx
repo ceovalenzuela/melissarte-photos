@@ -233,13 +233,23 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
           </section>
 
           <section className="border-t border-[#E7DCC8] pt-6">
+            <h3 className="mb-4 text-base font-semibold text-[#332B27]">Diseño de la invitación</h3>
+            <label className={labelClass}>Plantilla</label>
+            <select value={templateKey} onChange={(e) => { const next = TEMPLATE_OPTIONS.find((option) => option.key === e.target.value); if (!next) return; setTemplateKey(next.key); setDesign((current) => ({ ...current, ...next.palette, cover_image_url: current.cover_image_url })); }} className={inputClass}>
+              {TEMPLATE_OPTIONS.map((option) => <option key={option.key} value={option.key}>{option.label} — {option.description}</option>)}
+            </select>
+            <p className="mt-2 text-xs text-[#8A8074]">Cambiar plantilla aplica su paleta base. Puedes ajustar los colores más abajo.</p>
+          </section>
+
+          <section className="border-t border-[#E7DCC8] pt-6">
             <h3 className="mb-4 text-base font-semibold text-[#332B27]">Mensaje de invitación</h3>
             <div className="grid gap-4 sm:grid-cols-2">
               <Field label="Título principal" value={content.headline ?? ""} onChange={(v) => updateContent("headline", v)} placeholder={event.title} />
               <Field label="Nombres de quienes invitan" value={content.host_names ?? ""} onChange={(v) => updateContent("host_names", v)} placeholder="Ej. Sofía y Alejandro" />
               <div className="sm:col-span-2">
                 <label className={labelClass}>Mensaje breve</label>
-                <textarea rows={3} value={content.introduction ?? ""} onChange={(e) => updateContent("introduction", e.target.value)} placeholder="Nos encantará compartir este día contigo." maxLength={240} className={inputClass} />\n                <p className="mt-1 text-right text-xs text-[#8A8074]">{(content.introduction ?? "").length}/240 caracteres</p>
+                <textarea rows={3} value={content.introduction ?? ""} onChange={(e) => updateContent("introduction", e.target.value)} placeholder="Nos encantará compartir este día contigo." maxLength={240} className={inputClass} />
+                <p className="mt-1 text-right text-xs text-[#8A8074]">{(content.introduction ?? "").length}/240 caracteres</p>
               </div>
             </div>
           </section>

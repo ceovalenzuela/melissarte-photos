@@ -1,8 +1,6 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import Footer from "@/components/public/Footer";
 import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight, Sparkles, ChevronDown } from "lucide-react";
 import { supabase } from "@/lib/supabase";

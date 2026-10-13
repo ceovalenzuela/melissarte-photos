@@ -48,8 +48,10 @@ export default async function ClientDashboardPage({
     notFound();
   }
 
-  const photoCount = await getPhotoCount(event.id);
-  const invitationEnabled = authorizedEvents[0].invitation_enabled === true;
+  const [{ data: invitationEnabled }, photoCount] = await Promise.all([
+    supabase.rpc("get_event_invitation_enabled", { p_token: token }),
+    getPhotoCount(event.id),
+  ]);
 
   return (
     <main className="min-h-screen bg-[#FBF9F5]">

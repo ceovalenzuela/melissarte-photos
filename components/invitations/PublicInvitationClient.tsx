@@ -41,7 +41,7 @@ export default function PublicInvitationClient({
   const background = safeColor(design.background_color, "#FBF7F1");
   const cover = design.cover_image_url?.startsWith("https://")
     ? design.cover_image_url
-    : invitation.cover_image;
+    : null;
   const dateLabel = formatDate(invitation.event_date);
 
   const [guestName, setGuestName] = useState(existingRSVP?.guest_name ?? "");

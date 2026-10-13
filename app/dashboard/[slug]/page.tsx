@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 
 import EventHero from "@/components/events/EventHero";
 import EventActions from "@/components/events/EventActions";
@@ -55,8 +56,14 @@ export default async function ClientDashboardPage({
       <div className="mx-auto max-w-6xl px-3 py-4 sm:px-4 sm:py-6">
         <EventHero event={event} photoCount={photoCount} showWelcomeMessage={false} />
 
-        <div className="mx-auto mt-6 max-w-6xl">
+        <div className="mx-auto mt-6 flex max-w-6xl flex-wrap items-center justify-between gap-3">
           <EventActions event={event} />
+          <Link
+            href={"/mi-galeria/" + token + "/confirmaciones"}
+            className="inline-flex items-center rounded-full bg-[#A88249] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#8E6D3D]"
+          >
+            Ver confirmaciones RSVP
+          </Link>
         </div>
 
         <div className="mx-auto mt-10 max-w-6xl sm:mt-12">

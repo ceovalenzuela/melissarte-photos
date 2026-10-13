@@ -49,22 +49,39 @@ export default async function ClientDashboardPage({
     notFound();
   }
 
-  const photoCount = await getPhotoCount(event.id);
+  const [{ data: invitationRows, error: invitationError }, photoCount] = await Promise.all([
+    supabase.rpc("get_invitation_for_organizer", {
+      p_event_id: event.id,
+      p_organizer_token: token,
+    }),
+    getPhotoCount(event.id),
+  ]);
+  const hasInvitation = !invitationError && Boolean(invitationRows?.length);
 
   return (
     <main className="min-h-screen bg-[#FBF9F5]">
       <div className="mx-auto max-w-6xl px-3 py-4 sm:px-4 sm:py-6">
         <EventHero event={event} photoCount={photoCount} showWelcomeMessage={false} />
 
-        <div className="mx-auto mt-6 flex max-w-6xl flex-wrap items-center justify-between gap-3">
+        <div className="mx-auto mt-6 max-w-6xl">
           <EventActions event={event} />
-          <Link
-            href={"/mi-galeria/" + token + "/confirmaciones"}
-            className="inline-flex items-center rounded-full bg-[#A88249] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#8E6D3D]"
-          >
-            Ver confirmaciones RSVP
-          </Link>
         </div>
+
+        {hasInvitation && (
+          <section className="mx-auto mt-6 max-w-6xl rounded-2xl border border-[#E7DCC8] bg-white p-5 sm:flex sm:items-center sm:justify-between sm:gap-6 sm:p-6">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#A88249]">Producto independiente</p>
+              <h2 className="mt-1 text-xl font-semibold text-[#332B27]">Invitación digital</h2>
+              <p className="mt-1 text-sm leading-6 text-[#7D7467]">Consulta las respuestas de tus invitados sin entrar a las herramientas de la galería.</p>
+            </div>
+            <Link
+              href={"/mi-galeria/" + token + "/confirmaciones"}
+              className="mt-4 inline-flex shrink-0 items-center justify-center rounded-full bg-[#A88249] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#8E6D3D] sm:mt-0"
+            >
+              Ver confirmaciones
+            </Link>
+          </section>
+        )}
 
         <div className="mx-auto mt-10 max-w-6xl sm:mt-12">
           <GallerySection event={event} />

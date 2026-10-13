@@ -151,9 +151,9 @@ export default function EventInfoForm({
 
       <div className="border-t border-[#E7DCC8] pt-5">
         <div className="mb-3">
-          <p className="text-sm font-medium text-[#5C554B]">Productos contratados</p>
+          <p className="text-sm font-medium text-[#5C554B]">Servicios incluidos</p>
           <p className="mt-1 text-xs text-[#8B8378]">
-            Este control es administrativo e independiente de la publicación de la invitación y de las compras.
+            Actívala si este evento también incluye invitación digital.
           </p>
         </div>
         <button
@@ -167,12 +167,12 @@ export default function EventInfoForm({
         >
           <span>
             <span className="block text-sm font-medium">
-              {values.invitation_enabled ? "Invitación digital habilitada" : "Invitación digital no contratada"}
+              {values.invitation_enabled ? "Invitación digital activa" : "Invitación digital desactivada"}
             </span>
             <span className="mt-0.5 block text-xs opacity-80">
               {values.invitation_enabled
-                ? "Se mostrará el acceso a confirmaciones y podrás configurar la invitación."
-                : "No se mostrará el acceso a confirmaciones para este evento."}
+                ? "El organizador tendrá acceso a la invitación y sus confirmaciones."
+                : "No aparecerá el acceso a las confirmaciones."}
             </span>
           </span>
           <span className={values.invitation_enabled
@@ -184,7 +184,7 @@ export default function EventInfoForm({
           </span>
         </button>
         <p className="mt-2 text-xs text-[#8B8378]">
-          Guarda los cambios para aplicar la habilitación. El estado de publicación se configura por separado.
+          Guarda los cambios para aplicar esta opción. La publicación de la invitación se configura por separado.
         </p>
       </div>
 

@@ -12,7 +12,7 @@ import { useEvents } from "@/hooks/useEvents";
 import { EventWithStats } from "@/types/event-with-stats";
 
 type StatusFilter = "all" | "published" | "draft";
-type SortOrder = "upcoming" | "created_desc" | "created_asc" | "activity";
+type EventTypeFilter = "all" | "wedding" | "xv" | "birthday" | "corporate" | "other";\ntype SortOrder = "upcoming" | "created_desc" | "created_asc" | "activity";
 
 function parseLocalDate(date: string) {
   const [year, month, day] = date.split("-");
@@ -109,7 +109,7 @@ export default function AdminPage() {
   } = useEvents();
 
   const [search, setSearch] = useState("");
-  const [status, setStatus] = useState<StatusFilter>("all");
+  const [status, setStatus] = useState<StatusFilter>("all");\n  const [eventType, setEventType] = useState<EventTypeFilter>("all");
   const [sortOrder, setSortOrder] = useState<SortOrder>("upcoming");
 
   const filteredEvents = useMemo(() => {
@@ -128,11 +128,11 @@ export default function AdminPage() {
     });
 
     return sortEvents(filtered, sortOrder);
-  }, [events, search, status, sortOrder]);
+  }, [events, search, status, eventType, sortOrder]);
 
   return (
     <main className="min-h-screen min-w-0 bg-[#F7F5F1]">
-      <AppHeader title="Galerías">
+      <AppHeader title="Eventos y galerías">
         <EventDialog
           mode="create"
           createEvent={createEvent}
@@ -172,7 +172,7 @@ export default function AdminPage() {
               )}
             </div>
 
-            <div className="grid min-w-0 grid-cols-1 gap-2 sm:grid-cols-2">
+            <div className="grid min-w-0 grid-cols-1 gap-2 sm:grid-cols-3">
               <label className="relative min-w-0">
                 <span className="sr-only">Filtrar por estado</span>
                 <ListFilter

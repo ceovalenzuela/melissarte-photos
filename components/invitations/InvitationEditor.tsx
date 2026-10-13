@@ -57,6 +57,10 @@ const emptyDesign: InvitationDesign = {
   background_color: "#FBF7F1",
   text_color: "#332B27",
 };
+function initialDesign(event: Event): InvitationDesign {
+  const template = defaultTemplate(event);
+  return { ...(TEMPLATE_OPTIONS.find((option) => option.key === template)?.palette ?? emptyDesign) };
+}
 
 export default function InvitationEditor({ event, organizerToken }: Props) {
   const [loaded, setLoaded] = useState(false);
@@ -64,7 +68,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
   const [uploadingCover, setUploadingCover] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const [content, setContent] = useState<InvitationContent>(() => emptyContent(event));
-  const [design, setDesign] = useState<InvitationDesign>(emptyDesign);
+  const [design, setDesign] = useState<InvitationDesign>(() => initialDesign(event));
   const [templateKey, setTemplateKey] = useState<TemplateKey>(() => defaultTemplate(event));
   const [rsvpEnabled, setRsvpEnabled] = useState(true);
   const [maxPartySize, setMaxPartySize] = useState(2);

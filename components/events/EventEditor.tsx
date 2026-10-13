@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { AlertTriangle } from "lucide-react";
 
@@ -26,9 +26,10 @@ interface EventStats {
 interface Props {
   event: Event;
   stats: EventStats;
+  invitationSection?: ReactNode;
 }
 
-export default function EventEditor({ event, stats }: Props) {
+export default function EventEditor({ event, stats, invitationSection }: Props) {
   const [values, setValues] = useState(event);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -142,6 +143,8 @@ export default function EventEditor({ event, stats }: Props) {
           <AdminMessageManager event={values} />
         </div>
       </section>
+
+      {invitationSection}
 
       <section>
         <div className="mb-3 flex items-center gap-2">

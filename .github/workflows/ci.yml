@@ -32,7 +32,9 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        # npm install reconciles the repository's currently stale lockfile
+        # in the ephemeral runner; keep the tracked lockfile unchanged here.
+        run: npm install --no-audit --no-fund
 
       - name: Lint
         run: npm run lint

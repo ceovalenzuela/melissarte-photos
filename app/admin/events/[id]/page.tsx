@@ -157,17 +157,13 @@ export default async function EventPage({ params }: Props) {
               messageCount,
               lastActivityAt,
             }}
+            invitationSection={typedEvent.invitation_enabled ? (
+              <div className="mt-2 mb-8">
+                <InvitationEditor event={typedEvent} organizerToken={typedEvent.organizer_token ?? ""} />
+              </div>
+            ) : undefined}
           />
         </div>
-
-        {typedEvent.invitation_enabled && (
-          <div className="mt-6">
-            <InvitationEditor
-              event={typedEvent}
-              organizerToken={typedEvent.organizer_token ?? ""}
-            />
-          </div>
-        )}
       </div>
     </main>
   );

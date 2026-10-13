@@ -40,6 +40,8 @@ export default function InvitationResponses({ eventId, organizerToken }: Props) 
   }, [eventId, organizerToken]);
 
   useEffect(() => {
+    // The callback updates state only after its asynchronous Supabase request resolves.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void loadResponses();
   }, [loadResponses]);
 

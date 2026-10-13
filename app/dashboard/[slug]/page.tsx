@@ -7,7 +7,6 @@ import { getEventBySlug } from "@/lib/events";
 import { getPhotoCount } from "@/lib/photos";
 import GallerySection from "@/components/gallery/GallerySection";
 import Footer from "@/components/public/Footer";
-import InvitationEditor from "@/components/invitations/InvitationEditor";
 import InvitationResponses from "@/components/invitations/InvitationResponses";
 import { supabase } from "@/lib/supabase";
 
@@ -62,7 +61,6 @@ export default async function ClientDashboardPage({
         </div>
 
         <div className="mx-auto mt-8 max-w-6xl">
-          <InvitationEditor event={event} organizerToken={token} />
           <InvitationResponses eventId={event.id} organizerToken={token} />
         </div>
 

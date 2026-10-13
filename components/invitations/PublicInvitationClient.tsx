@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt } from "lucide-react";
+import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight, Sparkles } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
 
@@ -28,6 +28,11 @@ function formatDate(value: string | null) {
   });
 }
 
+function mapsUrl(place?: string, address?: string) {
+  const query = [place, address].filter((value) => value?.trim()).join(", ");
+  return query ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}` : null;
+}
+
 export default function PublicInvitationClient({
   invitation,
   existingRSVP,
@@ -39,20 +44,14 @@ export default function PublicInvitationClient({
   const accent = safeColor(design.accent_color, "#9A7358");
   const textColor = safeColor(design.text_color, "#332B27");
   const background = safeColor(design.background_color, "#FBF7F1");
-  const cover = design.cover_image_url?.startsWith("https://")
-    ? design.cover_image_url
-    : null;
+  const cover = design.cover_image_url?.startsWith("https://") ? design.cover_image_url : null;
   const dateLabel = formatDate(invitation.event_date);
+  const primaryMapsUrl = mapsUrl(content.ceremony_venue, content.ceremony_address);
+  const receptionMapsUrl = mapsUrl(content.reception_venue, content.reception_address);
 
   const [guestName, setGuestName] = useState(existingRSVP?.guest_name ?? "");
-  const [attendance, setAttendance] = useState<RSVPStatus>(
-    existingRSVP?.attendance_status ?? "attending"
-  );
-  const [partySize, setPartySize] = useState(
-    existingRSVP?.attendance_status === "attending"
-      ? existingRSVP.party_size
-      : 1
-  );
+  const [attendance, setAttendance] = useState<RSVPStatus>(existingRSVP?.attendance_status ?? "attending");
+  const [partySize, setPartySize] = useState(existingRSVP?.attendance_status === "attending" ? existingRSVP.party_size : 1);
   const [phone, setPhone] = useState(existingRSVP?.phone ?? "");
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -63,7 +62,6 @@ export default function PublicInvitationClient({
     setErrorMessage("");
     setSuccessMessage("");
     setSubmitting(true);
-
     try {
       if (existingRSVP && editToken) {
         const { data, error } = await supabase.rpc("edit_invitation_rsvp", {
@@ -75,7 +73,7 @@ export default function PublicInvitationClient({
           p_phone: phone.trim() || null,
         });
         if (error) throw error;
-        if (data !== true) throw new Error("El enlace de edición no es válido o ya no está disponible.");
+        if (data !== true) throw new Error("El enlace para editar tu confirmación ya no está disponible.");
         setSuccessMessage("Tu confirmación se actualizó correctamente.");
       } else {
         const { data, error } = await supabase.rpc("submit_invitation_rsvp", {
@@ -90,19 +88,12 @@ export default function PublicInvitationClient({
         if (!result?.response_id || !result?.edit_token) {
           throw new Error("No fue posible guardar tu confirmación. Inténtalo de nuevo.");
         }
-        const params = new URLSearchParams({
-          rsvp: result.response_id,
-          token: result.edit_token,
-        });
+        const params = new URLSearchParams({ rsvp: result.response_id, token: result.edit_token });
         window.location.href = `/i/${encodeURIComponent(invitation.invitation_slug)}?${params.toString()}`;
         return;
       }
     } catch (error) {
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "Ocurrió un error al guardar tu confirmación."
-      );
+      setErrorMessage(error instanceof Error ? error.message : "Ocurrió un error al guardar tu confirmación.");
     } finally {
       setSubmitting(false);
     }
@@ -111,143 +102,149 @@ export default function PublicInvitationClient({
   if (editRequested && !existingRSVP) {
     return (
       <main className="flex min-h-screen items-center justify-center px-5 py-12" style={{ backgroundColor: background, color: textColor }}>
-        <section className="w-full max-w-lg rounded-3xl bg-white p-8 text-center shadow-sm">
-          <h1 className="font-[var(--font-display)] text-3xl">Enlace no disponible</h1>
-          <p className="mt-3 text-sm leading-6 text-neutral-600">
-            No pudimos validar el enlace para editar la confirmación. Revisa que hayas abierto el enlace completo que recibiste.
-          </p>
-          <a href={`/i/${encodeURIComponent(invitation.invitation_slug)}#confirmar`} className="mt-6 inline-flex rounded-full px-5 py-3 text-sm font-medium text-white" style={{ backgroundColor: accent }}>
-            Volver a la invitación
-          </a>
+        <section className="w-full max-w-lg rounded-[2rem] border border-black/5 bg-white p-8 text-center shadow-xl">
+          <p className="text-xs uppercase tracking-[0.24em]" style={{ color: accent }}>Invitación digital</p>
+          <h1 className="mt-4 font-[var(--font-display)] text-3xl">Este enlace ya no está disponible</h1>
+          <p className="mt-3 text-sm leading-6 text-neutral-600">Revisa que hayas abierto el enlace completo que recibiste.</p>
+          <a href={`/i/${encodeURIComponent(invitation.invitation_slug)}#confirmar`} className="mt-6 inline-flex rounded-full px-6 py-3 text-sm font-semibold text-white" style={{ backgroundColor: accent }}>Volver a la invitación</a>
         </section>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen px-3 py-4 sm:px-6 sm:py-8" style={{ backgroundColor: background, color: textColor }}>
-      <div className="mx-auto max-w-3xl overflow-hidden rounded-[2rem] bg-white shadow-[0_24px_80px_rgba(48,36,27,0.10)]">
-        <header className="relative flex min-h-[320px] items-end overflow-hidden px-6 pb-8 pt-16 sm:min-h-[440px] sm:px-12 sm:pb-12">
-          {cover ? (
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `linear-gradient(to top, rgba(23,19,16,.82), rgba(23,19,16,.04) 78%), url("${cover.replace(/["\\\\]/g, "")}")` }}
-            />
-          ) : (
-            <div aria-hidden="true" className="absolute inset-0" style={{ background: `radial-gradient(circle at top right, ${accent}33, transparent 48%), linear-gradient(135deg, ${background}, #ffffff)` }} />
-          )}
-          <div className="relative z-10 w-full text-center text-white">
-            {content.host_names && <p className="mb-3 text-xs uppercase tracking-[0.28em] text-white/85">{content.host_names}</p>}
-            <p className="mb-3 text-xs uppercase tracking-[0.3em] text-white/80">Tenemos el gusto de invitarte</p>
-            <h1 className="mx-auto max-w-2xl text-balance font-[var(--font-display)] text-5xl font-medium leading-[0.95] sm:text-7xl">
-              {content.headline || invitation.event_title}
-            </h1>
-            {content.subtitle && <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-white/90 sm:text-base">{content.subtitle}</p>}
-          </div>
-        </header>
-
-        <section className="px-6 py-8 text-center sm:px-12 sm:py-10">
-          {content.introduction && <p className="mx-auto max-w-xl whitespace-pre-line text-sm leading-7 text-neutral-600 sm:text-base">{content.introduction}</p>}
-          {dateLabel && (
-            <div className="mx-auto mt-6 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm capitalize" style={{ backgroundColor: `${accent}14`, color: accent }}>
-              <CalendarDays size={17} />
-              {dateLabel}
+    <main className="min-h-screen overflow-hidden" style={{ backgroundColor: background, color: textColor }}>
+      <div className="mx-auto max-w-6xl sm:px-6 sm:py-8 lg:px-10">
+        <article className="overflow-hidden bg-white shadow-[0_28px_100px_rgba(48,36,27,0.12)] sm:rounded-[2rem]">
+          <header className="relative isolate flex min-h-[76svh] items-end overflow-hidden sm:min-h-[680px]">
+            {cover ? (
+              <div aria-hidden="true" className="absolute inset-0 -z-20 bg-cover bg-center" style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />
+            ) : (
+              <div aria-hidden="true" className="absolute inset-0 -z-20" style={{ background: `radial-gradient(ellipse at 75% 18%, ${accent}55, transparent 38%), linear-gradient(145deg, #211C19 0%, #665346 52%, #D4BDA3 100%)` }} />
+            )}
+            <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-b from-black/10 via-black/10 to-black/75" />
+            <div className="absolute left-5 right-5 top-5 flex items-center justify-between text-white/90 sm:left-10 sm:right-10 sm:top-9">
+              <span className="text-[10px] font-medium uppercase tracking-[0.28em]">Una celebración especial</span>
+              <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/40 backdrop-blur-sm"><Sparkles size={16} /></span>
             </div>
-          )}
-          <div className="mx-auto mt-8 grid max-w-2xl gap-3 text-left sm:grid-cols-2">
-            {(content.ceremony_venue || content.ceremony_time || content.ceremony_address) && (
-              <DetailCard icon={<MapPin size={18} />} title="Ceremonia" lines={[content.ceremony_time, content.ceremony_venue, content.ceremony_address]} accent={accent} />
-            )}
-            {(content.reception_venue || content.reception_time || content.reception_address) && (
-              <DetailCard icon={<MapPin size={18} />} title="Recepción" lines={[content.reception_time, content.reception_venue, content.reception_address]} accent={accent} />
-            )}
-            {content.dress_code && <DetailCard icon={<Shirt size={18} />} title="Código de vestimenta" lines={[content.dress_code]} accent={accent} />}
-            {content.rsvp_deadline && <DetailCard icon={<Clock3 size={18} />} title="Confirma antes de" lines={[content.rsvp_deadline]} accent={accent} />}
-          </div>
-          {content.closing_note && <p className="mx-auto mt-8 max-w-xl font-[var(--font-display)] text-2xl italic">{content.closing_note}</p>}
-        </section>
+            <div className="w-full px-6 pb-9 pt-28 text-center text-white sm:px-14 sm:pb-14">
+              <div className="mx-auto mb-5 h-px w-14 bg-white/70" />
+              {content.host_names && <p className="mb-4 text-xs uppercase tracking-[0.28em] text-white/90 sm:text-sm">{content.host_names}</p>}
+              <h1 className="mx-auto max-w-4xl text-balance font-[var(--font-display)] text-5xl font-medium leading-[0.98] tracking-[-0.035em] sm:text-7xl lg:text-8xl">
+                {content.headline || invitation.event_title}
+              </h1>
+              {dateLabel && <p className="mt-6 text-sm capitalize tracking-[0.12em] text-white/90 sm:text-base">{dateLabel}</p>}
+              {content.introduction && <p className="mx-auto mt-5 max-w-lg text-sm leading-6 text-white/85 sm:text-base">{content.introduction}</p>}
+              <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+                {invitation.rsvp_enabled && <a href="#confirmar" className="inline-flex min-h-12 items-center justify-center rounded-full px-7 py-3 text-sm font-semibold transition hover:opacity-90" style={{ backgroundColor: "#FFFFFF", color: "#29231F" }}>{existingRSVP ? "Ver mi confirmación" : "Confirmar asistencia"} <ArrowUpRight size={16} className="ml-2" /></a>}
+                {primaryMapsUrl && <a href={primaryMapsUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/55 bg-black/10 px-7 py-3 text-sm font-medium text-white backdrop-blur-sm transition hover:bg-white/15"><MapPin size={16} className="mr-2" />Cómo llegar</a>}
+              </div>
+            </div>
+            <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-white/65 to-transparent opacity-60" />
+          </header>
 
-        {invitation.rsvp_enabled && (
-          <section id="confirmar" className="border-t border-neutral-100 px-6 py-8 sm:px-12 sm:py-10">
-            <div className="mx-auto max-w-xl">
-              <p className="text-center text-xs uppercase tracking-[0.25em]" style={{ color: accent }}>
-                {existingRSVP ? "Tu respuesta" : "Nos encantará saber de ti"}
-              </p>
-              <h2 className="mt-2 text-center font-[var(--font-display)] text-3xl sm:text-4xl">
-                {existingRSVP ? "Editar confirmación" : "¿Nos acompañas?"}
-              </h2>
-              <p className="mt-2 text-center text-sm text-neutral-500">
-                {existingRSVP ? "Actualiza los datos de tu respuesta." : "Confirma tu asistencia en unos segundos."}
-              </p>
+          <section className="px-5 py-12 sm:px-12 sm:py-16 lg:px-20">
+            <div className="mx-auto max-w-3xl text-center">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>Reserva la fecha</p>
+              <div className="mx-auto mt-5 flex items-center justify-center gap-4">
+                <span className="h-px w-10" style={{ backgroundColor: `${accent}55` }} />
+                <CalendarDays size={20} strokeWidth={1.4} style={{ color: accent }} />
+                <span className="h-px w-10" style={{ backgroundColor: `${accent}55` }} />
+              </div>
+              {dateLabel && <p className="mt-5 font-[var(--font-display)] text-3xl capitalize leading-tight sm:text-4xl">{dateLabel}</p>}
+              <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-neutral-600 sm:text-base">Será un gusto compartir este momento contigo. Aquí encontrarás los detalles para acompañarnos.</p>
+            </div>
 
-              <form onSubmit={handleSubmit} className="mt-7 space-y-5">
-                <div>
-                  <label htmlFor="guest-name" className="mb-2 block text-sm font-medium">Nombre completo</label>
-                  <input id="guest-name" required minLength={1} maxLength={80} value={guestName} onChange={(e) => setGuestName(e.target.value)} className="w-full rounded-xl border border-neutral-200 px-4 py-3 outline-none transition focus:border-neutral-400" placeholder="Escribe tu nombre" />
-                </div>
-                <fieldset>
-                  <legend className="mb-2 text-sm font-medium">¿Podrás acompañarnos?</legend>
-                  <div className="grid grid-cols-2 gap-3">
-                    <button type="button" onClick={() => setAttendance("attending")} aria-pressed={attendance === "attending"} className="rounded-xl border px-3 py-3 text-sm transition" style={attendance === "attending" ? { borderColor: accent, backgroundColor: `${accent}12`, color: accent } : { borderColor: "#e5e5e5" }}>Sí, asistiré</button>
-                    <button type="button" onClick={() => setAttendance("declined")} aria-pressed={attendance === "declined"} className="rounded-xl border px-3 py-3 text-sm transition" style={attendance === "declined" ? { borderColor: accent, backgroundColor: `${accent}12`, color: accent } : { borderColor: "#e5e5e5" }}>No podré asistir</button>
-                  </div>
-                </fieldset>
-                {attendance === "attending" && (
-                  <div>
-                    <label htmlFor="party-size" className="mb-2 block text-sm font-medium">¿Cuántas personas asistirán contigo?</label>
-                    <select id="party-size" value={partySize} onChange={(e) => setPartySize(Number(e.target.value))} className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 outline-none focus:border-neutral-400">
-                      {Array.from({ length: invitation.max_party_size }, (_, index) => index + 1).map((size) => (
-                        <option key={size} value={size}>{size} {size === 1 ? "persona en total" : "personas en total"}</option>
-                      ))}
-                    </select>
-                  </div>
+            {(content.ceremony_venue || content.ceremony_time || content.ceremony_address || content.reception_venue || content.reception_time || content.reception_address) && (
+              <div className="mx-auto mt-12 grid max-w-4xl gap-4 md:grid-cols-2">
+                {(content.ceremony_venue || content.ceremony_time || content.ceremony_address) && (
+                  <LocationCard title={content.reception_venue ? "Ceremonia" : "Lugar del evento"} time={content.ceremony_time} venue={content.ceremony_venue} address={content.ceremony_address} maps={primaryMapsUrl} accent={accent} />
                 )}
-                <div>
-                  <label htmlFor="guest-phone" className="mb-2 block text-sm font-medium">Teléfono <span className="font-normal text-neutral-400">(opcional)</span></label>
-                  <input id="guest-phone" type="tel" maxLength={30} value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full rounded-xl border border-neutral-200 px-4 py-3 outline-none transition focus:border-neutral-400" placeholder="Tu número de contacto" />
-                </div>
-                {errorMessage && <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{errorMessage}</p>}
-                {successMessage && <p role="status" className="flex items-center gap-2 rounded-xl bg-green-50 px-4 py-3 text-sm text-green-800"><CheckCircle2 size={18} />{successMessage}</p>}
-                <button type="submit" disabled={submitting} className="w-full rounded-full px-5 py-3.5 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60" style={{ backgroundColor: accent }}>
-                  {submitting ? "Guardando..." : existingRSVP ? "Guardar cambios" : "Confirmar respuesta"}
-                </button>
-                {!existingRSVP && <p className="text-center text-xs leading-5 text-neutral-400">Tu respuesta solo será visible para los organizadores.</p>}
-              </form>
-            </div>
-          </section>
-        )}
+                {(content.reception_venue || content.reception_time || content.reception_address) && (
+                  <LocationCard title="Recepción" time={content.reception_time} venue={content.reception_venue} address={content.reception_address} maps={receptionMapsUrl} accent={accent} />
+                )}
+              </div>
+            )}
 
-        <footer className="border-t border-neutral-100 px-6 py-6 text-center">
-          <p className="font-[var(--font-display)] text-lg italic" style={{ color: accent }}>Con cariño, esperamos verte</p>
-          <p className="mt-2 text-[10px] uppercase tracking-[0.24em] text-neutral-400">Invitación digital · Melissarte</p>
-        </footer>
+            {(content.dress_code || content.rsvp_deadline) && (
+              <div className="mx-auto mt-5 grid max-w-4xl gap-4 sm:grid-cols-2">
+                {content.dress_code && <InfoCard icon={<Shirt size={18} />} title="Código de vestimenta" value={content.dress_code} accent={accent} />}
+                {content.rsvp_deadline && <InfoCard icon={<Clock3 size={18} />} title="Confirma antes de" value={content.rsvp_deadline} accent={accent} />}
+              </div>
+            )}
+          </section>
+
+          {invitation.rsvp_enabled && (
+            <section id="confirmar" className="scroll-mt-6 px-5 py-12 sm:px-12 sm:py-16 lg:px-20" style={{ background: `linear-gradient(135deg, ${accent}12, ${background})` }}>
+              <div className="mx-auto max-w-xl">
+                <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>{existingRSVP ? "Tu respuesta" : "Nos encantará saber de ti"}</p>
+                <h2 className="mt-3 text-center font-[var(--font-display)] text-4xl leading-tight sm:text-5xl">{existingRSVP ? "Tu confirmación" : "¿Nos acompañas?"}</h2>
+                <p className="mt-3 text-center text-sm leading-6 text-neutral-600">{existingRSVP ? "Puedes actualizar tus datos aquí." : "Solo te tomará unos segundos confirmar."}</p>
+                <form onSubmit={handleSubmit} className="mt-8 space-y-5 rounded-[1.5rem] border border-black/5 bg-white p-5 shadow-[0_16px_50px_rgba(48,36,27,0.06)] sm:p-7">
+                  <div>
+                    <label htmlFor="guest-name" className="mb-2 block text-sm font-medium">Nombre completo</label>
+                    <input id="guest-name" required minLength={1} maxLength={80} value={guestName} onChange={(e) => setGuestName(e.target.value)} className="w-full rounded-xl border border-neutral-200 px-4 py-3.5 outline-none transition focus:border-neutral-400" placeholder="Escribe tu nombre" />
+                  </div>
+                  <fieldset>
+                    <legend className="mb-2 text-sm font-medium">¿Podrás acompañarnos?</legend>
+                    <div className="grid grid-cols-2 gap-3">
+                      <button type="button" onClick={() => setAttendance("attending")} aria-pressed={attendance === "attending"} className="rounded-xl border px-3 py-3.5 text-sm transition" style={attendance === "attending" ? { borderColor: accent, backgroundColor: `${accent}12`, color: accent } : { borderColor: "#e5e5e5" }}>Sí, asistiré</button>
+                      <button type="button" onClick={() => setAttendance("declined")} aria-pressed={attendance === "declined"} className="rounded-xl border px-3 py-3.5 text-sm transition" style={attendance === "declined" ? { borderColor: accent, backgroundColor: `${accent}12`, color: accent } : { borderColor: "#e5e5e5" }}>No podré asistir</button>
+                    </div>
+                  </fieldset>
+                  {attendance === "attending" && <div>
+                    <label htmlFor="party-size" className="mb-2 block text-sm font-medium">Personas en total</label>
+                    <select id="party-size" value={partySize} onChange={(e) => setPartySize(Number(e.target.value))} className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3.5 outline-none focus:border-neutral-400">
+                      {Array.from({ length: invitation.max_party_size }, (_, index) => index + 1).map((size) => <option key={size} value={size}>{size} {size === 1 ? "persona" : "personas"}</option>)}
+                    </select>
+                  </div>}
+                  <div>
+                    <label htmlFor="guest-phone" className="mb-2 block text-sm font-medium">Teléfono <span className="font-normal text-neutral-400">(opcional)</span></label>
+                    <input id="guest-phone" type="tel" maxLength={30} value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full rounded-xl border border-neutral-200 px-4 py-3.5 outline-none transition focus:border-neutral-400" placeholder="Tu número de contacto" />
+                  </div>
+                  {errorMessage && <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{errorMessage}</p>}
+                  {successMessage && <p role="status" className="flex items-center gap-2 rounded-xl bg-green-50 px-4 py-3 text-sm text-green-800"><CheckCircle2 size={18} />{successMessage}</p>}
+                  <button type="submit" disabled={submitting} className="w-full rounded-full px-5 py-4 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60" style={{ backgroundColor: accent }}>{submitting ? "Guardando..." : existingRSVP ? "Guardar cambios" : "Confirmar asistencia"}</button>
+                  {!existingRSVP && <p className="text-center text-xs leading-5 text-neutral-400">Tu respuesta solo será visible para quienes organizan el evento.</p>}
+                </form>
+              </div>
+            </section>
+          )}
+
+          <footer className="px-6 py-9 text-center sm:py-11">
+            <div className="mx-auto mb-4 h-px w-10" style={{ backgroundColor: `${accent}66` }} />
+            <p className="font-[var(--font-display)] text-2xl italic" style={{ color: accent }}>{content.host_names || "Con cariño"}</p>
+            <p className="mt-3 text-[9px] uppercase tracking-[0.3em] text-neutral-400">Una invitación hecha para compartir</p>
+          </footer>
+        </article>
+        <p className="px-4 py-5 text-center text-[10px] uppercase tracking-[0.22em] text-neutral-400">Invitación digital · Melissarte</p>
       </div>
     </main>
   );
 }
 
-function DetailCard({
-  icon,
-  title,
-  lines,
-  accent,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  lines: (string | undefined)[];
-  accent: string;
-}) {
-  const visibleLines = lines.filter((line): line is string => Boolean(line?.trim()));
+function LocationCard({ title, time, venue, address, maps, accent }: { title: string; time?: string; venue?: string; address?: string; maps: string | null; accent: string }) {
   return (
-    <article className="rounded-2xl border border-neutral-100 p-5">
-      <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: accent }}>
-        {icon}
-        {title}
+    <article className="rounded-[1.5rem] border border-neutral-100 bg-[#FEFDFC] p-6 sm:p-7">
+      <div className="flex items-center gap-3">
+        <span className="flex h-11 w-11 items-center justify-center rounded-full" style={{ backgroundColor: `${accent}14`, color: accent }}><MapPin size={19} strokeWidth={1.6} /></span>
+        <div>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: accent }}>{title}</p>
+          {time && <p className="mt-1 text-sm text-neutral-500">{time}</p>}
+        </div>
       </div>
-      <div className="mt-3 space-y-1">
-        {visibleLines.map((line, index) => <p key={index} className="text-sm leading-6 text-neutral-600">{line}</p>)}
-      </div>
+      {venue && <h3 className="mt-5 font-[var(--font-display)] text-2xl leading-tight">{venue}</h3>}
+      {address && <p className="mt-2 text-sm leading-6 text-neutral-600">{address}</p>}
+      {maps && <a href={maps} target="_blank" rel="noreferrer" className="mt-5 inline-flex min-h-10 items-center justify-center gap-2 rounded-full border px-4 py-2.5 text-sm font-semibold transition hover:bg-neutral-50" style={{ borderColor: `${accent}55`, color: accent }}>Ver ubicación en Google Maps <ArrowUpRight size={15} /></a>}
+    </article>
+  );
+}
+
+function InfoCard({ icon, title, value, accent }: { icon: React.ReactNode; title: string; value: string; accent: string }) {
+  return (
+    <article className="flex items-start gap-3 rounded-2xl border border-neutral-100 bg-white p-5">
+      <span className="mt-0.5" style={{ color: accent }}>{icon}</span>
+      <div><p className="text-[10px] font-semibold uppercase tracking-[0.2em]" style={{ color: accent }}>{title}</p><p className="mt-2 text-sm leading-6 text-neutral-700">{value}</p></div>
     </article>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { ExternalLink, ImagePlus, Save, Sparkles } from "lucide-react";
+import { Copy, ExternalLink, ImagePlus, Save, Sparkles, Users } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 import { uploadCover } from "@/lib/events";
@@ -52,6 +52,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
   const [rsvpEnabled, setRsvpEnabled] = useState(true);
   const [maxPartySize, setMaxPartySize] = useState(2);
   const [status, setStatus] = useState<InvitationStatus>("draft");
+  const [copiedOrganizerLink, setCopiedOrganizerLink] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -139,6 +140,18 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
     }
   }
 
+  async function copyOrganizerLink() {
+    const url = `${window.location.origin}/confirmaciones/${encodeURIComponent(organizerToken)}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopiedOrganizerLink(true);
+      window.setTimeout(() => setCopiedOrganizerLink(false), 2200);
+      toast.success("Enlace de confirmaciones copiado.");
+    } catch {
+      toast.error("No fue posible copiar el enlace. Puedes copiarlo desde la dirección del navegador.");
+    }
+  }
+
   const inputClass = "mt-1.5 w-full rounded-xl border border-[#E7DCC8] bg-white px-3.5 py-3 text-sm text-[#332B27] outline-none transition focus:border-[#A88249]";
   const labelClass = "block text-sm font-medium text-[#4E463D]";
   const cover = design.cover_image_url?.startsWith("https://") ? design.cover_image_url : null;
@@ -150,8 +163,8 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
           <span className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#F0E6D8] text-[#8E6D3D]"><Sparkles size={19} /></span>
           <div>
             <h2 className="text-xl font-semibold text-[#1F1F1F]">Invitación digital</h2>
-            <p className="mt-1 max-w-xl text-sm leading-6 text-[#7D7467]">Prepara una invitación bonita y comparte todos los detalles de tu celebración.</p>
-            <p className="mt-2 text-xs text-[#8A8074]">Enlace: <span className="font-medium text-[#5C554B]">/i/{event.slug}</span></p>
+            <p className="mt-1 text-sm text-[#7D7467]">Edita los datos y publica la invitación.</p>
+            <p className="mt-2 text-xs text-[#8A8074]">Invitación: <span className="font-medium text-[#5C554B]">/i/{event.slug}</span></p>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -166,10 +179,18 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
         <p className="px-6 py-8 text-sm text-[#7D7467]">Cargando invitación...</p>
       ) : (
         <div className="space-y-7 p-5 sm:p-7">
+          <section className="rounded-2xl border border-[#E7DCC8] bg-white p-4 sm:p-5">
+            <h3 className="text-sm font-semibold text-[#332B27]">Confirmaciones del organizador</h3>
+            <p className="mt-1 text-sm text-[#7D7467]">Comparte este enlace con la persona que organizará el evento.</p>
+            <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+              <button type="button" onClick={copyOrganizerLink} className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full bg-[#332B27] px-4 py-2 text-sm font-medium text-white hover:bg-[#51443A]"><Copy size={15} />{copiedOrganizerLink ? "Enlace copiado" : "Copiar enlace privado"}</button>
+              <a href={`/confirmaciones/${encodeURIComponent(organizerToken)}`} target="_blank" rel="noreferrer" className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full border border-[#E7DCC8] px-4 py-2 text-sm font-medium text-[#5C554B] hover:bg-[#F7F3EC]"><Users size={15} />Ver confirmaciones</a>
+            </div>
+          </section>
           <section>
             <div className="mb-4">
               <h3 className="text-base font-semibold text-[#332B27]">Portada</h3>
-              <p className="mt-1 text-sm text-[#7D7467]">Elige una imagen que marque el estilo de tu invitación. Es independiente de la portada de la galería.</p>
+              <p className="mt-1 text-sm text-[#7D7467]">Sube la imagen principal de la invitación.</p>
             </div>
             <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_220px]">
               <div className="overflow-hidden rounded-2xl border border-[#E7DCC8] bg-white">

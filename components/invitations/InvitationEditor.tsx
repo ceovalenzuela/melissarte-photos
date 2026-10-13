@@ -36,6 +36,22 @@ const emptyContent = (event: Event): InvitationContent => ({
   rsvp_deadline: "",
 });
 
+
+type TemplateKey = "wedding_editorial" | "xv_gala" | "baby_soft" | "baptism_light";
+const TEMPLATE_OPTIONS: { key: TemplateKey; label: string; description: string; palette: InvitationDesign }[] = [
+  { key: "wedding_editorial", label: "Boda · Editorial", description: "Marfil, salvia y champagne", palette: { background_color: "#F7F2E9", accent_color: "#8D9A7B", text_color: "#332F29" } },
+  { key: "xv_gala", label: "XV años · Gala", description: "Ciruela, rosa y dorado", palette: { background_color: "#321D2B", accent_color: "#D7B878", text_color: "#FFF8F1" } },
+  { key: "baby_soft", label: "Baby shower · Suave", description: "Crema, durazno y amarillo", palette: { background_color: "#FFF6E9", accent_color: "#D98F78", text_color: "#49372F" } },
+  { key: "baptism_light", label: "Bautizo · Luz", description: "Marfil, azul cielo y dorado", palette: { background_color: "#FAF7F0", accent_color: "#8CB6CC", text_color: "#303943" } },
+];
+function defaultTemplate(event: Event): TemplateKey {
+  const type = String(event.type ?? "").toLowerCase();
+  if (type.includes("xv")) return "xv_gala";
+  if (type.includes("baby") || type.includes("reveal") || type.includes("gender")) return "baby_soft";
+  if (type.includes("bapt") || type.includes("baut")) return "baptism_light";
+  return "wedding_editorial";
+}
+
 const emptyDesign: InvitationDesign = {
   accent_color: "#9A7358",
   background_color: "#FBF7F1",
@@ -49,6 +65,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [content, setContent] = useState<InvitationContent>(() => emptyContent(event));
   const [design, setDesign] = useState<InvitationDesign>(emptyDesign);
+  const [templateKey, setTemplateKey] = useState<TemplateKey>(() => defaultTemplate(event));
   const [rsvpEnabled, setRsvpEnabled] = useState(true);
   const [maxPartySize, setMaxPartySize] = useState(2);
   const [status, setStatus] = useState<InvitationStatus>("draft");
@@ -71,6 +88,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
       if (row) {
         setContent({ ...emptyContent(event), ...(row.content_config ?? {}) });
         setDesign({ ...emptyDesign, ...(row.design_config ?? {}) });
+        setTemplateKey((TEMPLATE_OPTIONS.find((option) => option.key === row.template_key)?.key) ?? defaultTemplate(event));
         setRsvpEnabled(row.rsvp_enabled);
         setMaxPartySize(row.max_party_size);
         setStatus(row.status);
@@ -121,7 +139,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
         p_event_id: event.id,
         p_organizer_token: organizerToken,
         p_slug: event.slug,
-        p_template_key: "editorial",
+        p_template_key: templateKey,
         p_design_config: design,
         p_content_config: content,
         p_rsvp_enabled: rsvpEnabled,
@@ -221,7 +239,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
               <Field label="Nombres de quienes invitan" value={content.host_names ?? ""} onChange={(v) => updateContent("host_names", v)} placeholder="Ej. Sofía y Alejandro" />
               <div className="sm:col-span-2">
                 <label className={labelClass}>Mensaje breve</label>
-                <textarea rows={3} value={content.introduction ?? ""} onChange={(e) => updateContent("introduction", e.target.value)} placeholder="Nos encantará compartir este día contigo." maxLength={500} className={inputClass} />
+                <textarea rows={3} value={content.introduction ?? ""} onChange={(e) => updateContent("introduction", e.target.value)} placeholder="Nos encantará compartir este día contigo." maxLength={240} className={inputClass} />\n                <p className="mt-1 text-right text-xs text-[#8A8074]">{(content.introduction ?? "").length}/240 caracteres</p>
               </div>
             </div>
           </section>
@@ -230,7 +248,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
             <h3 className="mb-1 text-base font-semibold text-[#332B27]">Detalles del evento</h3>
             <p className="mb-4 text-sm text-[#7D7467]">La fecha se toma de la configuración general del evento.</p>
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Hora" value={content.ceremony_time ?? ""} onChange={(v) => updateContent("ceremony_time", v)} placeholder="Ej. 17:00 h" />
+              <Field label="Hora" type="time" value={content.ceremony_time ?? ""} onChange={(v) => updateContent("ceremony_time", v)} />
               <Field label="Lugar" value={content.ceremony_venue ?? ""} onChange={(v) => updateContent("ceremony_venue", v)} placeholder="Nombre del salón o recinto" />
               <div className="sm:col-span-2">
                 <Field label="Dirección" value={content.ceremony_address ?? ""} onChange={(v) => updateContent("ceremony_address", v)} placeholder="Calle, número, ciudad" />
@@ -282,11 +300,11 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
   );
 }
 
-function Field({ label, value, onChange, placeholder }: { label: string; value: string; onChange: (value: string) => void; placeholder?: string }) {
+function Field({ label, value, onChange, placeholder, type = "text" }: { label: string; value: string; onChange: (value: string) => void; placeholder?: string; type?: "text" | "time" | "date" }) {
   return (
     <label className="block text-sm font-medium text-[#4E463D]">
       {label}
-      <input value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} maxLength={300} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] bg-white px-3.5 py-3 text-sm text-[#332B27] outline-none transition focus:border-[#A88249]" />
+      <input type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} maxLength={300} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] bg-white px-3.5 py-3 text-sm text-[#332B27] outline-none transition focus:border-[#A88249]" />
     </label>
   );
 }

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 import { supabase } from "@/lib/supabase";
+import { getEventBySlug } from "@/lib/events";
 import InvitationResponses from "@/components/invitations/InvitationResponses";
 
 interface Props {
@@ -16,7 +17,14 @@ export default async function OrganizerRSVPPage({ params }: Props) {
   });
   const event = data?.[0];
 
-  if (error || !event || event.invitation_enabled !== true) notFound();
+  if (error || !event) notFound();
+
+  const [{ data: invitationEnabled }, eventDetails] = await Promise.all([
+    supabase.rpc("get_event_invitation_enabled", { p_token: token }),
+    getEventBySlug(event.slug),
+  ]);
+
+  if (invitationEnabled !== true) notFound();
 
   return (
     <main className="min-h-screen bg-[#FBF9F5]">
@@ -27,7 +35,7 @@ export default async function OrganizerRSVPPage({ params }: Props) {
         <header className="mt-5 rounded-2xl border border-[#E7DCC8] bg-[#FDFBF8] p-6">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#A88249]">Melissarte · Invitación digital</p>
           <h1 className="mt-2 text-3xl font-semibold text-[#332B27]">Confirmaciones de asistencia</h1>
-          <p className="mt-2 text-sm text-[#7D7467]">{event.title ?? "Tu evento"}</p>
+          <p className="mt-2 text-sm text-[#7D7467]">{eventDetails?.title ?? "Tu evento"}</p>
         </header>
         <div className="mt-6">
           <InvitationResponses eventId={event.id} organizerToken={token} />

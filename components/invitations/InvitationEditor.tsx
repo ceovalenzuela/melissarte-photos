@@ -154,6 +154,17 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                 <p className="mt-1 text-xs text-[#8A8074]">La invitación comparte la identidad del evento y mantiene el enlace de la galería.</p>
               </div>
               <div>
+                <label className={labelClass}>Portada de la invitación (URL de imagen)</label>
+                <input
+                  type="url"
+                  value={design.cover_image_url ?? ""}
+                  onChange={(e) => updateDesign("cover_image_url", e.target.value)}
+                  placeholder="https://..."
+                  className={inputClass}
+                />
+                <p className="mt-1 text-xs text-[#8A8074]">Independiente de la portada de la galería. Déjalo vacío para usar la portada del evento como respaldo.</p>
+              </div>
+              <div>
                 <label className={labelClass} htmlFor="invitation-template">Diseño base</label>
                 <select id="invitation-template" value={templateKey} onChange={(e) => setTemplateKey(e.target.value)} className={inputClass}>
                   <option value="classic">Clásico elegante</option>

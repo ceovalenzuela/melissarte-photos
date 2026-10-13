@@ -151,6 +151,45 @@ export default function EventInfoForm({
 
       <div className="border-t border-[#E7DCC8] pt-5">
         <div className="mb-3">
+          <p className="text-sm font-medium text-[#5C554B]">Productos contratados</p>
+          <p className="mt-1 text-xs text-[#8B8378]">
+            Este control es administrativo e independiente de la publicación de la invitación y de las compras.
+          </p>
+        </div>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={values.invitation_enabled}
+          onClick={() => update("invitation_enabled", !values.invitation_enabled)}
+          className={values.invitation_enabled
+            ? "flex w-full items-center justify-between gap-4 rounded-xl border border-[#B9CDBF] bg-[#F1F8F3] px-4 py-3 text-left text-[#316D45]"
+            : "flex w-full items-center justify-between gap-4 rounded-xl border border-[#E7DCC8] bg-white px-4 py-3 text-left text-[#6F665B] hover:bg-[#F8F4EE]"}
+        >
+          <span>
+            <span className="block text-sm font-medium">
+              {values.invitation_enabled ? "Invitación digital habilitada" : "Invitación digital no contratada"}
+            </span>
+            <span className="mt-0.5 block text-xs opacity-80">
+              {values.invitation_enabled
+                ? "Se mostrará el acceso a confirmaciones y podrás configurar la invitación."
+                : "No se mostrará el acceso a confirmaciones para este evento."}
+            </span>
+          </span>
+          <span className={values.invitation_enabled
+            ? "relative h-6 w-11 rounded-full bg-[#A88249]"
+            : "relative h-6 w-11 rounded-full bg-[#D9D2C7]"} aria-hidden="true">
+            <span className={values.invitation_enabled
+              ? "absolute left-6 top-1 h-4 w-4 rounded-full bg-white shadow-sm"
+              : "absolute left-1 top-1 h-4 w-4 rounded-full bg-white shadow-sm"} />
+          </span>
+        </button>
+        <p className="mt-2 text-xs text-[#8B8378]">
+          Guarda los cambios para aplicar la habilitación. El estado de publicación se configura por separado.
+        </p>
+      </div>
+
+      <div className="border-t border-[#E7DCC8] pt-5">
+        <div className="mb-3">
           <p className="text-sm font-medium text-[#5C554B]">
             Estado de la galería
           </p>

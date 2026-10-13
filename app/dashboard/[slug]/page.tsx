@@ -49,14 +49,8 @@ export default async function ClientDashboardPage({
     notFound();
   }
 
-  const [{ data: invitationRows, error: invitationError }, photoCount] = await Promise.all([
-    supabase.rpc("get_invitation_for_organizer", {
-      p_event_id: event.id,
-      p_organizer_token: token,
-    }),
-    getPhotoCount(event.id),
-  ]);
-  const hasInvitation = !invitationError && Boolean(invitationRows?.length);
+  const [photoCount] = await Promise.all([getPhotoCount(event.id)]);
+  const invitationEnabled = authorizedEvents[0].invitation_enabled === true;
 
   return (
     <main className="min-h-screen bg-[#FBF9F5]">
@@ -67,7 +61,7 @@ export default async function ClientDashboardPage({
           <EventActions event={event} />
         </div>
 
-        {hasInvitation && (
+        {invitationEnabled && (
           <section className="mx-auto mt-6 max-w-6xl rounded-2xl border border-[#E7DCC8] bg-white p-5 sm:flex sm:items-center sm:justify-between sm:gap-6 sm:p-6">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#A88249]">Producto independiente</p>

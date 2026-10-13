@@ -25,7 +25,6 @@ export default function InvitationResponses({ eventId, organizerToken }: Props) 
   const [loading, setLoading] = useState(true);
 
   const loadResponses = useCallback(async () => {
-    setLoading(true);
     const { data, error } = await supabase.rpc("get_invitation_rsvps_with_token", {
       p_event_id: eventId,
       p_organizer_token: organizerToken,
@@ -55,7 +54,7 @@ export default function InvitationResponses({ eventId, organizerToken }: Props) 
           <h3 className="font-[var(--font-display)] text-2xl text-[#332B27]">Confirmaciones de asistencia</h3>
           <p className="mt-1 text-sm text-[#7D7467]">Solo los organizadores con el enlace privado pueden consultar las respuestas.</p>
         </div>
-        <button type="button" onClick={() => void loadResponses()} disabled={loading} className="inline-flex items-center gap-2 rounded-full border border-[#E7DCC8] px-4 py-2 text-sm text-[#5C554B] disabled:opacity-50">
+        <button type="button" onClick={() => { setLoading(true); void loadResponses(); }} disabled={loading} className="inline-flex items-center gap-2 rounded-full border border-[#E7DCC8] px-4 py-2 text-sm text-[#5C554B] disabled:opacity-50">
           <RefreshCw size={15} className={loading ? "animate-spin" : ""} /> Actualizar
         </button>
       </div>

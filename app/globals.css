@@ -224,3 +224,68 @@
     @apply font-sans;
   }
 }
+
+/* Invitation templates: distinct art direction, shared responsive structure. */
+.invitation-template-wedding_editorial {
+  --invitation-frame: #d8d8c5;
+}
+.invitation-template-wedding_editorial .invitation-hero-has-cover {
+  border-bottom: 7px solid #d8d8c5;
+}
+.invitation-template-wedding_editorial .invitation-title {
+  font-family: var(--font-display);
+  letter-spacing: -0.045em;
+}
+.invitation-template-xv_gala {
+  background: #321d2b;
+}
+.invitation-template-xv_gala .invitation-hero-has-cover {
+  border-bottom: 7px solid #d7b878;
+}
+.invitation-template-xv_gala .invitation-hero-placeholder {
+  background-image: radial-gradient(ellipse at 50% 0%, #b76e834d, transparent 52%), linear-gradient(145deg, #321d2b, #140d17) !important;
+}
+.invitation-template-xv_gala .invitation-title {
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+}
+.invitation-template-xv_gala #detalles {
+  background: #321d2b;
+  color: #fff8f1;
+}
+.invitation-template-xv_gala #detalles > div:first-child > p:last-child {
+  color: #f3e9e8;
+}
+.invitation-template-xv_gala #detalles article {
+  border-color: #d7b87855;
+  background: #422a3a;
+  color: #fff8f1;
+}
+.invitation-template-xv_gala #detalles article p,
+.invitation-template-xv_gala #detalles article h3 {
+  color: #fff8f1;
+}
+.invitation-template-xv_gala #confirmar {
+  color: #332b27;
+}
+.invitation-template-baby_soft .invitation-hero-has-cover {
+  border-bottom: 7px solid #e9a58d;
+}
+.invitation-template-baby_soft .invitation-hero-placeholder {
+  background-image: radial-gradient(ellipse at 75% 15%, #e9a58d88, transparent 38%), radial-gradient(ellipse at 15% 90%, #e9d47d88, transparent 40%), linear-gradient(145deg, #fff6e9, #f0d7c9) !important;
+}
+.invitation-template-baby_soft .invitation-title {
+  letter-spacing: -0.025em;
+}
+.invitation-template-baptism_light .invitation-hero-has-cover {
+  border-bottom: 7px solid #a8c7d8;
+}
+.invitation-template-baptism_light .invitation-hero-placeholder {
+  background-image: radial-gradient(ellipse at 70% 15%, #a8c7d866, transparent 42%), linear-gradient(145deg, #faf7f0, #dceaf0) !important;
+}
+.invitation-template-baptism_light .invitation-title {
+  letter-spacing: -0.035em;
+}
+@media (prefers-reduced-motion: reduce) {
+  .invitation-hero-image { animation: none !important; }
+}

@@ -16,14 +16,7 @@ export default async function OrganizerRSVPPage({ params }: Props) {
   });
   const event = data?.[0];
 
-  if (error || !event) notFound();
-
-  const { data: invitationRows, error: invitationError } = await supabase.rpc("get_invitation_for_organizer", {
-    p_event_id: event.id,
-    p_organizer_token: token,
-  });
-
-  if (invitationError || !invitationRows?.length) notFound();
+  if (error || !event || event.invitation_enabled !== true) notFound();
 
   return (
     <main className="min-h-screen bg-[#FBF9F5]">

@@ -35,7 +35,7 @@ export default function InvitationResponses({ eventId, organizerToken }: Props) 
       setLoading(false);
       return;
     }
-    setResponses((data ?? []) as RSVPRow[]);
+    setResponses(((data ?? []) as RSVPRow[]).sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()));
     setLoading(false);
   }, [eventId, organizerToken]);
 

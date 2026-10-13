@@ -1,3 +1,5 @@
+export type InvitationTemplateKey = "wedding_editorial" | "xv_gala" | "baby_soft" | "baptism_light";
+
 export type InvitationStatus = "draft" | "published";
 export type RSVPStatus = "attending" | "declined";
 

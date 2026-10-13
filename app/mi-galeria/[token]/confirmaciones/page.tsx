@@ -18,6 +18,13 @@ export default async function OrganizerRSVPPage({ params }: Props) {
 
   if (error || !event) notFound();
 
+  const { data: invitationRows, error: invitationError } = await supabase.rpc("get_invitation_for_organizer", {
+    p_event_id: event.id,
+    p_organizer_token: token,
+  });
+
+  if (invitationError || !invitationRows?.length) notFound();
+
   return (
     <main className="min-h-screen bg-[#FBF9F5]">
       <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-10">

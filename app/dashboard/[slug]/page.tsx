@@ -8,6 +8,7 @@ import { getEventBySlug } from "@/lib/events";
 import { getPhotoCount } from "@/lib/photos";
 import GallerySection from "@/components/gallery/GallerySection";
 import Footer from "@/components/public/Footer";
+import { supabase } from "@/lib/supabase";
 
 interface Props {
   params: Promise<{
@@ -62,7 +63,7 @@ export default async function ClientDashboardPage({
           <EventActions event={event} />
         </div>
 
-        {invitationEnabled && (
+        {invitationEnabled === true && (
           <section className="mx-auto mt-6 max-w-6xl rounded-2xl border border-[#E7DCC8] bg-white p-5 sm:flex sm:items-center sm:justify-between sm:gap-6 sm:p-6">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#A88249]">Producto independiente</p>

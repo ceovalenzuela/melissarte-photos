@@ -1,7 +1,10 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight, Sparkles } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import Footer from "@/components/public/Footer";
+import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight, Sparkles, ChevronDown } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
 
@@ -116,18 +119,18 @@ export default function PublicInvitationClient({
     <main className="min-h-screen overflow-hidden" style={{ backgroundColor: background, color: textColor }}>
       <div className="mx-auto max-w-6xl sm:px-6 sm:py-8 lg:px-10">
         <article className="overflow-hidden bg-white shadow-[0_28px_100px_rgba(48,36,27,0.12)] sm:rounded-[2rem]">
-          <header className="relative isolate flex min-h-[76svh] items-end overflow-hidden sm:min-h-[680px]">
+          <header className="relative isolate flex min-h-[82svh] items-end overflow-hidden sm:min-h-[680px]">
             {cover ? (
-              <div aria-hidden="true" className="absolute inset-0 -z-20 bg-cover bg-center" style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />
+              <div aria-hidden="true" className="absolute inset-0 -z-20 bg-cover bg-center invitation-hero-image" style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />
             ) : (
               <div aria-hidden="true" className="absolute inset-0 -z-20" style={{ background: `radial-gradient(ellipse at 75% 18%, ${accent}55, transparent 38%), linear-gradient(145deg, #211C19 0%, #665346 52%, #D4BDA3 100%)` }} />
             )}
-            <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-b from-black/10 via-black/10 to-black/75" />
+            <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-b from-black/10 via-black/15 to-black/75 invitation-hero-shade" />
             <div className="absolute left-5 right-5 top-5 flex items-center justify-between text-white/90 sm:left-10 sm:right-10 sm:top-9">
               <span className="text-[10px] font-medium uppercase tracking-[0.28em]">Una celebración especial</span>
               <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/40 backdrop-blur-sm"><Sparkles size={16} /></span>
             </div>
-            <div className="w-full px-6 pb-9 pt-28 text-center text-white sm:px-14 sm:pb-14">
+            <div className="w-full px-6 pb-14 pt-28 text-center text-white sm:px-14 sm:pb-16 invitation-hero-copy">
               <div className="mx-auto mb-5 h-px w-14 bg-white/70" />
               {content.host_names && <p className="mb-4 text-xs uppercase tracking-[0.28em] text-white/90 sm:text-sm">{content.host_names}</p>}
               <h1 className="mx-auto max-w-4xl text-balance font-[var(--font-display)] text-5xl font-medium leading-[0.98] tracking-[-0.035em] sm:text-7xl lg:text-8xl">
@@ -135,16 +138,13 @@ export default function PublicInvitationClient({
               </h1>
               {dateLabel && <p className="mt-6 text-sm capitalize tracking-[0.12em] text-white/90 sm:text-base">{dateLabel}</p>}
               {content.introduction && <p className="mx-auto mt-5 max-w-lg text-sm leading-6 text-white/85 sm:text-base">{content.introduction}</p>}
-              <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-                {invitation.rsvp_enabled && <a href="#confirmar" className="inline-flex min-h-12 items-center justify-center rounded-full px-7 py-3 text-sm font-semibold transition hover:opacity-90" style={{ backgroundColor: "#FFFFFF", color: "#29231F" }}>{existingRSVP ? "Ver mi confirmación" : "Confirmar asistencia"} <ArrowUpRight size={16} className="ml-2" /></a>}
-                {primaryMapsUrl && <a href={primaryMapsUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/55 bg-black/10 px-7 py-3 text-sm font-medium text-white backdrop-blur-sm transition hover:bg-white/15"><MapPin size={16} className="mr-2" />Cómo llegar</a>}
-              </div>
+              <a href="#detalles" aria-label="Desplazarse a los detalles" className="mx-auto mt-9 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/50 text-white/90 transition hover:bg-white/10"><ChevronDown size={20} /></a>
             </div>
             <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-white/65 to-transparent opacity-60" />
           </header>
 
-          <section className="px-5 py-12 sm:px-12 sm:py-16 lg:px-20">
-            <div className="mx-auto max-w-3xl text-center">
+          <section id="detalles" className="px-5 py-12 sm:px-12 sm:py-16 lg:px-20 invitation-reveal">
+            <div className="mx-auto max-w-3xl text-center invitation-reveal">
               <p className="text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>Reserva la fecha</p>
               <div className="mx-auto mt-5 flex items-center justify-center gap-4">
                 <span className="h-px w-10" style={{ backgroundColor: `${accent}55` }} />
@@ -175,7 +175,7 @@ export default function PublicInvitationClient({
           </section>
 
           {invitation.rsvp_enabled && (
-            <section id="confirmar" className="scroll-mt-6 px-5 py-12 sm:px-12 sm:py-16 lg:px-20" style={{ background: `linear-gradient(135deg, ${accent}12, ${background})` }}>
+            <section id="confirmar" className="scroll-mt-6 px-5 py-12 sm:px-12 sm:py-16 lg:px-20 invitation-reveal" style={{ background: `linear-gradient(135deg, ${accent}12, ${background})` }}>
               <div className="mx-auto max-w-xl">
                 <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>{existingRSVP ? "Tu respuesta" : "Nos encantará saber de ti"}</p>
                 <h2 className="mt-3 text-center font-[var(--font-display)] text-4xl leading-tight sm:text-5xl">{existingRSVP ? "Tu confirmación" : "¿Nos acompañas?"}</h2>
@@ -211,13 +211,13 @@ export default function PublicInvitationClient({
             </section>
           )}
 
-          <footer className="px-6 py-9 text-center sm:py-11">
-            <div className="mx-auto mb-4 h-px w-10" style={{ backgroundColor: `${accent}66` }} />
+          <footer className="px-6 py-10 text-center sm:py-12">
+            <div className="mx-auto mb-5 h-px w-10" style={{ backgroundColor: `${accent}66` }} />
             <p className="font-[var(--font-display)] text-2xl italic" style={{ color: accent }}>{content.host_names || "Con cariño"}</p>
-            <p className="mt-3 text-[9px] uppercase tracking-[0.3em] text-neutral-400">Una invitación hecha para compartir</p>
+            <p className="mt-3 text-[9px] uppercase tracking-[0.3em] text-neutral-400">Gracias por ser parte de este día</p>
+            <div className="mx-auto mt-8 max-w-xs border-t border-neutral-100 pt-6"><Footer /></div>
           </footer>
         </article>
-        <p className="px-4 py-5 text-center text-[10px] uppercase tracking-[0.22em] text-neutral-400">Invitación digital · Melissarte</p>
       </div>
     </main>
   );

@@ -8,7 +8,6 @@ import { getEventBySlug } from "@/lib/events";
 import { getPhotoCount } from "@/lib/photos";
 import GallerySection from "@/components/gallery/GallerySection";
 import Footer from "@/components/public/Footer";
-import { supabase } from "@/lib/supabase";
 
 interface Props {
   params: Promise<{
@@ -49,7 +48,7 @@ export default async function ClientDashboardPage({
     notFound();
   }
 
-  const [photoCount] = await Promise.all([getPhotoCount(event.id)]);
+  const photoCount = await getPhotoCount(event.id);
   const invitationEnabled = authorizedEvents[0].invitation_enabled === true;
 
   return (

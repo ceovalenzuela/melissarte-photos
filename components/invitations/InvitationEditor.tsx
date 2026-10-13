@@ -49,7 +49,6 @@ const emptyDesign: InvitationDesign = {
 export default function InvitationEditor({ event, organizerToken }: Props) {
   const [loaded, setLoaded] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [slug, setSlug] = useState(event.slug);
   const [templateKey, setTemplateKey] = useState("classic");
   const [content, setContent] = useState<InvitationContent>(() => emptyContent(event));
   const [design, setDesign] = useState<InvitationDesign>(emptyDesign);
@@ -72,7 +71,6 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
       }
       const row = (data?.[0] as InvitationRow | undefined) ?? null;
       if (row) {
-        setSlug(row.slug);
         setTemplateKey(row.template_key);
         setContent({ ...emptyContent(event), ...(row.content_config ?? {}) });
         setDesign({ ...emptyDesign, ...(row.design_config ?? {}) });
@@ -100,7 +98,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
       const { data, error } = await supabase.rpc("save_invitation_with_token", {
         p_event_id: event.id,
         p_organizer_token: organizerToken,
-        p_slug: slug.trim().toLowerCase(),
+        p_slug: event.slug,
         p_template_key: templateKey,
         p_design_config: design,
         p_content_config: content,
@@ -135,7 +133,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
           <p className="mt-1 max-w-xl text-sm leading-6 text-[#7D7467]">Personaliza los detalles y comparte una invitación con confirmación de asistencia.</p>
         </div>
         {status === "published" && (
-          <a href={`/i/${encodeURIComponent(slug)}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#E7DCC8] bg-white px-4 py-2.5 text-sm font-medium text-[#5C554B]">
+          <a href={`/i/${encodeURIComponent(event.slug)}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#E7DCC8] bg-white px-4 py-2.5 text-sm font-medium text-[#5C554B]">
             Ver invitación <ExternalLink size={15} />
           </a>
         )}
@@ -149,11 +147,11 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
             <h3 className="mb-4 text-base font-semibold text-[#332B27]">Enlace y publicación</h3>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className={labelClass} htmlFor="invitation-slug">Enlace personalizado</label>
-                <div className="mt-1.5 flex items-center overflow-hidden rounded-xl border border-[#E7DCC8] bg-white">
-                  <span className="pl-3 text-xs text-neutral-400">/i/</span>
-                  <input id="invitation-slug" value={slug} onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-"))} maxLength={100} className="min-w-0 flex-1 px-2 py-3 text-sm outline-none" />
+                <label className={labelClass}>Enlace de la invitación</label>
+                <div className="mt-1.5 rounded-xl border border-[#E7DCC8] bg-[#F7F3EC] px-3.5 py-3 text-sm text-[#5C554B]">
+                  /i/{event.slug}
                 </div>
+                <p className="mt-1 text-xs text-[#8A8074]">La invitación comparte la identidad del evento y mantiene el enlace de la galería.</p>
               </div>
               <div>
                 <label className={labelClass} htmlFor="invitation-template">Diseño base</label>

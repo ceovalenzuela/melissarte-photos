@@ -45,9 +45,9 @@ const emptyContent = (event: Event): InvitationContent => ({
 
 type TemplateKey = "wedding_editorial" | "xv_gala" | "baby_soft" | "baptism_light";
 const TEMPLATE_OPTIONS: { key: TemplateKey; label: string; description: string; palette: InvitationDesign }[] = [
-  { key: "wedding_editorial", label: "Boda · Editorial", description: "Marfil, verde profundo y champagne", palette: { background_color: "#F3EEE4", accent_color: "#6F806A", text_color: "#29271F" } },
+  { key: "wedding_editorial", label: "Boda · Editorial", description: "Marfil luminoso, esmeralda y champagne", palette: { background_color: "#F4EAD8", accent_color: "#9A793D", text_color: "#23362D" } },
   { key: "xv_gala", label: "XV años · Gala", description: "Ciruela profunda, malva y oro", palette: { background_color: "#211B35", accent_color: "#D6B66F", text_color: "#FFFAF0" } },
-  { key: "baby_soft", label: "Baby shower · Suave", description: "Marfil, arena y salvia suave", palette: { background_color: "#F8F5EF", accent_color: "#9B9B83", text_color: "#403C35" } },
+  { key: "baby_soft", label: "Baby shower · Suave", description: "Durazno, salvia y amarillo mantequilla", palette: { background_color: "#FFF4E8", accent_color: "#AD735E", text_color: "#494237" } },
   { key: "baptism_light", label: "Bautizo · Luz", description: "Marfil, azul cielo y dorado", palette: { background_color: "#FAF7F0", accent_color: "#8CB6CC", text_color: "#303943" } },
 ];
 function defaultTemplate(event: Event): TemplateKey {

@@ -1166,7 +1166,8 @@
 }
 
 
-/* Keep location buttons aligned across cards while leaving a comfortable gap. */
+/* Keep location buttons aligned at the bottom of same-row cards, with a modest gap after the address. */
 .invitation-public .invitation-location-card > a {
-  margin-top: 1.25rem !important;
+  margin-top: auto !important;
+  padding-top: 0.75rem;
 }

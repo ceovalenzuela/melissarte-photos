@@ -684,3 +684,198 @@
     inset: 10px;
   }
 }
+
+
+/* Cohesive RSVP styling per invitation theme, with explicit readable contrast. */
+.invitation-template-wedding_editorial {
+  --invitation-frame: #b99a58;
+}
+.invitation-template-wedding_editorial .invitation-hero {
+  background-color: #273747;
+}
+.invitation-template-wedding_editorial .invitation-title {
+  color: #273747;
+}
+.invitation-template-wedding_editorial #detalles {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(198, 167, 93, .17), transparent 38%),
+    linear-gradient(180deg, #fffaf0 0%, #f4ead8 100%);
+  color: #302f30;
+}
+.invitation-template-wedding_editorial #detalles > .mx-auto.max-w-3xl > p:first-child {
+  color: #987640 !important;
+}
+.invitation-template-wedding_editorial #confirmar.invitation-rsvp {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(198, 167, 93, .16), transparent 50%),
+    linear-gradient(135deg, #273747 0%, #344858 100%) !important;
+  color: #fffaf0 !important;
+}
+.invitation-template-wedding_editorial #confirmar.invitation-rsvp > div > p,
+.invitation-template-wedding_editorial #confirmar.invitation-rsvp h2 {
+  color: #fffaf0 !important;
+}
+.invitation-template-wedding_editorial #confirmar.invitation-rsvp > div > p:first-child {
+  color: #e4ca8a !important;
+}
+.invitation-template-wedding_editorial #confirmar.invitation-rsvp > div > p.text-neutral-600 {
+  color: #f0e8dc !important;
+}
+.invitation-template-wedding_editorial #confirmar.invitation-rsvp form {
+  background: #fffdf8 !important;
+  color: #302f30 !important;
+  border-color: #c9ad6b !important;
+}
+.invitation-template-wedding_editorial #confirmar.invitation-rsvp form label,
+.invitation-template-wedding_editorial #confirmar.invitation-rsvp form legend {
+  color: #302f30 !important;
+}
+.invitation-template-wedding_editorial #confirmar.invitation-rsvp form p.text-neutral-400 {
+  color: #625d57 !important;
+}
+.invitation-template-wedding_editorial #confirmar.invitation-rsvp form input,
+.invitation-template-wedding_editorial #confirmar.invitation-rsvp form select {
+  background: #fff !important;
+  color: #302f30 !important;
+  border-color: #d8cdbb !important;
+}
+.invitation-template-wedding_editorial #confirmar.invitation-rsvp form button[aria-pressed="false"] {
+  background: #fff !important;
+  color: #302f30 !important;
+  border-color: #d8cdbb !important;
+}
+.invitation-template-wedding_editorial #confirmar.invitation-rsvp form button[aria-pressed="true"] {
+  background: #f3ead5 !important;
+  color: #273747 !important;
+}
+.invitation-template-wedding_editorial #confirmar.invitation-rsvp form button[type="submit"] {
+  background: #a78645 !important;
+  color: #fff !important;
+}
+
+/* Baby / gender reveal: brighter peach, sage and butter yellow, still gender-neutral. */
+.invitation-template-baby_soft {
+  background: #fff7ed;
+}
+.invitation-template-baby_soft .invitation-hero {
+  background-color: #f3d6c6;
+}
+.invitation-template-baby_soft .invitation-hero-has-cover {
+  border-bottom-color: #d58d72;
+}
+.invitation-template-baby_soft .invitation-hero-placeholder {
+  background-image:
+    radial-gradient(ellipse at 78% 16%, #e99e7fbd, transparent 38%),
+    radial-gradient(ellipse at 17% 76%, #a7bd93b8, transparent 40%),
+    radial-gradient(ellipse at 58% 100%, #f0d276ad, transparent 42%),
+    linear-gradient(140deg, #fff0df 0%, #f3d9c9 52%, #e2ead8 100%) !important;
+}
+.invitation-template-baby_soft #detalles {
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(232, 155, 121, .24), transparent 33%),
+    radial-gradient(ellipse at 100% 35%, rgba(161, 187, 137, .26), transparent 35%),
+    radial-gradient(ellipse at 50% 100%, rgba(240, 210, 118, .17), transparent 40%),
+    linear-gradient(180deg, #fff9f0 0%, #f8ebdd 100%);
+  color: #493c32;
+}
+.invitation-template-baby_soft .invitation-title {
+  color: #875744;
+}
+.invitation-template-baby_soft #detalles > .mx-auto.max-w-3xl > p:first-child {
+  color: #a85f47 !important;
+}
+.invitation-template-baby_soft .invitation-countdown {
+  border-color: #dca78d !important;
+  background: linear-gradient(135deg, #fffaf2, #f7dfcf 62%, #f7edc9) !important;
+}
+.invitation-template-baby_soft .invitation-location-card {
+  border-color: #e8cbbb;
+  background: linear-gradient(145deg, #fffefa 0%, #fff2e5 65%, #f4f4e7 100%);
+}
+.invitation-template-baby_soft .invitation-location-card > div:first-child > span {
+  background: #f8e1d5 !important;
+  color: #9c5c43 !important;
+}
+.invitation-template-baby_soft .invitation-location-card > div:first-child > p {
+  color: #9c5c43 !important;
+}
+.invitation-template-baby_soft .invitation-location-card > a {
+  border-color: #d9a38a !important;
+  color: #8c503b !important;
+}
+.invitation-template-baby_soft #confirmar.invitation-rsvp {
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(232, 155, 121, .24), transparent 40%),
+    radial-gradient(ellipse at 100% 100%, rgba(161, 187, 137, .28), transparent 40%),
+    linear-gradient(135deg, #fff4e8 0%, #f6e7d9 55%, #f5edcf 100%) !important;
+  color: #493c32 !important;
+}
+.invitation-template-baby_soft #confirmar.invitation-rsvp > div > p,
+.invitation-template-baby_soft #confirmar.invitation-rsvp h2 {
+  color: #493c32 !important;
+}
+.invitation-template-baby_soft #confirmar.invitation-rsvp > div > p:first-child {
+  color: #a85f47 !important;
+}
+.invitation-template-baby_soft #confirmar.invitation-rsvp > div > p.text-neutral-600 {
+  color: #65554a !important;
+}
+.invitation-template-baby_soft #confirmar.invitation-rsvp form {
+  background: #fffefa !important;
+  color: #493c32 !important;
+  border-color: #e5c5b2 !important;
+}
+.invitation-template-baby_soft #confirmar.invitation-rsvp form label,
+.invitation-template-baby_soft #confirmar.invitation-rsvp form legend {
+  color: #493c32 !important;
+}
+.invitation-template-baby_soft #confirmar.invitation-rsvp form p.text-neutral-400 {
+  color: #756458 !important;
+}
+.invitation-template-baby_soft #confirmar.invitation-rsvp form input,
+.invitation-template-baby_soft #confirmar.invitation-rsvp form select {
+  background: #fff !important;
+  color: #493c32 !important;
+  border-color: #ddcfc3 !important;
+}
+.invitation-template-baby_soft #confirmar.invitation-rsvp form button[aria-pressed="false"] {
+  background: #fff !important;
+  color: #493c32 !important;
+  border-color: #ddcfc3 !important;
+}
+.invitation-template-baby_soft #confirmar.invitation-rsvp form button[aria-pressed="true"] {
+  background: #f7e2d5 !important;
+  color: #874f3c !important;
+}
+.invitation-template-baby_soft #confirmar.invitation-rsvp form button[type="submit"] {
+  background: #a96149 !important;
+  color: #fff !important;
+}
+
+/* Keep all template RSVP headings, helper text and form controls legible. */
+.invitation-template-baptism_light #confirmar.invitation-rsvp {
+  background: linear-gradient(135deg, #f6f9fa 0%, #e3eef3 100%) !important;
+  color: #263641 !important;
+}
+.invitation-template-baptism_light #confirmar.invitation-rsvp > div > p,
+.invitation-template-baptism_light #confirmar.invitation-rsvp h2 {
+  color: #263641 !important;
+}
+.invitation-template-baptism_light #confirmar.invitation-rsvp > div > p:first-child {
+  color: #527f98 !important;
+}
+.invitation-template-baptism_light #confirmar.invitation-rsvp > div > p.text-neutral-600 {
+  color: #52636d !important;
+}
+.invitation-template-baptism_light #confirmar.invitation-rsvp form {
+  background: #fff !important;
+  color: #263641 !important;
+  border-color: #c7dbe5 !important;
+}
+.invitation-template-baptism_light #confirmar.invitation-rsvp form label,
+.invitation-template-baptism_light #confirmar.invitation-rsvp form legend {
+  color: #263641 !important;
+}
+.invitation-template-baptism_light #confirmar.invitation-rsvp form p.text-neutral-400 {
+  color: #5e6e77 !important;
+}

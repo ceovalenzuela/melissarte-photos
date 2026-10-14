@@ -185,7 +185,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
   const cover = design.cover_image_url?.startsWith("https://") ? design.cover_image_url : null;
 
   return (
-    <section className="overflow-hidden rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] shadow-sm">
+    <section id="invitation" className="overflow-hidden rounded-3xl border border-[#E7DCC8] bg-[#FDFBF8] shadow-sm">
       <header className="flex flex-wrap items-center justify-between gap-4 border-b border-[#E7DCC8] px-5 py-5 sm:px-7">
         <div className="flex items-start gap-3">
           <span className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#F0E6D8] text-[#8E6D3D]"><Sparkles size={19} /></span>

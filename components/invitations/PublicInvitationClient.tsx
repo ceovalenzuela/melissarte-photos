@@ -30,14 +30,14 @@ function formatDate(value: string | null) {
 }
 
 function formatTime(value?: string) {
-  if (!value) return value;
-  const match = value.match(/^([01]?\\d|2[0-3]):([0-5]\\d)$/);
-  if (!match) return value;
+  if (!value) return null;
+  const match = value.match(/^([01]?\d|2[0-3]):([0-5]\d)$/);
+  if (!match) return null;
   const hour = Number(match[1]);
   const minute = match[2];
   const suffix = hour >= 12 ? "PM" : "AM";
   const hour12 = hour % 12 || 12;
-  return `${hour12}:${minute} ${suffix}`;
+  return { hour: String(hour12), minute, suffix };
 }
 
 function mapsUrl(place?: string, address?: string) {
@@ -345,7 +345,17 @@ function LocationCard({ title, time, venue, address, maps, accent }: { title: st
         <span className="flex h-11 w-11 items-center justify-center rounded-full" style={{ backgroundColor: `${accent}14`, color: accent }}><MapPin size={19} strokeWidth={1.6} /></span>
         <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: accent }}>{title}</p>
       </div>
-      {time && <p className="mt-5 font-[var(--font-display)] text-3xl font-medium leading-none sm:text-4xl">{formatTime(time)}</p>}
+      {time && (() => {
+        const formattedTime = formatTime(time);
+        return formattedTime ? (
+          <p className="mt-5 flex items-baseline font-[var(--font-display)] text-3xl font-medium leading-none sm:text-4xl">
+            <span>{formattedTime.hour}:{formattedTime.minute}</span>
+            <span className="ml-2 font-sans text-xs font-semibold tracking-[0.08em] sm:text-sm">{formattedTime.suffix}</span>
+          </p>
+        ) : (
+          <p className="mt-5 font-[var(--font-display)] text-3xl font-medium leading-none sm:text-4xl">{time}</p>
+        );
+      })()}
       {venue && <h3 className="invitation-location-venue mt-3 font-[var(--font-display)] text-2xl leading-tight">{venue}</h3>}
       {address && <p className="invitation-location-address mt-2 text-sm leading-6 text-neutral-600">{address}</p>}
       {maps && <a href={maps} target="_blank" rel="noreferrer" className="invitation-location-button mt-4 inline-flex w-fit min-h-10 items-center justify-center gap-2 rounded-full border px-4 text-sm font-semibold transition hover:bg-neutral-50" style={{ borderColor: `${accent}55`, color: accent }}><span>Ver ubicación</span><ArrowUpRight size={15} className="shrink-0" /></a>}

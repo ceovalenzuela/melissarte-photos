@@ -33,6 +33,8 @@ export default function StatsCards({ events }: Props) {
     (event) => event.status === "published"
   ).length;
 
+  const invitationEnabled = events.filter((event) => event.invitation_enabled === true).length;
+
   const drafts = events.filter(
     (event) => event.status === "draft"
   ).length;
@@ -83,10 +85,17 @@ export default function StatsCards({ events }: Props) {
         : "Sin eventos próximos",
       className: "col-span-2 sm:col-span-1",
     },
+    {
+      icon: <CircleCheck size={17} />,
+      value: invitationEnabled.toString(),
+      label: "Invitaciones habilitadas",
+      description: "Eventos con el servicio activo",
+      className: "",
+    },
   ];
 
   return (
-    <section className="grid min-w-0 grid-cols-2 gap-3 lg:grid-cols-4">
+    <section className="grid min-w-0 grid-cols-2 gap-3 lg:grid-cols-5">
       {items.map((item) => (
         <div
           key={item.label}

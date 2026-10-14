@@ -12,6 +12,8 @@ import { useEvents } from "@/hooks/useEvents";
 import { EventWithStats } from "@/types/event-with-stats";
 
 type StatusFilter = "all" | "published" | "draft";
+type EventTypeFilter = "all" | "wedding" | "xv" | "birthday" | "baby_shower" | "gender_reveal" | "baptism" | "corporate" | "other";
+type InvitationFilter = "all" | "enabled" | "disabled";
 type SortOrder = "upcoming" | "created_desc" | "created_asc" | "activity";
 
 function parseLocalDate(date: string) {
@@ -110,6 +112,8 @@ export default function AdminPage() {
 
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState<StatusFilter>("all");
+  const [eventType, setEventType] = useState<EventTypeFilter>("all");
+  const [invitationFilter, setInvitationFilter] = useState<InvitationFilter>("all");
   const [sortOrder, setSortOrder] = useState<SortOrder>("upcoming");
 
   const filteredEvents = useMemo(() => {
@@ -121,18 +125,19 @@ export default function AdminPage() {
         event.title.toLowerCase().includes(query) ||
         event.slug.toLowerCase().includes(query);
 
-      const matchesStatus =
-        status === "all" || event.status === status;
+      const matchesStatus = status === "all" || event.status === status;
+      const matchesType = eventType === "all" || String(event.type ?? "other") === eventType;
+      const matchesInvitation = invitationFilter === "all" || (invitationFilter === "enabled" ? event.invitation_enabled === true : event.invitation_enabled !== true);
 
-      return matchesSearch && matchesStatus;
+      return matchesSearch && matchesStatus && matchesType && matchesInvitation;
     });
 
     return sortEvents(filtered, sortOrder);
-  }, [events, search, status, sortOrder]);
+  }, [events, search, status, eventType, invitationFilter, sortOrder]);
 
   return (
     <main className="min-h-screen min-w-0 bg-[#F7F5F1]">
-      <AppHeader title="Galerías">
+      <AppHeader title="Eventos y galerías">
         <EventDialog
           mode="create"
           createEvent={createEvent}
@@ -172,7 +177,7 @@ export default function AdminPage() {
               )}
             </div>
 
-            <div className="grid min-w-0 grid-cols-1 gap-2 sm:grid-cols-2">
+            <div className="grid min-w-0 grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
               <label className="relative min-w-0">
                 <span className="sr-only">Filtrar por estado</span>
                 <ListFilter
@@ -201,6 +206,22 @@ export default function AdminPage() {
                     />
                   </svg>
                 </span>
+              </label>
+
+              <label className="relative min-w-0">
+                <span className="sr-only">Filtrar por tipo de evento</span>
+                <select value={eventType} onChange={(event) => setEventType(event.target.value as EventTypeFilter)} className="h-11 w-full min-w-0 appearance-none rounded-xl border border-[#E7DCC8] bg-white px-3.5 pr-9 text-sm text-[#5C554B] outline-none focus:border-[#A88249]">
+                  <option value="all">Todos los tipos</option><option value="wedding">Boda</option><option value="xv">XV años</option><option value="birthday">Cumpleaños</option><option value="baby_shower">Baby shower</option><option value="gender_reveal">Revelación de género</option><option value="baptism">Bautizo</option><option value="corporate">Corporativo</option><option value="other">Otro</option>
+                </select>
+              </label>
+
+              <label className="relative min-w-0">
+                <span className="sr-only">Filtrar por invitación</span>
+                <select value={invitationFilter} onChange={(event) => setInvitationFilter(event.target.value as InvitationFilter)} className="h-11 w-full min-w-0 appearance-none rounded-xl border border-[#E7DCC8] bg-white px-3.5 pr-9 text-sm text-[#5C554B] outline-none focus:border-[#A88249]">
+                  <option value="all">Todas las invitaciones</option>
+                  <option value="enabled">Con invitación habilitada</option>
+                  <option value="disabled">Sin invitación</option>
+                </select>
               </label>
 
               <label className="relative min-w-0">
@@ -256,6 +277,8 @@ export default function AdminPage() {
                 onClick={() => {
                   setSearch("");
                   setStatus("all");
+                  setEventType("all");
+                  setInvitationFilter("all");
                   setSortOrder("upcoming");
                 }}
                 className="mt-2 text-xs font-medium text-[#A88249] underline underline-offset-4 hover:text-[#977640]"

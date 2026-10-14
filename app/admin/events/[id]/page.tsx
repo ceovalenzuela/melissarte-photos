@@ -4,6 +4,8 @@ import { ArrowLeft, CalendarDays, Camera, ExternalLink, MessageCircle } from "lu
 
 import { createClient } from "@/lib/supabase/server";
 import EventEditor from "@/components/events/EventEditor";
+import InvitationEditor from "@/components/invitations/InvitationEditor";
+import InvitationDangerZoneAction from "@/components/invitations/InvitationDangerZoneAction";
 import { Event } from "@/types/event";
 
 type Props = {
@@ -156,6 +158,12 @@ export default async function EventPage({ params }: Props) {
               messageCount,
               lastActivityAt,
             }}
+            invitationSection={typedEvent.invitation_enabled ? (
+              <div className="mt-2 mb-8">
+                <InvitationEditor event={typedEvent} organizerToken={typedEvent.organizer_token ?? ""} />
+              </div>
+            ) : undefined}
+            invitationDangerZoneAction={typedEvent.invitation_enabled ? <InvitationDangerZoneAction eventId={typedEvent.id} organizerToken={typedEvent.organizer_token ?? ""} /> : undefined}
           />
         </div>
       </div>

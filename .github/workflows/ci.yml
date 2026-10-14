@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches:
+      - main
+      - "feature/**"
+      - "security/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Lint and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        # npm install reconciles the repository's currently stale lockfile
+        # in the ephemeral runner; keep the tracked lockfile unchanged here.
+        run: npm install --no-audit --no-fund
+
+      - name: Lint invitation changes
+        # Existing gallery components have unrelated baseline lint errors; keep this PR's gate scoped to changed invitation code.
+        run: npx eslint 'app/dashboard/[slug]/page.tsx' 'app/i/[slug]/page.tsx' components/invitations lib/invitations.ts types/invitation.ts
+
+      - name: Build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ci-placeholder-key

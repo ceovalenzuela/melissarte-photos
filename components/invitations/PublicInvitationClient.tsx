@@ -159,7 +159,7 @@ export default function PublicInvitationClient({
             {(content.dress_code || content.rsvp_deadline) && (
               <div className="mx-auto mt-5 grid max-w-4xl gap-4 sm:grid-cols-2">
                 {content.dress_code && <InfoCard icon={<Shirt size={18} />} title="Código de vestimenta" value={content.dress_code} accent={accent} />}
-                {content.rsvp_deadline && <InfoCard icon={<Clock3 size={18} />} title="Confirma antes de" value={content.rsvp_deadline} accent={accent} />}
+                {content.rsvp_deadline && <InfoCard icon={<Clock3 size={18} />} title="Confirma antes de" value={formatDate(content.rsvp_deadline) ?? content.rsvp_deadline} accent={accent} />}
               </div>
             )}
           </section>

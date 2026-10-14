@@ -51,6 +51,11 @@ export default function PublicInvitationClient({
   const primaryMapsUrl = mapsUrl(content.ceremony_venue, content.ceremony_address);
   const receptionMapsUrl = mapsUrl(content.reception_venue, content.reception_address);
   const religiousCeremonyMapsUrl = mapsUrl(content.religious_ceremony_venue, content.religious_ceremony_address);
+  const locationCount = [
+    Boolean(content.ceremony_venue || content.ceremony_time || content.ceremony_address),
+    Boolean(content.reception_venue || content.reception_time || content.reception_address),
+    Boolean(content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address)),
+  ].filter(Boolean).length;
 
   const [guestName, setGuestName] = useState(existingRSVP?.guest_name ?? "");
   const [attendance, setAttendance] = useState<RSVPStatus>(existingRSVP?.attendance_status ?? "attending");
@@ -144,7 +149,7 @@ export default function PublicInvitationClient({
             </div>
 
             {(content.ceremony_venue || content.ceremony_time || content.ceremony_address || content.reception_venue || content.reception_time || content.reception_address || (content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address))) && (
-              <div className="invitation-location-grid mx-auto mt-12 grid max-w-5xl items-stretch gap-4 md:grid-cols-2 xl:grid-cols-3">
+              <div className={`invitation-location-grid mx-auto mt-12 grid w-full items-stretch gap-4 ${locationCount === 2 ? "max-w-5xl md:grid-cols-2" : locationCount >= 3 ? "max-w-6xl md:grid-cols-2 xl:grid-cols-3" : "max-w-xl grid-cols-1"}`}>
                 {(content.ceremony_venue || content.ceremony_time || content.ceremony_address) && (
                   <LocationCard title="Recepción" time={content.ceremony_time} venue={content.ceremony_venue} address={content.ceremony_address} maps={primaryMapsUrl} accent={accent} />
                 )}
@@ -166,7 +171,7 @@ export default function PublicInvitationClient({
           </section>
 
           {invitation.rsvp_enabled && (
-            <section id="confirmar" className="scroll-mt-6 px-5 py-12 sm:px-12 sm:py-16 lg:px-20 invitation-reveal" style={{ background: `linear-gradient(135deg, ${accent}12, ${background})` }}>
+            <section id="confirmar" className="invitation-rsvp scroll-mt-6 px-5 py-12 sm:px-12 sm:py-16 lg:px-20 invitation-reveal" style={{ background: `linear-gradient(135deg, ${accent}12, ${background})` }}>
               <div className="mx-auto max-w-xl">
                 <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>{existingRSVP ? "Tu respuesta" : "Nos encantará saber de ti"}</p>
                 <h2 className="mt-3 text-center font-[var(--font-display)] text-4xl leading-tight sm:text-5xl">{existingRSVP ? "Tu confirmación" : "¿Nos acompañas?"}</h2>

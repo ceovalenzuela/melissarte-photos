@@ -27,9 +27,10 @@ interface Props {
   event: Event;
   stats: EventStats;
   invitationSection?: ReactNode;
+  invitationDangerZoneAction?: ReactNode;
 }
 
-export default function EventEditor({ event, stats, invitationSection }: Props) {
+export default function EventEditor({ event, stats, invitationSection, invitationDangerZoneAction }: Props) {
   const [values, setValues] = useState(event);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -156,6 +157,7 @@ export default function EventEditor({ event, stats, invitationSection }: Props) 
         </div>
 
         <div className="space-y-4">
+          {invitationDangerZoneAction}
           <div className="rounded-2xl border border-[#E7DCC8] bg-[#FDFBF8] p-6 shadow-sm">
             <h3 className="text-base font-semibold text-[#1F1F1F]">Vaciar galería</h3>
             <p className="mt-1.5 text-sm text-[#7D7467]">Elimina todas las fotografías y conserva la configuración del evento.</p>

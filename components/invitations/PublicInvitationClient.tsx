@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState, type CSSProperties } from "react";
+import { useRouter } from "next/navigation";
 import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { InvitationTemplateKey, PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
@@ -39,6 +40,7 @@ export default function PublicInvitationClient({
   editToken,
   editRequested,
 }: Props) {
+  const router = useRouter();
   const content = invitation.content_config ?? {};
   const design = invitation.design_config ?? {};
   const background = safeColor(design.background_color, "#FBF7F1");
@@ -133,7 +135,7 @@ export default function PublicInvitationClient({
           throw new Error("No fue posible guardar tu confirmación. Inténtalo de nuevo.");
         }
         const params = new URLSearchParams({ rsvp: result.response_id, token: result.edit_token });
-        window.location.href = `/i/${encodeURIComponent(invitation.invitation_slug)}?${params.toString()}`;
+        router.replace(`/i/${encodeURIComponent(invitation.invitation_slug)}?${params.toString()}#confirmar`, { scroll: false });
         return;
       }
     } catch (error) {
@@ -237,14 +239,14 @@ export default function PublicInvitationClient({
                 <h2 className="mt-3 text-center font-[var(--font-display)] text-4xl leading-tight sm:text-5xl">{existingRSVP ? "Tu confirmación" : "¿Nos acompañas?"}</h2>
                 <p className="mt-3 text-center text-sm leading-6 text-neutral-600">{existingRSVP ? "Puedes actualizar tus datos aquí." : "Solo te tomará unos segundos confirmar."}</p>
                 {existingRSVP && editToken && (
-                  <div className="mt-7 rounded-2xl border p-5 sm:p-6" style={{ borderColor: `${accent}55`, backgroundColor: `${accent}0A` }}>
+                  <div className="personal-rsvp-link mt-7 rounded-2xl border p-5 sm:p-6" style={{ borderColor: `${accent}55`, backgroundColor: `${accent}0A` }}>
                     <div className="flex items-start gap-3">
                       <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: `${accent}18`, color: accent }}>
                         <CheckCircle2 size={20} />
                       </span>
                       <div>
-                        <h3 className="font-semibold">Este es tu enlace personal</h3>
-                        <p className="mt-1 text-sm leading-6 text-neutral-600">Guárdalo para consultar o editar tu respuesta más adelante. Quien tenga este enlace podrá modificarla, así que compártelo solo contigo o con alguien de confianza.</p>
+                        <h3 className="personal-rsvp-link-title font-semibold">Este es tu enlace personal</h3>
+                        <p className="personal-rsvp-link-copy mt-1 text-sm leading-6">Guárdalo para consultar o editar tu respuesta más adelante. Quien tenga este enlace podrá modificarla, así que compártelo solo contigo o con alguien de confianza.</p>
                       </div>
                     </div>
                     <div className="mt-4 grid gap-3 sm:grid-cols-2">

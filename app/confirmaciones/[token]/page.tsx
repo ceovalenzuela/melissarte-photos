@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import type { CSSProperties } from "react";
+import type { InvitationTemplateKey } from "@/types/invitation";
 
 import { supabase } from "@/lib/supabase";
 import { getEventBySlug } from "@/lib/events";
@@ -30,8 +31,11 @@ export default async function OrganizerConfirmationsPage({ params }: Props) {
   const invitation = invitationResult.data?.[0];
   const content = invitation?.content_config ?? {};
   const design = invitation?.design_config ?? {};
-  const templateKey = ["wedding_editorial", "xv_gala", "baby_soft", "baptism_light"].includes(invitation?.template_key) ? invitation.template_key : "wedding_editorial";
-  const organizerDefaults = {
+  const templateKeys: InvitationTemplateKey[] = ["wedding_editorial", "xv_gala", "baby_soft", "baptism_light"];
+  const templateKey: InvitationTemplateKey = templateKeys.includes(invitation?.template_key as InvitationTemplateKey)
+    ? (invitation.template_key as InvitationTemplateKey)
+    : "wedding_editorial";
+  const organizerDefaults: Record<InvitationTemplateKey, { accent: string; bg: string; text: string; card: string; cardText: string; border: string; button: string; buttonText: string }> = {
     wedding_editorial: { accent: "#A78645", bg: "#F4EAD8", text: "#302F30", card: "#FFFCF6", cardText: "#302F30", border: "#C9AD6B", button: "#A78645", buttonText: "#FFFFFF" },
     xv_gala: { accent: "#D6B66F", bg: "#211B35", text: "#FFFAF0", card: "#39304C", cardText: "#FFFAF0", border: "#D6B66F", button: "#6F4B68", buttonText: "#FFFFFF" },
     baby_soft: { accent: "#A85F47", bg: "#FFF4E8", text: "#493C32", card: "#FFFEFA", cardText: "#493C32", border: "#E5C5B2", button: "#A96149", buttonText: "#FFFFFF" },

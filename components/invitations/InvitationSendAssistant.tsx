@@ -49,12 +49,16 @@ export default function InvitationSendAssistant({ eventTitle, invitationSlug, st
     return `${window.location.origin}/i/${encodeURIComponent(invitationSlug)}`;
   }, [invitationSlug]);
 
-  function messageFor(name: string) {
+  function messageFor(name: string, generic = false) {
+    const greeting = generic ? "¡Hola!" : name.trim() ? `¡Hola ${name.trim()}!` : "¡Hola!";
     return message
-      .replace(/\{\{nombre\}\}/g, name.trim() || " ")
+      .replace(/¡Hola\s*\{\{nombre\}\}!/g, greeting)
+      .replace(/\{\{nombre\}\}/g, name.trim())
       .replace(/\{\{evento\}\}/g, eventTitle)
       .replace(/\{\{enlace\}\}/g, invitationUrl)
-      .replace(/\{\{anfitriones\}\}/g, hostNames?.trim() ? `Con cariño, ${hostNames.trim()}. ` : "");
+      .replace(/\{\{anfitriones\}\}/g, hostNames?.trim() ? `Con cariño, ${hostNames.trim()}. ` : "")
+      .replace(/[ \t]{2,}/g, " ")
+      .trim();
   }
 
   function updateGuest(id: string, field: "name" | "phone", value: string) {
@@ -89,7 +93,7 @@ export default function InvitationSendAssistant({ eventTitle, invitationSlug, st
   }
 
   async function shareInvitation() {
-    const text = messageFor("");
+    const text = messageFor("", true);
     if (navigator.share) {
       try {
         await navigator.share({ title: `Invitación: ${eventTitle}`, text, url: invitationUrl });
@@ -123,6 +127,7 @@ export default function InvitationSendAssistant({ eventTitle, invitationSlug, st
             <div className="mt-3 flex flex-wrap gap-2">
               <button type="button" onClick={() => void copyText(invitationUrl, "Enlace de invitación copiado.")} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#E7DCC8] bg-white px-4 py-2 text-sm font-medium text-[#5C554B]"><Copy size={15} />Copiar enlace</button>
               <button type="button" onClick={() => void shareInvitation()} className="inline-flex min-h-10 items-center gap-2 rounded-full bg-[#28734D] px-4 py-2 text-sm font-semibold text-white"><Share2 size={15} />Compartir</button>
+              <button type="button" onClick={() => void copyText(messageFor("", true), "Mensaje copiado. Puedes pegarlo en un chat o grupo de WhatsApp.")} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#E7DCC8] bg-white px-4 py-2 text-sm font-medium text-[#5C554B]"><Copy size={15} />Copiar mensaje</button>
             </div>
           </div>
 

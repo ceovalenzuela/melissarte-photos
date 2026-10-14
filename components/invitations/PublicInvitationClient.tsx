@@ -236,6 +236,27 @@ export default function PublicInvitationClient({
                 <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>{existingRSVP ? "Tu respuesta" : "Nos encantará saber de ti"}</p>
                 <h2 className="mt-3 text-center font-[var(--font-display)] text-4xl leading-tight sm:text-5xl">{existingRSVP ? "Tu confirmación" : "¿Nos acompañas?"}</h2>
                 <p className="mt-3 text-center text-sm leading-6 text-neutral-600">{existingRSVP ? "Puedes actualizar tus datos aquí." : "Solo te tomará unos segundos confirmar."}</p>
+                {existingRSVP && editToken && (
+                  <div className="mt-7 rounded-2xl border p-5 sm:p-6" style={{ borderColor: `${accent}55`, backgroundColor: `${accent}0A` }}>
+                    <div className="flex items-start gap-3">
+                      <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: `${accent}18`, color: accent }}>
+                        <CheckCircle2 size={20} />
+                      </span>
+                      <div>
+                        <h3 className="font-semibold">Este es tu enlace personal</h3>
+                        <p className="mt-1 text-sm leading-6 text-neutral-600">Guárdalo para consultar o editar tu respuesta más adelante. Quien tenga este enlace podrá modificarla, así que compártelo solo contigo o con alguien de confianza.</p>
+                      </div>
+                    </div>
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                      <button type="button" onClick={copyPersonalLink} className="inline-flex min-h-11 items-center justify-center rounded-full border px-4 py-3 text-sm font-semibold transition hover:bg-white" style={{ borderColor: `${accent}66`, color: accent }}>
+                        {linkCopied ? "Enlace copiado ✓" : "Guardar mi enlace"}
+                      </button>
+                      <button type="button" onClick={sharePersonalLink} className="inline-flex min-h-11 items-center justify-center rounded-full px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90" style={{ backgroundColor: accent }}>
+                        Compartir por WhatsApp
+                      </button>
+                    </div>
+                  </div>
+                )}
                 <form onSubmit={handleSubmit} className="mt-8 space-y-5 rounded-[1.5rem] border border-black/5 bg-white p-5 shadow-[0_16px_50px_rgba(48,36,27,0.06)] sm:p-7">
                   <div>
                     <label htmlFor="guest-name" className="mb-2 block text-sm font-medium">Nombre completo</label>

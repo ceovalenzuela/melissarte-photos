@@ -1164,3 +1164,9 @@
   background: #273747 !important;
   color: #fffdf8 !important;
 }
+
+
+/* Fix: the previous auto margin overrode Tailwind mt-* on location links. */
+.invitation-public .invitation-location-card > a {
+  margin-top: 2.5rem !important;
+}

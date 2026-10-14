@@ -57,6 +57,17 @@ export default function PublicInvitationClient({
     baptism_light: { title: "#263641", card: "#FFFFFF", cardText: "#263641", border: "#C7DBE5", button: "#527F98", buttonText: "#FFFFFF", rsvp: "#E3EEF3", rsvpText: "#263641", form: "#FFFFFF", formText: "#263641" },
   } satisfies Record<InvitationTemplateKey, { title: string; card: string; cardText: string; border: string; button: string; buttonText: string; rsvp: string; rsvpText: string; form: string; formText: string }>)[templateKey];
   const dateLabel = formatDate(invitation.event_date);
+  const todayInMonterrey = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Monterrey",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+  const rsvpDeadlinePassed = Boolean(
+    content.rsvp_deadline &&
+    /^\\d{4}-\\d{2}-\\d{2}$/.test(content.rsvp_deadline) &&
+    todayInMonterrey > content.rsvp_deadline
+  );
   const primaryMapsUrl = mapsUrl(content.ceremony_venue, content.ceremony_address);
   const receptionMapsUrl = mapsUrl(content.reception_venue, content.reception_address);
   const religiousCeremonyMapsUrl = mapsUrl(content.religious_ceremony_venue, content.religious_ceremony_address);
@@ -195,7 +206,15 @@ export default function PublicInvitationClient({
             )}
           </section>
 
-          {invitation.rsvp_enabled && (
+          {invitation.rsvp_enabled && (rsvpDeadlinePassed ? (
+            <section id="confirmar" className="invitation-rsvp scroll-mt-6 px-5 py-12 sm:px-12 sm:py-16 lg:px-20 invitation-reveal" style={{ background: `linear-gradient(135deg, ${accent}12, ${background})` }}>
+              <div className="mx-auto max-w-xl rounded-[1.5rem] border border-black/5 bg-white p-6 text-center shadow-[0_16px_50px_rgba(48,36,27,0.06)] sm:p-8">
+                <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>Confirmaciones cerradas</p>
+                <h2 className="mt-3 font-[var(--font-display)] text-3xl leading-tight sm:text-4xl">El plazo para confirmar terminó</h2>
+                <p className="mt-3 text-sm leading-6 text-neutral-600">La fecha límite fue el {formatDate(content.rsvp_deadline ?? null) ?? content.rsvp_deadline}. Ya no es posible enviar ni modificar confirmaciones.</p>
+              </div>
+            </section>
+          ) : (
             <section id="confirmar" className="invitation-rsvp scroll-mt-6 px-5 py-12 sm:px-12 sm:py-16 lg:px-20 invitation-reveal" style={{ background: `linear-gradient(135deg, ${accent}12, ${background})` }}>
               <div className="mx-auto max-w-xl">
                 <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>{existingRSVP ? "Tu respuesta" : "Nos encantará saber de ti"}</p>
@@ -230,7 +249,7 @@ export default function PublicInvitationClient({
                 </form>
               </div>
             </section>
-          )}
+          ))}
 
           <footer className="px-6 py-10 text-center sm:py-12">
             <div className="mx-auto mb-5 h-px w-10" style={{ backgroundColor: `${accent}66` }} />

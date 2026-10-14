@@ -879,3 +879,141 @@
 .invitation-template-baptism_light #confirmar.invitation-rsvp form p.text-neutral-400 {
   color: #5e6e77 !important;
 }
+
+
+/* Color customization controls affect the rendered invitation, not just the editor. */
+.invitation-public .invitation-title { color: var(--inv-title) !important; }
+.invitation-public .invitation-location-card {
+  background: var(--inv-card-bg) !important;
+  color: var(--inv-card-text) !important;
+  border-color: var(--inv-border) !important;
+}
+.invitation-public .invitation-location-card h3,
+.invitation-public .invitation-location-card > p:not([class*="uppercase"]) {
+  color: var(--inv-card-text);
+}
+.invitation-public .invitation-location-card > div:first-child > span {
+  border: 1px solid var(--inv-border);
+}
+.invitation-public .invitation-location-card > a {
+  border-color: var(--inv-border) !important;
+  color: var(--inv-button) !important;
+}
+.invitation-public .invitation-countdown {
+  border-color: var(--inv-border) !important;
+}
+.invitation-public #confirmar.invitation-rsvp {
+  background: var(--inv-rsvp-bg) !important;
+  color: var(--inv-rsvp-text) !important;
+}
+.invitation-public #confirmar.invitation-rsvp > div > p,
+.invitation-public #confirmar.invitation-rsvp h2 {
+  color: var(--inv-rsvp-text) !important;
+}
+.invitation-public #confirmar.invitation-rsvp > div > p:first-child {
+  color: var(--inv-button) !important;
+}
+.invitation-public #confirmar.invitation-rsvp > div > p.text-neutral-600 {
+  color: var(--inv-rsvp-text) !important;
+  opacity: .88;
+}
+.invitation-public #confirmar.invitation-rsvp form {
+  background: var(--inv-form-bg) !important;
+  color: var(--inv-form-text) !important;
+  border-color: var(--inv-border) !important;
+}
+.invitation-public #confirmar.invitation-rsvp form label,
+.invitation-public #confirmar.invitation-rsvp form legend,
+.invitation-public #confirmar.invitation-rsvp form p:not([role="alert"]):not([role="status"]) {
+  color: var(--inv-form-text);
+}
+.invitation-public #confirmar.invitation-rsvp form input,
+.invitation-public #confirmar.invitation-rsvp form select {
+  background: var(--inv-form-bg) !important;
+  color: var(--inv-form-text) !important;
+  border-color: var(--inv-border) !important;
+}
+.invitation-public #confirmar.invitation-rsvp form button[aria-pressed="false"] {
+  background: var(--inv-form-bg) !important;
+  color: var(--inv-form-text) !important;
+  border-color: var(--inv-border) !important;
+}
+.invitation-public #confirmar.invitation-rsvp form button[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--inv-button) 16%, var(--inv-form-bg)) !important;
+  color: var(--inv-form-text) !important;
+  border-color: var(--inv-button) !important;
+}
+.invitation-public #confirmar.invitation-rsvp form button[type="submit"] {
+  background: var(--inv-button) !important;
+  color: var(--inv-button-text) !important;
+}
+
+/* Organizer RSVP dashboard adopts the selected invitation's visual identity. */
+.organizer-confirmations {
+  background: var(--organizer-bg);
+  color: var(--organizer-text);
+}
+.organizer-confirmations .organizer-confirmations-header,
+.organizer-confirmations .organizer-rsvp-list {
+  background: var(--organizer-card);
+  color: var(--organizer-card-text);
+  border-color: var(--organizer-border);
+}
+.organizer-confirmations .organizer-confirmations-banner {
+  background: linear-gradient(135deg, var(--organizer-banner-start, #273747), var(--organizer-banner-end, #3b5263));
+  color: var(--organizer-banner-text, #fffaf0);
+}
+.organizer-confirmations .organizer-confirmations-eyebrow { color: var(--organizer-banner-accent, #e4ca8a); }
+.organizer-confirmations .organizer-confirmations-title,
+.organizer-confirmations .organizer-confirmations-subtitle { color: var(--organizer-banner-text, #fffaf0); }
+.organizer-confirmations .organizer-confirmations-meta { background: var(--organizer-card); }
+.organizer-confirmations .organizer-confirmations-meta-title { color: var(--organizer-card-text); }
+.organizer-confirmations .organizer-confirmations-meta-text { color: var(--organizer-muted, #70665c); }
+.organizer-confirmations .organizer-confirmations-map,
+.organizer-confirmations .organizer-rsvp-refresh {
+  border-color: var(--organizer-border);
+  color: var(--organizer-button);
+}
+.organizer-confirmations .organizer-rsvp-list-header { border-color: var(--organizer-border); }
+.organizer-confirmations .organizer-rsvp-heading { color: var(--organizer-card-text); }
+.organizer-confirmations .organizer-rsvp-muted { color: var(--organizer-muted, #70665c); }
+.organizer-confirmations .organizer-rsvp-empty,
+.organizer-confirmations .organizer-rsvp-summary { background: var(--organizer-soft, #f7f3ec); }
+.organizer-confirmations .organizer-rsvp-summary-accent { color: var(--organizer-button); }
+.organizer-confirmations .organizer-rsvp-response {
+  background: var(--organizer-card);
+  border-color: var(--organizer-border);
+}
+.organizer-confirmations .organizer-rsvp-phone { color: var(--organizer-button); }
+.organizer-confirmations.invitation-template-wedding_editorial {
+  --organizer-banner-start: #273747;
+  --organizer-banner-end: #3b5263;
+  --organizer-banner-text: #fffaf0;
+  --organizer-banner-accent: #e4ca8a;
+  --organizer-muted: #68635e;
+  --organizer-soft: #f5efe4;
+}
+.organizer-confirmations.invitation-template-xv_gala {
+  --organizer-banner-start: #211b35;
+  --organizer-banner-end: #49324f;
+  --organizer-banner-text: #fffaf2;
+  --organizer-banner-accent: #e0c276;
+  --organizer-muted: #706579;
+  --organizer-soft: #f3eef6;
+}
+.organizer-confirmations.invitation-template-baby_soft {
+  --organizer-banner-start: #d98f76;
+  --organizer-banner-end: #91a985;
+  --organizer-banner-text: #fffdf7;
+  --organizer-banner-accent: #fff0bd;
+  --organizer-muted: #756054;
+  --organizer-soft: #fff1e5;
+}
+.organizer-confirmations.invitation-template-baptism_light {
+  --organizer-banner-start: #6e9db5;
+  --organizer-banner-end: #b3d0df;
+  --organizer-banner-text: #173747;
+  --organizer-banner-accent: #fffdf6;
+  --organizer-muted: #5f7079;
+  --organizer-soft: #edf5f8;
+}

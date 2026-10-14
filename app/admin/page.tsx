@@ -278,6 +278,7 @@ export default function AdminPage() {
                   setSearch("");
                   setStatus("all");
                   setEventType("all");
+                  setInvitationFilter("all");
                   setSortOrder("upcoming");
                 }}
                 className="mt-2 text-xs font-medium text-[#A88249] underline underline-offset-4 hover:text-[#977640]"

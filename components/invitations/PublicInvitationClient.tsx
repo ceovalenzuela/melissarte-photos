@@ -337,7 +337,7 @@ function LocationCard({ title, time, venue, address, maps, accent }: { title: st
       {time && <p className="mt-5 font-[var(--font-display)] text-3xl font-medium leading-none sm:text-4xl">{time}</p>}
       {venue && <h3 className="mt-3 font-[var(--font-display)] text-2xl leading-tight">{venue}</h3>}
       {address && <p className="mt-2 text-sm leading-6 text-neutral-600">{address}</p>}
-      {maps && <a href={maps} target="_blank" rel="noreferrer" className="mt-7 inline-flex min-h-10 items-center justify-center gap-2 rounded-full border px-4 py-2.5 text-sm font-semibold transition hover:bg-neutral-50" style={{ borderColor: `${accent}55`, color: accent }}>Ver ubicación <ArrowUpRight size={15} /></a>}
+      {maps && <a href={maps} target="_blank" rel="noreferrer" className="mt-10 inline-flex min-h-10 items-center justify-center gap-2 rounded-full border px-4 py-2.5 text-sm font-semibold transition hover:bg-neutral-50" style={{ borderColor: `${accent}55`, color: accent }}>Ver ubicación <ArrowUpRight size={15} /></a>}
     </article>
   );
 }

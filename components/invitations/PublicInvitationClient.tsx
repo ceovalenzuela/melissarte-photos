@@ -143,18 +143,19 @@ export default function PublicInvitationClient({
               
             </div>
 
-            {(content.ceremony_venue || content.ceremony_time || content.ceremony_address || content.reception_venue || content.reception_time || content.reception_address) && (
-              <div className="mx-auto mt-12 grid max-w-4xl gap-4 md:grid-cols-2">
+            {(content.ceremony_venue || content.ceremony_time || content.ceremony_address || content.reception_venue || content.reception_time || content.reception_address || (content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address))) && (
+              <div className="invitation-location-grid mx-auto mt-12 grid max-w-5xl items-stretch gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {(content.ceremony_venue || content.ceremony_time || content.ceremony_address) && (
-                  <LocationCard title={content.reception_venue ? "Celebración" : "Lugar del evento"} time={content.ceremony_time} venue={content.ceremony_venue} address={content.ceremony_address} maps={primaryMapsUrl} accent={accent} />
+                  <LocationCard title="Recepción" time={content.ceremony_time} venue={content.ceremony_venue} address={content.ceremony_address} maps={primaryMapsUrl} accent={accent} />
                 )}
                 {(content.reception_venue || content.reception_time || content.reception_address) && (
-                  <LocationCard title="Recepción" time={content.reception_time} venue={content.reception_venue} address={content.reception_address} maps={receptionMapsUrl} accent={accent} />
+                  <LocationCard title="Celebración" time={content.reception_time} venue={content.reception_venue} address={content.reception_address} maps={receptionMapsUrl} accent={accent} />
+                )}
+                {content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address) && (
+                  <LocationCard title="Ceremonia" time={content.religious_ceremony_time} venue={content.religious_ceremony_venue} address={content.religious_ceremony_address} maps={religiousCeremonyMapsUrl} accent={accent} />
                 )}
               </div>
             )}
-
-            {content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address) && <div className="mx-auto mt-5 max-w-4xl"><LocationCard title="Ceremonia religiosa" time={content.religious_ceremony_time} venue={content.religious_ceremony_venue} address={content.religious_ceremony_address} maps={religiousCeremonyMapsUrl} accent={accent} /></div>}
 
             {(content.dress_code || content.rsvp_deadline) && (
               <div className="mx-auto mt-5 grid max-w-4xl gap-4 sm:grid-cols-2">
@@ -219,18 +220,19 @@ function Countdown({ eventDate, eventTime, accent, textColor, background }: { ev
     const target = new Date(`${eventDate}T${eventTime || "00:00"}:00`).getTime();
     const update = () => setRemaining(Math.max(0, target - Date.now()));
     update();
-    const interval = window.setInterval(update, 60_000);
+    const interval = window.setInterval(update, 1_000);
     return () => window.clearInterval(interval);
   }, [eventDate, eventTime]);
   if (remaining === null || remaining <= 0) return null;
   const days = Math.floor(remaining / 86_400_000);
   const hours = Math.floor((remaining % 86_400_000) / 3_600_000);
   const minutes = Math.floor((remaining % 3_600_000) / 60_000);
-  const parts = [{ value: days, label: "días" }, { value: hours, label: "horas" }, { value: minutes, label: "min" }];
+  const seconds = Math.floor((remaining % 60_000) / 1_000);
+  const parts = [{ value: days, label: "días" }, { value: hours, label: "horas" }, { value: minutes, label: "min" }, { value: seconds, label: "seg" }];
   return (
-    <div className="mx-auto mt-8 max-w-md rounded-2xl border px-5 py-4 sm:px-7 sm:py-5" style={{ borderColor: `${accent}40`, backgroundColor: `${accent}0A`, color: textColor }}>
+    <div className="invitation-countdown mx-auto mt-8 max-w-xl rounded-2xl border px-5 py-4 sm:px-7 sm:py-5" style={{ borderColor: `${accent}55`, backgroundColor: `${accent}0A`, color: textColor }}>
       <p className="text-[10px] font-semibold uppercase tracking-[0.25em]" style={{ color: accent }}>La cuenta regresiva ha comenzado</p>
-      <div className="mt-4 grid grid-cols-3 divide-x" style={{ borderColor: `${accent}30` }}>
+      <div className="mt-4 grid grid-cols-4 divide-x" style={{ borderColor: `${accent}30` }}>
         {parts.map((part) => <div key={part.label} className="px-2 text-center"><p className="font-[var(--font-display)] text-3xl tabular-nums sm:text-4xl">{String(part.value).padStart(2, "0")}</p><p className="mt-1 text-[10px] uppercase tracking-[0.18em] opacity-70">{part.label}</p></div>)}
       </div>
     </div>
@@ -239,7 +241,7 @@ function Countdown({ eventDate, eventTime, accent, textColor, background }: { ev
 
 function LocationCard({ title, time, venue, address, maps, accent }: { title: string; time?: string; venue?: string; address?: string; maps: string | null; accent: string }) {
   return (
-    <article className="rounded-[1.5rem] border border-neutral-100 bg-[#FEFDFC] p-6 sm:p-7">
+    <article className="invitation-location-card h-full rounded-[1.5rem] border border-neutral-100 bg-[#FEFDFC] p-6 sm:p-7">
       <div className="flex items-center gap-3">
         <span className="flex h-11 w-11 items-center justify-center rounded-full" style={{ backgroundColor: `${accent}14`, color: accent }}><MapPin size={19} strokeWidth={1.6} /></span>
         <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: accent }}>{title}</p>

@@ -41,6 +41,7 @@ export default function PublicInvitationClient({
 }: Props) {
   const content = invitation.content_config ?? {};
   const design = invitation.design_config ?? {};
+  const background = safeColor(design.background_color, "#FBF7F1");
   const accent = safeColor(design.accent_color, "#9A7358");
   const textColor = safeColor(design.text_color, "#332B27");
   const cover = design.cover_image_url?.startsWith("https://") ? design.cover_image_url : null;

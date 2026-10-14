@@ -337,7 +337,7 @@ function LocationCard({ title, time, venue, address, maps, accent }: { title: st
       {time && <p className="mt-5 font-[var(--font-display)] text-3xl font-medium leading-none sm:text-4xl">{time}</p>}
       {venue && <h3 className="invitation-location-venue mt-3 font-[var(--font-display)] text-2xl leading-tight">{venue}</h3>}
       {address && <p className="invitation-location-address mt-2 text-sm leading-6 text-neutral-600">{address}</p>}
-      {maps && <a href={maps} target="_blank" rel="noreferrer" className="mt-4 flex w-fit min-h-10 items-center justify-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold leading-none transition hover:bg-neutral-50" style={{ borderColor: `${accent}55`, color: accent }}>Ver ubicación <ArrowUpRight size={15} /></a>}
+      {maps && <a href={maps} target="_blank" rel="noreferrer" className="mt-4 inline-flex w-fit min-h-10 items-center justify-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold leading-[1] transition hover:bg-neutral-50 align-middle" style={{ borderColor: `${accent}55`, color: accent, lineHeight: 1, verticalAlign: "middle" }} style={{ borderColor: `${accent}55`, color: accent, lineHeight: 1, verticalAlign: "middle" }}> <span className="inline-flex items-center justify-center leading-none" style={{ lineHeight: 1 }}>Ver ubicación</span><ArrowUpRight size={15} className="shrink-0" /></a>}
     </article>
   );
 }

@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useState, type CSSProperties } from "react";
 import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-import type { PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
+import type { InvitationTemplateKey, PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
 
 interface Props {
   invitation: PublicInvitation;
@@ -45,14 +45,17 @@ export default function PublicInvitationClient({
   const accent = safeColor(design.accent_color, "#9A7358");
   const textColor = safeColor(design.text_color, "#332B27");
   const cover = design.cover_image_url?.startsWith("https://") ? design.cover_image_url : null;
-  const templateKey = ["wedding_editorial", "xv_gala", "baby_soft", "baptism_light"].includes(invitation.template_key) ? invitation.template_key : "wedding_editorial";
+  const templateKeys: InvitationTemplateKey[] = ["wedding_editorial", "xv_gala", "baby_soft", "baptism_light"];
+  const templateKey: InvitationTemplateKey = templateKeys.includes(invitation.template_key as InvitationTemplateKey)
+    ? (invitation.template_key as InvitationTemplateKey)
+    : "wedding_editorial";
   const templateClass = `invitation-template-${templateKey}`;
-  const templateDefaults = {
+  const templateDefaults = ({
     wedding_editorial: { title: "#273747", card: "#FFFCF6", cardText: "#302F30", border: "#C9AD6B", button: "#A78645", buttonText: "#FFFFFF", rsvp: "#273747", rsvpText: "#FFFAF0", form: "#FFFDF8", formText: "#302F30" },
     xv_gala: { title: "#FFFAF0", card: "#39304C", cardText: "#FFFAF0", border: "#D6B66F", button: "#6F4B68", buttonText: "#FFFFFF", rsvp: "#211B35", rsvpText: "#FFFAF0", form: "#FFFDF9", formText: "#30283A" },
     baby_soft: { title: "#875744", card: "#FFFEFA", cardText: "#493C32", border: "#E5C5B2", button: "#A96149", buttonText: "#FFFFFF", rsvp: "#F6E7D9", rsvpText: "#493C32", form: "#FFFEFA", formText: "#493C32" },
     baptism_light: { title: "#263641", card: "#FFFFFF", cardText: "#263641", border: "#C7DBE5", button: "#527F98", buttonText: "#FFFFFF", rsvp: "#E3EEF3", rsvpText: "#263641", form: "#FFFFFF", formText: "#263641" },
-  }[templateKey];
+  } satisfies Record<InvitationTemplateKey, { title: string; card: string; cardText: string; border: string; button: string; buttonText: string; rsvp: string; rsvpText: string; form: string; formText: string }>)[templateKey];
   const dateLabel = formatDate(invitation.event_date);
   const primaryMapsUrl = mapsUrl(content.ceremony_venue, content.ceremony_address);
   const receptionMapsUrl = mapsUrl(content.reception_venue, content.reception_address);

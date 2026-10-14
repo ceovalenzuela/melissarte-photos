@@ -65,7 +65,7 @@ export default function PublicInvitationClient({
   }).format(new Date());
   const rsvpDeadlinePassed = Boolean(
     content.rsvp_deadline &&
-    /^\\d{4}-\\d{2}-\\d{2}$/.test(content.rsvp_deadline) &&
+    /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(content.rsvp_deadline) &&
     todayInMonterrey > content.rsvp_deadline
   );
   const primaryMapsUrl = mapsUrl(content.ceremony_venue, content.ceremony_address);

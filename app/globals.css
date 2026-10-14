@@ -1166,7 +1166,7 @@
 }
 
 
-/* Fix: the previous auto margin overrode Tailwind mt-* on location links. */
+/* Keep location buttons aligned across cards while leaving a comfortable gap. */
 .invitation-public .invitation-location-card > a {
-  margin-top: 2.5rem !important;
+  margin-top: 1.25rem !important;
 }

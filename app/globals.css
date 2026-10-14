@@ -463,3 +463,80 @@
 .invitation-template-xv_gala #detalles select {
   color: #30283a;
 }
+
+
+/* Final layout and contrast adjustments based on desktop review. */
+.invitation-template-wedding_editorial #detalles > .mx-auto.max-w-3xl {
+  max-width: 58rem;
+}
+.invitation-template-wedding_editorial .invitation-title {
+  font-size: clamp(2.75rem, 5.6vw, 5.5rem);
+  line-height: .98;
+  letter-spacing: -.065em;
+  color: #24382f;
+  text-shadow: 0 1px 0 rgba(255,255,255,.65);
+}
+.invitation-template-wedding_editorial #detalles > .mx-auto.max-w-3xl > p:first-child {
+  letter-spacing: .34em;
+}
+.invitation-template-wedding_editorial #detalles > .mx-auto.max-w-3xl > div:has(> svg) {
+  margin-top: 1.75rem;
+  margin-bottom: .5rem;
+}
+.invitation-template-wedding_editorial .invitation-countdown {
+  border-radius: 1.5rem;
+  border-color: #c9b994;
+  background: linear-gradient(135deg, rgba(255,253,248,.96), rgba(238,232,219,.88));
+}
+.invitation-template-wedding_editorial .invitation-location-card {
+  border-color: #e7dfd0;
+}
+.invitation-template-xv_gala .invitation-rsvp {
+  background: linear-gradient(145deg, #211b35 0%, #2d2340 100%) !important;
+  color: #fffaf2 !important;
+}
+.invitation-template-xv_gala .invitation-rsvp p,
+.invitation-template-xv_gala .invitation-rsvp h2,
+.invitation-template-xv_gala .invitation-rsvp label,
+.invitation-template-xv_gala .invitation-rsvp legend,
+.invitation-template-xv_gala .invitation-rsvp span {
+  color: #fffaf2 !important;
+}
+.invitation-template-xv_gala .invitation-rsvp p.text-neutral-600,
+.invitation-template-xv_gala .invitation-rsvp p.text-neutral-400,
+.invitation-template-xv_gala .invitation-rsvp .text-neutral-400 {
+  color: #e5ddeb !important;
+}
+.invitation-template-xv_gala .invitation-rsvp form {
+  background: #fffdf9 !important;
+  border-color: #d6b66f66 !important;
+  color: #30283a !important;
+}
+.invitation-template-xv_gala .invitation-rsvp form p,
+.invitation-template-xv_gala .invitation-rsvp form label,
+.invitation-template-xv_gala .invitation-rsvp form legend,
+.invitation-template-xv_gala .invitation-rsvp form span {
+  color: #30283a !important;
+}
+.invitation-template-xv_gala .invitation-rsvp form p.text-neutral-400 {
+  color: #6f6676 !important;
+}
+.invitation-template-xv_gala .invitation-rsvp form input,
+.invitation-template-xv_gala .invitation-rsvp form select {
+  background-color: #fff !important;
+  color: #30283a !important;
+  border-color: #d8d0df !important;
+}
+.invitation-template-xv_gala .invitation-rsvp form button[aria-pressed="false"] {
+  background: #fff !important;
+  color: #30283a !important;
+  border-color: #d8d0df !important;
+}
+.invitation-template-xv_gala .invitation-rsvp form button[aria-pressed="true"] {
+  background: #f3e8f0 !important;
+  color: #30283a !important;
+}
+.invitation-template-xv_gala .invitation-rsvp form button[type="submit"] {
+  background: #6f4b68 !important;
+  color: #fff !important;
+}

@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 import { uploadCover } from "@/lib/events";
 import type { Event } from "@/types/event";
 import type { InvitationContent, InvitationDesign, InvitationStatus } from "@/types/invitation";
+import InvitationSendAssistant from "@/components/invitations/InvitationSendAssistant";
 
 interface InvitationRow {
   invitation_id: string;
@@ -219,6 +220,12 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
               <a href={`/confirmaciones/${encodeURIComponent(organizerToken)}`} target="_blank" rel="noreferrer" className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full border border-[#E7DCC8] px-4 py-2 text-sm font-medium text-[#5C554B] hover:bg-[#F7F3EC]"><Users size={15} />Ver confirmaciones</a>
             </div>
           </section>
+          <InvitationSendAssistant
+            eventTitle={content.headline?.trim() || event.title}
+            invitationSlug={event.slug}
+            status={status}
+            hostNames={content.host_names}
+          />
           <section>
             <div className="mb-4">
               <h3 className="text-base font-semibold text-[#332B27]">Portada</h3>

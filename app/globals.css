@@ -454,3 +454,12 @@
     transition: none !important;
   }
 }
+
+.invitation-template-xv_gala #detalles .text-neutral-600,
+.invitation-template-xv_gala #detalles .text-neutral-400 {
+  color: #e7dfef !important;
+}
+.invitation-template-xv_gala #detalles input,
+.invitation-template-xv_gala #detalles select {
+  color: #30283a;
+}

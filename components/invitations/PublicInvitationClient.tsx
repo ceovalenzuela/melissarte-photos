@@ -1,7 +1,7 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight, ChevronDown } from "lucide-react";
+import { FormEvent, useEffect, useState } from "react";
+import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
 
@@ -50,6 +50,7 @@ export default function PublicInvitationClient({
   const dateLabel = formatDate(invitation.event_date);
   const primaryMapsUrl = mapsUrl(content.ceremony_venue, content.ceremony_address);
   const receptionMapsUrl = mapsUrl(content.reception_venue, content.reception_address);
+  const religiousCeremonyMapsUrl = mapsUrl(content.religious_ceremony_venue, content.religious_ceremony_address);
 
   const [guestName, setGuestName] = useState(existingRSVP?.guest_name ?? "");
   const [attendance, setAttendance] = useState<RSVPStatus>(existingRSVP?.attendance_status ?? "attending");
@@ -116,9 +117,9 @@ export default function PublicInvitationClient({
 
   return (
     <main className="min-h-screen overflow-hidden" style={{ backgroundColor: background, color: textColor }}>
-      <div className="mx-auto max-w-6xl sm:px-6 sm:py-8 lg:px-10">
+      <div className="mx-auto max-w-7xl sm:px-6 sm:py-8 lg:px-8">
         <article className={`invitation-public ${templateClass} overflow-hidden shadow-[0_28px_100px_rgba(48,36,27,0.12)] sm:rounded-[2rem]`} style={{ backgroundColor: background, color: textColor }}>
-          <header className={`invitation-hero relative isolate flex min-h-[56svh] items-end overflow-hidden sm:min-h-[620px] ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>
+          <header className={`invitation-hero relative isolate flex min-h-[58svh] items-end overflow-hidden sm:min-h-[680px] lg:min-h-[800px] ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>
             {cover ? (
               <div aria-hidden="true" className="absolute inset-0 -z-20 bg-cover bg-center invitation-hero-image" style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />
             ) : (
@@ -131,7 +132,6 @@ export default function PublicInvitationClient({
             <div className="mx-auto max-w-3xl text-center invitation-reveal">
               <p className="text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>Reserva la fecha</p>
               <h1 className="invitation-title mt-4 text-balance font-[var(--font-display)] text-4xl leading-tight sm:text-6xl">{content.headline || invitation.event_title}</h1>
-              {content.host_names && <p className="mt-3 font-[var(--font-display)] text-xl italic sm:text-2xl" style={{ color: accent }}>{content.host_names}</p>}
               {content.introduction && <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-neutral-600 sm:text-base">{content.introduction}</p>}
               <div className="mx-auto mt-5 flex items-center justify-center gap-4">
                 <span className="h-px w-10" style={{ backgroundColor: `${accent}55` }} />
@@ -139,19 +139,22 @@ export default function PublicInvitationClient({
                 <span className="h-px w-10" style={{ backgroundColor: `${accent}55` }} />
               </div>
               {dateLabel && <p className="mt-5 font-[var(--font-display)] text-3xl capitalize leading-tight sm:text-4xl">{dateLabel}</p>}
+              {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} background={background} />}
               
             </div>
 
             {(content.ceremony_venue || content.ceremony_time || content.ceremony_address || content.reception_venue || content.reception_time || content.reception_address) && (
               <div className="mx-auto mt-12 grid max-w-4xl gap-4 md:grid-cols-2">
                 {(content.ceremony_venue || content.ceremony_time || content.ceremony_address) && (
-                  <LocationCard title={content.reception_venue ? "Ceremonia" : "Lugar del evento"} time={content.ceremony_time} venue={content.ceremony_venue} address={content.ceremony_address} maps={primaryMapsUrl} accent={accent} />
+                  <LocationCard title={content.reception_venue ? "Celebración" : "Lugar del evento"} time={content.ceremony_time} venue={content.ceremony_venue} address={content.ceremony_address} maps={primaryMapsUrl} accent={accent} />
                 )}
                 {(content.reception_venue || content.reception_time || content.reception_address) && (
                   <LocationCard title="Recepción" time={content.reception_time} venue={content.reception_venue} address={content.reception_address} maps={receptionMapsUrl} accent={accent} />
                 )}
               </div>
             )}
+
+            {content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address) && <div className="mx-auto mt-5 max-w-4xl"><LocationCard title="Ceremonia religiosa" time={content.religious_ceremony_time} venue={content.religious_ceremony_venue} address={content.religious_ceremony_address} maps={religiousCeremonyMapsUrl} accent={accent} /></div>}
 
             {(content.dress_code || content.rsvp_deadline) && (
               <div className="mx-auto mt-5 grid max-w-4xl gap-4 sm:grid-cols-2">
@@ -210,6 +213,30 @@ export default function PublicInvitationClient({
   );
 }
 
+function Countdown({ eventDate, eventTime, accent, textColor, background }: { eventDate: string; eventTime?: string; accent: string; textColor: string; background: string }) {
+  const [remaining, setRemaining] = useState<number | null>(null);
+  useEffect(() => {
+    const target = new Date(`${eventDate}T${eventTime || "00:00"}:00`).getTime();
+    const update = () => setRemaining(Math.max(0, target - Date.now()));
+    update();
+    const interval = window.setInterval(update, 60_000);
+    return () => window.clearInterval(interval);
+  }, [eventDate, eventTime]);
+  if (remaining === null || remaining <= 0) return null;
+  const days = Math.floor(remaining / 86_400_000);
+  const hours = Math.floor((remaining % 86_400_000) / 3_600_000);
+  const minutes = Math.floor((remaining % 3_600_000) / 60_000);
+  const parts = [{ value: days, label: "días" }, { value: hours, label: "horas" }, { value: minutes, label: "min" }];
+  return (
+    <div className="mx-auto mt-8 max-w-md rounded-2xl border px-5 py-4 sm:px-7 sm:py-5" style={{ borderColor: `${accent}40`, backgroundColor: `${accent}0A`, color: textColor }}>
+      <p className="text-[10px] font-semibold uppercase tracking-[0.25em]" style={{ color: accent }}>La cuenta regresiva ha comenzado</p>
+      <div className="mt-4 grid grid-cols-3 divide-x" style={{ borderColor: `${accent}30` }}>
+        {parts.map((part) => <div key={part.label} className="px-2 text-center"><p className="font-[var(--font-display)] text-3xl tabular-nums sm:text-4xl">{String(part.value).padStart(2, "0")}</p><p className="mt-1 text-[10px] uppercase tracking-[0.18em] opacity-70">{part.label}</p></div>)}
+      </div>
+    </div>
+  );
+}
+
 function LocationCard({ title, time, venue, address, maps, accent }: { title: string; time?: string; venue?: string; address?: string; maps: string | null; accent: string }) {
   return (
     <article className="rounded-[1.5rem] border border-neutral-100 bg-[#FEFDFC] p-6 sm:p-7">
@@ -220,7 +247,7 @@ function LocationCard({ title, time, venue, address, maps, accent }: { title: st
       {time && <p className="mt-5 font-[var(--font-display)] text-3xl font-medium leading-none sm:text-4xl">{time}</p>}
       {venue && <h3 className="mt-3 font-[var(--font-display)] text-2xl leading-tight">{venue}</h3>}
       {address && <p className="mt-2 text-sm leading-6 text-neutral-600">{address}</p>}
-      {maps && <a href={maps} target="_blank" rel="noreferrer" className="mt-5 inline-flex min-h-10 items-center justify-center gap-2 rounded-full border px-4 py-2.5 text-sm font-semibold transition hover:bg-neutral-50" style={{ borderColor: `${accent}55`, color: accent }}>Ver ubicación en Google Maps <ArrowUpRight size={15} /></a>}
+      {maps && <a href={maps} target="_blank" rel="noreferrer" className="mt-5 inline-flex min-h-10 items-center justify-center gap-2 rounded-full border px-4 py-2.5 text-sm font-semibold transition hover:bg-neutral-50" style={{ borderColor: `${accent}55`, color: accent }}>Ver ubicación <ArrowUpRight size={15} /></a>}
     </article>
   );
 }

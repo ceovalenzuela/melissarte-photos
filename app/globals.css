@@ -330,3 +330,127 @@
 .invitation-public .invitation-reveal {
   animation-duration: 0.6s;
 }
+
+
+/* Polished invitation art direction: stronger hierarchy, contrast and restrained motion. */
+.invitation-template-wedding_editorial {
+  --invitation-frame: #c9b994;
+}
+.invitation-template-wedding_editorial .invitation-hero-has-cover {
+  border-bottom: 6px solid #c9b994;
+}
+.invitation-template-wedding_editorial #detalles {
+  background: linear-gradient(180deg, #fffdf8 0%, #f3eee4 100%);
+  color: #29271f;
+}
+.invitation-template-wedding_editorial .invitation-title {
+  color: #263b32;
+  letter-spacing: -0.055em;
+}
+.invitation-template-wedding_editorial .invitation-countdown {
+  box-shadow: 0 18px 55px rgba(48, 54, 42, 0.09);
+  backdrop-filter: blur(10px);
+}
+.invitation-template-xv_gala {
+  background: #211b35;
+}
+.invitation-template-xv_gala .invitation-hero-has-cover {
+  border-bottom-color: #d6b66f;
+}
+.invitation-template-xv_gala .invitation-hero-placeholder {
+  background-image: radial-gradient(ellipse at 75% 12%, #b88a9b66, transparent 42%), linear-gradient(135deg, #342745 0%, #171629 100%) !important;
+}
+.invitation-template-xv_gala #detalles {
+  background: linear-gradient(145deg, #2b2340 0%, #1e1a30 100%);
+  color: #fffaf0;
+}
+.invitation-template-xv_gala #detalles .invitation-title,
+.invitation-template-xv_gala #detalles > div:first-child > p,
+.invitation-template-xv_gala #detalles > div:first-child > p:last-child {
+  color: #fffaf0 !important;
+}
+.invitation-template-xv_gala #detalles article {
+  border-color: #d6b66f66;
+  background: #39304c;
+  color: #fffaf0;
+  box-shadow: 0 14px 36px rgba(0,0,0,.12);
+}
+.invitation-template-xv_gala #detalles article p,
+.invitation-template-xv_gala #detalles article h3 {
+  color: #fffaf0;
+}
+.invitation-template-xv_gala #detalles article p.text-neutral-600 {
+  color: #e7dfef;
+}
+.invitation-template-xv_gala #confirmar {
+  color: #29231f;
+}
+.invitation-template-baby_soft {
+  background: #f8f5ef;
+}
+.invitation-template-baby_soft .invitation-hero-has-cover {
+  border-bottom-color: #c5b8a4;
+}
+.invitation-template-baby_soft .invitation-hero-placeholder {
+  background-image: radial-gradient(ellipse at 78% 15%, #d9cbb780, transparent 40%), radial-gradient(ellipse at 15% 88%, #b8c0ae65, transparent 42%), linear-gradient(145deg, #faf8f2 0%, #e9e3d8 100%) !important;
+}
+.invitation-template-baby_soft #detalles {
+  background: linear-gradient(180deg, #fbf9f4, #f1ece3);
+  color: #403c35;
+}
+.invitation-template-baby_soft .invitation-title {
+  color: #555044;
+  letter-spacing: -0.035em;
+}
+.invitation-location-grid > article {
+  min-width: 0;
+}
+.invitation-location-card {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(47, 40, 31, 0.045);
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease;
+  animation: invitation-card-enter .8s cubic-bezier(.2,.8,.2,1) both;
+}
+.invitation-location-card:nth-child(2) { animation-delay: .1s; }
+.invitation-location-card:nth-child(3) { animation-delay: .2s; }
+.invitation-location-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 22px 48px rgba(47, 40, 31, .11);
+}
+.invitation-location-card > a {
+  align-self: flex-start;
+  margin-top: auto;
+}
+.invitation-countdown {
+  box-shadow: 0 12px 35px rgba(47, 40, 31, .07);
+  animation: invitation-countdown-glow 4s ease-in-out infinite;
+}
+.invitation-countdown > div > div {
+  min-width: 0;
+  padding-inline: .4rem;
+}
+.invitation-countdown > div > div p:first-child {
+  transition: transform .25s ease;
+}
+.invitation-countdown > div > div:hover p:first-child {
+  transform: translateY(-2px);
+}
+@keyframes invitation-card-enter {
+  from { opacity: 0; transform: translateY(20px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes invitation-countdown-glow {
+  0%, 100% { box-shadow: 0 12px 35px rgba(47, 40, 31, .07); }
+  50% { box-shadow: 0 16px 42px rgba(47, 40, 31, .12); }
+}
+@media (min-width: 768px) {
+  .invitation-location-grid > article { min-height: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .invitation-location-card,
+  .invitation-countdown {
+    animation: none !important;
+    transition: none !important;
+  }
+}

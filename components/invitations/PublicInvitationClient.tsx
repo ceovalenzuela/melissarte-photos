@@ -43,7 +43,6 @@ export default function PublicInvitationClient({
   const design = invitation.design_config ?? {};
   const accent = safeColor(design.accent_color, "#9A7358");
   const textColor = safeColor(design.text_color, "#332B27");
-  const background = safeColor(design.background_color, "#FBF7F1");
   const cover = design.cover_image_url?.startsWith("https://") ? design.cover_image_url : null;
   const templateKey = ["wedding_editorial", "xv_gala", "baby_soft", "baptism_light"].includes(invitation.template_key) ? invitation.template_key : "wedding_editorial";
   const templateClass = `invitation-template-${templateKey}`;
@@ -166,7 +165,7 @@ export default function PublicInvitationClient({
                 <span className="h-px w-10" style={{ backgroundColor: `${accent}55` }} />
               </div>
               {dateLabel && <p className="mt-5 font-[var(--font-display)] text-3xl capitalize leading-tight sm:text-4xl">{dateLabel}</p>}
-              {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} background={background} />}
+              {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} />}
               
             </div>
 
@@ -241,7 +240,7 @@ export default function PublicInvitationClient({
   );
 }
 
-function Countdown({ eventDate, eventTime, accent, textColor, background }: { eventDate: string; eventTime?: string; accent: string; textColor: string; background: string }) {
+function Countdown({ eventDate, eventTime, accent, textColor }: { eventDate: string; eventTime?: string; accent: string; textColor: string }) {
   const [remaining, setRemaining] = useState<number | null>(null);
   useEffect(() => {
     const target = new Date(`${eventDate}T${eventTime || "00:00"}:00`).getTime();

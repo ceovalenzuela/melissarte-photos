@@ -1166,14 +1166,19 @@
 }
 
 
-/* Align location buttons on desktop, but keep a visible fixed gap after each address. */
+/* Consistent location-card layout: modest fixed gap on mobile, aligned buttons on desktop. */
 .invitation-public .invitation-location-card > a {
-  margin-top: 1.75rem !important;
-  padding-top: 0;
+  margin-top: 1.25rem !important;
+  padding-top: 0 !important;
 }
 @media (min-width: 768px) {
+  .invitation-public .invitation-location-card .invitation-location-venue {
+    min-height: 3.25rem;
+  }
+  .invitation-public .invitation-location-card .invitation-location-address {
+    min-height: 3rem;
+  }
   .invitation-public .invitation-location-card > a {
-    margin-top: auto !important;
-    padding-top: 1.75rem;
+    margin-top: 1rem !important;
   }
 }

@@ -13,6 +13,7 @@ import { EventWithStats } from "@/types/event-with-stats";
 
 type StatusFilter = "all" | "published" | "draft";
 type EventTypeFilter = "all" | "wedding" | "xv" | "birthday" | "baby_shower" | "gender_reveal" | "baptism" | "corporate" | "other";
+type InvitationFilter = "all" | "enabled" | "disabled";
 type SortOrder = "upcoming" | "created_desc" | "created_asc" | "activity";
 
 function parseLocalDate(date: string) {
@@ -112,6 +113,7 @@ export default function AdminPage() {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState<StatusFilter>("all");
   const [eventType, setEventType] = useState<EventTypeFilter>("all");
+  const [invitationFilter, setInvitationFilter] = useState<InvitationFilter>("all");
   const [sortOrder, setSortOrder] = useState<SortOrder>("upcoming");
 
   const filteredEvents = useMemo(() => {
@@ -125,12 +127,13 @@ export default function AdminPage() {
 
       const matchesStatus = status === "all" || event.status === status;
       const matchesType = eventType === "all" || String(event.type ?? "other") === eventType;
+      const matchesInvitation = invitationFilter === "all" || (invitationFilter === "enabled" ? event.invitation_enabled === true : event.invitation_enabled !== true);
 
-      return matchesSearch && matchesStatus && matchesType;
+      return matchesSearch && matchesStatus && matchesType && matchesInvitation;
     });
 
     return sortEvents(filtered, sortOrder);
-  }, [events, search, status, eventType, sortOrder]);
+  }, [events, search, status, eventType, invitationFilter, sortOrder]);
 
   return (
     <main className="min-h-screen min-w-0 bg-[#F7F5F1]">
@@ -174,7 +177,7 @@ export default function AdminPage() {
               )}
             </div>
 
-            <div className="grid min-w-0 grid-cols-1 gap-2 sm:grid-cols-3">
+            <div className="grid min-w-0 grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
               <label className="relative min-w-0">
                 <span className="sr-only">Filtrar por estado</span>
                 <ListFilter

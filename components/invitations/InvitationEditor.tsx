@@ -25,6 +25,8 @@ interface Props {
   organizerToken: string;
 }
 
+const isIsoDate = (value?: string) => Boolean(value && /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(value));
+
 const emptyContent = (event: Event): InvitationContent => ({
   headline: event.title,
   host_names: "",

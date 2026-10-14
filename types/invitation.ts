@@ -11,6 +11,10 @@ export interface InvitationContent {
   ceremony_time?: string;
   ceremony_venue?: string;
   ceremony_address?: string;
+  religious_ceremony_enabled?: boolean;
+  religious_ceremony_time?: string;
+  religious_ceremony_venue?: string;
+  religious_ceremony_address?: string;
   reception_time?: string;
   reception_venue?: string;
   reception_address?: string;

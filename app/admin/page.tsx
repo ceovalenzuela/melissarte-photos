@@ -216,6 +216,15 @@ export default function AdminPage() {
               </label>
 
               <label className="relative min-w-0">
+                <span className="sr-only">Filtrar por invitación</span>
+                <select value={invitationFilter} onChange={(event) => setInvitationFilter(event.target.value as InvitationFilter)} className="h-11 w-full min-w-0 appearance-none rounded-xl border border-[#E7DCC8] bg-white px-3.5 pr-9 text-sm text-[#5C554B] outline-none focus:border-[#A88249]">
+                  <option value="all">Todas las invitaciones</option>
+                  <option value="enabled">Con invitación habilitada</option>
+                  <option value="disabled">Sin invitación</option>
+                </select>
+              </label>
+
+              <label className="relative min-w-0">
                 <span className="sr-only">Ordenar eventos</span>
                 <select
                   value={sortOrder}

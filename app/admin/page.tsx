@@ -12,7 +12,7 @@ import { useEvents } from "@/hooks/useEvents";
 import { EventWithStats } from "@/types/event-with-stats";
 
 type StatusFilter = "all" | "published" | "draft";
-type EventTypeFilter = "all" | "wedding" | "xv" | "birthday" | "corporate" | "other";
+type EventTypeFilter = "all" | "wedding" | "xv" | "birthday" | "baby_shower" | "gender_reveal" | "baptism" | "corporate" | "other";
 type SortOrder = "upcoming" | "created_desc" | "created_asc" | "activity";
 
 function parseLocalDate(date: string) {
@@ -208,7 +208,7 @@ export default function AdminPage() {
               <label className="relative min-w-0">
                 <span className="sr-only">Filtrar por tipo de evento</span>
                 <select value={eventType} onChange={(event) => setEventType(event.target.value as EventTypeFilter)} className="h-11 w-full min-w-0 appearance-none rounded-xl border border-[#E7DCC8] bg-white px-3.5 pr-9 text-sm text-[#5C554B] outline-none focus:border-[#A88249]">
-                  <option value="all">Todos los tipos</option><option value="wedding">Boda</option><option value="xv">XV años</option><option value="birthday">Cumpleaños</option><option value="corporate">Corporativo</option><option value="other">Otro</option>
+                  <option value="all">Todos los tipos</option><option value="wedding">Boda</option><option value="xv">XV años</option><option value="birthday">Cumpleaños</option><option value="baby_shower">Baby shower</option><option value="gender_reveal">Revelación de género</option><option value="baptism">Bautizo</option><option value="corporate">Corporativo</option><option value="other">Otro</option>
                 </select>
               </label>
 

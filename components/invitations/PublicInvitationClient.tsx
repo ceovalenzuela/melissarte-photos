@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState, type CSSProperties } from "react";
 import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
@@ -123,7 +123,23 @@ export default function PublicInvitationClient({
   return (
     <main className="min-h-screen overflow-hidden" style={{ backgroundColor: background, color: textColor }}>
       <div className="mx-auto max-w-7xl sm:px-6 sm:py-8 lg:px-8">
-        <article className={`invitation-public ${templateClass} overflow-hidden shadow-[0_28px_100px_rgba(48,36,27,0.12)] sm:rounded-[2rem]`} style={{ backgroundColor: background, color: textColor }}>
+        <article
+          className={`invitation-public ${templateClass} overflow-hidden shadow-[0_28px_100px_rgba(48,36,27,0.12)] sm:rounded-[2rem]`}
+          style={{
+            backgroundColor: background,
+            color: textColor,
+            "--inv-title": safeColor(design.title_color, textColor),
+            "--inv-card-bg": safeColor(design.card_background_color, "#FFFEFC"),
+            "--inv-card-text": safeColor(design.card_text_color, textColor),
+            "--inv-border": safeColor(design.border_color, accent),
+            "--inv-button": safeColor(design.button_color, accent),
+            "--inv-button-text": safeColor(design.button_text_color, "#FFFFFF"),
+            "--inv-rsvp-bg": safeColor(design.rsvp_background_color, background),
+            "--inv-rsvp-text": safeColor(design.rsvp_text_color, textColor),
+            "--inv-form-bg": safeColor(design.form_background_color, "#FFFFFF"),
+            "--inv-form-text": safeColor(design.form_text_color, textColor),
+          } as CSSProperties}
+        >
           <header className={`invitation-hero relative isolate flex min-h-[58svh] items-end overflow-hidden sm:min-h-[680px] lg:min-h-[800px] ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>
             {cover ? (
               <div aria-hidden="true" className="absolute inset-0 -z-20 bg-cover bg-center invitation-hero-image" style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />

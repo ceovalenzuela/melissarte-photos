@@ -276,8 +276,8 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
               <Field label="Código de vestimenta (opcional)" value={content.dress_code ?? ""} onChange={(v) => updateContent("dress_code", v)} placeholder="Ej. Formal" />
               <label className={labelClass}>
                 Fecha límite para confirmar (opcional)
-                <input type="date" value={/^\\d{4}-\\d{2}-\\d{2}$/.test(content.rsvp_deadline ?? "") ? content.rsvp_deadline : ""} onChange={(e) => updateContent("rsvp_deadline", e.target.value)} className={inputClass} />
-                {content.rsvp_deadline && !/^\\d{4}-\\d{2}-\\d{2}$/.test(content.rsvp_deadline) && <span className="mt-1 block text-xs font-normal text-[#8A8074]">Fecha anterior guardada: {content.rsvp_deadline}. Selecciona una fecha nueva para cambiarla.</span>}
+                <input type="date" value={isIsoDate(content.rsvp_deadline) ? content.rsvp_deadline : ""} onChange={(e) => updateContent("rsvp_deadline", e.target.value)} className={inputClass} />
+                {content.rsvp_deadline && !isIsoDate(content.rsvp_deadline) && <span className="mt-1 block text-xs font-normal text-[#8A8074]">Fecha anterior guardada: {content.rsvp_deadline}. Selecciona una fecha nueva para cambiarla.</span>}
               </label>
             </div>
           </section>

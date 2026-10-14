@@ -79,6 +79,9 @@ export default function EventInfoForm({
             <option value="wedding">Boda</option>
             <option value="xv">XV Años</option>
             <option value="birthday">Cumpleaños</option>
+            <option value="baby_shower">Baby shower</option>
+            <option value="gender_reveal">Revelación de género</option>
+            <option value="baptism">Bautizo</option>
             <option value="corporate">Corporativo</option>
             <option value="other">Otro</option>
           </select>

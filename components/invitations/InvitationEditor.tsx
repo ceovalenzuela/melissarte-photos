@@ -45,9 +45,9 @@ const emptyContent = (event: Event): InvitationContent => ({
 
 type TemplateKey = "wedding_editorial" | "xv_gala" | "baby_soft" | "baptism_light";
 const TEMPLATE_OPTIONS: { key: TemplateKey; label: string; description: string; palette: InvitationDesign }[] = [
-  { key: "wedding_editorial", label: "Boda · Editorial", description: "Marfil, salvia y champagne", palette: { background_color: "#F7F2E9", accent_color: "#8D9A7B", text_color: "#332F29" } },
-  { key: "xv_gala", label: "XV años · Gala", description: "Ciruela, rosa y dorado", palette: { background_color: "#321D2B", accent_color: "#D7B878", text_color: "#FFF8F1" } },
-  { key: "baby_soft", label: "Baby shower · Suave", description: "Marfil, terracota y salvia", palette: { background_color: "#F8F2E8", accent_color: "#B87862", text_color: "#3D3A33" } },
+  { key: "wedding_editorial", label: "Boda · Editorial", description: "Marfil, verde profundo y champagne", palette: { background_color: "#F3EEE4", accent_color: "#6F806A", text_color: "#29271F" } },
+  { key: "xv_gala", label: "XV años · Gala", description: "Ciruela profunda, malva y oro", palette: { background_color: "#211B35", accent_color: "#D6B66F", text_color: "#FFFAF0" } },
+  { key: "baby_soft", label: "Baby shower · Suave", description: "Marfil, arena y salvia suave", palette: { background_color: "#F8F5EF", accent_color: "#9B9B83", text_color: "#403C35" } },
   { key: "baptism_light", label: "Bautizo · Luz", description: "Marfil, azul cielo y dorado", palette: { background_color: "#FAF7F0", accent_color: "#8CB6CC", text_color: "#303943" } },
 ];
 function defaultTemplate(event: Event): TemplateKey {
@@ -268,8 +268,8 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
             <h3 className="mb-1 text-base font-semibold text-[#332B27]">Detalles del evento</h3>
             <p className="mb-4 text-sm text-[#7D7467]">La fecha se toma de la configuración general del evento.</p>
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Hora" type="time" value={content.ceremony_time ?? ""} onChange={(v) => updateContent("ceremony_time", v)} />
-              <Field label="Lugar" value={content.ceremony_venue ?? ""} onChange={(v) => updateContent("ceremony_venue", v)} placeholder="Nombre del salón o recinto" />
+              <Field label="Hora de recepción" type="time" value={content.ceremony_time ?? ""} onChange={(v) => updateContent("ceremony_time", v)} />
+              <Field label="Lugar de recepción" value={content.ceremony_venue ?? ""} onChange={(v) => updateContent("ceremony_venue", v)} placeholder="Nombre del salón o recinto" />
               <div className="sm:col-span-2">
                 <Field label="Dirección" value={content.ceremony_address ?? ""} onChange={(v) => updateContent("ceremony_address", v)} placeholder="Calle, número, ciudad" />
               </div>
@@ -285,10 +285,10 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
           <section className="border-t border-[#E7DCC8] pt-6">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h3 className="text-base font-semibold text-[#332B27]">Ceremonia religiosa (opcional)</h3>
+                <h3 className="text-base font-semibold text-[#332B27]">Ceremonia (opcional)</h3>
                 <p className="mt-1 text-sm text-[#7D7467]">Agrega una tarjeta independiente para iglesia, templo u otra ceremonia. No sustituye los datos de la celebración principal.</p>
               </div>
-              <input aria-label="Mostrar ceremonia religiosa" type="checkbox" checked={Boolean(content.religious_ceremony_enabled)} onChange={(e) => updateContent("religious_ceremony_enabled", e.target.checked)} className="mt-1 h-5 w-5 shrink-0 accent-[#A88249]" />
+              <input aria-label="Mostrar ceremonia" type="checkbox" checked={Boolean(content.religious_ceremony_enabled)} onChange={(e) => updateContent("religious_ceremony_enabled", e.target.checked)} className="mt-1 h-5 w-5 shrink-0 accent-[#A88249]" />
             </div>
             {content.religious_ceremony_enabled && <div className="mt-4 grid gap-4 rounded-2xl bg-white p-4 sm:grid-cols-2 sm:p-5">
               <Field label="Hora de la ceremonia" type="time" value={content.religious_ceremony_time ?? ""} onChange={(v) => updateContent("religious_ceremony_time", v)} />

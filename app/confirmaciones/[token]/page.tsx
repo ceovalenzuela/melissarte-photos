@@ -52,8 +52,6 @@ export default async function OrganizerConfirmationsPage({ params }: Props) {
     "--organizer-button": validColor(design.button_color, organizerDefaults.button),
     "--organizer-button-text": validColor(design.button_text_color, organizerDefaults.buttonText),
   } as CSSProperties;
-  const mapsQuery = [content.ceremony_venue, content.ceremony_address].filter(Boolean).join(", ");
-  const mapsUrl = mapsQuery ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapsQuery)}` : null;
 
   return (
     <main className={`organizer-confirmations invitation-template-${templateKey} min-h-screen`} style={organizerThemeStyle}>
@@ -66,10 +64,6 @@ export default async function OrganizerConfirmationsPage({ params }: Props) {
             <p className="organizer-confirmations-eyebrow text-[10px] font-semibold uppercase tracking-[0.28em]">Panel del organizador</p>
             <h1 className="organizer-confirmations-title mt-3 font-[var(--font-display)] text-4xl leading-tight sm:text-5xl">Confirmaciones</h1>
             <p className="organizer-confirmations-subtitle mt-2 text-sm">{eventDetails?.title ?? "Tu evento"}{eventDetails?.event_date ? ` · ${new Date(`${eventDetails.event_date}T12:00:00`).toLocaleDateString("es-MX", { day: "numeric", month: "long", year: "numeric" })}` : ""}</p>
-          </div>
-          <div className="organizer-confirmations-meta flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-            <div className="min-w-0"><p className="organizer-confirmations-meta-title text-sm font-medium">{content.ceremony_venue || "Lugar del evento"}</p>{content.ceremony_address && <p className="organizer-confirmations-meta-text mt-1 text-sm">{content.ceremony_address}</p>}</div>
-            {mapsUrl && <a href={mapsUrl} target="_blank" rel="noreferrer" className="organizer-confirmations-map inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-full border px-4 py-2 text-sm font-medium"><ArrowLeft className="rotate-180" size={14} />Abrir Google Maps</a>}
           </div>
         </header>
         <div className="mt-6"><InvitationResponses eventId={event.id} organizerToken={token} /></div>

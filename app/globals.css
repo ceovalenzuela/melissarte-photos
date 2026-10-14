@@ -1081,3 +1081,59 @@
     radial-gradient(ellipse at 85% 0%, rgba(180,224,238,.65), transparent 45%),
     linear-gradient(135deg, #d98f76, #91a985 62%, #7fb8cc);
 }
+
+
+/* Keep administrator-selected invitation colors authoritative over template-specific art direction. */
+.invitation-public .invitation-title {
+  color: var(--inv-title) !important;
+}
+.invitation-public .invitation-location-card {
+  background: var(--inv-card-bg) !important;
+  color: var(--inv-card-text) !important;
+  border-color: var(--inv-border) !important;
+}
+.invitation-public .invitation-location-card h3,
+.invitation-public .invitation-location-card > p:not([class*="uppercase"]) {
+  color: var(--inv-card-text) !important;
+}
+.invitation-public .invitation-location-card > a {
+  border-color: var(--inv-border) !important;
+  color: var(--inv-button) !important;
+}
+.invitation-public #confirmar.invitation-rsvp {
+  background: var(--inv-rsvp-bg) !important;
+  color: var(--inv-rsvp-text) !important;
+}
+.invitation-public #confirmar.invitation-rsvp > div > p,
+.invitation-public #confirmar.invitation-rsvp h2 {
+  color: var(--inv-rsvp-text) !important;
+}
+.invitation-public #confirmar.invitation-rsvp > div > p:first-child {
+  color: var(--inv-button) !important;
+}
+.invitation-public #confirmar.invitation-rsvp form {
+  background: var(--inv-form-bg) !important;
+  color: var(--inv-form-text) !important;
+  border-color: var(--inv-border) !important;
+}
+.invitation-public #confirmar.invitation-rsvp form label,
+.invitation-public #confirmar.invitation-rsvp form legend,
+.invitation-public #confirmar.invitation-rsvp form p:not([role="alert"]):not([role="status"]) {
+  color: var(--inv-form-text) !important;
+}
+.invitation-public #confirmar.invitation-rsvp form input,
+.invitation-public #confirmar.invitation-rsvp form select,
+.invitation-public #confirmar.invitation-rsvp form button[aria-pressed="false"] {
+  background: var(--inv-form-bg) !important;
+  color: var(--inv-form-text) !important;
+  border-color: var(--inv-border) !important;
+}
+.invitation-public #confirmar.invitation-rsvp form button[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--inv-button) 16%, var(--inv-form-bg)) !important;
+  color: var(--inv-form-text) !important;
+  border-color: var(--inv-button) !important;
+}
+.invitation-public #confirmar.invitation-rsvp form button[type="submit"] {
+  background: var(--inv-button) !important;
+  color: var(--inv-button-text) !important;
+}

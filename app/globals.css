@@ -890,7 +890,7 @@
 }
 .invitation-public .invitation-location-card h3,
 .invitation-public .invitation-location-card > p:not([class*="uppercase"]) {
-  color: var(--inv-card-text);
+  color: var(--inv-card-text) !important;
 }
 .invitation-public .invitation-location-card > div:first-child > span {
   border: 1px solid var(--inv-border);
@@ -1057,4 +1057,27 @@
     radial-gradient(ellipse at 100% 0%, rgba(159,210,228,.32), transparent 40%),
     radial-gradient(ellipse at 100% 100%, rgba(161,187,137,.24), transparent 40%),
     linear-gradient(135deg, #fff4e8 0%, #f6e7d9 55%, #e9f4f6 100%);
+}
+
+
+.organizer-confirmations > div > a:first-child {
+  color: var(--organizer-button);
+}
+.organizer-confirmations .organizer-confirmations-map {
+  background: var(--organizer-card);
+}
+.organizer-confirmations .organizer-rsvp-summary-accent {
+  color: var(--organizer-accent);
+}
+.organizer-confirmations .organizer-rsvp-refresh:hover,
+.organizer-confirmations .organizer-confirmations-map:hover {
+  background: var(--organizer-soft, #f7f3ec);
+}
+.invitation-template-baby_soft .invitation-hero-has-cover {
+  box-shadow: inset 0 -8px 0 #a8d5e4;
+}
+.organizer-confirmations.invitation-template-baby_soft .organizer-confirmations-banner {
+  background:
+    radial-gradient(ellipse at 85% 0%, rgba(180,224,238,.65), transparent 45%),
+    linear-gradient(135deg, #d98f76, #91a985 62%, #7fb8cc);
 }

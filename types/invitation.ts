@@ -27,6 +27,16 @@ export interface InvitationDesign {
   accent_color?: string;
   background_color?: string;
   text_color?: string;
+  title_color?: string;
+  card_background_color?: string;
+  card_text_color?: string;
+  border_color?: string;
+  button_color?: string;
+  button_text_color?: string;
+  rsvp_background_color?: string;
+  rsvp_text_color?: string;
+  form_background_color?: string;
+  form_text_color?: string;
   cover_image_url?: string;
 }
 

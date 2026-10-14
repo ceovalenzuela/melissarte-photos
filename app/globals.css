@@ -540,3 +540,147 @@
   background: #6f4b68 !important;
   color: #fff !important;
 }
+
+
+/* Stronger luxury wedding direction: jewel emerald, luminous ivory and champagne gold. */
+.invitation-template-wedding_editorial {
+  background: #f7f0e4;
+  --invitation-frame: #b99a58;
+}
+.invitation-template-wedding_editorial .invitation-hero {
+  background-color: #183d32;
+}
+.invitation-template-wedding_editorial .invitation-hero-has-cover {
+  border-bottom: 8px solid #c8a85d;
+  box-shadow: inset 0 -60px 100px rgba(14, 35, 28, .22);
+}
+.invitation-template-wedding_editorial .invitation-hero-has-cover::after {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px solid rgba(232, 208, 145, .68);
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 1;
+}
+.invitation-template-wedding_editorial #detalles {
+  position: relative;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(196, 166, 98, .18), transparent 38%),
+    linear-gradient(180deg, #fffaf0 0%, #f4ead8 100%);
+  color: #23362d;
+}
+.invitation-template-wedding_editorial #detalles::before {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 3px;
+  margin: 0 auto 2.2rem;
+  background: linear-gradient(90deg, #9a793d, #e2cb8b, #9a793d);
+}
+.invitation-template-wedding_editorial .invitation-title {
+  color: #173d31;
+  font-size: clamp(3.1rem, 7vw, 6.7rem);
+  line-height: .94;
+  letter-spacing: -.07em;
+  font-weight: 500;
+  text-shadow: 0 1px 0 rgba(255,255,255,.85);
+}
+.invitation-template-wedding_editorial #detalles > .mx-auto.max-w-3xl > p:first-child {
+  color: #9a793d !important;
+  font-size: .7rem;
+  letter-spacing: .42em;
+}
+.invitation-template-wedding_editorial .invitation-countdown {
+  border: 1px solid #c6a75d !important;
+  background: linear-gradient(135deg, rgba(255,253,246,.98), rgba(235,222,193,.92)) !important;
+  box-shadow: 0 22px 65px rgba(64, 48, 21, .13), inset 0 0 0 4px rgba(198,167,93,.08);
+}
+.invitation-template-wedding_editorial .invitation-countdown > p {
+  color: #8b6a2d !important;
+}
+.invitation-template-wedding_editorial .invitation-location-card {
+  border-color: #dfcfaa;
+  background: linear-gradient(155deg, #fffefa, #fbf5e9);
+  box-shadow: 0 15px 42px rgba(52, 43, 26, .075);
+}
+.invitation-template-wedding_editorial .invitation-location-card > div:first-child > span {
+  background: #e9dfc7 !important;
+  color: #355747 !important;
+}
+.invitation-template-wedding_editorial .invitation-location-card > div:first-child > p {
+  color: #927239 !important;
+}
+.invitation-template-wedding_editorial .invitation-location-card > a {
+  border-color: #c5a55b !important;
+  color: #285041 !important;
+}
+.invitation-template-wedding_editorial #confirmar {
+  background: linear-gradient(135deg, #183d32, #244f40) !important;
+  color: #fff9ed !important;
+}
+.invitation-template-wedding_editorial #confirmar > div > p,
+.invitation-template-wedding_editorial #confirmar h2 {
+  color: #fff9ed !important;
+}
+.invitation-template-wedding_editorial #confirmar > div > p:first-child {
+  color: #e3c982 !important;
+}
+.invitation-template-wedding_editorial #confirmar form {
+  border-color: #d2b66f;
+  box-shadow: 0 24px 70px rgba(0,0,0,.18);
+}
+
+/* Baby shower: joyful, gender-neutral color with peach, sage and butter accents. */
+.invitation-template-baby_soft {
+  background: #fff8ef;
+}
+.invitation-template-baby_soft .invitation-hero {
+  background-color: #f4e2d6;
+}
+.invitation-template-baby_soft .invitation-hero-has-cover {
+  border-bottom: 7px solid #d49a80;
+}
+.invitation-template-baby_soft .invitation-hero-placeholder {
+  background-image:
+    radial-gradient(ellipse at 78% 16%, #e5a98e99, transparent 37%),
+    radial-gradient(ellipse at 17% 76%, #a8b99a99, transparent 39%),
+    radial-gradient(ellipse at 55% 100%, #f0d78e88, transparent 43%),
+    linear-gradient(140deg, #fff4e8 0%, #f1dfd2 52%, #e4e8d8 100%) !important;
+}
+.invitation-template-baby_soft #detalles {
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(224,164,137,.2), transparent 32%),
+    radial-gradient(ellipse at 100% 35%, rgba(176,190,154,.22), transparent 34%),
+    linear-gradient(180deg, #fff9f0 0%, #f8eee2 100%);
+  color: #494237;
+}
+.invitation-template-baby_soft .invitation-title {
+  color: #7c5c4b;
+}
+.invitation-template-baby_soft #detalles > .mx-auto.max-w-3xl > p:first-child {
+  color: #ad735e !important;
+}
+.invitation-template-baby_soft .invitation-countdown {
+  border-color: #d6b29d !important;
+  background: linear-gradient(135deg, #fffaf3, #f4e2d4) !important;
+}
+.invitation-template-baby_soft .invitation-location-card {
+  border-color: #e9d7c8;
+  background: linear-gradient(145deg, #fffefa, #fff4e8);
+}
+.invitation-template-baby_soft .invitation-location-card > div:first-child > span {
+  background: #f5e3d9 !important;
+  color: #a76f59 !important;
+}
+.invitation-template-baby_soft .invitation-location-card > div:first-child > p {
+  color: #a76f59 !important;
+}
+.invitation-template-baby_soft #confirmar {
+  background: linear-gradient(135deg, #f2e3d7, #e8eddf) !important;
+}
+@media (max-width: 767px) {
+  .invitation-template-wedding_editorial .invitation-hero-has-cover::after {
+    inset: 10px;
+  }
+}

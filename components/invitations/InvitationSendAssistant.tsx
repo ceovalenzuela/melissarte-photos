@@ -42,7 +42,7 @@ export default function InvitationSendAssistant({ eventTitle, invitationSlug, st
   const [guests, setGuests] = useState<Guest[]>([{ id: "guest-1", name: "", phone: "" }]);
   const [importText, setImportText] = useState("");
   const [message, setMessage] = useState(
-    "¡Hola {{nombre}}! 💌 Queremos invitarte a {{evento}}. Aquí puedes ver los detalles y confirmar tu asistencia: {{enlace}}. {{anfitriones}}¡Esperamos verte."
+    "¡Hola {{nombre}}! 💌 Queremos invitarte a {{evento}}. Aquí puedes ver los detalles y confirmar tu asistencia: {{enlace}}. {{anfitriones}}¡Esperamos verte pronto!"
   );
   const invitationUrl = useMemo(() => {
     if (typeof window === "undefined") return `/i/${encodeURIComponent(invitationSlug)}`;

@@ -39,7 +39,7 @@ BEGIN
   END IF;
 
   v_today_monterrey := to_char(now() AT TIME ZONE 'America/Monterrey', 'YYYY-MM-DD');
-  IF v_rsvp_deadline ~ '^\\d{4}-\\d{2}-\\d{2}$'
+  IF v_rsvp_deadline ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'
      AND v_today_monterrey > v_rsvp_deadline THEN
     RAISE EXCEPTION 'El plazo para confirmar terminó el %', v_rsvp_deadline;
   END IF;
@@ -97,7 +97,7 @@ BEGIN
   IF v_max_party_size IS NULL THEN RETURN false; END IF;
 
   v_today_monterrey := to_char(now() AT TIME ZONE 'America/Monterrey', 'YYYY-MM-DD');
-  IF v_rsvp_deadline ~ '^\\d{4}-\\d{2}-\\d{2}$'
+  IF v_rsvp_deadline ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'
      AND v_today_monterrey > v_rsvp_deadline THEN
     RETURN false;
   END IF;

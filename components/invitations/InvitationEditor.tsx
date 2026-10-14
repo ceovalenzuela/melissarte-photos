@@ -281,6 +281,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
               <label className={labelClass}>
                 Fecha límite para confirmar (opcional)
                 <input type="date" value={isIsoDate(content.rsvp_deadline) ? content.rsvp_deadline : ""} onChange={(e) => updateContent("rsvp_deadline", e.target.value)} className={inputClass} />
+                <span className="mt-1 block text-xs font-normal text-[#8A8074]">Se aceptan confirmaciones hasta el final de ese día, hora de Monterrey.</span>
                 {content.rsvp_deadline && !isIsoDate(content.rsvp_deadline) && <span className="mt-1 block text-xs font-normal text-[#8A8074]">Fecha anterior guardada: {content.rsvp_deadline}. Selecciona una fecha nueva para cambiarla.</span>}
               </label>
             </div>

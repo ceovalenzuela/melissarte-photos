@@ -269,10 +269,10 @@
   color: #332b27;
 }
 .invitation-template-baby_soft .invitation-hero-has-cover {
-  border-bottom: 7px solid #e9a58d;
+  border-bottom: 7px solid #b87862;
 }
 .invitation-template-baby_soft .invitation-hero-placeholder {
-  background-image: radial-gradient(ellipse at 75% 15%, #e9a58d88, transparent 38%), radial-gradient(ellipse at 15% 90%, #e9d47d88, transparent 40%), linear-gradient(145deg, #fff6e9, #f0d7c9) !important;
+  background-image: radial-gradient(ellipse at 75% 15%, #b8786280, transparent 38%), radial-gradient(ellipse at 15% 90%, #8f9b7a70, transparent 40%), linear-gradient(145deg, #f8f2e8, #e9ded0) !important;
 }
 .invitation-template-baby_soft .invitation-title {
   letter-spacing: -0.025em;

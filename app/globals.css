@@ -1137,3 +1137,30 @@
   background: var(--inv-button) !important;
   color: var(--inv-button-text) !important;
 }
+
+
+/* RSVP personal-link panel: fixed high-contrast surface across all four templates. */
+.invitation-public .invitation-rsvp .personal-rsvp-link {
+  background: #fffdf8 !important;
+  color: #302f30 !important;
+  border-color: var(--inv-border, #c9ad6b) !important;
+}
+.invitation-public .invitation-rsvp .personal-rsvp-link-title {
+  color: #273747 !important;
+}
+.invitation-public .invitation-rsvp .personal-rsvp-link-copy {
+  color: #514b46 !important;
+  opacity: 1 !important;
+}
+.invitation-public .invitation-rsvp .personal-rsvp-link button {
+  min-height: 44px;
+}
+.invitation-public .invitation-rsvp .personal-rsvp-link button:first-child {
+  background: #fffdf8 !important;
+  color: #273747 !important;
+  border-color: #9a793d !important;
+}
+.invitation-public .invitation-rsvp .personal-rsvp-link button:last-child {
+  background: #273747 !important;
+  color: #fffdf8 !important;
+}

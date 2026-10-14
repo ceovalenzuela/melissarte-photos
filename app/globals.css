@@ -1017,3 +1017,44 @@
   --organizer-muted: #5f7079;
   --organizer-soft: #edf5f8;
 }
+
+
+/* Baby shower / gender reveal: add cheerful sky-blue details without gender coding. */
+.invitation-template-baby_soft .invitation-hero-placeholder {
+  background-image:
+    radial-gradient(ellipse at 78% 16%, #e99e7fbd, transparent 36%),
+    radial-gradient(ellipse at 15% 74%, #a7bd93c7, transparent 38%),
+    radial-gradient(ellipse at 80% 82%, #9fd2e4a6, transparent 34%),
+    radial-gradient(ellipse at 58% 100%, #f0d276ad, transparent 42%),
+    linear-gradient(140deg, #fff0df 0%, #f3d9c9 44%, #e2ead8 72%, #e0f0f5 100%) !important;
+}
+.invitation-template-baby_soft #detalles {
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(232,155,121,.25), transparent 33%),
+    radial-gradient(ellipse at 100% 30%, rgba(159,210,228,.3), transparent 36%),
+    radial-gradient(ellipse at 100% 85%, rgba(161,187,137,.25), transparent 34%),
+    radial-gradient(ellipse at 50% 100%, rgba(240,210,118,.2), transparent 40%),
+    linear-gradient(180deg, #fff9f0 0%, #f8ebdd 100%);
+}
+.invitation-template-baby_soft .invitation-countdown {
+  box-shadow: 0 18px 45px rgba(213,141,114,.12), 0 8px 28px rgba(111,175,198,.12);
+}
+.invitation-template-baby_soft .invitation-location-card:nth-child(odd) > div:first-child > span {
+  background: #e4f2f6 !important;
+  color: #528da3 !important;
+  border-color: #b9dce7;
+}
+.invitation-template-baby_soft .invitation-location-card:nth-child(even) > div:first-child > span {
+  background: #f8e1d5 !important;
+  color: #9c5c43 !important;
+}
+.invitation-template-baby_soft .invitation-location-card > a {
+  border-color: #b5d9e4 !important;
+}
+.invitation-template-baby_soft #confirmar.invitation-rsvp {
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(232,155,121,.2), transparent 40%),
+    radial-gradient(ellipse at 100% 0%, rgba(159,210,228,.32), transparent 40%),
+    radial-gradient(ellipse at 100% 100%, rgba(161,187,137,.24), transparent 40%),
+    linear-gradient(135deg, #fff4e8 0%, #f6e7d9 55%, #e9f4f6 100%);
+}

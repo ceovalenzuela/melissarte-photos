@@ -32,6 +32,10 @@ const emptyContent = (event: Event): InvitationContent => ({
   ceremony_time: "",
   ceremony_venue: "",
   ceremony_address: "",
+  religious_ceremony_enabled: false,
+  religious_ceremony_time: "",
+  religious_ceremony_venue: "",
+  religious_ceremony_address: "",
   dress_code: "",
   rsvp_deadline: "",
 });
@@ -268,8 +272,27 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                 <Field label="Dirección" value={content.ceremony_address ?? ""} onChange={(v) => updateContent("ceremony_address", v)} placeholder="Calle, número, ciudad" />
               </div>
               <Field label="Código de vestimenta (opcional)" value={content.dress_code ?? ""} onChange={(v) => updateContent("dress_code", v)} placeholder="Ej. Formal" />
-              <Field label="Fecha límite para confirmar (opcional)" value={content.rsvp_deadline ?? ""} onChange={(v) => updateContent("rsvp_deadline", v)} placeholder="Ej. 10 de noviembre" />
+              <label className={labelClass}>
+                Fecha límite para confirmar (opcional)
+                <input type="date" value={/^\\d{4}-\\d{2}-\\d{2}$/.test(content.rsvp_deadline ?? "") ? content.rsvp_deadline : ""} onChange={(e) => updateContent("rsvp_deadline", e.target.value)} className={inputClass} />
+                {content.rsvp_deadline && !/^\\d{4}-\\d{2}-\\d{2}$/.test(content.rsvp_deadline) && <span className="mt-1 block text-xs font-normal text-[#8A8074]">Fecha anterior guardada: {content.rsvp_deadline}. Selecciona una fecha nueva para cambiarla.</span>}
+              </label>
             </div>
+          </section>
+
+          <section className="border-t border-[#E7DCC8] pt-6">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <h3 className="text-base font-semibold text-[#332B27]">Ceremonia religiosa (opcional)</h3>
+                <p className="mt-1 text-sm text-[#7D7467]">Agrega una tarjeta independiente para iglesia, templo u otra ceremonia. No sustituye los datos de la celebración principal.</p>
+              </div>
+              <input aria-label="Mostrar ceremonia religiosa" type="checkbox" checked={Boolean(content.religious_ceremony_enabled)} onChange={(e) => updateContent("religious_ceremony_enabled", e.target.checked)} className="mt-1 h-5 w-5 shrink-0 accent-[#A88249]" />
+            </div>
+            {content.religious_ceremony_enabled && <div className="mt-4 grid gap-4 rounded-2xl bg-white p-4 sm:grid-cols-2 sm:p-5">
+              <Field label="Hora de la ceremonia" type="time" value={content.religious_ceremony_time ?? ""} onChange={(v) => updateContent("religious_ceremony_time", v)} />
+              <Field label="Iglesia o recinto" value={content.religious_ceremony_venue ?? ""} onChange={(v) => updateContent("religious_ceremony_venue", v)} placeholder="Nombre de la iglesia o recinto" />
+              <div className="sm:col-span-2"><Field label="Dirección de la ceremonia" value={content.religious_ceremony_address ?? ""} onChange={(v) => updateContent("religious_ceremony_address", v)} placeholder="Calle, número, ciudad" /></div>
+            </div>}
           </section>
 
           <section className="border-t border-[#E7DCC8] pt-6">

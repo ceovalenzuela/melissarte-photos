@@ -84,6 +84,22 @@ export default function PublicInvitationClient({
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [linkCopied, setLinkCopied] = useState(false);
+
+  async function copyPersonalLink() {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setLinkCopied(true);
+      window.setTimeout(() => setLinkCopied(false), 2500);
+    } catch {
+      setErrorMessage("No se pudo copiar automáticamente. Puedes copiar el enlace desde la barra de direcciones.");
+    }
+  }
+
+  function sharePersonalLink() {
+    const message = `Aquí está mi enlace personal para consultar o editar mi confirmación de ${invitation.event_title}: ${window.location.href}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

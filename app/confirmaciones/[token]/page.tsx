@@ -31,16 +31,22 @@ export default async function OrganizerConfirmationsPage({ params }: Props) {
   const content = invitation?.content_config ?? {};
   const design = invitation?.design_config ?? {};
   const templateKey = ["wedding_editorial", "xv_gala", "baby_soft", "baptism_light"].includes(invitation?.template_key) ? invitation.template_key : "wedding_editorial";
+  const organizerDefaults = {
+    wedding_editorial: { accent: "#A78645", bg: "#F4EAD8", text: "#302F30", card: "#FFFCF6", cardText: "#302F30", border: "#C9AD6B", button: "#A78645", buttonText: "#FFFFFF" },
+    xv_gala: { accent: "#D6B66F", bg: "#211B35", text: "#FFFAF0", card: "#39304C", cardText: "#FFFAF0", border: "#D6B66F", button: "#6F4B68", buttonText: "#FFFFFF" },
+    baby_soft: { accent: "#A85F47", bg: "#FFF4E8", text: "#493C32", card: "#FFFEFA", cardText: "#493C32", border: "#E5C5B2", button: "#A96149", buttonText: "#FFFFFF" },
+    baptism_light: { accent: "#527F98", bg: "#FAF7F0", text: "#263641", card: "#FFFFFF", cardText: "#263641", border: "#C7DBE5", button: "#527F98", buttonText: "#FFFFFF" },
+  }[templateKey];
   const validColor = (value: string | undefined, fallback: string) => value && /^#[0-9a-fA-F]{6}$/.test(value) ? value : fallback;
   const organizerThemeStyle = {
-    "--organizer-accent": validColor(design.accent_color, "#A88249"),
-    "--organizer-bg": validColor(design.background_color, "#F8F5F0"),
-    "--organizer-text": validColor(design.text_color, "#332B27"),
-    "--organizer-card": validColor(design.card_background_color, "#FFFFFF"),
-    "--organizer-card-text": validColor(design.card_text_color, "#332B27"),
-    "--organizer-border": validColor(design.border_color, "#E7DCC8"),
-    "--organizer-button": validColor(design.button_color, "#A88249"),
-    "--organizer-button-text": validColor(design.button_text_color, "#FFFFFF"),
+    "--organizer-accent": validColor(design.accent_color, organizerDefaults.accent),
+    "--organizer-bg": validColor(design.background_color, organizerDefaults.bg),
+    "--organizer-text": validColor(design.text_color, organizerDefaults.text),
+    "--organizer-card": validColor(design.card_background_color, organizerDefaults.card),
+    "--organizer-card-text": validColor(design.card_text_color, organizerDefaults.cardText),
+    "--organizer-border": validColor(design.border_color, organizerDefaults.border),
+    "--organizer-button": validColor(design.button_color, organizerDefaults.button),
+    "--organizer-button-text": validColor(design.button_text_color, organizerDefaults.buttonText),
   } as CSSProperties;
   const mapsQuery = [content.ceremony_venue, content.ceremony_address].filter(Boolean).join(", ");
   const mapsUrl = mapsQuery ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapsQuery)}` : null;

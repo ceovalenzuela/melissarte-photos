@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { Copy, ExternalLink, ImagePlus, Save, Sparkles, Users } from "lucide-react";
+import { Copy, ExternalLink, ImagePlus, RotateCcw, Save, Sparkles, Users } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 import { uploadCover } from "@/lib/events";
@@ -84,6 +84,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
   const [maxPartySize, setMaxPartySize] = useState(2);
   const [status, setStatus] = useState<InvitationStatus>("draft");
   const [copiedOrganizerLink, setCopiedOrganizerLink] = useState(false);
+  const [contrastView, setContrastView] = useState<"general" | "cards">("general");
 
   useEffect(() => {
     let active = true;
@@ -389,38 +390,53 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
             </summary>
             <div className="mt-4 rounded-2xl border border-[#E7DCC8] bg-white p-4 sm:p-5">
               <p className="mb-5 text-sm leading-6 text-[#51483E]">Los cambios se guardan al pulsar «Guardar cambios» o «Guardar y publicar». Para facilitar la lectura, procura que el texto contraste claramente con su fondo.</p>
-              <div className="mb-5 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-xl border border-[#D9C7AA] bg-[#FBF7F0] p-3">
+              <div className="mb-5 grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+                <div className="min-w-0 rounded-xl border border-[#D9C7AA] bg-[#FBF7F0] p-3 sm:p-4">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#62594F]">Vista de contraste</p>
-                  <div className="mt-3 flex overflow-hidden rounded-lg border border-[#C9AD6B]">
-                    <div className="flex-1 p-3" style={{ backgroundColor: design.background_color ?? "#F4EAD8", color: design.text_color ?? "#302F30" }}>
-                      <p className="text-xs font-semibold">Texto general</p><p className="mt-1 text-[10px]">Ejemplo de lectura</p>
-                    </div>
-                    <div className="flex-1 p-3" style={{ backgroundColor: design.card_background_color ?? "#FFFCF6", color: design.card_text_color ?? "#302F30" }}>
-                      <p className="text-xs font-semibold">Tarjetas</p><p className="mt-1 text-[10px]">Datos del evento</p>
+                  <div className="mt-3 flex gap-2" role="group" aria-label="Seleccionar vista de contraste">
+                    <button type="button" aria-pressed={contrastView === "general"} onClick={() => setContrastView("general")} className={contrastView === "general" ? "rounded-full bg-[#8E6D3D] px-3 py-2 text-xs font-semibold text-white" : "rounded-full border border-[#D9C7AA] bg-white px-3 py-2 text-xs font-semibold text-[#51483E]"}>Texto general</button>
+                    <button type="button" aria-pressed={contrastView === "cards"} onClick={() => setContrastView("cards")} className={contrastView === "cards" ? "rounded-full bg-[#8E6D3D] px-3 py-2 text-xs font-semibold text-white" : "rounded-full border border-[#D9C7AA] bg-white px-3 py-2 text-xs font-semibold text-[#51483E]"}>Tarjetas</button>
+                  </div>
+                  <div className="mt-3 overflow-hidden rounded-xl border" style={{ backgroundColor: contrastView === "general" ? design.background_color ?? "#F4EAD8" : design.card_background_color ?? "#FFFCF6", color: contrastView === "general" ? design.text_color ?? "#302F30" : design.card_text_color ?? "#302F30", borderColor: design.border_color ?? "#C9AD6B" }}>
+                    <div className="p-4">
+                      <p className="text-base font-semibold" style={{ color: contrastView === "general" ? design.title_color ?? design.text_color ?? "#273747" : design.card_text_color ?? design.text_color ?? "#302F30" }}>{contrastView === "general" ? "Una invitación especial" : "Detalles del evento"}</p>
+                      <p className="mt-2 text-sm leading-6">{contrastView === "general" ? "Nos encantará compartir este día contigo." : "Sábado · 6:00 p. m. · Salón de eventos"}</p>
+                      <span className="mt-3 inline-flex min-h-9 items-center rounded-full px-4 text-xs font-semibold" style={{ backgroundColor: design.button_color ?? design.accent_color ?? "#A78645", color: design.button_text_color ?? "#FFFFFF" }}>Confirmar asistencia</span>
                     </div>
                   </div>
-                  <div className="mt-3 inline-flex min-h-9 items-center rounded-full px-4 text-xs font-semibold" style={{ backgroundColor: design.button_color ?? design.accent_color ?? "#A78645", color: design.button_text_color ?? "#FFFFFF" }}>Botón de ejemplo</div>
+                  <p className="mt-2 text-xs text-[#62594F]">La muestra usa los colores actuales de la categoría seleccionada.</p>
                 </div>
-                <div className="rounded-xl border border-[#D9C7AA] bg-white p-3">
+                <div className="rounded-xl border border-[#D9C7AA] bg-white p-3 sm:p-4">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#62594F]">Consejo de legibilidad</p>
                   <p className="mt-2 text-sm leading-6 text-[#332B27]">Usa fondos claros con texto oscuro o fondos oscuros con texto claro. Los tonos decorativos funcionan mejor en bordes y detalles que en textos pequeños.</p>
+                  <button type="button" onClick={() => { setDesign({ ...initialDesignForTemplate(templateKey), cover_image_url: design.cover_image_url }); toast.success("Se restauraron los colores originales de la plantilla."); }} className="mt-4 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-full border border-[#D9C7AA] bg-[#FBF7F0] px-4 py-2 text-sm font-semibold text-[#51483E] transition hover:bg-[#F3E8D7]">
+                    <RotateCcw size={15} /> Restaurar colores de la plantilla
+                  </button>
+                  <p className="mt-2 text-xs leading-5 text-[#7D7467]">Se recupera la paleta inicial de «{TEMPLATE_OPTIONS.find((option) => option.key === templateKey)?.label}». La portada se conserva.</p>
                 </div>
               </div>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <ColorField label="Fondo general" value={design.background_color ?? "#F4EAD8"} onChange={(v) => updateDesign("background_color", v)} />
-                <ColorField label="Texto general" value={design.text_color ?? "#302F30"} onChange={(v) => updateDesign("text_color", v)} />
-                <ColorField label="Título principal" value={design.title_color ?? design.text_color ?? "#273747"} onChange={(v) => updateDesign("title_color", v)} />
-                <ColorField label="Fondo de tarjetas" value={design.card_background_color ?? "#FFFCF6"} onChange={(v) => updateDesign("card_background_color", v)} />
-                <ColorField label="Texto de tarjetas" value={design.card_text_color ?? design.text_color ?? "#302F30"} onChange={(v) => updateDesign("card_text_color", v)} />
-                <ColorField label="Acentos e íconos" value={design.accent_color ?? "#A78645"} onChange={(v) => updateDesign("accent_color", v)} />
-                <ColorField label="Bordes y divisores" value={design.border_color ?? "#C9AD6B"} onChange={(v) => updateDesign("border_color", v)} />
-                <ColorField label="Fondo de botones" value={design.button_color ?? design.accent_color ?? "#A78645"} onChange={(v) => updateDesign("button_color", v)} />
-                <ColorField label="Texto de botones" value={design.button_text_color ?? "#FFFFFF"} onChange={(v) => updateDesign("button_text_color", v)} />
-                <ColorField label="Fondo de confirmación" value={design.rsvp_background_color ?? "#273747"} onChange={(v) => updateDesign("rsvp_background_color", v)} />
-                <ColorField label="Texto de confirmación" value={design.rsvp_text_color ?? design.text_color ?? "#302F30"} onChange={(v) => updateDesign("rsvp_text_color", v)} />
-                <ColorField label="Fondo del formulario" value={design.form_background_color ?? "#FFFDF8"} onChange={(v) => updateDesign("form_background_color", v)} />
-                <ColorField label="Texto del formulario" value={design.form_text_color ?? design.text_color ?? "#302F30"} onChange={(v) => updateDesign("form_text_color", v)} />
+              <div className="space-y-4">
+                <ColorGroup title="General" description="Colores principales de la invitación." >
+                  <ColorField label="Fondo general" value={design.background_color ?? "#F4EAD8"} onChange={(v) => updateDesign("background_color", v)} />
+                  <ColorField label="Texto general" value={design.text_color ?? "#302F30"} onChange={(v) => updateDesign("text_color", v)} />
+                  <ColorField label="Título principal" value={design.title_color ?? design.text_color ?? "#273747"} onChange={(v) => updateDesign("title_color", v)} />
+                  <ColorField label="Acentos e íconos" value={design.accent_color ?? "#A78645"} onChange={(v) => updateDesign("accent_color", v)} />
+                  <ColorField label="Bordes y divisores" value={design.border_color ?? "#C9AD6B"} onChange={(v) => updateDesign("border_color", v)} />
+                </ColorGroup>
+                <ColorGroup title="Tarjetas" description="Fondo y texto de las tarjetas de información.">
+                  <ColorField label="Fondo de tarjetas" value={design.card_background_color ?? "#FFFCF6"} onChange={(v) => updateDesign("card_background_color", v)} />
+                  <ColorField label="Texto de tarjetas" value={design.card_text_color ?? design.text_color ?? "#302F30"} onChange={(v) => updateDesign("card_text_color", v)} />
+                </ColorGroup>
+                <ColorGroup title="Botones" description="Color del botón y del texto que aparece en él.">
+                  <ColorField label="Fondo de botones" value={design.button_color ?? design.accent_color ?? "#A78645"} onChange={(v) => updateDesign("button_color", v)} />
+                  <ColorField label="Texto de botones" value={design.button_text_color ?? "#FFFFFF"} onChange={(v) => updateDesign("button_text_color", v)} />
+                </ColorGroup>
+                <ColorGroup title="Confirmación" description="Colores de la confirmación de asistencia y su formulario.">
+                  <ColorField label="Fondo de confirmación" value={design.rsvp_background_color ?? "#273747"} onChange={(v) => updateDesign("rsvp_background_color", v)} />
+                  <ColorField label="Texto de confirmación" value={design.rsvp_text_color ?? design.text_color ?? "#302F30"} onChange={(v) => updateDesign("rsvp_text_color", v)} />
+                  <ColorField label="Fondo del formulario" value={design.form_background_color ?? "#FFFDF8"} onChange={(v) => updateDesign("form_background_color", v)} />
+                  <ColorField label="Texto del formulario" value={design.form_text_color ?? design.text_color ?? "#302F30"} onChange={(v) => updateDesign("form_text_color", v)} />
+                </ColorGroup>
               </div>
             </div>
           </details>
@@ -448,38 +464,70 @@ function Field({ label, value, onChange, placeholder, type = "text" }: { label: 
   );
 }
 
+function ColorGroup({ title, description, children }: { title: string; description: string; children: React.ReactNode }) {
+  return (
+    <section className="rounded-xl border border-[#E7DCC8] bg-[#FDFBF8] p-4">
+      <div className="mb-3">
+        <h4 className="text-sm font-semibold text-[#332B27]">{title}</h4>
+        <p className="mt-1 text-xs leading-5 text-[#7D7467]">{description}</p>
+      </div>
+      <div className="grid min-w-0 gap-3 sm:grid-cols-2 lg:grid-cols-3">{children}</div>
+    </section>
+  );
+}
+
 function ColorField({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
-  const validColor = /^#[0-9a-fA-F]{6}$/.test(value);
-  const pickerValue = validColor ? value : "#9A7358";
+  const [draft, setDraft] = useState(value);
+  const validColor = /^#[0-9a-fA-F]{6}$/.test(draft);
+  const pickerValue = /^#[0-9a-fA-F]{6}$/.test(value) ? value : "#9A7358";
+
+  useEffect(() => {
+    setDraft(value);
+  }, [value]);
+
+  function commitDraft() {
+    if (/^#[0-9a-fA-F]{6}$/.test(draft)) {
+      onChange(draft.toUpperCase());
+    } else {
+      setDraft(value);
+      toast.error(`El color de «${label}» debe tener formato #RRGGBB.`);
+    }
+  }
 
   return (
-    <label className="block min-w-0 text-sm font-medium text-[#4E463D]">
-      {label}
+    <div className="min-w-0 text-sm font-medium text-[#4E463D]">
+      <label className="block" htmlFor={`color-picker-${label.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`}>{label}</label>
       <div className="mt-1.5 flex min-w-0 items-center gap-2 rounded-xl border border-[#E7DCC8] bg-white p-2">
         <input
+          id={`color-picker-${label.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`}
           type="color"
           aria-label={`Selector de color: ${label}`}
           value={pickerValue}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => {
+            setDraft(e.target.value.toUpperCase());
+            onChange(e.target.value.toUpperCase());
+          }}
           className="h-9 w-10 shrink-0 cursor-pointer border-0 bg-transparent"
         />
         <input
           type="text"
           aria-label={`Código hexadecimal: ${label}`}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onBlur={commitDraft}
+          onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); commitDraft(); e.currentTarget.blur(); } }}
           maxLength={7}
           placeholder="#RRGGBB"
           spellCheck={false}
           autoCapitalize="characters"
-          className="min-w-0 w-full rounded-md border border-[#E7DCC8] bg-[#FDFBF8] px-2 py-2 text-sm font-mono text-[#4E463D] outline-none focus:border-[#A88249] focus:ring-1 focus:ring-[#A88249]/30"
+          className={`min-w-0 w-full rounded-md border bg-[#FDFBF8] px-2 py-2 text-sm font-mono text-[#4E463D] outline-none focus:ring-1 ${validColor ? "border-[#E7DCC8] focus:border-[#A88249] focus:ring-[#A88249]/30" : "border-[#C66B5D] focus:border-[#C66B5D] focus:ring-[#C66B5D]/30"}`}
         />
       </div>
       {!validColor && (
         <span className="mt-1 block text-xs font-normal text-[#9A4B40]">
-          Usa un código hexadecimal de 6 dígitos, por ejemplo #A88249.
+          Escribe un código hexadecimal de 6 dígitos, por ejemplo #A78645.
         </span>
       )}
-    </label>
+    </div>
   );
 }

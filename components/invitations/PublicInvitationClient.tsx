@@ -277,8 +277,8 @@ export default function PublicInvitationClient({
                 <p className="mt-3 text-center text-sm leading-6 text-neutral-600">{existingRSVP || personalizedGuest?.attendance_status ? "Puedes actualizar tus datos aquí." : personalizedGuest ? `Esta invitación está preparada para ti. Tienes ${personalizedGuest.passes} ${personalizedGuest.passes === 1 ? "pase asignado" : "pases asignados"}.` : "Solo te tomará unos segundos confirmar."}</p>
                 {((existingRSVP && editToken) || (personalizedGuest && personalizedToken && (personalizedGuest.attendance_status || successMessage))) && (
                   <div className="personal-rsvp-link mt-7 overflow-hidden rounded-[1.5rem] border bg-white shadow-[0_12px_36px_rgba(48,36,27,0.07)]" style={{ borderColor: `${accent}44` }}>
-                    <div className="h-1" style={{ background: `linear-gradient(90deg, `${accent}55`, `${accent}`, `${accent}55`) }} />
-                    <div className="p-5 sm:p-6" style={{ background: `linear-gradient(145deg, `${accent}0A`, #FFFFFF 68%)` }}>
+                    <div className="h-1" style={{ background: `linear-gradient(90deg, ${accent}55, ${accent}, ${accent}55)` }} />
+                    <div className="p-5 sm:p-6" style={{ background: `linear-gradient(145deg, ${accent}0A, #FFFFFF 68%)` }}>
                     <div className="flex items-start gap-3">
                       <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: `${accent}18`, color: accent }}>
                         <CheckCircle2 size={20} />

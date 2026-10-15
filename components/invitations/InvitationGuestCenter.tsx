@@ -201,10 +201,10 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
       </div>
     </header>
 
-    <div className="grid grid-cols-2 gap-2 border-b border-[#EEE5D7] bg-[#FFFCF7] p-3 sm:grid-cols-3 sm:gap-3 sm:px-6 sm:py-4">
-      <div className="rounded-xl border border-green-100 bg-white px-3 py-3 shadow-sm"><p className="text-lg font-semibold tabular-nums text-green-800">{confirmedCount}</p><p className="mt-0.5 text-xs text-[#6F786D]">Confirmaron</p></div>
-      <div className="rounded-xl border border-[#F0E2C4] bg-white px-3 py-3 shadow-sm"><p className="text-lg font-semibold tabular-nums text-[#98702F]">{pendingRsvpCount}</p><p className="mt-0.5 text-xs text-[#8A7860]">Por responder</p></div>
-      {declinedCount > 0 && <div className="rounded-xl border border-[#E8E3DC] bg-white px-3 py-3 shadow-sm"><p className="text-lg font-semibold tabular-nums text-[#7D7467]">{declinedCount}</p><p className="mt-0.5 text-xs text-[#7D7467]">No asistirán</p></div>}
+    <div className="grid grid-cols-3 gap-2 border-b border-[#EEE5D7] bg-[#FFFCF7] p-3 sm:gap-3 sm:px-6 sm:py-4">
+      <div className="rounded-2xl border border-[#DCE9DE] bg-white px-2.5 py-3 shadow-[0_3px_12px_rgba(35,70,45,0.035)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#356B4B] sm:text-xl">{confirmedCount}</p><p className="mt-1 text-[10px] leading-tight text-[#6F786D] sm:text-xs">Confirmaron</p></div>
+      <div className="rounded-2xl border border-[#F0E2C4] bg-white px-2.5 py-3 shadow-[0_3px_12px_rgba(115,83,28,0.035)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#98702F] sm:text-xl">{pendingRsvpCount}</p><p className="mt-1 text-[10px] leading-tight text-[#8A7860] sm:text-xs">Por responder</p></div>
+      <div className="rounded-2xl border border-[#E8E3DC] bg-white px-2.5 py-3 shadow-[0_3px_12px_rgba(62,45,25,0.025)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#7D7467] sm:text-xl">{declinedCount}</p><p className="mt-1 text-[10px] leading-tight text-[#7D7467] sm:text-xs">No asistirán</p></div>
     </div>
 
     {showTools && <div id="guest-tools-form" className="scroll-mt-6 border-b border-[#EEE5D7] bg-[#FFFCF7] p-4 sm:p-5">
@@ -242,13 +242,13 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
         </div>
         {loading ? <p className="py-10 text-center text-sm text-[#7D7467]">Cargando invitados...</p> : filtered.length === 0 ? <div className="rounded-xl border border-dashed border-[#E7DCC8] px-4 py-10 text-center"><Users className="mx-auto text-[#A88249]" size={26}/><p className="mt-3 font-medium text-[#332B27]">{guests.length ? "No encontramos invitados" : "Tu lista está vacía"}</p><p className="mt-1 text-sm text-[#7D7467]">{guests.length ? "Prueba con otro nombre o filtro." : "Agrega a tus invitados o carga una lista que ya tengas."}</p></div> :
           <div className="overflow-hidden rounded-2xl border border-[#E8DECF] bg-white shadow-sm">
-            {visibleGuests.map(g=><div key={g.guest_id} className="flex items-center gap-3 border-b border-[#F0E9DF] px-3 py-3.5 transition-colors last:border-b-0 hover:bg-[#FFFCF7] sm:px-4">
+            {visibleGuests.map(g=><div key={g.guest_id} className="flex items-center gap-3 border-b border-[#F0E9DF] px-3 py-4 transition-colors last:border-b-0 hover:bg-[#FFFCF7] sm:px-4">
               <div className="min-w-0 flex-1"><p className="truncate text-sm font-medium text-[#332B27]" title={g.guest_name}>{g.guest_name}</p><p className="mt-0.5 truncate text-xs text-[#7D7467]" title={[g.family_group,g.passes===1?"1 pase":`${g.passes} pases`].filter(Boolean).join(" · ")}>{g.family_group ? `${g.family_group} · ` : ""}{g.passes} {g.passes===1?"pase":"pases"}</p></div>
               <span className={g.attendance_status==="attending"?"shrink-0 rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-800":g.attendance_status==="declined"?"shrink-0 rounded-md bg-neutral-100 px-2 py-1 text-xs font-medium text-neutral-700":"shrink-0 rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-800"}>{g.attendance_status==="attending"?`Confirmó · ${g.party_size ?? 1}`:g.attendance_status==="declined"?"No asistirá":"Pendiente"}</span>
               <div className="flex shrink-0 items-center gap-0.5">
-                <button type="button" onClick={()=>void openWhatsApp(g)} title="Compartir por WhatsApp" aria-label={`Compartir invitación de ${g.guest_name}`} className="rounded-md p-2 text-green-700 hover:bg-green-50"><MessageCircle size={16}/></button>
-                <button type="button" onClick={()=>startEdit(g)} title="Editar" aria-label={`Editar ${g.guest_name}`} className="rounded-md p-2 text-[#6E5A3F] hover:bg-[#F8F2E8]"><Edit2 size={15}/></button>
-                <button type="button" onClick={()=>void removeGuest(g)} title="Eliminar" aria-label={`Eliminar ${g.guest_name}`} className="rounded-md p-2 text-red-600 hover:bg-red-50"><Trash2 size={15}/></button>
+                <button type="button" onClick={()=>void openWhatsApp(g)} title="Compartir por WhatsApp" aria-label={`Compartir invitación de ${g.guest_name}`} className="rounded-lg p-2 text-green-700 transition-colors hover:bg-green-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700/30"><MessageCircle size={16}/></button>
+                <button type="button" onClick={()=>startEdit(g)} title="Editar" aria-label={`Editar ${g.guest_name}`} className="rounded-lg p-2 text-[#6E5A3F] transition-colors hover:bg-[#F8F2E8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A88249]/30"><Edit2 size={15}/></button>
+                <button type="button" onClick={()=>void removeGuest(g)} title="Eliminar" aria-label={`Eliminar ${g.guest_name}`} className="rounded-lg p-2 text-red-600 transition-colors hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600/30"><Trash2 size={15}/></button>
               </div>
             </div>)}
           </div>}

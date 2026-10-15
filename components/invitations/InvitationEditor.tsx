@@ -70,6 +70,8 @@ function initialDesign(event: Event): InvitationDesign {
 
 export default function InvitationEditor({ event, organizerToken }: Props) {
   const [loaded, setLoaded] = useState(false);
+  const [loadError, setLoadError] = useState(false);
+  const [loadAttempt, setLoadAttempt] = useState(0);
   const [saving, setSaving] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -92,10 +94,13 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
       });
       if (!active) return;
       if (error) {
-        toast.error("No fue posible cargar la invitación.");
+        console.error("Error cargando invitación:", error);
+        setLoadError(true);
+        toast.error("No pudimos cargar tu invitación. Puedes intentarlo de nuevo.");
         setLoaded(true);
         return;
       }
+      setLoadError(false);
       const row = (data?.[0] as InvitationRow | undefined) ?? null;
       if (row) {
         setContent({ ...emptyContent(event), ...(row.content_config ?? {}) });
@@ -110,7 +115,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
     }
     void loadInvitation();
     return () => { active = false; };
-  }, [event, organizerToken]);
+  }, [event, organizerToken, loadAttempt]);
 
   function updateContent<K extends keyof InvitationContent>(key: K, value: InvitationContent[K]) {
     setContent((current) => ({ ...current, [key]: value }));
@@ -166,7 +171,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
       toast.success(nextStatus === "published" ? "Invitación publicada." : "Cambios guardados.");
     } catch (error) {
       console.error("Error guardando invitación:", error);
-      toast.error(error instanceof Error ? error.message : "No fue posible guardar la invitación.");
+      toast.error(nextStatus === "published" ? "No pudimos publicar la invitación. Revisa tu conexión e inténtalo de nuevo." : "No pudimos guardar los cambios. Revisa tu conexión e inténtalo de nuevo.");
     } finally {
       setSaving(false);
     }
@@ -208,7 +213,13 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
       </header>
 
       {!loaded ? (
-        <p className="px-6 py-8 text-sm text-[#7D7467]">Cargando invitación...</p>
+        <p className="px-6 py-8 text-sm text-[#7D7467]" role="status">Cargando invitación...</p>
+      ) : loadError ? (
+        <div role="alert" className="m-5 rounded-2xl border border-red-200 bg-red-50 px-5 py-8 text-center sm:m-7">
+          <p className="font-semibold text-red-900">No pudimos cargar tu invitación</p>
+          <p className="mt-2 text-sm leading-6 text-red-800">Tus datos no se han modificado. Comprueba tu conexión y vuelve a intentarlo antes de hacer cambios.</p>
+          <button type="button" onClick={() => { setLoaded(false); setLoadError(false); setLoadAttempt((attempt) => attempt + 1); }} className="mt-4 inline-flex min-h-10 items-center justify-center rounded-full border border-red-300 bg-white px-5 py-2 text-sm font-semibold text-red-900 transition hover:bg-red-100">Volver a intentar</button>
+        </div>
       ) : (
         <div className="space-y-7 p-5 sm:p-7">
           <nav aria-label="Ir a una sección del editor" className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:thin]">

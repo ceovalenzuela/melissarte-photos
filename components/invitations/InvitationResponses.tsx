@@ -23,6 +23,7 @@ interface Props {
 export default function InvitationResponses({ eventId, organizerToken }: Props) {
   const [responses, setResponses] = useState<RSVPRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
 
   const loadResponses = useCallback(async () => {
     const { data, error } = await supabase.rpc("get_invitation_rsvps_with_token", {
@@ -31,11 +32,13 @@ export default function InvitationResponses({ eventId, organizerToken }: Props) 
     });
     if (error) {
       console.error("Error cargando respuestas RSVP:", error);
-      toast.error("No fue posible cargar las confirmaciones.");
+      setLoadError(true);
+      toast.error("No pudimos cargar las confirmaciones. Inténtalo de nuevo.");
       setLoading(false);
       return;
     }
     setResponses(((data ?? []) as RSVPRow[]).sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()));
+    setLoadError(false);
     setLoading(false);
   }, [eventId, organizerToken]);
 
@@ -70,9 +73,15 @@ export default function InvitationResponses({ eventId, organizerToken }: Props) 
         <div className="mb-4 flex items-center justify-between gap-3"><h4 className="organizer-rsvp-heading text-sm font-semibold">Detalle de respuestas</h4><span className="organizer-rsvp-muted text-xs">Más recientes primero</span></div>
         {loading ? (
           <p className="organizer-rsvp-muted py-5 text-center text-sm">Cargando respuestas...</p>
+        ) : loadError ? (
+          <div role="alert" className="rounded-2xl border border-red-200 bg-red-50 px-4 py-6 text-center">
+            <p className="font-medium text-red-900">No pudimos cargar las confirmaciones</p>
+            <p className="mt-1 text-sm leading-6 text-red-800">Esto no significa que la lista esté vacía. Comprueba tu conexión y vuelve a intentarlo.</p>
+            <button type="button" onClick={() => { setLoading(true); void loadResponses(); }} className="mt-4 inline-flex min-h-10 items-center justify-center rounded-full border border-red-300 bg-white px-4 py-2 text-sm font-semibold text-red-900 hover:bg-red-100">Volver a intentar</button>
+          </div>
         ) : responses.length === 0 ? (
           <p className="organizer-rsvp-empty rounded-2xl px-4 py-6 text-center text-sm leading-6">
-            Aún no hay respuestas. Cuando publiques la invitación y tus invitados confirmen, aparecerán aquí.
+            Aún no hay respuestas. Cuando tus invitados confirmen su asistencia, aparecerán aquí.
           </p>
         ) : (
           <div className="space-y-3">

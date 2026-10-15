@@ -449,13 +449,37 @@ function Field({ label, value, onChange, placeholder, type = "text" }: { label: 
 }
 
 function ColorField({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
+  const validColor = /^#[0-9a-fA-F]{6}$/.test(value);
+  const pickerValue = validColor ? value : "#9A7358";
+
   return (
-    <label className="block text-sm font-medium text-[#4E463D]">
+    <label className="block min-w-0 text-sm font-medium text-[#4E463D]">
       {label}
-      <div className="mt-1.5 flex items-center gap-3 rounded-xl border border-[#E7DCC8] bg-white p-2">
-        <input type="color" value={/^#[0-9a-fA-F]{6}$/.test(value) ? value : "#9A7358"} onChange={(e) => onChange(e.target.value)} className="h-9 w-12 cursor-pointer border-0 bg-transparent" />
-        <span className="text-sm text-[#7D7467]">{value}</span>
+      <div className="mt-1.5 flex min-w-0 items-center gap-2 rounded-xl border border-[#E7DCC8] bg-white p-2">
+        <input
+          type="color"
+          aria-label={`Selector de color: ${label}`}
+          value={pickerValue}
+          onChange={(e) => onChange(e.target.value)}
+          className="h-9 w-10 shrink-0 cursor-pointer border-0 bg-transparent"
+        />
+        <input
+          type="text"
+          aria-label={`Código hexadecimal: ${label}`}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          maxLength={7}
+          placeholder="#RRGGBB"
+          spellCheck={false}
+          autoCapitalize="characters"
+          className="min-w-0 w-full rounded-md border border-[#E7DCC8] bg-[#FDFBF8] px-2 py-2 text-sm font-mono text-[#4E463D] outline-none focus:border-[#A88249] focus:ring-1 focus:ring-[#A88249]/30"
+        />
       </div>
+      {!validColor && (
+        <span className="mt-1 block text-xs font-normal text-[#9A4B40]">
+          Usa un código hexadecimal de 6 dígitos, por ejemplo #A88249.
+        </span>
+      )}
     </label>
   );
 }

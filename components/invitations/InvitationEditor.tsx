@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState, type ReactNode } from "react";
 import { Copy, ExternalLink, ImagePlus, RotateCcw, Save, Sparkles, Users } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
@@ -464,7 +464,7 @@ function Field({ label, value, onChange, placeholder, type = "text" }: { label: 
   );
 }
 
-function ColorGroup({ title, description, children }: { title: string; description: string; children: React.ReactNode }) {
+function ColorGroup({ title, description, children }: { title: string; description: string; children: ReactNode }) {
   return (
     <section className="rounded-xl border border-[#E7DCC8] bg-[#FDFBF8] p-4">
       <div className="mb-3">

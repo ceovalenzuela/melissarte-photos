@@ -1547,13 +1547,12 @@
   color: var(--inv-card-text) !important;
   border-color: var(--inv-border) !important;
 }
-.invitation-public .invitation-location-venue,
+.invitation-public .invitation-location-card .invitation-location-venue,
 .invitation-public .invitation-location-card > p,
-.invitation-public .invitation-dress-code-card p:not([style]) {
-  color: var(--inv-card-text);
-}
 .invitation-public .invitation-location-address {
   color: var(--inv-card-text) !important;
+}
+.invitation-public .invitation-location-address {
   opacity: .78;
 }
 .invitation-public .invitation-countdown {
@@ -1572,7 +1571,7 @@
 .invitation-public .invitation-rsvp > div > h2,
 .invitation-public .invitation-rsvp > div > label,
 .invitation-public .invitation-rsvp > div > legend {
-  color: var(--inv-rsvp-text);
+  color: var(--inv-rsvp-text) !important;
 }
 .invitation-public .invitation-rsvp form {
   background: var(--inv-form-bg) !important;
@@ -1583,7 +1582,7 @@
 .invitation-public .invitation-rsvp form label,
 .invitation-public .invitation-rsvp form legend,
 .invitation-public .invitation-rsvp form span {
-  color: var(--inv-form-text);
+  color: var(--inv-form-text) !important;
 }
 .invitation-public .invitation-rsvp form input,
 .invitation-public .invitation-rsvp form select {

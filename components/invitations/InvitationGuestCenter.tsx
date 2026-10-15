@@ -132,7 +132,7 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
     toast.success(editing ? "Invitado actualizado." : "Invitado agregado.");
     setDraft(emptyDraft); setEditing(null); await loadGuests();
   }
-  function startEdit(g: Guest) { setEditing(g.guest_id); setDraft({ name: g.guest_name, phone: g.phone, group: g.family_group, passes: g.passes }); }
+  function startEdit(g: Guest) { setEditing(g.guest_id); setDraft({ name: g.guest_name, phone: g.phone, group: g.family_group, passes: g.passes }); setShowTools(true); requestAnimationFrame(() => document.getElementById("guest-tools-form")?.scrollIntoView({ behavior: "smooth", block: "start" })); }
 
   async function removeGuest(g: Guest) {
     if (!window.confirm(`¿Eliminar a ${g.guest_name} de la lista?`)) return;

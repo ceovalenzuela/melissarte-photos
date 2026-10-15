@@ -16,7 +16,7 @@ export default async function PublicInvitationPage({ params, searchParams }: Pro
 
   const responseId = typeof query.rsvp === "string" ? query.rsvp : null;
   const editToken = typeof query.token === "string" ? query.token : null;
-  const guestToken = typeof query.invitado === "string" && /^[a-f0-9]{64}$/.test(query.invitado) ? query.invitado : null;
+  const guestToken = typeof query.invitado === "string" && /^[A-Za-z0-9_-]{22}$/.test(query.invitado) ? query.invitado : null;
   const editRequested = Boolean(responseId || editToken || (query.invitado && !guestToken));
   const personalizedGuest = guestToken ? await getPersonalizedInvitationGuest(slug, guestToken) : null;
 

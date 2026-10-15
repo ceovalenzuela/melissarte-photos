@@ -211,6 +211,21 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
         <p className="px-6 py-8 text-sm text-[#7D7467]">Cargando invitación...</p>
       ) : (
         <div className="space-y-7 p-5 sm:p-7">
+          <nav aria-label="Ir a una sección del editor" className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:thin]">
+            {[
+              ["editor-cover", "Portada"],
+              ["editor-design", "Diseño"],
+              ["editor-message", "Mensaje"],
+              ["editor-event", "Evento"],
+              ["editor-ceremony", "Ceremonia"],
+              ["editor-rsvp", "Confirmación"],
+              ["editor-colors", "Colores"],
+            ].map(([id, label]) => (
+              <a key={id} href={`#${id}`} className="shrink-0 rounded-full border border-[#D9C7AA] bg-white px-3.5 py-2 text-xs font-semibold text-[#51483E] transition hover:border-[#A88249] hover:bg-[#FBF5E9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A88249]">
+                {label}
+              </a>
+            ))}
+          </nav>
           <section className="rounded-2xl border border-[#E7DCC8] bg-white p-4 sm:p-5">
             <h3 className="text-sm font-semibold text-[#332B27]">Confirmaciones del organizador</h3>
             <p className="mt-1 text-sm text-[#7D7467]">Comparte este enlace con la persona que organizará el evento.</p>
@@ -219,7 +234,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
               <a href={`/rsvp/${encodeURIComponent(organizerToken)}`} target="_blank" rel="noreferrer" className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full border border-[#E7DCC8] px-4 py-2 text-sm font-medium text-[#5C554B] hover:bg-[#F7F3EC]"><Users size={15} />Ver confirmaciones</a>
             </div>
           </section>
-          <section>
+          <section id="editor-cover" className="scroll-mt-6">
             <div className="mb-4">
               <h3 className="text-base font-semibold text-[#332B27]">Portada</h3>
               <p className="mt-1 text-sm text-[#7D7467]">Sube la imagen principal de la invitación.</p>
@@ -246,7 +261,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
             </div>
           </section>
 
-          <section className="border-t border-[#E7DCC8] pt-6">
+          <section id="editor-design" className="scroll-mt-6 border-t border-[#E7DCC8] pt-6">
             <div className="mb-4">
               <h3 className="text-base font-semibold text-[#332B27]">Diseño de la invitación</h3>
               <p className="mt-1 text-sm leading-6 text-[#6F665B]">Elige el estilo que mejor acompaña tu celebración. Puedes personalizar sus colores después.</p>
@@ -298,7 +313,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
             <p className="mt-3 text-xs leading-5 text-[#62594F]">Al elegir otra plantilla se aplica su paleta inicial. Tu portada se conserva; los demás colores se pueden ajustar en «Personalizar colores».</p>
           </section>
 
-          <section className="border-t border-[#E7DCC8] pt-6">
+          <section id="editor-message" className="scroll-mt-6 border-t border-[#E7DCC8] pt-6">
             <h3 className="mb-4 text-base font-semibold text-[#332B27]">Mensaje de invitación</h3>
             <div className="grid gap-4 sm:grid-cols-2">
               <Field label="Título principal" value={content.headline ?? ""} onChange={(v) => updateContent("headline", v)} placeholder={event.title} />
@@ -311,7 +326,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
             </div>
           </section>
 
-          <section className="border-t border-[#E7DCC8] pt-6">
+          <section id="editor-event" className="scroll-mt-6 border-t border-[#E7DCC8] pt-6">
             <h3 className="mb-1 text-base font-semibold text-[#332B27]">Detalles del evento</h3>
             <p className="mb-4 text-sm text-[#7D7467]">La fecha se toma de la configuración general del evento.</p>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -330,7 +345,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
             </div>
           </section>
 
-          <section className="border-t border-[#E7DCC8] pt-6">
+          <section id="editor-ceremony" className="scroll-mt-6 border-t border-[#E7DCC8] pt-6">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <h3 className="text-base font-semibold text-[#332B27]">Ceremonia (opcional)</h3>
@@ -345,7 +360,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
             </div>}
           </section>
 
-          <section className="border-t border-[#E7DCC8] pt-6">
+          <section id="editor-rsvp" className="scroll-mt-6 border-t border-[#E7DCC8] pt-6">
             <h3 className="mb-4 text-base font-semibold text-[#332B27]">Confirmación de asistencia</h3>
             <div className="space-y-4 rounded-2xl bg-white p-4 sm:p-5">
               <label className="flex items-center justify-between gap-4">
@@ -364,7 +379,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
             </div>
           </section>
 
-          <details className="border-t border-[#E7DCC8] pt-6">
+          <details id="editor-colors" className="scroll-mt-6 border-t border-[#E7DCC8] pt-6">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-2xl border border-[#D9C7AA] bg-white px-4 py-4 text-sm font-semibold text-[#332B27] shadow-sm transition hover:bg-[#FBF7F0] [&::-webkit-details-marker]:hidden">
               <span className="flex items-center gap-3">
                 <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#D9C7AA] bg-[#F7F0E4] text-[#76582E]"><Sparkles size={18} /></span>

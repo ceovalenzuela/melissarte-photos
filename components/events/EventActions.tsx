@@ -147,10 +147,7 @@ export default function EventActions({
     if (!qrOpen) return;
 
     async function generateQr() {
-      const url = getEventUrl(
-        window.location.origin,
-        event.slug
-      );
+      const url = getEventUrl(event.slug);
 
       const dataUrl =
         await QRCode.toDataURL(url, {
@@ -225,10 +222,7 @@ export default function EventActions({
             <button
               onClick={async () => {
                 try {
-                  const url = getEventUrl(
-                    window.location.origin,
-                    event.slug
-                  );
+                  const url = getEventUrl(event.slug);
 
                   await navigator.clipboard.writeText(
                     url

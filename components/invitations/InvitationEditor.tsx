@@ -365,22 +365,48 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
           </section>
 
           <details className="border-t border-[#E7DCC8] pt-6">
-            <summary className="cursor-pointer text-sm font-semibold text-[#5C554B]">Personalizar colores</summary>
-            <p className="mb-4 text-sm leading-6 text-[#7D7467]">Personaliza cada parte de la invitación. Al cambiar la plantilla se aplican sus colores base; aquí puedes ajustar cada tono a tu gusto.</p>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <ColorField label="Fondo general" value={design.background_color ?? "#F4EAD8"} onChange={(v) => updateDesign("background_color", v)} />
-              <ColorField label="Acentos e íconos" value={design.accent_color ?? "#A78645"} onChange={(v) => updateDesign("accent_color", v)} />
-              <ColorField label="Texto general" value={design.text_color ?? "#302F30"} onChange={(v) => updateDesign("text_color", v)} />
-              <ColorField label="Título principal" value={design.title_color ?? design.text_color ?? "#273747"} onChange={(v) => updateDesign("title_color", v)} />
-              <ColorField label="Fondo de tarjetas" value={design.card_background_color ?? "#FFFCF6"} onChange={(v) => updateDesign("card_background_color", v)} />
-              <ColorField label="Texto de tarjetas" value={design.card_text_color ?? design.text_color ?? "#302F30"} onChange={(v) => updateDesign("card_text_color", v)} />
-              <ColorField label="Bordes y divisores" value={design.border_color ?? "#C9AD6B"} onChange={(v) => updateDesign("border_color", v)} />
-              <ColorField label="Botones" value={design.button_color ?? design.accent_color ?? "#A78645"} onChange={(v) => updateDesign("button_color", v)} />
-              <ColorField label="Texto de botones" value={design.button_text_color ?? "#FFFFFF"} onChange={(v) => updateDesign("button_text_color", v)} />
-              <ColorField label="Fondo de confirmación" value={design.rsvp_background_color ?? "#273747"} onChange={(v) => updateDesign("rsvp_background_color", v)} />
-              <ColorField label="Texto de confirmación" value={design.rsvp_text_color ?? design.text_color ?? "#302F30"} onChange={(v) => updateDesign("rsvp_text_color", v)} />
-              <ColorField label="Fondo del formulario" value={design.form_background_color ?? "#FFFDF8"} onChange={(v) => updateDesign("form_background_color", v)} />
-              <ColorField label="Texto del formulario" value={design.form_text_color ?? design.text_color ?? "#302F30"} onChange={(v) => updateDesign("form_text_color", v)} />
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-2xl border border-[#D9C7AA] bg-white px-4 py-4 text-sm font-semibold text-[#332B27] shadow-sm transition hover:bg-[#FBF7F0] [&::-webkit-details-marker]:hidden">
+              <span className="flex items-center gap-3">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#D9C7AA] bg-[#F7F0E4] text-[#76582E]"><Sparkles size={18} /></span>
+                <span><span className="block">Personalizar colores</span><span className="mt-1 block text-xs font-normal text-[#62594F]">Ajusta el contraste y la personalidad de cada sección.</span></span>
+              </span>
+              <span className="text-xs font-semibold text-[#76582E]">Editar ↓</span>
+            </summary>
+            <div className="mt-4 rounded-2xl border border-[#E7DCC8] bg-white p-4 sm:p-5">
+              <p className="mb-5 text-sm leading-6 text-[#51483E]">Los cambios se guardan al pulsar «Guardar cambios» o «Guardar y publicar». Para facilitar la lectura, procura que el texto contraste claramente con su fondo.</p>
+              <div className="mb-5 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-xl border border-[#D9C7AA] bg-[#FBF7F0] p-3">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#62594F]">Vista de contraste</p>
+                  <div className="mt-3 flex overflow-hidden rounded-lg border border-[#C9AD6B]">
+                    <div className="flex-1 p-3" style={{ backgroundColor: design.background_color ?? "#F4EAD8", color: design.text_color ?? "#302F30" }}>
+                      <p className="text-xs font-semibold">Texto general</p><p className="mt-1 text-[10px]">Ejemplo de lectura</p>
+                    </div>
+                    <div className="flex-1 p-3" style={{ backgroundColor: design.card_background_color ?? "#FFFCF6", color: design.card_text_color ?? "#302F30" }}>
+                      <p className="text-xs font-semibold">Tarjetas</p><p className="mt-1 text-[10px]">Datos del evento</p>
+                    </div>
+                  </div>
+                  <div className="mt-3 inline-flex min-h-9 items-center rounded-full px-4 text-xs font-semibold" style={{ backgroundColor: design.button_color ?? design.accent_color ?? "#A78645", color: design.button_text_color ?? "#FFFFFF" }}>Botón de ejemplo</div>
+                </div>
+                <div className="rounded-xl border border-[#D9C7AA] bg-white p-3">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#62594F]">Consejo de legibilidad</p>
+                  <p className="mt-2 text-sm leading-6 text-[#332B27]">Usa fondos claros con texto oscuro o fondos oscuros con texto claro. Los tonos decorativos funcionan mejor en bordes y detalles que en textos pequeños.</p>
+                </div>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <ColorField label="Fondo general" value={design.background_color ?? "#F4EAD8"} onChange={(v) => updateDesign("background_color", v)} />
+                <ColorField label="Texto general" value={design.text_color ?? "#302F30"} onChange={(v) => updateDesign("text_color", v)} />
+                <ColorField label="Título principal" value={design.title_color ?? design.text_color ?? "#273747"} onChange={(v) => updateDesign("title_color", v)} />
+                <ColorField label="Fondo de tarjetas" value={design.card_background_color ?? "#FFFCF6"} onChange={(v) => updateDesign("card_background_color", v)} />
+                <ColorField label="Texto de tarjetas" value={design.card_text_color ?? design.text_color ?? "#302F30"} onChange={(v) => updateDesign("card_text_color", v)} />
+                <ColorField label="Acentos e íconos" value={design.accent_color ?? "#A78645"} onChange={(v) => updateDesign("accent_color", v)} />
+                <ColorField label="Bordes y divisores" value={design.border_color ?? "#C9AD6B"} onChange={(v) => updateDesign("border_color", v)} />
+                <ColorField label="Fondo de botones" value={design.button_color ?? design.accent_color ?? "#A78645"} onChange={(v) => updateDesign("button_color", v)} />
+                <ColorField label="Texto de botones" value={design.button_text_color ?? "#FFFFFF"} onChange={(v) => updateDesign("button_text_color", v)} />
+                <ColorField label="Fondo de confirmación" value={design.rsvp_background_color ?? "#273747"} onChange={(v) => updateDesign("rsvp_background_color", v)} />
+                <ColorField label="Texto de confirmación" value={design.rsvp_text_color ?? design.text_color ?? "#302F30"} onChange={(v) => updateDesign("rsvp_text_color", v)} />
+                <ColorField label="Fondo del formulario" value={design.form_background_color ?? "#FFFDF8"} onChange={(v) => updateDesign("form_background_color", v)} />
+                <ColorField label="Texto del formulario" value={design.form_text_color ?? design.text_color ?? "#302F30"} onChange={(v) => updateDesign("form_text_color", v)} />
+              </div>
             </div>
           </details>
 

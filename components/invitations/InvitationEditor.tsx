@@ -84,6 +84,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
   const [maxPartySize, setMaxPartySize] = useState(2);
   const [status, setStatus] = useState<InvitationStatus>("draft");
   const [copiedOrganizerLink, setCopiedOrganizerLink] = useState(false);
+  const [contrastView, setContrastView] = useState<"general" | "cards">("general");
 
   useEffect(() => {
     let active = true;
@@ -324,6 +325,21 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
           <details className="border-t border-[#E7DCC8] pt-6">
             <summary className="cursor-pointer text-sm font-semibold text-[#5C554B]">Personalizar colores</summary>
             <p className="mb-4 text-sm leading-6 text-[#7D7467]">Personaliza cada parte de la invitación. Al cambiar la plantilla se aplican sus colores base; aquí puedes ajustar cada tono a tu gusto.</p>
+            <div className="mb-5 rounded-2xl border border-[#D9C7AA] bg-[#FBF7F0] p-3 sm:p-4">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#62594F]">Vista de contraste</p>
+              <div className="mt-3 grid grid-cols-2 overflow-hidden rounded-lg border border-[#C9AD6B]" role="group" aria-label="Seleccionar vista de contraste">
+                <button type="button" aria-pressed={contrastView === "general"} onClick={() => setContrastView("general")} className={`min-w-0 p-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#A88249] ${contrastView === "general" ? "bg-[#F4EAD8] text-[#273747]" : "bg-white text-[#51483E] hover:bg-[#FBF7F0]"}`}>
+                  <span className="block text-xs font-semibold">Texto general</span><span className="mt-1 block text-[10px]">Ejemplo de lectura</span>
+                </button>
+                <button type="button" aria-pressed={contrastView === "cards"} onClick={() => setContrastView("cards")} className={`min-w-0 border-l border-[#C9AD6B] p-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#A88249] ${contrastView === "cards" ? "bg-[#F4EAD8] text-[#273747]" : "bg-white text-[#51483E] hover:bg-[#FBF7F0]"}`}>
+                  <span className="block text-xs font-semibold">Tarjetas</span><span className="mt-1 block text-[10px]">Datos del evento</span>
+                </button>
+              </div>
+              <div className="mt-3 min-h-24 rounded-lg border p-4 transition-colors" style={{ backgroundColor: contrastView === "general" ? (design.background_color ?? "#F4EAD8") : (design.card_background_color ?? "#FFFCF6"), color: contrastView === "general" ? (design.text_color ?? "#302F30") : (design.card_text_color ?? "#302F30"), borderColor: design.border_color ?? "#C9AD6B" }}>
+                <p className="text-sm font-semibold">{contrastView === "general" ? "Texto general" : "Tarjetas"}</p>
+                <p className="mt-1 text-xs">{contrastView === "general" ? "Ejemplo de lectura sobre el fondo general." : "Ejemplo de datos dentro de una tarjeta."}</p>
+              </div>
+            </div>
             <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <ColorField label="Fondo general" value={design.background_color ?? "#F4EAD8"} onChange={(v) => updateDesign("background_color", v)} />
               <ColorField label="Acentos e íconos" value={design.accent_color ?? "#A78645"} onChange={(v) => updateDesign("accent_color", v)} />

@@ -71,7 +71,7 @@ export default async function ClientDashboardPage({
               <p className="mt-1 text-sm leading-6 text-[#7D7467]">Revisa quiénes te acompañarán y lleva el control de las confirmaciones.</p>
             </div>
             <Link
-              href={"/confirmaciones/" + token}
+              href={"/rsvp/" + token}
               className="mt-4 inline-flex shrink-0 items-center justify-center rounded-full bg-[#A88249] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#8E6D3D] sm:mt-0"
             >
               Ver confirmaciones

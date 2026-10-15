@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import JSZip from "jszip";
-import { Check, Download, Edit2, FileSpreadsheet, MessageCircle, Plus, RefreshCw, Save, Trash2, Upload, Users, X } from "lucide-react";
+import { Check, Download, Edit2, FileSpreadsheet, MessageCircle, RefreshCw, Save, Trash2, Upload, Users, X } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 

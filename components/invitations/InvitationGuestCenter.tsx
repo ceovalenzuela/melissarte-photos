@@ -225,7 +225,9 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
     if (!valid.length) { toast.error("No hay filas válidas para importar."); return; }
     setImporting(true); let count = 0; const failures: string[] = [];
     for (const row of valid) {
-      const { error } = await supabase.rpc("save_invitation_guest_with_token", { p_event_id: eventId, p_organizer_token: organizerToken, p_guest_id: null, p_name: row.name, p_phone: row.phone, p_family_group: row.group, p_passes: row.passes });
+      const importedDigits = normalizePhone(row.phone);
+      const importedPhone = importedDigits.length === 10 ? `52${importedDigits}` : importedDigits;
+      const { error } = await supabase.rpc("save_invitation_guest_with_token", { p_event_id: eventId, p_organizer_token: organizerToken, p_guest_id: null, p_name: row.name, p_phone: importedPhone, p_family_group: row.group, p_passes: row.passes });
       if (error) failures.push(`Fila ${row.row}: ${error.message}`); else count++;
     }
     setImporting(false); setImportRows([]); await loadGuests();

@@ -7,9 +7,17 @@ import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 
 type Guest = { guest_id: string; guest_name: string; phone: string; family_group: string; passes: number; delivery_status: "pending" | "sent"; sent_at: string | null; created_at: string; attendance_status: "attending" | "declined" | null; party_size: number | null; rsvp_updated_at: string | null };
-type Draft = { name: string; phone: string; group: string; passes: number };
+type Draft = { name: string; phone: string; countryCode: string; group: string; passes: number };
 type ImportRow = Draft & { row: number; error?: string };
-const emptyDraft: Draft = { name: "", phone: "", group: "", passes: 1 };
+const emptyDraft: Draft = { name: "", phone: "", countryCode: "52", group: "", passes: 1 };
+const countryCodes = [
+  { code: "52", label: "México (+52)" }, { code: "1", label: "Estados Unidos / Canadá (+1)" },
+  { code: "54", label: "Argentina (+54)" }, { code: "55", label: "Brasil (+55)" }, { code: "56", label: "Chile (+56)" },
+  { code: "57", label: "Colombia (+57)" }, { code: "34", label: "España (+34)" }, { code: "502", label: "Guatemala (+502)" },
+  { code: "503", label: "El Salvador (+503)" }, { code: "504", label: "Honduras (+504)" }, { code: "505", label: "Nicaragua (+505)" },
+  { code: "506", label: "Costa Rica (+506)" }, { code: "507", label: "Panamá (+507)" }, { code: "51", label: "Perú (+51)" },
+  { code: "58", label: "Venezuela (+58)" }, { code: "44", label: "Reino Unido (+44)" },
+];
 const normalizePhone = (v: string) => v.replace(/\D/g, "");
 const whatsappPhone = (v: string) => { const digits = normalizePhone(v); return digits.length === 10 ? `52${digits}` : digits; };
 const csvRows = (text: string): string[][] => {
@@ -72,8 +80,8 @@ function mapImportRows(rows: string[][]): ImportRow[] {
     const parsedPasses = Number((r[passesIndex] ?? "1").trim() || "1");
     let error = "";
     if (!name) error = "Falta el nombre";
-    else if (normalizePhone(phone).length < 7 || normalizePhone(phone).length > 15) error = "Teléfono inválido";
-    else if (!Number.isInteger(parsedPasses) || parsedPasses < 1 || parsedPasses > 20) error = "Pases: usa un número de 1 a 20";
+    else if (![10, 11, 12, 13, 14, 15].includes(normalizePhone(phone).length)) error = "Teléfono: usa 10 dígitos locales o lada internacional + 10 dígitos";
+    else if (!Number.isInteger(parsedPasses) || parsedPasses < 1 || parsedPasses > 99) error = "Pases: usa un número de 1 a 99";
     return { row: i + (hasHeader ? 2 : 1), name, phone, group, passes: parsedPasses || 1, error: error || undefined };
   });
 }
@@ -134,18 +142,25 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
   const visibleGuests = filtered.slice((page - 1) * pageSize, page * pageSize);
 
   async function saveGuest() {
-    if (!draft.name.trim() || normalizePhone(draft.phone).length < 7) { toast.error("Agrega el nombre y un teléfono válido."); return; }
+    if (!draft.name.trim() || normalizePhone(draft.phone).length !== 10) { toast.error("Agrega el nombre y un teléfono de exactamente 10 dígitos."); return; }
     setSaving(true);
     const { error } = await supabase.rpc("save_invitation_guest_with_token", {
       p_event_id: eventId, p_organizer_token: organizerToken, p_guest_id: editing,
-      p_name: draft.name.trim(), p_phone: draft.phone.trim(), p_family_group: draft.group.trim(), p_passes: Number(draft.passes),
+      p_name: draft.name.trim(), p_phone: `${draft.countryCode}${normalizePhone(draft.phone)}`, p_family_group: draft.group.trim(), p_passes: Number(draft.passes),
     });
     setSaving(false);
     if (error) { toast.error(error.message.includes("Ya existe") ? "Ya existe un invitado con ese teléfono." : error.message || "No fue posible guardar."); return; }
     toast.success(editing ? "Invitado actualizado." : "Invitado agregado.");
     setDraft(emptyDraft); setEditing(null); await loadGuests();
   }
-  function startEdit(g: Guest) { setEditing(g.guest_id); setDraft({ name: g.guest_name, phone: g.phone, group: g.family_group, passes: g.passes }); setShowTools(true); requestAnimationFrame(() => document.getElementById("guest-tools-form")?.scrollIntoView({ behavior: "smooth", block: "start" })); }
+  function startEdit(g: Guest) {
+    const digits = normalizePhone(g.phone);
+    const matchedCode = [...countryCodes].sort((a, b) => b.code.length - a.code.length).find(item => digits.startsWith(item.code) && digits.length === item.code.length + 10);
+    setEditing(g.guest_id);
+    setDraft({ name: g.guest_name, phone: matchedCode ? digits.slice(matchedCode.code.length) : digits.slice(-10), countryCode: matchedCode?.code ?? "52", group: g.family_group, passes: g.passes });
+    setShowTools(true);
+    requestAnimationFrame(() => document.getElementById("guest-tools-form")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+  }
 
   async function removeGuest(g: Guest) {
     if (!window.confirm(`¿Eliminar a ${g.guest_name} de la lista?`)) return;
@@ -262,12 +277,24 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
     {showTools && <div id="guest-tools-form" className="scroll-mt-6 border-b border-[#EEE5D7] bg-[#FFFCF7] p-4 sm:p-5">
       <div className="grid gap-5 lg:grid-cols-2">
         <div>
-          <h3 className="font-semibold text-[#332B27]">{editing ? "Editar invitado" : "Agregar una persona"}</h3><p className="mt-1 text-sm text-[#7D7467]">Para enviar la invitación por WhatsApp, incluye la lada del país. En México es 52.</p>
+          <h3 className="font-semibold text-[#332B27]">{editing ? "Editar invitado" : "Agregar una persona"}</h3><p className="mt-1 text-sm text-[#7D7467]">Selecciona la lada del país; México (+52) viene seleccionada. Escribe los 10 dígitos del teléfono, sin lada.</p>
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             <Input label="Nombre" value={draft.name} onChange={v => setDraft(d => ({...d,name:v}))} placeholder="Nombre completo"/>
-            <Input label="Teléfono para WhatsApp" value={draft.phone} onChange={v => setDraft(d => ({...d,phone:v}))} placeholder="Ej. 528112345678" type="tel"/>
+            <div className="block text-sm font-medium text-[#4E463D]">
+              Teléfono para WhatsApp
+              <div className="mt-1.5 grid grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-2">
+                <select aria-label="Lada internacional" value={draft.countryCode} onChange={e => setDraft(d => ({...d,countryCode:e.target.value}))} className="min-w-0 rounded-xl border border-[#E7DCC8] bg-white px-2.5 py-3 text-sm outline-none focus:border-[#A88249]">
+                  {countryCodes.map(item => <option key={item.code} value={item.code}>{item.label}</option>)}
+                </select>
+                <input aria-label="Teléfono de 10 dígitos" type="tel" inputMode="numeric" autoComplete="tel-national" value={draft.phone} onChange={e => setDraft(d => ({...d,phone:e.target.value.replace(/\D/g, "").slice(0,10)}))} placeholder="10 dígitos" maxLength={10} pattern="[0-9]{10}" className="min-w-0 w-full rounded-xl border border-[#E7DCC8] bg-white px-3 py-3 text-sm outline-none focus:border-[#A88249]"/>
+              </div>
+            </div>
             <Input label="Familia o grupo (opcional)" value={draft.group} onChange={v => setDraft(d => ({...d,group:v}))} placeholder="Familia López"/>
-            <label className="block text-sm font-medium text-[#4E463D]">¿Cuántos pases?<input type="number" min={1} max={20} value={draft.passes} onChange={e => setDraft(d => ({...d,passes:Math.max(1,Math.min(20,Number(e.target.value)||1))}))} className="mt-1.5 w-full rounded-lg border border-[#E7DCC8] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#A88249]"/></label>
+            <label className="block text-sm font-medium text-[#4E463D]">¿Cuántos pases?
+              <select value={draft.passes} onChange={e => setDraft(d => ({...d,passes:Number(e.target.value)}))} className="mt-1.5 w-full rounded-lg border border-[#E7DCC8] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#A88249]">
+                {Array.from({ length: 99 }, (_, index) => index + 1).map(n => <option key={n} value={n}>{n}</option>)}
+              </select>
+            </label>
           </div>
           <div className="mt-3 flex gap-2"><button type="button" onClick={() => void saveGuest()} disabled={saving} className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#A88249] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"><Save size={15}/>{saving ? "Guardando..." : editing ? "Guardar cambios" : "Guardar invitado"}</button>{editing && <button type="button" onClick={() => {setEditing(null);setDraft(emptyDraft);}} className="rounded-lg border px-3" aria-label="Cancelar edición"><X size={16}/></button>}</div>
         </div>

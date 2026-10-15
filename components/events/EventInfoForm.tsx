@@ -135,21 +135,8 @@ export default function EventInfoForm({
                 : "La sección de mensajes no se mostrará a los invitados."}
             </span>
           </span>
-          <span
-            className={
-              values.messages_enabled
-                ? "relative h-6 w-11 rounded-full bg-[#A88249]"
-                : "relative h-6 w-11 rounded-full bg-[#D9D2C7]"
-            }
-            aria-hidden="true"
-          >
-            <span
-              className={
-                values.messages_enabled
-                  ? "absolute left-6 top-1 h-4 w-4 rounded-full bg-white shadow-sm"
-                  : "absolute left-1 top-1 h-4 w-4 rounded-full bg-white shadow-sm"
-              }
-            />
+          <span className={`relative h-7 w-12 shrink-0 rounded-full transition-colors duration-200 ${values.messages_enabled ? "bg-[#A88249]" : "bg-[#D9D2C7]"}`} aria-hidden="true">
+            <span className={`absolute left-1 top-1 h-5 w-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${values.messages_enabled ? "translate-x-5" : "translate-x-0"}`} />
           </span>
         </button>
       </div>
@@ -180,12 +167,8 @@ export default function EventInfoForm({
                 : "No aparecerá el acceso a las confirmaciones."}
             </span>
           </span>
-          <span className={values.invitation_enabled
-            ? "relative h-6 w-11 rounded-full bg-[#A88249]"
-            : "relative h-6 w-11 rounded-full bg-[#D9D2C7]"} aria-hidden="true">
-            <span className={values.invitation_enabled
-              ? "absolute left-6 top-1 h-4 w-4 rounded-full bg-white shadow-sm"
-              : "absolute left-1 top-1 h-4 w-4 rounded-full bg-white shadow-sm"} />
+          <span className={`relative h-7 w-12 shrink-0 rounded-full transition-colors duration-200 ${values.invitation_enabled ? "bg-[#A88249]" : "bg-[#D9D2C7]"}`} aria-hidden="true">
+            <span className={`absolute left-1 top-1 h-5 w-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${values.invitation_enabled ? "translate-x-5" : "translate-x-0"}`} />
           </span>
         </button>
         <p className="mt-2 text-xs text-[#8B8378]">

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import JSZip from "jszip";
-import { Check, ChevronLeft, ChevronRight, Download, Edit2, FileSpreadsheet, MessageCircle, Plus, RefreshCw, Save, Search, Trash2, Upload, Users, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, Edit2, FileSpreadsheet, MessageCircle, Plus, RefreshCw, Save, Search, Trash2, Upload, Users, X } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 
@@ -91,10 +91,9 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
   const [query, setQuery] = useState("");
   const [importRows, setImportRows] = useState<ImportRow[]>([]);
   const [importing, setImporting] = useState(false);
-  const [groupFilter, setGroupFilter] = useState("all");
   const [rsvpFilter, setRsvpFilter] = useState("all");
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(25);
+  const pageSize = 25;
   const [showTools, setShowTools] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -108,14 +107,12 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { void loadGuests(); }, [loadGuests]);
 
-  const groups = useMemo(() => Array.from(new Set(guests.map(g => g.family_group.trim()).filter(Boolean))).sort((a,b) => a.localeCompare(b, "es")), [guests]);
   const filtered = useMemo(() => guests.filter(g => {
     const q = query.trim().toLocaleLowerCase("es");
     const textMatch = !q || [g.guest_name, g.phone, g.family_group].some(v => v.toLocaleLowerCase("es").includes(q));
-    const groupMatch = groupFilter === "all" || g.family_group === groupFilter;
     const statusMatch = rsvpFilter === "all" || (rsvpFilter === "pending" ? !g.attendance_status : g.attendance_status === rsvpFilter);
-    return textMatch && groupMatch && statusMatch;
-  }), [guests, query, groupFilter, rsvpFilter]);
+    return textMatch && statusMatch;
+  }), [guests, query, rsvpFilter]);
   const passCount = guests.reduce((sum, g) => sum + g.passes, 0);
   const confirmedCount = guests.filter(g => g.attendance_status === "attending").length;
   const pendingRsvpCount = guests.filter(g => !g.attendance_status).length;
@@ -136,10 +133,7 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
     setDraft(emptyDraft); setEditing(null); await loadGuests();
   }
   function startEdit(g: Guest) { setEditing(g.guest_id); setDraft({ name: g.guest_name, phone: g.phone, group: g.family_group, passes: g.passes }); }
-  async function setStatus(g: Guest, status: "pending" | "sent") {
-    const { error } = await supabase.rpc("set_invitation_guest_delivery_status", { p_event_id: eventId, p_organizer_token: organizerToken, p_guest_id: g.guest_id, p_status: status });
-    if (error) toast.error("No se pudo actualizar el estado."); else { toast.success(status === "sent" ? "Marcado como enviado." : "Marcado como pendiente."); await loadGuests(); }
-  }
+
   async function removeGuest(g: Guest) {
     if (!window.confirm(`¿Eliminar a ${g.guest_name} de la lista?`)) return;
     const { error } = await supabase.rpc("delete_invitation_guest_with_token", { p_event_id: eventId, p_organizer_token: organizerToken, p_guest_id: g.guest_id });
@@ -192,43 +186,37 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
     else toast.success(`Se importaron ${count} invitados.`);
   }
 
-  return <section className="mt-5 overflow-hidden rounded-2xl border border-[#E7DCC8] bg-white shadow-sm">
+  return <section className="mt-5 overflow-hidden rounded-2xl border border-[#E7DCC8] bg-white">
     <header className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EEE5D7] px-4 py-4 sm:px-5">
-      <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F8F2E8] text-[#8E6D3D]"><Users size={19}/></div>
-        <div><h2 className="text-lg font-semibold text-[#332B27]">Invitados</h2><p className="text-xs text-[#7D7467]">{guests.length} registros · {passCount} pases asignados</p></div>
-      </div>
-      <div className="flex flex-wrap items-center gap-2">
-        <button type="button" onClick={() => setShowTools(v => !v)} className="inline-flex items-center gap-2 rounded-lg bg-[#A88249] px-3.5 py-2.5 text-sm font-semibold text-white hover:bg-[#92713F]"><Plus size={16}/>{showTools ? "Cerrar herramientas" : "Agregar / importar"}</button>
-        <button type="button" onClick={() => { setLoading(true); void loadGuests(); }} disabled={loading} aria-label="Actualizar invitados" title="Actualizar" className="inline-flex items-center gap-2 rounded-lg border border-[#E7DCC8] px-3 py-2.5 text-sm text-[#5C554B] disabled:opacity-50"><RefreshCw size={15} className={loading ? "animate-spin" : ""}/><span className="hidden sm:inline">Actualizar</span></button>
+      <div><h2 className="text-lg font-semibold text-[#332B27]">Lista de invitados</h2><p className="mt-0.5 text-sm text-[#7D7467]">{guests.length ? `${guests.length} invitados · ${passCount} pases` : "Agrega a las personas que quieres invitar"}</p></div>
+      <div className="flex items-center gap-2">
+        <button type="button" onClick={() => setShowTools(v => !v)} className="inline-flex items-center gap-2 rounded-lg bg-[#A88249] px-3.5 py-2.5 text-sm font-semibold text-white"><Plus size={16}/>{showTools ? "Cerrar" : "Agregar invitados"}</button>
+        <button type="button" onClick={() => { setLoading(true); void loadGuests(); }} disabled={loading} aria-label="Actualizar lista" title="Actualizar" className="rounded-lg border border-[#E7DCC8] p-2.5 text-[#5C554B] disabled:opacity-50"><RefreshCw size={15} className={loading ? "animate-spin" : ""}/></button>
       </div>
     </header>
 
-    <div className="grid grid-cols-2 gap-px bg-[#EEE5D7] sm:grid-cols-4">
-      <div className="bg-white px-4 py-3"><p className="text-xs text-[#7D7467]">Invitados</p><p className="mt-1 text-xl font-semibold text-[#332B27]">{guests.length}</p></div>
-      <div className="bg-white px-4 py-3"><p className="text-xs text-[#7D7467]">Confirmaron</p><p className="mt-1 text-xl font-semibold text-green-700">{confirmedCount}</p></div>
-      <div className="bg-white px-4 py-3"><p className="text-xs text-[#7D7467]">Pendientes RSVP</p><p className="mt-1 text-xl font-semibold text-amber-700">{pendingRsvpCount}</p></div>
-      <div className="bg-white px-4 py-3"><p className="text-xs text-[#7D7467]">No asistirán</p><p className="mt-1 text-xl font-semibold text-[#5C554B]">{declinedCount}</p></div>
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 border-b border-[#EEE5D7] bg-[#FFFCF7] px-4 py-3 text-sm sm:px-5">
+      <span className="font-medium text-green-800">{confirmedCount} confirmaron</span><span className="text-[#8A6A32]">{pendingRsvpCount} por responder</span>{declinedCount > 0 && <span className="text-[#7D7467]">{declinedCount} no asistirán</span>}
     </div>
 
     {showTools && <div className="border-b border-[#EEE5D7] bg-[#FFFCF7] p-4 sm:p-5">
       <div className="grid gap-5 lg:grid-cols-2">
         <div>
-          <h3 className="font-semibold text-[#332B27]">{editing ? "Editar invitado" : "Agregar invitado"}</h3>
+          <h3 className="font-semibold text-[#332B27]">{editing ? "Editar invitado" : "Agregar una persona"}</h3>
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
-            <Input label="Nombre completo" value={draft.name} onChange={v => setDraft(d => ({...d,name:v}))} placeholder="Nombre del invitado"/>
-            <Input label="Teléfono / WhatsApp" value={draft.phone} onChange={v => setDraft(d => ({...d,phone:v}))} placeholder="Ej. 8112345678" type="tel"/>
-            <Input label="Grupo familiar (opcional)" value={draft.group} onChange={v => setDraft(d => ({...d,group:v}))} placeholder="Familia López"/>
-            <label className="block text-sm font-medium text-[#4E463D]">Pases asignados<input type="number" min={1} max={20} value={draft.passes} onChange={e => setDraft(d => ({...d,passes:Math.max(1,Math.min(20,Number(e.target.value)||1))}))} className="mt-1.5 w-full rounded-lg border border-[#E7DCC8] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#A88249]"/></label>
+            <Input label="Nombre" value={draft.name} onChange={v => setDraft(d => ({...d,name:v}))} placeholder="Nombre completo"/>
+            <Input label="Teléfono para WhatsApp" value={draft.phone} onChange={v => setDraft(d => ({...d,phone:v}))} placeholder="Ej. 8112345678" type="tel"/>
+            <Input label="Familia o grupo (opcional)" value={draft.group} onChange={v => setDraft(d => ({...d,group:v}))} placeholder="Familia López"/>
+            <label className="block text-sm font-medium text-[#4E463D]">¿Cuántos pases?<input type="number" min={1} max={20} value={draft.passes} onChange={e => setDraft(d => ({...d,passes:Math.max(1,Math.min(20,Number(e.target.value)||1))}))} className="mt-1.5 w-full rounded-lg border border-[#E7DCC8] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#A88249]"/></label>
           </div>
-          <div className="mt-3 flex gap-2"><button type="button" onClick={() => void saveGuest()} disabled={saving} className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#A88249] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"><Save size={15}/>{saving ? "Guardando..." : editing ? "Guardar cambios" : "Agregar invitado"}</button>{editing && <button type="button" onClick={() => {setEditing(null);setDraft(emptyDraft);}} className="rounded-lg border px-3" aria-label="Cancelar edición"><X size={16}/></button>}</div>
+          <div className="mt-3 flex gap-2"><button type="button" onClick={() => void saveGuest()} disabled={saving} className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#A88249] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"><Save size={15}/>{saving ? "Guardando..." : editing ? "Guardar cambios" : "Guardar invitado"}</button>{editing && <button type="button" onClick={() => {setEditing(null);setDraft(emptyDraft);}} className="rounded-lg border px-3" aria-label="Cancelar edición"><X size={16}/></button>}</div>
         </div>
         <div className="border-t border-[#E7DCC8] pt-4 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0">
-          <h3 className="font-semibold text-[#332B27]">Importar lista</h3><p className="mt-1 text-xs leading-5 text-[#7D7467]">Carga Excel (.xlsx) o CSV y revisa los datos antes de guardarlos.</p>
+          <h3 className="font-semibold text-[#332B27]">¿Ya tienes una lista?</h3><p className="mt-1 text-sm text-[#7D7467]">Puedes cargarla desde Excel o CSV. Revisarás los datos antes de guardarlos.</p>
           <div className="mt-3 flex flex-wrap gap-3">
-            <button type="button" onClick={downloadTemplate} className="inline-flex items-center gap-2 text-sm font-medium text-[#8E6D3D]"><Download size={15}/> Plantilla CSV</button>
+            <button type="button" onClick={downloadTemplate} className="inline-flex items-center gap-2 text-sm font-medium text-[#8E6D3D]"><Download size={15}/> Descargar ejemplo</button>
             <input ref={fileRef} type="file" accept=".xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" className="hidden" onChange={e => void handleFile(e.target.files?.[0])}/>
-            <button type="button" onClick={() => fileRef.current?.click()} className="inline-flex items-center gap-2 rounded-lg border border-dashed border-[#CDBB9D] px-3 py-2 text-sm font-medium text-[#5C554B] hover:bg-[#F8F2E8]"><Upload size={15}/> Elegir Excel o CSV</button>
+            <button type="button" onClick={() => fileRef.current?.click()} className="inline-flex items-center gap-2 rounded-lg border border-dashed border-[#CDBB9D] px-3 py-2 text-sm font-medium text-[#5C554B] hover:bg-[#F8F2E8]"><Upload size={15}/> Elegir archivo</button>
           </div>
         </div>
       </div>
@@ -236,34 +224,27 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
 
     <div className="space-y-3 p-3 sm:p-4">
       {importRows.length > 0 ? <div className="rounded-xl border border-[#E7DCC8] p-3">
-        <div className="flex flex-wrap items-start justify-between gap-3"><div><h3 className="font-semibold text-[#332B27]">Vista previa de importación</h3><p className="mt-1 text-sm text-[#7D7467]">{importRows.filter(r=>!r.error).length} válidos · {importRows.filter(r=>r.error).length} con errores</p></div><button type="button" onClick={() => setImportRows([])} className="text-sm text-[#7D7467]">Cancelar</button></div>
-        <div className="mt-3 max-h-72 overflow-auto rounded-lg border"><table className="w-full text-left text-xs"><thead className="sticky top-0 bg-[#F8F2E8]"><tr><th className="p-2">Nombre</th><th className="p-2">Teléfono</th><th className="p-2">Grupo</th><th className="p-2">Pases</th><th className="p-2">Validación</th></tr></thead><tbody>{importRows.map(r=><tr key={r.row} className="border-t"><td className="p-2">{r.name || "—"}</td><td className="p-2">{r.phone || "—"}</td><td className="p-2">{r.group || "—"}</td><td className="p-2">{r.passes}</td><td className={r.error?"p-2 text-red-700":"p-2 text-green-700"}>{r.error || "Listo"}</td></tr>)}</tbody></table></div>
-        <button type="button" onClick={() => void importValidRows()} disabled={importing || !importRows.some(r=>!r.error)} className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#A88249] px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"><FileSpreadsheet size={16}/>{importing ? "Importando..." : `Importar ${importRows.filter(r=>!r.error).length} invitados válidos`}</button>
+        <div className="flex flex-wrap items-start justify-between gap-3"><div><h3 className="font-semibold text-[#332B27]">Revisar lista</h3><p className="mt-1 text-sm text-[#7D7467]">{importRows.filter(r=>!r.error).length} listos para agregar · {importRows.filter(r=>r.error).length} por corregir</p></div><button type="button" onClick={() => setImportRows([])} className="text-sm text-[#7D7467]">Cancelar</button></div>
+        <div className="mt-3 max-h-72 overflow-auto rounded-lg border"><table className="w-full text-left text-xs"><thead className="sticky top-0 bg-[#F8F2E8]"><tr><th className="p-2">Nombre</th><th className="p-2">Teléfono</th><th className="p-2">Grupo</th><th className="p-2">Pases</th><th className="p-2">Revisión</th></tr></thead><tbody>{importRows.map(r=><tr key={r.row} className="border-t"><td className="p-2">{r.name || "—"}</td><td className="p-2">{r.phone || "—"}</td><td className="p-2">{r.group || "—"}</td><td className="p-2">{r.passes}</td><td className={r.error?"p-2 text-red-700":"p-2 text-green-700"}>{r.error || "Correcto"}</td></tr>)}</tbody></table></div>
+        <button type="button" onClick={() => void importValidRows()} disabled={importing || !importRows.some(r=>!r.error)} className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#A88249] px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"><FileSpreadsheet size={16}/>{importing ? "Agregando..." : `Agregar ${importRows.filter(r=>!r.error).length} invitados`}</button>
       </div> : <>
-        <div className="flex flex-col gap-2 lg:flex-row">
-          <label className="relative min-w-0 flex-1"><Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9A8E7C]"/><input value={query} onChange={e=>{setQuery(e.target.value);setPage(1);}} placeholder="Buscar nombre, teléfono o familia" className="w-full rounded-lg border border-[#E7DCC8] py-2.5 pl-9 pr-3 text-sm outline-none focus:border-[#A88249]"/></label>
-          <select value={rsvpFilter} onChange={e=>{setRsvpFilter(e.target.value);setPage(1);}} aria-label="Filtrar por confirmación" className="rounded-lg border border-[#E7DCC8] bg-white px-3 py-2.5 text-sm"><option value="all">Todos los estados</option><option value="pending">Pendientes de respuesta</option><option value="attending">Confirmaron</option><option value="declined">No asistirán</option></select>
-          <select value={groupFilter} onChange={e=>{setGroupFilter(e.target.value);setPage(1);}} aria-label="Filtrar por familia" className="rounded-lg border border-[#E7DCC8] bg-white px-3 py-2.5 text-sm"><option value="all">Todas las familias</option>{groups.map(g=><option key={g} value={g}>{g}</option>)}</select>
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <label className="relative min-w-0 flex-1"><Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9A8E7C]"/><input value={query} onChange={e=>{setQuery(e.target.value);setPage(1);}} placeholder="Buscar por nombre o teléfono" className="w-full rounded-lg border border-[#E7DCC8] py-2.5 pl-9 pr-3 text-sm outline-none focus:border-[#A88249]"/></label>
+          <select value={rsvpFilter} onChange={e=>{setRsvpFilter(e.target.value);setPage(1);}} aria-label="Filtrar invitados" className="rounded-lg border border-[#E7DCC8] bg-white px-3 py-2.5 text-sm"><option value="all">Todos</option><option value="pending">Por responder</option><option value="attending">Confirmaron</option><option value="declined">No asistirán</option></select>
         </div>
-        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#7D7467]"><span>{filtered.length} resultado{filtered.length===1?"":"s"}{query || groupFilter!=="all" || rsvpFilter!=="all" ? " con estos filtros" : ""}</span><label className="flex items-center gap-2">Filas <select value={pageSize} onChange={e=>{setPageSize(Number(e.target.value));setPage(1);}} className="rounded-md border border-[#E7DCC8] bg-white px-2 py-1.5 text-xs"><option value={25}>25</option><option value={50}>50</option><option value={100}>100</option></select></label></div>
-        {loading ? <p className="py-10 text-center text-sm text-[#7D7467]">Cargando invitados...</p> : filtered.length === 0 ? <div className="rounded-xl border border-dashed border-[#E7DCC8] px-4 py-10 text-center"><Users className="mx-auto text-[#A88249]" size={26}/><p className="mt-3 font-medium text-[#332B27]">{guests.length ? "No hay resultados" : "Tu lista está vacía"}</p><p className="mt-1 text-sm text-[#7D7467]">Prueba otro filtro o agrega invitados.</p></div> :
-          <div className="overflow-x-auto rounded-xl border border-[#EEE5D7]">
-            <table className="w-full min-w-[690px] table-fixed text-left text-sm">
-              <thead className="bg-[#FFFCF7] text-xs font-semibold uppercase tracking-wide text-[#7D7467]"><tr><th className="w-[35%] px-3 py-3">Invitado</th><th className="w-[12%] px-3 py-3">Pases</th><th className="w-[21%] px-3 py-3">Confirmación</th><th className="w-[16%] px-3 py-3">Envío</th><th className="w-[16%] px-3 py-3 text-right">Acciones</th></tr></thead>
-              <tbody>{visibleGuests.map(g=><tr key={g.guest_id} className="border-t border-[#F0E9DF] hover:bg-[#FFFCF7]">
-                <td className="px-3 py-2.5"><p className="truncate font-medium text-[#332B27]" title={g.guest_name}>{g.guest_name}</p><p className="truncate text-xs text-[#7D7467]" title={[g.phone,g.family_group].filter(Boolean).join(" · ")}>{g.phone}{g.family_group ? ` · ${g.family_group}` : ""}</p></td>
-                <td className="px-3 py-2.5 text-[#5C554B]">{g.passes}</td>
-                <td className="px-3 py-2.5"><span className={g.attendance_status==="attending"?"inline-flex rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-800":g.attendance_status==="declined"?"inline-flex rounded-md bg-neutral-100 px-2 py-1 text-xs font-medium text-neutral-700":"inline-flex rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-800"}>{g.attendance_status==="attending"?`Confirmó · ${g.party_size ?? 1}`:g.attendance_status==="declined"?"No asistirá":"Pendiente"}</span></td>
-                <td className="px-3 py-2.5"><span className={g.delivery_status==="sent"?"text-xs text-green-700":"text-xs text-[#8A6A32]"}>{g.delivery_status==="sent"?"Enviado":"Pendiente"}</span></td>
-                <td className="px-3 py-2.5"><div className="flex justify-end gap-1">
-                  <button type="button" onClick={()=>void openWhatsApp(g)} title="Compartir por WhatsApp" aria-label={`Compartir invitación de ${g.guest_name}`} className="rounded-md p-2 text-green-700 hover:bg-green-50"><MessageCircle size={15}/></button>
-                  <button type="button" onClick={()=>startEdit(g)} title="Editar invitado" aria-label={`Editar ${g.guest_name}`} className="rounded-md p-2 text-[#6E5A3F] hover:bg-[#F8F2E8]"><Edit2 size={15}/></button>
-                  <button type="button" onClick={()=>void removeGuest(g)} title="Eliminar invitado" aria-label={`Eliminar ${g.guest_name}`} className="rounded-md p-2 text-red-600 hover:bg-red-50"><Trash2 size={15}/></button>
-                </div></td>
-              </tr>)}</tbody>
-            </table>
+        {loading ? <p className="py-10 text-center text-sm text-[#7D7467]">Cargando invitados...</p> : filtered.length === 0 ? <div className="rounded-xl border border-dashed border-[#E7DCC8] px-4 py-10 text-center"><Users className="mx-auto text-[#A88249]" size={26}/><p className="mt-3 font-medium text-[#332B27]">{guests.length ? "No encontramos invitados" : "Tu lista está vacía"}</p><p className="mt-1 text-sm text-[#7D7467]">{guests.length ? "Prueba con otro nombre o filtro." : "Agrega a tus invitados o carga una lista que ya tengas."}</p></div> :
+          <div className="overflow-hidden rounded-xl border border-[#EEE5D7]">
+            {visibleGuests.map(g=><div key={g.guest_id} className="flex items-center gap-3 border-b border-[#F0E9DF] px-3 py-3 last:border-b-0 hover:bg-[#FFFCF7] sm:px-4">
+              <div className="min-w-0 flex-1"><p className="truncate text-sm font-medium text-[#332B27]" title={g.guest_name}>{g.guest_name}</p><p className="mt-0.5 truncate text-xs text-[#7D7467]" title={[g.family_group,g.passes===1?"1 pase":`${g.passes} pases`].filter(Boolean).join(" · ")}>{g.family_group ? `${g.family_group} · ` : ""}{g.passes} {g.passes===1?"pase":"pases"}</p></div>
+              <span className={g.attendance_status==="attending"?"shrink-0 rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-800":g.attendance_status==="declined"?"shrink-0 rounded-md bg-neutral-100 px-2 py-1 text-xs font-medium text-neutral-700":"shrink-0 rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-800"}>{g.attendance_status==="attending"?`Confirmó · ${g.party_size ?? 1}`:g.attendance_status==="declined"?"No asistirá":"Pendiente"}</span>
+              <div className="flex shrink-0 items-center gap-0.5">
+                <button type="button" onClick={()=>void openWhatsApp(g)} title="Compartir por WhatsApp" aria-label={`Compartir invitación de ${g.guest_name}`} className="rounded-md p-2 text-green-700 hover:bg-green-50"><MessageCircle size={16}/></button>
+                <button type="button" onClick={()=>startEdit(g)} title="Editar" aria-label={`Editar ${g.guest_name}`} className="rounded-md p-2 text-[#6E5A3F] hover:bg-[#F8F2E8]"><Edit2 size={15}/></button>
+                <button type="button" onClick={()=>void removeGuest(g)} title="Eliminar" aria-label={`Eliminar ${g.guest_name}`} className="rounded-md p-2 text-red-600 hover:bg-red-50"><Trash2 size={15}/></button>
+              </div>
+            </div>)}
           </div>}
-        {!loading && filtered.length > 0 && <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#EEE5D7] pt-3 text-xs text-[#7D7467]"><span>Mostrando {(page-1)*pageSize+1}–{Math.min(page*pageSize,filtered.length)} de {filtered.length}</span><div className="flex items-center gap-2"><button type="button" onClick={()=>setPage(p=>Math.max(1,p-1))} disabled={page<=1} aria-label="Página anterior" className="rounded-md border border-[#E7DCC8] p-2 disabled:opacity-40"><ChevronLeft size={15}/></button><span>Página {Math.min(page,pageCount)} de {pageCount}</span><button type="button" onClick={()=>setPage(p=>Math.min(pageCount,p+1))} disabled={page>=pageCount} aria-label="Página siguiente" className="rounded-md border border-[#E7DCC8] p-2 disabled:opacity-40"><ChevronRight size={15}/></button></div></div>}
+        {!loading && filtered.length > 0 && <div className="flex items-center justify-between gap-3 border-t border-[#EEE5D7] pt-3 text-xs text-[#7D7467]"><span>{(page-1)*pageSize+1}–{Math.min(page*pageSize,filtered.length)} de {filtered.length}</span><div className="flex items-center gap-2"><button type="button" onClick={()=>setPage(p=>Math.max(1,p-1))} disabled={page<=1} aria-label="Página anterior" className="rounded-md border border-[#E7DCC8] p-2 disabled:opacity-40"><ChevronLeft size={15}/></button><span>{Math.min(page,pageCount)} / {pageCount}</span><button type="button" onClick={()=>setPage(p=>Math.min(pageCount,p+1))} disabled={page>=pageCount} aria-label="Página siguiente" className="rounded-md border border-[#E7DCC8] p-2 disabled:opacity-40"><ChevronRight size={15}/></button></div></div>}
       </>}
     </div>
   </section>;
@@ -271,4 +252,3 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
 function Input({label,value,onChange,placeholder,type="text"}:{label:string;value:string;onChange:(v:string)=>void;placeholder:string;type?:"text"|"tel"}) {
   return <label className="block text-sm font-medium text-[#4E463D]">{label}<input type={type} value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder} maxLength={120} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] bg-white px-3.5 py-3 text-sm outline-none focus:border-[#A88249]"/></label>;
 }
-function Stat({label,value}:{label:string;value:number}) { return <div className="rounded-2xl bg-[#FFFCF7] p-3 sm:p-4"><p className="text-xs text-[#7D7467] sm:text-sm">{label}</p><p className="mt-1 text-2xl font-semibold text-[#332B27]">{value}</p></div>; }

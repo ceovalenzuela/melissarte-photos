@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import JSZip from "jszip";
-import { CheckCircle2, ChevronLeft, ChevronRight, Copy, Download, Edit2, FileSpreadsheet, MessageCircle, Plus, RefreshCw, Save, Search, Trash2, Upload, Users, X } from "lucide-react";
+import { CheckCircle2, ChevronLeft, ChevronRight, Copy, Download, Edit2, FileSpreadsheet, MessageCircle, Minus, Plus, RefreshCw, Save, Search, Trash2, Upload, Users, X } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 
@@ -11,12 +11,12 @@ type Draft = { name: string; phone: string; countryCode: string; group: string; 
 type ImportRow = Omit<Draft, "countryCode"> & { row: number; error?: string };
 const emptyDraft: Draft = { name: "", phone: "", countryCode: "52", group: "", passes: 1 };
 const countryCodes = [
-  { code: "52", label: "México (+52)" }, { code: "1", label: "Estados Unidos / Canadá (+1)" },
-  { code: "54", label: "Argentina (+54)" }, { code: "55", label: "Brasil (+55)" }, { code: "56", label: "Chile (+56)" },
-  { code: "57", label: "Colombia (+57)" }, { code: "34", label: "España (+34)" }, { code: "502", label: "Guatemala (+502)" },
-  { code: "503", label: "El Salvador (+503)" }, { code: "504", label: "Honduras (+504)" }, { code: "505", label: "Nicaragua (+505)" },
-  { code: "506", label: "Costa Rica (+506)" }, { code: "507", label: "Panamá (+507)" }, { code: "51", label: "Perú (+51)" },
-  { code: "58", label: "Venezuela (+58)" }, { code: "44", label: "Reino Unido (+44)" },
+  { code: "52", iso: "MX", name: "México" }, { code: "1", iso: "US/CA", name: "Estados Unidos / Canadá" },
+  { code: "54", iso: "AR", name: "Argentina" }, { code: "55", iso: "BR", name: "Brasil" }, { code: "56", iso: "CL", name: "Chile" },
+  { code: "57", iso: "CO", name: "Colombia" }, { code: "34", iso: "ES", name: "España" }, { code: "502", iso: "GT", name: "Guatemala" },
+  { code: "503", iso: "SV", name: "El Salvador" }, { code: "504", iso: "HN", name: "Honduras" }, { code: "505", iso: "NI", name: "Nicaragua" },
+  { code: "506", iso: "CR", name: "Costa Rica" }, { code: "507", iso: "PA", name: "Panamá" }, { code: "51", iso: "PE", name: "Perú" },
+  { code: "58", iso: "VE", name: "Venezuela" }, { code: "44", iso: "GB", name: "Reino Unido" },
 ];
 const normalizePhone = (v: string) => v.replace(/\D/g, "");
 const whatsappPhone = (v: string) => { const digits = normalizePhone(v); return digits.length === 10 ? `52${digits}` : digits; };
@@ -277,24 +277,29 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
     {showTools && <div id="guest-tools-form" className="scroll-mt-6 border-b border-[#EEE5D7] bg-[#FFFCF7] p-4 sm:p-5">
       <div className="grid gap-5 lg:grid-cols-2">
         <div>
-          <h3 className="font-semibold text-[#332B27]">{editing ? "Editar invitado" : "Agregar una persona"}</h3><p className="mt-1 text-sm text-[#7D7467]">Selecciona la lada del país; México (+52) viene seleccionada. Escribe los 10 dígitos del teléfono, sin lada.</p>
+          <h3 className="font-semibold text-[#332B27]">{editing ? "Editar invitado" : "Agregar una persona"}</h3><p className="mt-1 text-sm text-[#7D7467]">Selecciona el país y escribe los 10 dígitos del teléfono, sin lada. México viene seleccionado por defecto.</p>
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             <Input label="Nombre" value={draft.name} onChange={v => setDraft(d => ({...d,name:v}))} placeholder="Nombre completo"/>
             <div className="block text-sm font-medium text-[#4E463D]">
               Teléfono para WhatsApp
               <div className="mt-1.5 grid grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-2">
                 <select aria-label="Lada internacional" value={draft.countryCode} onChange={e => setDraft(d => ({...d,countryCode:e.target.value}))} className="min-w-0 rounded-xl border border-[#E7DCC8] bg-white px-2.5 py-3 text-sm outline-none focus:border-[#A88249]">
-                  {countryCodes.map(item => <option key={item.code} value={item.code}>{item.label}</option>)}
+                  {countryCodes.map(item => <option key={item.code} value={item.code}>{item.iso} (+{item.code})</option>)}
                 </select>
                 <input aria-label="Teléfono de 10 dígitos" type="tel" inputMode="numeric" autoComplete="tel-national" value={draft.phone} onChange={e => setDraft(d => ({...d,phone:e.target.value.replace(/\D/g, "").slice(0,10)}))} placeholder="10 dígitos" maxLength={10} pattern="[0-9]{10}" className="min-w-0 w-full rounded-xl border border-[#E7DCC8] bg-white px-3 py-3 text-sm outline-none focus:border-[#A88249]"/>
               </div>
+              <p className="mt-1 text-[11px] font-normal text-[#8A7860]">{countryCodes.find(item => item.code === draft.countryCode)?.name ?? "País seleccionado"} · lada +{draft.countryCode}</p>
             </div>
             <Input label="Familia o grupo (opcional)" value={draft.group} onChange={v => setDraft(d => ({...d,group:v}))} placeholder="Familia López"/>
-            <label className="block text-sm font-medium text-[#4E463D]">¿Cuántos pases?
-              <select value={draft.passes} onChange={e => setDraft(d => ({...d,passes:Number(e.target.value)}))} className="mt-1.5 w-full rounded-lg border border-[#E7DCC8] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#A88249]">
-                {Array.from({ length: 99 }, (_, index) => index + 1).map(n => <option key={n} value={n}>{n}</option>)}
-              </select>
-            </label>
+            <div className="block text-sm font-medium text-[#4E463D]">
+              ¿Cuántos pases?
+              <div className="mt-1.5 flex h-[43px] w-full items-center rounded-xl border border-[#E7DCC8] bg-white">
+                <button type="button" onClick={() => setDraft(d => ({...d,passes:Math.max(1,d.passes-1)}))} disabled={draft.passes <= 1} aria-label="Quitar un pase" className="flex h-full w-11 shrink-0 items-center justify-center rounded-l-xl text-[#8E6D3D] transition hover:bg-[#F8F2E8] disabled:opacity-35"><Minus size={15}/></button>
+                <input aria-label="Número de pases" type="number" inputMode="numeric" min={1} max={99} step={1} value={draft.passes} onChange={e => { const value = e.target.value; setDraft(d => ({...d,passes:value === "" ? 1 : Math.min(99,Math.max(1,Math.trunc(Number(value) || 1)))})); }} className="h-full min-w-0 flex-1 border-0 bg-transparent px-2 text-center text-sm font-semibold tabular-nums text-[#332B27] outline-none focus:ring-0"/>
+                <button type="button" onClick={() => setDraft(d => ({...d,passes:Math.min(99,d.passes+1)}))} disabled={draft.passes >= 99} aria-label="Agregar un pase" className="flex h-full w-11 shrink-0 items-center justify-center rounded-r-xl text-[#8E6D3D] transition hover:bg-[#F8F2E8] disabled:opacity-35"><Plus size={15}/></button>
+              </div>
+              <p className="mt-1 text-[11px] font-normal text-[#8A7860]">De 1 a 99 pases</p>
+            </div>
           </div>
           <div className="mt-3 flex gap-2"><button type="button" onClick={() => void saveGuest()} disabled={saving} className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#A88249] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"><Save size={15}/>{saving ? "Guardando..." : editing ? "Guardar cambios" : "Guardar invitado"}</button>{editing && <button type="button" onClick={() => {setEditing(null);setDraft(emptyDraft);}} className="rounded-lg border px-3" aria-label="Cancelar edición"><X size={16}/></button>}</div>
         </div>

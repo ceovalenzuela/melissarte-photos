@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import JSZip from "jszip";
-import { ChevronLeft, ChevronRight, Download, Edit2, FileSpreadsheet, MessageCircle, Plus, RefreshCw, Save, Search, Trash2, Upload, Users, X } from "lucide-react";
+import { CheckCircle2, ChevronLeft, ChevronRight, Download, Edit2, FileSpreadsheet, MessageCircle, Plus, RefreshCw, Save, Search, Trash2, Upload, Users, X } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 
@@ -94,6 +94,7 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
   const [importRows, setImportRows] = useState<ImportRow[]>([]);
   const [importing, setImporting] = useState(false);
   const [rsvpFilter, setRsvpFilter] = useState("all");
+  const [deliveryFilter, setDeliveryFilter] = useState("all");
   const [page, setPage] = useState(1);
   const pageSize = 25;
   const [showTools, setShowTools] = useState(false);
@@ -120,12 +121,14 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
     const q = query.trim().toLocaleLowerCase("es");
     const textMatch = !q || [g.guest_name, g.phone, g.family_group].some(v => v.toLocaleLowerCase("es").includes(q));
     const statusMatch = rsvpFilter === "all" || (rsvpFilter === "pending" ? !g.attendance_status : g.attendance_status === rsvpFilter);
-    return textMatch && statusMatch;
-  }), [guests, query, rsvpFilter]);
+    const deliveryMatch = deliveryFilter === "all" || g.delivery_status === deliveryFilter;
+    return textMatch && statusMatch && deliveryMatch;
+  }), [guests, query, rsvpFilter, deliveryFilter]);
   const passCount = guests.reduce((sum, g) => sum + g.passes, 0);
   const confirmedCount = guests.filter(g => g.attendance_status === "attending").length;
   const confirmedPassCount = guests.reduce((sum, g) => sum + (g.attendance_status === "attending" ? (g.party_size ?? 1) : 0), 0);
   const pendingRsvpCount = guests.filter(g => !g.attendance_status).length;
+  const pendingDeliveryCount = guests.filter(g => g.delivery_status !== "sent").length;
   const declinedCount = guests.filter(g => g.attendance_status === "declined").length;
   const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
   const visibleGuests = filtered.slice((page - 1) * pageSize, page * pageSize);
@@ -163,7 +166,17 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
     link.searchParams.set("invitado", personalToken);
     const message = `¡Hola ${g.guest_name}! Nos encantará compartir este momento contigo. Aquí puedes ver la invitación y los detalles del evento: ${link.toString()} Te reservamos ${g.passes} ${g.passes === 1 ? "pase" : "pases"}. ¡Esperamos verte!`;
     window.open(`https://wa.me/${whatsappPhone(g.phone)}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+    toast.info(g.delivery_status === "sent" ? "Abrimos WhatsApp. Esta invitación ya estaba marcada como enviada." : "Abrimos WhatsApp. Cuando termines de enviarla, marca el envío como realizado en la lista.");
   }
+  async function setDeliveryStatus(g: Guest, status: "pending" | "sent") {
+    const { error } = await supabase.rpc("set_invitation_guest_delivery_status", {
+      p_event_id: eventId, p_organizer_token: organizerToken, p_guest_id: g.guest_id, p_status: status,
+    });
+    if (error) { toast.error("No fue posible actualizar el estado de envío."); return; }
+    setGuests(current => current.map(item => item.guest_id === g.guest_id ? { ...item, delivery_status: status, sent_at: status === "sent" ? new Date().toISOString() : null } : item));
+    toast.success(status === "sent" ? "Envío marcado como realizado." : "Invitación marcada como pendiente.");
+  }
+
   async function handleFile(file?: File) {
     if (!file) return;
     try {
@@ -218,6 +231,7 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
       <div className="rounded-2xl border border-[#E8E3DC] bg-white px-3 py-3 shadow-[0_3px_12px_rgba(62,45,25,0.025)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#7D7467] sm:text-xl">{declinedCount}</p><p className="mt-1 text-[10px] leading-tight text-[#7D7467] sm:text-xs">No asistirán</p></div>
     </div>
     <p className="border-b border-[#EEE5D7] px-4 py-3 text-xs leading-5 text-[#7D7467] sm:px-6">El total de personas se calcula con las respuestas de asistencia. Los pases asignados son los lugares reservados para cada invitado.</p>
+    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#EEE5D7] bg-white px-4 py-3 sm:px-6"><p className="text-sm text-[#5C554B]"><span className="font-semibold text-[#98702F]">{pendingDeliveryCount}</span> invitaciones pendientes de envío</p><button type="button" onClick={() => { setDeliveryFilter(deliveryFilter === "pending" ? "all" : "pending"); setPage(1); }} className="rounded-lg border border-[#D8C39B] px-3 py-2 text-xs font-semibold text-[#8E6D3D] transition hover:bg-[#FFFCF7]">{deliveryFilter === "pending" ? "Ver todas las invitaciones" : "Ver pendientes de envío"}</button></div>
 
     {showTools && <div id="guest-tools-form" className="scroll-mt-6 border-b border-[#EEE5D7] bg-[#FFFCF7] p-4 sm:p-5">
       <div className="grid gap-5 lg:grid-cols-2">
@@ -250,15 +264,17 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
       </div> : <>
         <div className="flex flex-col gap-2 sm:flex-row">
           <label className="relative min-w-0 flex-1"><Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9A8E7C]"/><input value={query} onChange={e=>{setQuery(e.target.value);setPage(1);}} placeholder="Buscar por nombre o teléfono" className="w-full rounded-xl border border-[#E7DCC8] bg-white py-3 pl-9 pr-3 text-sm outline-none transition focus:border-[#A88249] focus:ring-2 focus:ring-[#A88249]/10"/></label>
-          <select value={rsvpFilter} onChange={e=>{setRsvpFilter(e.target.value);setPage(1);}} aria-label="Filtrar invitados" className="rounded-xl border border-[#E7DCC8] bg-white px-3 py-3 text-sm outline-none transition focus:border-[#A88249] focus:ring-2 focus:ring-[#A88249]/10"><option value="all">Todos</option><option value="pending">Por responder</option><option value="attending">Confirmaron</option><option value="declined">No asistirán</option></select>
+          <select value={rsvpFilter} onChange={e=>{setRsvpFilter(e.target.value);setPage(1);}} aria-label="Filtrar confirmación de asistencia" className="rounded-xl border border-[#E7DCC8] bg-white px-3 py-3 text-sm outline-none transition focus:border-[#A88249] focus:ring-2 focus:ring-[#A88249]/10"><option value="all">Todas las respuestas</option><option value="pending">Por responder</option><option value="attending">Confirmaron</option><option value="declined">No asistirán</option></select>
+          <select value={deliveryFilter} onChange={e=>{setDeliveryFilter(e.target.value);setPage(1);}} aria-label="Filtrar estado de envío" className="rounded-xl border border-[#E7DCC8] bg-white px-3 py-3 text-sm outline-none transition focus:border-[#A88249] focus:ring-2 focus:ring-[#A88249]/10"><option value="all">Todos los envíos</option><option value="pending">Envío pendiente</option><option value="sent">Enviada (marcada)</option></select>
         </div>
         {loading ? <p className="py-10 text-center text-sm text-[#7D7467]">Cargando invitados...</p> : loadError ? <div role="alert" className="rounded-xl border border-red-200 bg-red-50 px-4 py-8 text-center"><p className="font-medium text-red-800">No pudimos cargar la lista de invitados.</p><p className="mt-1 text-sm text-red-700">Revisa tu conexión e inténtalo de nuevo.</p><button type="button" onClick={() => void loadGuests()} className="mt-4 rounded-lg border border-red-300 bg-white px-4 py-2 text-sm font-semibold text-red-800">Volver a intentar</button></div> : filtered.length === 0 ? <div className="rounded-xl border border-dashed border-[#E7DCC8] px-4 py-10 text-center"><Users className="mx-auto text-[#A88249]" size={26}/><p className="mt-3 font-medium text-[#332B27]">{guests.length ? "No encontramos invitados" : "Tu lista está vacía"}</p><p className="mt-1 text-sm text-[#7D7467]">{guests.length ? "Prueba con otro nombre o filtro." : "Agrega a tus invitados o carga una lista que ya tengas."}</p></div> :
           <div className="overflow-hidden rounded-2xl border border-[#E8DECF] bg-white shadow-sm">
             {visibleGuests.map(g=><div key={g.guest_id} className="flex items-center gap-3 border-b border-[#F0E9DF] px-3 py-4 transition-colors last:border-b-0 hover:bg-[#FFFCF7] sm:px-4">
               <div className="min-w-0 flex-1"><p className="truncate text-sm font-medium text-[#332B27]" title={g.guest_name}>{g.guest_name}</p><p className="mt-0.5 truncate text-xs text-[#7D7467]" title={[g.family_group,g.passes===1?"1 pase":`${g.passes} pases`].filter(Boolean).join(" · ")}>{g.family_group ? `${g.family_group} · ` : ""}{g.passes} {g.passes===1?"pase":"pases"}</p></div>
-              <span className={g.attendance_status==="attending"?"shrink-0 rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-800":g.attendance_status==="declined"?"shrink-0 rounded-md bg-neutral-100 px-2 py-1 text-xs font-medium text-neutral-700":"shrink-0 rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-800"}>{g.attendance_status==="attending"?`Confirmó · ${g.party_size ?? 1}`:g.attendance_status==="declined"?"No asistirá":"Pendiente"}</span>
+              <div className="flex min-w-0 shrink-0 flex-col items-end gap-1"><span className={g.attendance_status==="attending"?"rounded-md bg-green-50 px-2 py-1 text-[11px] font-medium text-green-800":g.attendance_status==="declined"?"rounded-md bg-neutral-100 px-2 py-1 text-[11px] font-medium text-neutral-700":"rounded-md bg-amber-50 px-2 py-1 text-[11px] font-medium text-amber-800"}>{g.attendance_status==="attending"?`Confirmó · ${g.party_size ?? 1}`:g.attendance_status==="declined"?"No asistirá":"Por responder"}</span><span className={g.delivery_status==="sent"?"rounded-md bg-blue-50 px-2 py-1 text-[10px] font-medium text-blue-800":"rounded-md bg-orange-50 px-2 py-1 text-[10px] font-medium text-orange-800"}>{g.delivery_status==="sent"?"Envío marcado":"Sin enviar"}</span></div>
               <div className="flex shrink-0 items-center gap-0.5">
-                <button type="button" onClick={()=>void openWhatsApp(g)} title="Compartir por WhatsApp" aria-label={`Compartir invitación de ${g.guest_name}`} className="rounded-lg p-2 text-green-700 transition-colors hover:bg-green-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700/30"><MessageCircle size={16}/></button>
+                <button type="button" onClick={()=>void openWhatsApp(g)} title="Preparar mensaje en WhatsApp" aria-label={`Preparar invitación de ${g.guest_name} en WhatsApp`} className="rounded-lg p-2 text-green-700 transition-colors hover:bg-green-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700/30"><MessageCircle size={16}/></button>
+                <button type="button" onClick={()=>void setDeliveryStatus(g, g.delivery_status === "sent" ? "pending" : "sent")} title={g.delivery_status==="sent"?"Marcar como pendiente":"Marcar envío como realizado"} aria-label={g.delivery_status==="sent"?`Marcar envío de ${g.guest_name} como pendiente`:`Marcar invitación de ${g.guest_name} como enviada`} className={g.delivery_status==="sent"?"rounded-lg p-2 text-blue-700 transition-colors hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/30":"rounded-lg p-2 text-[#8E6D3D] transition-colors hover:bg-[#F8F2E8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A88249]/30"}><CheckCircle2 size={16}/></button>
                 <button type="button" onClick={()=>startEdit(g)} title="Editar" aria-label={`Editar ${g.guest_name}`} className="rounded-lg p-2 text-[#6E5A3F] transition-colors hover:bg-[#F8F2E8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A88249]/30"><Edit2 size={15}/></button>
                 <button type="button" onClick={()=>void removeGuest(g)} title="Eliminar" aria-label={`Eliminar ${g.guest_name}`} className="rounded-lg p-2 text-red-600 transition-colors hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600/30"><Trash2 size={15}/></button>
               </div>

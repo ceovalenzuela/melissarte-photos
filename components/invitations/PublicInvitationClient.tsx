@@ -260,6 +260,9 @@ export default function PublicInvitationClient({
           style={{
             backgroundColor: background,
             color: textColor,
+            "--inv-background": background,
+            "--inv-accent": accent,
+            "--inv-text": textColor,
             "--inv-title": safeColor(design.title_color, templatePalette.title_color ?? textColor),
             "--inv-card-bg": safeColor(design.card_background_color, templatePalette.card_background_color ?? background),
             "--inv-card-text": safeColor(design.card_text_color, templatePalette.card_text_color ?? textColor),

@@ -6,5 +6,5 @@ interface Props {
 
 export default async function LegacyOrganizerConfirmationsPage({ params }: Props) {
   const { token } = await params;
-  redirect("/confirmaciones/" + token);
+  redirect("/rsvp/" + token);
 }

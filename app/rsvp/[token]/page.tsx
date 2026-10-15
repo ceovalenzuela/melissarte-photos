@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import type { CSSProperties } from "react";
 import type { InvitationTemplateKey } from "@/types/invitation";
 
@@ -11,6 +10,32 @@ import InvitationGuestCenter from "@/components/invitations/InvitationGuestCente
 interface Props {
   params: Promise<{ token: string }>;
 }
+
+const organizerPalettes = {
+  wedding_editorial: {
+    bg: "#F6F0E4", text: "#302F30", card: "#FFFCF6", cardText: "#302F30",
+    border: "#C9AD6B", button: "#755B2E", buttonText: "#FFFFFF",
+    bannerStart: "#273747", bannerEnd: "#3B5263", bannerText: "#FFFAF0", bannerAccent: "#E4CA8A", muted: "#625F59", soft: "#F5EFE4",
+  },
+  xv_gala: {
+    bg: "#F1EDF6", text: "#2B2238", card: "#FFFCFF", cardText: "#2B2238",
+    border: "#C7AC68", button: "#49324F", buttonText: "#FFFFFF",
+    bannerStart: "#211B35", bannerEnd: "#49324F", bannerText: "#FFFAF2", bannerAccent: "#E0C276", muted: "#62596B", soft: "#F3EEF6",
+  },
+  baby_soft: {
+    bg: "#FFF4E8", text: "#493C32", card: "#FFFEFA", cardText: "#493C32",
+    border: "#E5C5B2", button: "#854A37", buttonText: "#FFFFFF",
+    bannerStart: "#754638", bannerEnd: "#4F6650", bannerText: "#FFFCF7", bannerAccent: "#F7DDA0", muted: "#68564B", soft: "#FFF0E5",
+  },
+  baptism_light: {
+    bg: "#EFF6F8", text: "#263641", card: "#FFFFFF", cardText: "#263641",
+    border: "#C7DBE5", button: "#315F75", buttonText: "#FFFFFF",
+    bannerStart: "#31596B", bannerEnd: "#527F98", bannerText: "#FFFFFF", bannerAccent: "#E7F2F5", muted: "#536873", soft: "#EAF3F6",
+  },
+} satisfies Record<InvitationTemplateKey, {
+  bg: string; text: string; card: string; cardText: string; border: string; button: string; buttonText: string;
+  bannerStart: string; bannerEnd: string; bannerText: string; bannerAccent: string; muted: string; soft: string;
+}>;
 
 export default async function OrganizerConfirmationsPage({ params }: Props) {
   const { token } = await params;
@@ -29,44 +54,49 @@ export default async function OrganizerConfirmationsPage({ params }: Props) {
 
   if (invitationEnabled !== true) notFound();
   const invitation = invitationResult.data?.[0];
-  const content = invitation?.content_config ?? {};
-  const design = invitation?.design_config ?? {};
   const templateKeys: InvitationTemplateKey[] = ["wedding_editorial", "xv_gala", "baby_soft", "baptism_light"];
   const templateKey: InvitationTemplateKey = templateKeys.includes(invitation?.template_key as InvitationTemplateKey)
     ? (invitation.template_key as InvitationTemplateKey)
     : "wedding_editorial";
-  const organizerDefaults = ({
-    wedding_editorial: { accent: "#A78645", bg: "#F4EAD8", text: "#302F30", card: "#FFFCF6", cardText: "#302F30", border: "#C9AD6B", button: "#A78645", buttonText: "#FFFFFF" },
-    xv_gala: { accent: "#D6B66F", bg: "#211B35", text: "#FFFAF0", card: "#39304C", cardText: "#FFFAF0", border: "#D6B66F", button: "#6F4B68", buttonText: "#FFFFFF" },
-    baby_soft: { accent: "#A85F47", bg: "#FFF4E8", text: "#493C32", card: "#FFFEFA", cardText: "#493C32", border: "#E5C5B2", button: "#A96149", buttonText: "#FFFFFF" },
-    baptism_light: { accent: "#527F98", bg: "#FAF7F0", text: "#263641", card: "#FFFFFF", cardText: "#263641", border: "#C7DBE5", button: "#527F98", buttonText: "#FFFFFF" },
-  } satisfies Record<InvitationTemplateKey, { accent: string; bg: string; text: string; card: string; cardText: string; border: string; button: string; buttonText: string }>)[templateKey];
-  const validColor = (value: string | undefined, fallback: string) => value && /^#[0-9a-fA-F]{6}$/.test(value) ? value : fallback;
+  const palette = organizerPalettes[templateKey];
+  // Keep this management page aligned to the selected template while using curated,
+  // contrast-safe colors rather than arbitrary custom text/background combinations.
   const organizerThemeStyle = {
-    "--organizer-accent": validColor(design.accent_color, organizerDefaults.accent),
-    "--organizer-bg": validColor(design.background_color, organizerDefaults.bg),
-    "--organizer-text": validColor(design.text_color, organizerDefaults.text),
-    "--organizer-card": validColor(design.card_background_color, organizerDefaults.card),
-    "--organizer-card-text": validColor(design.card_text_color, organizerDefaults.cardText),
-    "--organizer-border": validColor(design.border_color, organizerDefaults.border),
-    "--organizer-button": validColor(design.button_color, organizerDefaults.button),
-    "--organizer-button-text": validColor(design.button_text_color, organizerDefaults.buttonText),
+    "--organizer-accent": palette.button,
+    "--organizer-bg": palette.bg,
+    "--organizer-text": palette.text,
+    "--organizer-card": palette.card,
+    "--organizer-card-text": palette.cardText,
+    "--organizer-border": palette.border,
+    "--organizer-button": palette.button,
+    "--organizer-button-text": palette.buttonText,
+    "--organizer-banner-start": palette.bannerStart,
+    "--organizer-banner-end": palette.bannerEnd,
+    "--organizer-banner-text": palette.bannerText,
+    "--organizer-banner-accent": palette.bannerAccent,
+    "--organizer-muted": palette.muted,
+    "--organizer-soft": palette.soft,
   } as CSSProperties;
 
   return (
     <main className={`organizer-confirmations invitation-template-${templateKey} min-h-screen`} style={organizerThemeStyle}>
-      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-10">
-        <Link href={"/mi-galeria/" + token} className="inline-flex items-center gap-2 text-sm font-medium text-[#7D7467] hover:text-[#1F1F1F]">
-          <ArrowLeft size={16} /> Volver al evento
-        </Link>
-        <header className="organizer-confirmations-header relative mt-5 overflow-hidden rounded-[1.75rem] border shadow-[0_18px_60px_rgba(48,36,27,0.08)]">
-          <div className="organizer-confirmations-banner px-6 py-8 sm:px-9 sm:py-10">
-            <p className="organizer-confirmations-eyebrow text-[10px] font-semibold uppercase tracking-[0.28em]">Panel del organizador</p>
-            <h1 className="organizer-confirmations-title mt-3 font-[var(--font-display)] text-4xl leading-tight sm:text-5xl">Confirmaciones</h1>
-            <p className="organizer-confirmations-subtitle mt-2 text-sm">{eventDetails?.title ?? "Tu evento"}{eventDetails?.event_date ? ` · ${new Date(`${eventDetails.event_date}T12:00:00`).toLocaleDateString("es-MX", { day: "numeric", month: "long", year: "numeric" })}` : ""}</p>
+      <div className="mx-auto max-w-5xl px-4 py-5 sm:px-6 sm:py-9">
+        <header className="organizer-confirmations-header relative mt-4 overflow-hidden rounded-[1.75rem] border shadow-[0_18px_60px_rgba(31,48,64,0.12)]">
+          <div className="organizer-confirmations-banner relative overflow-hidden px-6 py-7 sm:px-9 sm:py-9">
+            <span className="organizer-confirmations-ornament" aria-hidden="true" />
+            <div className="relative z-10">
+              <p className="organizer-confirmations-eyebrow text-[10px] font-semibold uppercase tracking-[0.28em]">Panel del organizador</p>
+              <h1 className="organizer-confirmations-title mt-3 font-[var(--font-display)] text-4xl leading-tight sm:text-5xl">Confirmaciones</h1>
+              <p className="organizer-confirmations-subtitle mt-2 text-sm leading-6">
+                {eventDetails?.title ?? "Tu evento"}
+                {eventDetails?.event_date ? ` · ${new Date(`${eventDetails.event_date}T12:00:00`).toLocaleDateString("es-MX", { day: "numeric", month: "long", year: "numeric" })}` : ""}
+              </p>
+            </div>
           </div>
         </header>
-        <div className="mt-6"><InvitationGuestCenter eventId={event.id} organizerToken={token} invitationSlug={invitation?.slug} /></div>
+        <div className="mt-5 sm:mt-6">
+          <InvitationGuestCenter eventId={event.id} organizerToken={token} invitationSlug={invitation?.slug} />
+        </div>
       </div>
     </main>
   );

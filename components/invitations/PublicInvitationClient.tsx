@@ -272,7 +272,7 @@ export default function PublicInvitationClient({
             "--inv-form-text": safeColor(design.form_text_color, templatePalette.form_text_color ?? textColor),
           } as CSSProperties}
         >
-          <header className={`invitation-hero relative isolate flex min-h-[46svh] items-center justify-center overflow-hidden px-6 py-14 text-center sm:min-h-[560px] sm:px-12 lg:min-h-[650px] ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>
+          <header className={`invitation-hero relative isolate flex min-h-[58svh] items-end justify-center overflow-hidden px-6 pb-12 pt-16 text-center sm:min-h-[680px] sm:px-12 sm:pb-16 lg:min-h-[760px] ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>
             {cover ? (
               <div aria-hidden="true" className="absolute inset-0 -z-20 bg-cover bg-center invitation-hero-image" style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />
             ) : (
@@ -282,7 +282,6 @@ export default function PublicInvitationClient({
             <div className="invitation-hero-frame pointer-events-none absolute inset-4 sm:inset-7" aria-hidden="true" />
             <div className="invitation-hero-content relative z-10 mx-auto max-w-4xl">
               <h1 className="invitation-hero-title font-[var(--font-display)] text-4xl leading-tight sm:text-6xl lg:text-7xl">{content.headline || invitation.event_title}</h1>
-              {content.subtitle && <p className="invitation-hero-subtitle mx-auto mt-5 max-w-2xl text-sm leading-7 sm:mt-6 sm:text-lg">{content.subtitle}</p>}
               {invitation.event_date && <p className="invitation-hero-date mt-6 text-[10px] font-semibold uppercase tracking-[0.28em] sm:mt-7 sm:text-xs">{formatDate(invitation.event_date)}</p>}
             </div>
             <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-white/70 to-transparent opacity-60" />

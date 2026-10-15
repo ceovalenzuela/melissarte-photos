@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState, type CSSProperties } from "react";
 import { useRouter } from "next/navigation";
-import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight } from "lucide-react";
+import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight, Share2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { InvitationTemplateKey, PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
 
@@ -112,6 +112,31 @@ export default function PublicInvitationClient({
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [linkCopied, setLinkCopied] = useState(false);
+  const [publicLinkCopied, setPublicLinkCopied] = useState(false);
+
+  async function sharePublicInvitation() {
+    const link = `${window.location.origin}${window.location.pathname}`;
+    const title = content.headline || invitation.event_title || "Nuestra invitación";
+    const shareData = { title, text: "Te compartimos la invitación y los detalles del evento:", url: link };
+    try {
+      if (typeof navigator.share === "function") {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(link);
+        setPublicLinkCopied(true);
+        window.setTimeout(() => setPublicLinkCopied(false), 2500);
+      }
+    } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") return;
+      try {
+        await navigator.clipboard.writeText(link);
+        setPublicLinkCopied(true);
+        window.setTimeout(() => setPublicLinkCopied(false), 2500);
+      } catch {
+        window.prompt("Copia el enlace de la invitación:", link);
+      }
+    }
+  }
 
   async function copyPersonalLink() {
     try {
@@ -254,14 +279,26 @@ export default function PublicInvitationClient({
             )}
 
             {content.dress_code && !personalizedGuest && !existingRSVP && (
-              <div className="mx-auto mt-5 max-w-sm">
-                <div className="flex items-start gap-3 rounded-2xl border bg-white/90 p-4 text-left shadow-sm" style={{ borderColor: `${accent}30` }}>
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: `${accent}12`, color: accent }}><Shirt size={18} strokeWidth={1.7} /></span>
-                  <div className="min-w-0">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Código de vestimenta</p>
-                    <p className="mt-1.5 text-sm font-medium leading-5 text-neutral-700">{content.dress_code}</p>
+              <div className="mx-auto mt-10 max-w-3xl">
+                <div className="relative overflow-hidden rounded-[1.5rem] border bg-white/90 px-5 py-5 text-left shadow-[0_10px_30px_rgba(48,36,27,0.045)] sm:px-7 sm:py-6" style={{ borderColor: `${accent}35` }}>
+                  <div aria-hidden="true" className="absolute inset-y-0 left-0 w-1" style={{ backgroundColor: accent }} />
+                  <div className="flex items-start gap-4 pl-1">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: `${accent}12`, color: accent }}><Shirt size={19} strokeWidth={1.7} /></span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: accent }}>Código de vestimenta</p>
+                      <p className="mt-2 text-sm leading-6 text-neutral-700 sm:text-base">{content.dress_code}</p>
+                    </div>
                   </div>
                 </div>
+              </div>
+            )}
+
+            {!personalizedGuest && !existingRSVP && (
+              <div className="mx-auto mt-8 flex max-w-3xl justify-center">
+                <button type="button" onClick={() => void sharePublicInvitation()} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold shadow-sm transition hover:-translate-y-0.5 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style={{ backgroundColor: accent, color: "#FFFFFF", outlineColor: accent }}>
+                  <Share2 size={17} strokeWidth={1.8} />
+                  {publicLinkCopied ? "Enlace copiado" : "Compartir invitación"}
+                </button>
               </div>
             )}
 

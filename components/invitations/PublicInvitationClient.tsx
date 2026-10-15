@@ -103,16 +103,16 @@ export default function PublicInvitationClient({
     Boolean(content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address)),
   ].filter(Boolean).length;
 
-  const [guestName, setGuestName] = useState(personalizedGuest?.guest_name ?? existingRSVP?.guest_name ?? "");
-  const [attendance, setAttendance] = useState<RSVPStatus>(personalizedGuest?.attendance_status ?? existingRSVP?.attendance_status ?? "attending");
-  const [partySize, setPartySize] = useState(Math.max(1, Math.min(maxPartySize, initialPartySize)));
-  const [phone] = useState(personalizedGuest?.phone ?? existingRSVP?.phone ?? "");
   const maxPartySize = Math.max(1, Math.min(20, personalizedGuest?.passes ?? invitation.max_party_size ?? 1));
   const initialPartySize = personalizedGuest?.attendance_status === "attending"
     ? personalizedGuest.party_size ?? 1
     : existingRSVP?.attendance_status === "attending"
       ? existingRSVP.party_size
       : 1;
+  const [guestName, setGuestName] = useState(personalizedGuest?.guest_name ?? existingRSVP?.guest_name ?? "");
+  const [attendance, setAttendance] = useState<RSVPStatus>(personalizedGuest?.attendance_status ?? existingRSVP?.attendance_status ?? "attending");
+  const [partySize, setPartySize] = useState(Math.max(1, Math.min(maxPartySize, initialPartySize)));
+  const [phone] = useState(personalizedGuest?.phone ?? existingRSVP?.phone ?? "");
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");

@@ -100,6 +100,8 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
     else setGuests((data ?? []) as Guest[]);
     setLoading(false);
   }, [eventId, organizerToken]);
+  // Initial data fetch: state updates happen after the asynchronous Supabase request resolves.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { void loadGuests(); }, [loadGuests]);
 
   const groups = useMemo(() => Array.from(new Set(guests.map(g => g.family_group.trim()).filter(Boolean))).sort((a,b) => a.localeCompare(b, "es")), [guests]);

@@ -483,10 +483,34 @@ function LocationCard({ title, time, venue, address, maps, calendarUrl, accent }
       })()}
       {venue && <h3 className="invitation-location-venue mt-3 font-[var(--font-display)] text-2xl leading-tight">{venue}</h3>}
       {address && <p className="invitation-location-address mt-2 text-sm leading-6 text-neutral-600">{address}</p>}
-      <div className="mt-4 flex flex-wrap items-center gap-2">
-        {maps && <a href={maps} target="_blank" rel="noreferrer" className="invitation-location-button inline-flex w-fit min-h-10 items-center justify-center gap-2 rounded-full border px-4 text-sm font-semibold transition hover:bg-neutral-50" style={{ borderColor: `${accent}55`, color: accent }}><span>Ver ubicación</span><ArrowUpRight size={15} className="shrink-0" /></a>}
-        {calendarUrl && <a href={calendarUrl} target="_blank" rel="noreferrer" className="inline-flex w-fit min-h-10 items-center justify-center gap-2 rounded-full px-3 text-sm font-medium transition hover:opacity-75" style={{ color: accent }}><CalendarPlus size={16} strokeWidth={1.7} /><span>Agregar al calendario</span></a>}
-      </div>
+      {(maps || calendarUrl) && (
+        <div className="mt-5 grid grid-cols-2 gap-2.5">
+          {maps ? (
+            <a
+              href={maps}
+              target="_blank"
+              rel="noreferrer"
+              className="invitation-location-button inline-flex min-h-[48px] min-w-0 items-center justify-center gap-2 rounded-xl border px-2.5 py-2 text-center text-xs font-semibold leading-tight transition hover:bg-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:px-3 sm:text-sm"
+              style={{ borderColor: `${accent}55`, color: accent, backgroundColor: `${accent}08`, outlineColor: accent }}
+            >
+              <ArrowUpRight size={17} strokeWidth={1.8} className="shrink-0" />
+              <span>Ver ubicación</span>
+            </a>
+          ) : <span />}
+          {calendarUrl && (
+            <a
+              href={calendarUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex min-h-[48px] min-w-0 items-center justify-center gap-2 rounded-xl border px-2.5 py-2 text-center text-xs font-semibold leading-tight transition hover:bg-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:px-3 sm:text-sm"
+              style={{ borderColor: `${accent}55`, color: accent, backgroundColor: `${accent}08`, outlineColor: accent }}
+            >
+              <CalendarPlus size={17} strokeWidth={1.8} className="shrink-0" />
+              <span>Agregar al calendario</span>
+            </a>
+          )}
+        </div>
+      )}
     </article>
   );
 }

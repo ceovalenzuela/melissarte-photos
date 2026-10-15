@@ -124,8 +124,9 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
     const file = eventFile.target.files?.[0];
     eventFile.target.value = "";
     if (!file) return;
-    if (!file.type.startsWith("image/")) {
-      toast.error("Selecciona un archivo de imagen.");
+    const allowedCoverTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!allowedCoverTypes.includes(file.type)) {
+      toast.error("Elige una imagen JPG, PNG o WebP.");
       return;
     }
     if (file.size > 10 * 1024 * 1024) {
@@ -134,7 +135,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
     }
     setUploadingCover(true);
     try {
-      const url = await uploadCover(file, event.id);
+      const url = await uploadCover(file, event.id, organizerToken);
       updateDesign("cover_image_url", url);
       toast.success("Portada cargada. Guarda los cambios para aplicarla.");
     } catch (error) {
@@ -250,7 +251,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                 )}
               </div>
               <div className="flex flex-col justify-center rounded-2xl border border-dashed border-[#D9CBB6] bg-white p-5">
-                <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp,image/avif" className="hidden" disabled={uploadingCover} onChange={handleCoverUpload} />
+                <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp" className="hidden" disabled={uploadingCover} onChange={handleCoverUpload} />
                 <button type="button" onClick={() => fileRef.current?.click()} disabled={uploadingCover} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#A88249] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#8E6D3D] disabled:cursor-not-allowed disabled:opacity-60">
                   <ImagePlus size={17} /> {uploadingCover ? "Subiendo imagen..." : cover ? "Cambiar portada" : "Subir portada"}
                 </button>

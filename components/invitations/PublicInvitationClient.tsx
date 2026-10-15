@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState, type CSSProperties } from "react";
 import { useRouter } from "next/navigation";
-import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight, Share2 } from "lucide-react";
+import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight, Share2, CalendarPlus } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { InvitationTemplateKey, PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
 
@@ -119,76 +119,34 @@ export default function PublicInvitationClient({
   const [linkCopied, setLinkCopied] = useState(false);
   const [publicLinkCopied, setPublicLinkCopied] = useState(false);
 
-  function calendarDetails() {
-    const lines = [
-      content.headline || invitation.event_title || "Evento",
-      content.introduction,
-      content.religious_ceremony_enabled && content.religious_ceremony_time
-        ? `Ceremonia: ${content.religious_ceremony_time}${content.religious_ceremony_venue ? ` · ${content.religious_ceremony_venue}` : ""}${content.religious_ceremony_address ? ` · ${content.religious_ceremony_address}` : ""}`
-        : null,
-      content.ceremony_time
-        ? `Horario: ${content.ceremony_time}${content.ceremony_venue ? ` · ${content.ceremony_venue}` : ""}${content.ceremony_address ? ` · ${content.ceremony_address}` : ""}`
-        : null,
-      content.reception_time
-        ? `Recepción: ${content.reception_time}${content.reception_venue ? ` · ${content.reception_venue}` : ""}${content.reception_address ? ` · ${content.reception_address}` : ""}`
-        : null,
-      content.dress_code ? `Código de vestimenta: ${content.dress_code}` : null,
-      `Invitación: ${typeof window !== "undefined" ? window.location.href : ""}`,
-    ];
-    return lines.filter(Boolean).join("\n");
-  }
-
-  function calendarLocation() {
-    return [
-      content.religious_ceremony_enabled ? content.religious_ceremony_venue : null,
-      content.ceremony_venue,
-      content.reception_venue,
-    ].filter((value, index, values): value is string => Boolean(value?.trim()) && values.indexOf(value) === index).join(" / ");
-  }
-
-  function calendarDateRange() {
-    if (!invitation.event_date || !/^\d{4}-\d{2}-\d{2}$/.test(invitation.event_date)) return null;
+  function calendarUrl(title: string, time?: string, venue?: string, address?: string) {
+    if (!invitation.event_date || !/^\d{4}-\d{2}-\d{2}$/.test(invitation.event_date) || !time) return null;
+    const match = time.match(/^([01]?\d|2[0-3]):([0-5]\d)$/);
+    if (!match) return null;
     const [year, month, day] = invitation.event_date.split("-").map(Number);
-    const next = new Date(Date.UTC(year, month - 1, day + 1));
-    const endDate = `${next.getUTCFullYear()}${String(next.getUTCMonth() + 1).padStart(2, "0")}${String(next.getUTCDate()).padStart(2, "0")}`;
-    return { start: `${year}${String(month).padStart(2, "0")}${String(day).padStart(2, "0")}`, end: endDate };
-  }
-
-  function downloadCalendarFile() {
-    const range = calendarDateRange();
-    if (!range) return;
-    const escapeIcs = (value: string) => value
-      .replace(/\\/g, "\\\\")
-      .replace(/\r?\n/g, "\\n")
-      .replace(/,/g, "\\,")
-      .replace(/;/g, "\\;");
-    const uid = `${invitation.invitation_id}@melissartedecorativo.com`;
-    const ics = [
-      "BEGIN:VCALENDAR",
-      "VERSION:2.0",
-      "PRODID:-//Melissarte//Invitaciones//ES",
-      "CALSCALE:GREGORIAN",
-      "METHOD:PUBLISH",
-      "BEGIN:VEVENT",
-      `UID:${escapeIcs(uid)}`,
-      `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "")}`,
-      `DTSTART;VALUE=DATE:${range.start}`,
-      `DTEND;VALUE=DATE:${range.end}`,
-      `SUMMARY:${escapeIcs(content.headline || invitation.event_title || "Evento")}`,
-      `DESCRIPTION:${escapeIcs(calendarDetails())}`,
-      ...(calendarLocation() ? [`LOCATION:${escapeIcs(calendarLocation())}`] : []),
-      "END:VEVENT",
-      "END:VCALENDAR",
-    ].join("\r\n");
-    const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `invitacion-${invitation.invitation_slug}.ics`;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    const start = new Date(year, month - 1, day, Number(match[1]), Number(match[2]));
+    const end = new Date(start.getTime() + 60 * 60 * 1000);
+    const toCalendarDate = (date: Date) => {
+      const pad = (value: number) => String(value).padStart(2, "0");
+      return `${date.getFullYear()}${pad(date.getMonth() + 1)}${pad(date.getDate())}T${pad(date.getHours())}${pad(date.getMinutes())}00`;
+    };
+    const details = [
+      content.headline || invitation.event_title || "Evento",
+      title,
+      venue,
+      address,
+      typeof window !== "undefined" ? window.location.href : "",
+    ].filter(Boolean).join("\n");
+    const params = new URLSearchParams({
+      action: "TEMPLATE",
+      text: `${content.headline || invitation.event_title || "Evento"} · ${title}`,
+      dates: `${toCalendarDate(start)}/${toCalendarDate(end)}`,
+      details,
+      ctz: "America/Monterrey",
+    });
+    const location = [venue, address].filter(Boolean).join(", ");
+    if (location) params.set("location", location);
+    return `https://calendar.google.com/calendar/render?${params.toString()}`;
   }
 
   async function sharePublicInvitation() {
@@ -344,37 +302,14 @@ export default function PublicInvitationClient({
             {(content.ceremony_venue || content.ceremony_time || content.ceremony_address || content.reception_venue || content.reception_time || content.reception_address || (content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address))) && (
               <div className={`invitation-location-grid mx-auto mt-12 grid w-full items-stretch gap-4 ${locationCount === 2 ? "max-w-5xl md:grid-cols-2" : locationCount >= 3 ? "max-w-6xl md:grid-cols-2 xl:grid-cols-3" : "max-w-xl grid-cols-1"}`}>
                 {content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address) && (
-                  <LocationCard title="Ceremonia" time={content.religious_ceremony_time} venue={content.religious_ceremony_venue} address={content.religious_ceremony_address} maps={religiousCeremonyMapsUrl} accent={accent} />
+                  <LocationCard title="Ceremonia" time={content.religious_ceremony_time} venue={content.religious_ceremony_venue} address={content.religious_ceremony_address} maps={religiousCeremonyMapsUrl} calendarUrl={calendarUrl("Ceremonia", content.religious_ceremony_time, content.religious_ceremony_venue, content.religious_ceremony_address)} accent={accent} />
                 )}
                 {(content.ceremony_venue || content.ceremony_time || content.ceremony_address) && (
-                  <LocationCard title="Recepción" time={content.ceremony_time} venue={content.ceremony_venue} address={content.ceremony_address} maps={primaryMapsUrl} accent={accent} />
+                  <LocationCard title="Recepción" time={content.ceremony_time} venue={content.ceremony_venue} address={content.ceremony_address} maps={primaryMapsUrl} calendarUrl={calendarUrl("Recepción", content.ceremony_time, content.ceremony_venue, content.ceremony_address)} accent={accent} />
                 )}
                 {(content.reception_venue || content.reception_time || content.reception_address) && (
-                  <LocationCard title="Celebración" time={content.reception_time} venue={content.reception_venue} address={content.reception_address} maps={receptionMapsUrl} accent={accent} />
+                  <LocationCard title="Celebración" time={content.reception_time} venue={content.reception_venue} address={content.reception_address} maps={receptionMapsUrl} calendarUrl={calendarUrl("Celebración", content.reception_time, content.reception_venue, content.reception_address)} accent={accent} />
                 )}
-              </div>
-            )}
-
-            {invitation.event_date && (
-              <div className="mx-auto mt-10 w-full max-w-3xl">
-                <div className="relative overflow-hidden rounded-[1.75rem] border px-5 py-5 sm:px-7 sm:py-6" style={{ borderColor: `${accent}35`, background: `linear-gradient(135deg, ${accent}0D 0%, rgba(255,255,255,0.78) 65%, ${accent}0A 100%)` }}>
-                  <div aria-hidden="true" className="absolute -right-5 -top-7 opacity-[0.07]">
-                    <CalendarDays size={132} strokeWidth={1} style={{ color: accent }} />
-                  </div>
-                  <div className="relative flex flex-col items-center gap-4 text-center sm:flex-row sm:text-left">
-                    <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl" style={{ backgroundColor: `${accent}14`, color: accent }}>
-                      <CalendarDays size={25} strokeWidth={1.5} />
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="font-[var(--font-display)] text-xl sm:text-2xl">Guarda la fecha</p>
-                      <p className="mt-1 text-sm leading-6 text-neutral-600">Añade este día a tu calendario para tener todos los detalles del evento a la mano.</p>
-                    </div>
-                    <button type="button" onClick={downloadCalendarFile} className="relative inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold transition hover:-translate-y-0.5 hover:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style={{ borderColor: `${accent}66`, color: accent, outlineColor: accent }}>
-                      <span>Guardar fecha</span>
-                      <ArrowUpRight size={16} strokeWidth={1.8} />
-                    </button>
-                  </div>
-                </div>
               </div>
             )}
 
@@ -528,7 +463,7 @@ function Countdown({ eventDate, eventTime, accent, textColor }: { eventDate: str
   );
 }
 
-function LocationCard({ title, time, venue, address, maps, accent }: { title: string; time?: string; venue?: string; address?: string; maps: string | null; accent: string }) {
+function LocationCard({ title, time, venue, address, maps, calendarUrl, accent }: { title: string; time?: string; venue?: string; address?: string; maps: string | null; calendarUrl: string | null; accent: string }) {
   return (
     <article className="invitation-location-card h-full rounded-[1.5rem] border border-neutral-100 bg-[#FEFDFC] p-6 sm:p-7">
       <div className="flex items-center gap-3">
@@ -548,7 +483,10 @@ function LocationCard({ title, time, venue, address, maps, accent }: { title: st
       })()}
       {venue && <h3 className="invitation-location-venue mt-3 font-[var(--font-display)] text-2xl leading-tight">{venue}</h3>}
       {address && <p className="invitation-location-address mt-2 text-sm leading-6 text-neutral-600">{address}</p>}
-      {maps && <a href={maps} target="_blank" rel="noreferrer" className="invitation-location-button mt-4 inline-flex w-fit min-h-10 items-center justify-center gap-2 rounded-full border px-4 text-sm font-semibold transition hover:bg-neutral-50" style={{ borderColor: `${accent}55`, color: accent }}><span>Ver ubicación</span><ArrowUpRight size={15} className="shrink-0" /></a>}
+      <div className="mt-4 flex flex-wrap items-center gap-2">
+        {maps && <a href={maps} target="_blank" rel="noreferrer" className="invitation-location-button inline-flex w-fit min-h-10 items-center justify-center gap-2 rounded-full border px-4 text-sm font-semibold transition hover:bg-neutral-50" style={{ borderColor: `${accent}55`, color: accent }}><span>Ver ubicación</span><ArrowUpRight size={15} className="shrink-0" /></a>}
+        {calendarUrl && <a href={calendarUrl} target="_blank" rel="noreferrer" className="inline-flex w-fit min-h-10 items-center justify-center gap-2 rounded-full px-3 text-sm font-medium transition hover:opacity-75" style={{ color: accent }}><CalendarPlus size={16} strokeWidth={1.7} /><span>Agregar al calendario</span></a>}
+      </div>
     </article>
   );
 }

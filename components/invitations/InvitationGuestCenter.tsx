@@ -186,17 +186,25 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
     else toast.success(`Se importaron ${count} invitados.`);
   }
 
-  return <section className="mt-5 overflow-hidden rounded-2xl border border-[#E7DCC8] bg-white">
-    <header className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EEE5D7] px-4 py-4 sm:px-5">
-      <div><h2 className="text-lg font-semibold text-[#332B27]">Lista de invitados</h2><p className="mt-0.5 text-sm text-[#7D7467]">{guests.length ? `${guests.length} invitados · ${passCount} pases` : "Agrega a las personas que quieres invitar"}</p></div>
-      <div className="flex items-center gap-2">
-        <button type="button" onClick={() => setShowTools(v => !v)} className="inline-flex items-center gap-2 rounded-lg bg-[#A88249] px-3.5 py-2.5 text-sm font-semibold text-white"><Plus size={16}/>{showTools ? "Cerrar" : "Agregar invitados"}</button>
-        <button type="button" onClick={() => { setLoading(true); void loadGuests(); }} disabled={loading} aria-label="Actualizar lista" title="Actualizar" className="rounded-lg border border-[#E7DCC8] p-2.5 text-[#5C554B] disabled:opacity-50"><RefreshCw size={15} className={loading ? "animate-spin" : ""}/></button>
+  return <section className="mt-6 overflow-hidden rounded-[1.5rem] border border-[#E7DCC8] bg-white shadow-[0_16px_50px_rgba(62,45,25,0.07)]">
+    <header className="relative overflow-hidden border-b border-[#EEE5D7] bg-gradient-to-br from-[#FFFCF7] via-white to-[#F7EEDC] px-4 py-5 sm:px-6 sm:py-6">
+      <div aria-hidden="true" className="absolute right-0 top-0 h-28 w-28 translate-x-8 -translate-y-8 rounded-full border-[18px] border-[#D7BE8B]/15" />
+      <div className="relative flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-start gap-3">
+          <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#D8C39B] bg-white/90 text-[#9A773F] shadow-sm"><Users size={19}/></span>
+          <div><p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#A17E46]">Tu evento · organización</p><h2 className="mt-1 text-xl font-semibold tracking-tight text-[#332B27]">Lista de invitados</h2><p className="mt-1 text-sm text-[#7D7467]">{guests.length ? `${guests.length} invitados · ${passCount} pases reservados` : "Organiza tus invitados y sus confirmaciones en un solo lugar"}</p></div>
+        </div>
+        <div className="relative flex items-center gap-2">
+          <button type="button" onClick={() => setShowTools(v => !v)} className="inline-flex items-center gap-2 rounded-xl border border-[#A88249] bg-[#A88249] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_5px_14px_rgba(168,130,73,0.22)] transition hover:-translate-y-0.5 hover:bg-[#92703E]">{showTools ? <X size={16}/> : <Plus size={16}/ >}{showTools ? "Cerrar" : "Agregar invitados"}</button>
+          <button type="button" onClick={() => { setLoading(true); void loadGuests(); }} disabled={loading} aria-label="Actualizar lista" title="Actualizar" className="rounded-xl border border-[#E7DCC8] bg-white/90 p-2.5 text-[#5C554B] transition hover:border-[#C9AD7B] hover:bg-white disabled:opacity-50"><RefreshCw size={15} className={loading ? "animate-spin" : ""}/></button>
+        </div>
       </div>
     </header>
 
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 border-b border-[#EEE5D7] bg-[#FFFCF7] px-4 py-3 text-sm sm:px-5">
-      <span className="font-medium text-green-800">{confirmedCount} confirmaron</span><span className="text-[#8A6A32]">{pendingRsvpCount} por responder</span>{declinedCount > 0 && <span className="text-[#7D7467]">{declinedCount} no asistirán</span>}
+    <div className="grid grid-cols-2 gap-2 border-b border-[#EEE5D7] bg-[#FFFCF7] p-3 sm:grid-cols-3 sm:gap-3 sm:px-6 sm:py-4">
+      <div className="rounded-xl border border-green-100 bg-white px-3 py-3 shadow-sm"><p className="text-lg font-semibold tabular-nums text-green-800">{confirmedCount}</p><p className="mt-0.5 text-xs text-[#6F786D]">Confirmaron</p></div>
+      <div className="rounded-xl border border-[#F0E2C4] bg-white px-3 py-3 shadow-sm"><p className="text-lg font-semibold tabular-nums text-[#98702F]">{pendingRsvpCount}</p><p className="mt-0.5 text-xs text-[#8A7860]">Por responder</p></div>
+      {declinedCount > 0 && <div className="rounded-xl border border-[#E8E3DC] bg-white px-3 py-3 shadow-sm"><p className="text-lg font-semibold tabular-nums text-[#7D7467]">{declinedCount}</p><p className="mt-0.5 text-xs text-[#7D7467]">No asistirán</p></div>}
     </div>
 
     {showTools && <div id="guest-tools-form" className="scroll-mt-6 border-b border-[#EEE5D7] bg-[#FFFCF7] p-4 sm:p-5">
@@ -229,12 +237,12 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
         <button type="button" onClick={() => void importValidRows()} disabled={importing || !importRows.some(r=>!r.error)} className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#A88249] px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"><FileSpreadsheet size={16}/>{importing ? "Agregando..." : `Agregar ${importRows.filter(r=>!r.error).length} invitados`}</button>
       </div> : <>
         <div className="flex flex-col gap-2 sm:flex-row">
-          <label className="relative min-w-0 flex-1"><Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9A8E7C]"/><input value={query} onChange={e=>{setQuery(e.target.value);setPage(1);}} placeholder="Buscar por nombre o teléfono" className="w-full rounded-lg border border-[#E7DCC8] py-2.5 pl-9 pr-3 text-sm outline-none focus:border-[#A88249]"/></label>
-          <select value={rsvpFilter} onChange={e=>{setRsvpFilter(e.target.value);setPage(1);}} aria-label="Filtrar invitados" className="rounded-lg border border-[#E7DCC8] bg-white px-3 py-2.5 text-sm"><option value="all">Todos</option><option value="pending">Por responder</option><option value="attending">Confirmaron</option><option value="declined">No asistirán</option></select>
+          <label className="relative min-w-0 flex-1"><Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9A8E7C]"/><input value={query} onChange={e=>{setQuery(e.target.value);setPage(1);}} placeholder="Buscar por nombre o teléfono" className="w-full rounded-xl border border-[#E7DCC8] bg-white py-3 pl-9 pr-3 text-sm outline-none transition focus:border-[#A88249] focus:ring-2 focus:ring-[#A88249]/10"/></label>
+          <select value={rsvpFilter} onChange={e=>{setRsvpFilter(e.target.value);setPage(1);}} aria-label="Filtrar invitados" className="rounded-xl border border-[#E7DCC8] bg-white px-3 py-3 text-sm outline-none transition focus:border-[#A88249] focus:ring-2 focus:ring-[#A88249]/10"><option value="all">Todos</option><option value="pending">Por responder</option><option value="attending">Confirmaron</option><option value="declined">No asistirán</option></select>
         </div>
         {loading ? <p className="py-10 text-center text-sm text-[#7D7467]">Cargando invitados...</p> : filtered.length === 0 ? <div className="rounded-xl border border-dashed border-[#E7DCC8] px-4 py-10 text-center"><Users className="mx-auto text-[#A88249]" size={26}/><p className="mt-3 font-medium text-[#332B27]">{guests.length ? "No encontramos invitados" : "Tu lista está vacía"}</p><p className="mt-1 text-sm text-[#7D7467]">{guests.length ? "Prueba con otro nombre o filtro." : "Agrega a tus invitados o carga una lista que ya tengas."}</p></div> :
-          <div className="overflow-hidden rounded-xl border border-[#EEE5D7]">
-            {visibleGuests.map(g=><div key={g.guest_id} className="flex items-center gap-3 border-b border-[#F0E9DF] px-3 py-3 last:border-b-0 hover:bg-[#FFFCF7] sm:px-4">
+          <div className="overflow-hidden rounded-2xl border border-[#E8DECF] bg-white shadow-sm">
+            {visibleGuests.map(g=><div key={g.guest_id} className="flex items-center gap-3 border-b border-[#F0E9DF] px-3 py-3.5 transition-colors last:border-b-0 hover:bg-[#FFFCF7] sm:px-4">
               <div className="min-w-0 flex-1"><p className="truncate text-sm font-medium text-[#332B27]" title={g.guest_name}>{g.guest_name}</p><p className="mt-0.5 truncate text-xs text-[#7D7467]" title={[g.family_group,g.passes===1?"1 pase":`${g.passes} pases`].filter(Boolean).join(" · ")}>{g.family_group ? `${g.family_group} · ` : ""}{g.passes} {g.passes===1?"pase":"pases"}</p></div>
               <span className={g.attendance_status==="attending"?"shrink-0 rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-800":g.attendance_status==="declined"?"shrink-0 rounded-md bg-neutral-100 px-2 py-1 text-xs font-medium text-neutral-700":"shrink-0 rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-800"}>{g.attendance_status==="attending"?`Confirmó · ${g.party_size ?? 1}`:g.attendance_status==="declined"?"No asistirá":"Pendiente"}</span>
               <div className="flex shrink-0 items-center gap-0.5">

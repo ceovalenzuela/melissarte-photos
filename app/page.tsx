@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 const demoUrl =
-  "https://fotos.melissartedecorativo.com/e/boda-sofia-y-alejandro";
+  "https://events.melissartedecorativo.com/e/boda-sofia-y-alejandro";
 
 const purchaseUrl =
   "https://melissartedecorativo.com/products/galeria-digital-para-tu-evento";

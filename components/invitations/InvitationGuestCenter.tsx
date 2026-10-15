@@ -335,11 +335,12 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
           <div className="overflow-hidden rounded-2xl border border-[#E8DECF] bg-white shadow-sm">
             {visibleGuests.map(g=><div key={g.guest_id} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 border-b border-[#F0E9DF] px-3 py-3 transition-colors last:border-b-0 hover:bg-[#FFFCF7] sm:gap-3 sm:px-4">
               <div className="min-w-0">
-                <div className="flex min-w-0 items-baseline gap-1.5"><p className="min-w-0 truncate text-sm font-semibold text-[#332B27]" title={g.guest_name}>{g.guest_name}</p>{g.family_group && <span className="min-w-0 truncate text-xs text-[#7D7467]" title={g.family_group}>{g.family_group}</span>}</div>
+                <p className="truncate text-sm font-semibold text-[#332B27]" title={g.guest_name}>{g.guest_name}</p>
+                {g.family_group && <p className="mt-0.5 truncate text-xs text-[#7D7467]" title={g.family_group}>{g.family_group}</p>}
                 <div className="mt-1.5 flex min-w-0 flex-wrap items-center gap-1.5">
+                  <span className="text-[10px] font-medium text-[#7D7467]">{g.passes} {g.passes===1?"pase":"pases"}</span>
                   <span className={g.attendance_status==="attending"?"rounded-md bg-green-50 px-1.5 py-0.5 text-[10px] font-medium text-green-800":g.attendance_status==="declined"?"rounded-md bg-neutral-100 px-1.5 py-0.5 text-[10px] font-medium text-neutral-700":"rounded-md bg-amber-50 px-1.5 py-0.5 text-[10px] font-medium text-amber-800"}>{g.attendance_status==="attending"?`Confirmó · ${g.party_size ?? 1}`:g.attendance_status==="declined"?"No asistirá":"Por responder"}</span>
                   <span className={g.delivery_status==="sent"?"text-[10px] font-medium text-blue-700":"text-[10px] font-medium text-[#9A6A2D]"}>{g.delivery_status==="sent"?"Enviada":"Sin enviar"}</span>
-                  <span className="text-[10px] font-medium text-[#7D7467]">{g.passes} {g.passes===1?"pase":"pases"}</span>
                 </div>
               </div>
               <div className="flex shrink-0 items-center gap-0.5 sm:gap-1">

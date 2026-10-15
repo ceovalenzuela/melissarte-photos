@@ -474,7 +474,7 @@ setPresentationIndex(0);
       return;
     }
 
-    const galleryUrl = getEventUrl(event.slug);
+    const galleryUrl = getEventUrl(window.location.origin, event.slug);
 
     QRCode.toDataURL(galleryUrl, {
       width: 180,

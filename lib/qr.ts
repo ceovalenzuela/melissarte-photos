@@ -18,7 +18,7 @@ async function loadImage(
 export async function downloadEventQrCard(
   event: Event
 ): Promise<void> {
-  const url = getEventUrl(event.slug);
+  const url = getEventUrl(window.location.origin, event.slug);
 
   // QR en muy alta resolución
   const qrDataUrl = await QRCode.toDataURL(url, {

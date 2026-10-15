@@ -282,7 +282,7 @@ export default function PublicInvitationClient({
             <div className="invitation-hero-frame pointer-events-none absolute inset-4 sm:inset-7" aria-hidden="true" />
             <div className="invitation-hero-content relative z-10 mx-auto max-w-4xl">
               <h1 className="invitation-hero-title font-[var(--font-display)] text-4xl leading-tight sm:text-6xl lg:text-7xl">{content.headline || invitation.event_title}</h1>
-              {invitation.event_date && <p className="invitation-hero-date mt-6 text-[10px] font-semibold uppercase tracking-[0.28em] sm:mt-7 sm:text-xs">{formatDate(invitation.event_date)}</p>}
+              {invitation.event_date && <p className="invitation-hero-date mt-5 text-xs font-semibold uppercase tracking-[0.22em] sm:mt-6 sm:text-sm sm:tracking-[0.24em] lg:text-base">{formatDate(invitation.event_date)}</p>}
             </div>
             <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-white/70 to-transparent opacity-60" />
           </header>
@@ -290,7 +290,6 @@ export default function PublicInvitationClient({
             <div className="mx-auto max-w-3xl text-center invitation-reveal">
               <p className="text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>Detalles del evento</p>
               {content.introduction && <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-neutral-600 sm:text-base">{content.introduction}</p>}
-              {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} />}
             </div>
 
             {(content.ceremony_venue || content.ceremony_time || content.ceremony_address || content.reception_venue || content.reception_time || content.reception_address || (content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address))) && (
@@ -306,6 +305,8 @@ export default function PublicInvitationClient({
                 )}
               </div>
             )}
+
+            {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} />}
 
             {content.dress_code && !personalizedGuest && !existingRSVP && (
               <div className="mx-auto mt-10 max-w-3xl">

@@ -1269,7 +1269,7 @@
   color: #FFFCF5;
 }
 .organizer-confirmations .organizer-rsvp-list,
-.organizer-confirmations > div > section {
+.organizer-confirmations > div > div > section {
   border-color: #DED2BC;
   box-shadow: 0 12px 38px rgba(31, 48, 64, 0.06);
 }

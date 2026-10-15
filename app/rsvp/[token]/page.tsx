@@ -38,10 +38,6 @@ const organizerPalettes = {
   bannerStart: string; bannerEnd: string; bannerText: string; bannerAccent: string; muted: string; soft: string;
 }>;
 
-function validColor(value: unknown): value is string {
-  return typeof value === "string" && /^#[0-9a-fA-F]{6}$/.test(value);
-}
-
 export default async function OrganizerConfirmationsPage({ params }: Props) {
   const { token } = await params;
   const { data, error } = await supabase.rpc("get_event_by_organizer_token", {
@@ -64,18 +60,15 @@ export default async function OrganizerConfirmationsPage({ params }: Props) {
     ? (invitation.template_key as InvitationTemplateKey)
     : "wedding_editorial";
   const palette = organizerPalettes[templateKey];
-  const design = invitation?.design_config ?? {};
-
-  // Keep surfaces and text on accessible, template-specific defaults. Custom accent/border
-  // colors are honored where supplied; arbitrary custom background/text colors do not
-  // override these contrast-safe pairings.
+  // Keep this management page aligned to the selected template while using curated,
+  // contrast-safe colors rather than arbitrary custom text/background combinations.
   const organizerThemeStyle = {
-    "--organizer-accent": validColor(design.accent_color) ? design.accent_color : palette.border,
+    "--organizer-accent": palette.button,
     "--organizer-bg": palette.bg,
     "--organizer-text": palette.text,
     "--organizer-card": palette.card,
     "--organizer-card-text": palette.cardText,
-    "--organizer-border": validColor(design.border_color) ? design.border_color : palette.border,
+    "--organizer-border": palette.border,
     "--organizer-button": palette.button,
     "--organizer-button-text": palette.buttonText,
     "--organizer-banner-start": palette.bannerStart,

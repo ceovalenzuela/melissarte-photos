@@ -217,6 +217,7 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
       <div className="rounded-2xl border border-[#F0E2C4] bg-white px-3 py-3 shadow-[0_3px_12px_rgba(115,83,28,0.035)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#98702F] sm:text-xl">{pendingRsvpCount}</p><p className="mt-1 text-[10px] leading-tight text-[#8A7860] sm:text-xs">Por responder</p></div>
       <div className="rounded-2xl border border-[#E8E3DC] bg-white px-3 py-3 shadow-[0_3px_12px_rgba(62,45,25,0.025)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#7D7467] sm:text-xl">{declinedCount}</p><p className="mt-1 text-[10px] leading-tight text-[#7D7467] sm:text-xs">No asistirán</p></div>
     </div>
+    <p className="border-b border-[#EEE5D7] px-4 py-3 text-xs leading-5 text-[#7D7467] sm:px-6">El total de personas se calcula con las respuestas de asistencia. Los pases asignados son los lugares reservados para cada invitado.</p>
 
     {showTools && <div id="guest-tools-form" className="scroll-mt-6 border-b border-[#EEE5D7] bg-[#FFFCF7] p-4 sm:p-5">
       <div className="grid gap-5 lg:grid-cols-2">

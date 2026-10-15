@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState, type CSSProperties } from "react";
 import { useRouter } from "next/navigation";
-import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight, Share2, Download } from "lucide-react";
+import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight, Share2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { InvitationTemplateKey, PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
 
@@ -154,20 +154,6 @@ export default function PublicInvitationClient({
     return { start: `${year}${String(month).padStart(2, "0")}${String(day).padStart(2, "0")}`, end: endDate };
   }
 
-  function openGoogleCalendar() {
-    const range = calendarDateRange();
-    if (!range) return;
-    const params = new URLSearchParams({
-      action: "TEMPLATE",
-      text: content.headline || invitation.event_title || "Evento",
-      dates: `${range.start}/${range.end}`,
-      details: calendarDetails(),
-      location: calendarLocation(),
-      ctz: "America/Monterrey",
-    });
-    window.open(`https://calendar.google.com/calendar/render?${params.toString()}`, "_blank", "noopener,noreferrer");
-  }
-
   function downloadCalendarFile() {
     const range = calendarDateRange();
     if (!range) return;
@@ -202,7 +188,7 @@ export default function PublicInvitationClient({
     document.body.appendChild(link);
     link.click();
     link.remove();
-    URL.revokeObjectURL(url);
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
   async function sharePublicInvitation() {
@@ -370,15 +356,25 @@ export default function PublicInvitationClient({
             )}
 
             {invitation.event_date && (
-              <div className="mx-auto mt-8 flex w-full max-w-3xl flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
-                <button type="button" onClick={openGoogleCalendar} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style={{ backgroundColor: accent, outlineColor: accent }}>
-                  <CalendarDays size={17} strokeWidth={1.8} />
-                  Agregar a Google Calendar
-                </button>
-                <button type="button" onClick={downloadCalendarFile} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border px-5 py-3 text-sm font-semibold transition hover:bg-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style={{ borderColor: `${accent}66`, color: accent, outlineColor: accent }}>
-                  <Download size={17} strokeWidth={1.8} />
-                  Descargar para otro calendario
-                </button>
+              <div className="mx-auto mt-10 w-full max-w-3xl">
+                <div className="relative overflow-hidden rounded-[1.75rem] border px-5 py-5 sm:px-7 sm:py-6" style={{ borderColor: `${accent}35`, background: `linear-gradient(135deg, ${accent}0D 0%, rgba(255,255,255,0.78) 65%, ${accent}0A 100%)` }}>
+                  <div aria-hidden="true" className="absolute -right-5 -top-7 opacity-[0.07]">
+                    <CalendarDays size={132} strokeWidth={1} style={{ color: accent }} />
+                  </div>
+                  <div className="relative flex flex-col items-center gap-4 text-center sm:flex-row sm:text-left">
+                    <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl" style={{ backgroundColor: `${accent}14`, color: accent }}>
+                      <CalendarDays size={25} strokeWidth={1.5} />
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-[var(--font-display)] text-xl sm:text-2xl">Guarda la fecha</p>
+                      <p className="mt-1 text-sm leading-6 text-neutral-600">Añade este día a tu calendario para tener todos los detalles del evento a la mano.</p>
+                    </div>
+                    <button type="button" onClick={downloadCalendarFile} className="relative inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold transition hover:-translate-y-0.5 hover:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style={{ borderColor: `${accent}66`, color: accent, outlineColor: accent }}>
+                      <span>Guardar fecha</span>
+                      <ArrowUpRight size={16} strokeWidth={1.8} />
+                    </button>
+                  </div>
+                </div>
               </div>
             )}
 

@@ -120,8 +120,8 @@ export default function PublicInvitationClient({
   const [publicLinkCopied, setPublicLinkCopied] = useState(false);
 
   function calendarUrl(title: string, time?: string, venue?: string, address?: string) {
-    if (!invitation.event_date || !/^\\d{4}-\\d{2}-\\d{2}$/.test(invitation.event_date) || !time) return null;
-    const match = time.match(/^([01]?\\d|2[0-3]):([0-5]\\d)$/);
+    if (!invitation.event_date || !/^\d{4}-\d{2}-\d{2}$/.test(invitation.event_date) || !time) return null;
+    const match = time.match(/^([01]?\d|2[0-3]):([0-5]\d)$/);
     if (!match) return null;
     const [year, month, day] = invitation.event_date.split("-").map(Number);
     const start = new Date(year, month - 1, day, Number(match[1]), Number(match[2]));
@@ -136,7 +136,7 @@ export default function PublicInvitationClient({
       venue,
       address,
       typeof window !== "undefined" ? window.location.href : "",
-    ].filter(Boolean).join("\\n");
+    ].filter(Boolean).join("\n");
     const params = new URLSearchParams({
       action: "TEMPLATE",
       text: `${content.headline || invitation.event_title || "Evento"} · ${title}`,

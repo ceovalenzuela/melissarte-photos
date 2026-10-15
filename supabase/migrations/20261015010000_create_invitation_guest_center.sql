@@ -53,6 +53,17 @@ BEGIN
   IF p_passes IS NULL OR p_passes NOT BETWEEN 1 AND 20 THEN RAISE EXCEPTION 'Los pases deben estar entre 1 y 20'; END IF;
   IF p_family_group IS NOT NULL AND char_length(p_family_group) > 100 THEN RAISE EXCEPTION 'El grupo familiar es demasiado largo'; END IF;
 
+  -- En altas y ediciones, evitar teléfonos duplicados dentro del mismo evento.
+  IF EXISTS (
+    SELECT 1
+    FROM public.invitation_guests g
+    WHERE g.event_id = p_event_id
+      AND regexp_replace(g.phone, '[^0-9]', '', 'g') = regexp_replace(v_phone, '[^0-9]', '', 'g')
+      AND (p_guest_id IS NULL OR g.id <> p_guest_id)
+  ) THEN
+    RAISE EXCEPTION 'Ya existe un invitado con ese teléfono';
+  END IF;
+
   IF p_guest_id IS NOT NULL THEN
     UPDATE public.invitation_guests g
       SET name = btrim(p_name), phone = v_phone, family_group = btrim(coalesce(p_family_group, '')),
@@ -61,9 +72,6 @@ BEGIN
       RETURNING g.id INTO v_id;
     IF v_id IS NULL THEN RAISE EXCEPTION 'Invitado no encontrado'; END IF;
   ELSE
-    IF EXISTS (SELECT 1 FROM public.invitation_guests g WHERE g.event_id = p_event_id AND regexp_replace(g.phone, '[^0-9]', '', 'g') = regexp_replace(v_phone, '[^0-9]', '', 'g')) THEN
-      RAISE EXCEPTION 'Ya existe un invitado con ese teléfono';
-    END IF;
     INSERT INTO public.invitation_guests(event_id, name, phone, family_group, passes)
       VALUES (p_event_id, btrim(p_name), v_phone, btrim(coalesce(p_family_group, '')), p_passes)
       RETURNING id INTO v_id;

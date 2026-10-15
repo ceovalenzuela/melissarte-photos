@@ -1383,3 +1383,133 @@
 @media (prefers-reduced-motion: reduce) {
   .invitation-public .invitation-hero-image { animation: none !important; transform: none !important; }
 }
+
+/* Mobile finishing pass for public invitation cards; leaves RSVP behavior untouched. */
+@media (max-width: 639px) {
+  .invitation-public #detalles {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .invitation-public .invitation-location-grid {
+    width: 100%;
+    margin-top: 1.5rem;
+    gap: .875rem;
+  }
+  .invitation-public .invitation-location-card {
+    min-width: 0;
+    padding: 1.125rem;
+    border-radius: 1.25rem;
+  }
+  .invitation-public .invitation-location-card > div:first-child {
+    align-items: center;
+    gap: .75rem;
+  }
+  .invitation-public .invitation-location-card > div:first-child > span {
+    width: 2.75rem;
+    height: 2.75rem;
+    flex: 0 0 2.75rem;
+  }
+  .invitation-public .invitation-location-card > div:first-child > p {
+    min-width: 0;
+    font-size: .625rem;
+    letter-spacing: .18em;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+  .invitation-public .invitation-location-card > p.mt-5 {
+    margin-top: 1rem;
+    font-size: 1.8rem;
+  }
+  .invitation-public .invitation-location-card .invitation-location-venue {
+    margin-top: .75rem;
+    font-size: clamp(1.15rem, 5vw, 1.35rem);
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+  .invitation-public .invitation-location-card .invitation-location-address {
+    margin-top: .375rem;
+    font-size: .8125rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+  .invitation-public .invitation-location-card > div:has(> a.invitation-location-button) {
+    margin-top: 1rem !important;
+    gap: .5rem;
+  }
+  .invitation-public .invitation-location-card > a.invitation-location-button,
+  .invitation-public .invitation-location-card > div > a {
+    min-width: 0;
+    min-height: 3.25rem !important;
+    padding: .5rem .45rem !important;
+    gap: .4rem;
+    border-radius: .875rem;
+  }
+  .invitation-public .invitation-location-card > a.invitation-location-button > span:first-child,
+  .invitation-public .invitation-location-card > div > a > span:first-child {
+    width: 1.75rem !important;
+    height: 1.75rem !important;
+    flex: 0 0 1.75rem !important;
+    border-radius: .625rem;
+  }
+  .invitation-public .invitation-location-card > a.invitation-location-button > span:first-child svg,
+  .invitation-public .invitation-location-card > div > a > span:first-child svg {
+    width: .9rem;
+    height: .9rem;
+  }
+  .invitation-public .invitation-location-card > a.invitation-location-button > span:last-child,
+  .invitation-public .invitation-location-card > div > a > span:last-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    line-height: 1.1;
+  }
+  .invitation-public .invitation-location-card > a.invitation-location-button > span:last-child > span:first-child,
+  .invitation-public .invitation-location-card > div > a > span:last-child > span:first-child {
+    font-size: .625rem;
+  }
+  .invitation-public .invitation-location-card > a.invitation-location-button > span:last-child > span:last-child,
+  .invitation-public .invitation-location-card > div > a > span:last-child > span:last-child {
+    font-size: .5625rem;
+  }
+  .invitation-public .invitation-countdown {
+    margin-top: 1.5rem;
+    padding: 1rem .5rem;
+    border-radius: 1.125rem;
+  }
+  .invitation-public .invitation-countdown > p {
+    font-size: .5625rem;
+    letter-spacing: .16em;
+    line-height: 1.5;
+    text-align: center;
+  }
+  .invitation-public .invitation-countdown > div {
+    margin-top: .875rem;
+  }
+  .invitation-public .invitation-countdown > div > div {
+    padding-inline: .2rem;
+  }
+  .invitation-public .invitation-countdown > div > div p:first-child {
+    font-size: clamp(1.35rem, 6vw, 1.8rem);
+  }
+  .invitation-public .invitation-countdown > div > div p:last-child {
+    font-size: .5rem;
+    letter-spacing: .08em;
+  }
+  .invitation-public #detalles > .mx-auto.max-w-3xl p:last-child {
+    line-height: 1.7;
+  }
+  .invitation-public #detalles > .mx-auto.flex {
+    margin-top: 1.5rem;
+  }
+  .invitation-public #detalles > .mx-auto.flex > button {
+    width: 100%;
+    max-width: 21rem;
+  }
+  .invitation-public .invitation-rsvp {
+    scroll-margin-top: 1rem;
+  }
+  .invitation-public footer {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+

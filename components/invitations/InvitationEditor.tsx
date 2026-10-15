@@ -6,7 +6,8 @@ import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 import { uploadCover } from "@/lib/events";
 import type { Event } from "@/types/event";
-import type { InvitationContent, InvitationDesign, InvitationStatus } from "@/types/invitation";
+import type { InvitationContent, InvitationDesign, InvitationStatus, InvitationTemplateKey } from "@/types/invitation";
+import { INVITATION_PALETTES, INVITATION_TEMPLATE_OPTIONS } from "@/lib/invitation-palettes";
 
 interface InvitationRow {
   invitation_id: string;
@@ -43,13 +44,8 @@ const emptyContent = (event: Event): InvitationContent => ({
 });
 
 
-type TemplateKey = "wedding_editorial" | "xv_gala" | "baby_soft" | "baptism_light";
-const TEMPLATE_OPTIONS: { key: TemplateKey; label: string; description: string; palette: InvitationDesign }[] = [
-  { key: "wedding_editorial", label: "Boda · Editorial", description: "Marfil luminoso, azul tinta y champagne", palette: { background_color: "#F4EAD8", accent_color: "#A78645", text_color: "#273747", title_color: "#273747", card_background_color: "#FFFCF6", card_text_color: "#302F30", border_color: "#C9AD6B", button_color: "#A78645", button_text_color: "#FFFFFF", rsvp_background_color: "#273747", rsvp_text_color: "#FFFAF0", form_background_color: "#FFFDF8", form_text_color: "#302F30" } },
-  { key: "xv_gala", label: "XV años · Gala", description: "Ciruela profunda, malva y oro", palette: { background_color: "#211B35", accent_color: "#D6B66F", text_color: "#FFFAF0", title_color: "#FFFAF0", card_background_color: "#39304C", card_text_color: "#FFFAF0", border_color: "#D6B66F", button_color: "#6F4B68", button_text_color: "#FFFFFF", rsvp_background_color: "#211B35", rsvp_text_color: "#FFFAF0", form_background_color: "#FFFDF9", form_text_color: "#30283A" } },
-  { key: "baby_soft", label: "Baby shower · Suave", description: "Durazno, salvia, amarillo mantequilla y celeste", palette: { background_color: "#FFF4E8", accent_color: "#A85F47", text_color: "#493C32", title_color: "#875744", card_background_color: "#FFFEFA", card_text_color: "#493C32", border_color: "#B9DCE7", button_color: "#528DA3", button_text_color: "#FFFFFF", rsvp_background_color: "#E9F4F6", rsvp_text_color: "#493C32", form_background_color: "#FFFEFA", form_text_color: "#493C32" } },
-  { key: "baptism_light", label: "Bautizo · Luz", description: "Marfil, azul cielo y dorado", palette: { background_color: "#FAF7F0", accent_color: "#527F98", text_color: "#263641", title_color: "#263641", card_background_color: "#FFFFFF", card_text_color: "#263641", border_color: "#C7DBE5", button_color: "#527F98", button_text_color: "#FFFFFF", rsvp_background_color: "#E3EEF3", rsvp_text_color: "#263641", form_background_color: "#FFFFFF", form_text_color: "#263641" } },
-];
+type TemplateKey = InvitationTemplateKey;
+const TEMPLATE_OPTIONS = INVITATION_TEMPLATE_OPTIONS.map((option) => ({ ...option, palette: INVITATION_PALETTES[option.key] }));
 function initialDesignForTemplate(template: TemplateKey): InvitationDesign {
   return { ...(TEMPLATE_OPTIONS.find((option) => option.key === template)?.palette ?? emptyDesign) };
 }
@@ -77,6 +73,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
   const [saving, setSaving] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const colorsSectionRef = useRef<HTMLDetailsElement>(null);
   const [content, setContent] = useState<InvitationContent>(() => emptyContent(event));
   const [design, setDesign] = useState<InvitationDesign>(() => initialDesign(event));
   const [templateKey, setTemplateKey] = useState<TemplateKey>(() => defaultTemplate(event));
@@ -102,8 +99,9 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
       const row = (data?.[0] as InvitationRow | undefined) ?? null;
       if (row) {
         setContent({ ...emptyContent(event), ...(row.content_config ?? {}) });
-        setDesign({ ...emptyDesign, ...(row.design_config ?? {}) });
-        setTemplateKey((TEMPLATE_OPTIONS.find((option) => option.key === row.template_key)?.key) ?? defaultTemplate(event));
+        const rowTemplate = (TEMPLATE_OPTIONS.find((option) => option.key === row.template_key)?.key) ?? defaultTemplate(event);
+        setDesign({ ...INVITATION_PALETTES[rowTemplate], ...(row.design_config ?? {}) });
+        setTemplateKey(rowTemplate);
         setRsvpEnabled(row.rsvp_enabled);
         setMaxPartySize(row.max_party_size);
         setStatus(row.status);
@@ -222,7 +220,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
               ["editor-rsvp", "Confirmación"],
               ["editor-colors", "Colores"],
             ].map(([id, label]) => (
-              <a key={id} href={`#${id}`} className="shrink-0 rounded-full border border-[#D9C7AA] bg-white px-3.5 py-2 text-xs font-semibold text-[#51483E] transition hover:border-[#A88249] hover:bg-[#FBF5E9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A88249]">
+              <a key={id} href={`#${id}`} onClick={() => { if (id === "editor-colors") colorsSectionRef.current?.setAttribute("open", ""); }} className="shrink-0 rounded-full border border-[#D9C7AA] bg-white px-3.5 py-2 text-xs font-semibold text-[#51483E] transition hover:border-[#A88249] hover:bg-[#FBF5E9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A88249]">
                 {label}
               </a>
             ))}
@@ -380,7 +378,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
             </div>
           </section>
 
-          <details id="editor-colors" className="scroll-mt-6 border-t border-[#E7DCC8] pt-6">
+          <details id="editor-colors" ref={colorsSectionRef} className="scroll-mt-6 border-t border-[#E7DCC8] pt-6">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-2xl border border-[#D9C7AA] bg-white px-4 py-4 text-sm font-semibold text-[#332B27] shadow-sm transition hover:bg-[#FBF7F0] [&::-webkit-details-marker]:hidden">
               <span className="flex items-center gap-3">
                 <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#D9C7AA] bg-[#F7F0E4] text-[#76582E]"><Sparkles size={18} /></span>
@@ -515,7 +513,7 @@ function ColorField({ label, value, onChange }: { label: string; value: string; 
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           onBlur={commitDraft}
-          onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); commitDraft(); e.currentTarget.blur(); } }}
+          onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); e.currentTarget.blur(); } }}
           maxLength={7}
           placeholder="#RRGGBB"
           spellCheck={false}

@@ -210,7 +210,7 @@ export default function EventEditor({ event, stats, invitationSection, invitatio
         )}
 
         {activeTab === "invitation" && (
-          invitationSection ? (
+          values.invitation_enabled && invitationSection ? (
             <div className="min-w-0">
               {invitationSection}
               {invitationDangerZoneAction && (

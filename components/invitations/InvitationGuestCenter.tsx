@@ -199,7 +199,7 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
       <span className="font-medium text-green-800">{confirmedCount} confirmaron</span><span className="text-[#8A6A32]">{pendingRsvpCount} por responder</span>{declinedCount > 0 && <span className="text-[#7D7467]">{declinedCount} no asistirán</span>}
     </div>
 
-    {showTools && <div className="border-b border-[#EEE5D7] bg-[#FFFCF7] p-4 sm:p-5">
+    {showTools && <div id="guest-tools-form" className="scroll-mt-6 border-b border-[#EEE5D7] bg-[#FFFCF7] p-4 sm:p-5">
       <div className="grid gap-5 lg:grid-cols-2">
         <div>
           <h3 className="font-semibold text-[#332B27]">{editing ? "Editar invitado" : "Agregar una persona"}</h3>

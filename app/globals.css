@@ -1213,10 +1213,10 @@
 /* Organizer confirmations: consistent editorial palette, independent from the public invitation theme. */
 .organizer-confirmations {
   background: linear-gradient(180deg, var(--organizer-bg) 0%, var(--organizer-soft) 100%);
-  color: #202B37;
+  color: var(--organizer-text);
 }
 .organizer-confirmations .organizer-confirmations-back {
-  color: #344758;
+  color: var(--organizer-button);
   margin-left: -0.25rem;
 }
 .organizer-confirmations .organizer-confirmations-back:hover {
@@ -1237,7 +1237,7 @@
   border-color: var(--organizer-border);
   box-shadow: 0 18px 54px rgba(31, 48, 64, 0.12);
 }
-.organizer-confirmations .organizer-confirmations-banner {
+.organizer-confirmations[class*="invitation-template-"] .organizer-confirmations-banner {
   background:
     radial-gradient(ellipse at 88% 0%, color-mix(in srgb, var(--organizer-banner-accent) 16%, transparent), transparent 22rem),
     linear-gradient(125deg, var(--organizer-banner-start) 0%, var(--organizer-banner-end) 100%);

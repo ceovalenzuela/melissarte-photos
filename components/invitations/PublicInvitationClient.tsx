@@ -296,7 +296,7 @@ export default function PublicInvitationClient({
                     </div>
                   </div>
                 )}
-                <form onSubmit={handleSubmit} className="mt-8 space-y-5 rounded-[1.5rem] border border-black/5 bg-white p-5 shadow-[0_16px_50px_rgba(48,36,27,0.06)] sm:p-7">
+                <form onSubmit={handleSubmit} className="mt-6 space-y-4 rounded-2xl border border-black/5 bg-white p-4 shadow-sm sm:p-6">
                   <div>
                     <label htmlFor="guest-name" className="mb-2 block text-sm font-medium">Nombre completo</label>
                     <input id="guest-name" required minLength={1} maxLength={80} value={guestName} onChange={(e) => setGuestName(e.target.value)} className="w-full rounded-xl border border-neutral-200 px-4 py-3.5 outline-none transition focus:border-neutral-400" placeholder="Escribe tu nombre" />
@@ -314,10 +314,6 @@ export default function PublicInvitationClient({
                       {Array.from({ length: maxPartySize }, (_, index) => index + 1).map((size) => <option key={size} value={size}>{size} {size === 1 ? "persona" : "personas"}</option>)}
                     </select>
                   </div>}
-                  <div>
-                    <label htmlFor="guest-phone" className="mb-2 block text-sm font-medium">Teléfono <span className="font-normal text-neutral-400">(opcional)</span></label>
-                    <input id="guest-phone" type="tel" maxLength={30} value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full rounded-xl border border-neutral-200 px-4 py-3.5 outline-none transition focus:border-neutral-400" placeholder="Tu número de contacto" />
-                  </div>
                   {errorMessage && <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{errorMessage}</p>}
                   {successMessage && <p role="status" className="flex items-center gap-2 rounded-xl bg-green-50 px-4 py-3 text-sm text-green-800"><CheckCircle2 size={18} />{successMessage}</p>}
                   <button type="submit" disabled={submitting} className="w-full rounded-full px-5 py-4 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60" style={{ backgroundColor: accent }}>{submitting ? "Guardando..." : existingRSVP || personalizedGuest?.attendance_status ? "Guardar cambios" : "Confirmar asistencia"}</button>

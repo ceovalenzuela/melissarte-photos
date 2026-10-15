@@ -404,11 +404,3 @@ function LocationCard({ title, time, venue, address, maps, accent }: { title: st
   );
 }
 
-function InfoCard({ icon, title, value, accent }: { icon: React.ReactNode; title: string; value: string; accent: string }) {
-  return (
-    <article className="flex items-start gap-3 rounded-2xl border border-neutral-100 bg-white p-5">
-      <span className="mt-0.5" style={{ color: accent }}>{icon}</span>
-      <div><p className="text-[10px] font-semibold uppercase tracking-[0.2em]" style={{ color: accent }}>{title}</p><p className="mt-2 text-sm leading-6 text-neutral-700">{value}</p></div>
-    </article>
-  );
-}

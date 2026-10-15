@@ -1515,11 +1515,6 @@
 
 /* Admin color settings are the source of truth for the public invitation.
    Template-specific rules keep typography and composition, not fixed color overrides. */
-.invitation-public {
-  --inv-background: var(--inv-background, #fbf7f1);
-  --inv-accent: var(--inv-accent, #9a7358);
-  --inv-text: var(--inv-text, #332b27);
-}
 .invitation-public #detalles {
   background: var(--inv-background) !important;
   color: var(--inv-text) !important;

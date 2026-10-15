@@ -247,12 +247,55 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
           </section>
 
           <section className="border-t border-[#E7DCC8] pt-6">
-            <h3 className="mb-4 text-base font-semibold text-[#332B27]">Diseño de la invitación</h3>
-            <label className={labelClass}>Plantilla</label>
-            <select value={templateKey} onChange={(e) => { const next = TEMPLATE_OPTIONS.find((option) => option.key === e.target.value); if (!next) return; setTemplateKey(next.key); setDesign((current) => ({ ...initialDesignForTemplate(next.key), cover_image_url: current.cover_image_url })); }} className={inputClass}>
-              {TEMPLATE_OPTIONS.map((option) => <option key={option.key} value={option.key}>{option.label} — {option.description}</option>)}
-            </select>
-            <p className="mt-2 text-xs text-[#8A8074]">Cambiar plantilla aplica su paleta base. Puedes ajustar los colores más abajo.</p>
+            <div className="mb-4">
+              <h3 className="text-base font-semibold text-[#332B27]">Diseño de la invitación</h3>
+              <p className="mt-1 text-sm leading-6 text-[#6F665B]">Elige el estilo que mejor acompaña tu celebración. Puedes personalizar sus colores después.</p>
+            </div>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              {TEMPLATE_OPTIONS.map((option) => {
+                const selected = templateKey === option.key;
+                const palette = option.palette;
+                return (
+                  <button
+                    key={option.key}
+                    type="button"
+                    aria-pressed={selected}
+                    onClick={() => {
+                      if (selected) return;
+                      setTemplateKey(option.key);
+                      setDesign((current) => ({ ...initialDesignForTemplate(option.key), cover_image_url: current.cover_image_url }));
+                    }}
+                    className={`group relative min-w-0 overflow-hidden rounded-2xl border p-3 text-left transition duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${selected ? "border-[#8E6D3D] bg-[#FBF5E9] shadow-sm ring-1 ring-[#8E6D3D]/25" : "border-[#E7DCC8] bg-white hover:border-[#C5AD88]"}`}
+                    style={{ outlineColor: "#8E6D3D" }}
+                  >
+                    <div className="mb-3 flex h-20 items-end gap-1.5 overflow-hidden rounded-xl border p-2.5" style={{ background: palette.background_color, borderColor: palette.border_color }}>
+                      <span className="h-11 w-[34%] rounded-t-lg border" style={{ background: palette.card_background_color, borderColor: palette.border_color }} />
+                      <span className="h-14 flex-1 rounded-t-lg border p-1.5" style={{ background: palette.card_background_color, borderColor: palette.border_color }}>
+                        <span className="block mt-1 h-1 w-3/4 rounded-full" style={{ backgroundColor: palette.title_color }} />
+                        <span className="mt-1.5 block h-1 w-1/2 rounded-full" style={{ backgroundColor: palette.text_color, opacity: 0.65 }} />
+                        <span className="mt-2 block h-2 w-2/3 rounded-full" style={{ backgroundColor: palette.button_color }} />
+                      </span>
+                    </div>
+                    <span className="flex items-start justify-between gap-2">
+                      <span className="min-w-0">
+                        <span className="block text-sm font-semibold leading-5 text-[#332B27]">{option.label}</span>
+                        <span className="mt-1 block text-xs leading-5 text-[#62594F]">{option.description}</span>
+                      </span>
+                      <span className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${selected ? "border-[#8E6D3D] bg-[#8E6D3D] text-white" : "border-[#D6C9B7] bg-white text-transparent"}`} aria-hidden="true">
+                        <span className="text-xs leading-none">✓</span>
+                      </span>
+                    </span>
+                    <span className="mt-3 flex items-center gap-1.5" aria-label="Colores de la plantilla">
+                      {[palette.background_color, palette.title_color, palette.accent_color, palette.button_color, palette.border_color].map((color, index) => (
+                        <span key={`${option.key}-${index}`} className="h-4 w-4 rounded-full border border-black/10" style={{ backgroundColor: color }} />
+                      ))}
+                    </span>
+                    {selected && <span className="mt-2 block text-[10px] font-semibold uppercase tracking-[0.12em] text-[#76582E]">Plantilla seleccionada</span>}
+                  </button>
+                );
+              })}
+            </div>
+            <p className="mt-3 text-xs leading-5 text-[#62594F]">Al elegir otra plantilla se aplica su paleta inicial. Tu portada se conserva; los demás colores se pueden ajustar en «Personalizar colores».</p>
           </section>
 
           <section className="border-t border-[#E7DCC8] pt-6">

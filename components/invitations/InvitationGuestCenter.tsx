@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import JSZip from "jszip";
-import { CheckCircle2, ChevronLeft, ChevronRight, Download, Edit2, FileSpreadsheet, MessageCircle, Plus, RefreshCw, Save, Search, Trash2, Upload, Users, X } from "lucide-react";
+import { CheckCircle2, ChevronLeft, ChevronRight, Copy, Download, Edit2, FileSpreadsheet, MessageCircle, Plus, RefreshCw, Save, Search, Trash2, Upload, Users, X } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 
@@ -172,6 +172,26 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
     whatsappWindow.location.href = `https://wa.me/${whatsappPhone(g.phone)}?text=${encodeURIComponent(message)}`;
     toast.info(g.delivery_status === "sent" ? "Abrimos WhatsApp. Esta invitación ya estaba marcada como enviada." : "Abrimos WhatsApp. Cuando termines de enviarla, marca el envío como realizado en la lista.");
   }
+  async function copyPersonalLink(g: Guest) {
+    if (!invitationSlug) { toast.error("Primero guarda y publica la invitación para generar su enlace."); return; }
+    const { data, error } = await supabase.rpc("get_or_create_invitation_guest_link", {
+      p_event_id: eventId, p_organizer_token: organizerToken, p_guest_id: g.guest_id,
+    });
+    const personalToken = data?.[0]?.guest_token ?? data?.guest_token;
+    if (error || typeof personalToken !== "string" || !personalToken) {
+      toast.error("No fue posible generar el enlace personalizado. Inténtalo de nuevo.");
+      return;
+    }
+    const link = new URL(`/i/${encodeURIComponent(invitationSlug)}`, window.location.origin);
+    link.searchParams.set("invitado", personalToken);
+    try {
+      await navigator.clipboard.writeText(link.toString());
+      toast.success(`Enlace personalizado de ${g.guest_name} copiado.`);
+    } catch {
+      window.prompt(`Copia el enlace personalizado de ${g.guest_name}:`, link.toString());
+    }
+  }
+
   async function setDeliveryStatus(g: Guest, status: "pending" | "sent") {
     const { error } = await supabase.rpc("set_invitation_guest_delivery_status", {
       p_event_id: eventId, p_organizer_token: organizerToken, p_guest_id: g.guest_id, p_status: status,
@@ -277,6 +297,7 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
               <div className="min-w-0 flex-1"><p className="truncate text-sm font-medium text-[#332B27]" title={g.guest_name}>{g.guest_name}</p><p className="mt-0.5 truncate text-xs text-[#7D7467]" title={[g.family_group,g.passes===1?"1 pase":`${g.passes} pases`].filter(Boolean).join(" · ")}>{g.family_group ? `${g.family_group} · ` : ""}{g.passes} {g.passes===1?"pase":"pases"}</p></div>
               <div className="flex min-w-0 shrink-0 flex-col items-end gap-1"><span className={g.attendance_status==="attending"?"rounded-md bg-green-50 px-2 py-1 text-[11px] font-medium text-green-800":g.attendance_status==="declined"?"rounded-md bg-neutral-100 px-2 py-1 text-[11px] font-medium text-neutral-700":"rounded-md bg-amber-50 px-2 py-1 text-[11px] font-medium text-amber-800"}>{g.attendance_status==="attending"?`Confirmó · ${g.party_size ?? 1}`:g.attendance_status==="declined"?"No asistirá":"Por responder"}</span><span className={g.delivery_status==="sent"?"rounded-md bg-blue-50 px-2 py-1 text-[10px] font-medium text-blue-800":"rounded-md bg-orange-50 px-2 py-1 text-[10px] font-medium text-orange-800"}>{g.delivery_status==="sent"?"Envío marcado":"Sin enviar"}</span></div>
               <div className="flex shrink-0 items-center gap-0.5">
+                <button type="button" onClick={()=>void copyPersonalLink(g)} title="Copiar enlace personalizado" aria-label={`Copiar enlace personalizado de ${g.guest_name}`} className="rounded-lg p-2 text-[#8E6D3D] transition-colors hover:bg-[#F8F2E8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A88249]/30"><Copy size={16}/></button>
                 <button type="button" onClick={()=>void openWhatsApp(g)} title="Preparar mensaje en WhatsApp" aria-label={`Preparar invitación de ${g.guest_name} en WhatsApp`} className="rounded-lg p-2 text-green-700 transition-colors hover:bg-green-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700/30"><MessageCircle size={16}/></button>
                 <button type="button" onClick={()=>void setDeliveryStatus(g, g.delivery_status === "sent" ? "pending" : "sent")} title={g.delivery_status==="sent"?"Marcar como pendiente":"Marcar envío como realizado"} aria-label={g.delivery_status==="sent"?`Marcar envío de ${g.guest_name} como pendiente`:`Marcar invitación de ${g.guest_name} como enviada`} className={g.delivery_status==="sent"?"rounded-lg p-2 text-blue-700 transition-colors hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/30":"rounded-lg p-2 text-[#8E6D3D] transition-colors hover:bg-[#F8F2E8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A88249]/30"}><CheckCircle2 size={16}/></button>
                 <button type="button" onClick={()=>startEdit(g)} title="Editar" aria-label={`Editar ${g.guest_name}`} className="rounded-lg p-2 text-[#6E5A3F] transition-colors hover:bg-[#F8F2E8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A88249]/30"><Edit2 size={15}/></button>

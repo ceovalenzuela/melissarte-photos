@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ListFilter, Search, X } from "lucide-react";
+import { ListFilter, Search, X, SlidersHorizontal } from "lucide-react";
 
 import AppHeader from "@/components/layout/AppHeader";
 import StatsCards from "@/components/dashboard/StatsCards";
@@ -115,6 +115,7 @@ export default function AdminPage() {
   const [eventType, setEventType] = useState<EventTypeFilter>("all");
   const [invitationFilter, setInvitationFilter] = useState<InvitationFilter>("all");
   const [sortOrder, setSortOrder] = useState<SortOrder>("upcoming");
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const filteredEvents = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -146,10 +147,10 @@ export default function AdminPage() {
         />
       </AppHeader>
 
-      <div className="mx-auto max-w-7xl min-w-0 space-y-5 px-4 py-5 sm:p-6">
+      <div className="mx-auto max-w-7xl min-w-0 space-y-4 px-3 py-4 sm:space-y-5 sm:p-6">
         <StatsCards events={events} />
 
-        <section className="min-w-0 rounded-2xl border border-[#E7DCC8] bg-[#FDFBF8] p-4 shadow-sm">
+        <section className="min-w-0 rounded-2xl border border-[#E7DCC8] bg-[#FDFBF8] p-3 shadow-sm sm:p-4">
           <div className="flex min-w-0 flex-col gap-3">
             <div className="relative min-w-0 w-full">
               <Search
@@ -177,7 +178,16 @@ export default function AdminPage() {
               )}
             </div>
 
-            <div className="grid min-w-0 grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="flex min-w-0 items-center gap-2">
+              <button type="button" onClick={() => setFiltersOpen((open) => !open)} aria-expanded={filtersOpen} className="inline-flex h-10 shrink-0 items-center gap-2 rounded-xl border border-[#E7DCC8] bg-white px-3 text-sm font-medium text-[#5C554B] hover:bg-[#F7F3EC]">
+                <SlidersHorizontal size={15} /> Filtros
+                {(status !== "all" || eventType !== "all" || invitationFilter !== "all" || sortOrder !== "upcoming") && <span className="h-2 w-2 rounded-full bg-[#A88249]" />}
+              </button>
+              <p className="min-w-0 flex-1 truncate text-xs text-[#8B8378]">{filteredEvents.length} {filteredEvents.length === 1 ? "evento" : "eventos"}</p>
+              {(status !== "all" || eventType !== "all" || invitationFilter !== "all" || sortOrder !== "upcoming") && <button type="button" onClick={() => {setStatus("all");setEventType("all");setInvitationFilter("all");setSortOrder("upcoming");}} className="shrink-0 text-xs font-medium text-[#8E6D3D] underline underline-offset-2">Limpiar</button>}
+            </div>
+
+            {filtersOpen && <div className="grid min-w-0 grid-cols-1 gap-2 border-t border-[#EEE4D5] pt-3 sm:grid-cols-2 lg:grid-cols-4">
               <label className="relative min-w-0">
                 <span className="sr-only">Filtrar por estado</span>
                 <ListFilter
@@ -250,14 +260,7 @@ export default function AdminPage() {
                   </svg>
                 </span>
               </label>
-            </div>
-
-            <p className="text-xs text-[#8B8378]">
-              {filteredEvents.length}{" "}
-              {filteredEvents.length === 1
-                ? "evento encontrado"
-                : "eventos encontrados"}
-            </p>
+            </div>}
           </div>
         </section>
 

@@ -88,6 +88,8 @@ export default async function EventPage({ params }: Props) {
       <div className="mx-auto max-w-6xl px-5 py-6 md:px-6 md:py-8">
         <Link
           href="/admin"
+          target="_blank"
+          rel="noreferrer"
           className="inline-flex items-center gap-2 text-sm font-medium text-[#7D7467] transition-colors hover:text-[#1F1F1F]"
         >
           <ArrowLeft size={17} />
@@ -135,6 +137,8 @@ export default async function EventPage({ params }: Props) {
             <div className="flex flex-wrap gap-2">
               <Link
                 href={"/e/" + typedEvent.slug}
+                target="_blank"
+                rel="noreferrer"
                 className="inline-flex h-9 items-center gap-1.5 rounded-full border border-[#E7DCC8] bg-white px-3.5 text-xs font-medium text-[#5C554B] transition-colors hover:bg-[#F7F3EC]"
               >
                 <ExternalLink size={14} />
@@ -142,6 +146,8 @@ export default async function EventPage({ params }: Props) {
               </Link>
               <Link
                 href={"/mi-galeria/" + typedEvent.organizer_token}
+                target="_blank"
+                rel="noreferrer"
                 className="inline-flex h-9 items-center rounded-full border border-[#E7DCC8] bg-white px-3.5 text-xs font-medium text-[#5C554B] transition-colors hover:bg-[#F7F3EC]"
               >
                 Vista organizador
@@ -158,12 +164,12 @@ export default async function EventPage({ params }: Props) {
               messageCount,
               lastActivityAt,
             }}
-            invitationSection={typedEvent.invitation_enabled ? (
+            invitationSection={(
               <div className="mt-2 mb-8">
                 <InvitationEditor event={typedEvent} organizerToken={typedEvent.organizer_token ?? ""} />
               </div>
-            ) : undefined}
-            invitationDangerZoneAction={typedEvent.invitation_enabled ? <InvitationDangerZoneAction eventId={typedEvent.id} organizerToken={typedEvent.organizer_token ?? ""} /> : undefined}
+            )}
+            invitationDangerZoneAction={<InvitationDangerZoneAction eventId={typedEvent.id} organizerToken={typedEvent.organizer_token ?? ""} />}
           />
         </div>
       </div>

@@ -8,7 +8,7 @@ import { supabase } from "@/lib/supabase";
 
 type Guest = { guest_id: string; guest_name: string; phone: string; family_group: string; passes: number; delivery_status: "pending" | "sent"; sent_at: string | null; created_at: string; attendance_status: "attending" | "declined" | null; party_size: number | null; rsvp_updated_at: string | null };
 type Draft = { name: string; phone: string; countryCode: string; group: string; passes: number };
-type ImportRow = Draft & { row: number; error?: string };
+type ImportRow = Omit<Draft, "countryCode"> & { row: number; error?: string };
 const emptyDraft: Draft = { name: "", phone: "", countryCode: "52", group: "", passes: 1 };
 const countryCodes = [
   { code: "52", label: "México (+52)" }, { code: "1", label: "Estados Unidos / Canadá (+1)" },

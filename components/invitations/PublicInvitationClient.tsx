@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight, Share2, CalendarPlus } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { InvitationTemplateKey, PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
+import { INVITATION_PALETTES } from "@/lib/invitation-palettes";
 
 interface PersonalizedGuest {
   guest_id: string;
@@ -67,21 +68,18 @@ export default function PublicInvitationClient({
   const router = useRouter();
   const content = invitation.content_config ?? {};
   const design = invitation.design_config ?? {};
-  const background = safeColor(design.background_color, "#FBF7F1");
-  const accent = safeColor(design.accent_color, "#9A7358");
-  const textColor = safeColor(design.text_color, "#332B27");
   const cover = design.cover_image_url?.startsWith("https://") ? design.cover_image_url : null;
   const templateKeys: InvitationTemplateKey[] = ["wedding_editorial", "xv_gala", "baby_soft", "baptism_light"];
   const templateKey: InvitationTemplateKey = templateKeys.includes(invitation.template_key as InvitationTemplateKey)
     ? (invitation.template_key as InvitationTemplateKey)
     : "wedding_editorial";
   const templateClass = `invitation-template-${templateKey}`;
-  const templateDefaults = ({
-    wedding_editorial: { title: "#273747", card: "#FFFCF6", cardText: "#302F30", border: "#C9AD6B", button: "#A78645", buttonText: "#FFFFFF", rsvp: "#273747", rsvpText: "#FFFAF0", form: "#FFFDF8", formText: "#302F30" },
-    xv_gala: { title: "#FFFAF0", card: "#39304C", cardText: "#FFFAF0", border: "#D6B66F", button: "#6F4B68", buttonText: "#FFFFFF", rsvp: "#211B35", rsvpText: "#FFFAF0", form: "#FFFDF9", formText: "#30283A" },
-    baby_soft: { title: "#875744", card: "#FFFEFA", cardText: "#493C32", border: "#E5C5B2", button: "#A96149", buttonText: "#FFFFFF", rsvp: "#F6E7D9", rsvpText: "#493C32", form: "#FFFEFA", formText: "#493C32" },
-    baptism_light: { title: "#263641", card: "#FFFFFF", cardText: "#263641", border: "#C7DBE5", button: "#527F98", buttonText: "#FFFFFF", rsvp: "#E3EEF3", rsvpText: "#263641", form: "#FFFFFF", formText: "#263641" },
-  } satisfies Record<InvitationTemplateKey, { title: string; card: string; cardText: string; border: string; button: string; buttonText: string; rsvp: string; rsvpText: string; form: string; formText: string }>)[templateKey];
+  const background = safeColor(design.background_color, INVITATION_PALETTES[templateKey].background_color ?? "#FBF7F1");
+  const accent = safeColor(design.accent_color, INVITATION_PALETTES[templateKey].accent_color ?? "#9A7358");
+  const textColor = safeColor(design.text_color, INVITATION_PALETTES[templateKey].text_color ?? "#332B27");
+  const templatePalette = INVITATION_PALETTES[templateKey];
+  const buttonColor = safeColor(design.button_color, templatePalette.button_color ?? accent);
+  const buttonTextColor = safeColor(design.button_text_color, templatePalette.button_text_color ?? "#FFFFFF");
   const dateLabel = formatDate(invitation.event_date);
   const todayInMonterrey = new Intl.DateTimeFormat("en-CA", {
     timeZone: "America/Monterrey",
@@ -249,7 +247,7 @@ export default function PublicInvitationClient({
           <p className="text-xs uppercase tracking-[0.24em]" style={{ color: accent }}>Invitación digital</p>
           <h1 className="mt-4 font-[var(--font-display)] text-3xl">Este enlace ya no está disponible</h1>
           <p className="mt-3 text-sm leading-6 text-neutral-600">Revisa que hayas abierto el enlace completo que recibiste.</p>
-          <a href={`/i/${encodeURIComponent(invitation.invitation_slug)}#confirmar`} className="mt-6 inline-flex rounded-full px-6 py-3 text-sm font-semibold text-white" style={{ backgroundColor: accent }}>Volver a la invitación</a>
+          <a href={`/i/${encodeURIComponent(invitation.invitation_slug)}#confirmar`} className="mt-6 inline-flex rounded-full px-6 py-3 text-sm font-semibold text-white" style={{ backgroundColor: buttonColor, color: buttonTextColor }}>Volver a la invitación</a>
         </section>
       </main>
     );
@@ -263,16 +261,16 @@ export default function PublicInvitationClient({
           style={{
             backgroundColor: background,
             color: textColor,
-            "--inv-title": safeColor(design.title_color, templateDefaults.title),
-            "--inv-card-bg": safeColor(design.card_background_color, templateDefaults.card),
-            "--inv-card-text": safeColor(design.card_text_color, templateDefaults.cardText),
-            "--inv-border": safeColor(design.border_color, templateDefaults.border),
-            "--inv-button": safeColor(design.button_color, templateDefaults.button),
-            "--inv-button-text": safeColor(design.button_text_color, templateDefaults.buttonText),
-            "--inv-rsvp-bg": safeColor(design.rsvp_background_color, templateDefaults.rsvp),
-            "--inv-rsvp-text": safeColor(design.rsvp_text_color, templateDefaults.rsvpText),
-            "--inv-form-bg": safeColor(design.form_background_color, templateDefaults.form),
-            "--inv-form-text": safeColor(design.form_text_color, templateDefaults.formText),
+            "--inv-title": safeColor(design.title_color, templatePalette.title_color ?? textColor),
+            "--inv-card-bg": safeColor(design.card_background_color, templatePalette.card_background_color ?? background),
+            "--inv-card-text": safeColor(design.card_text_color, templatePalette.card_text_color ?? textColor),
+            "--inv-border": safeColor(design.border_color, templatePalette.border_color ?? accent),
+            "--inv-button": buttonColor,
+            "--inv-button-text": buttonTextColor,
+            "--inv-rsvp-bg": safeColor(design.rsvp_background_color, templatePalette.rsvp_background_color ?? background),
+            "--inv-rsvp-text": safeColor(design.rsvp_text_color, templatePalette.rsvp_text_color ?? textColor),
+            "--inv-form-bg": safeColor(design.form_background_color, templatePalette.form_background_color ?? "#FFFFFF"),
+            "--inv-form-text": safeColor(design.form_text_color, templatePalette.form_text_color ?? textColor),
           } as CSSProperties}
         >
           <header className={`invitation-hero relative isolate flex min-h-[58svh] items-end overflow-hidden sm:min-h-[680px] lg:min-h-[800px] ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>
@@ -316,7 +314,7 @@ export default function PublicInvitationClient({
             {content.dress_code && !personalizedGuest && !existingRSVP && (
               <div className="mx-auto mt-10 max-w-3xl">
                 <div className="relative overflow-hidden rounded-[1.5rem] border bg-white/90 px-5 py-5 text-left shadow-[0_10px_30px_rgba(48,36,27,0.045)] sm:px-7 sm:py-6" style={{ borderColor: `${accent}35` }}>
-                  <div aria-hidden="true" className="absolute inset-y-0 left-0 w-1" style={{ backgroundColor: accent }} />
+                  <div aria-hidden="true" className="absolute inset-y-0 left-0 w-1" style={{ backgroundColor: buttonColor, color: buttonTextColor }} />
                   <div className="flex items-start gap-4 pl-1">
                     <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: `${accent}12`, color: accent }}><Shirt size={19} strokeWidth={1.7} /></span>
                     <div className="min-w-0 flex-1">
@@ -330,7 +328,7 @@ export default function PublicInvitationClient({
 
             {!personalizedGuest && !existingRSVP && (
               <div className="mx-auto mt-8 flex max-w-3xl justify-center">
-                <button type="button" aria-live="polite" onClick={() => void sharePublicInvitation()} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold shadow-sm transition hover:-translate-y-0.5 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style={{ backgroundColor: accent, color: "#FFFFFF", outlineColor: accent }}>
+                <button type="button" aria-live="polite" onClick={() => void sharePublicInvitation()} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold shadow-sm transition hover:-translate-y-0.5 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style={{ backgroundColor: buttonColor, color: buttonTextColor, outlineColor: buttonColor }}>
                   <Share2 size={17} strokeWidth={1.8} />
                   {publicLinkCopied ? "Enlace copiado" : "Compartir invitación"}
                 </button>
@@ -389,10 +387,10 @@ export default function PublicInvitationClient({
                       </div>
                     </div>
                     <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                      <button type="button" onClick={copyPersonalLink} className="inline-flex min-h-11 items-center justify-center rounded-full border px-4 py-3 text-sm font-semibold transition hover:bg-white" style={{ borderColor: `${accent}66`, color: accent }}>
+                      <button type="button" onClick={copyPersonalLink} className="inline-flex min-h-11 items-center justify-center rounded-full border px-4 py-3 text-sm font-semibold transition hover:bg-white" style={{ borderColor: `${buttonColor}66`, color: buttonColor }}>
                         {linkCopied ? "Enlace copiado ✓" : "Guardar mi enlace"}
                       </button>
-                      <button type="button" onClick={sharePersonalLink} className="inline-flex min-h-11 items-center justify-center rounded-full px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90" style={{ backgroundColor: accent }}>
+                      <button type="button" onClick={sharePersonalLink} className="inline-flex min-h-11 items-center justify-center rounded-full px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90" style={{ backgroundColor: buttonColor, color: buttonTextColor }}>
                         Compartir por WhatsApp
                       </button>
                     </div>
@@ -419,7 +417,7 @@ export default function PublicInvitationClient({
                   </div>}
                   {errorMessage && <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{errorMessage}</p>}
                   {successMessage && <p role="status" className="flex items-center gap-2 rounded-xl bg-green-50 px-4 py-3 text-sm text-green-800"><CheckCircle2 size={18} />{successMessage}</p>}
-                  <button type="submit" disabled={submitting} className="w-full rounded-full px-5 py-4 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60" style={{ backgroundColor: accent }}>{submitting ? "Guardando..." : existingRSVP || personalizedGuest?.attendance_status ? "Guardar cambios" : "Confirmar"}</button>
+                  <button type="submit" disabled={submitting} className="w-full rounded-full px-5 py-4 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60" style={{ backgroundColor: buttonColor, color: buttonTextColor }}>{submitting ? "Guardando..." : existingRSVP || personalizedGuest?.attendance_status ? "Guardar cambios" : "Confirmar"}</button>
                   {!existingRSVP && <p className="text-center text-xs leading-5 text-neutral-400">Tu respuesta solo será visible para quienes organizan el evento.</p>}
                 </form>
               </div>

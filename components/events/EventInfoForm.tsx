@@ -116,6 +116,8 @@ export default function EventInfoForm({
 
         <button
           type="button"
+          role="switch"
+          aria-checked={values.messages_enabled}
           onClick={() => update("messages_enabled", !values.messages_enabled)}
           className={
             values.messages_enabled

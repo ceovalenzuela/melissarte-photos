@@ -115,6 +115,7 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
   }), [guests, query, rsvpFilter]);
   const passCount = guests.reduce((sum, g) => sum + g.passes, 0);
   const confirmedCount = guests.filter(g => g.attendance_status === "attending").length;
+  const confirmedPassCount = guests.reduce((sum, g) => sum + (g.attendance_status === "attending" ? (g.party_size ?? 1) : 0), 0);
   const pendingRsvpCount = guests.filter(g => !g.attendance_status).length;
   const declinedCount = guests.filter(g => g.attendance_status === "declined").length;
   const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
@@ -201,10 +202,11 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
       </div>
     </header>
 
-    <div className="grid grid-cols-3 gap-2 border-b border-[#EEE5D7] bg-[#FFFCF7] p-3 sm:gap-3 sm:px-6 sm:py-4">
-      <div className="rounded-2xl border border-[#DCE9DE] bg-white px-2.5 py-3 shadow-[0_3px_12px_rgba(35,70,45,0.035)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#356B4B] sm:text-xl">{confirmedCount}</p><p className="mt-1 text-[10px] leading-tight text-[#6F786D] sm:text-xs">Confirmaron</p></div>
-      <div className="rounded-2xl border border-[#F0E2C4] bg-white px-2.5 py-3 shadow-[0_3px_12px_rgba(115,83,28,0.035)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#98702F] sm:text-xl">{pendingRsvpCount}</p><p className="mt-1 text-[10px] leading-tight text-[#8A7860] sm:text-xs">Por responder</p></div>
-      <div className="rounded-2xl border border-[#E8E3DC] bg-white px-2.5 py-3 shadow-[0_3px_12px_rgba(62,45,25,0.025)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#7D7467] sm:text-xl">{declinedCount}</p><p className="mt-1 text-[10px] leading-tight text-[#7D7467] sm:text-xs">No asistirán</p></div>
+    <div className="grid grid-cols-2 gap-2 border-b border-[#EEE5D7] bg-[#FFFCF7] p-3 sm:grid-cols-4 sm:gap-3 sm:px-6 sm:py-4">
+      <div className="rounded-2xl border border-[#DCE9DE] bg-white px-3 py-3 shadow-[0_3px_12px_rgba(35,70,45,0.035)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#356B4B] sm:text-xl">{confirmedPassCount}</p><p className="mt-1 text-[10px] leading-tight text-[#6F786D] sm:text-xs">Pases confirmados</p></div>
+      <div className="rounded-2xl border border-[#DCE9DE] bg-white px-3 py-3 shadow-[0_3px_12px_rgba(35,70,45,0.035)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#356B4B] sm:text-xl">{confirmedCount}</p><p className="mt-1 text-[10px] leading-tight text-[#6F786D] sm:text-xs">Invitados que respondieron sí</p></div>
+      <div className="rounded-2xl border border-[#F0E2C4] bg-white px-3 py-3 shadow-[0_3px_12px_rgba(115,83,28,0.035)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#98702F] sm:text-xl">{pendingRsvpCount}</p><p className="mt-1 text-[10px] leading-tight text-[#8A7860] sm:text-xs">Por responder</p></div>
+      <div className="rounded-2xl border border-[#E8E3DC] bg-white px-3 py-3 shadow-[0_3px_12px_rgba(62,45,25,0.025)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#7D7467] sm:text-xl">{declinedCount}</p><p className="mt-1 text-[10px] leading-tight text-[#7D7467] sm:text-xs">No asistirán</p></div>
     </div>
 
     {showTools && <div id="guest-tools-form" className="scroll-mt-6 border-b border-[#EEE5D7] bg-[#FFFCF7] p-4 sm:p-5">

@@ -11,6 +11,7 @@ type Draft = { name: string; phone: string; group: string; passes: number };
 type ImportRow = Draft & { row: number; error?: string };
 const emptyDraft: Draft = { name: "", phone: "", group: "", passes: 1 };
 const normalizePhone = (v: string) => v.replace(/\D/g, "");
+const whatsappPhone = (v: string) => { const digits = normalizePhone(v); return digits.length === 10 ? `52${digits}` : digits; };
 const csvRows = (text: string): string[][] => {
   const rows: string[][] = []; let row: string[] = []; let cell = ""; let quoted = false;
   for (let i = 0; i < text.length; i++) {
@@ -85,6 +86,7 @@ function downloadTemplate() {
 export default function InvitationGuestCenter({ eventId, organizerToken, invitationSlug }: { eventId: string; organizerToken: string; invitationSlug?: string }) {
   const [guests, setGuests] = useState<Guest[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [saving, setSaving] = useState(false);
   const [draft, setDraft] = useState<Draft>(emptyDraft);
   const [editing, setEditing] = useState<string | null>(null);
@@ -98,9 +100,16 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
   const fileRef = useRef<HTMLInputElement>(null);
 
   const loadGuests = useCallback(async () => {
+    setLoading(true);
     const { data, error } = await supabase.rpc("get_invitation_guests_with_rsvp_token", { p_event_id: eventId, p_organizer_token: organizerToken });
-    if (error) { console.error(error); toast.error("No fue posible cargar la lista de invitados."); }
-    else setGuests((data ?? []) as Guest[]);
+    if (error) {
+      console.error(error);
+      setLoadError(true);
+      toast.error("No fue posible cargar la lista. Inténtalo de nuevo.");
+    } else {
+      setGuests((data ?? []) as Guest[]);
+      setLoadError(false);
+    }
     setLoading(false);
   }, [eventId, organizerToken]);
   // Initial data fetch: state updates happen after the asynchronous Supabase request resolves.
@@ -153,7 +162,7 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
     const link = new URL(`/i/${invitationSlug}`, window.location.origin);
     link.searchParams.set("invitado", personalToken);
     const message = `¡Hola ${g.guest_name}! Nos encantará compartir este momento contigo. Aquí puedes ver la invitación y los detalles del evento: ${link.toString()} Te reservamos ${g.passes} ${g.passes === 1 ? "pase" : "pases"}. ¡Esperamos verte!`;
-    window.open(`https://wa.me/${normalizePhone(g.phone)}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+    window.open(`https://wa.me/${whatsappPhone(g.phone)}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
   }
   async function handleFile(file?: File) {
     if (!file) return;
@@ -193,7 +202,7 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
       <div className="relative flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-start gap-3">
           <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#D8C39B] bg-white/90 text-[#9A773F] shadow-sm"><Users size={19}/></span>
-          <div><p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#A17E46]">Tu evento · organización</p><h2 className="mt-1 text-xl font-semibold tracking-tight text-[#332B27]">Lista de invitados</h2><p className="mt-1 text-sm text-[#7D7467]">{guests.length ? `${guests.length} invitados · ${passCount} pases reservados` : "Organiza tus invitados y sus confirmaciones en un solo lugar"}</p></div>
+          <div><p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#A17E46]">Tu evento · organización</p><h2 className="mt-1 text-xl font-semibold tracking-tight text-[#332B27]">Lista de invitados</h2><p className="mt-1 text-sm text-[#7D7467]">{guests.length ? `${guests.length} invitados · ${passCount} pases asignados` : "Organiza tus invitados y sus confirmaciones en un solo lugar"}</p></div>
         </div>
         <div className="relative flex items-center gap-2">
           <button type="button" onClick={() => setShowTools(v => !v)} className="inline-flex items-center gap-2 rounded-xl border border-[#A88249] bg-[#A88249] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_5px_14px_rgba(168,130,73,0.22)] transition hover:-translate-y-0.5 hover:bg-[#92703E]">{showTools ? <X size={16}/> : <Plus size={16}/ >}{showTools ? "Cerrar" : "Agregar invitados"}</button>
@@ -203,8 +212,8 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
     </header>
 
     <div className="grid grid-cols-2 gap-2 border-b border-[#EEE5D7] bg-[#FFFCF7] p-3 sm:grid-cols-4 sm:gap-3 sm:px-6 sm:py-4">
-      <div className="rounded-2xl border border-[#DCE9DE] bg-white px-3 py-3 shadow-[0_3px_12px_rgba(35,70,45,0.035)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#356B4B] sm:text-xl">{confirmedPassCount}</p><p className="mt-1 text-[10px] leading-tight text-[#6F786D] sm:text-xs">Pases confirmados</p></div>
-      <div className="rounded-2xl border border-[#DCE9DE] bg-white px-3 py-3 shadow-[0_3px_12px_rgba(35,70,45,0.035)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#356B4B] sm:text-xl">{confirmedCount}</p><p className="mt-1 text-[10px] leading-tight text-[#6F786D] sm:text-xs">Invitados que respondieron sí</p></div>
+      <div className="rounded-2xl border border-[#DCE9DE] bg-white px-3 py-3 shadow-[0_3px_12px_rgba(35,70,45,0.035)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#356B4B] sm:text-xl">{confirmedPassCount}</p><p className="mt-1 text-[10px] leading-tight text-[#6F786D] sm:text-xs">Personas confirmadas</p></div>
+      <div className="rounded-2xl border border-[#DCE9DE] bg-white px-3 py-3 shadow-[0_3px_12px_rgba(35,70,45,0.035)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#356B4B] sm:text-xl">{confirmedCount}</p><p className="mt-1 text-[10px] leading-tight text-[#6F786D] sm:text-xs">Invitados que confirmaron</p></div>
       <div className="rounded-2xl border border-[#F0E2C4] bg-white px-3 py-3 shadow-[0_3px_12px_rgba(115,83,28,0.035)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#98702F] sm:text-xl">{pendingRsvpCount}</p><p className="mt-1 text-[10px] leading-tight text-[#8A7860] sm:text-xs">Por responder</p></div>
       <div className="rounded-2xl border border-[#E8E3DC] bg-white px-3 py-3 shadow-[0_3px_12px_rgba(62,45,25,0.025)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#7D7467] sm:text-xl">{declinedCount}</p><p className="mt-1 text-[10px] leading-tight text-[#7D7467] sm:text-xs">No asistirán</p></div>
     </div>
@@ -212,10 +221,10 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
     {showTools && <div id="guest-tools-form" className="scroll-mt-6 border-b border-[#EEE5D7] bg-[#FFFCF7] p-4 sm:p-5">
       <div className="grid gap-5 lg:grid-cols-2">
         <div>
-          <h3 className="font-semibold text-[#332B27]">{editing ? "Editar invitado" : "Agregar una persona"}</h3>
+          <h3 className="font-semibold text-[#332B27]">{editing ? "Editar invitado" : "Agregar una persona"}</h3><p className="mt-1 text-sm text-[#7D7467]">Para enviar la invitación por WhatsApp, incluye la lada del país. En México es 52.</p>
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             <Input label="Nombre" value={draft.name} onChange={v => setDraft(d => ({...d,name:v}))} placeholder="Nombre completo"/>
-            <Input label="Teléfono para WhatsApp" value={draft.phone} onChange={v => setDraft(d => ({...d,phone:v}))} placeholder="Ej. 8112345678" type="tel"/>
+            <Input label="Teléfono para WhatsApp" value={draft.phone} onChange={v => setDraft(d => ({...d,phone:v}))} placeholder="Ej. 528112345678" type="tel"/>
             <Input label="Familia o grupo (opcional)" value={draft.group} onChange={v => setDraft(d => ({...d,group:v}))} placeholder="Familia López"/>
             <label className="block text-sm font-medium text-[#4E463D]">¿Cuántos pases?<input type="number" min={1} max={20} value={draft.passes} onChange={e => setDraft(d => ({...d,passes:Math.max(1,Math.min(20,Number(e.target.value)||1))}))} className="mt-1.5 w-full rounded-lg border border-[#E7DCC8] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#A88249]"/></label>
           </div>
@@ -242,7 +251,7 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
           <label className="relative min-w-0 flex-1"><Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9A8E7C]"/><input value={query} onChange={e=>{setQuery(e.target.value);setPage(1);}} placeholder="Buscar por nombre o teléfono" className="w-full rounded-xl border border-[#E7DCC8] bg-white py-3 pl-9 pr-3 text-sm outline-none transition focus:border-[#A88249] focus:ring-2 focus:ring-[#A88249]/10"/></label>
           <select value={rsvpFilter} onChange={e=>{setRsvpFilter(e.target.value);setPage(1);}} aria-label="Filtrar invitados" className="rounded-xl border border-[#E7DCC8] bg-white px-3 py-3 text-sm outline-none transition focus:border-[#A88249] focus:ring-2 focus:ring-[#A88249]/10"><option value="all">Todos</option><option value="pending">Por responder</option><option value="attending">Confirmaron</option><option value="declined">No asistirán</option></select>
         </div>
-        {loading ? <p className="py-10 text-center text-sm text-[#7D7467]">Cargando invitados...</p> : filtered.length === 0 ? <div className="rounded-xl border border-dashed border-[#E7DCC8] px-4 py-10 text-center"><Users className="mx-auto text-[#A88249]" size={26}/><p className="mt-3 font-medium text-[#332B27]">{guests.length ? "No encontramos invitados" : "Tu lista está vacía"}</p><p className="mt-1 text-sm text-[#7D7467]">{guests.length ? "Prueba con otro nombre o filtro." : "Agrega a tus invitados o carga una lista que ya tengas."}</p></div> :
+        {loading ? <p className="py-10 text-center text-sm text-[#7D7467]">Cargando invitados...</p> : loadError ? <div role="alert" className="rounded-xl border border-red-200 bg-red-50 px-4 py-8 text-center"><p className="font-medium text-red-800">No pudimos cargar la lista de invitados.</p><p className="mt-1 text-sm text-red-700">Revisa tu conexión e inténtalo de nuevo.</p><button type="button" onClick={() => void loadGuests()} className="mt-4 rounded-lg border border-red-300 bg-white px-4 py-2 text-sm font-semibold text-red-800">Volver a intentar</button></div> : filtered.length === 0 ? <div className="rounded-xl border border-dashed border-[#E7DCC8] px-4 py-10 text-center"><Users className="mx-auto text-[#A88249]" size={26}/><p className="mt-3 font-medium text-[#332B27]">{guests.length ? "No encontramos invitados" : "Tu lista está vacía"}</p><p className="mt-1 text-sm text-[#7D7467]">{guests.length ? "Prueba con otro nombre o filtro." : "Agrega a tus invitados o carga una lista que ya tengas."}</p></div> :
           <div className="overflow-hidden rounded-2xl border border-[#E8DECF] bg-white shadow-sm">
             {visibleGuests.map(g=><div key={g.guest_id} className="flex items-center gap-3 border-b border-[#F0E9DF] px-3 py-4 transition-colors last:border-b-0 hover:bg-[#FFFCF7] sm:px-4">
               <div className="min-w-0 flex-1"><p className="truncate text-sm font-medium text-[#332B27]" title={g.guest_name}>{g.guest_name}</p><p className="mt-0.5 truncate text-xs text-[#7D7467]" title={[g.family_group,g.passes===1?"1 pase":`${g.passes} pases`].filter(Boolean).join(" · ")}>{g.family_group ? `${g.family_group} · ` : ""}{g.passes} {g.passes===1?"pase":"pases"}</p></div>

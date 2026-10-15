@@ -1212,9 +1212,7 @@
 
 /* Organizer confirmations: consistent editorial palette, independent from the public invitation theme. */
 .organizer-confirmations {
-  background:
-    radial-gradient(ellipse at 92% 0%, rgba(217, 201, 168, 0.22), transparent 30rem),
-    linear-gradient(180deg, #F8F5EF 0%, #F3EFE7 100%);
+  background: linear-gradient(180deg, var(--organizer-bg) 0%, var(--organizer-soft) 100%);
   color: #202B37;
 }
 .organizer-confirmations .organizer-confirmations-back {
@@ -1232,17 +1230,17 @@
 .organizer-confirmations input:focus-visible,
 .organizer-confirmations select:focus-visible,
 .organizer-confirmations textarea:focus-visible {
-  outline: 2px solid #8B6A32;
+  outline: 2px solid var(--organizer-accent, #8B6A32);
   outline-offset: 3px;
 }
 .organizer-confirmations .organizer-confirmations-header {
-  border-color: #D9C9A8;
+  border-color: var(--organizer-border);
   box-shadow: 0 18px 54px rgba(31, 48, 64, 0.12);
 }
 .organizer-confirmations .organizer-confirmations-banner {
   background:
-    radial-gradient(ellipse at 88% 0%, rgba(228, 202, 138, 0.16), transparent 22rem),
-    linear-gradient(125deg, #1F3040 0%, #2A4052 58%, #354D60 100%);
+    radial-gradient(ellipse at 88% 0%, color-mix(in srgb, var(--organizer-banner-accent) 16%, transparent), transparent 22rem),
+    linear-gradient(125deg, var(--organizer-banner-start) 0%, var(--organizer-banner-end) 100%);
 }
 .organizer-confirmations .organizer-confirmations-ornament {
   position: absolute;
@@ -1250,34 +1248,34 @@
   right: -2.5rem;
   width: 15rem;
   height: 15rem;
-  border: 1px solid rgba(228, 202, 138, 0.28);
+  border: 1px solid color-mix(in srgb, var(--organizer-banner-accent) 36%, transparent);
   border-radius: 9999px;
   pointer-events: none;
 }
 .organizer-confirmations .organizer-confirmations-ornament::after {
   position: absolute;
   inset: 1.1rem;
-  border: 1px solid rgba(228, 202, 138, 0.16);
+  border: 1px solid color-mix(in srgb, var(--organizer-banner-accent) 22%, transparent);
   border-radius: inherit;
   content: "";
 }
 .organizer-confirmations .organizer-confirmations-eyebrow {
-  color: #E4CA8A;
+  color: var(--organizer-banner-accent);
 }
 .organizer-confirmations .organizer-confirmations-title,
 .organizer-confirmations .organizer-confirmations-subtitle {
-  color: #FFFCF5;
+  color: var(--organizer-banner-text);
 }
 .organizer-confirmations .organizer-rsvp-list,
 .organizer-confirmations > div > div > section {
-  border-color: #DED2BC;
+  border-color: var(--organizer-border);
   box-shadow: 0 12px 38px rgba(31, 48, 64, 0.06);
 }
 .organizer-confirmations .organizer-rsvp-list-header {
-  background: linear-gradient(180deg, #FFFDFA 0%, #FBF8F2 100%);
+  background: linear-gradient(180deg, var(--organizer-card) 0%, var(--organizer-soft) 100%);
 }
 .organizer-confirmations .organizer-rsvp-summary {
-  border: 1px solid #E8DECC;
+  border: 1px solid color-mix(in srgb, var(--organizer-border) 55%, white);
   border-radius: 1rem;
 }
 .organizer-confirmations .organizer-rsvp-response {
@@ -1285,7 +1283,7 @@
   transition: border-color 160ms ease, box-shadow 160ms ease;
 }
 .organizer-confirmations .organizer-rsvp-response:hover {
-  border-color: #C9B68F;
+  border-color: var(--organizer-accent);
   box-shadow: 0 8px 22px rgba(31, 48, 64, 0.07);
 }
 @media (max-width: 639px) {

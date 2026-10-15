@@ -253,12 +253,6 @@ export default function PublicInvitationClient({
               </div>
             )}
 
-            {(content.dress_code || content.rsvp_deadline) && (
-              <div className="mx-auto mt-5 grid max-w-4xl gap-4 sm:grid-cols-2">
-                {content.dress_code && <InfoCard icon={<Shirt size={18} />} title="Código de vestimenta" value={content.dress_code} accent={accent} />}
-                {content.rsvp_deadline && <InfoCard icon={<Clock3 size={18} />} title="Confirma hasta el" value={formatDate(content.rsvp_deadline) ?? content.rsvp_deadline} accent={accent} />}
-              </div>
-            )}
           </section>
 
           {invitation.rsvp_enabled && (rsvpDeadlinePassed ? (
@@ -275,6 +269,28 @@ export default function PublicInvitationClient({
                 <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>{existingRSVP || personalizedGuest?.attendance_status ? "Tu respuesta" : "Nos encantará saber de ti"}</p>
                 <h2 className="mt-3 text-center font-[var(--font-display)] text-4xl leading-tight sm:text-5xl">{existingRSVP || personalizedGuest?.attendance_status ? "Tu confirmación" : "¿Nos acompañas?"}</h2>
                 <p className="mt-3 text-center text-sm leading-6 text-neutral-600">{existingRSVP || personalizedGuest?.attendance_status ? "Puedes actualizar tus datos aquí." : personalizedGuest ? `Esta invitación está preparada para ti. Tienes ${personalizedGuest.passes} ${personalizedGuest.passes === 1 ? "pase asignado" : "pases asignados"}.` : "Solo te tomará unos segundos confirmar."}</p>
+                {(content.dress_code || content.rsvp_deadline) && (
+                  <div className={`mx-auto mt-6 grid w-full gap-3 ${content.dress_code && content.rsvp_deadline ? "sm:grid-cols-2" : "max-w-sm grid-cols-1"}`}>
+                    {content.dress_code && (
+                      <div className="flex items-start gap-3 rounded-2xl border bg-white/90 p-4 text-left shadow-sm" style={{ borderColor: `${accent}30` }}>
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: `${accent}12`, color: accent }}><Shirt size={18} strokeWidth={1.7} /></span>
+                        <div className="min-w-0">
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Código de vestimenta</p>
+                          <p className="mt-1.5 text-sm font-medium leading-5 text-neutral-700">{content.dress_code}</p>
+                        </div>
+                      </div>
+                    )}
+                    {content.rsvp_deadline && (
+                      <div className="flex items-start gap-3 rounded-2xl border bg-white/90 p-4 text-left shadow-sm" style={{ borderColor: `${accent}30` }}>
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: `${accent}12`, color: accent }}><Clock3 size={18} strokeWidth={1.7} /></span>
+                        <div className="min-w-0">
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Fecha límite para confirmar</p>
+                          <p className="mt-1.5 text-sm font-medium leading-5 text-neutral-700">{formatDate(content.rsvp_deadline) ?? content.rsvp_deadline}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
                 {((existingRSVP && editToken) || (personalizedGuest && personalizedToken && (personalizedGuest.attendance_status || successMessage))) && (
                   <div className="personal-rsvp-link mt-7 overflow-hidden rounded-[1.5rem] border bg-white shadow-[0_12px_36px_rgba(48,36,27,0.07)]" style={{ borderColor: `${accent}44` }}>
                     <div className="h-1" style={{ background: `linear-gradient(90deg, ${accent}55, ${accent}, ${accent}55)` }} />

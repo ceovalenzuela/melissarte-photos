@@ -61,7 +61,7 @@ BEGIN
       RETURNING g.id INTO v_id;
     IF v_id IS NULL THEN RAISE EXCEPTION 'Invitado no encontrado'; END IF;
   ELSE
-    IF EXISTS (SELECT 1 FROM public.invitation_guests g WHERE g.event_id = p_event_id AND regexp_replace(g.phone, '\D', '', 'g') = regexp_replace(v_phone, '\D', '', 'g')) THEN
+    IF EXISTS (SELECT 1 FROM public.invitation_guests g WHERE g.event_id = p_event_id AND regexp_replace(g.phone, '[^0-9]', '', 'g') = regexp_replace(v_phone, '[^0-9]', '', 'g')) THEN
       RAISE EXCEPTION 'Ya existe un invitado con ese teléfono';
     END IF;
     INSERT INTO public.invitation_guests(event_id, name, phone, family_group, passes)

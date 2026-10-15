@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import type { CSSProperties } from "react";
 import type { InvitationTemplateKey } from "@/types/invitation";
 
@@ -82,12 +81,6 @@ export default async function OrganizerConfirmationsPage({ params }: Props) {
   return (
     <main className={`organizer-confirmations invitation-template-${templateKey} min-h-screen`} style={organizerThemeStyle}>
       <div className="mx-auto max-w-5xl px-4 py-5 sm:px-6 sm:py-9">
-        <Link
-          href={"/mi-galeria/" + token}
-          className="organizer-confirmations-back inline-flex min-h-11 items-center gap-2 rounded-full px-3 text-sm font-medium transition-colors"
-        >
-          <ArrowLeft size={16} aria-hidden="true" /> Volver al evento
-        </Link>
         <header className="organizer-confirmations-header relative mt-4 overflow-hidden rounded-[1.75rem] border shadow-[0_18px_60px_rgba(31,48,64,0.12)]">
           <div className="organizer-confirmations-banner relative overflow-hidden px-6 py-7 sm:px-9 sm:py-9">
             <span className="organizer-confirmations-ornament" aria-hidden="true" />

@@ -253,9 +253,21 @@ export default function PublicInvitationClient({
               </div>
             )}
 
+            {content.dress_code && !personalizedGuest && !existingRSVP && (
+              <div className="mx-auto mt-5 max-w-sm">
+                <div className="flex items-start gap-3 rounded-2xl border bg-white/90 p-4 text-left shadow-sm" style={{ borderColor: `${accent}30` }}>
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: `${accent}12`, color: accent }}><Shirt size={18} strokeWidth={1.7} /></span>
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Código de vestimenta</p>
+                    <p className="mt-1.5 text-sm font-medium leading-5 text-neutral-700">{content.dress_code}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
           </section>
 
-          {invitation.rsvp_enabled && (rsvpDeadlinePassed ? (
+          {invitation.rsvp_enabled && Boolean((personalizedGuest && personalizedToken) || (existingRSVP && editToken)) && (rsvpDeadlinePassed ? (
             <section id="confirmar" className="invitation-rsvp scroll-mt-6 px-5 py-12 sm:px-12 sm:py-16 lg:px-20 invitation-reveal" style={{ background: `linear-gradient(135deg, ${accent}12, ${background})` }}>
               <div className="mx-auto max-w-xl rounded-[1.5rem] border border-black/5 bg-white p-6 text-center shadow-[0_16px_50px_rgba(48,36,27,0.06)] sm:p-8">
                 <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>Confirmaciones cerradas</p>

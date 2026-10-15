@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState, type CSSProperties } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight, Share2, CalendarPlus } from "lucide-react";
+import { CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight, Share2, CalendarPlus, Church, PartyPopper, Sparkles } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { InvitationTemplateKey, PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
 import { INVITATION_PALETTES } from "@/lib/invitation-palettes";
@@ -459,10 +459,13 @@ function Countdown({ eventDate, eventTime, accent, textColor }: { eventDate: str
 }
 
 function LocationCard({ title, time, venue, address, maps, calendarUrl, accent }: { title: string; time?: string; venue?: string; address?: string; maps: string | null; calendarUrl: string | null; accent: string }) {
+  const isCeremony = title.toLowerCase().includes("ceremonia");
+  const isReception = title.toLowerCase().includes("recepción");
+  const CardIcon = isCeremony ? Church : isReception ? PartyPopper : Sparkles;
   return (
-    <article className="invitation-location-card h-full rounded-[1.5rem] border border-neutral-100 bg-[#FEFDFC] p-6 sm:p-7">
+    <article className="invitation-location-card h-full rounded-[1.5rem] border border-neutral-100 bg-[#FEFDFC] p-5 sm:p-7">
       <div className="flex items-center gap-3">
-        <span className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border shadow-[0_2px_8px_rgba(0,0,0,0.035)]" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}><span className="absolute inset-[4px] rounded-full border" style={{ borderColor: `${accent}25` }} /><MapPin size={20} strokeWidth={1.65} className="relative" /></span>
+        <span className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border shadow-[0_2px_8px_rgba(0,0,0,0.035)]" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}><span className="absolute inset-[4px] rounded-full border" style={{ borderColor: `${accent}25` }} /><CardIcon size={20} strokeWidth={1.65} className="relative" /></span>
         <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: accent }}>{title}</p>
       </div>
       {time && (() => {
@@ -479,14 +482,14 @@ function LocationCard({ title, time, venue, address, maps, calendarUrl, accent }
       {venue && <h3 className="invitation-location-venue mt-3 font-[var(--font-display)] text-2xl leading-tight">{venue}</h3>}
       {address && <p className="invitation-location-address mt-2 text-sm leading-6 text-neutral-600">{address}</p>}
       {(maps || calendarUrl) && (
-        <div className="mt-6 grid grid-cols-2 gap-2.5">
+        <div className={`mt-5 grid gap-2.5 sm:mt-6 ${maps && calendarUrl ? "grid-cols-2" : "grid-cols-1"}`}>
           {maps ? (
             <a
               href={maps}
               target="_blank"
               rel="noreferrer"
               aria-label={`Ver ubicación de ${title}`}
-              className="invitation-location-button group inline-flex min-h-[58px] min-w-0 items-center justify-start gap-2.5 rounded-2xl border px-3 py-2.5 text-left transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_5px_14px_rgba(0,0,0,0.055)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:gap-3 sm:px-3.5"
+              className="invitation-location-button group inline-flex min-h-[52px] min-w-0 items-center justify-start gap-2 rounded-xl border px-2.5 py-2 text-left transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_5px_14px_rgba(0,0,0,0.055)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:gap-3 sm:rounded-2xl sm:px-3.5"
               style={{ borderColor: `${accent}40`, color: accent, background: `linear-gradient(145deg, #FFFFFF, ${accent}08)`, outlineColor: accent }}
             >
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border transition-colors group-hover:bg-white" style={{ backgroundColor: `${accent}0D`, borderColor: `${accent}24` }}>
@@ -504,7 +507,7 @@ function LocationCard({ title, time, venue, address, maps, calendarUrl, accent }
               target="_blank"
               rel="noreferrer"
               aria-label={`Agregar ${title} al calendario`}
-              className="group inline-flex min-h-[58px] min-w-0 items-center justify-start gap-2.5 rounded-2xl border px-3 py-2.5 text-left transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_5px_14px_rgba(0,0,0,0.055)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:gap-3 sm:px-3.5"
+              className="group inline-flex min-h-[52px] min-w-0 items-center justify-start gap-2 rounded-xl border px-2.5 py-2 text-left transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_5px_14px_rgba(0,0,0,0.055)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:gap-3 sm:rounded-2xl sm:px-3.5"
               style={{ borderColor: `${accent}40`, color: accent, background: `linear-gradient(145deg, #FFFFFF, ${accent}08)`, outlineColor: accent }}
             >
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border transition-colors group-hover:bg-white" style={{ backgroundColor: `${accent}0D`, borderColor: `${accent}24` }}>

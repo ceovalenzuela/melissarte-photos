@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState, type CSSProperties } from "react";
 import { useRouter } from "next/navigation";
-import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight, Share2 } from "lucide-react";
+import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight, Share2, Download } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { InvitationTemplateKey, PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
 
@@ -118,6 +118,92 @@ export default function PublicInvitationClient({
   const [successMessage, setSuccessMessage] = useState("");
   const [linkCopied, setLinkCopied] = useState(false);
   const [publicLinkCopied, setPublicLinkCopied] = useState(false);
+
+  function calendarDetails() {
+    const lines = [
+      content.headline || invitation.event_title || "Evento",
+      content.introduction,
+      content.religious_ceremony_enabled && content.religious_ceremony_time
+        ? `Ceremonia: ${content.religious_ceremony_time}${content.religious_ceremony_venue ? ` · ${content.religious_ceremony_venue}` : ""}${content.religious_ceremony_address ? ` · ${content.religious_ceremony_address}` : ""}`
+        : null,
+      content.ceremony_time
+        ? `Horario: ${content.ceremony_time}${content.ceremony_venue ? ` · ${content.ceremony_venue}` : ""}${content.ceremony_address ? ` · ${content.ceremony_address}` : ""}`
+        : null,
+      content.reception_time
+        ? `Recepción: ${content.reception_time}${content.reception_venue ? ` · ${content.reception_venue}` : ""}${content.reception_address ? ` · ${content.reception_address}` : ""}`
+        : null,
+      content.dress_code ? `Código de vestimenta: ${content.dress_code}` : null,
+      `Invitación: ${typeof window !== "undefined" ? window.location.href : ""}`,
+    ];
+    return lines.filter(Boolean).join("\n");
+  }
+
+  function calendarLocation() {
+    return [
+      content.religious_ceremony_enabled ? content.religious_ceremony_venue : null,
+      content.ceremony_venue,
+      content.reception_venue,
+    ].filter((value, index, values): value is string => Boolean(value?.trim()) && values.indexOf(value) === index).join(" / ");
+  }
+
+  function calendarDateRange() {
+    if (!invitation.event_date || !/^\\d{4}-\\d{2}-\\d{2}$/.test(invitation.event_date)) return null;
+    const [year, month, day] = invitation.event_date.split("-").map(Number);
+    const next = new Date(Date.UTC(year, month - 1, day + 1));
+    const endDate = `${next.getUTCFullYear()}${String(next.getUTCMonth() + 1).padStart(2, "0")}${String(next.getUTCDate()).padStart(2, "0")}`;
+    return { start: `${year}${String(month).padStart(2, "0")}${String(day).padStart(2, "0")}`, end: endDate };
+  }
+
+  function openGoogleCalendar() {
+    const range = calendarDateRange();
+    if (!range) return;
+    const params = new URLSearchParams({
+      action: "TEMPLATE",
+      text: content.headline || invitation.event_title || "Evento",
+      dates: `${range.start}/${range.end}`,
+      details: calendarDetails(),
+      location: calendarLocation(),
+      ctz: "America/Monterrey",
+    });
+    window.open(`https://calendar.google.com/calendar/render?${params.toString()}`, "_blank", "noopener,noreferrer");
+  }
+
+  function downloadCalendarFile() {
+    const range = calendarDateRange();
+    if (!range) return;
+    const escapeIcs = (value: string) => value
+      .replace(/\\\\/g, "\\\\\\\\")
+      .replace(/\\r?\\n/g, "\\\\n")
+      .replace(/,/g, "\\\\,")
+      .replace(/;/g, "\\\\;");
+    const uid = `${invitation.invitation_id}@melissartedecorativo.com`;
+    const ics = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Melissarte//Invitaciones//ES",
+      "CALSCALE:GREGORIAN",
+      "METHOD:PUBLISH",
+      "BEGIN:VEVENT",
+      `UID:${escapeIcs(uid)}`,
+      `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").replace(/\\.\\d{3}/, "")}`,
+      `DTSTART;VALUE=DATE:${range.start}`,
+      `DTEND;VALUE=DATE:${range.end}`,
+      `SUMMARY:${escapeIcs(content.headline || invitation.event_title || "Evento")}`,
+      `DESCRIPTION:${escapeIcs(calendarDetails())}`,
+      ...(calendarLocation() ? [`LOCATION:${escapeIcs(calendarLocation())}`] : []),
+      "END:VEVENT",
+      "END:VCALENDAR",
+    ].join("\\r\\n");
+    const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `invitacion-${invitation.invitation_slug}.ics`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  }
 
   async function sharePublicInvitation() {
     const link = `${window.location.origin}${window.location.pathname}`;
@@ -280,6 +366,19 @@ export default function PublicInvitationClient({
                 {(content.reception_venue || content.reception_time || content.reception_address) && (
                   <LocationCard title="Celebración" time={content.reception_time} venue={content.reception_venue} address={content.reception_address} maps={receptionMapsUrl} accent={accent} />
                 )}
+              </div>
+            )}
+
+            {invitation.event_date && (
+              <div className="mx-auto mt-8 flex w-full max-w-3xl flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+                <button type="button" onClick={openGoogleCalendar} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style={{ backgroundColor: accent, outlineColor: accent }}>
+                  <CalendarDays size={17} strokeWidth={1.8} />
+                  Agregar a Google Calendar
+                </button>
+                <button type="button" onClick={downloadCalendarFile} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border px-5 py-3 text-sm font-semibold transition hover:bg-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style={{ borderColor: `${accent}66`, color: accent, outlineColor: accent }}>
+                  <Download size={17} strokeWidth={1.8} />
+                  Descargar para otro calendario
+                </button>
               </div>
             )}
 

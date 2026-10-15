@@ -147,7 +147,7 @@ export default function PublicInvitationClient({
   }
 
   function calendarDateRange() {
-    if (!invitation.event_date || !/^\\d{4}-\\d{2}-\\d{2}$/.test(invitation.event_date)) return null;
+    if (!invitation.event_date || !/^\d{4}-\d{2}-\d{2}$/.test(invitation.event_date)) return null;
     const [year, month, day] = invitation.event_date.split("-").map(Number);
     const next = new Date(Date.UTC(year, month - 1, day + 1));
     const endDate = `${next.getUTCFullYear()}${String(next.getUTCMonth() + 1).padStart(2, "0")}${String(next.getUTCDate()).padStart(2, "0")}`;
@@ -172,8 +172,8 @@ export default function PublicInvitationClient({
     const range = calendarDateRange();
     if (!range) return;
     const escapeIcs = (value: string) => value
-      .replace(/\\\\/g, "\\\\\\\\")
-      .replace(/\\r?\\n/g, "\\\\n")
+      .replace(/\\/g, "\\\\")
+      .replace(/\r?\n/g, "\\n")
       .replace(/,/g, "\\\\,")
       .replace(/;/g, "\\\\;");
     const uid = `${invitation.invitation_id}@melissartedecorativo.com`;
@@ -185,7 +185,7 @@ export default function PublicInvitationClient({
       "METHOD:PUBLISH",
       "BEGIN:VEVENT",
       `UID:${escapeIcs(uid)}`,
-      `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").replace(/\\.\\d{3}/, "")}`,
+      `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "")}`,
       `DTSTART;VALUE=DATE:${range.start}`,
       `DTEND;VALUE=DATE:${range.end}`,
       `SUMMARY:${escapeIcs(content.headline || invitation.event_title || "Evento")}`,
@@ -193,7 +193,7 @@ export default function PublicInvitationClient({
       ...(calendarLocation() ? [`LOCATION:${escapeIcs(calendarLocation())}`] : []),
       "END:VEVENT",
       "END:VCALENDAR",
-    ].join("\\r\\n");
+    ].join("\r\n");
     const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");

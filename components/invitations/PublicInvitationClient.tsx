@@ -6,11 +6,22 @@ import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight } from 
 import { supabase } from "@/lib/supabase";
 import type { InvitationTemplateKey, PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
 
+interface PersonalizedGuest {
+  guest_id: string;
+  guest_name: string;
+  phone: string;
+  passes: number;
+  response_id: string | null;
+  attendance_status: RSVPStatus | null;
+  party_size: number | null;
+}
 interface Props {
   invitation: PublicInvitation;
   existingRSVP: RSVPResponse | null;
   editToken: string | null;
   editRequested: boolean;
+  personalizedGuest?: PersonalizedGuest | null;
+  personalizedToken?: string | null;
 }
 
 function safeColor(value: string | undefined, fallback: string) {
@@ -50,6 +61,8 @@ export default function PublicInvitationClient({
   existingRSVP,
   editToken,
   editRequested,
+  personalizedGuest = null,
+  personalizedToken = null,
 }: Props) {
   const router = useRouter();
   const content = invitation.content_config ?? {};
@@ -90,10 +103,11 @@ export default function PublicInvitationClient({
     Boolean(content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address)),
   ].filter(Boolean).length;
 
-  const [guestName, setGuestName] = useState(existingRSVP?.guest_name ?? "");
-  const [attendance, setAttendance] = useState<RSVPStatus>(existingRSVP?.attendance_status ?? "attending");
-  const [partySize, setPartySize] = useState(existingRSVP?.attendance_status === "attending" ? existingRSVP.party_size : 1);
-  const [phone, setPhone] = useState(existingRSVP?.phone ?? "");
+  const [guestName, setGuestName] = useState(personalizedGuest?.guest_name ?? existingRSVP?.guest_name ?? "");
+  const [attendance, setAttendance] = useState<RSVPStatus>(personalizedGuest?.attendance_status ?? existingRSVP?.attendance_status ?? "attending");
+  const [partySize, setPartySize] = useState(personalizedGuest?.party_size ?? (existingRSVP?.attendance_status === "attending" ? existingRSVP.party_size : 1));
+  const [phone, setPhone] = useState(personalizedGuest?.phone ?? existingRSVP?.phone ?? "");
+  const maxPartySize = personalizedGuest?.passes ?? invitation.max_party_size;
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -120,7 +134,19 @@ export default function PublicInvitationClient({
     setSuccessMessage("");
     setSubmitting(true);
     try {
-      if (existingRSVP && editToken) {
+      if (personalizedGuest && personalizedToken) {
+        const { data, error } = await supabase.rpc("submit_invitation_guest_rsvp", {
+          p_invitation_slug: invitation.invitation_slug,
+          p_guest_token: personalizedToken,
+          p_guest_name: guestName.trim(),
+          p_attendance_status: attendance,
+          p_party_size: attendance === "attending" ? partySize : 0,
+          p_phone: phone.trim() || null,
+        });
+        if (error) throw error;
+        if (data !== true) throw new Error("No fue posible guardar tu confirmación. Verifica que el enlace siga vigente.");
+        setSuccessMessage("Tu confirmación se guardó correctamente.");
+      } else if (existingRSVP && editToken) {
         const { data, error } = await supabase.rpc("edit_invitation_rsvp", {
           p_response_id: existingRSVP.response_id,
           p_edit_token: editToken,
@@ -246,9 +272,9 @@ export default function PublicInvitationClient({
           ) : (
             <section id="confirmar" className="invitation-rsvp scroll-mt-6 px-5 py-12 sm:px-12 sm:py-16 lg:px-20 invitation-reveal" style={{ background: `linear-gradient(135deg, ${accent}12, ${background})` }}>
               <div className="mx-auto max-w-xl">
-                <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>{existingRSVP ? "Tu respuesta" : "Nos encantará saber de ti"}</p>
-                <h2 className="mt-3 text-center font-[var(--font-display)] text-4xl leading-tight sm:text-5xl">{existingRSVP ? "Tu confirmación" : "¿Nos acompañas?"}</h2>
-                <p className="mt-3 text-center text-sm leading-6 text-neutral-600">{existingRSVP ? "Puedes actualizar tus datos aquí." : "Solo te tomará unos segundos confirmar."}</p>
+                <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>{existingRSVP || personalizedGuest?.attendance_status ? "Tu respuesta" : "Nos encantará saber de ti"}</p>
+                <h2 className="mt-3 text-center font-[var(--font-display)] text-4xl leading-tight sm:text-5xl">{existingRSVP || personalizedGuest?.attendance_status ? "Tu confirmación" : "¿Nos acompañas?"}</h2>
+                <p className="mt-3 text-center text-sm leading-6 text-neutral-600">{existingRSVP || personalizedGuest?.attendance_status ? "Puedes actualizar tus datos aquí." : personalizedGuest ? `Esta invitación está preparada para ti. Tienes ${personalizedGuest.passes} ${personalizedGuest.passes === 1 ? "pase asignado" : "pases asignados"}.` : "Solo te tomará unos segundos confirmar."}</p>
                 {existingRSVP && editToken && (
                   <div className="personal-rsvp-link mt-7 rounded-2xl border p-5 sm:p-6" style={{ borderColor: `${accent}55`, backgroundColor: `${accent}0A` }}>
                     <div className="flex items-start gap-3">
@@ -285,7 +311,7 @@ export default function PublicInvitationClient({
                   {attendance === "attending" && <div>
                     <label htmlFor="party-size" className="mb-2 block text-sm font-medium">Personas en total</label>
                     <select id="party-size" value={partySize} onChange={(e) => setPartySize(Number(e.target.value))} className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3.5 outline-none focus:border-neutral-400">
-                      {Array.from({ length: invitation.max_party_size }, (_, index) => index + 1).map((size) => <option key={size} value={size}>{size} {size === 1 ? "persona" : "personas"}</option>)}
+                      {Array.from({ length: maxPartySize }, (_, index) => index + 1).map((size) => <option key={size} value={size}>{size} {size === 1 ? "persona" : "personas"}</option>)}
                     </select>
                   </div>}
                   <div>
@@ -294,7 +320,7 @@ export default function PublicInvitationClient({
                   </div>
                   {errorMessage && <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{errorMessage}</p>}
                   {successMessage && <p role="status" className="flex items-center gap-2 rounded-xl bg-green-50 px-4 py-3 text-sm text-green-800"><CheckCircle2 size={18} />{successMessage}</p>}
-                  <button type="submit" disabled={submitting} className="w-full rounded-full px-5 py-4 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60" style={{ backgroundColor: accent }}>{submitting ? "Guardando..." : existingRSVP ? "Guardar cambios" : "Confirmar asistencia"}</button>
+                  <button type="submit" disabled={submitting} className="w-full rounded-full px-5 py-4 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60" style={{ backgroundColor: accent }}>{submitting ? "Guardando..." : existingRSVP || personalizedGuest?.attendance_status ? "Guardar cambios" : "Confirmar asistencia"}</button>
                   {!existingRSVP && <p className="text-center text-xs leading-5 text-neutral-400">Tu respuesta solo será visible para quienes organizan el evento.</p>}
                 </form>
               </div>

@@ -134,10 +134,19 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
     const { error } = await supabase.rpc("delete_invitation_guest_with_token", { p_event_id: eventId, p_organizer_token: organizerToken, p_guest_id: g.guest_id });
     if (error) toast.error("No se pudo eliminar el invitado."); else { toast.success("Invitado eliminado."); await loadGuests(); }
   }
-  function openWhatsApp(g: Guest) {
-    if (!invitationSlug) { toast.error("Primero guarda la invitación para generar su enlace."); return; }
-    const link = `${window.location.origin}/i/${invitationSlug}`;
-    const message = `¡Hola ${g.guest_name}! 💛 Nos encantará compartir este momento contigo. Aquí puedes ver la invitación y los detalles del evento: ${link} Te reservamos ${g.passes} ${g.passes === 1 ? "pase" : "pases"}. ¡Esperamos verte!`;
+  async function openWhatsApp(g: Guest) {
+    if (!invitationSlug) { toast.error("Primero guarda y publica la invitación para generar su enlace."); return; }
+    const { data, error } = await supabase.rpc("get_or_create_invitation_guest_link", {
+      p_event_id: eventId, p_organizer_token: organizerToken, p_guest_id: g.guest_id,
+    });
+    const personalToken = data?.[0]?.guest_token ?? data?.guest_token;
+    if (error || typeof personalToken !== "string" || !personalToken) {
+      toast.error("No fue posible generar el enlace personalizado. Inténtalo de nuevo.");
+      return;
+    }
+    const link = new URL(`/i/${invitationSlug}`, window.location.origin);
+    link.searchParams.set("invitado", personalToken);
+    const message = `¡Hola ${g.guest_name}! Nos encantará compartir este momento contigo. Aquí puedes ver la invitación y los detalles del evento: ${link.toString()} Te reservamos ${g.passes} ${g.passes === 1 ? "pase" : "pases"}. ¡Esperamos verte!`;
     window.open(`https://wa.me/${normalizePhone(g.phone)}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
   }
   async function handleFile(file?: File) {

@@ -85,6 +85,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
   const [status, setStatus] = useState<InvitationStatus>("draft");
   const [copiedOrganizerLink, setCopiedOrganizerLink] = useState(false);
   const [contrastView, setContrastView] = useState<"general" | "cards">("general");
+  const [colorGroup, setColorGroup] = useState<"general" | "cards" | "buttons" | "rsvp">("general");
 
   useEffect(() => {
     let active = true;
@@ -340,20 +341,49 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                 <p className="mt-1 text-xs">{contrastView === "general" ? "Ejemplo de lectura sobre el fondo general." : "Ejemplo de datos dentro de una tarjeta."}</p>
               </div>
             </div>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <ColorField label="Fondo general" value={design.background_color ?? "#F4EAD8"} onChange={(v) => updateDesign("background_color", v)} />
-              <ColorField label="Acentos e íconos" value={design.accent_color ?? "#A78645"} onChange={(v) => updateDesign("accent_color", v)} />
-              <ColorField label="Texto general" value={design.text_color ?? "#302F30"} onChange={(v) => updateDesign("text_color", v)} />
-              <ColorField label="Título principal" value={design.title_color ?? design.text_color ?? "#273747"} onChange={(v) => updateDesign("title_color", v)} />
-              <ColorField label="Fondo de tarjetas" value={design.card_background_color ?? "#FFFCF6"} onChange={(v) => updateDesign("card_background_color", v)} />
-              <ColorField label="Texto de tarjetas" value={design.card_text_color ?? design.text_color ?? "#302F30"} onChange={(v) => updateDesign("card_text_color", v)} />
-              <ColorField label="Bordes y divisores" value={design.border_color ?? "#C9AD6B"} onChange={(v) => updateDesign("border_color", v)} />
-              <ColorField label="Botones" value={design.button_color ?? design.accent_color ?? "#A78645"} onChange={(v) => updateDesign("button_color", v)} />
-              <ColorField label="Texto de botones" value={design.button_text_color ?? "#FFFFFF"} onChange={(v) => updateDesign("button_text_color", v)} />
-              <ColorField label="Fondo de confirmación" value={design.rsvp_background_color ?? "#273747"} onChange={(v) => updateDesign("rsvp_background_color", v)} />
-              <ColorField label="Texto de confirmación" value={design.rsvp_text_color ?? design.text_color ?? "#302F30"} onChange={(v) => updateDesign("rsvp_text_color", v)} />
-              <ColorField label="Fondo del formulario" value={design.form_background_color ?? "#FFFDF8"} onChange={(v) => updateDesign("form_background_color", v)} />
-              <ColorField label="Texto del formulario" value={design.form_text_color ?? design.text_color ?? "#302F30"} onChange={(v) => updateDesign("form_text_color", v)} />
+            <div className="mt-5">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4" role="group" aria-label="Categorías de color">
+                {([
+                  ["general", "General"],
+                  ["cards", "Tarjetas"],
+                  ["buttons", "Botones"],
+                  ["rsvp", "Confirmación"],
+                ] as const).map(([key, label]) => (
+                  <button key={key} type="button" aria-pressed={colorGroup === key} onClick={() => setColorGroup(key)} className={`min-h-10 rounded-xl border px-3 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A88249] ${colorGroup === key ? "border-[#A88249] bg-[#F7EEDC] text-[#76582E]" : "border-[#E7DCC8] bg-white text-[#62594F] hover:bg-[#FBF7F0]"}`}>
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <p className="mt-2 text-xs leading-5 text-[#7D7467]">
+                {colorGroup === "general" ? "Fondo, textos principales y detalles decorativos." : colorGroup === "cards" ? "Colores de las tarjetas con los datos del evento." : colorGroup === "buttons" ? "Color de los botones y del texto que aparece en ellos." : "Colores de la sección de confirmación y su formulario."}
+              </p>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                {colorGroup === "general" && <>
+                  <ColorField label="Fondo general" value={design.background_color ?? "#F4EAD8"} onChange={(v) => updateDesign("background_color", v)} />
+                  <ColorField label="Texto general" value={design.text_color ?? "#302F30"} onChange={(v) => updateDesign("text_color", v)} />
+                  <ColorField label="Título principal" value={design.title_color ?? design.text_color ?? "#273747"} onChange={(v) => updateDesign("title_color", v)} />
+                  <ColorField label="Acentos e íconos" value={design.accent_color ?? "#A78645"} onChange={(v) => updateDesign("accent_color", v)} />
+                  <ColorField label="Bordes y divisores" value={design.border_color ?? "#C9AD6B"} onChange={(v) => updateDesign("border_color", v)} />
+                </>}
+                {colorGroup === "cards" && <>
+                  <ColorField label="Fondo de tarjetas" value={design.card_background_color ?? "#FFFCF6"} onChange={(v) => updateDesign("card_background_color", v)} />
+                  <ColorField label="Texto de tarjetas" value={design.card_text_color ?? design.text_color ?? "#302F30"} onChange={(v) => updateDesign("card_text_color", v)} />
+                </>}
+                {colorGroup === "buttons" && <>
+                  <ColorField label="Fondo de botones" value={design.button_color ?? design.accent_color ?? "#A78645"} onChange={(v) => updateDesign("button_color", v)} />
+                  <ColorField label="Texto de botones" value={design.button_text_color ?? "#FFFFFF"} onChange={(v) => updateDesign("button_text_color", v)} />
+                </>}
+                {colorGroup === "rsvp" && <>
+                  <ColorField label="Fondo de confirmación" value={design.rsvp_background_color ?? "#273747"} onChange={(v) => updateDesign("rsvp_background_color", v)} />
+                  <ColorField label="Texto de confirmación" value={design.rsvp_text_color ?? design.text_color ?? "#302F30"} onChange={(v) => updateDesign("rsvp_text_color", v)} />
+                  <ColorField label="Fondo del formulario" value={design.form_background_color ?? "#FFFDF8"} onChange={(v) => updateDesign("form_background_color", v)} />
+                  <ColorField label="Texto del formulario" value={design.form_text_color ?? design.text_color ?? "#302F30"} onChange={(v) => updateDesign("form_text_color", v)} />
+                </>}
+              </div>
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-[#FBF7F0] p-3">
+                <p className="text-xs leading-5 text-[#7D7467]">¿Quieres volver a los colores originales de esta plantilla?</p>
+                <button type="button" onClick={() => setDesign((current) => ({ ...initialDesignForTemplate(templateKey), cover_image_url: current.cover_image_url }))} className="min-h-10 rounded-full border border-[#D9C7AA] bg-white px-4 py-2 text-sm font-semibold text-[#76582E] transition hover:bg-[#F7EEDC]">Restaurar colores</button>
+              </div>
             </div>
           </details>
 
@@ -381,13 +411,29 @@ function Field({ label, value, onChange, placeholder, type = "text" }: { label: 
 }
 
 function ColorField({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
+  const [hexDraft, setHexDraft] = useState(value);
+  useEffect(() => setHexDraft(value), [value]);
+
+  function commitHex() {
+    const normalized = hexDraft.trim().startsWith("#") ? hexDraft.trim() : `#${hexDraft.trim()}`;
+    if (/^#[0-9a-fA-F]{6}$/.test(normalized)) {
+      onChange(normalized.toUpperCase());
+      setHexDraft(normalized.toUpperCase());
+    } else {
+      setHexDraft(value);
+    }
+  }
+
   return (
-    <label className="block text-sm font-medium text-[#4E463D]">
-      {label}
-      <div className="mt-1.5 flex items-center gap-3 rounded-xl border border-[#E7DCC8] bg-white p-2">
-        <input type="color" value={/^#[0-9a-fA-F]{6}$/.test(value) ? value : "#9A7358"} onChange={(e) => onChange(e.target.value)} className="h-9 w-12 cursor-pointer border-0 bg-transparent" />
-        <span className="text-sm text-[#7D7467]">{value}</span>
+    <div className="min-w-0 rounded-xl border border-[#E7DCC8] bg-white p-3">
+      <label className="block text-sm font-medium text-[#4E463D]">{label}</label>
+      <div className="mt-2 flex min-w-0 items-center gap-3">
+        <input aria-label={`Selector de color: ${label}`} type="color" value={/^#[0-9a-fA-F]{6}$/.test(value) ? value : "#9A7358"} onChange={(e) => onChange(e.target.value.toUpperCase())} className="h-11 w-12 shrink-0 cursor-pointer rounded-lg border border-[#E7DCC8] bg-white p-1" />
+        <label className="min-w-0 flex-1">
+          <span className="sr-only">Código hexadecimal para {label}</span>
+          <input type="text" inputMode="text" spellCheck={false} value={hexDraft} onChange={(e) => setHexDraft(e.target.value)} onBlur={commitHex} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); commitHex(); e.currentTarget.blur(); } }} maxLength={7} placeholder="#FFFFFF" className="w-full min-w-0 rounded-lg border border-[#E7DCC8] bg-[#FDFBF8] px-3 py-2.5 font-mono text-sm uppercase text-[#4E463D] outline-none transition focus:border-[#A88249] focus:ring-2 focus:ring-[#A88249]/15" />
+        </label>
       </div>
-    </label>
+    </div>
   );
 }

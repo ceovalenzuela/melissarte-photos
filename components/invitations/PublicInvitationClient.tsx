@@ -2,15 +2,26 @@
 
 import { FormEvent, useEffect, useState, type CSSProperties } from "react";
 import { useRouter } from "next/navigation";
-import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight } from "lucide-react";
+import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight, Share2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { InvitationTemplateKey, PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
 
+interface PersonalizedGuest {
+  guest_id: string;
+  guest_name: string;
+  phone: string;
+  passes: number;
+  response_id: string | null;
+  attendance_status: RSVPStatus | null;
+  party_size: number | null;
+}
 interface Props {
   invitation: PublicInvitation;
   existingRSVP: RSVPResponse | null;
   editToken: string | null;
   editRequested: boolean;
+  personalizedGuest?: PersonalizedGuest | null;
+  personalizedToken?: string | null;
 }
 
 function safeColor(value: string | undefined, fallback: string) {
@@ -50,6 +61,8 @@ export default function PublicInvitationClient({
   existingRSVP,
   editToken,
   editRequested,
+  personalizedGuest = null,
+  personalizedToken = null,
 }: Props) {
   const router = useRouter();
   const content = invitation.content_config ?? {};
@@ -90,14 +103,45 @@ export default function PublicInvitationClient({
     Boolean(content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address)),
   ].filter(Boolean).length;
 
-  const [guestName, setGuestName] = useState(existingRSVP?.guest_name ?? "");
-  const [attendance, setAttendance] = useState<RSVPStatus>(existingRSVP?.attendance_status ?? "attending");
-  const [partySize, setPartySize] = useState(existingRSVP?.attendance_status === "attending" ? existingRSVP.party_size : 1);
-  const [phone, setPhone] = useState(existingRSVP?.phone ?? "");
+  const maxPartySize = Math.max(1, Math.min(20, personalizedGuest?.passes ?? invitation.max_party_size ?? 1));
+  const initialPartySize = personalizedGuest?.attendance_status === "attending"
+    ? personalizedGuest.party_size ?? 1
+    : existingRSVP?.attendance_status === "attending"
+      ? existingRSVP.party_size
+      : 1;
+  const [guestName, setGuestName] = useState(personalizedGuest?.guest_name ?? existingRSVP?.guest_name ?? "");
+  const [attendance, setAttendance] = useState<RSVPStatus>(personalizedGuest?.attendance_status ?? existingRSVP?.attendance_status ?? "attending");
+  const [partySize, setPartySize] = useState(Math.max(1, Math.min(maxPartySize, initialPartySize)));
+  const [phone] = useState(personalizedGuest?.phone ?? existingRSVP?.phone ?? "");
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [linkCopied, setLinkCopied] = useState(false);
+  const [publicLinkCopied, setPublicLinkCopied] = useState(false);
+
+  async function sharePublicInvitation() {
+    const link = `${window.location.origin}${window.location.pathname}`;
+    const title = content.headline || invitation.event_title || "Nuestra invitación";
+    const shareData = { title, text: "Te compartimos la invitación y los detalles del evento:", url: link };
+    try {
+      if (typeof navigator.share === "function") {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(link);
+        setPublicLinkCopied(true);
+        window.setTimeout(() => setPublicLinkCopied(false), 2500);
+      }
+    } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") return;
+      try {
+        await navigator.clipboard.writeText(link);
+        setPublicLinkCopied(true);
+        window.setTimeout(() => setPublicLinkCopied(false), 2500);
+      } catch {
+        window.prompt("Copia el enlace de la invitación:", link);
+      }
+    }
+  }
 
   async function copyPersonalLink() {
     try {
@@ -120,7 +164,19 @@ export default function PublicInvitationClient({
     setSuccessMessage("");
     setSubmitting(true);
     try {
-      if (existingRSVP && editToken) {
+      if (personalizedGuest && personalizedToken) {
+        const { data, error } = await supabase.rpc("submit_invitation_guest_rsvp", {
+          p_invitation_slug: invitation.invitation_slug,
+          p_guest_token: personalizedToken,
+          p_guest_name: guestName.trim(),
+          p_attendance_status: attendance,
+          p_party_size: attendance === "attending" ? partySize : 0,
+          p_phone: phone.trim() || null,
+        });
+        if (error) throw error;
+        if (data !== true) throw new Error("No fue posible guardar tu confirmación. Verifica que el enlace siga vigente.");
+        setSuccessMessage("Tu confirmación se guardó correctamente.");
+      } else if (existingRSVP && editToken) {
         const { data, error } = await supabase.rpc("edit_invitation_rsvp", {
           p_response_id: existingRSVP.response_id,
           p_edit_token: editToken,
@@ -227,15 +283,33 @@ export default function PublicInvitationClient({
               </div>
             )}
 
-            {(content.dress_code || content.rsvp_deadline) && (
-              <div className="mx-auto mt-5 grid max-w-4xl gap-4 sm:grid-cols-2">
-                {content.dress_code && <InfoCard icon={<Shirt size={18} />} title="Código de vestimenta" value={content.dress_code} accent={accent} />}
-                {content.rsvp_deadline && <InfoCard icon={<Clock3 size={18} />} title="Confirma hasta el" value={formatDate(content.rsvp_deadline) ?? content.rsvp_deadline} accent={accent} />}
+            {content.dress_code && !personalizedGuest && !existingRSVP && (
+              <div className="mx-auto mt-10 max-w-3xl">
+                <div className="relative overflow-hidden rounded-[1.5rem] border bg-white/90 px-5 py-5 text-left shadow-[0_10px_30px_rgba(48,36,27,0.045)] sm:px-7 sm:py-6" style={{ borderColor: `${accent}35` }}>
+                  <div aria-hidden="true" className="absolute inset-y-0 left-0 w-1" style={{ backgroundColor: accent }} />
+                  <div className="flex items-start gap-4 pl-1">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: `${accent}12`, color: accent }}><Shirt size={19} strokeWidth={1.7} /></span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: accent }}>Código de vestimenta</p>
+                      <p className="mt-2 text-sm leading-6 text-neutral-700 sm:text-base">{content.dress_code}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
+
+            {!personalizedGuest && !existingRSVP && (
+              <div className="mx-auto mt-8 flex max-w-3xl justify-center">
+                <button type="button" aria-live="polite" onClick={() => void sharePublicInvitation()} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold shadow-sm transition hover:-translate-y-0.5 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style={{ backgroundColor: accent, color: "#FFFFFF", outlineColor: accent }}>
+                  <Share2 size={17} strokeWidth={1.8} />
+                  {publicLinkCopied ? "Enlace copiado" : "Compartir invitación"}
+                </button>
+              </div>
+            )}
+
           </section>
 
-          {invitation.rsvp_enabled && (rsvpDeadlinePassed ? (
+          {invitation.rsvp_enabled && Boolean((personalizedGuest && personalizedToken) || (existingRSVP && editToken)) && (rsvpDeadlinePassed ? (
             <section id="confirmar" className="invitation-rsvp scroll-mt-6 px-5 py-12 sm:px-12 sm:py-16 lg:px-20 invitation-reveal" style={{ background: `linear-gradient(135deg, ${accent}12, ${background})` }}>
               <div className="mx-auto max-w-xl rounded-[1.5rem] border border-black/5 bg-white p-6 text-center shadow-[0_16px_50px_rgba(48,36,27,0.06)] sm:p-8">
                 <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>Confirmaciones cerradas</p>
@@ -246,11 +320,35 @@ export default function PublicInvitationClient({
           ) : (
             <section id="confirmar" className="invitation-rsvp scroll-mt-6 px-5 py-12 sm:px-12 sm:py-16 lg:px-20 invitation-reveal" style={{ background: `linear-gradient(135deg, ${accent}12, ${background})` }}>
               <div className="mx-auto max-w-xl">
-                <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>{existingRSVP ? "Tu respuesta" : "Nos encantará saber de ti"}</p>
-                <h2 className="mt-3 text-center font-[var(--font-display)] text-4xl leading-tight sm:text-5xl">{existingRSVP ? "Tu confirmación" : "¿Nos acompañas?"}</h2>
-                <p className="mt-3 text-center text-sm leading-6 text-neutral-600">{existingRSVP ? "Puedes actualizar tus datos aquí." : "Solo te tomará unos segundos confirmar."}</p>
-                {existingRSVP && editToken && (
-                  <div className="personal-rsvp-link mt-7 rounded-2xl border p-5 sm:p-6" style={{ borderColor: `${accent}55`, backgroundColor: `${accent}0A` }}>
+                <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>{existingRSVP || personalizedGuest?.attendance_status ? "Tu respuesta" : "Nos encantará saber de ti"}</p>
+                <h2 className="mt-3 text-center font-[var(--font-display)] text-4xl leading-tight sm:text-5xl">{existingRSVP || personalizedGuest?.attendance_status ? "Tu confirmación" : "¿Nos acompañas?"}</h2>
+                <p className="mt-3 text-center text-sm leading-6 text-neutral-600">{existingRSVP || personalizedGuest?.attendance_status ? "Puedes actualizar tus datos aquí." : personalizedGuest ? `Esta invitación está preparada para ti. Tienes ${personalizedGuest.passes} ${personalizedGuest.passes === 1 ? "pase asignado" : "pases asignados"}.` : "Solo te tomará unos segundos confirmar."}</p>
+                {(content.dress_code || content.rsvp_deadline) && (
+                  <div className={`mx-auto mt-6 grid w-full gap-3 ${content.dress_code && content.rsvp_deadline ? "sm:grid-cols-2" : "max-w-sm grid-cols-1"}`}>
+                    {content.dress_code && (
+                      <div className="flex items-start gap-3 rounded-2xl border bg-white/90 p-4 text-left shadow-sm" style={{ borderColor: `${accent}30` }}>
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: `${accent}12`, color: accent }}><Shirt size={18} strokeWidth={1.7} /></span>
+                        <div className="min-w-0">
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Código de vestimenta</p>
+                          <p className="mt-1.5 text-sm font-medium leading-5 text-neutral-700">{content.dress_code}</p>
+                        </div>
+                      </div>
+                    )}
+                    {content.rsvp_deadline && (
+                      <div className="flex items-start gap-3 rounded-2xl border bg-white/90 p-4 text-left shadow-sm" style={{ borderColor: `${accent}30` }}>
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: `${accent}12`, color: accent }}><Clock3 size={18} strokeWidth={1.7} /></span>
+                        <div className="min-w-0">
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Fecha límite para confirmar</p>
+                          <p className="mt-1.5 text-sm font-medium leading-5 text-neutral-700">{formatDate(content.rsvp_deadline) ?? content.rsvp_deadline}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+                {((existingRSVP && editToken) || (personalizedGuest && personalizedToken && (personalizedGuest.attendance_status || successMessage))) && (
+                  <div className="personal-rsvp-link mt-7 overflow-hidden rounded-[1.5rem] border bg-white shadow-[0_12px_36px_rgba(48,36,27,0.07)]" style={{ borderColor: `${accent}44` }}>
+                    <div className="h-1" style={{ background: `linear-gradient(90deg, ${accent}55, ${accent}, ${accent}55)` }} />
+                    <div className="p-5 sm:p-6" style={{ background: `linear-gradient(145deg, ${accent}0A, #FFFFFF 68%)` }}>
                     <div className="flex items-start gap-3">
                       <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: `${accent}18`, color: accent }}>
                         <CheckCircle2 size={20} />
@@ -268,9 +366,10 @@ export default function PublicInvitationClient({
                         Compartir por WhatsApp
                       </button>
                     </div>
+                    </div>
                   </div>
                 )}
-                <form onSubmit={handleSubmit} className="mt-8 space-y-5 rounded-[1.5rem] border border-black/5 bg-white p-5 shadow-[0_16px_50px_rgba(48,36,27,0.06)] sm:p-7">
+                <form onSubmit={handleSubmit} className="mt-6 space-y-4 rounded-2xl border border-black/5 bg-white p-4 shadow-sm sm:p-6">
                   <div>
                     <label htmlFor="guest-name" className="mb-2 block text-sm font-medium">Nombre completo</label>
                     <input id="guest-name" required minLength={1} maxLength={80} value={guestName} onChange={(e) => setGuestName(e.target.value)} className="w-full rounded-xl border border-neutral-200 px-4 py-3.5 outline-none transition focus:border-neutral-400" placeholder="Escribe tu nombre" />
@@ -285,16 +384,12 @@ export default function PublicInvitationClient({
                   {attendance === "attending" && <div>
                     <label htmlFor="party-size" className="mb-2 block text-sm font-medium">Personas en total</label>
                     <select id="party-size" value={partySize} onChange={(e) => setPartySize(Number(e.target.value))} className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3.5 outline-none focus:border-neutral-400">
-                      {Array.from({ length: invitation.max_party_size }, (_, index) => index + 1).map((size) => <option key={size} value={size}>{size} {size === 1 ? "persona" : "personas"}</option>)}
+                      {Array.from({ length: maxPartySize }, (_, index) => index + 1).map((size) => <option key={size} value={size}>{size} {size === 1 ? "persona" : "personas"}</option>)}
                     </select>
                   </div>}
-                  <div>
-                    <label htmlFor="guest-phone" className="mb-2 block text-sm font-medium">Teléfono <span className="font-normal text-neutral-400">(opcional)</span></label>
-                    <input id="guest-phone" type="tel" maxLength={30} value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full rounded-xl border border-neutral-200 px-4 py-3.5 outline-none transition focus:border-neutral-400" placeholder="Tu número de contacto" />
-                  </div>
                   {errorMessage && <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{errorMessage}</p>}
                   {successMessage && <p role="status" className="flex items-center gap-2 rounded-xl bg-green-50 px-4 py-3 text-sm text-green-800"><CheckCircle2 size={18} />{successMessage}</p>}
-                  <button type="submit" disabled={submitting} className="w-full rounded-full px-5 py-4 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60" style={{ backgroundColor: accent }}>{submitting ? "Guardando..." : existingRSVP ? "Guardar cambios" : "Confirmar asistencia"}</button>
+                  <button type="submit" disabled={submitting} className="w-full rounded-full px-5 py-4 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60" style={{ backgroundColor: accent }}>{submitting ? "Guardando..." : existingRSVP || personalizedGuest?.attendance_status ? "Guardar cambios" : "Confirmar"}</button>
                   {!existingRSVP && <p className="text-center text-xs leading-5 text-neutral-400">Tu respuesta solo será visible para quienes organizan el evento.</p>}
                 </form>
               </div>
@@ -363,11 +458,3 @@ function LocationCard({ title, time, venue, address, maps, accent }: { title: st
   );
 }
 
-function InfoCard({ icon, title, value, accent }: { icon: React.ReactNode; title: string; value: string; accent: string }) {
-  return (
-    <article className="flex items-start gap-3 rounded-2xl border border-neutral-100 bg-white p-5">
-      <span className="mt-0.5" style={{ color: accent }}>{icon}</span>
-      <div><p className="text-[10px] font-semibold uppercase tracking-[0.2em]" style={{ color: accent }}>{title}</p><p className="mt-2 text-sm leading-6 text-neutral-700">{value}</p></div>
-    </article>
-  );
-}

@@ -173,7 +173,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
   }
 
   async function copyOrganizerLink() {
-    const url = `${window.location.origin}/confirmaciones/${encodeURIComponent(organizerToken)}`;
+    const url = `${window.location.origin}/rsvp/${encodeURIComponent(organizerToken)}`;
     try {
       await navigator.clipboard.writeText(url);
       setCopiedOrganizerLink(true);
@@ -216,7 +216,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
             <p className="mt-1 text-sm text-[#7D7467]">Comparte este enlace con la persona que organizará el evento.</p>
             <div className="mt-3 flex flex-col gap-2 sm:flex-row">
               <button type="button" onClick={copyOrganizerLink} className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full bg-[#332B27] px-4 py-2 text-sm font-medium text-white hover:bg-[#51443A]"><Copy size={15} />{copiedOrganizerLink ? "Enlace copiado" : "Copiar enlace privado"}</button>
-              <a href={`/confirmaciones/${encodeURIComponent(organizerToken)}`} target="_blank" rel="noreferrer" className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full border border-[#E7DCC8] px-4 py-2 text-sm font-medium text-[#5C554B] hover:bg-[#F7F3EC]"><Users size={15} />Ver confirmaciones</a>
+              <a href={`/rsvp/${encodeURIComponent(organizerToken)}`} target="_blank" rel="noreferrer" className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full border border-[#E7DCC8] px-4 py-2 text-sm font-medium text-[#5C554B] hover:bg-[#F7F3EC]"><Users size={15} />Ver confirmaciones</a>
             </div>
           </section>
           <section>

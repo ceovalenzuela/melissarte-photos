@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 
 import PublicInvitationClient from "@/components/invitations/PublicInvitationClient";
-import { getPublicInvitationBySlug, getRSVPForEdit } from "@/lib/invitations";
+import { getPublicInvitationBySlug, getRSVPForEdit, getPersonalizedInvitationGuest } from "@/lib/invitations";
 
 interface Props {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ rsvp?: string | string[]; token?: string | string[] }>;
+  searchParams: Promise<{ rsvp?: string | string[]; token?: string | string[]; invitado?: string | string[] }>;
 }
 
 export default async function PublicInvitationPage({ params, searchParams }: Props) {
@@ -16,7 +16,9 @@ export default async function PublicInvitationPage({ params, searchParams }: Pro
 
   const responseId = typeof query.rsvp === "string" ? query.rsvp : null;
   const editToken = typeof query.token === "string" ? query.token : null;
-  const editRequested = Boolean(responseId || editToken);
+  const guestToken = typeof query.invitado === "string" && /^[A-Za-z0-9_-]{22}$/.test(query.invitado) ? query.invitado : null;
+  const editRequested = Boolean(responseId || editToken || (query.invitado && !guestToken));
+  const personalizedGuest = guestToken ? await getPersonalizedInvitationGuest(slug, guestToken) : null;
 
   let existingRSVP = null;
   if (
@@ -34,6 +36,8 @@ export default async function PublicInvitationPage({ params, searchParams }: Pro
       existingRSVP={existingRSVP}
       editToken={existingRSVP ? editToken : null}
       editRequested={editRequested}
+      personalizedGuest={personalizedGuest}
+      personalizedToken={personalizedGuest ? guestToken : null}
     />
   );
 }

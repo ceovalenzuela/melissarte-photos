@@ -36,3 +36,26 @@ export async function getRSVPForEdit(
 
   return (data?.[0] as RSVPResponse | undefined) ?? null;
 }
+
+
+export interface PersonalizedInvitationGuest {
+  guest_id: string;
+  guest_name: string;
+  phone: string;
+  passes: number;
+  response_id: string | null;
+  attendance_status: "attending" | "declined" | null;
+  party_size: number | null;
+}
+
+export async function getPersonalizedInvitationGuest(slug: string, guestToken: string): Promise<PersonalizedInvitationGuest | null> {
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("get_public_invitation_guest", {
+    p_invitation_slug: slug, p_guest_token: guestToken,
+  });
+  if (error) {
+    console.error("ERROR get_public_invitation_guest:", error.message);
+    return null;
+  }
+  return (data?.[0] as PersonalizedInvitationGuest | undefined) ?? null;
+}

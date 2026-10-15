@@ -1308,7 +1308,7 @@
 /* V1 public invitation templates: hero-led editorial composition and distinct art direction. */
 .invitation-public .invitation-hero { min-height: clamp(26rem, 68svh, 42rem); padding-block: clamp(3.5rem, 9vw, 7rem); }
 .invitation-public .invitation-hero-has-cover .invitation-hero-image { background-position: center 44%; transform: scale(1.01); }
-.invitation-public .invitation-hero-overlay { background: linear-gradient(180deg, rgba(17,22,27,.12) 0%, rgba(17,22,27,.58) 100%); }
+.invitation-public .invitation-hero-overlay { background: linear-gradient(180deg, rgba(17,22,27,.06) 0%, rgba(17,22,27,.38) 100%); }
 .invitation-public .invitation-hero-content { width: 100%; text-shadow: 0 2px 24px rgba(0,0,0,.18); }
 .invitation-public .invitation-hero-title { text-wrap: balance; overflow-wrap: anywhere; }
 .invitation-public .invitation-hero-eyebrow, .invitation-public .invitation-hero-date { letter-spacing: .28em; }

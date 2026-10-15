@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState, type CSSProperties } from "react";
 import { useRouter } from "next/navigation";
-import { CalendarDays, CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight, Share2, CalendarPlus } from "lucide-react";
+import { CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight, Share2, CalendarPlus } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { InvitationTemplateKey, PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
 import { INVITATION_PALETTES } from "@/lib/invitation-palettes";
@@ -80,7 +80,6 @@ export default function PublicInvitationClient({
   const templatePalette = INVITATION_PALETTES[templateKey];
   const buttonColor = safeColor(design.button_color, templatePalette.button_color ?? accent);
   const buttonTextColor = safeColor(design.button_text_color, templatePalette.button_text_color ?? "#FFFFFF");
-  const dateLabel = formatDate(invitation.event_date);
   const todayInMonterrey = new Intl.DateTimeFormat("en-CA", {
     timeZone: "America/Monterrey",
     year: "numeric",
@@ -282,26 +281,17 @@ export default function PublicInvitationClient({
             <div aria-hidden="true" className="invitation-hero-overlay absolute inset-0 -z-10" />
             <div className="invitation-hero-frame pointer-events-none absolute inset-4 sm:inset-7" aria-hidden="true" />
             <div className="invitation-hero-content relative z-10 mx-auto max-w-4xl">
-              <p className="invitation-hero-eyebrow text-[10px] font-semibold uppercase tracking-[0.34em] sm:text-xs">Una invitación especial</p>
-              <h1 className="invitation-hero-title mt-5 font-[var(--font-display)] text-4xl leading-tight sm:mt-7 sm:text-6xl lg:text-7xl">{content.headline || invitation.event_title}</h1>
-              {content.subtitle && <p className="invitation-hero-subtitle mx-auto mt-4 max-w-2xl text-sm leading-7 sm:mt-6 sm:text-lg">{content.subtitle}</p>}
-              {content.host_names && <p className="invitation-hero-hosts mt-7 font-[var(--font-display)] text-lg italic sm:mt-9 sm:text-2xl">{content.host_names}</p>}
-              {invitation.event_date && <p className="invitation-hero-date mt-5 text-[10px] font-semibold uppercase tracking-[0.28em] sm:text-xs">{formatDate(invitation.event_date)}</p>}
+              <h1 className="invitation-hero-title font-[var(--font-display)] text-4xl leading-tight sm:text-6xl lg:text-7xl">{content.headline || invitation.event_title}</h1>
+              {content.subtitle && <p className="invitation-hero-subtitle mx-auto mt-5 max-w-2xl text-sm leading-7 sm:mt-6 sm:text-lg">{content.subtitle}</p>}
+              {invitation.event_date && <p className="invitation-hero-date mt-6 text-[10px] font-semibold uppercase tracking-[0.28em] sm:mt-7 sm:text-xs">{formatDate(invitation.event_date)}</p>}
             </div>
             <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-white/70 to-transparent opacity-60" />
           </header>
           <section id="detalles" className="px-5 py-12 sm:px-12 sm:py-16 lg:px-20 invitation-reveal">
             <div className="mx-auto max-w-3xl text-center invitation-reveal">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>Reserva la fecha</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>Detalles del evento</p>
               {content.introduction && <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-neutral-600 sm:text-base">{content.introduction}</p>}
-              <div className="mx-auto mt-5 flex items-center justify-center gap-4">
-                <span className="h-px w-10" style={{ backgroundColor: `${accent}55` }} />
-                <CalendarDays size={20} strokeWidth={1.4} style={{ color: accent }} />
-                <span className="h-px w-10" style={{ backgroundColor: `${accent}55` }} />
-              </div>
-              {dateLabel && <p className="mt-5 font-[var(--font-display)] text-3xl capitalize leading-tight sm:text-4xl">{dateLabel}</p>}
               {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} />}
-              
             </div>
 
             {(content.ceremony_venue || content.ceremony_time || content.ceremony_address || content.reception_venue || content.reception_time || content.reception_address || (content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address))) && (

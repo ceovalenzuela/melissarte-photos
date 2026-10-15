@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import type { CSSProperties } from "react";
+import type { InvitationTemplateKey } from "@/types/invitation";
 
 import { supabase } from "@/lib/supabase";
 import { getEventBySlug } from "@/lib/events";
@@ -9,6 +10,36 @@ import InvitationGuestCenter from "@/components/invitations/InvitationGuestCente
 
 interface Props {
   params: Promise<{ token: string }>;
+}
+
+const organizerPalettes = {
+  wedding_editorial: {
+    bg: "#F6F0E4", text: "#302F30", card: "#FFFCF6", cardText: "#302F30",
+    border: "#C9AD6B", button: "#755B2E", buttonText: "#FFFFFF",
+    bannerStart: "#273747", bannerEnd: "#3B5263", bannerText: "#FFFAF0", bannerAccent: "#E4CA8A", muted: "#625F59", soft: "#F5EFE4",
+  },
+  xv_gala: {
+    bg: "#F1EDF6", text: "#2B2238", card: "#FFFCFF", cardText: "#2B2238",
+    border: "#C7AC68", button: "#49324F", buttonText: "#FFFFFF",
+    bannerStart: "#211B35", bannerEnd: "#49324F", bannerText: "#FFFAF2", bannerAccent: "#E0C276", muted: "#62596B", soft: "#F3EEF6",
+  },
+  baby_soft: {
+    bg: "#FFF4E8", text: "#493C32", card: "#FFFEFA", cardText: "#493C32",
+    border: "#E5C5B2", button: "#854A37", buttonText: "#FFFFFF",
+    bannerStart: "#754638", bannerEnd: "#4F6650", bannerText: "#FFFCF7", bannerAccent: "#F7DDA0", muted: "#68564B", soft: "#FFF0E5",
+  },
+  baptism_light: {
+    bg: "#EFF6F8", text: "#263641", card: "#FFFFFF", cardText: "#263641",
+    border: "#C7DBE5", button: "#315F75", buttonText: "#FFFFFF",
+    bannerStart: "#31596B", bannerEnd: "#527F98", bannerText: "#FFFFFF", bannerAccent: "#E7F2F5", muted: "#536873", soft: "#EAF3F6",
+  },
+} satisfies Record<InvitationTemplateKey, {
+  bg: string; text: string; card: string; cardText: string; border: string; button: string; buttonText: string;
+  bannerStart: string; bannerEnd: string; bannerText: string; bannerAccent: string; muted: string; soft: string;
+}>;
+
+function validColor(value: unknown): value is string {
+  return typeof value === "string" && /^#[0-9a-fA-F]{6}$/.test(value);
 }
 
 export default async function OrganizerConfirmationsPage({ params }: Props) {
@@ -28,25 +59,35 @@ export default async function OrganizerConfirmationsPage({ params }: Props) {
 
   if (invitationEnabled !== true) notFound();
   const invitation = invitationResult.data?.[0];
+  const templateKeys: InvitationTemplateKey[] = ["wedding_editorial", "xv_gala", "baby_soft", "baptism_light"];
+  const templateKey: InvitationTemplateKey = templateKeys.includes(invitation?.template_key as InvitationTemplateKey)
+    ? (invitation.template_key as InvitationTemplateKey)
+    : "wedding_editorial";
+  const palette = organizerPalettes[templateKey];
+  const design = invitation?.design_config ?? {};
+
+  // Keep surfaces and text on accessible, template-specific defaults. Custom accent/border
+  // colors are honored where supplied; arbitrary custom background/text colors do not
+  // override these contrast-safe pairings.
   const organizerThemeStyle = {
-    "--organizer-accent": "#A78645",
-    "--organizer-bg": "#F6F2EA",
-    "--organizer-text": "#202B37",
-    "--organizer-card": "#FFFDFA",
-    "--organizer-card-text": "#202B37",
-    "--organizer-border": "#D9C9A8",
-    "--organizer-button": "#273747",
-    "--organizer-button-text": "#FFFFFF",
-    "--organizer-banner-start": "#1F3040",
-    "--organizer-banner-end": "#354D60",
-    "--organizer-banner-text": "#FFFCF5",
-    "--organizer-banner-accent": "#E4CA8A",
-    "--organizer-muted": "#625F59",
-    "--organizer-soft": "#F4EFE5",
+    "--organizer-accent": validColor(design.accent_color) ? design.accent_color : palette.border,
+    "--organizer-bg": palette.bg,
+    "--organizer-text": palette.text,
+    "--organizer-card": palette.card,
+    "--organizer-card-text": palette.cardText,
+    "--organizer-border": validColor(design.border_color) ? design.border_color : palette.border,
+    "--organizer-button": palette.button,
+    "--organizer-button-text": palette.buttonText,
+    "--organizer-banner-start": palette.bannerStart,
+    "--organizer-banner-end": palette.bannerEnd,
+    "--organizer-banner-text": palette.bannerText,
+    "--organizer-banner-accent": palette.bannerAccent,
+    "--organizer-muted": palette.muted,
+    "--organizer-soft": palette.soft,
   } as CSSProperties;
 
   return (
-    <main className="organizer-confirmations min-h-screen" style={organizerThemeStyle}>
+    <main className={`organizer-confirmations invitation-template-${templateKey} min-h-screen`} style={organizerThemeStyle}>
       <div className="mx-auto max-w-5xl px-4 py-5 sm:px-6 sm:py-9">
         <Link
           href={"/mi-galeria/" + token}

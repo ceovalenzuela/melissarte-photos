@@ -1513,3 +1513,99 @@
   }
 }
 
+/* Admin color settings are the source of truth for the public invitation.
+   Template-specific rules keep typography and composition, not fixed color overrides. */
+.invitation-public {
+  --inv-background: var(--inv-background, #fbf7f1);
+  --inv-accent: var(--inv-accent, #9a7358);
+  --inv-text: var(--inv-text, #332b27);
+}
+.invitation-public #detalles {
+  background: var(--inv-background) !important;
+  color: var(--inv-text) !important;
+}
+.invitation-public #detalles > .mx-auto.max-w-3xl > p:first-child {
+  color: var(--inv-accent) !important;
+}
+.invitation-public #detalles > .mx-auto.max-w-3xl > p:not(:first-child) {
+  color: var(--inv-text);
+  opacity: .84;
+}
+.invitation-public .invitation-hero-has-cover {
+  border-bottom-color: var(--inv-border) !important;
+}
+.invitation-public .invitation-hero-frame {
+  border-color: var(--inv-border) !important;
+}
+.invitation-public .invitation-hero-no-cover .invitation-hero-eyebrow,
+.invitation-public .invitation-hero-no-cover .invitation-hero-date {
+  color: var(--inv-accent) !important;
+}
+.invitation-public .invitation-hero-placeholder {
+  background-image:
+    radial-gradient(ellipse at 75% 18%, color-mix(in srgb, var(--inv-accent) 38%, transparent), transparent 40%),
+    linear-gradient(145deg, var(--inv-background) 0%, color-mix(in srgb, var(--inv-background) 68%, var(--inv-accent)) 100%) !important;
+}
+.invitation-public .invitation-location-card,
+.invitation-public .invitation-dress-code-card {
+  background-color: var(--inv-card-bg) !important;
+  color: var(--inv-card-text) !important;
+  border-color: var(--inv-border) !important;
+}
+.invitation-public .invitation-location-venue,
+.invitation-public .invitation-location-card > p,
+.invitation-public .invitation-dress-code-card p:not([style]) {
+  color: var(--inv-card-text);
+}
+.invitation-public .invitation-location-address {
+  color: var(--inv-card-text) !important;
+  opacity: .78;
+}
+.invitation-public .invitation-countdown {
+  background: color-mix(in srgb, var(--inv-accent) 8%, var(--inv-background)) !important;
+  border-color: var(--inv-border) !important;
+  color: var(--inv-text) !important;
+}
+.invitation-public .invitation-countdown > p {
+  color: var(--inv-accent) !important;
+}
+.invitation-public .invitation-rsvp {
+  background: var(--inv-rsvp-bg) !important;
+  color: var(--inv-rsvp-text) !important;
+}
+.invitation-public .invitation-rsvp > div > p,
+.invitation-public .invitation-rsvp > div > h2,
+.invitation-public .invitation-rsvp > div > label,
+.invitation-public .invitation-rsvp > div > legend {
+  color: var(--inv-rsvp-text);
+}
+.invitation-public .invitation-rsvp form {
+  background: var(--inv-form-bg) !important;
+  border-color: var(--inv-border) !important;
+  color: var(--inv-form-text) !important;
+}
+.invitation-public .invitation-rsvp form p,
+.invitation-public .invitation-rsvp form label,
+.invitation-public .invitation-rsvp form legend,
+.invitation-public .invitation-rsvp form span {
+  color: var(--inv-form-text);
+}
+.invitation-public .invitation-rsvp form input,
+.invitation-public .invitation-rsvp form select {
+  background: var(--inv-form-bg) !important;
+  color: var(--inv-form-text) !important;
+  border-color: var(--inv-border) !important;
+}
+.invitation-public .invitation-rsvp form button[type="submit"] {
+  background: var(--inv-button) !important;
+  color: var(--inv-button-text) !important;
+}
+.invitation-public footer .font-\[var\(--font-display\)\] {
+  color: var(--inv-accent) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .invitation-public .invitation-countdown {
+    animation: none !important;
+  }
+}
+

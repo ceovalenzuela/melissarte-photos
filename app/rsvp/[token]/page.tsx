@@ -7,6 +7,7 @@ import type { InvitationTemplateKey } from "@/types/invitation";
 import { supabase } from "@/lib/supabase";
 import { getEventBySlug } from "@/lib/events";
 import InvitationResponses from "@/components/invitations/InvitationResponses";
+import InvitationGuestCenter from "@/components/invitations/InvitationGuestCenter";
 
 interface Props {
   params: Promise<{ token: string }>;
@@ -66,6 +67,7 @@ export default async function OrganizerConfirmationsPage({ params }: Props) {
             <p className="organizer-confirmations-subtitle mt-2 text-sm">{eventDetails?.title ?? "Tu evento"}{eventDetails?.event_date ? ` · ${new Date(`${eventDetails.event_date}T12:00:00`).toLocaleDateString("es-MX", { day: "numeric", month: "long", year: "numeric" })}` : ""}</p>
           </div>
         </header>
+        <div className="mt-6"><InvitationGuestCenter eventId={event.id} organizerToken={token} invitationSlug={invitation?.slug} /></div>
         <div className="mt-6"><InvitationResponses eventId={event.id} organizerToken={token} /></div>
       </div>
     </main>

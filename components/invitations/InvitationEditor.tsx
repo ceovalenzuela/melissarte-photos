@@ -476,12 +476,15 @@ function ColorGroup({ title, description, children }: { title: string; descripti
 
 function ColorField({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
   const [draft, setDraft] = useState(value);
+  const [previousValue, setPreviousValue] = useState(value);
   const validColor = /^#[0-9a-fA-F]{6}$/.test(draft);
   const pickerValue = /^#[0-9a-fA-F]{6}$/.test(value) ? value : "#9A7358";
 
-  useEffect(() => {
+  // Sync external palette changes (template/reset) without a setState effect.
+  if (value !== previousValue) {
+    setPreviousValue(value);
     setDraft(value);
-  }, [value]);
+  }
 
   function commitDraft() {
     if (/^#[0-9a-fA-F]{6}$/.test(draft)) {

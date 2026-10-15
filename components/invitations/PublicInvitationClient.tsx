@@ -306,22 +306,21 @@ export default function PublicInvitationClient({
               </div>
             )}
 
-            {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} />}
-
             {content.dress_code && !personalizedGuest && !existingRSVP && (
-              <div className="mx-auto mt-10 max-w-3xl">
-                <div className="relative overflow-hidden rounded-[1.5rem] border bg-white/90 px-5 py-5 text-left shadow-[0_10px_30px_rgba(48,36,27,0.045)] sm:px-7 sm:py-6" style={{ borderColor: `${accent}35` }}>
-                  <div aria-hidden="true" className="absolute inset-y-0 left-0 w-1" style={{ backgroundColor: buttonColor, color: buttonTextColor }} />
-                  <div className="flex items-start gap-4 pl-1">
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: `${accent}12`, color: accent }}><Shirt size={19} strokeWidth={1.7} /></span>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: accent }}>Código de vestimenta</p>
-                      <p className="mt-2 text-sm leading-6 text-neutral-700 sm:text-base">{content.dress_code}</p>
-                    </div>
+              <div className="invitation-dress-code-wrap mx-auto mt-6 w-full max-w-5xl">
+                <article className="invitation-dress-code-card flex items-start gap-4 rounded-[1.5rem] border px-5 py-5 text-left shadow-[0_8px_24px_rgba(48,36,27,0.035)] sm:px-7 sm:py-6" style={{ borderColor: "var(--inv-border)", backgroundColor: "var(--inv-card-bg)", color: "var(--inv-card-text)" }}>
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}>
+                    <Shirt size={20} strokeWidth={1.65} />
+                  </span>
+                  <div className="min-w-0 flex-1 pt-0.5">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: accent }}>Código de vestimenta</p>
+                    <p className="mt-2 text-sm leading-6 sm:text-base" style={{ color: "var(--inv-card-text)" }}>{content.dress_code}</p>
                   </div>
-                </div>
+                </article>
               </div>
             )}
+
+            {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} />}
 
             {!personalizedGuest && !existingRSVP && (
               <div className="mx-auto mt-8 flex max-w-3xl justify-center">

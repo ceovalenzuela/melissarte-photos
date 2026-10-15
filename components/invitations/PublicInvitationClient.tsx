@@ -295,7 +295,7 @@ export default function PublicInvitationClient({
 
             {!personalizedGuest && !existingRSVP && (
               <div className="mx-auto mt-8 flex max-w-3xl justify-center">
-                <button type="button" onClick={() => void sharePublicInvitation()} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold shadow-sm transition hover:-translate-y-0.5 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style={{ backgroundColor: accent, color: "#FFFFFF", outlineColor: accent }}>
+                <button type="button" aria-live="polite" onClick={() => void sharePublicInvitation()} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold shadow-sm transition hover:-translate-y-0.5 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style={{ backgroundColor: accent, color: "#FFFFFF", outlineColor: accent }}>
                   <Share2 size={17} strokeWidth={1.8} />
                   {publicLinkCopied ? "Enlace copiado" : "Compartir invitación"}
                 </button>

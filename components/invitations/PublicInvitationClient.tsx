@@ -160,8 +160,8 @@ export default function PublicInvitationClient({
     const escapeIcs = (value: string) => value
       .replace(/\\/g, "\\\\")
       .replace(/\r?\n/g, "\\n")
-      .replace(/,/g, "\\\\,")
-      .replace(/;/g, "\\\\;");
+      .replace(/,/g, "\\,")
+      .replace(/;/g, "\\;");
     const uid = `${invitation.invitation_id}@melissartedecorativo.com`;
     const ics = [
       "BEGIN:VCALENDAR",

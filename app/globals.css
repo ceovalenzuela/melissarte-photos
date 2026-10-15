@@ -1303,3 +1303,64 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* V1 public invitation templates: hero-led editorial composition and distinct art direction. */
+.invitation-public .invitation-hero { min-height: clamp(26rem, 68svh, 42rem); padding-block: clamp(3.5rem, 9vw, 7rem); }
+.invitation-public .invitation-hero-has-cover .invitation-hero-image { background-position: center 44%; transform: scale(1.01); }
+.invitation-public .invitation-hero-overlay { background: linear-gradient(180deg, rgba(17,22,27,.12) 0%, rgba(17,22,27,.58) 100%); }
+.invitation-public .invitation-hero-content { width: 100%; text-shadow: 0 2px 24px rgba(0,0,0,.18); }
+.invitation-public .invitation-hero-title { text-wrap: balance; overflow-wrap: anywhere; }
+.invitation-public .invitation-hero-eyebrow, .invitation-public .invitation-hero-date { letter-spacing: .28em; }
+.invitation-public .invitation-hero-subtitle { text-wrap: pretty; }
+.invitation-public .invitation-hero-frame { border: 1px solid rgba(255,255,255,.45); border-radius: 1rem; }
+.invitation-public .invitation-hero-no-cover .invitation-hero-overlay { background: linear-gradient(180deg, rgba(20,22,28,.06), rgba(20,22,28,.22)); }
+.invitation-public .invitation-hero-no-cover .invitation-hero-content { text-shadow: none; }
+.invitation-public .invitation-hero-no-cover .invitation-hero-frame { border-color: color-mix(in srgb, var(--inv-border) 72%, transparent); }
+.invitation-public .invitation-hero-no-cover .invitation-hero-title { color: var(--inv-title); }
+.invitation-public .invitation-hero-no-cover .invitation-hero-eyebrow,
+.invitation-public .invitation-hero-no-cover .invitation-hero-date,
+.invitation-public .invitation-hero-no-cover .invitation-hero-hosts,
+.invitation-public .invitation-hero-no-cover .invitation-hero-subtitle { color: var(--inv-card-text); }
+
+/* Wedding Editorial */
+.invitation-template-wedding_editorial .invitation-hero-frame { inset: 1.25rem; border: 1px solid rgba(255,250,240,.72); border-radius: 0; }
+.invitation-template-wedding_editorial .invitation-hero-eyebrow, .invitation-template-wedding_editorial .invitation-hero-date { color: #fffaf0; }
+.invitation-template-wedding_editorial .invitation-hero-title, .invitation-template-wedding_editorial .invitation-hero-hosts, .invitation-template-wedding_editorial .invitation-hero-subtitle { color: #fffdf8; }
+.invitation-template-wedding_editorial .invitation-hero-no-cover .invitation-hero-frame { border-color: #a78645; }
+.invitation-template-wedding_editorial .invitation-hero-no-cover .invitation-hero-eyebrow, .invitation-template-wedding_editorial .invitation-hero-no-cover .invitation-hero-date { color: #8b6a32; }
+
+/* XV Gala */
+.invitation-template-xv_gala .invitation-hero-overlay { background: linear-gradient(180deg, rgba(23,15,31,.28), rgba(23,15,31,.76)); }
+.invitation-template-xv_gala .invitation-hero-frame { inset: 1.5rem; border: 1px solid rgba(214,182,111,.8); border-radius: 0; outline: 1px solid rgba(214,182,111,.35); outline-offset: 5px; }
+.invitation-template-xv_gala .invitation-hero-title { text-transform: uppercase; letter-spacing: .035em; font-weight: 500; }
+.invitation-template-xv_gala .invitation-hero-eyebrow, .invitation-template-xv_gala .invitation-hero-date { color: #e7cb83; }
+.invitation-template-xv_gala .invitation-hero-title, .invitation-template-xv_gala .invitation-hero-hosts, .invitation-template-xv_gala .invitation-hero-subtitle { color: #fffaf2; }
+.invitation-template-xv_gala .invitation-hero-no-cover .invitation-hero-overlay { background: radial-gradient(ellipse at 50% 20%, rgba(183,110,131,.22), transparent 52%); }
+.invitation-template-xv_gala .invitation-hero-no-cover .invitation-hero-title, .invitation-template-xv_gala .invitation-hero-no-cover .invitation-hero-hosts, .invitation-template-xv_gala .invitation-hero-no-cover .invitation-hero-subtitle { color: #fffaf2; }
+
+/* Baby Shower Suave */
+.invitation-template-baby_soft .invitation-hero-frame { inset: 1rem; border: 1px solid rgba(255,255,255,.8); border-radius: 2rem; }
+.invitation-template-baby_soft .invitation-hero-overlay { background: linear-gradient(180deg, rgba(58,48,42,.05), rgba(58,48,42,.5)); }
+.invitation-template-baby_soft .invitation-hero-eyebrow, .invitation-template-baby_soft .invitation-hero-date { color: #fff8ee; }
+.invitation-template-baby_soft .invitation-hero-title, .invitation-template-baby_soft .invitation-hero-hosts, .invitation-template-baby_soft .invitation-hero-subtitle { color: #fffdf8; }
+.invitation-template-baby_soft .invitation-hero-no-cover .invitation-hero-frame { border-color: #b87862; }
+.invitation-template-baby_soft .invitation-hero-no-cover .invitation-hero-eyebrow, .invitation-template-baby_soft .invitation-hero-no-cover .invitation-hero-date { color: #875744; }
+
+/* Bautizo Luz */
+.invitation-template-baptism_light .invitation-hero-frame { inset: 1.5rem; border: 1px solid rgba(255,255,255,.78); border-radius: .5rem; }
+.invitation-template-baptism_light .invitation-hero-overlay { background: linear-gradient(180deg, rgba(28,49,62,.08), rgba(28,49,62,.48)); }
+.invitation-template-baptism_light .invitation-hero-eyebrow, .invitation-template-baptism_light .invitation-hero-date { color: #fffdf6; }
+.invitation-template-baptism_light .invitation-hero-title, .invitation-template-baptism_light .invitation-hero-hosts, .invitation-template-baptism_light .invitation-hero-subtitle { color: #fffdf6; }
+.invitation-template-baptism_light .invitation-hero-no-cover .invitation-hero-frame { border-color: #a8c7d8; }
+.invitation-template-baptism_light .invitation-hero-no-cover .invitation-hero-eyebrow, .invitation-template-baptism_light .invitation-hero-no-cover .invitation-hero-date { color: #527f98; }
+
+@media (max-width: 639px) {
+  .invitation-public .invitation-hero-frame { inset: .75rem; }
+  .invitation-template-xv_gala .invitation-hero-frame { inset: 1rem; }
+  .invitation-public .invitation-hero-title { font-size: clamp(2.1rem, 10vw, 3.2rem); line-height: 1.08; }
+  .invitation-public .invitation-hero-hosts { font-size: 1.15rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .invitation-public .invitation-hero-image { animation: none !important; transform: none !important; }
+}

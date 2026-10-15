@@ -273,19 +273,26 @@ export default function PublicInvitationClient({
             "--inv-form-text": safeColor(design.form_text_color, templatePalette.form_text_color ?? textColor),
           } as CSSProperties}
         >
-          <header className={`invitation-hero relative isolate flex min-h-[58svh] items-end overflow-hidden sm:min-h-[680px] lg:min-h-[800px] ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>
+          <header className={`invitation-hero relative isolate flex min-h-[46svh] items-center justify-center overflow-hidden px-6 py-14 text-center sm:min-h-[560px] sm:px-12 lg:min-h-[650px] ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>
             {cover ? (
               <div aria-hidden="true" className="absolute inset-0 -z-20 bg-cover bg-center invitation-hero-image" style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />
             ) : (
               <div aria-hidden="true" className="absolute inset-0 -z-20 invitation-hero-placeholder" style={{ background: `radial-gradient(ellipse at 75% 18%, ${accent}55, transparent 38%), linear-gradient(145deg, ${background} 0%, ${accent} 100%)` }} />
             )}
-            {cover && <div aria-hidden="true" className="absolute inset-0 -z-10 bg-black/10" />}
+            <div aria-hidden="true" className="invitation-hero-overlay absolute inset-0 -z-10" />
+            <div className="invitation-hero-frame pointer-events-none absolute inset-4 sm:inset-7" aria-hidden="true" />
+            <div className="invitation-hero-content relative z-10 mx-auto max-w-4xl">
+              <p className="invitation-hero-eyebrow text-[10px] font-semibold uppercase tracking-[0.34em] sm:text-xs">Una invitación especial</p>
+              <h1 className="invitation-hero-title mt-5 font-[var(--font-display)] text-4xl leading-tight sm:mt-7 sm:text-6xl lg:text-7xl">{content.headline || invitation.event_title}</h1>
+              {content.subtitle && <p className="invitation-hero-subtitle mx-auto mt-4 max-w-2xl text-sm leading-7 sm:mt-6 sm:text-lg">{content.subtitle}</p>}
+              {content.host_names && <p className="invitation-hero-hosts mt-7 font-[var(--font-display)] text-lg italic sm:mt-9 sm:text-2xl">{content.host_names}</p>}
+              {invitation.event_date && <p className="invitation-hero-date mt-5 text-[10px] font-semibold uppercase tracking-[0.28em] sm:text-xs">{formatDate(invitation.event_date)}</p>}
+            </div>
             <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-white/70 to-transparent opacity-60" />
           </header>
           <section id="detalles" className="px-5 py-12 sm:px-12 sm:py-16 lg:px-20 invitation-reveal">
             <div className="mx-auto max-w-3xl text-center invitation-reveal">
               <p className="text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>Reserva la fecha</p>
-              <h1 className="invitation-title mt-4 text-balance font-[var(--font-display)] text-4xl leading-tight sm:text-6xl">{content.headline || invitation.event_title}</h1>
               {content.introduction && <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-neutral-600 sm:text-base">{content.introduction}</p>}
               <div className="mx-auto mt-5 flex items-center justify-center gap-4">
                 <span className="h-px w-10" style={{ backgroundColor: `${accent}55` }} />

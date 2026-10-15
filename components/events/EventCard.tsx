@@ -5,6 +5,7 @@ import Link from "next/link";
 import {
   ArrowRight,
   CalendarDays,
+  CheckCircle2,
   Camera,
   Clock3,
   Copy,
@@ -42,6 +43,14 @@ function defaultFormatActivity(value: string | null) {
     day: "numeric",
     month: "short",
   });
+}
+
+function eventTypeLabel(type: string | null) {
+  const labels: Record<string, string> = {
+    wedding: "Boda", xv: "XV años", birthday: "Cumpleaños", baby_shower: "Baby shower",
+    gender_reveal: "Revelación de género", baptism: "Bautizo", corporate: "Corporativo", other: "Otro",
+  };
+  return type ? labels[type] ?? "Evento" : "Evento";
 }
 
 function formatDate(date: string) {
@@ -124,6 +133,13 @@ export default function EventCard({
             >
               {event.status === "published" ? "Publicado" : "Borrador"}
             </span>
+            <span className="inline-flex shrink-0 items-center rounded-full border border-[#E7DCC8] bg-white px-2.5 py-1 text-[11px] font-medium text-[#62594F]">
+              {eventTypeLabel(event.type)}
+            </span>
+            <span className={event.invitation_enabled ? "inline-flex shrink-0 items-center gap-1 rounded-full bg-[#EEF6F0] px-2.5 py-1 text-[11px] font-medium text-[#37724A]" : "inline-flex shrink-0 items-center rounded-full bg-[#F1EEE8] px-2.5 py-1 text-[11px] font-medium text-[#7D7467]"}>
+              {event.invitation_enabled && <CheckCircle2 size={12} />}
+              {event.invitation_enabled ? "Invitación activa" : "Sin invitación"}
+            </span>
           </div>
 
           <div className="mt-2 flex min-w-0 flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-[#7D7467]">
@@ -199,6 +215,8 @@ export default function EventCard({
 
           <Link
             href={"/admin/events/" + event.id}
+            target="_blank"
+            rel="noreferrer"
             className="col-span-2 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-full bg-[#A88249] px-4 text-xs font-medium text-white transition-colors hover:bg-[#977640] lg:col-span-1 lg:w-auto"
           >
             Administrar

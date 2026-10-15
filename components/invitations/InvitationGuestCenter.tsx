@@ -80,8 +80,8 @@ function mapImportRows(rows: string[][]): ImportRow[] {
     const parsedPasses = Number((r[passesIndex] ?? "1").trim() || "1");
     let error = "";
     if (!name) error = "Falta el nombre";
-    else if (![10, 11, 12, 13, 14, 15].includes(normalizePhone(phone).length)) error = "Teléfono: usa 10 dígitos locales o lada internacional + 10 dígitos";
-    else if (!Number.isInteger(parsedPasses) || parsedPasses < 1 || parsedPasses > 99) error = "Pases: usa un número de 1 a 99";
+    else if (![10, 11, 12, 13, 14, 15].includes(normalizePhone(phone).length)) error = "Escribe un teléfono de 10 dígitos o con lada internacional.";
+    else if (!Number.isInteger(parsedPasses) || parsedPasses < 1 || parsedPasses > 99) error = "Indica entre 1 y 99 pases.";
     return { row: i + (hasHeader ? 2 : 1), name, phone, group, passes: parsedPasses || 1, error: error || undefined };
   });
 }
@@ -133,24 +133,30 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
     return textMatch && statusMatch && deliveryMatch;
   }), [guests, query, rsvpFilter, deliveryFilter]);
   const passCount = guests.reduce((sum, g) => sum + g.passes, 0);
-  const confirmedCount = guests.filter(g => g.attendance_status === "attending").length;
   const confirmedPassCount = guests.reduce((sum, g) => sum + (g.attendance_status === "attending" ? (g.party_size ?? 1) : 0), 0);
   const pendingRsvpCount = guests.filter(g => !g.attendance_status).length;
   const pendingDeliveryCount = guests.filter(g => g.delivery_status !== "sent").length;
-  const declinedCount = guests.filter(g => g.attendance_status === "declined").length;
   const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
   const visibleGuests = filtered.slice((page - 1) * pageSize, page * pageSize);
 
+  function closeGuestTools() {
+    setShowTools(false);
+    setImportRows([]);
+    setEditing(null);
+    setDraft(emptyDraft);
+    if (fileRef.current) fileRef.current.value = "";
+  }
+
   async function saveGuest() {
-    if (!draft.name.trim() || normalizePhone(draft.phone).length !== 10) { toast.error("Agrega el nombre y un teléfono de exactamente 10 dígitos."); return; }
+    if (!draft.name.trim() || normalizePhone(draft.phone).length !== 10) { toast.error("Escribe el nombre y un teléfono válido de 10 dígitos."); return; }
     setSaving(true);
     const { error } = await supabase.rpc("save_invitation_guest_with_token", {
       p_event_id: eventId, p_organizer_token: organizerToken, p_guest_id: editing,
       p_name: draft.name.trim(), p_phone: `${draft.countryCode}${normalizePhone(draft.phone)}`, p_family_group: draft.group.trim(), p_passes: Number(draft.passes),
     });
     setSaving(false);
-    if (error) { toast.error(error.message.includes("Ya existe") ? "Ya existe un invitado con ese teléfono." : error.message || "No fue posible guardar."); return; }
-    toast.success(editing ? "Invitado actualizado." : "Invitado agregado.");
+    if (error) { console.error(error); toast.error(error.message.includes("Ya existe") ? "Ya hay una invitación registrada con ese teléfono. Revisa la lista de invitados." : "No pudimos guardar los cambios. Revisa tu conexión e inténtalo de nuevo."); return; }
+    toast.success(editing ? "Los cambios se guardaron." : "La invitación se agregó a tu lista.");
     setDraft(emptyDraft); setEditing(null); await loadGuests();
   }
   function startEdit(g: Guest) {
@@ -213,7 +219,7 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
     });
     if (error) { toast.error("No fue posible actualizar el estado de envío."); return; }
     setGuests(current => current.map(item => item.guest_id === g.guest_id ? { ...item, delivery_status: status, sent_at: status === "sent" ? new Date().toISOString() : null } : item));
-    toast.success(status === "sent" ? "Envío marcado como realizado." : "Invitación marcada como pendiente.");
+    toast.success(status === "sent" ? "La invitación quedó marcada como enviada." : "La invitación quedó como pendiente de envío.");
   }
 
   async function handleFile(file?: File) {
@@ -225,7 +231,7 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
       const validated = mapped.map(row => {
         const phone = normalizePhone(row.phone);
         let error = row.error;
-        if (!error && seen.has(phone)) error = "Teléfono duplicado en el archivo";
+        if (!error && seen.has(phone)) error = "Este teléfono aparece más de una vez en el archivo";
         if (!error && guests.some(g => normalizePhone(g.phone) === phone)) error = "Este teléfono ya está en la lista";
         seen.add(phone);
         return { ...row, error };
@@ -256,32 +262,32 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
       <div className="relative flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-start gap-3">
           <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#D8C39B] bg-white/90 text-[#9A773F] shadow-sm"><Users size={19}/></span>
-          <div><p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#A17E46]">Tu evento · organización</p><h2 className="mt-1 text-xl font-semibold tracking-tight text-[#332B27]">Lista de invitados</h2><p className="mt-1 text-sm text-[#7D7467]">{guests.length ? `${guests.length} invitados · ${passCount} pases asignados` : "Organiza tus invitados y sus confirmaciones en un solo lugar"}</p></div>
+          <div><p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#A17E46]">Tu evento · organización</p><h2 className="mt-1 text-xl font-semibold tracking-tight text-[#332B27]">Lista de invitados</h2><p className="mt-1 text-sm text-[#7D7467]">{guests.length ? `${guests.length} invitaciones en tu lista · ${passCount} pases reservados` : "Organiza tu lista y lleva el control de las confirmaciones"}</p></div>
         </div>
         <div className="relative flex items-center gap-2">
-          <button type="button" onClick={() => setShowTools(v => !v)} className="inline-flex items-center gap-2 rounded-xl border border-[#A88249] bg-[#A88249] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_5px_14px_rgba(168,130,73,0.22)] transition hover:-translate-y-0.5 hover:bg-[#92703E]">{showTools ? <X size={16}/> : <Plus size={16}/ >}{showTools ? "Cerrar" : "Agregar invitados"}</button>
-          <button type="button" onClick={() => { setLoading(true); void loadGuests(); }} disabled={loading} aria-label="Actualizar lista" title="Actualizar" className="rounded-xl border border-[#E7DCC8] bg-white/90 p-2.5 text-[#5C554B] transition hover:border-[#C9AD7B] hover:bg-white disabled:opacity-50"><RefreshCw size={15} className={loading ? "animate-spin" : ""}/></button>
+          <button type="button" onClick={() => showTools ? closeGuestTools() : setShowTools(true)} disabled={importing} className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-[#A88249] bg-[#A88249] px-4 py-3 text-sm font-semibold text-white shadow-[0_5px_14px_rgba(168,130,73,0.22)] transition hover:bg-[#92703E] disabled:cursor-not-allowed disabled:opacity-60">{showTools ? <X size={17}/> : <Plus size={17}/ >}{showTools ? "Cerrar y volver a la lista" : "Agregar invitados"}</button>
+          <button type="button" onClick={() => { setLoading(true); void loadGuests(); }} disabled={loading} aria-label="Actualizar lista de invitados" title="Actualizar lista" className="flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-[#E7DCC8] bg-white/90 p-3 text-[#5C554B] transition hover:border-[#C9AD7B] hover:bg-white disabled:opacity-50"><RefreshCw size={17} className={loading ? "animate-spin" : ""}/></button>
         </div>
       </div>
     </header>
 
     <div className="grid grid-cols-2 gap-2 border-b border-[#EEE5D7] bg-[#FFFCF7] p-3 sm:grid-cols-4 sm:gap-3 sm:px-6 sm:py-4">
-      <div className="rounded-2xl border border-[#DCE9DE] bg-white px-3 py-3 shadow-[0_3px_12px_rgba(35,70,45,0.035)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#356B4B] sm:text-xl">{confirmedPassCount}</p><p className="mt-1 text-[10px] leading-tight text-[#6F786D] sm:text-xs">Personas confirmadas</p></div>
-      <div className="rounded-2xl border border-[#DCE9DE] bg-white px-3 py-3 shadow-[0_3px_12px_rgba(35,70,45,0.035)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#356B4B] sm:text-xl">{confirmedCount}</p><p className="mt-1 text-[10px] leading-tight text-[#6F786D] sm:text-xs">Invitados que confirmaron</p></div>
-      <div className="rounded-2xl border border-[#F0E2C4] bg-white px-3 py-3 shadow-[0_3px_12px_rgba(115,83,28,0.035)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#98702F] sm:text-xl">{pendingRsvpCount}</p><p className="mt-1 text-[10px] leading-tight text-[#8A7860] sm:text-xs">Por responder</p></div>
-      <div className="rounded-2xl border border-[#E8E3DC] bg-white px-3 py-3 shadow-[0_3px_12px_rgba(62,45,25,0.025)] sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#7D7467] sm:text-xl">{declinedCount}</p><p className="mt-1 text-[10px] leading-tight text-[#7D7467] sm:text-xs">No asistirán</p></div>
+      <div className="rounded-2xl border border-[#E8DECF] bg-white px-3 py-3 shadow-sm sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#332B27] sm:text-xl">{guests.length}</p><p className="mt-1 text-[10px] leading-tight text-[#7D7467] sm:text-xs">Invitaciones en la lista</p></div>
+      <div className="rounded-2xl border border-[#E8DECF] bg-white px-3 py-3 shadow-sm sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#98702F] sm:text-xl">{passCount}</p><p className="mt-1 text-[10px] leading-tight text-[#7D7467] sm:text-xs">Pases reservados</p></div>
+      <div className="rounded-2xl border border-[#DCE9DE] bg-white px-3 py-3 shadow-sm sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#356B4B] sm:text-xl">{confirmedPassCount}</p><p className="mt-1 text-[10px] leading-tight text-[#6F786D] sm:text-xs">Personas que asistirán</p></div>
+      <div className="rounded-2xl border border-[#F0E2C4] bg-white px-3 py-3 shadow-sm sm:px-4"><p className="text-lg font-semibold tabular-nums text-[#98702F] sm:text-xl">{pendingRsvpCount}</p><p className="mt-1 text-[10px] leading-tight text-[#8A7860] sm:text-xs">Invitaciones por responder</p></div>
     </div>
-    <p className="border-b border-[#EEE5D7] px-4 py-3 text-xs leading-5 text-[#7D7467] sm:px-6">El total de personas se calcula con las respuestas de asistencia. Los pases asignados son los lugares reservados para cada invitado.</p>
+    <p className="border-b border-[#EEE5D7] px-4 py-3 text-xs leading-5 text-[#7D7467] sm:px-6">Cada registro corresponde a una invitación. Los pases indican cuántas personas pueden asistir con ella, incluyendo al invitado y sus acompañantes. “Personas que asistirán” cuenta a quienes ya confirmaron.</p>
     <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#EEE5D7] bg-white px-4 py-3 sm:px-6"><p className="text-sm text-[#5C554B]"><span className="font-semibold text-[#98702F]">{pendingDeliveryCount}</span> invitaciones pendientes de envío</p><button type="button" onClick={() => { setDeliveryFilter(deliveryFilter === "pending" ? "all" : "pending"); setPage(1); }} className="rounded-lg border border-[#D8C39B] px-3 py-2 text-xs font-semibold text-[#8E6D3D] transition hover:bg-[#FFFCF7]">{deliveryFilter === "pending" ? "Ver todas las invitaciones" : "Ver pendientes de envío"}</button></div>
 
     {showTools && <div id="guest-tools-form" className="scroll-mt-6 border-b border-[#EEE5D7] bg-[#FFFCF7] p-4 sm:p-5">
       <div className="grid gap-5 lg:grid-cols-2">
         <div>
-          <h3 className="font-semibold text-[#332B27]">{editing ? "Editar invitado" : "Agregar una persona"}</h3><p className="mt-1 text-sm text-[#7D7467]">Selecciona el país y escribe los 10 dígitos del teléfono, sin lada. México viene seleccionado por defecto.</p>
+          <h3 className="font-semibold text-[#332B27]">{editing ? "Editar invitación" : "Agregar una invitación"}</h3><p className="mt-1 text-sm text-[#7D7467]">Agrega el nombre de tu invitado y su WhatsApp. Si invitas a una familia o pareja, puedes indicar sus pases y agruparlos.</p>
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             <Input label="Nombre" value={draft.name} onChange={v => setDraft(d => ({...d,name:v}))} placeholder="Nombre completo"/>
             <div className="block text-sm font-medium text-[#4E463D]">
-              Teléfono para WhatsApp
+              WhatsApp del invitado
               <div className="mt-1.5 grid grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-2">
                 <select aria-label="Lada internacional" value={draft.countryCode} onChange={e => setDraft(d => ({...d,countryCode:e.target.value}))} className="min-w-0 rounded-xl border border-[#E7DCC8] bg-white px-2.5 py-3 text-sm outline-none focus:border-[#A88249]">
                   {countryCodes.map(item => <option key={item.code} value={item.code}>{item.iso} (+{item.code})</option>)}
@@ -290,25 +296,25 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
               </div>
               <p className="mt-1 text-[11px] font-normal text-[#8A7860]">{countryCodes.find(item => item.code === draft.countryCode)?.name ?? "País seleccionado"} · lada +{draft.countryCode}</p>
             </div>
-            <Input label="Familia o grupo (opcional)" value={draft.group} onChange={v => setDraft(d => ({...d,group:v}))} placeholder="Familia López"/>
+            <Input label="Familia o grupo (opcional)" value={draft.group} onChange={v => setDraft(d => ({...d,group:v}))} placeholder="Ej. Familia López"/>
             <div className="block text-sm font-medium text-[#4E463D]">
-              ¿Cuántos pases?
+              Pases para esta invitación
               <div className="mt-1.5 flex h-[43px] w-full items-center rounded-xl border border-[#E7DCC8] bg-white">
                 <button type="button" onClick={() => setDraft(d => ({...d,passes:Math.max(1,d.passes-1)}))} disabled={draft.passes <= 1} aria-label="Quitar un pase" className="flex h-full w-11 shrink-0 items-center justify-center rounded-l-xl text-[#8E6D3D] transition hover:bg-[#F8F2E8] disabled:opacity-35"><Minus size={15}/></button>
                 <input aria-label="Número de pases" type="number" inputMode="numeric" min={1} max={99} step={1} value={draft.passes} onChange={e => { const value = e.target.value; setDraft(d => ({...d,passes:value === "" ? 1 : Math.min(99,Math.max(1,Math.trunc(Number(value) || 1)))})); }} className="h-full min-w-0 flex-1 border-0 bg-transparent px-2 text-center text-sm font-semibold tabular-nums text-[#332B27] outline-none focus:ring-0"/>
                 <button type="button" onClick={() => setDraft(d => ({...d,passes:Math.min(99,d.passes+1)}))} disabled={draft.passes >= 99} aria-label="Agregar un pase" className="flex h-full w-11 shrink-0 items-center justify-center rounded-r-xl text-[#8E6D3D] transition hover:bg-[#F8F2E8] disabled:opacity-35"><Plus size={15}/></button>
               </div>
-              <p className="mt-1 text-[11px] font-normal text-[#8A7860]">De 1 a 99 pases</p>
+              <p className="mt-1 text-[11px] font-normal text-[#8A7860]">Incluye al invitado y a sus acompañantes (de 1 a 99).</p>
             </div>
           </div>
-          <div className="mt-3 flex gap-2"><button type="button" onClick={() => void saveGuest()} disabled={saving} className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#A88249] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"><Save size={15}/>{saving ? "Guardando..." : editing ? "Guardar cambios" : "Guardar invitado"}</button>{editing && <button type="button" onClick={() => {setEditing(null);setDraft(emptyDraft);}} className="rounded-lg border px-3" aria-label="Cancelar edición"><X size={16}/></button>}</div>
+          <div className="mt-3 flex gap-2"><button type="button" onClick={() => void saveGuest()} disabled={saving} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#A88249] px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"><Save size={15}/>{saving ? "Guardando..." : editing ? "Guardar cambios" : "Agregar a la lista"}</button>{editing && <button type="button" onClick={() => {setEditing(null);setDraft(emptyDraft);}} className="rounded-lg border px-3" aria-label="Cancelar edición"><X size={16}/></button>}</div>
         </div>
         <div className="border-t border-[#E7DCC8] pt-4 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0">
-          <h3 className="font-semibold text-[#332B27]">¿Ya tienes una lista?</h3><p className="mt-1 text-sm text-[#7D7467]">Puedes cargarla desde Excel o CSV. Revisarás los datos antes de guardarlos.</p>
+          <h3 className="font-semibold text-[#332B27]">¿Ya tienes tu lista en un archivo?</h3><p className="mt-1 text-sm text-[#7D7467]">Sube un archivo de Excel (.xlsx) o CSV. Antes de agregar los invitados, podrás revisar los nombres, teléfonos y pases.</p><p className="mt-2 text-xs leading-5 text-[#8A7860]">Usa una fila por invitación. Las columnas son: Nombre, Teléfono, Grupo familiar (opcional) y Pases. Puedes descargar la plantilla para ver un ejemplo.</p>
           <div className="mt-3 flex flex-wrap gap-3">
-            <button type="button" onClick={downloadTemplate} className="inline-flex items-center gap-2 text-sm font-medium text-[#8E6D3D]"><Download size={15}/> Descargar ejemplo</button>
+            <button type="button" onClick={downloadTemplate} className="inline-flex min-h-11 items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-[#8E6D3D] hover:bg-[#F8F2E8]"><Download size={17}/> Descargar plantilla de ejemplo</button>
             <input ref={fileRef} type="file" accept=".xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" className="hidden" onChange={e => void handleFile(e.target.files?.[0])}/>
-            <button type="button" onClick={() => fileRef.current?.click()} className="inline-flex items-center gap-2 rounded-lg border border-dashed border-[#CDBB9D] px-3 py-2 text-sm font-medium text-[#5C554B] hover:bg-[#F8F2E8]"><Upload size={15}/> Elegir archivo</button>
+            <button type="button" onClick={() => fileRef.current?.click()} className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-dashed border-[#CDBB9D] px-3 py-2 text-sm font-semibold text-[#5C554B] hover:bg-[#F8F2E8]"><Upload size={17}/> Subir archivo Excel o CSV</button>
           </div>
         </div>
       </div>
@@ -316,9 +322,9 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
 
     <div className="space-y-3 p-3 sm:p-4">
       {importRows.length > 0 ? <div className="rounded-xl border border-[#E7DCC8] p-3">
-        <div className="flex flex-wrap items-start justify-between gap-3"><div><h3 className="font-semibold text-[#332B27]">Revisar lista</h3><p className="mt-1 text-sm text-[#7D7467]">{importRows.filter(r=>!r.error).length} listos para agregar · {importRows.filter(r=>r.error).length} por corregir</p></div><button type="button" onClick={() => setImportRows([])} className="text-sm text-[#7D7467]">Cancelar</button></div>
+        <div className="flex flex-wrap items-start justify-between gap-3"><div><h3 className="font-semibold text-[#332B27]">Revisa tu lista antes de agregarla</h3><p className="mt-1 text-sm text-[#7D7467]">{importRows.filter(r=>!r.error).length} invitaciones listas · {importRows.filter(r=>r.error).length} por corregir</p><p className="mt-1 text-xs text-[#8A7860]">Las filas marcadas “Correcto” se agregarán. Las que tengan un aviso necesitan revisión.</p></div><button type="button" onClick={closeGuestTools} disabled={importing} className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-[#E7DCC8] px-3 py-2 text-sm font-semibold text-[#5C554B] hover:bg-[#FFFCF7] disabled:opacity-50"><X size={16}/> Volver a la lista</button></div>
         <div className="mt-3 max-h-72 overflow-auto rounded-lg border"><table className="w-full text-left text-xs"><thead className="sticky top-0 bg-[#F8F2E8]"><tr><th className="p-2">Nombre</th><th className="p-2">Teléfono</th><th className="p-2">Grupo</th><th className="p-2">Pases</th><th className="p-2">Revisión</th></tr></thead><tbody>{importRows.map(r=><tr key={r.row} className="border-t"><td className="p-2">{r.name || "—"}</td><td className="p-2">{r.phone || "—"}</td><td className="p-2">{r.group || "—"}</td><td className="p-2">{r.passes}</td><td className={r.error?"p-2 text-red-700":"p-2 text-green-700"}>{r.error || "Correcto"}</td></tr>)}</tbody></table></div>
-        <button type="button" onClick={() => void importValidRows()} disabled={importing || !importRows.some(r=>!r.error)} className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#A88249] px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"><FileSpreadsheet size={16}/>{importing ? "Agregando..." : `Agregar ${importRows.filter(r=>!r.error).length} invitados`}</button>
+        <button type="button" onClick={() => void importValidRows()} disabled={importing || !importRows.some(r=>!r.error)} className="mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#A88249] px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"><FileSpreadsheet size={16}/>{importing ? "Agregando..." : `Agregar ${importRows.filter(r=>!r.error).length} invitados`}</button>
       </div> : <>
         <div className="flex flex-col gap-2 sm:flex-row">
           <label className="relative min-w-0 flex-1"><Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9A8E7C]"/><input value={query} onChange={e=>{setQuery(e.target.value);setPage(1);}} placeholder="Buscar por nombre o teléfono" className="w-full rounded-xl border border-[#E7DCC8] bg-white py-3 pl-9 pr-3 text-sm outline-none transition focus:border-[#A88249] focus:ring-2 focus:ring-[#A88249]/10"/></label>
@@ -330,12 +336,12 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
             {visibleGuests.map(g=><div key={g.guest_id} className="flex items-center gap-3 border-b border-[#F0E9DF] px-3 py-4 transition-colors last:border-b-0 hover:bg-[#FFFCF7] sm:px-4">
               <div className="min-w-0 flex-1"><p className="truncate text-sm font-medium text-[#332B27]" title={g.guest_name}>{g.guest_name}</p><p className="mt-0.5 truncate text-xs text-[#7D7467]" title={[g.family_group,g.passes===1?"1 pase":`${g.passes} pases`].filter(Boolean).join(" · ")}>{g.family_group ? `${g.family_group} · ` : ""}{g.passes} {g.passes===1?"pase":"pases"}</p></div>
               <div className="flex min-w-0 shrink-0 flex-col items-end gap-1"><span className={g.attendance_status==="attending"?"rounded-md bg-green-50 px-2 py-1 text-[11px] font-medium text-green-800":g.attendance_status==="declined"?"rounded-md bg-neutral-100 px-2 py-1 text-[11px] font-medium text-neutral-700":"rounded-md bg-amber-50 px-2 py-1 text-[11px] font-medium text-amber-800"}>{g.attendance_status==="attending"?`Confirmó · ${g.party_size ?? 1}`:g.attendance_status==="declined"?"No asistirá":"Por responder"}</span><span className={g.delivery_status==="sent"?"rounded-md bg-blue-50 px-2 py-1 text-[10px] font-medium text-blue-800":"rounded-md bg-orange-50 px-2 py-1 text-[10px] font-medium text-orange-800"}>{g.delivery_status==="sent"?"Envío marcado":"Sin enviar"}</span></div>
-              <div className="flex shrink-0 items-center gap-0.5">
-                <button type="button" onClick={()=>void copyPersonalLink(g)} title="Copiar enlace personalizado" aria-label={`Copiar enlace personalizado de ${g.guest_name}`} className="rounded-lg p-2 text-[#8E6D3D] transition-colors hover:bg-[#F8F2E8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A88249]/30"><Copy size={16}/></button>
-                <button type="button" onClick={()=>void openWhatsApp(g)} title="Preparar mensaje en WhatsApp" aria-label={`Preparar invitación de ${g.guest_name} en WhatsApp`} className="rounded-lg p-2 text-green-700 transition-colors hover:bg-green-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700/30"><MessageCircle size={16}/></button>
-                <button type="button" onClick={()=>void setDeliveryStatus(g, g.delivery_status === "sent" ? "pending" : "sent")} title={g.delivery_status==="sent"?"Marcar como pendiente":"Marcar envío como realizado"} aria-label={g.delivery_status==="sent"?`Marcar envío de ${g.guest_name} como pendiente`:`Marcar invitación de ${g.guest_name} como enviada`} className={g.delivery_status==="sent"?"rounded-lg p-2 text-blue-700 transition-colors hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/30":"rounded-lg p-2 text-[#8E6D3D] transition-colors hover:bg-[#F8F2E8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A88249]/30"}><CheckCircle2 size={16}/></button>
-                <button type="button" onClick={()=>startEdit(g)} title="Editar" aria-label={`Editar ${g.guest_name}`} className="rounded-lg p-2 text-[#6E5A3F] transition-colors hover:bg-[#F8F2E8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A88249]/30"><Edit2 size={15}/></button>
-                <button type="button" onClick={()=>void removeGuest(g)} title="Eliminar" aria-label={`Eliminar ${g.guest_name}`} className="rounded-lg p-2 text-red-600 transition-colors hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600/30"><Trash2 size={15}/></button>
+              <div className="flex shrink-0 flex-wrap items-center justify-end gap-1">
+                <button type="button" onClick={()=>void copyPersonalLink(g)} title="Copiar enlace personalizado" aria-label={`Copiar enlace personalizado de ${g.guest_name}`} className="flex min-h-11 min-w-11 items-center justify-center rounded-xl p-2.5 text-[#8E6D3D] transition-colors hover:bg-[#F8F2E8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A88249]/30"><Copy size={18}/></button>
+                <button type="button" onClick={()=>void openWhatsApp(g)} title="Preparar mensaje en WhatsApp" aria-label={`Preparar invitación de ${g.guest_name} en WhatsApp`} className="flex min-h-11 min-w-11 items-center justify-center rounded-xl p-2.5 text-green-700 transition-colors hover:bg-green-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700/30"><MessageCircle size={18}/></button>
+                <button type="button" onClick={()=>void setDeliveryStatus(g, g.delivery_status === "sent" ? "pending" : "sent")} title={g.delivery_status==="sent"?"Marcar como pendiente":"Marcar envío como realizado"} aria-label={g.delivery_status==="sent"?`Marcar envío de ${g.guest_name} como pendiente`:`Marcar invitación de ${g.guest_name} como enviada`} className={g.delivery_status==="sent"?"flex min-h-11 min-w-11 items-center justify-center rounded-xl p-2.5 text-blue-700 transition-colors hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/30":"flex min-h-11 min-w-11 items-center justify-center rounded-xl p-2.5 text-[#8E6D3D] transition-colors hover:bg-[#F8F2E8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A88249]/30"}><CheckCircle2 size={18}/></button>
+                <button type="button" onClick={()=>startEdit(g)} title="Editar" aria-label={`Editar ${g.guest_name}`} className="flex min-h-11 min-w-11 items-center justify-center rounded-xl p-2.5 text-[#6E5A3F] transition-colors hover:bg-[#F8F2E8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A88249]/30"><Edit2 size={17}/></button>
+                <button type="button" onClick={()=>void removeGuest(g)} title="Eliminar" aria-label={`Eliminar ${g.guest_name}`} className="flex min-h-11 min-w-11 items-center justify-center rounded-xl p-2.5 text-red-600 transition-colors hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600/30"><Trash2 size={17}/></button>
               </div>
             </div>)}
           </div>}

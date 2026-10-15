@@ -6,7 +6,6 @@ import type { InvitationTemplateKey } from "@/types/invitation";
 
 import { supabase } from "@/lib/supabase";
 import { getEventBySlug } from "@/lib/events";
-import InvitationResponses from "@/components/invitations/InvitationResponses";
 import InvitationGuestCenter from "@/components/invitations/InvitationGuestCenter";
 
 interface Props {
@@ -68,7 +67,6 @@ export default async function OrganizerConfirmationsPage({ params }: Props) {
           </div>
         </header>
         <div className="mt-6"><InvitationGuestCenter eventId={event.id} organizerToken={token} invitationSlug={invitation?.slug} /></div>
-        <div className="mt-6"><InvitationResponses eventId={event.id} organizerToken={token} /></div>
       </div>
     </main>
   );

@@ -284,18 +284,7 @@ export default function PublicInvitationClient({
             <div aria-hidden="true" className="invitation-hero-overlay absolute inset-0 -z-10" />
             <div className="invitation-hero-frame pointer-events-none absolute inset-4 sm:inset-7" aria-hidden="true" />
             <div className="invitation-hero-content relative z-10 mx-auto max-w-4xl">
-              {templateKey === "wedding_editorial" && (
-                <p className="invitation-hero-eyebrow text-[10px] font-semibold uppercase">Invitación de boda</p>
-              )}
               <h1 className="invitation-hero-title font-[var(--font-display)] text-4xl leading-tight sm:text-6xl lg:text-7xl">{content.headline || invitation.event_title}</h1>
-              {templateKey === "wedding_editorial" && content.host_names?.trim() &&
-                content.host_names.trim() !== (content.headline || "").trim() &&
-                content.host_names.trim() !== invitation.event_title.trim() && (
-                  <p className="invitation-hero-hosts">{content.host_names}</p>
-                )}
-              {templateKey === "wedding_editorial" && content.subtitle?.trim() && (
-                <p className="invitation-hero-subtitle">{content.subtitle}</p>
-              )}
               {invitation.event_date && <p className="invitation-hero-date mt-5 text-xs font-semibold uppercase tracking-[0.22em] sm:mt-6 sm:text-sm sm:tracking-[0.24em] lg:text-base">{formatDate(invitation.event_date)}</p>}
             </div>
             <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-white/70 to-transparent opacity-60" />

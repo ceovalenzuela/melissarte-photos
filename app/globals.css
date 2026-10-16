@@ -2664,3 +2664,96 @@
     letter-spacing: .22em;
   }
 }
+
+
+/* Wedding hero: a visibly more editorial composition. The content uses a
+   dedicated overline and ornamental divider (rather than styling an eyebrow
+   element that is not rendered in the public hero markup). */
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 58rem;
+  padding: clamp(1.5rem, 4vw, 3rem) clamp(.5rem, 2vw, 1.5rem);
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-content::before {
+  content: "UNA HISTORIA · UN NUEVO CAPÍTULO";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .9rem;
+  margin-bottom: clamp(1.5rem, 3vw, 2.4rem);
+  color: var(--inv-accent, #344B61);
+  font-size: clamp(.52rem, .85vw, .65rem);
+  font-weight: 600;
+  letter-spacing: .28em;
+  line-height: 1.8;
+  text-align: center;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-content::after {
+  content: "";
+  display: block;
+  width: clamp(4rem, 8vw, 6rem);
+  height: 2px;
+  margin-top: clamp(1.5rem, 3vw, 2.2rem);
+  background: linear-gradient(90deg, transparent, var(--inv-accent, #344B61) 22%, var(--inv-border, #D9D8D1) 50%, var(--inv-accent, #344B61) 78%, transparent);
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-title {
+  max-width: 15ch;
+  font-size: clamp(2.8rem, 6.4vw, 5.6rem);
+  line-height: 1.02;
+  letter-spacing: -.055em;
+  text-wrap: balance;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(.65rem, 2vw, 1.2rem);
+  margin-top: clamp(1.5rem, 3vw, 2.2rem) !important;
+  font-size: clamp(.62rem, 1vw, .78rem) !important;
+  letter-spacing: .2em !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-date::before,
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-date::after {
+  content: "";
+  display: inline-block;
+  width: clamp(1.25rem, 3vw, 2.5rem);
+  height: 1px;
+  background: var(--inv-accent, #344B61);
+  opacity: .7;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-content::before {
+  color: #fffaf2;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-content::after {
+  background: linear-gradient(90deg, transparent, #8295A5 22%, #fffaf2 50%, #8295A5 78%, transparent);
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-date::before,
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-date::after {
+  background: #fffaf2;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-no-cover .invitation-hero-content {
+  border-top: 1px solid color-mix(in srgb, var(--inv-border, #D9D8D1) 65%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--inv-border, #D9D8D1) 65%, transparent);
+  background: color-mix(in srgb, var(--inv-background, #F5F3EE) 76%, transparent);
+}
+@media (max-width: 639px) {
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero-content {
+    padding: 1.35rem .25rem;
+  }
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero-content::before {
+    max-width: 19rem;
+    gap: .45rem;
+    margin-bottom: 1.3rem;
+    font-size: .49rem;
+    letter-spacing: .18em;
+  }
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero-title {
+    font-size: clamp(2.65rem, 11vw, 3.8rem);
+    line-height: 1.03;
+  }
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero-date {
+    letter-spacing: .12em !important;
+  }
+}

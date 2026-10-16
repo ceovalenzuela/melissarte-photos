@@ -2007,3 +2007,41 @@
 .invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-eyebrow {
   color: #fffdf8 !important;
 }
+
+
+/* Final wedding hero polish: ivory title/date, restrained champagne ornaments,
+   and a soft dark veil that protects readability without obscuring the cover. */
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(24, 17, 20, .08) 0%,
+    rgba(24, 17, 20, .12) 34%,
+    rgba(24, 17, 20, .38) 72%,
+    rgba(24, 17, 20, .58) 100%
+  ) !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-content {
+  text-shadow: 0 2px 18px rgba(0, 0, 0, .24);
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-title,
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-date,
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-eyebrow,
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-hosts,
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-subtitle {
+  color: #fffaf2 !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-date {
+  gap: .8rem;
+  margin-top: 1.45rem;
+  font-size: clamp(.62rem, 1.15vw, .78rem);
+  font-weight: 500;
+  letter-spacing: .16em;
+  line-height: 1.8;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-date::before,
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-date::after {
+  width: clamp(1.4rem, 4vw, 2.8rem);
+  height: 1px;
+  background: #e5c78b;
+  opacity: .92;
+}

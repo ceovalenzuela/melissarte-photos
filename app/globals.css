@@ -265,9 +265,6 @@
 .invitation-template-xv_gala #detalles article h3 {
   color: #fff8f1;
 }
-.invitation-template-xv_gala #confirmar {
-  color: #332b27;
-}
 .invitation-template-baby_soft .invitation-hero-has-cover {
   border-bottom: 7px solid #b87862;
 }
@@ -382,9 +379,6 @@
 .invitation-template-xv_gala #detalles article p.text-neutral-600 {
   color: #e7dfef;
 }
-.invitation-template-xv_gala #confirmar {
-  color: #29231f;
-}
 .invitation-template-baby_soft {
   background: #f8f5ef;
 }
@@ -491,55 +485,6 @@
 .invitation-template-wedding_editorial .invitation-location-card {
   border-color: #e7dfd0;
 }
-.invitation-template-xv_gala .invitation-rsvp {
-  background: linear-gradient(145deg, #211b35 0%, #2d2340 100%) !important;
-  color: #fffaf2 !important;
-}
-.invitation-template-xv_gala .invitation-rsvp p,
-.invitation-template-xv_gala .invitation-rsvp h2,
-.invitation-template-xv_gala .invitation-rsvp label,
-.invitation-template-xv_gala .invitation-rsvp legend,
-.invitation-template-xv_gala .invitation-rsvp span {
-  color: #fffaf2 !important;
-}
-.invitation-template-xv_gala .invitation-rsvp p.text-neutral-600,
-.invitation-template-xv_gala .invitation-rsvp p.text-neutral-400,
-.invitation-template-xv_gala .invitation-rsvp .text-neutral-400 {
-  color: #e5ddeb !important;
-}
-.invitation-template-xv_gala .invitation-rsvp form {
-  background: #fffdf9 !important;
-  border-color: #d6b66f66 !important;
-  color: #30283a !important;
-}
-.invitation-template-xv_gala .invitation-rsvp form p,
-.invitation-template-xv_gala .invitation-rsvp form label,
-.invitation-template-xv_gala .invitation-rsvp form legend,
-.invitation-template-xv_gala .invitation-rsvp form span {
-  color: #30283a !important;
-}
-.invitation-template-xv_gala .invitation-rsvp form p.text-neutral-400 {
-  color: #6f6676 !important;
-}
-.invitation-template-xv_gala .invitation-rsvp form input,
-.invitation-template-xv_gala .invitation-rsvp form select {
-  background-color: #fff !important;
-  color: #30283a !important;
-  border-color: #d8d0df !important;
-}
-.invitation-template-xv_gala .invitation-rsvp form button[aria-pressed="false"] {
-  background: #fff !important;
-  color: #30283a !important;
-  border-color: #d8d0df !important;
-}
-.invitation-template-xv_gala .invitation-rsvp form button[aria-pressed="true"] {
-  background: #f3e8f0 !important;
-  color: #30283a !important;
-}
-.invitation-template-xv_gala .invitation-rsvp form button[type="submit"] {
-  background: #6f4b68 !important;
-  color: #fff !important;
-}
 
 
 /* Stronger luxury wedding direction: jewel emerald, luminous ivory and champagne gold. */
@@ -615,21 +560,6 @@
   border-color: #c5a55b !important;
   color: #285041 !important;
 }
-.invitation-template-wedding_editorial #confirmar {
-  background: linear-gradient(135deg, #183d32, #244f40) !important;
-  color: #fff9ed !important;
-}
-.invitation-template-wedding_editorial #confirmar > div > p,
-.invitation-template-wedding_editorial #confirmar h2 {
-  color: #fff9ed !important;
-}
-.invitation-template-wedding_editorial #confirmar > div > p:first-child {
-  color: #e3c982 !important;
-}
-.invitation-template-wedding_editorial #confirmar form {
-  border-color: #d2b66f;
-  box-shadow: 0 24px 70px rgba(0,0,0,.18);
-}
 
 /* Baby shower: joyful, gender-neutral color with peach, sage and butter accents. */
 .invitation-template-baby_soft {
@@ -704,53 +634,6 @@
 }
 .invitation-template-wedding_editorial #detalles > .mx-auto.max-w-3xl > p:first-child {
   color: #987640 !important;
-}
-.invitation-template-wedding_editorial #confirmar.invitation-rsvp {
-  background:
-    radial-gradient(ellipse at 50% 0%, rgba(198, 167, 93, .16), transparent 50%),
-    linear-gradient(135deg, #273747 0%, #344858 100%) !important;
-  color: #fffaf0 !important;
-}
-.invitation-template-wedding_editorial #confirmar.invitation-rsvp > div > p,
-.invitation-template-wedding_editorial #confirmar.invitation-rsvp h2 {
-  color: #fffaf0 !important;
-}
-.invitation-template-wedding_editorial #confirmar.invitation-rsvp > div > p:first-child {
-  color: #e4ca8a !important;
-}
-.invitation-template-wedding_editorial #confirmar.invitation-rsvp > div > p.text-neutral-600 {
-  color: #f0e8dc !important;
-}
-.invitation-template-wedding_editorial #confirmar.invitation-rsvp form {
-  background: #fffdf8 !important;
-  color: #302f30 !important;
-  border-color: #c9ad6b !important;
-}
-.invitation-template-wedding_editorial #confirmar.invitation-rsvp form label,
-.invitation-template-wedding_editorial #confirmar.invitation-rsvp form legend {
-  color: #302f30 !important;
-}
-.invitation-template-wedding_editorial #confirmar.invitation-rsvp form p.text-neutral-400 {
-  color: #625d57 !important;
-}
-.invitation-template-wedding_editorial #confirmar.invitation-rsvp form input,
-.invitation-template-wedding_editorial #confirmar.invitation-rsvp form select {
-  background: #fff !important;
-  color: #302f30 !important;
-  border-color: #d8cdbb !important;
-}
-.invitation-template-wedding_editorial #confirmar.invitation-rsvp form button[aria-pressed="false"] {
-  background: #fff !important;
-  color: #302f30 !important;
-  border-color: #d8cdbb !important;
-}
-.invitation-template-wedding_editorial #confirmar.invitation-rsvp form button[aria-pressed="true"] {
-  background: #f3ead5 !important;
-  color: #273747 !important;
-}
-.invitation-template-wedding_editorial #confirmar.invitation-rsvp form button[type="submit"] {
-  background: #a78645 !important;
-  color: #fff !important;
 }
 
 /* Baby / gender reveal: brighter peach, sage and butter yellow, still gender-neutral. */
@@ -1652,4 +1535,46 @@
 .invitation-public .invitation-rsvp .invitation-rsvp-closed h2,
 .invitation-public .invitation-rsvp .invitation-rsvp-closed p:not(:first-child) {
   color: #30283a !important;
+}
+
+
+/* Single source of truth for wedding/XV RSVP surfaces: admin design variables.
+   White surfaces use fixed dark text for readability, regardless of theme colors. */
+.invitation-public #confirmar.invitation-rsvp {
+  background: var(--inv-rsvp-bg) !important;
+  color: var(--inv-rsvp-text) !important;
+}
+.invitation-public #confirmar.invitation-rsvp > div > p,
+.invitation-public #confirmar.invitation-rsvp h2 {
+  color: var(--inv-rsvp-text) !important;
+}
+.invitation-public #confirmar.invitation-rsvp > div > p:first-child {
+  color: var(--inv-accent) !important;
+}
+.invitation-public #confirmar.invitation-rsvp form {
+  background: var(--inv-form-bg) !important;
+  color: var(--inv-form-text) !important;
+  border-color: var(--inv-border) !important;
+}
+.invitation-public #confirmar.invitation-rsvp form label,
+.invitation-public #confirmar.invitation-rsvp form legend,
+.invitation-public #confirmar.invitation-rsvp form p,
+.invitation-public #confirmar.invitation-rsvp form span {
+  color: var(--inv-form-text) !important;
+}
+.invitation-public #confirmar.invitation-rsvp form input,
+.invitation-public #confirmar.invitation-rsvp form select,
+.invitation-public #confirmar.invitation-rsvp form button[aria-pressed="false"] {
+  background: var(--inv-form-bg) !important;
+  color: var(--inv-form-text) !important;
+  border-color: var(--inv-border) !important;
+}
+.invitation-public #confirmar.invitation-rsvp form button[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--inv-accent) 14%, var(--inv-form-bg)) !important;
+  color: var(--inv-form-text) !important;
+  border-color: var(--inv-accent) !important;
+}
+.invitation-public #confirmar.invitation-rsvp form button[type="submit"] {
+  background: var(--inv-button) !important;
+  color: var(--inv-button-text) !important;
 }

@@ -96,7 +96,7 @@ export default function PublicInvitationClient({
   const accent = weddingColor(design.accent_color, templatePalette.accent_color ?? "#344B61", ["#87642F", "#D6A33D"], "#344B61");
   const textColor = weddingColor(design.text_color, templatePalette.text_color ?? "#4D5357", ["#273747", "#39252B"], "#4D5357");
   const titleColor = weddingColor(design.title_color, templatePalette.title_color ?? "#20272D", ["#273747", "#702638"], "#20272D");
-  const cardBackgroundColor = weddingColor(design.card_background_color, templatePalette.card_background_color ?? background, ["#FFFCF6", "#FFF7F0"], "#EAE7DF");
+  const cardBackgroundColor = weddingColor(design.card_background_color, templatePalette.card_background_color ?? "#FFFFFF", ["#FFFCF6", "#FFF7F0", "#EAE7DF"], "#FFFFFF");
   const cardTextColor = weddingColor(design.card_text_color, templatePalette.card_text_color ?? "#20272D", ["#302F30", "#39252B"], "#20272D");
   const borderColor = weddingColor(design.border_color, templatePalette.border_color ?? "#D9D8D1", ["#C9AD6B", "#E5B84F"], "#D9D8D1");
   const buttonColor = weddingColor(design.button_color, templatePalette.button_color ?? accent, ["#87642F", "#702638"], "#344B61");

@@ -2278,3 +2278,53 @@
 
 /* Deployment retry marker: re-trigger Vercel for shared invitation footer spacing. */
 
+
+
+/* Ink & Ivory: stronger surface contrast for wedding details, including invitations without RSVP. */
+.invitation-public.invitation-template-wedding_editorial #detalles {
+  background: #F5F3EE !important;
+  color: #4D5357 !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card,
+.invitation-public.invitation-template-wedding_editorial .invitation-dress-code-card {
+  background: #FFFFFF !important;
+  border: 1px solid #D9D8D1 !important;
+  box-shadow: 0 12px 30px rgba(32, 39, 45, .09) !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card > div:first-child > span,
+.invitation-public.invitation-template-wedding_editorial .invitation-dress-code-card > span:first-child {
+  background: #F5F3EE !important;
+  border-color: #D9D8D1 !important;
+  color: #344B61 !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card > div:first-child > p,
+.invitation-public.invitation-template-wedding_editorial .invitation-dress-code-card p:first-child {
+  color: #344B61 !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card .invitation-location-venue {
+  color: #20272D !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card .invitation-location-address {
+  color: #4D5357 !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card .invitation-location-button,
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card a[aria-label^="Agregar"] {
+  background: #F5F3EE !important;
+  border-color: #D9D8D1 !important;
+  color: #20272D !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown {
+  background: #344B61 !important;
+  border: 1px solid #344B61 !important;
+  box-shadow: 0 14px 34px rgba(32, 39, 45, .18) !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown > p,
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown > div > div p:first-child {
+  color: #FFFFFF !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown > div > div p:last-child {
+  color: #DCE3E8 !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown > div > div + div {
+  border-left-color: rgba(255, 255, 255, .24) !important;
+}

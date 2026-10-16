@@ -338,10 +338,10 @@ export default function PublicInvitationClient({
 
           {invitation.rsvp_enabled && Boolean((personalizedGuest && personalizedToken) || (existingRSVP && editToken)) && (rsvpDeadlinePassed ? (
             <section id="confirmar" className="invitation-rsvp scroll-mt-6 px-5 py-12 sm:px-12 sm:py-16 lg:px-20 invitation-reveal" style={{ background: `linear-gradient(135deg, ${accent}12, ${background})` }}>
-              <div className="invitation-rsvp-closed mx-auto max-w-xl rounded-[1.5rem] border border-black/5 bg-white p-6 text-center shadow-[0_16px_50px_rgba(48,36,27,0.06)] sm:p-8" style={{ color: textColor }}>
-                <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>Confirmaciones cerradas</p>
-                <h2 className="mt-3 font-[var(--font-display)] text-3xl leading-tight sm:text-4xl" style={{ color: safeColor(design.form_text_color, "#30283A") }}>El plazo para confirmar terminó</h2>
-                <p className="mt-3 text-sm leading-6" style={{ color: safeColor(design.form_text_color, "#30283A"), opacity: 0.82 }}>La fecha límite fue el {formatDate(content.rsvp_deadline ?? null) ?? content.rsvp_deadline}. Ya no es posible enviar ni modificar confirmaciones.</p>
+              <div className="invitation-rsvp-closed mx-auto max-w-xl rounded-[1.5rem] border border-black/5 bg-white p-6 text-center shadow-[0_16px_50px_rgba(48,36,27,0.06)] sm:p-8" style={{ backgroundColor: "#FFFDFA", color: "#30283A" }}>
+                <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: "#805773" }}>Confirmaciones cerradas</p>
+                <h2 className="mt-3 font-[var(--font-display)] text-3xl leading-tight sm:text-4xl" style={{ color: "#30283A" }}>El plazo para confirmar terminó</h2>
+                <p className="mt-3 text-sm leading-6" style={{ color: "#51483E", opacity: 1 }}>La fecha límite fue el {formatDate(content.rsvp_deadline ?? null) ?? content.rsvp_deadline}. Ya no es posible enviar ni modificar confirmaciones.</p>
               </div>
             </section>
           ) : (
@@ -357,7 +357,7 @@ export default function PublicInvitationClient({
                         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: `${accent}12`, color: accent }}><Shirt size={18} strokeWidth={1.7} /></span>
                         <div className="min-w-0">
                           <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Código de vestimenta</p>
-                          <p className="mt-1.5 text-sm font-medium leading-5 text-neutral-700">{content.dress_code}</p>
+                          <p className="mt-1.5 text-sm font-medium leading-5" style={{ color: "#30283A" }}>{content.dress_code}</p>
                         </div>
                       </div>
                     )}
@@ -366,7 +366,7 @@ export default function PublicInvitationClient({
                         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: `${accent}12`, color: accent }}><Clock3 size={18} strokeWidth={1.7} /></span>
                         <div className="min-w-0">
                           <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Fecha límite para confirmar</p>
-                          <p className="mt-1.5 text-sm font-medium leading-5 text-neutral-700">{formatDate(content.rsvp_deadline) ?? content.rsvp_deadline}</p>
+                          <p className="mt-1.5 text-sm font-medium leading-5" style={{ color: "#30283A" }}>{formatDate(content.rsvp_deadline) ?? content.rsvp_deadline}</p>
                         </div>
                       </div>
                     )}

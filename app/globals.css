@@ -1835,18 +1835,7 @@
 }
 
 
-/* Consistency pass: wedding hero uses the same sizing scale as the other
-   templates. No-photo hero text and borders respect the admin's color choices. */
-.invitation-template-wedding_editorial .invitation-hero {
-  min-height: clamp(26rem, 68svh, 42rem);
-  padding-block: clamp(3.5rem, 9vw, 7rem);
-}
-@media (max-width: 639px) {
-  .invitation-template-wedding_editorial .invitation-hero {
-    min-height: clamp(26rem, 68svh, 42rem);
-    padding-block: 3.5rem;
-  }
-}
+/* No-photo hero text and borders respect the admin's color choices. */
 
 /* When no photo is used, the title/accent/border color controls remain authoritative.
    The template's background texture stays as a subtle decorative layer. */
@@ -1865,7 +1854,7 @@
 }
 
 
-/* Standard hero dimensions: restore the original wedding proportions across all templates. */
+/* Standard hero dimensions: exactly match the wedding hero sizing from commit fa3496e. */
 .invitation-template-wedding_editorial .invitation-hero,
 .invitation-template-xv_gala .invitation-hero,
 .invitation-template-baby_soft .invitation-hero,

@@ -2211,3 +2211,20 @@
 }
 
 /* Deployment retry marker: redeploy the approved XV gala refinements without changing behavior. */
+
+
+/* XV: soften gold outlines on cards while keeping the hero frame and icon accents intact. */
+.invitation-public.invitation-template-xv_gala .invitation-location-card,
+.invitation-public.invitation-template-xv_gala .invitation-dress-code-card,
+.invitation-public.invitation-template-xv_gala #detalles article,
+.invitation-public.invitation-template-xv_gala .invitation-countdown {
+  border-color: color-mix(in srgb, var(--inv-border, #D6B66F) 24%, var(--inv-card-bg, #39304C)) !important;
+}
+.invitation-public.invitation-template-xv_gala .invitation-location-card .invitation-location-button,
+.invitation-public.invitation-template-xv_gala .invitation-location-card a[aria-label^="Agregar"] {
+  border-color: color-mix(in srgb, var(--inv-border, #D6B66F) 30%, var(--inv-card-bg, #39304C)) !important;
+}
+.invitation-public.invitation-template-xv_gala .invitation-location-card::before,
+.invitation-public.invitation-template-xv_gala .invitation-dress-code-card::before {
+  opacity: .38;
+}

@@ -29,6 +29,21 @@ function safeColor(value: string | undefined, fallback: string) {
   return value && /^#[0-9a-fA-F]{6}$/.test(value) ? value : fallback;
 }
 
+function resolveDesignColor(
+  value: string | undefined,
+  fallback: string,
+  templateKey: InvitationTemplateKey,
+  legacyWeddingColor: string,
+  modernWeddingColor: string,
+) {
+  const color = safeColor(value, fallback);
+  // Migrate only the former wedding defaults. Any genuinely customized color is preserved.
+  if (templateKey === "wedding_editorial" && color.toLowerCase() === legacyWeddingColor.toLowerCase()) {
+    return modernWeddingColor;
+  }
+  return color;
+}
+
 function formatDate(value: string | null) {
   if (!value) return null;
   const [year, month, day] = value.split("-").map(Number);
@@ -74,12 +89,22 @@ export default function PublicInvitationClient({
     ? (invitation.template_key as InvitationTemplateKey)
     : "wedding_editorial";
   const templateClass = `invitation-template-${templateKey}`;
-  const background = safeColor(design.background_color, INVITATION_PALETTES[templateKey].background_color ?? "#FBF7F1");
-  const accent = safeColor(design.accent_color, INVITATION_PALETTES[templateKey].accent_color ?? "#9A7358");
-  const textColor = safeColor(design.text_color, INVITATION_PALETTES[templateKey].text_color ?? "#332B27");
   const templatePalette = INVITATION_PALETTES[templateKey];
-  const buttonColor = safeColor(design.button_color, templatePalette.button_color ?? accent);
+  const weddingColor = (value: string | undefined, fallback: string, oldColor: string, newColor: string) =>
+    resolveDesignColor(value, fallback, templateKey, oldColor, newColor);
+  const background = weddingColor(design.background_color, templatePalette.background_color ?? "#FBF7F1", "#F4EAD8", "#FFF7F0");
+  const accent = weddingColor(design.accent_color, templatePalette.accent_color ?? "#9A7358", "#87642F", "#D6A33D");
+  const textColor = weddingColor(design.text_color, templatePalette.text_color ?? "#332B27", "#273747", "#39252B");
+  const titleColor = weddingColor(design.title_color, templatePalette.title_color ?? textColor, "#273747", "#702638");
+  const cardBackgroundColor = weddingColor(design.card_background_color, templatePalette.card_background_color ?? background, "#FFFCF6", "#FFF7F0");
+  const cardTextColor = weddingColor(design.card_text_color, templatePalette.card_text_color ?? textColor, "#302F30", "#39252B");
+  const borderColor = weddingColor(design.border_color, templatePalette.border_color ?? accent, "#C9AD6B", "#E5B84F");
+  const buttonColor = weddingColor(design.button_color, templatePalette.button_color ?? accent, "#87642F", "#702638");
   const buttonTextColor = safeColor(design.button_text_color, templatePalette.button_text_color ?? "#FFFFFF");
+  const rsvpBackgroundColor = weddingColor(design.rsvp_background_color, templatePalette.rsvp_background_color ?? background, "#273747", "#F0D9D9");
+  const rsvpTextColor = weddingColor(design.rsvp_text_color, templatePalette.rsvp_text_color ?? textColor, "#FFFAF0", "#39252B");
+  const formBackgroundColor = weddingColor(design.form_background_color, templatePalette.form_background_color ?? "#FFFFFF", "#FFFDF8", "#FFF7F0");
+  const formTextColor = weddingColor(design.form_text_color, templatePalette.form_text_color ?? textColor, "#302F30", "#39252B");
   const todayInMonterrey = new Intl.DateTimeFormat("en-CA", {
     timeZone: "America/Monterrey",
     year: "numeric",
@@ -263,16 +288,16 @@ export default function PublicInvitationClient({
             "--inv-background": background,
             "--inv-accent": accent,
             "--inv-text": textColor,
-            "--inv-title": safeColor(design.title_color, templatePalette.title_color ?? textColor),
-            "--inv-card-bg": safeColor(design.card_background_color, templatePalette.card_background_color ?? background),
-            "--inv-card-text": safeColor(design.card_text_color, templatePalette.card_text_color ?? textColor),
-            "--inv-border": safeColor(design.border_color, templatePalette.border_color ?? accent),
+            "--inv-title": titleColor,
+            "--inv-card-bg": cardBackgroundColor,
+            "--inv-card-text": cardTextColor,
+            "--inv-border": borderColor,
             "--inv-button": buttonColor,
             "--inv-button-text": buttonTextColor,
-            "--inv-rsvp-bg": safeColor(design.rsvp_background_color, templatePalette.rsvp_background_color ?? background),
-            "--inv-rsvp-text": safeColor(design.rsvp_text_color, templatePalette.rsvp_text_color ?? textColor),
-            "--inv-form-bg": safeColor(design.form_background_color, templatePalette.form_background_color ?? "#FFFFFF"),
-            "--inv-form-text": safeColor(design.form_text_color, templatePalette.form_text_color ?? textColor),
+            "--inv-rsvp-bg": rsvpBackgroundColor,
+            "--inv-rsvp-text": rsvpTextColor,
+            "--inv-form-bg": formBackgroundColor,
+            "--inv-form-text": formTextColor,
           } as CSSProperties}
         >
           <header className={`invitation-hero relative isolate flex min-h-[58svh] items-end justify-center overflow-hidden px-6 pb-12 pt-16 text-center sm:min-h-[680px] sm:px-12 sm:pb-16 lg:min-h-[760px] ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>

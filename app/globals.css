@@ -1702,3 +1702,23 @@
     gap: .55rem;
   }
 }
+
+
+/* Wedding hero refinement: restore the original title treatment while keeping
+   the new ink/ivory/champagne palette, double frame and date ornaments. */
+.invitation-template-wedding_editorial .invitation-hero-title {
+  max-width: none;
+  margin-inline: 0;
+  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+@media (max-width: 639px) {
+  .invitation-template-wedding_editorial .invitation-hero-title {
+    font-size: 2.25rem;
+    letter-spacing: normal;
+    line-height: 1.25;
+  }
+}

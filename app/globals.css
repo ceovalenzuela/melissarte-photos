@@ -2596,3 +2596,71 @@
     transition: none;
   }
 }
+
+
+/* Baby Soft: the dress-code panel should use the same gentle surface as the
+   other baby cards instead of inheriting a bright white inline background. */
+.invitation-public.invitation-template-baby_soft .invitation-dress-code-card {
+  background: var(--inv-card-bg, #FFFEFA) !important;
+  border-color: color-mix(in srgb, var(--inv-border, #B9DCE7) 72%, var(--inv-card-bg, #FFFEFA)) !important;
+  box-shadow: 0 10px 28px rgba(73, 60, 50, .055) !important;
+}
+
+/* Wedding hero signature: a little more character through fine editorial
+   framing and quiet ink-blue ornaments, without changing the approved palette
+   or obscuring the cover photo. */
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-frame {
+  border-width: 1px;
+  outline: 1px solid color-mix(in srgb, var(--inv-border, #D9D8D1) 38%, transparent);
+  outline-offset: 6px;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-frame {
+  border-color: rgba(255, 250, 242, .72);
+  outline-color: rgba(255, 250, 242, .26);
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-content {
+  max-width: 54rem;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .8rem;
+  letter-spacing: .32em;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-eyebrow::before,
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-eyebrow::after {
+  content: "";
+  display: inline-block;
+  width: clamp(1.1rem, 3vw, 2rem);
+  height: 1px;
+  background: currentColor;
+  opacity: .72;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-no-cover {
+  background:
+    radial-gradient(ellipse at 50% 16%, color-mix(in srgb, var(--inv-accent, #344B61) 8%, transparent), transparent 42%),
+    linear-gradient(135deg, color-mix(in srgb, var(--inv-background, #F5F3EE) 92%, white), var(--inv-background, #F5F3EE)) !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-no-cover .invitation-hero-frame {
+  border-color: color-mix(in srgb, var(--inv-accent, #344B61) 56%, var(--inv-border, #D9D8D1)) !important;
+  outline-color: color-mix(in srgb, var(--inv-accent, #344B61) 22%, transparent);
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-no-cover .invitation-hero-title {
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-no-cover .invitation-hero-date::before,
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-no-cover .invitation-hero-date::after {
+  background: var(--inv-accent, #344B61);
+  opacity: .65;
+}
+@media (max-width: 639px) {
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero-frame {
+    outline-offset: 3px;
+  }
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero-eyebrow {
+    gap: .5rem;
+    letter-spacing: .22em;
+  }
+}

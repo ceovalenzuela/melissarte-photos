@@ -2209,3 +2209,5 @@
 .invitation-public.invitation-template-xv_gala button:has(svg.lucide-share-2) svg {
   flex: 0 0 auto;
 }
+
+/* Deployment retry marker: redeploy the approved XV gala refinements without changing behavior. */

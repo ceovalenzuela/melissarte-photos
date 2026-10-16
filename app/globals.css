@@ -2675,18 +2675,15 @@
   align-items: center;
   max-width: 58rem;
   padding: clamp(1.5rem, 4vw, 3rem) clamp(.5rem, 2vw, 1.5rem);
+  transform: translateY(clamp(1rem, 3vh, 2rem));
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-hero-content::before {
   content: none;
   display: none;
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-hero-content::after {
-  content: "";
-  display: block;
-  width: clamp(4rem, 8vw, 6rem);
-  height: 2px;
-  margin-top: clamp(1.5rem, 3vw, 2.2rem);
-  background: linear-gradient(90deg, transparent, var(--inv-accent, #344B61) 22%, var(--inv-border, #D9D8D1) 50%, var(--inv-accent, #344B61) 78%, transparent);
+  content: none;
+  display: none;
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-hero-title {
   max-width: 15ch;

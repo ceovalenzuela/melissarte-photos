@@ -1440,5 +1440,5 @@
   color: #30283a !important;
 }
 .invitation-public #confirmar.invitation-rsvp .invitation-rsvp-closed > p:first-child {
-  color: var(--inv-accent) !important;
+  color: var(--inv-form-text) !important;
 }

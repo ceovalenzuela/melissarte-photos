@@ -230,7 +230,7 @@
   --invitation-frame: #8295A5;
 }
 .invitation-template-wedding_editorial .invitation-hero-has-cover {
-  border-bottom: 1px solid #8295A5;
+  border-bottom: 7px solid #8295A5;
 }
 .invitation-template-wedding_editorial .invitation-title {
   font-family: var(--font-display);

@@ -2127,3 +2127,75 @@
   font-size: .58rem;
   border-color: color-mix(in srgb, var(--inv-border, #E5B84F) 20%, transparent);
 }
+
+
+/* XV Gala refinement: deeper plum layers, restrained champagne outlines,
+   clearer countdown hierarchy and a more legible share action. */
+.invitation-public.invitation-template-xv_gala #detalles {
+  background:
+    radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--inv-accent, #D6A33D) 8%, transparent), transparent 34rem),
+    linear-gradient(155deg, color-mix(in srgb, var(--inv-background, #211B35) 90%, #49344F) 0%, var(--inv-background, #211B35) 78%) !important;
+}
+.invitation-public.invitation-template-xv_gala .invitation-location-card,
+.invitation-public.invitation-template-xv_gala .invitation-dress-code-card,
+.invitation-public.invitation-template-xv_gala #detalles article {
+  border-color: color-mix(in srgb, var(--inv-border, #D6B66F) 42%, var(--inv-card-bg, #39304C)) !important;
+  box-shadow: 0 10px 28px rgba(8, 5, 17, .12);
+}
+.invitation-public.invitation-template-xv_gala .invitation-location-card::before,
+.invitation-public.invitation-template-xv_gala .invitation-dress-code-card::before {
+  opacity: .58;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--inv-border, #D6B66F) 58%, white), transparent);
+}
+.invitation-public.invitation-template-xv_gala .invitation-location-card > div:first-child > span,
+.invitation-public.invitation-template-xv_gala .invitation-dress-code-card > span:first-child {
+  border-color: color-mix(in srgb, var(--inv-border, #D6B66F) 36%, var(--inv-card-bg, #39304C)) !important;
+  background: color-mix(in srgb, var(--inv-border, #D6B66F) 9%, var(--inv-card-bg, #39304C)) !important;
+}
+.invitation-public.invitation-template-xv_gala .invitation-location-card .invitation-location-button,
+.invitation-public.invitation-template-xv_gala .invitation-location-card a[aria-label^="Agregar"] {
+  border-color: color-mix(in srgb, var(--inv-border, #D6B66F) 46%, var(--inv-card-bg, #39304C)) !important;
+}
+.invitation-public.invitation-template-xv_gala .invitation-countdown {
+  border-color: color-mix(in srgb, var(--inv-border, #D6B66F) 48%, var(--inv-card-bg, #39304C)) !important;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--inv-card-bg, #39304C) 88%, #211B35), color-mix(in srgb, var(--inv-background, #211B35) 88%, #49344F)) !important;
+  box-shadow: 0 12px 30px rgba(8, 5, 17, .13);
+  padding-block: clamp(1.15rem, 3.5vw, 1.6rem);
+}
+.invitation-public.invitation-template-xv_gala .invitation-countdown > p {
+  font-size: .61rem;
+  line-height: 1.6;
+  letter-spacing: .18em;
+  margin-bottom: 1.05rem;
+}
+.invitation-public.invitation-template-xv_gala .invitation-countdown > div {
+  align-items: stretch;
+  gap: 0;
+}
+.invitation-public.invitation-template-xv_gala .invitation-countdown > div > div {
+  padding-inline: .35rem;
+}
+.invitation-public.invitation-template-xv_gala .invitation-countdown > div > div + div {
+  border-left: 1px solid color-mix(in srgb, var(--inv-border, #D6B66F) 24%, transparent);
+}
+.invitation-public.invitation-template-xv_gala .invitation-countdown > div > div p:first-child {
+  font-size: clamp(1.5rem, 6vw, 2.05rem);
+  line-height: 1.05;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.invitation-public.invitation-template-xv_gala .invitation-countdown > div > div p:last-child {
+  margin-top: .45rem;
+  font-size: .55rem;
+  letter-spacing: .12em;
+}
+.invitation-public.invitation-template-xv_gala .invitation-public-share,
+.invitation-public.invitation-template-xv_gala button[aria-label*="Compartir"],
+.invitation-public.invitation-template-xv_gala button:has(svg.lucide-share-2) {
+  text-decoration: none !important;
+  text-decoration-line: none !important;
+}
+.invitation-public.invitation-template-xv_gala footer {
+  padding-top: 2.6rem;
+  padding-bottom: 2rem;
+}

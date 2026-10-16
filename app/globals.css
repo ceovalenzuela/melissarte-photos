@@ -1020,8 +1020,8 @@
 .invitation-template-wedding_editorial .invitation-hero-frame { inset: 1.25rem; border: 1px solid rgba(255,250,240,.72); border-radius: 0; }
 .invitation-template-wedding_editorial .invitation-hero-eyebrow, .invitation-template-wedding_editorial .invitation-hero-date { color: #fffaf0; }
 .invitation-template-wedding_editorial .invitation-hero-title, .invitation-template-wedding_editorial .invitation-hero-hosts, .invitation-template-wedding_editorial .invitation-hero-subtitle { color: #fffdf8; }
-.invitation-template-wedding_editorial .invitation-hero-no-cover .invitation-hero-frame { border-color: #a78645; }
-.invitation-template-wedding_editorial .invitation-hero-no-cover .invitation-hero-eyebrow, .invitation-template-wedding_editorial .invitation-hero-no-cover .invitation-hero-date { color: #8b6a32; }
+.invitation-template-wedding_editorial .invitation-hero-no-cover .invitation-hero-frame { border-color: #8295A5; }
+.invitation-template-wedding_editorial .invitation-hero-no-cover .invitation-hero-eyebrow, .invitation-template-wedding_editorial .invitation-hero-no-cover .invitation-hero-date { color: #344B61; }
 
 /* XV Gala */
 .invitation-template-xv_gala .invitation-hero-overlay { background: linear-gradient(180deg, rgba(23,15,31,0) 0%, rgba(23,15,31,.06) 42%, rgba(23,15,31,.34) 70%, rgba(23,15,31,.78) 100%); }
@@ -1878,98 +1878,98 @@
 /* Modern Romance Luxe: wedding editorial palette.
    Keep the existing hero composition and let the editor's color values remain authoritative. */
 .invitation-public.invitation-template-wedding_editorial {
-  --wedding-ink: var(--inv-text, #39252B);
-  --wedding-paper: var(--inv-card-bg, #FFF7F0);
-  --wedding-gold: var(--inv-accent, #D6A33D);
-  --wedding-line: var(--inv-border, #E5B84F);
-  --wedding-rsvp: var(--inv-rsvp-bg, #F0D9D9);
-  --wedding-form: var(--inv-form-bg, #FFF7F0);
-  background-color: var(--inv-background, #FFF7F0);
+  --wedding-ink: var(--inv-text, #4D5357);
+  --wedding-paper: var(--inv-card-bg, #EAE7DF);
+  --wedding-gold: var(--inv-accent, #344B61);
+  --wedding-line: var(--inv-border, #D9D8D1);
+  --wedding-rsvp: var(--inv-rsvp-bg, #EAE7DF);
+  --wedding-form: var(--inv-form-bg, #FFFFFF);
+  background-color: var(--inv-background, #F5F3EE);
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-hero {
-  background-color: var(--inv-background, #FFF7F0);
+  background-color: var(--inv-background, #F5F3EE);
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover {
-  border-bottom-color: var(--inv-border, #E5B84F) !important;
-  box-shadow: inset 0 -60px 100px rgba(57, 37, 43, .2);
+  border-bottom-color: var(--inv-border, #D9D8D1) !important;
+  box-shadow: inset 0 -60px 100px rgba(32, 39, 45, .2);
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover::after {
-  border-color: color-mix(in srgb, var(--inv-border, #E5B84F) 78%, transparent);
+  border-color: color-mix(in srgb, var(--inv-border, #D9D8D1) 78%, transparent);
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-hero-frame {
-  border-color: color-mix(in srgb, var(--inv-border, #E5B84F) 86%, transparent);
+  border-color: color-mix(in srgb, var(--inv-border, #D9D8D1) 86%, transparent);
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-hero-title {
-  color: var(--inv-title, #702638);
+  color: var(--inv-title, #20272D);
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-hero-date,
 .invitation-public.invitation-template-wedding_editorial .invitation-hero-eyebrow {
-  color: var(--inv-accent, #D6A33D);
+  color: var(--inv-accent, #344B61);
 }
 .invitation-public.invitation-template-wedding_editorial #detalles {
   background:
-    radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--inv-accent, #D6A33D) 16%, transparent), transparent 38%),
-    linear-gradient(180deg, var(--inv-card-bg, #FFF7F0) 0%, color-mix(in srgb, var(--inv-background, #FFF7F0) 84%, var(--inv-accent, #D6A33D)) 100%) !important;
-  color: var(--inv-text, #39252B) !important;
+    radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--inv-accent, #344B61) 16%, transparent), transparent 38%),
+    linear-gradient(180deg, var(--inv-card-bg, #EAE7DF) 0%, color-mix(in srgb, var(--inv-background, #F5F3EE) 84%, var(--inv-accent, #344B61)) 100%) !important;
+  color: var(--inv-text, #4D5357) !important;
 }
 .invitation-public.invitation-template-wedding_editorial #detalles .invitation-title {
-  color: var(--inv-title, #702638) !important;
+  color: var(--inv-title, #20272D) !important;
 }
 .invitation-public.invitation-template-wedding_editorial #detalles > .mx-auto.max-w-3xl > p:first-child {
-  color: var(--inv-accent, #D6A33D) !important;
+  color: var(--inv-accent, #344B61) !important;
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-countdown {
-  border-color: var(--inv-border, #E5B84F) !important;
-  background: linear-gradient(135deg, var(--inv-card-bg, #FFF7F0), color-mix(in srgb, var(--inv-accent, #D6A33D) 14%, var(--inv-card-bg, #FFF7F0))) !important;
+  border-color: var(--inv-border, #D9D8D1) !important;
+  background: linear-gradient(135deg, var(--inv-card-bg, #EAE7DF), color-mix(in srgb, var(--inv-accent, #344B61) 14%, var(--inv-card-bg, #EAE7DF))) !important;
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-countdown > p {
-  color: var(--inv-accent, #D6A33D) !important;
+  color: var(--inv-accent, #344B61) !important;
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-location-card {
-  border-color: color-mix(in srgb, var(--inv-border, #E5B84F) 58%, var(--inv-card-bg, #FFF7F0)) !important;
-  background: linear-gradient(155deg, var(--inv-card-bg, #FFF7F0), color-mix(in srgb, var(--inv-background, #FFF7F0) 82%, var(--inv-accent, #D6A33D))) !important;
-  color: var(--inv-card-text, #39252B) !important;
+  border-color: color-mix(in srgb, var(--inv-border, #D9D8D1) 58%, var(--inv-card-bg, #EAE7DF)) !important;
+  background: linear-gradient(155deg, var(--inv-card-bg, #EAE7DF), color-mix(in srgb, var(--inv-background, #F5F3EE) 82%, var(--inv-accent, #344B61))) !important;
+  color: var(--inv-card-text, #20272D) !important;
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-location-card > div:first-child > p {
-  color: var(--inv-accent, #D6A33D) !important;
+  color: var(--inv-accent, #344B61) !important;
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-location-card > a {
-  border-color: var(--inv-border, #E5B84F) !important;
-  background: var(--inv-button, #702638) !important;
+  border-color: var(--inv-border, #D9D8D1) !important;
+  background: var(--inv-button, #344B61) !important;
   color: var(--inv-button-text, #FFFFFF) !important;
 }
 .invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp {
   background:
-    radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--inv-accent, #D6A33D) 18%, transparent), transparent 30rem),
-    linear-gradient(180deg, var(--inv-rsvp-bg, #F0D9D9), color-mix(in srgb, var(--inv-rsvp-bg, #F0D9D9) 90%, var(--inv-accent, #D6A33D))) !important;
-  color: var(--inv-rsvp-text, #39252B) !important;
+    radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--inv-accent, #344B61) 18%, transparent), transparent 30rem),
+    linear-gradient(180deg, var(--inv-rsvp-bg, #EAE7DF), color-mix(in srgb, var(--inv-rsvp-bg, #EAE7DF) 90%, var(--inv-accent, #344B61))) !important;
+  color: var(--inv-rsvp-text, #20272D) !important;
 }
 .invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp > div:not(.invitation-rsvp-closed) > p,
 .invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp > div:not(.invitation-rsvp-closed) > h2 {
-  color: var(--inv-rsvp-text, #39252B) !important;
+  color: var(--inv-rsvp-text, #20272D) !important;
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-rsvp form,
 .invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp .invitation-rsvp-closed {
-  border-color: color-mix(in srgb, var(--inv-border, #E5B84F) 65%, var(--inv-form-bg, #FFF7F0)) !important;
-  background: var(--inv-form-bg, #FFF7F0) !important;
+  border-color: color-mix(in srgb, var(--inv-border, #D9D8D1) 65%, var(--inv-form-bg, #FFFFFF)) !important;
+  background: var(--inv-form-bg, #FFFFFF) !important;
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-rsvp form label,
 .invitation-public.invitation-template-wedding_editorial .invitation-rsvp form legend,
 .invitation-public.invitation-template-wedding_editorial .invitation-rsvp form input,
 .invitation-public.invitation-template-wedding_editorial .invitation-rsvp form select {
-  color: var(--inv-form-text, #39252B);
+  color: var(--inv-form-text, #20272D);
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-rsvp form button[type="submit"],
 .invitation-public.invitation-template-wedding_editorial .invitation-rsvp .personal-rsvp-link button:last-child {
-  background: var(--inv-button, #702638) !important;
+  background: var(--inv-button, #344B61) !important;
   color: var(--inv-button-text, #FFFFFF) !important;
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-rsvp-info-card {
-  border-color: color-mix(in srgb, var(--inv-border, #E5B84F) 58%, var(--inv-form-bg, #FFF7F0)) !important;
-  background: var(--inv-form-bg, #FFF7F0) !important;
+  border-color: color-mix(in srgb, var(--inv-border, #D9D8D1) 58%, var(--inv-form-bg, #FFFFFF)) !important;
+  background: var(--inv-form-bg, #FFFFFF) !important;
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-rsvp-info-card p:first-child {
-  color: var(--inv-accent, #D6A33D) !important;
+  color: var(--inv-accent, #344B61) !important;
 }
 
 
@@ -2053,24 +2053,24 @@
    countdown rhythm, and a quieter, better-spaced footer. Scoped to weddings. */
 .invitation-public.invitation-template-wedding_editorial .invitation-location-card,
 .invitation-public.invitation-template-wedding_editorial .invitation-dress-code-card {
-  border-color: color-mix(in srgb, var(--inv-border, #E5B84F) 32%, var(--inv-card-bg, #FFF7F0)) !important;
+  border-color: color-mix(in srgb, var(--inv-border, #D9D8D1) 32%, var(--inv-card-bg, #EAE7DF)) !important;
   box-shadow: 0 10px 28px rgba(57, 37, 43, .035);
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-location-card::before,
 .invitation-public.invitation-template-wedding_editorial .invitation-dress-code-card::before {
-  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--inv-border, #E5B84F) 54%, white), transparent);
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--inv-border, #D9D8D1) 54%, white), transparent);
   opacity: .7;
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-location-card > div:first-child > span,
 .invitation-public.invitation-template-wedding_editorial .invitation-dress-code-card > span:first-child {
-  border-color: color-mix(in srgb, var(--inv-border, #E5B84F) 32%, var(--inv-card-bg, #FFF7F0)) !important;
+  border-color: color-mix(in srgb, var(--inv-border, #D9D8D1) 32%, var(--inv-card-bg, #EAE7DF)) !important;
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-location-card .invitation-location-button,
 .invitation-public.invitation-template-wedding_editorial .invitation-location-card a[aria-label^="Agregar"] {
-  border-color: color-mix(in srgb, var(--inv-border, #E5B84F) 38%, var(--inv-card-bg, #FFF7F0)) !important;
+  border-color: color-mix(in srgb, var(--inv-border, #D9D8D1) 38%, var(--inv-card-bg, #EAE7DF)) !important;
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-countdown {
-  border-color: color-mix(in srgb, var(--inv-border, #E5B84F) 46%, var(--inv-card-bg, #FFF7F0)) !important;
+  border-color: color-mix(in srgb, var(--inv-border, #D9D8D1) 46%, var(--inv-card-bg, #EAE7DF)) !important;
   box-shadow: 0 10px 30px rgba(57, 37, 43, .04);
   padding-block: clamp(1.15rem, 3.5vw, 1.65rem);
 }
@@ -2088,7 +2088,7 @@
   padding-inline: .45rem;
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-countdown > div > div + div {
-  border-left: 1px solid color-mix(in srgb, var(--inv-border, #E5B84F) 24%, transparent);
+  border-left: 1px solid color-mix(in srgb, var(--inv-border, #D9D8D1) 24%, transparent);
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-countdown > div > div p:first-child {
   font-size: clamp(1.55rem, 6vw, 2.1rem);
@@ -2125,7 +2125,7 @@
   padding-top: 1.15rem;
   letter-spacing: .24em;
   font-size: .58rem;
-  border-color: color-mix(in srgb, var(--inv-border, #E5B84F) 20%, transparent);
+  border-color: color-mix(in srgb, var(--inv-border, #D9D8D1) 20%, transparent);
 }
 
 
@@ -2133,7 +2133,7 @@
    clearer countdown hierarchy and a more legible share action. */
 .invitation-public.invitation-template-xv_gala #detalles {
   background:
-    radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--inv-accent, #D6A33D) 8%, transparent), transparent 34rem),
+    radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--inv-accent, #344B61) 8%, transparent), transparent 34rem),
     linear-gradient(155deg, color-mix(in srgb, var(--inv-background, #211B35) 90%, #49344F) 0%, var(--inv-background, #211B35) 78%) !important;
 }
 .invitation-public.invitation-template-xv_gala .invitation-location-card,
@@ -2201,7 +2201,7 @@
 }
 
 .invitation-public.invitation-template-xv_gala button:has(svg.lucide-share-2) {
-  background: var(--inv-button, #702638) !important;
+  background: var(--inv-button, #344B61) !important;
   color: var(--inv-button-text, #FFFFFF) !important;
   text-decoration: none !important;
   box-shadow: 0 8px 22px rgba(8, 5, 17, .2);
@@ -2273,19 +2273,8 @@
   padding-top: 1.15rem;
   letter-spacing: .24em;
   font-size: .58rem;
-  border-color: color-mix(in srgb, var(--inv-border, #E5B84F) 20%, transparent);
+  border-color: color-mix(in srgb, var(--inv-border, #D9D8D1) 20%, transparent);
 }
 
 /* Deployment retry marker: re-trigger Vercel for shared invitation footer spacing. */
 
-
-/* Ink & Ivory wedding palette: keep the editorial accents cool, restrained and neutral. */
-.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-date::before,
-.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-date::after {
-  background: #8295A5;
-}
-.invitation-public.invitation-template-wedding_editorial .invitation-location-card,
-.invitation-public.invitation-template-wedding_editorial .invitation-dress-code-card,
-.invitation-public.invitation-template-wedding_editorial .invitation-countdown {
-  box-shadow: 0 10px 28px rgba(32, 39, 45, .045);
-}

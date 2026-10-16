@@ -2228,3 +2228,5 @@
 .invitation-public.invitation-template-xv_gala .invitation-dress-code-card::before {
   opacity: .38;
 }
+
+/* Deployment retry marker: redeploy the approved XV card border refinement without behavior changes. */

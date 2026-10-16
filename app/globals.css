@@ -227,10 +227,10 @@
 
 /* Invitation templates: distinct art direction, shared responsive structure. */
 .invitation-template-wedding_editorial {
-  --invitation-frame: #d8d8c5;
+  --invitation-frame: #8295A5;
 }
 .invitation-template-wedding_editorial .invitation-hero-has-cover {
-  border-bottom: 7px solid #d8d8c5;
+  border-bottom: 1px solid #8295A5;
 }
 .invitation-template-wedding_editorial .invitation-title {
   font-family: var(--font-display);
@@ -2042,7 +2042,7 @@
 .invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-date::after {
   width: clamp(1.4rem, 4vw, 2.8rem);
   height: 1px;
-  background: #e5c78b;
+  background: #8295A5;
   opacity: .92;
 }
 
@@ -2277,3 +2277,15 @@
 }
 
 /* Deployment retry marker: re-trigger Vercel for shared invitation footer spacing. */
+
+
+/* Ink & Ivory wedding palette: keep the editorial accents cool, restrained and neutral. */
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-date::before,
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-date::after {
+  background: #8295A5;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card,
+.invitation-public.invitation-template-wedding_editorial .invitation-dress-code-card,
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown {
+  box-shadow: 0 10px 28px rgba(32, 39, 45, .045);
+}

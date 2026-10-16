@@ -521,7 +521,7 @@ function LocationCard({ title, time, venue, address, maps, calendarUrl, accent }
           {calendarUrl && (
             <a
               href={calendarUrl}
-              download={`${(invitation.event_title || "evento").replace(/[^a-z0-9]/gi, "-").toLowerCase()}-${title.replace(/[^a-z0-9]/gi, "-").toLowerCase()}.ics`}
+              download={`${title.replace(/[^a-z0-9]/gi, "-").toLowerCase()}.ics`}
               aria-label={`Agregar ${title} al calendario`}
               className="group inline-flex min-h-[52px] min-w-0 items-center justify-start gap-2 rounded-xl border px-2.5 py-2 text-left transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_5px_14px_rgba(0,0,0,0.055)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:gap-3 sm:rounded-2xl sm:px-3.5"
               style={{ borderColor: `${accent}40`, color: accent, background: `linear-gradient(145deg, #FFFFFF, ${accent}08)`, outlineColor: accent }}

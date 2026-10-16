@@ -2677,18 +2677,8 @@
   padding: clamp(1.5rem, 4vw, 3rem) clamp(.5rem, 2vw, 1.5rem);
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-hero-content::before {
-  content: "UNA HISTORIA · UN NUEVO CAPÍTULO";
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: .9rem;
-  margin-bottom: clamp(1.5rem, 3vw, 2.4rem);
-  color: var(--inv-accent, #344B61);
-  font-size: clamp(.52rem, .85vw, .65rem);
-  font-weight: 600;
-  letter-spacing: .28em;
-  line-height: 1.8;
-  text-align: center;
+  content: none;
+  display: none;
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-hero-content::after {
   content: "";

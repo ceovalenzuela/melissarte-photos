@@ -1985,7 +1985,7 @@
   letter-spacing: -0.025em;
   text-wrap: balance;
 }
-.invitation-public :is(p, label, input, select, textarea, button, a, li) {
+.invitation-public :is(p, label, input, select, textarea, button, a, li):not(.invitation-hero-date):not(.invitation-hero-eyebrow):not(.invitation-hero-hosts):not(.invitation-hero-subtitle):not(.invitation-hero-title) {
   font-family: var(--font-geist-sans), Arial, sans-serif;
 }
 .invitation-public :is(.invitation-title, #detalles h2, #confirmar h2) {

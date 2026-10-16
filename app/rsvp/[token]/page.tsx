@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { InvitationTemplateKey } from "@/types/invitation";
+import { INVITATION_PALETTES } from "@/lib/invitation-palettes";
 
 import { supabase } from "@/lib/supabase";
 import { getEventBySlug } from "@/lib/events";
@@ -11,31 +12,12 @@ interface Props {
   params: Promise<{ token: string }>;
 }
 
-const organizerPalettes = {
-  wedding_editorial: {
-    bg: "#F6F0E4", text: "#302F30", card: "#FFFCF6", cardText: "#302F30",
-    border: "#C9AD6B", button: "#755B2E", buttonText: "#FFFFFF",
-    bannerStart: "#273747", bannerEnd: "#3B5263", bannerText: "#FFFAF0", bannerAccent: "#E4CA8A", muted: "#625F59", soft: "#F5EFE4",
-  },
-  xv_gala: {
-    bg: "#F1EDF6", text: "#2B2238", card: "#FFFCFF", cardText: "#2B2238",
-    border: "#C7AC68", button: "#49324F", buttonText: "#FFFFFF",
-    bannerStart: "#211B35", bannerEnd: "#49324F", bannerText: "#FFFAF2", bannerAccent: "#E0C276", muted: "#62596B", soft: "#F3EEF6",
-  },
-  baby_soft: {
-    bg: "#FFF4E8", text: "#493C32", card: "#FFFEFA", cardText: "#493C32",
-    border: "#E5C5B2", button: "#854A37", buttonText: "#FFFFFF",
-    bannerStart: "#754638", bannerEnd: "#4F6650", bannerText: "#FFFCF7", bannerAccent: "#F7DDA0", muted: "#68564B", soft: "#FFF0E5",
-  },
-  baptism_light: {
-    bg: "#EFF6F8", text: "#263641", card: "#FFFFFF", cardText: "#263641",
-    border: "#C7DBE5", button: "#315F75", buttonText: "#FFFFFF",
-    bannerStart: "#31596B", bannerEnd: "#527F98", bannerText: "#FFFFFF", bannerAccent: "#E7F2F5", muted: "#536873", soft: "#EAF3F6",
-  },
-} satisfies Record<InvitationTemplateKey, {
-  bg: string; text: string; card: string; cardText: string; border: string; button: string; buttonText: string;
-  bannerStart: string; bannerEnd: string; bannerText: string; bannerAccent: string; muted: string; soft: string;
-}>;
+const organizerAccents: Record<InvitationTemplateKey, { bannerStart: string; bannerEnd: string; bannerText: string; bannerAccent: string; muted: string; soft: string }> = {
+  wedding_editorial: { bannerStart: "#702638", bannerEnd: "#39252B", bannerText: "#FFF7F0", bannerAccent: "#E5B84F", muted: "#6B555C", soft: "#F0D9D9" },
+  xv_gala: { bannerStart: "#211B35", bannerEnd: "#49324F", bannerText: "#FFFAF0", bannerAccent: "#E2C47A", muted: "#C9BED1", soft: "#30263F" },
+  baby_soft: { bannerStart: "#A85F47", bannerEnd: "#3F7184", bannerText: "#FFFEFA", bannerAccent: "#F0D276", muted: "#756054", soft: "#E9F4F6" },
+  baptism_light: { bannerStart: "#263641", bannerEnd: "#426D86", bannerText: "#FFFFFF", bannerAccent: "#C7DBE5", muted: "#536873", soft: "#E3EEF3" },
+};
 
 export default async function OrganizerConfirmationsPage({ params }: Props) {
   const { token } = await params;
@@ -58,24 +40,25 @@ export default async function OrganizerConfirmationsPage({ params }: Props) {
   const templateKey: InvitationTemplateKey = templateKeys.includes(invitation?.template_key as InvitationTemplateKey)
     ? (invitation.template_key as InvitationTemplateKey)
     : "wedding_editorial";
-  const palette = organizerPalettes[templateKey];
+  const palette = INVITATION_PALETTES[templateKey];
+  const organizerAccent = organizerAccents[templateKey];
   // Keep this management page aligned to the selected template while using curated,
   // contrast-safe colors rather than arbitrary custom text/background combinations.
   const organizerThemeStyle = {
-    "--organizer-accent": palette.button,
-    "--organizer-bg": palette.bg,
-    "--organizer-text": palette.text,
-    "--organizer-card": palette.card,
-    "--organizer-card-text": palette.cardText,
-    "--organizer-border": palette.border,
-    "--organizer-button": palette.button,
-    "--organizer-button-text": palette.buttonText,
-    "--organizer-banner-start": palette.bannerStart,
-    "--organizer-banner-end": palette.bannerEnd,
-    "--organizer-banner-text": palette.bannerText,
-    "--organizer-banner-accent": palette.bannerAccent,
-    "--organizer-muted": palette.muted,
-    "--organizer-soft": palette.soft,
+    "--organizer-accent": palette.accent_color,
+    "--organizer-bg": palette.background_color,
+    "--organizer-text": palette.text_color,
+    "--organizer-card": palette.card_background_color,
+    "--organizer-card-text": palette.card_text_color,
+    "--organizer-border": `color-mix(in srgb, ${palette.border_color} 34%, ${palette.card_background_color})`,
+    "--organizer-button": palette.button_color,
+    "--organizer-button-text": palette.button_text_color,
+    "--organizer-banner-start": organizerAccent.bannerStart,
+    "--organizer-banner-end": organizerAccent.bannerEnd,
+    "--organizer-banner-text": organizerAccent.bannerText,
+    "--organizer-banner-accent": organizerAccent.bannerAccent,
+    "--organizer-muted": organizerAccent.muted,
+    "--organizer-soft": organizerAccent.soft,
   } as CSSProperties;
 
   return (

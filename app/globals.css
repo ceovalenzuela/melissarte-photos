@@ -1971,3 +1971,39 @@
 .invitation-public.invitation-template-wedding_editorial .invitation-rsvp-info-card p:first-child {
   color: var(--inv-accent, #D6A33D) !important;
 }
+
+
+/* Invitation typography refresh: preserve the existing hero typography and composition. */
+.invitation-public {
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+  font-feature-settings: "kern" 1, "liga" 1;
+  -webkit-font-smoothing: antialiased;
+}
+.invitation-public :is(.invitation-title, #detalles h2, #confirmar h2, .invitation-location-card h3, .invitation-countdown h2, footer h2) {
+  font-family: var(--font-display), Georgia, serif !important;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.invitation-public :is(p, label, input, select, textarea, button, a, li) {
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+}
+.invitation-public :is(.invitation-title, #detalles h2, #confirmar h2) {
+  line-height: 1.12;
+}
+.invitation-public :is(.invitation-location-card, .invitation-countdown, .invitation-rsvp) {
+  letter-spacing: 0;
+}
+.invitation-public :is(.invitation-location-card p, .invitation-rsvp p, #detalles > .mx-auto > p) {
+  line-height: 1.7;
+}
+
+/* On a cover photo, every wedding hero text element stays white for contrast.
+   The no-cover state continues to use the selected palette color. */
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-title,
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-hosts,
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-subtitle,
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-date,
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-has-cover .invitation-hero-eyebrow {
+  color: #fffdf8 !important;
+}

@@ -606,9 +606,6 @@
 .invitation-template-baby_soft .invitation-location-card > div:first-child > p {
   color: #a76f59 !important;
 }
-.invitation-template-baby_soft #confirmar {
-  background: linear-gradient(135deg, #f2e3d7, #e8eddf) !important;
-}
 @media (max-width: 767px) {
   .invitation-template-wedding_editorial .invitation-hero-has-cover::after {
     inset: 10px;
@@ -685,82 +682,6 @@
 .invitation-template-baby_soft .invitation-location-card > a {
   border-color: #d9a38a !important;
   color: #8c503b !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp {
-  background:
-    radial-gradient(ellipse at 0% 0%, rgba(232, 155, 121, .24), transparent 40%),
-    radial-gradient(ellipse at 100% 100%, rgba(161, 187, 137, .28), transparent 40%),
-    linear-gradient(135deg, #fff4e8 0%, #f6e7d9 55%, #f5edcf 100%) !important;
-  color: #493c32 !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp > div > p,
-.invitation-template-baby_soft #confirmar.invitation-rsvp h2 {
-  color: #493c32 !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp > div > p:first-child {
-  color: #a85f47 !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp > div > p.text-neutral-600 {
-  color: #65554a !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp form {
-  background: #fffefa !important;
-  color: #493c32 !important;
-  border-color: #e5c5b2 !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp form label,
-.invitation-template-baby_soft #confirmar.invitation-rsvp form legend {
-  color: #493c32 !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp form p.text-neutral-400 {
-  color: #756458 !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp form input,
-.invitation-template-baby_soft #confirmar.invitation-rsvp form select {
-  background: #fff !important;
-  color: #493c32 !important;
-  border-color: #ddcfc3 !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp form button[aria-pressed="false"] {
-  background: #fff !important;
-  color: #493c32 !important;
-  border-color: #ddcfc3 !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp form button[aria-pressed="true"] {
-  background: #f7e2d5 !important;
-  color: #874f3c !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp form button[type="submit"] {
-  background: #a96149 !important;
-  color: #fff !important;
-}
-
-/* Keep all template RSVP headings, helper text and form controls legible. */
-.invitation-template-baptism_light #confirmar.invitation-rsvp {
-  background: linear-gradient(135deg, #f6f9fa 0%, #e3eef3 100%) !important;
-  color: #263641 !important;
-}
-.invitation-template-baptism_light #confirmar.invitation-rsvp > div > p,
-.invitation-template-baptism_light #confirmar.invitation-rsvp h2 {
-  color: #263641 !important;
-}
-.invitation-template-baptism_light #confirmar.invitation-rsvp > div > p:first-child {
-  color: #527f98 !important;
-}
-.invitation-template-baptism_light #confirmar.invitation-rsvp > div > p.text-neutral-600 {
-  color: #52636d !important;
-}
-.invitation-template-baptism_light #confirmar.invitation-rsvp form {
-  background: #fff !important;
-  color: #263641 !important;
-  border-color: #c7dbe5 !important;
-}
-.invitation-template-baptism_light #confirmar.invitation-rsvp form label,
-.invitation-template-baptism_light #confirmar.invitation-rsvp form legend {
-  color: #263641 !important;
-}
-.invitation-template-baptism_light #confirmar.invitation-rsvp form p.text-neutral-400 {
-  color: #5e6e77 !important;
 }
 
 
@@ -866,13 +787,6 @@
 }
 .invitation-template-baby_soft .invitation-location-card > a {
   border-color: #b5d9e4 !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp {
-  background:
-    radial-gradient(ellipse at 0% 0%, rgba(232,155,121,.2), transparent 40%),
-    radial-gradient(ellipse at 100% 0%, rgba(159,210,228,.32), transparent 40%),
-    radial-gradient(ellipse at 100% 100%, rgba(161,187,137,.24), transparent 40%),
-    linear-gradient(135deg, #fff4e8 0%, #f6e7d9 55%, #e9f4f6 100%);
 }
 
 

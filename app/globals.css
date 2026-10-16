@@ -1833,3 +1833,33 @@
     outline-offset: 3px;
   }
 }
+
+
+/* Consistency pass: wedding hero uses the same sizing scale as the other
+   templates. No-photo hero text and borders respect the admin's color choices. */
+.invitation-template-wedding_editorial .invitation-hero {
+  min-height: clamp(26rem, 68svh, 42rem);
+  padding-block: clamp(3.5rem, 9vw, 7rem);
+}
+@media (max-width: 639px) {
+  .invitation-template-wedding_editorial .invitation-hero {
+    min-height: clamp(26rem, 68svh, 42rem);
+    padding-block: 3.5rem;
+  }
+}
+
+/* When no photo is used, the title/accent/border color controls remain authoritative.
+   The template's background texture stays as a subtle decorative layer. */
+.invitation-public .invitation-hero-no-cover .invitation-hero-title {
+  color: var(--inv-title) !important;
+}
+.invitation-public .invitation-hero-no-cover .invitation-hero-date {
+  color: var(--inv-accent) !important;
+}
+.invitation-public .invitation-hero-no-cover .invitation-hero-frame {
+  border-color: color-mix(in srgb, var(--inv-border) 82%, transparent) !important;
+}
+.invitation-template-baby_soft .invitation-hero-no-cover .invitation-hero-title,
+.invitation-template-baptism_light .invitation-hero-no-cover .invitation-hero-title {
+  text-shadow: 0 1px 0 rgba(255,255,255,.65);
+}

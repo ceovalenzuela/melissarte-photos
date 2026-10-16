@@ -545,3 +545,5 @@ function ColorField({ label, value, onChange }: { label: string; value: string; 
     </div>
   );
 }
+
+/* Retry Vercel deployment after TypeScript fallback fix. */

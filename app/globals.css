@@ -1611,10 +1611,14 @@
 .invitation-public .invitation-rsvp .invitation-rsvp-info-card p:first-child {
   color: var(--inv-accent) !important;
 }
-.invitation-public .invitation-rsvp .invitation-rsvp-closed {
-  color: var(--inv-form-text, #30283a) !important;
-}
+/* The closed notice has a white surface, so its text must remain dark
+   regardless of the invitation's light/dark RSVP palette. */
+.invitation-public .invitation-rsvp .invitation-rsvp-closed,
 .invitation-public .invitation-rsvp .invitation-rsvp-closed h2,
 .invitation-public .invitation-rsvp .invitation-rsvp-closed p:not(:first-child) {
-  color: var(--inv-form-text, #30283a) !important;
+  color: #30283a !important;
+}
+.invitation-public .invitation-rsvp .invitation-rsvp-info-card,
+.invitation-public .invitation-rsvp .invitation-rsvp-info-card p:not(:first-child) {
+  color: #30283a !important;
 }

@@ -13,7 +13,7 @@ interface Props {
 }
 
 const organizerAccents: Record<InvitationTemplateKey, { bannerStart: string; bannerEnd: string; bannerText: string; bannerAccent: string; muted: string; soft: string }> = {
-  wedding_editorial: { bannerStart: "#702638", bannerEnd: "#39252B", bannerText: "#FFF7F0", bannerAccent: "#E5B84F", muted: "#6B555C", soft: "#F0D9D9" },
+  wedding_editorial: { bannerStart: "#344B61", bannerEnd: "#20272D", bannerText: "#F5F3EE", bannerAccent: "#8295A5", muted: "#4D5357", soft: "#EAE7DF" },
   xv_gala: { bannerStart: "#211B35", bannerEnd: "#49324F", bannerText: "#FFFAF0", bannerAccent: "#E2C47A", muted: "#C9BED1", soft: "#30263F" },
   baby_soft: { bannerStart: "#A85F47", bannerEnd: "#3F7184", bannerText: "#FFFEFA", bannerAccent: "#F0D276", muted: "#756054", soft: "#E9F4F6" },
   baptism_light: { bannerStart: "#263641", bannerEnd: "#426D86", bannerText: "#FFFFFF", bannerAccent: "#C7DBE5", muted: "#536873", soft: "#E3EEF3" },

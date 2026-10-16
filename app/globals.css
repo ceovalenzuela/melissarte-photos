@@ -2199,3 +2199,13 @@
   padding-top: 2.6rem;
   padding-bottom: 2rem;
 }
+
+.invitation-public.invitation-template-xv_gala button:has(svg.lucide-share-2) {
+  background: var(--inv-button, #702638) !important;
+  color: var(--inv-button-text, #FFFFFF) !important;
+  text-decoration: none !important;
+  box-shadow: 0 8px 22px rgba(8, 5, 17, .2);
+}
+.invitation-public.invitation-template-xv_gala button:has(svg.lucide-share-2) svg {
+  flex: 0 0 auto;
+}

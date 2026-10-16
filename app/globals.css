@@ -2328,3 +2328,109 @@
 .invitation-public.invitation-template-wedding_editorial .invitation-countdown > div > div + div {
   border-left-color: rgba(255, 255, 255, .24) !important;
 }
+
+
+/* Wedding Editorial Luxury: signature details, controlled ornament and stronger hierarchy. */
+.invitation-public.invitation-template-wedding_editorial #detalles {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(52, 75, 97, .045), transparent 27rem),
+    #F5F3EE !important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles::before {
+  width: 5.5rem;
+  height: 2px;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(90deg, transparent 0%, #8295A5 22%, #344B61 50%, #8295A5 78%, transparent 100%);
+}
+.invitation-public.invitation-template-wedding_editorial #detalles > .mx-auto.max-w-3xl > p:first-child {
+  letter-spacing: .32em;
+  color: #344B61 !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card,
+.invitation-public.invitation-template-wedding_editorial .invitation-dress-code-card {
+  border-radius: 1.15rem !important;
+  position: relative;
+  isolation: isolate;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card::before,
+.invitation-public.invitation-template-wedding_editorial .invitation-dress-code-card::before {
+  left: 1.5rem;
+  right: 1.5rem;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #8295A5 24%, #344B61 50%, #8295A5 76%, transparent);
+  opacity: .8;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card > div:first-child > span,
+.invitation-public.invitation-template-wedding_editorial .invitation-dress-code-card > span:first-child {
+  width: 2.65rem;
+  height: 2.65rem;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 3px rgba(52, 75, 97, .035);
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card > div:first-child > p,
+.invitation-public.invitation-template-wedding_editorial .invitation-dress-code-card p:first-child {
+  font-size: .62rem;
+  letter-spacing: .24em;
+  font-weight: 700;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card .invitation-location-venue {
+  letter-spacing: -.02em;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card .invitation-location-button,
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card a[aria-label^="Agregar"] {
+  border-radius: .9rem !important;
+  box-shadow: 0 2px 0 rgba(32, 39, 45, .025);
+  transition: background-color .2s ease, border-color .2s ease, transform .2s ease;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card .invitation-location-button:active,
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card a[aria-label^="Agregar"]:active {
+  transform: translateY(1px);
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.15rem !important;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(130, 149, 165, .24), transparent 65%),
+    #344B61 !important;
+  border-color: #344B61 !important;
+  padding-top: 1.65rem !important;
+  padding-bottom: 1.65rem !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown::before {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 1px;
+  margin: 0 auto .9rem;
+  background: #8295A5;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown > p {
+  color: #E5EBEF !important;
+  font-size: .58rem;
+  letter-spacing: .25em;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown > div > div p:first-child {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -.035em;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown > div > div + div {
+  border-left-color: rgba(255, 255, 255, .2) !important;
+}
+.invitation-public.invitation-template-wedding_editorial footer > div:first-child {
+  width: 3.5rem;
+  height: 2px;
+  opacity: 1;
+  background: linear-gradient(90deg, transparent, #8295A5 25%, #344B61 50%, #8295A5 75%, transparent) !important;
+}
+.invitation-public.invitation-template-wedding_editorial footer > p:last-child {
+  border-top-color: rgba(52, 75, 97, .15) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .invitation-public.invitation-template-wedding_editorial .invitation-location-card .invitation-location-button,
+  .invitation-public.invitation-template-wedding_editorial .invitation-location-card a[aria-label^="Agregar"] {
+    transition: none;
+  }
+}

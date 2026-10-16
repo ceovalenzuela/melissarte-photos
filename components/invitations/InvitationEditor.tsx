@@ -294,13 +294,31 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                     className={`group relative min-w-0 overflow-hidden rounded-2xl border p-3 text-left transition duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${selected ? "shadow-sm ring-1" : "border-[#E7DCC8] bg-white hover:border-[#C5AD88]"}`}
                     style={{ outlineColor: palette.accent_color, borderColor: selected ? palette.border_color : undefined, backgroundColor: selected ? "#FFFFFF" : undefined }}
                   >
-                    <div className="mb-3 flex h-20 items-end gap-1.5 overflow-hidden rounded-xl border p-2.5" style={{ background: palette.background_color, borderColor: palette.border_color }}>
-                      <span className="h-11 w-[34%] rounded-t-lg border" style={{ background: palette.card_background_color, borderColor: palette.border_color }} />
-                      <span className="h-14 flex-1 rounded-t-lg border p-1.5" style={{ background: palette.card_background_color, borderColor: palette.border_color }}>
-                        <span className="block mt-1 h-1 w-3/4 rounded-full" style={{ backgroundColor: palette.title_color }} />
-                        <span className="mt-1.5 block h-1 w-1/2 rounded-full" style={{ backgroundColor: palette.text_color, opacity: 0.65 }} />
-                        <span className="mt-2 block h-2 w-2/3 rounded-full" style={{ backgroundColor: palette.button_color }} />
-                      </span>
+                    <div className={`mb-3 flex h-20 items-end gap-1.5 overflow-hidden rounded-xl border p-2.5 ${option.key === "wedding_editorial" ? "relative" : ""}`} style={{ background: palette.background_color, borderColor: palette.border_color }}>
+                      {option.key === "wedding_editorial" ? (
+                        <div className="relative flex h-full w-full items-end gap-1.5">
+                          <span className="absolute left-1/2 top-1 h-px w-8 -translate-x-1/2" style={{ backgroundColor: palette.accent_color }} />
+                          <span className="absolute left-1/2 top-3 -translate-x-1/2 whitespace-nowrap text-[6px] font-semibold uppercase tracking-[0.28em]" style={{ color: palette.accent_color }}>The celebration</span>
+                          <span className="h-10 w-[34%] rounded-t-lg border-t-2 p-1.5" style={{ background: palette.card_background_color, borderColor: palette.border_color }}>
+                            <span className="mt-1 block h-1 w-3/4" style={{ backgroundColor: palette.title_color }} />
+                            <span className="mt-1.5 block h-px w-1/2" style={{ backgroundColor: palette.accent_color }} />
+                          </span>
+                          <span className="flex h-12 flex-1 flex-col justify-end rounded-t-lg border-t-2 p-1.5" style={{ background: palette.card_background_color, borderColor: palette.border_color }}>
+                            <span className="mb-1 block h-1 w-3/4" style={{ backgroundColor: palette.title_color }} />
+                            <span className="mb-1.5 block h-px w-1/2" style={{ backgroundColor: palette.text_color, opacity: 0.65 }} />
+                            <span className="block h-1.5 w-2/3 rounded-sm" style={{ backgroundColor: palette.button_color }} />
+                          </span>
+                        </div>
+                      ) : (
+                        <>
+                          <span className="h-11 w-[34%] rounded-t-lg border" style={{ background: palette.card_background_color, borderColor: palette.border_color }} />
+                          <span className="h-14 flex-1 rounded-t-lg border p-1.5" style={{ background: palette.card_background_color, borderColor: palette.border_color }}>
+                            <span className="block mt-1 h-1 w-3/4 rounded-full" style={{ backgroundColor: palette.title_color }} />
+                            <span className="mt-1.5 block h-1 w-1/2 rounded-full" style={{ backgroundColor: palette.text_color, opacity: 0.65 }} />
+                            <span className="mt-2 block h-2 w-2/3 rounded-full" style={{ backgroundColor: palette.button_color }} />
+                          </span>
+                        </>
+                      )}
                     </div>
                     <span className="flex items-start justify-between gap-2">
                       <span className="min-w-0">

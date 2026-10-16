@@ -2434,3 +2434,165 @@
     transition: none;
   }
 }
+
+
+/* Shared invitation finish: consistent rhythm and surface hierarchy across all
+   templates, while each template keeps its own palette and visual personality.
+   This is intentionally independent of the RSVP section so the page still feels
+   complete when confirmations are not part of the invitation. */
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) #detalles {
+  position: relative;
+  isolation: isolate;
+  padding-top: clamp(3.5rem, 7vw, 5.25rem);
+  padding-bottom: clamp(3.75rem, 7vw, 5.5rem);
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) #detalles::before {
+  content: "";
+  display: block;
+  width: 5rem;
+  height: 2px;
+  margin: 0 auto 1.35rem;
+  background: linear-gradient(90deg, transparent, var(--inv-accent), var(--inv-border), transparent);
+  opacity: .85;
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) #detalles > .mx-auto.max-w-3xl > p:first-child {
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .28em;
+  line-height: 1.7;
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) #detalles .invitation-location-grid {
+  gap: clamp(1rem, 2.4vw, 1.4rem);
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-location-card,
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-dress-code-card,
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) #detalles article {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 1.15rem !important;
+  box-shadow: 0 10px 28px rgba(22, 20, 30, .07);
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-location-card::before,
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-dress-code-card::before {
+  left: 1.5rem;
+  right: 1.5rem;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--inv-border), var(--inv-accent), var(--inv-border), transparent);
+  opacity: .7;
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-location-card > div:first-child > span,
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-dress-code-card > span:first-child {
+  width: 2.65rem;
+  height: 2.65rem;
+  border-radius: 50%;
+  border-color: color-mix(in srgb, var(--inv-border) 42%, var(--inv-card-bg)) !important;
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-location-card > div:first-child > p,
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-dress-code-card p:first-child {
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  line-height: 1.6;
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-location-card .invitation-location-venue {
+  font-size: clamp(1.45rem, 3vw, 1.75rem);
+  line-height: 1.2;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-location-card .invitation-location-address {
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-location-card .invitation-location-button,
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-location-card a[aria-label^="Agregar"] {
+  min-height: 2.8rem;
+  border-radius: .9rem !important;
+  background: color-mix(in srgb, var(--inv-background) 78%, var(--inv-card-bg)) !important;
+  border-color: color-mix(in srgb, var(--inv-border) 48%, var(--inv-card-bg)) !important;
+  color: var(--inv-card-text) !important;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, .025);
+  text-decoration: none !important;
+  transition: transform .2s ease, border-color .2s ease, background-color .2s ease;
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-location-card .invitation-location-button:hover,
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-location-card a[aria-label^="Agregar"]:hover {
+  border-color: color-mix(in srgb, var(--inv-border) 30%, var(--inv-accent)) !important;
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-countdown {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.15rem !important;
+  padding-block: clamp(1.2rem, 3.5vw, 1.65rem);
+  box-shadow: 0 10px 28px rgba(22, 20, 30, .07);
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-countdown > p {
+  font-size: .6rem;
+  line-height: 1.7;
+  letter-spacing: .19em;
+  margin-bottom: 1.1rem;
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-countdown > div {
+  align-items: stretch;
+  gap: 0;
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-countdown > div > div {
+  padding-inline: .4rem;
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-countdown > div > div + div {
+  border-left: 1px solid color-mix(in srgb, var(--inv-border) 34%, transparent);
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-countdown > div > div p:first-child {
+  font-size: clamp(1.5rem, 6vw, 2.05rem);
+  line-height: 1.05;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-countdown > div > div p:last-child {
+  margin-top: .45rem;
+  font-size: .55rem;
+  letter-spacing: .12em;
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) footer {
+  position: relative;
+  padding-top: 2.75rem;
+  padding-bottom: 2rem;
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) footer > div:first-child {
+  width: 3.5rem;
+  height: 2px;
+  margin-bottom: 1.35rem;
+  opacity: .9;
+  background: linear-gradient(90deg, transparent, var(--inv-border), var(--inv-accent), var(--inv-border), transparent) !important;
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) footer > p:first-of-type {
+  font-size: clamp(1.4rem, 4.8vw, 1.8rem);
+  line-height: 1.25;
+  letter-spacing: -.015em;
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) footer > p:nth-of-type(2) {
+  margin-top: .8rem;
+  font-size: .55rem;
+  letter-spacing: .24em;
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) footer > p:last-child {
+  margin-top: 1.75rem;
+  padding-top: 1.15rem;
+  font-size: .58rem;
+  letter-spacing: .24em;
+  border-top: 1px solid color-mix(in srgb, var(--inv-border) 26%, transparent);
+}
+@media (max-width: 639px) {
+  .invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-location-card,
+  .invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-dress-code-card {
+    border-radius: 1rem !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-location-card .invitation-location-button,
+  .invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-location-card a[aria-label^="Agregar"] {
+    transition: none;
+  }
+}

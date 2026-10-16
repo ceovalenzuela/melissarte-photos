@@ -606,9 +606,6 @@
 .invitation-template-baby_soft .invitation-location-card > div:first-child > p {
   color: #a76f59 !important;
 }
-.invitation-template-baby_soft #confirmar {
-  background: linear-gradient(135deg, #f2e3d7, #e8eddf) !important;
-}
 @media (max-width: 767px) {
   .invitation-template-wedding_editorial .invitation-hero-has-cover::after {
     inset: 10px;
@@ -686,150 +683,7 @@
   border-color: #d9a38a !important;
   color: #8c503b !important;
 }
-.invitation-template-baby_soft #confirmar.invitation-rsvp {
-  background:
-    radial-gradient(ellipse at 0% 0%, rgba(232, 155, 121, .24), transparent 40%),
-    radial-gradient(ellipse at 100% 100%, rgba(161, 187, 137, .28), transparent 40%),
-    linear-gradient(135deg, #fff4e8 0%, #f6e7d9 55%, #f5edcf 100%) !important;
-  color: #493c32 !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp > div > p,
-.invitation-template-baby_soft #confirmar.invitation-rsvp h2 {
-  color: #493c32 !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp > div > p:first-child {
-  color: #a85f47 !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp > div > p.text-neutral-600 {
-  color: #65554a !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp form {
-  background: #fffefa !important;
-  color: #493c32 !important;
-  border-color: #e5c5b2 !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp form label,
-.invitation-template-baby_soft #confirmar.invitation-rsvp form legend {
-  color: #493c32 !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp form p.text-neutral-400 {
-  color: #756458 !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp form input,
-.invitation-template-baby_soft #confirmar.invitation-rsvp form select {
-  background: #fff !important;
-  color: #493c32 !important;
-  border-color: #ddcfc3 !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp form button[aria-pressed="false"] {
-  background: #fff !important;
-  color: #493c32 !important;
-  border-color: #ddcfc3 !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp form button[aria-pressed="true"] {
-  background: #f7e2d5 !important;
-  color: #874f3c !important;
-}
-.invitation-template-baby_soft #confirmar.invitation-rsvp form button[type="submit"] {
-  background: #a96149 !important;
-  color: #fff !important;
-}
 
-/* Keep all template RSVP headings, helper text and form controls legible. */
-.invitation-template-baptism_light #confirmar.invitation-rsvp {
-  background: linear-gradient(135deg, #f6f9fa 0%, #e3eef3 100%) !important;
-  color: #263641 !important;
-}
-.invitation-template-baptism_light #confirmar.invitation-rsvp > div > p,
-.invitation-template-baptism_light #confirmar.invitation-rsvp h2 {
-  color: #263641 !important;
-}
-.invitation-template-baptism_light #confirmar.invitation-rsvp > div > p:first-child {
-  color: #527f98 !important;
-}
-.invitation-template-baptism_light #confirmar.invitation-rsvp > div > p.text-neutral-600 {
-  color: #52636d !important;
-}
-.invitation-template-baptism_light #confirmar.invitation-rsvp form {
-  background: #fff !important;
-  color: #263641 !important;
-  border-color: #c7dbe5 !important;
-}
-.invitation-template-baptism_light #confirmar.invitation-rsvp form label,
-.invitation-template-baptism_light #confirmar.invitation-rsvp form legend {
-  color: #263641 !important;
-}
-.invitation-template-baptism_light #confirmar.invitation-rsvp form p.text-neutral-400 {
-  color: #5e6e77 !important;
-}
-
-
-/* Color customization controls affect the rendered invitation, not just the editor. */
-.invitation-public .invitation-title { color: var(--inv-title) !important; }
-.invitation-public .invitation-location-card {
-  background: var(--inv-card-bg) !important;
-  color: var(--inv-card-text) !important;
-  border-color: var(--inv-border) !important;
-}
-.invitation-public .invitation-location-card h3,
-.invitation-public .invitation-location-card > p:not([class*="uppercase"]) {
-  color: var(--inv-card-text) !important;
-}
-.invitation-public .invitation-location-card > div:first-child > span {
-  border: 1px solid var(--inv-border);
-}
-.invitation-public .invitation-location-card > a {
-  border-color: var(--inv-border) !important;
-  color: var(--inv-button) !important;
-}
-.invitation-public .invitation-countdown {
-  border-color: var(--inv-border) !important;
-}
-.invitation-public #confirmar.invitation-rsvp {
-  background: var(--inv-rsvp-bg) !important;
-  color: var(--inv-rsvp-text) !important;
-}
-.invitation-public #confirmar.invitation-rsvp > div > p,
-.invitation-public #confirmar.invitation-rsvp h2 {
-  color: var(--inv-rsvp-text) !important;
-}
-.invitation-public #confirmar.invitation-rsvp > div > p:first-child {
-  color: var(--inv-button) !important;
-}
-.invitation-public #confirmar.invitation-rsvp > div > p.text-neutral-600 {
-  color: var(--inv-rsvp-text) !important;
-  opacity: .88;
-}
-.invitation-public #confirmar.invitation-rsvp form {
-  background: var(--inv-form-bg) !important;
-  color: var(--inv-form-text) !important;
-  border-color: var(--inv-border) !important;
-}
-.invitation-public #confirmar.invitation-rsvp form label,
-.invitation-public #confirmar.invitation-rsvp form legend,
-.invitation-public #confirmar.invitation-rsvp form p:not([role="alert"]):not([role="status"]) {
-  color: var(--inv-form-text);
-}
-.invitation-public #confirmar.invitation-rsvp form input,
-.invitation-public #confirmar.invitation-rsvp form select {
-  background: var(--inv-form-bg) !important;
-  color: var(--inv-form-text) !important;
-  border-color: var(--inv-border) !important;
-}
-.invitation-public #confirmar.invitation-rsvp form button[aria-pressed="false"] {
-  background: var(--inv-form-bg) !important;
-  color: var(--inv-form-text) !important;
-  border-color: var(--inv-border) !important;
-}
-.invitation-public #confirmar.invitation-rsvp form button[aria-pressed="true"] {
-  background: color-mix(in srgb, var(--inv-button) 16%, var(--inv-form-bg)) !important;
-  color: var(--inv-form-text) !important;
-  border-color: var(--inv-button) !important;
-}
-.invitation-public #confirmar.invitation-rsvp form button[type="submit"] {
-  background: var(--inv-button) !important;
-  color: var(--inv-button-text) !important;
-}
 
 /* Organizer RSVP dashboard adopts the selected invitation's visual identity. */
 .organizer-confirmations {
@@ -934,13 +788,6 @@
 .invitation-template-baby_soft .invitation-location-card > a {
   border-color: #b5d9e4 !important;
 }
-.invitation-template-baby_soft #confirmar.invitation-rsvp {
-  background:
-    radial-gradient(ellipse at 0% 0%, rgba(232,155,121,.2), transparent 40%),
-    radial-gradient(ellipse at 100% 0%, rgba(159,210,228,.32), transparent 40%),
-    radial-gradient(ellipse at 100% 100%, rgba(161,187,137,.24), transparent 40%),
-    linear-gradient(135deg, #fff4e8 0%, #f6e7d9 55%, #e9f4f6 100%);
-}
 
 
 .organizer-confirmations > div > a:first-child {
@@ -963,62 +810,6 @@
   background:
     radial-gradient(ellipse at 85% 0%, rgba(180,224,238,.65), transparent 45%),
     linear-gradient(135deg, #d98f76, #91a985 62%, #7fb8cc);
-}
-
-
-/* Keep administrator-selected invitation colors authoritative over template-specific art direction. */
-.invitation-public .invitation-title {
-  color: var(--inv-title) !important;
-}
-.invitation-public .invitation-location-card {
-  background: var(--inv-card-bg) !important;
-  color: var(--inv-card-text) !important;
-  border-color: var(--inv-border) !important;
-}
-.invitation-public .invitation-location-card h3,
-.invitation-public .invitation-location-card > p:not([class*="uppercase"]) {
-  color: var(--inv-card-text) !important;
-}
-.invitation-public .invitation-location-card > a {
-  border-color: var(--inv-border) !important;
-  color: var(--inv-button) !important;
-}
-.invitation-public #confirmar.invitation-rsvp {
-  background: var(--inv-rsvp-bg) !important;
-  color: var(--inv-rsvp-text) !important;
-}
-.invitation-public #confirmar.invitation-rsvp > div > p,
-.invitation-public #confirmar.invitation-rsvp h2 {
-  color: var(--inv-rsvp-text) !important;
-}
-.invitation-public #confirmar.invitation-rsvp > div > p:first-child {
-  color: var(--inv-button) !important;
-}
-.invitation-public #confirmar.invitation-rsvp form {
-  background: var(--inv-form-bg) !important;
-  color: var(--inv-form-text) !important;
-  border-color: var(--inv-border) !important;
-}
-.invitation-public #confirmar.invitation-rsvp form label,
-.invitation-public #confirmar.invitation-rsvp form legend,
-.invitation-public #confirmar.invitation-rsvp form p:not([role="alert"]):not([role="status"]) {
-  color: var(--inv-form-text) !important;
-}
-.invitation-public #confirmar.invitation-rsvp form input,
-.invitation-public #confirmar.invitation-rsvp form select,
-.invitation-public #confirmar.invitation-rsvp form button[aria-pressed="false"] {
-  background: var(--inv-form-bg) !important;
-  color: var(--inv-form-text) !important;
-  border-color: var(--inv-border) !important;
-}
-.invitation-public #confirmar.invitation-rsvp form button[aria-pressed="true"] {
-  background: color-mix(in srgb, var(--inv-button) 16%, var(--inv-form-bg)) !important;
-  color: var(--inv-form-text) !important;
-  border-color: var(--inv-button) !important;
-}
-.invitation-public #confirmar.invitation-rsvp form button[type="submit"] {
-  background: var(--inv-button) !important;
-  color: var(--inv-button-text) !important;
 }
 
 
@@ -1486,58 +1277,6 @@
   }
 }
 
-/* RSVP information cards stay readable on dark template backgrounds. */
-.invitation-public .invitation-rsvp .invitation-rsvp-info-card,
-.invitation-public .invitation-rsvp .invitation-rsvp-info-card p {
-  color: var(--inv-form-text, #30283a) !important;
-}
-.invitation-public .invitation-rsvp .invitation-rsvp-info-card p:first-child {
-  color: var(--inv-accent) !important;
-}
-/* The closed notice has a white surface, so its text must remain dark
-   regardless of the invitation's light/dark RSVP palette. */
-.invitation-public .invitation-rsvp .invitation-rsvp-closed,
-.invitation-public .invitation-rsvp .invitation-rsvp-closed h2,
-.invitation-public .invitation-rsvp .invitation-rsvp-closed p:not(:first-child) {
-  color: #30283a !important;
-}
-.invitation-public .invitation-rsvp .invitation-rsvp-info-card,
-.invitation-public .invitation-rsvp .invitation-rsvp-info-card p:not(:first-child) {
-  color: #30283a !important;
-}
-
-/* Final contrast pass: keep action links legible on both light and dark cards. */
-.invitation-public .invitation-location-card .invitation-location-button,
-.invitation-public .invitation-location-card a[aria-label^="Agregar"] {
-  background: #fffdf8 !important;
-  color: var(--inv-accent) !important;
-  border-color: var(--inv-border) !important;
-  box-shadow: 0 1px 2px rgba(20, 20, 20, .05);
-}
-.invitation-public .invitation-location-card .invitation-location-button > span:first-child,
-.invitation-public .invitation-location-card a[aria-label^="Agregar"] > span:first-child {
-  background: color-mix(in srgb, var(--inv-accent) 10%, white) !important;
-  border-color: color-mix(in srgb, var(--inv-border) 55%, white) !important;
-  color: var(--inv-accent) !important;
-}
-.invitation-public .invitation-location-card .invitation-location-button > span:last-child > span:last-child,
-.invitation-public .invitation-location-card a[aria-label^="Agregar"] > span:last-child > span:last-child {
-  opacity: 1 !important;
-  color: var(--inv-accent) !important;
-}
-.invitation-public .invitation-rsvp .invitation-rsvp-closed {
-  background: #fffdf9 !important;
-  border-color: var(--inv-border) !important;
-}
-.invitation-public .invitation-rsvp .invitation-rsvp-closed > p:first-child {
-  color: var(--inv-accent) !important;
-}
-.invitation-public .invitation-rsvp .invitation-rsvp-closed h2,
-.invitation-public .invitation-rsvp .invitation-rsvp-closed p:not(:first-child) {
-  color: #30283a !important;
-}
-
-
 /* Single source of truth for wedding/XV RSVP surfaces: admin design variables.
    White surfaces use fixed dark text for readability, regardless of theme colors. */
 .invitation-public #confirmar.invitation-rsvp {
@@ -1582,15 +1321,38 @@
 }
 
 
-/* Closed RSVP notice: override older template-specific !important rules. */
-.invitation-public #confirmar.invitation-rsvp .invitation-rsvp-closed,
+/* Location actions inherit each template's card surface instead of using white universally. */
+.invitation-public .invitation-location-card .invitation-location-button,
+.invitation-public .invitation-location-card a[aria-label^="Agregar"] {
+  background: color-mix(in srgb, var(--inv-card-bg) 92%, var(--inv-accent) 8%) !important;
+  color: var(--inv-card-text) !important;
+  border-color: var(--inv-border) !important;
+  box-shadow: 0 1px 2px rgba(20, 20, 20, .05);
+}
+.invitation-public .invitation-location-card .invitation-location-button > span:first-child,
+.invitation-public .invitation-location-card a[aria-label^="Agregar"] > span:first-child {
+  background: color-mix(in srgb, var(--inv-card-bg) 86%, var(--inv-accent) 14%) !important;
+  border-color: color-mix(in srgb, var(--inv-border) 55%, var(--inv-card-bg)) !important;
+  color: var(--inv-accent) !important;
+}
+.invitation-public .invitation-location-card .invitation-location-button > span:last-child,
+.invitation-public .invitation-location-card a[aria-label^="Agregar"] > span:last-child,
+.invitation-public .invitation-location-card .invitation-location-button > span:last-child > span,
+.invitation-public .invitation-location-card a[aria-label^="Agregar"] > span:last-child > span {
+  color: var(--inv-card-text) !important;
+  opacity: 1 !important;
+}
+
+/* Closed RSVP notice is a light surface, so it always uses dark text in every template. */
+.invitation-public #confirmar.invitation-rsvp .invitation-rsvp-closed {
+  background: #fffdfa !important;
+  border-color: var(--inv-border) !important;
+  color: #30283a !important;
+}
 .invitation-public #confirmar.invitation-rsvp .invitation-rsvp-closed h2,
 .invitation-public #confirmar.invitation-rsvp .invitation-rsvp-closed p:not(:first-child) {
   color: #30283a !important;
 }
-.invitation-public #confirmar.invitation-rsvp .invitation-rsvp-closed {
-  background-color: #fffdfa !important;
-}
 .invitation-public #confirmar.invitation-rsvp .invitation-rsvp-closed > p:first-child {
-  color: #805773 !important;
+  color: var(--inv-form-text) !important;
 }

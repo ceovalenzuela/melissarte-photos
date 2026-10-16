@@ -2232,3 +2232,47 @@
 /* Deployment retry marker: redeploy the approved XV card border refinement without behavior changes. */
 
 /* Deployment retry marker: re-trigger Vercel with no visual changes. */
+
+/* Shared footer rhythm: keep all invitation templates aligned to the wedding footer. */
+.invitation-public.invitation-template-wedding_editorial footer,
+.invitation-public.invitation-template-xv_gala footer,
+.invitation-public.invitation-template-baby_soft footer,
+.invitation-public.invitation-template-baptism_light footer {
+  padding-top: 2.75rem;
+  padding-bottom: 2rem;
+}
+.invitation-public.invitation-template-wedding_editorial footer > div:first-child,
+.invitation-public.invitation-template-xv_gala footer > div:first-child,
+.invitation-public.invitation-template-baby_soft footer > div:first-child,
+.invitation-public.invitation-template-baptism_light footer > div:first-child {
+  width: 2.5rem;
+  margin-bottom: 1.35rem;
+  opacity: .72;
+}
+.invitation-public.invitation-template-wedding_editorial footer > p:first-of-type,
+.invitation-public.invitation-template-xv_gala footer > p:first-of-type,
+.invitation-public.invitation-template-baby_soft footer > p:first-of-type,
+.invitation-public.invitation-template-baptism_light footer > p:first-of-type {
+  font-size: clamp(1.4rem, 4.8vw, 1.8rem);
+  line-height: 1.25;
+  letter-spacing: -.015em;
+}
+.invitation-public.invitation-template-wedding_editorial footer > p:nth-of-type(2),
+.invitation-public.invitation-template-xv_gala footer > p:nth-of-type(2),
+.invitation-public.invitation-template-baby_soft footer > p:nth-of-type(2),
+.invitation-public.invitation-template-baptism_light footer > p:nth-of-type(2) {
+  margin-top: .8rem;
+  font-size: .55rem;
+  letter-spacing: .24em;
+}
+.invitation-public.invitation-template-wedding_editorial footer > p:last-child,
+.invitation-public.invitation-template-xv_gala footer > p:last-child,
+.invitation-public.invitation-template-baby_soft footer > p:last-child,
+.invitation-public.invitation-template-baptism_light footer > p:last-child {
+  margin-top: 1.75rem;
+  padding-top: 1.15rem;
+  letter-spacing: .24em;
+  font-size: .58rem;
+  border-color: color-mix(in srgb, var(--inv-border, #E5B84F) 20%, transparent);
+}
+

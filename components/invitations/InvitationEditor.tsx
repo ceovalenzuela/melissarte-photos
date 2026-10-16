@@ -392,12 +392,12 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
           </section>
 
           <details id="editor-colors" ref={colorsSectionRef} className="scroll-mt-6 border-t border-[#E7DCC8] pt-6">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-2xl border border-[#D9C7AA] bg-white px-4 py-4 text-sm font-semibold text-[#332B27] shadow-sm transition hover:bg-[#FBF7F0] [&::-webkit-details-marker]:hidden">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-2xl border bg-white px-4 py-4 text-sm font-semibold text-[#332B27] shadow-sm transition hover:bg-[#FBF7F0] [&::-webkit-details-marker]:hidden" style={{ borderColor: design.border_color ?? INVITATION_PALETTES[templateKey].border_color }}>
               <span className="flex items-center gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#D9C7AA] bg-[#F7F0E4] text-[#76582E]"><Sparkles size={18} /></span>
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl border" style={{ borderColor: design.border_color ?? INVITATION_PALETTES[templateKey].border_color, backgroundColor: design.rsvp_background_color ?? INVITATION_PALETTES[templateKey].rsvp_background_color, color: design.accent_color ?? INVITATION_PALETTES[templateKey].accent_color }}><Sparkles size={18} /></span>
                 <span><span className="block">Personalizar colores</span><span className="mt-1 block text-xs font-normal text-[#62594F]">Ajusta el contraste y la personalidad de cada sección.</span></span>
               </span>
-              <span className="text-xs font-semibold text-[#76582E]">Editar ↓</span>
+              <span className="text-xs font-semibold" style={{ color: design.accent_color ?? INVITATION_PALETTES[templateKey].accent_color }}>Editar ↓</span>
             </summary>
             <div className="mt-4 rounded-2xl border border-[#E7DCC8] bg-white p-4 sm:p-5">
               <p className="mb-5 text-sm leading-6 text-[#51483E]">Los cambios se guardan al pulsar «Guardar cambios» o «Guardar y publicar». Para facilitar la lectura, procura que el texto contraste claramente con su fondo.</p>
@@ -405,8 +405,8 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                 <div className="min-w-0 rounded-xl border border-[#D9C7AA] bg-[#FBF7F0] p-3 sm:p-4">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#62594F]">Vista de contraste</p>
                   <div className="mt-3 flex gap-2" role="group" aria-label="Seleccionar vista de contraste">
-                    <button type="button" aria-pressed={contrastView === "general"} onClick={() => setContrastView("general")} className={contrastView === "general" ? "rounded-full bg-[#8E6D3D] px-3 py-2 text-xs font-semibold text-white" : "rounded-full border border-[#D9C7AA] bg-white px-3 py-2 text-xs font-semibold text-[#51483E]"}>Texto general</button>
-                    <button type="button" aria-pressed={contrastView === "cards"} onClick={() => setContrastView("cards")} className={contrastView === "cards" ? "rounded-full bg-[#8E6D3D] px-3 py-2 text-xs font-semibold text-white" : "rounded-full border border-[#D9C7AA] bg-white px-3 py-2 text-xs font-semibold text-[#51483E]"}>Tarjetas</button>
+                    <button type="button" aria-pressed={contrastView === "general"} onClick={() => setContrastView("general")} className={contrastView === "general" ? "rounded-full px-3 py-2 text-xs font-semibold text-white" : "rounded-full border bg-white px-3 py-2 text-xs font-semibold text-[#51483E]"} style={contrastView === "general" ? { backgroundColor: design.button_color ?? INVITATION_PALETTES[templateKey].button_color } : { borderColor: design.border_color ?? INVITATION_PALETTES[templateKey].border_color }}>Texto general</button>
+                    <button type="button" aria-pressed={contrastView === "cards"} onClick={() => setContrastView("cards")} className={contrastView === "cards" ? "rounded-full px-3 py-2 text-xs font-semibold text-white" : "rounded-full border bg-white px-3 py-2 text-xs font-semibold text-[#51483E]"} style={contrastView === "cards" ? { backgroundColor: design.button_color ?? INVITATION_PALETTES[templateKey].button_color } : { borderColor: design.border_color ?? INVITATION_PALETTES[templateKey].border_color }}>Tarjetas</button>
                   </div>
                   <div className="mt-3 overflow-hidden rounded-xl border" style={{ backgroundColor: contrastView === "general" ? design.background_color ?? INVITATION_PALETTES[templateKey].background_color : design.card_background_color ?? INVITATION_PALETTES[templateKey].card_background_color, color: contrastView === "general" ? design.text_color ?? INVITATION_PALETTES[templateKey].text_color : design.card_text_color ?? INVITATION_PALETTES[templateKey].card_text_color, borderColor: design.border_color ?? INVITATION_PALETTES[templateKey].border_color }}>
                     <div className="p-4">
@@ -420,7 +420,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                 <div className="rounded-xl border border-[#D9C7AA] bg-white p-3 sm:p-4">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#62594F]">Consejo de legibilidad</p>
                   <p className="mt-2 text-sm leading-6 text-[#332B27]">Usa fondos claros con texto oscuro o fondos oscuros con texto claro. Los tonos decorativos funcionan mejor en bordes y detalles que en textos pequeños.</p>
-                  <button type="button" onClick={() => { setDesign({ ...initialDesignForTemplate(templateKey), cover_image_url: design.cover_image_url }); toast.success("Se restauraron los colores originales de la plantilla."); }} className="mt-4 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-full border border-[#D9C7AA] bg-[#FBF7F0] px-4 py-2 text-sm font-semibold text-[#51483E] transition hover:bg-[#F3E8D7]">
+                  <button type="button" onClick={() => { setDesign({ ...initialDesignForTemplate(templateKey), cover_image_url: design.cover_image_url }); toast.success("Se restauraron los colores originales de la plantilla."); }} className="mt-4 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-full border bg-[#FBF7F0] px-4 py-2 text-sm font-semibold text-[#51483E] transition hover:bg-[#F3E8D7]" style={{ borderColor: design.border_color ?? INVITATION_PALETTES[templateKey].border_color }}>
                     <RotateCcw size={15} /> Restaurar colores de la plantilla
                   </button>
                   <p className="mt-2 text-xs leading-5 text-[#7D7467]">Se recupera la paleta inicial de «{TEMPLATE_OPTIONS.find((option) => option.key === templateKey)?.label}». La portada se conserva.</p>

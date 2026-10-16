@@ -90,8 +90,8 @@ export default function PublicInvitationClient({
     : "wedding_editorial";
   const templateClass = `invitation-template-${templateKey}`;
   const templatePalette = INVITATION_PALETTES[templateKey];
-  const weddingColor = (value: string | undefined, fallback: string, oldColor: string, newColor: string) =>
-    resolveDesignColor(value, fallback, templateKey, oldColor, newColor);
+  const weddingColor = (value: string | undefined, fallback: string, oldColors: string[], newColor: string) =>
+    resolveDesignColor(value, fallback, templateKey, oldColors, newColor);
   const background = weddingColor(design.background_color, templatePalette.background_color ?? "#F5F3EE", ["#F4EAD8", "#FFF7F0"], "#F5F3EE");
   const accent = weddingColor(design.accent_color, templatePalette.accent_color ?? "#344B61", ["#87642F", "#D6A33D"], "#344B61");
   const textColor = weddingColor(design.text_color, templatePalette.text_color ?? "#4D5357", ["#273747", "#39252B"], "#4D5357");

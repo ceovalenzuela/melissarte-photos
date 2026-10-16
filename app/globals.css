@@ -2276,3 +2276,4 @@
   border-color: color-mix(in srgb, var(--inv-border, #E5B84F) 20%, transparent);
 }
 
+/* Deployment retry marker: re-trigger Vercel for shared invitation footer spacing. */

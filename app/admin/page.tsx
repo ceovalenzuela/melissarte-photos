@@ -47,7 +47,7 @@ function compareUpcoming(a: EventWithStats, b: EventWithStats) {
   return bDate.getTime() - aDate.getTime();
 }
 
-export function formatActivity(value: string | null) {
+function formatActivity(value: string | null) {
   if (!value) {
     return "Sin actividad";
   }

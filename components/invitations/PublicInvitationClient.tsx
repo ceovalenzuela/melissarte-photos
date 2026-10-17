@@ -309,8 +309,8 @@ export default function PublicInvitationClient({
           </header>
           <section id="detalles" className="px-5 py-12 sm:px-12 sm:py-16 lg:px-20 invitation-reveal">
             <div className="mx-auto max-w-3xl text-center invitation-reveal">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>Detalles del evento</p>
-              {content.introduction && <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-neutral-600 sm:text-base">{content.introduction}</p>}
+              {content.introduction && <p className="mx-auto max-w-xl text-sm leading-7 text-neutral-600 sm:text-base">{content.introduction}</p>}
+              <p className={content.introduction ? "mt-8 text-[10px] font-semibold uppercase tracking-[0.3em]" : "text-[10px] font-semibold uppercase tracking-[0.3em]"} style={{ color: accent }}>Detalles del evento</p>
             </div>
 
             {(content.ceremony_venue || content.ceremony_time || content.ceremony_address || content.reception_venue || content.reception_time || content.reception_address || (content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address))) && (

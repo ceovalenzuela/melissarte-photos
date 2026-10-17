@@ -142,24 +142,19 @@ export default function PublicInvitationClient({
   const [publicLinkCopied, setPublicLinkCopied] = useState(false);
 
   function calendarUrl(title: string, time?: string, venue?: string, address?: string) {
-    if (!invitation.event_date || !/^\d{4}-\d{2}-\d{2}$/.test(invitation.event_date) || !time) return null;
-    const match = time.match(/^([01]?\d|2[0-3]):([0-5]\d)$/);
+    if (!invitation.event_date || !/^\\d{4}-\\d{2}-\\d{2}$/.test(invitation.event_date) || !time) return null;
+    const match = time.match(/^([01]?\\d|2[0-3]):([0-5]\\d)$/);
     if (!match) return null;
     const [year, month, day] = invitation.event_date.split("-").map(Number);
     const pad = (value: number) => String(value).padStart(2, "0");
-    const startDate = new Date(year, month - 1, day, Number(match[1]), Number(match[2]));
-    const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
-    const toLocalCalendarDate = (date: Date) => String(date.getFullYear()) + pad(date.getMonth() + 1) + pad(date.getDate()) + "T" + pad(date.getHours()) + pad(date.getMinutes()) + "00";
-    const escapeICS = (value: string) => value.replace(/\\\\/g, "\\\\\\\\").replace(/;/g, "\\\\;").replace(/,/g, "\\\\,").replace(/\\r?\\n/g, "\\\\n");
-    const eventTitle = (content.headline || invitation.event_title || "Evento") + " · " + title;
-    const details = [content.headline || invitation.event_title || "Evento", title, typeof window !== "undefined" ? window.location.href : ""].filter(Boolean).join("\\n");
+    const start = new Date(year, month - 1, day, Number(match[1]), Number(match[2]));
+    const end = new Date(start.getTime() + 60 * 60 * 1000);
+    const calendarDate = (date: Date) => String(date.getFullYear()) + pad(date.getMonth() + 1) + pad(date.getDate()) + "T" + pad(date.getHours()) + pad(date.getMinutes()) + "00";
     const location = [venue, address].filter(Boolean).join(", ");
-    const ics = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Melissarte//Invitaciones Digitales//ES", "CALSCALE:GREGORIAN", "METHOD:PUBLISH", "BEGIN:VEVENT",
-      "UID:" + invitation.invitation_slug + "-" + title.replace(/[^a-z0-9]/gi, "").toLowerCase() + "@melissarte.com",
-      "DTSTAMP:" + new Date().toISOString().replace(/[-:]/g, "").replace(/\\.\\d{3}Z$/, "Z"),
-      "DTSTART;TZID=America/Monterrey:" + toLocalCalendarDate(startDate), "DTEND;TZID=America/Monterrey:" + toLocalCalendarDate(endDate),
-      "SUMMARY:" + escapeICS(eventTitle), "DESCRIPTION:" + escapeICS(details), ...(location ? ["LOCATION:" + escapeICS(location)] : []), "END:VEVENT", "END:VCALENDAR"].join("\\r\\n");
-    return "data:text/calendar;charset=utf-8," + encodeURIComponent(ics);
+    const details = [content.headline || invitation.event_title || "Evento", title, typeof window !== "undefined" ? window.location.href : ""].filter(Boolean).join("\\n");
+    const params = new URLSearchParams({ action: "TEMPLATE", text: (content.headline || invitation.event_title || "Evento") + " · " + title, dates: calendarDate(start) + "/" + calendarDate(end), details, ctz: "America/Monterrey" });
+    if (location) params.set("location", location);
+    return "https://calendar.google.com/calendar/render?" + params.toString();
   }
   async function sharePublicInvitation() {
     const link = `${window.location.origin}${window.location.pathname}`;
@@ -521,7 +516,6 @@ function LocationCard({ title, time, venue, address, maps, calendarUrl, accent }
           {calendarUrl && (
             <a
               href={calendarUrl}
-              download={`${title.replace(/[^a-z0-9]/gi, "-").toLowerCase()}.ics`}
               aria-label={`Agregar ${title} al calendario`}
               className="group inline-flex min-h-[52px] min-w-0 items-center justify-start gap-2 rounded-xl border px-2.5 py-2 text-left transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_5px_14px_rgba(0,0,0,0.055)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:gap-3 sm:rounded-2xl sm:px-3.5"
               style={{ borderColor: `${accent}40`, color: accent, background: `linear-gradient(145deg, #FFFFFF, ${accent}08)`, outlineColor: accent }}

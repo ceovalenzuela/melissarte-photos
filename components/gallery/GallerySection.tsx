@@ -964,7 +964,7 @@ useEffect(() => {
           <div className="fixed inset-0 z-[100] flex h-[100dvh] w-full items-center justify-center bg-[#111111]">
             <img
               key={presentationPhotos[presentationIndex].id}
-              src={presentationPhotos[presentationIndex].public_url}
+              src={presentationPhotos[presentationIndex].thumbnail_url}
               alt={presentationPhotos[presentationIndex].file_name}
               className="h-full w-full object-contain animate-[melissarte-fade_700ms_ease-out]"
             />

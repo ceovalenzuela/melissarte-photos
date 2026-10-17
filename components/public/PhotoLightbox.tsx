@@ -29,7 +29,7 @@ export default function PhotoLightbox({
       index={index}
       plugins={[Zoom, Counter]}
       slides={photos.map((photo) => ({
-        src: photo.public_url,
+        src: photo.thumbnail_url,
       }))}
       render={{
         iconZoomIn: () => null,

@@ -2767,3 +2767,29 @@
   width: 100%;
   text-align: center;
 }
+
+
+/* Ensure the editable introduction message stays readable in all four public templates.
+   These explicit rules override older template-specific first-paragraph styling. */
+.invitation-public .invitation-introduction,
+.invitation-public.invitation-template-wedding_editorial #detalles > .mx-auto.max-w-3xl > p.invitation-introduction,
+.invitation-public.invitation-template-xv_gala #detalles > .mx-auto.max-w-3xl > p.invitation-introduction,
+.invitation-public.invitation-template-baby_soft #detalles > .mx-auto.max-w-3xl > p.invitation-introduction,
+.invitation-public.invitation-template-baptism_light #detalles > .mx-auto.max-w-3xl > p.invitation-introduction {
+  font-size: 1.35rem !important;
+  font-weight: 400 !important;
+  line-height: 1.75 !important;
+  letter-spacing: 0 !important;
+  color: var(--inv-text, #4D5357) !important;
+  text-transform: none !important;
+}
+@media (min-width: 640px) {
+  .invitation-public .invitation-introduction,
+  .invitation-public.invitation-template-wedding_editorial #detalles > .mx-auto.max-w-3xl > p.invitation-introduction,
+  .invitation-public.invitation-template-xv_gala #detalles > .mx-auto.max-w-3xl > p.invitation-introduction,
+  .invitation-public.invitation-template-baby_soft #detalles > .mx-auto.max-w-3xl > p.invitation-introduction,
+  .invitation-public.invitation-template-baptism_light #detalles > .mx-auto.max-w-3xl > p.invitation-introduction {
+    font-size: 1.6rem !important;
+    line-height: 1.8 !important;
+  }
+}

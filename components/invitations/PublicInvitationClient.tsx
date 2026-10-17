@@ -300,15 +300,15 @@ export default function PublicInvitationClient({
             )}
             <div aria-hidden="true" className="invitation-hero-overlay absolute inset-0 -z-10" />
             <div className="invitation-hero-frame pointer-events-none absolute inset-4 sm:inset-7" aria-hidden="true" />
-            <div className="invitation-hero-content relative z-10 mx-auto max-w-4xl">
+            <div className="invitation-hero-content invitation-hero-copy relative z-10 mx-auto max-w-4xl">
               {(content.event_label ?? defaultEventLabel(templateKey)).trim() && <p className="invitation-hero-event-label mb-1.5 text-[10px] font-semibold uppercase tracking-[0.24em] sm:mb-2.5 sm:text-xs sm:tracking-[0.28em]" style={{ color: cover ? "#FFFAF2" : accent, textShadow: cover ? "0 1px 12px rgba(0,0,0,0.35)" : undefined }}>{(content.event_label ?? defaultEventLabel(templateKey)).trim()}</p>}
               <h1 className="invitation-hero-title font-[var(--font-display)] text-4xl leading-tight sm:text-6xl lg:text-7xl">{content.headline || invitation.event_title}</h1>
               {invitation.event_date && <p className="invitation-hero-date mt-5 text-xs font-semibold uppercase tracking-[0.22em] sm:mt-6 sm:text-sm sm:tracking-[0.24em] lg:text-base">{formatDate(invitation.event_date)}</p>}
             </div>
             <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-white/70 to-transparent opacity-60" />
           </header>
-          <section id="detalles" className="px-5 py-12 sm:px-12 sm:py-16 lg:px-20 invitation-reveal">
-            <div className="mx-auto max-w-3xl text-center invitation-reveal">
+          <section id="detalles" className="px-5 py-12 sm:px-12 sm:py-16 lg:px-20">
+            <div className="mx-auto max-w-3xl text-center">
               {content.introduction && <p className="invitation-introduction mx-auto max-w-xl font-normal text-neutral-700">{content.introduction}</p>}
               <p className={content.introduction ? "mt-8 text-[10px] font-semibold uppercase tracking-[0.3em]" : "text-[10px] font-semibold uppercase tracking-[0.3em]"} style={{ color: accent }}>Detalles del evento</p>
             </div>
@@ -355,7 +355,7 @@ export default function PublicInvitationClient({
           </section>
 
           {invitation.rsvp_enabled && Boolean((personalizedGuest && personalizedToken) || (existingRSVP && editToken)) && (rsvpDeadlinePassed ? (
-            <section id="confirmar" className="invitation-rsvp scroll-mt-6 px-5 py-12 sm:px-12 sm:py-16 lg:px-20 invitation-reveal" style={{ background: `linear-gradient(135deg, ${accent}12, ${background})` }}>
+            <section id="confirmar" className="invitation-rsvp scroll-mt-6 px-5 py-12 sm:px-12 sm:py-16 lg:px-20" style={{ background: `linear-gradient(135deg, ${accent}12, ${background})` }}>
               <div className="invitation-rsvp-closed mx-auto max-w-xl rounded-[1.5rem] border border-black/5 bg-white p-6 text-center shadow-[0_16px_50px_rgba(48,36,27,0.06)] sm:p-8" style={{ backgroundColor: "#FFFDFA", color: "#30283A" }}>
                 <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: "#805773" }}>Confirmaciones cerradas</p>
                 <h2 className="mt-3 font-[var(--font-display)] text-3xl leading-tight sm:text-4xl" style={{ color: "#30283A" }}>El plazo para confirmar terminó</h2>
@@ -363,7 +363,7 @@ export default function PublicInvitationClient({
               </div>
             </section>
           ) : (
-            <section id="confirmar" className="invitation-rsvp scroll-mt-6 px-5 py-12 sm:px-12 sm:py-16 lg:px-20 invitation-reveal" style={{ background: `linear-gradient(135deg, ${accent}12, ${background})` }}>
+            <section id="confirmar" className="invitation-rsvp scroll-mt-6 px-5 py-12 sm:px-12 sm:py-16 lg:px-20" style={{ background: `linear-gradient(135deg, ${accent}12, ${background})` }}>
               <div className="mx-auto max-w-xl">
                 <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>{existingRSVP || personalizedGuest?.attendance_status ? "Tu respuesta" : "Nos encantará saber de ti"}</p>
                 <h2 className="mt-3 text-center font-[var(--font-display)] text-4xl leading-tight sm:text-5xl">{existingRSVP || personalizedGuest?.attendance_status ? "Tu confirmación" : "¿Nos acompañas?"}</h2>

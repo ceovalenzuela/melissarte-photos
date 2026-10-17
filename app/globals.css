@@ -180,27 +180,23 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-.invitation-hero-image {
-  animation: invitation-hero-settle 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+/* Restrained entrance motion is limited to the public invitation hero. */
+.invitation-public .invitation-hero-image {
+  animation: invitation-hero-settle 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
 @keyframes invitation-hero-settle {
-  from { transform: scale(1.035); }
+  from { transform: scale(1.02); }
   to { transform: scale(1); }
 }
 
-.invitation-hero-copy {
-  animation: invitation-fade-up 0.85s 0.12s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-
-.invitation-reveal {
-  animation: invitation-fade-up 0.75s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+.invitation-public .invitation-hero-copy {
+  animation: invitation-fade-up 0.65s 0.08s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .invitation-hero-image,
-  .invitation-hero-copy,
-  .invitation-reveal {
+   .invitation-public .invitation-hero-image,
+  .invitation-public .invitation-hero-copy {
     animation: none !important;
   }
 }
@@ -324,11 +320,6 @@
 .invitation-public .invitation-title {
   text-wrap: balance;
 }
-.invitation-public .invitation-reveal {
-  animation-duration: 0.6s;
-}
-
-
 /* Polished invitation art direction: stronger hierarchy, contrast and restrained motion. */
 .invitation-template-wedding_editorial {
   --invitation-frame: #c9b994;
@@ -404,10 +395,7 @@
   flex-direction: column;
   box-shadow: 0 10px 30px rgba(47, 40, 31, 0.045);
   transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease;
-  animation: invitation-card-enter .8s cubic-bezier(.2,.8,.2,1) both;
 }
-.invitation-location-card:nth-child(2) { animation-delay: .1s; }
-.invitation-location-card:nth-child(3) { animation-delay: .2s; }
 .invitation-location-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 22px 48px rgba(47, 40, 31, .11);
@@ -418,7 +406,6 @@
 }
 .invitation-countdown {
   box-shadow: 0 12px 35px rgba(47, 40, 31, .07);
-  animation: invitation-countdown-glow 4s ease-in-out infinite;
 }
 .invitation-countdown > div > div {
   min-width: 0;
@@ -429,14 +416,6 @@
 }
 .invitation-countdown > div > div:hover p:first-child {
   transform: translateY(-2px);
-}
-@keyframes invitation-card-enter {
-  from { opacity: 0; transform: translateY(20px) scale(.985); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-@keyframes invitation-countdown-glow {
-  0%, 100% { box-shadow: 0 12px 35px rgba(47, 40, 31, .07); }
-  50% { box-shadow: 0 16px 42px rgba(47, 40, 31, .12); }
 }
 @media (min-width: 768px) {
   .invitation-location-grid > article { min-height: 100%; }
@@ -2792,4 +2771,9 @@
     font-size: 1.125rem !important;
     line-height: 1.75 !important;
   }
+}
+
+/* Keep scroll position stable while the hero cover finishes loading. */
+.invitation-public .invitation-hero {
+  overflow-anchor: none;
 }

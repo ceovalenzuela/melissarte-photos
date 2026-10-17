@@ -175,23 +175,11 @@
   box-shadow: 0 18px 48px rgba(74, 59, 40, 0.09);
 }
 
-@keyframes invitation-fade-up {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Restrained entrance motion is limited to the public invitation hero. */
-.invitation-public .invitation-hero-image {
-  animation: invitation-hero-settle 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-
-@keyframes invitation-hero-settle {
-  from { transform: scale(1.02); }
-  to { transform: scale(1); }
-}
-
+/* Keep the public invitation visually stable while scrolling. */
+.invitation-public .invitation-hero-image,
 .invitation-public .invitation-hero-copy {
-  animation: invitation-fade-up 0.65s 0.08s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation: none !important;
+  transform: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -292,7 +280,7 @@
 .invitation-hero-has-cover .invitation-hero-image {
   background-size: cover;
   background-position: center 42%;
-  transform: scale(1.005);
+  transform: none;
 }
 @media (min-width: 1024px) {
   .invitation-hero-has-cover .invitation-hero-image {
@@ -337,7 +325,6 @@
 }
 .invitation-template-wedding_editorial .invitation-countdown {
   box-shadow: 0 18px 55px rgba(48, 54, 42, 0.09);
-  backdrop-filter: blur(10px);
 }
 .invitation-template-xv_gala {
   background: #211b35;
@@ -2773,7 +2760,13 @@
   }
 }
 
-/* Keep scroll position stable while the hero cover finishes loading. */
+/* Keep scroll position and colors stable while the invitation is scrolled. */
 .invitation-public .invitation-hero {
   overflow-anchor: none;
+}
+
+/* Backdrop filters can trigger uneven repainting over layered invitation backgrounds. */
+.invitation-public .invitation-countdown {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }

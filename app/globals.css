@@ -2793,3 +2793,30 @@
     line-height: 1.75 !important;
   }
 }
+
+/* Stabilize public invitations: avoid entrance animations that can look like content flicker while scrolling. */
+.invitation-public .invitation-hero-image,
+.invitation-public .invitation-hero-copy,
+.invitation-public .invitation-reveal,
+.invitation-public .invitation-location-card,
+.invitation-public .invitation-countdown {
+  animation: none !important;
+}
+
+.invitation-public .invitation-hero-image,
+.invitation-public .invitation-hero-copy,
+.invitation-public .invitation-reveal,
+.invitation-public .invitation-location-card {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* The hero has a fixed minimum height, so its cover loading cannot collapse the layout. */
+.invitation-public .invitation-hero {
+  overflow-anchor: none;
+}
+
+/* The countdown updates its own component each second; keep its visual effects static. */
+.invitation-public .invitation-countdown {
+  will-change: auto;
+}

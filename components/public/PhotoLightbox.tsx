@@ -1,7 +1,6 @@
 "use client";
 
 import Lightbox from "yet-another-react-lightbox";
-import Download from "yet-another-react-lightbox/plugins/download";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Counter from "yet-another-react-lightbox/plugins/counter";
 
@@ -28,13 +27,9 @@ export default function PhotoLightbox({
       open={open}
       close={onClose}
       index={index}
-      plugins={[Download, Zoom, Counter]}
+      plugins={[Zoom, Counter]}
       slides={photos.map((photo) => ({
         src: photo.public_url,
-        download: {
-          url: photo.public_url,
-          filename: photo.file_name,
-        },
       }))}
       render={{
         iconZoomIn: () => null,

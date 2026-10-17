@@ -249,22 +249,6 @@ export default function GallerySection({
         sortOrder
       );
 
-      // Pre-carga todas las miniaturas antes de agregarlas al DOM.
-      // Así el navegador no va revelando las fotos en distintos momentos
-      // y la nueva tanda aparece de forma mucho más estable.
-      await Promise.all(
-        result.photos.map(
-          (photo) =>
-            new Promise<void>((resolve) => {
-              const image = new Image();
-
-              image.onload = () => resolve();
-              image.onerror = () => resolve();
-              image.src = photo.thumbnail_url;
-            })
-        )
-      );
-
       setPhotos((current) => [
         ...current,
         ...result.photos,
@@ -980,7 +964,7 @@ useEffect(() => {
           <div className="fixed inset-0 z-[100] flex h-[100dvh] w-full items-center justify-center bg-[#111111]">
             <img
               key={presentationPhotos[presentationIndex].id}
-              src={presentationPhotos[presentationIndex].public_url}
+              src={presentationPhotos[presentationIndex].thumbnail_url}
               alt={presentationPhotos[presentationIndex].file_name}
               className="h-full w-full object-contain animate-[melissarte-fade_700ms_ease-out]"
             />

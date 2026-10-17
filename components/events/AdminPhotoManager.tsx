@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Trash2 } from "lucide-react";
+import { Download, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import {
@@ -23,6 +23,8 @@ export default function AdminPhotoManager({
   const [totalPhotos, setTotalPhotos] = useState(0);
   const [loading, setLoading] = useState(true);
   const [deletingPhotoId, setDeletingPhotoId] =
+    useState<string | null>(null);
+  const [downloadingPhotoId, setDownloadingPhotoId] =
     useState<string | null>(null);
 
   const [page, setPage] = useState(0);
@@ -57,6 +59,29 @@ export default function AdminPhotoManager({
   useEffect(() => {
     loadPhotos();
   }, [eventId, refreshKey]);
+
+  async function handleDownload(photo: Photo) {
+    if (downloadingPhotoId) return;
+    try {
+      setDownloadingPhotoId(photo.id);
+      const response = await fetch(photo.public_url);
+      if (!response.ok) throw new Error("No fue posible descargar la fotografía.");
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = objectUrl;
+      link.download = photo.file_name || `fotografia-${photo.id}`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+    } catch (error) {
+      console.error(error);
+      toast.error("No fue posible descargar la fotografía.");
+    } finally {
+      setDownloadingPhotoId(null);
+    }
+  }
 
   async function handleDelete(photo: Photo) {
     const confirmed = confirm(
@@ -169,6 +194,21 @@ export default function AdminPhotoManager({
                 alt={photo.file_name}
                 className="aspect-square w-full object-cover"
               />
+
+              <button
+                type="button"
+                aria-label="Descargar fotografía"
+                title="Descargar fotografía"
+                onClick={() => handleDownload(photo)}
+                disabled={downloadingPhotoId === photo.id}
+                className="absolute right-12 top-2 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-white shadow-sm transition hover:bg-[#8E6D3D] disabled:cursor-wait disabled:opacity-60 md:opacity-0 md:group-hover:opacity-100"
+              >
+                {downloadingPhotoId === photo.id ? (
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                ) : (
+                  <Download size={16} />
+                )}
+              </button>
 
               <button
                 type="button"

@@ -28,7 +28,15 @@ interface Props {
 
 const isIsoDate = (value?: string) => Boolean(value && /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(value));
 
+function defaultEventLabel(template: TemplateKey): string {
+  if (template === "xv_gala") return "Mis XV";
+  if (template === "baby_soft") return "Mi Baby";
+  if (template === "baptism_light") return "Mi Bautizo";
+  return "Boda";
+}
+
 const emptyContent = (event: Event): InvitationContent => ({
+  event_label: defaultEventLabel(defaultTemplate(event)),
   headline: event.title,
   host_names: "",
   introduction: "Nos encantará compartir este día contigo.",
@@ -103,8 +111,8 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
       setLoadError(false);
       const row = (data?.[0] as InvitationRow | undefined) ?? null;
       if (row) {
-        setContent({ ...emptyContent(event), ...(row.content_config ?? {}) });
         const rowTemplate = (TEMPLATE_OPTIONS.find((option) => option.key === row.template_key)?.key) ?? defaultTemplate(event);
+        setContent({ ...emptyContent(event), ...(row.content_config ?? {}), event_label: row.content_config?.event_label ?? defaultEventLabel(rowTemplate) });
         setDesign({ ...INVITATION_PALETTES[rowTemplate], ...(row.design_config ?? {}) });
         setTemplateKey(rowTemplate);
         setRsvpEnabled(row.rsvp_enabled);
@@ -289,6 +297,12 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                     onClick={() => {
                       if (selected) return;
                       setTemplateKey(option.key);
+                      setContent((current) => ({
+                        ...current,
+                        event_label: !current.event_label || ["Boda", "Mis XV", "Mi Baby", "Mi Bautizo"].includes(current.event_label)
+                          ? defaultEventLabel(option.key)
+                          : current.event_label,
+                      }));
                       setDesign((current) => ({ ...initialDesignForTemplate(option.key), cover_image_url: current.cover_image_url }));
                     }}
                     className={`group relative min-w-0 overflow-hidden rounded-2xl border p-3 text-left transition duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${selected ? "shadow-sm ring-1" : "border-[#E7DCC8] bg-white hover:border-[#C5AD88]"}`}
@@ -328,6 +342,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
           <section id="editor-message" className="scroll-mt-6 border-t border-[#E7DCC8] pt-6">
             <h3 className="mb-4 text-base font-semibold text-[#332B27]">Mensaje de invitación</h3>
             <div className="grid gap-4 sm:grid-cols-2">
+              <Field label="Nombre del evento (etiqueta superior)" value={content.event_label ?? ""} onChange={(v) => updateContent("event_label", v)} placeholder={defaultEventLabel(templateKey)} maxLength={60} />
               <Field label="Título principal" value={content.headline ?? ""} onChange={(v) => updateContent("headline", v)} placeholder={event.title} />
               <Field label="Nombres de quienes invitan" value={content.host_names ?? ""} onChange={(v) => updateContent("host_names", v)} placeholder="Ej. Sofía y Alejandro" />
               <div className="sm:col-span-2">

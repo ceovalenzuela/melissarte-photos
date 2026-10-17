@@ -4,6 +4,7 @@ export type InvitationStatus = "draft" | "published";
 export type RSVPStatus = "attending" | "declined";
 
 export interface InvitationContent {
+  event_label?: string;
   headline?: string;
   subtitle?: string;
   host_names?: string;

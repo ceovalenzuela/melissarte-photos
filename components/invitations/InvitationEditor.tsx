@@ -481,11 +481,11 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
   );
 }
 
-function Field({ label, value, onChange, placeholder, type = "text" }: { label: string; value: string; onChange: (value: string) => void; placeholder?: string; type?: "text" | "time" | "date" }) {
+function Field({ label, value, onChange, placeholder, type = "text", maxLength = 300 }: { label: string; value: string; onChange: (value: string) => void; placeholder?: string; type?: "text" | "time" | "date"; maxLength?: number }) {
   return (
     <label className="block text-sm font-medium text-[#4E463D]">
       {label}
-      <input type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} maxLength={300} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] bg-white px-3.5 py-3 text-sm text-[#332B27] outline-none transition focus:border-[#A88249]" />
+      <input type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} maxLength={maxLength} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] bg-white px-3.5 py-3 text-sm text-[#332B27] outline-none transition focus:border-[#A88249]" />
     </label>
   );
 }

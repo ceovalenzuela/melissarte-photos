@@ -88,7 +88,7 @@ export default function PublicGallery({
                       handleDownload(photo);
                     }}
                     disabled={downloadingPhotoId === photo.id}
-                    className="absolute right-12 top-2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/55 text-white shadow-sm backdrop-blur-sm transition hover:bg-[#8E6D3D] disabled:cursor-wait disabled:opacity-60 md:opacity-0 md:group-hover:opacity-100"
+                    className="absolute right-12 top-2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/55 text-white shadow-sm backdrop-blur-sm transition hover:bg-[#8E6D3D] disabled:cursor-wait disabled:opacity-60"
                   >
                     {downloadingPhotoId === photo.id ? (
                       <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
@@ -106,7 +106,7 @@ export default function PublicGallery({
                         onDeletePhoto(photo);
                       }}
                       disabled={deletingPhotoId === photo.id}
-                      className="absolute right-2 top-2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/55 text-white backdrop-blur-sm transition hover:bg-red-600/90 disabled:cursor-wait disabled:opacity-60 md:opacity-0 md:group-hover:opacity-100"
+                      className="absolute right-2 top-2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/55 text-white backdrop-blur-sm transition hover:bg-red-600/90 disabled:cursor-wait disabled:opacity-60"
                     >
                       {deletingPhotoId === photo.id ? (
                         <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />

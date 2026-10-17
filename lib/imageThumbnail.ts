@@ -1,6 +1,6 @@
 export async function createThumbnail(
   file: File,
-  size = 600
+  size = 900
 ): Promise<File> {
   return new Promise((resolve, reject) => {
     const image = new Image();
@@ -48,7 +48,7 @@ export async function createThumbnail(
           );
         },
         "image/webp",
-        0.8
+        0.85
       );
     };
 

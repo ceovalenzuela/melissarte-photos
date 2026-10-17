@@ -442,9 +442,13 @@ export default function PublicInvitationClient({
           ))}
 
           <footer className="px-6 py-10 text-center sm:py-12">
-            <div className="mx-auto mb-5 h-px w-10" style={{ backgroundColor: `${accent}66` }} />
-            <p className="font-[var(--font-display)] text-2xl italic" style={{ color: accent }}>{content.host_names || "Con cariño"}</p>
-            <p className="mt-3 text-[9px] uppercase tracking-[0.3em] text-neutral-400">Gracias por ser parte de este día</p>
+            {content.host_names?.trim() && (
+              <>
+                <div className="mx-auto mb-5 h-px w-10" style={{ backgroundColor: `${accent}66` }} />
+                <p className="font-[var(--font-display)] text-2xl italic" style={{ color: accent }}>{content.host_names.trim()}</p>
+              </>
+            )}
+            <p className={content.host_names?.trim() ? "mt-3 text-[9px] uppercase tracking-[0.3em] text-neutral-400" : "text-[9px] uppercase tracking-[0.3em] text-neutral-400"}>Gracias por ser parte de este día</p>
             <p className="mt-8 border-t border-black/5 pt-5 text-[10px] font-medium uppercase tracking-[0.28em]" style={{ color: accent }}>Melissarte Invitaciones</p>
           </footer>
         </article>

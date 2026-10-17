@@ -2744,3 +2744,26 @@
     letter-spacing: .12em !important;
   }
 }
+
+
+/* Desktop refinement: give portrait covers more vertical room and anchor hero
+   copy closer to the lower edge, while leaving the already-approved mobile layout intact. */
+@media (min-width: 640px) {
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero,
+  .invitation-public.invitation-template-xv_gala .invitation-hero,
+  .invitation-public.invitation-template-baby_soft .invitation-hero,
+  .invitation-public.invitation-template-baptism_light .invitation-hero {
+    min-height: clamp(44rem, 88svh, 64rem);
+    padding-top: clamp(4rem, 8vh, 6rem);
+    padding-bottom: clamp(2.75rem, 5.5vh, 4.5rem);
+  }
+  .invitation-public .invitation-hero-has-cover .invitation-hero-image {
+    background-position: center 32%;
+  }
+}
+
+/* Keep the countdown introduction centered across all invitation templates. */
+.invitation-public .invitation-countdown > p {
+  width: 100%;
+  text-align: center;
+}

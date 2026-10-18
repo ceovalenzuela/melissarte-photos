@@ -88,9 +88,30 @@ export default function PublicInvitationClient({
   personalizedToken = null,
 }: Props) {
   const router = useRouter();
+  const [coverLoaded, setCoverLoaded] = useState(false);
   const content = invitation.content_config ?? {};
   const design = invitation.design_config ?? {};
   const cover = design.cover_image_url?.startsWith("https://") ? design.cover_image_url : null;
+
+  useEffect(() => {
+    setCoverLoaded(false);
+    if (!cover) return;
+
+    let active = true;
+    const image = new window.Image();
+    image.onload = () => {
+      if (active) setCoverLoaded(true);
+    };
+    image.onerror = () => {
+      if (active) setCoverLoaded(true);
+    };
+    image.src = cover;
+
+    return () => {
+      active = false;
+    };
+  }, [cover]);
+
   const templateKeys: InvitationTemplateKey[] = ["wedding_editorial", "xv_gala", "baby_soft", "baptism_light"];
   const templateKey: InvitationTemplateKey = templateKeys.includes(invitation.template_key as InvitationTemplateKey)
     ? (invitation.template_key as InvitationTemplateKey)
@@ -294,7 +315,7 @@ export default function PublicInvitationClient({
         >
           <header className={`invitation-hero relative isolate flex min-h-[58svh] items-end justify-center overflow-hidden px-6 pb-12 pt-16 text-center sm:min-h-[680px] sm:px-12 sm:pb-16 lg:min-h-[760px] ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>
             {cover ? (
-              <div aria-hidden="true" className="absolute inset-0 -z-20 bg-cover bg-center invitation-hero-image" style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />
+              <div aria-hidden="true" className={`absolute inset-0 -z-20 bg-cover bg-center invitation-hero-image transition-all duration-[1200ms] ease-out motion-reduce:transition-none ${coverLoaded ? "scale-100 opacity-100" : "scale-[1.025] opacity-0"}`} style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />
             ) : (
               <div aria-hidden="true" className="absolute inset-0 -z-20 invitation-hero-placeholder" style={{ background: `radial-gradient(ellipse at 75% 18%, ${accent}55, transparent 38%), linear-gradient(145deg, ${background} 0%, ${accent} 100%)` }} />
             )}

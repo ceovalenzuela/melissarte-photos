@@ -2903,3 +2903,34 @@
     animation:none!important; transition:none!important; transform:none!important;
   }
 }
+
+
+/* Wedding location actions: high-contrast champagne buttons on ink cards.
+   Apply the same treatment to map and calendar links; inline gradient styles
+   above are intentionally overridden for this specific template. */
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card > a.invitation-location-button,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card > a[aria-label^="Agregar"] {
+  background: #D5B77C !important;
+  background-image: none !important;
+  border: 1px solid #D5B77C !important;
+  color: #111B29 !important;
+  text-decoration: none !important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card > a.invitation-location-button > span:first-child,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card > a[aria-label^="Agregar"] > span:first-child {
+  background: #111B29 !important;
+  border-color: #111B29 !important;
+  color: #D5B77C !important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card > a.invitation-location-button > span:last-child,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card > a[aria-label^="Agregar"] > span:last-child,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card > a.invitation-location-button > span:last-child > span,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card > a[aria-label^="Agregar"] > span:last-child > span {
+  color: #111B29 !important;
+  opacity: 1 !important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card > a.invitation-location-button:hover,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card > a[aria-label^="Agregar"]:hover {
+  background: #E4CA91 !important;
+  border-color: #E4CA91 !important;
+}

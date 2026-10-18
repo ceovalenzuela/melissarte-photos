@@ -529,7 +529,7 @@ function LocationCard({ title, time, venue, address, maps, calendarUrl, accent }
             <a
               href={calendarUrl}
               aria-label={`Agregar ${title} al calendario`}
-              className="group inline-flex min-h-[52px] min-w-0 items-center justify-start gap-2 rounded-xl border px-2.5 py-2 text-left transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_5px_14px_rgba(0,0,0,0.055)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:gap-3 sm:rounded-2xl sm:px-3.5"
+              className="invitation-location-button group inline-flex min-h-[52px] min-w-0 items-center justify-start gap-2 rounded-xl border px-2.5 py-2 text-left transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_5px_14px_rgba(0,0,0,0.055)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:gap-3 sm:rounded-2xl sm:px-3.5"
               style={{ borderColor: `${accent}40`, color: accent, background: `linear-gradient(145deg, #FFFFFF, ${accent}08)`, outlineColor: accent }}
             >
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border transition-colors group-hover:bg-white" style={{ backgroundColor: `${accent}0D`, borderColor: `${accent}24` }}>

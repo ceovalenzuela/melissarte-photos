@@ -380,8 +380,6 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
             </div>
           </section>
 
-          </section>
-
           <section id="editor-gifts" className="scroll-mt-6 border-t border-[#E7DCC8] pt-6">
             <h3 className="mb-1 text-base font-semibold text-[#332B27]">Sugerencias de regalo (opcional)</h3>
             <p className="mb-4 text-sm leading-6 text-[#7D7467]">Esta tarjeta aparecerá en la invitación cuando agregues al menos un mensaje, tipo de regalo o enlace a una mesa de regalos.</p>

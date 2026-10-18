@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState, type CSSProperties } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Clock3, MapPin, Shirt, ArrowUpRight, Share2, CalendarPlus, Church, PartyPopper, Sparkles } from "lucide-react";
+import { CheckCircle2, Clock3, MapPin, Shirt, Gift, ArrowUpRight, Share2, CalendarPlus, Church, PartyPopper, Sparkles } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { InvitationTemplateKey, PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
 import { INVITATION_PALETTES } from "@/lib/invitation-palettes";
@@ -77,6 +77,16 @@ function formatTime(value?: string) {
 function mapsUrl(place?: string, address?: string) {
   const query = [place, address].filter((value) => value?.trim()).join(", ");
   return query ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(query)}` : null;
+}
+
+function safeExternalUrl(value?: string) {
+  if (!value?.trim()) return null;
+  try {
+    const url = new URL(value.trim());
+    return url.protocol === "https:" || url.protocol === "http:" ? url.toString() : null;
+  } catch {
+    return null;
+  }
 }
 
 export default function PublicInvitationClient({
@@ -352,17 +362,36 @@ export default function PublicInvitationClient({
               </div>
             )}
 
-            {content.dress_code && !personalizedGuest && !existingRSVP && (
-              <div className="invitation-dress-code-wrap mx-auto mt-6 w-full max-w-5xl">
-                <article className="invitation-dress-code-card flex items-start gap-4 rounded-[1.5rem] border px-5 py-5 text-left shadow-[0_8px_24px_rgba(48,36,27,0.035)] sm:px-7 sm:py-6" style={{ borderColor: "var(--inv-border)", backgroundColor: "var(--inv-card-bg)", color: "var(--inv-card-text)" }}>
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}>
-                    <Shirt size={20} strokeWidth={1.65} />
-                  </span>
-                  <div className="min-w-0 flex-1 pt-0.5">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: accent }}>Código de vestimenta</p>
-                    <p className="mt-2 text-sm leading-6 sm:text-base" style={{ color: "var(--inv-card-text)" }}>{content.dress_code}</p>
-                  </div>
-                </article>
+            {((content.dress_code && !personalizedGuest && !existingRSVP) || ((content.gift_message || content.gift_type || safeExternalUrl(content.gift_registry_url)) && !personalizedGuest && !existingRSVP)) && (
+              <div className={`invitation-dress-code-wrap mx-auto mt-6 grid w-full max-w-5xl gap-4 ${content.dress_code && (content.gift_message || content.gift_type || safeExternalUrl(content.gift_registry_url)) ? "sm:grid-cols-2" : "grid-cols-1"}`}>
+                {content.dress_code && !personalizedGuest && !existingRSVP && (
+                  <article className="invitation-dress-code-card flex h-full items-start gap-4 rounded-[1.5rem] border px-5 py-5 text-left shadow-[0_8px_24px_rgba(48,36,27,0.035)] sm:px-7 sm:py-6" style={{ borderColor: "var(--inv-border)", backgroundColor: "var(--inv-card-bg)", color: "var(--inv-card-text)" }}>
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}>
+                      <Shirt size={20} strokeWidth={1.65} />
+                    </span>
+                    <div className="min-w-0 flex-1 pt-0.5">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: accent }}>Código de vestimenta</p>
+                      <p className="mt-2 text-sm leading-6 sm:text-base" style={{ color: "var(--inv-card-text)" }}>{content.dress_code}</p>
+                    </div>
+                  </article>
+                )}
+                {(content.gift_message || content.gift_type || safeExternalUrl(content.gift_registry_url)) && !personalizedGuest && !existingRSVP && (
+                  <article className="flex h-full items-start gap-4 rounded-[1.5rem] border px-5 py-5 text-left shadow-[0_8px_24px_rgba(48,36,27,0.035)] sm:px-7 sm:py-6" style={{ borderColor: "var(--inv-border)", backgroundColor: "var(--inv-card-bg)", color: "var(--inv-card-text)" }}>
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}>
+                      <Gift size={20} strokeWidth={1.65} />
+                    </span>
+                    <div className="min-w-0 flex-1 pt-0.5">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: accent }}>Sugerencias de regalo</p>
+                      {content.gift_message && <p className="mt-2 text-sm leading-6 sm:text-base" style={{ color: "var(--inv-card-text)" }}>{content.gift_message}</p>}
+                      {content.gift_type && <p className={`${content.gift_message ? "mt-2" : "mt-2"} text-sm font-medium leading-6 sm:text-base`} style={{ color: "var(--inv-card-text)" }}>{content.gift_type}</p>}
+                      {safeExternalUrl(content.gift_registry_url) && (
+                        <a href={safeExternalUrl(content.gift_registry_url)!} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex min-h-10 items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style={{ backgroundColor: buttonColor, color: buttonTextColor, outlineColor: buttonColor }}>
+                          {content.gift_registry_label?.trim() || "Ver mesa de regalos"} <ArrowUpRight size={15} />
+                        </a>
+                      )}
+                    </div>
+                  </article>
+                )}
               </div>
             )}
 

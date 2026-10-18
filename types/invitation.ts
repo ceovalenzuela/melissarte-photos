@@ -20,6 +20,10 @@ export interface InvitationContent {
   reception_venue?: string;
   reception_address?: string;
   dress_code?: string;
+  gift_message?: string;
+  gift_type?: string;
+  gift_registry_url?: string;
+  gift_registry_label?: string;
   rsvp_deadline?: string;
   closing_note?: string;
 }

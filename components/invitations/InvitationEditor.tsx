@@ -236,6 +236,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
               ["editor-design", "Diseño"],
               ["editor-message", "Mensaje"],
               ["editor-event", "Evento"],
+              ["editor-gifts", "Regalos"],
               ["editor-ceremony", "Ceremonia"],
               ["editor-rsvp", "Confirmación"],
               ["editor-colors", "Colores"],
@@ -376,6 +377,31 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                 <span className="mt-1 block text-xs font-normal text-[#8A8074]">Se aceptan confirmaciones hasta el final de ese día, hora de Monterrey.</span>
                 {content.rsvp_deadline && !isIsoDate(content.rsvp_deadline) && <span className="mt-1 block text-xs font-normal text-[#8A8074]">Fecha anterior guardada: {content.rsvp_deadline}. Selecciona una fecha nueva para cambiarla.</span>}
               </label>
+            </div>
+          </section>
+
+          </section>
+
+          <section id="editor-gifts" className="scroll-mt-6 border-t border-[#E7DCC8] pt-6">
+            <h3 className="mb-1 text-base font-semibold text-[#332B27]">Sugerencias de regalo (opcional)</h3>
+            <p className="mb-4 text-sm leading-6 text-[#7D7467]">Esta tarjeta aparecerá en la invitación cuando agregues al menos un mensaje, tipo de regalo o enlace a una mesa de regalos.</p>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="sm:col-span-2">
+                <label className={labelClass}>
+                  Mensaje para los invitados
+                  <textarea rows={3} value={content.gift_message ?? ""} onChange={(e) => updateContent("gift_message", e.target.value)} placeholder="Ej. Su presencia es nuestro mejor regalo, pero si desean tener un detalle con nosotros..." maxLength={300} className={inputClass} />
+                </label>
+                <p className="mt-1 text-right text-xs text-[#8A8074]">{(content.gift_message ?? "").length}/300 caracteres</p>
+              </div>
+              <Field label="Preferencia de regalo (opcional)" value={content.gift_type ?? ""} onChange={(v) => updateContent("gift_type", v)} placeholder="Ej. Sobre, regalo en efectivo o algún detalle" maxLength={120} />
+              <Field label="Texto del botón (opcional)" value={content.gift_registry_label ?? ""} onChange={(v) => updateContent("gift_registry_label", v)} placeholder="Ej. Ver mesa de regalos" maxLength={50} />
+              <div className="sm:col-span-2">
+                <label className={labelClass}>
+                  URL de la mesa de regalos (opcional)
+                  <input type="url" value={content.gift_registry_url ?? ""} onChange={(e) => updateContent("gift_registry_url", e.target.value)} placeholder="https://..." maxLength={1000} className={inputClass} />
+                </label>
+                <p className="mt-1 text-xs leading-5 text-[#8A8074]">Pega el enlace completo de la tienda. El botón solo aparecerá si la URL es válida y usa http o https.</p>
+              </div>
             </div>
           </section>
 

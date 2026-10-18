@@ -305,7 +305,7 @@ export default function PublicInvitationClient({
               <h1 className="invitation-hero-title font-[var(--font-display)] text-4xl leading-tight sm:text-6xl lg:text-7xl">{content.headline || invitation.event_title}</h1>
               {invitation.event_date && <p className="invitation-hero-date mt-5 text-xs font-semibold uppercase tracking-[0.22em] sm:mt-6 sm:text-sm sm:tracking-[0.24em] lg:text-base">{formatDate(invitation.event_date)}</p>}
             </div>
-            <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-white/70 to-transparent opacity-60" />
+
           </header>
           <section id="detalles" className={`invitation-details-section px-5 py-12 sm:px-12 sm:py-16 lg:px-20 ${templateKey === "wedding_editorial" ? "invitation-wedding-details" : ""}`}>
             <div className="invitation-intro-block mx-auto max-w-3xl text-center">

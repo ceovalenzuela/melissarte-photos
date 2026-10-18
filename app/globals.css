@@ -3309,3 +3309,55 @@
   opacity: .85 !important;
   background: linear-gradient(90deg, transparent, var(--inv-accent), var(--inv-border), transparent) !important;
 }
+
+/* Shared visual rhythm across all four invitation templates:
+   one gradient divider after the introduction, no divider between hero and intro,
+   and a consistent, photo-friendly hero height on mobile and desktop. */
+.invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero {
+  min-height: clamp(34rem, 78svh, 44rem) !important;
+  height: auto !important;
+  border-bottom: 0 !important;
+}
+.invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-has-cover {
+  border-bottom: 0 !important;
+}
+.invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) #detalles::before {
+  content: none !important;
+  display: none !important;
+}
+.invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-details-rule {
+  width: clamp(4.25rem, 12vw, 5.5rem) !important;
+  height: 2px !important;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--inv-accent) 28%, transparent) 10%,
+    var(--inv-accent) 38%,
+    var(--inv-border) 50%,
+    var(--inv-accent) 62%,
+    color-mix(in srgb, var(--inv-accent) 28%, transparent) 90%,
+    transparent 100%
+  ) !important;
+}
+.invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) footer > div:first-child {
+  width: clamp(4.25rem, 12vw, 5.5rem) !important;
+  height: 2px !important;
+  opacity: .9 !important;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--inv-accent) 28%, transparent) 10%,
+    var(--inv-accent) 38%,
+    var(--inv-border) 50%,
+    var(--inv-accent) 62%,
+    color-mix(in srgb, var(--inv-accent) 28%, transparent) 90%,
+    transparent 100%
+  ) !important;
+}
+@media (min-width: 640px) {
+  .invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero {
+    min-height: clamp(42rem, 82svh, 52rem) !important;
+    padding-top: clamp(4rem, 8vh, 6rem) !important;
+    padding-bottom: clamp(2.75rem, 5.5vh, 4.5rem) !important;
+  }
+}

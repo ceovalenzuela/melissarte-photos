@@ -2963,3 +2963,333 @@
   .invitation-public.invitation-template-wedding_editorial .invitation-hero-frame { inset: 12px !important; outline-offset: 3px; }
   .invitation-public.invitation-template-wedding_editorial .invitation-hero-title { font-size: clamp(2.35rem, 10vw, 3.5rem) !important; line-height: .98 !important; }
 }
+
+/* MIDNIGHT ROMANCE — canonical wedding styles.
+   Keep this as the final wedding-specific layer so older template rules above
+   cannot override these approved colors, dimensions, or action states. */
+.invitation-public.invitation-template-wedding_editorial {
+  --mr-midnight: #111B29;
+  --mr-ivory: #F5F0E7;
+  --mr-champagne: #D5B77C;
+  --mr-slate: #34465D;
+  --mr-charcoal: #282A2E;
+  --mr-stone: #DCD4C8;
+  background: var(--mr-ivory) !important;
+  color: var(--mr-charcoal);
+}
+
+/* Match the responsive hero proportions used by the XV template.
+   The Midnight Romance frame, overlay and typography remain unchanged. */
+.invitation-public.invitation-template-wedding_editorial .invitation-hero {
+  min-height: clamp(26rem, 68svh, 42rem) !important;
+  padding-block: clamp(3.5rem, 9vw, 7rem);
+  background: var(--mr-midnight) !important;
+  border: 0 !important;
+  border-bottom: 5px solid var(--mr-champagne) !important;
+  box-shadow: none !important;
+}
+@media (min-width: 640px) {
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero {
+    min-height: clamp(44rem, 88svh, 64rem) !important;
+    padding-top: clamp(4rem, 8vh, 6rem);
+    padding-bottom: clamp(2.75rem, 5.5vh, 4.5rem);
+  }
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-image {
+  background-size: cover !important;
+  background-position: center 42% !important;
+  transform: none !important;
+  animation: none !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-overlay {
+  background: linear-gradient(180deg, rgba(10,16,25,.04) 8%, rgba(10,16,25,.14) 38%, rgba(10,16,25,.86) 100%) !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-placeholder {
+  background: radial-gradient(ellipse at 75% 10%, rgba(213,183,124,.28), transparent 35%), linear-gradient(145deg, #34465D, #111B29 70%) !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-frame {
+  inset: 14px !important;
+  border: 1px solid rgba(213,183,124,.68) !important;
+  border-radius: 0 !important;
+  outline: 1px solid rgba(213,183,124,.24);
+  outline-offset: 4px;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-event-label,
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-date {
+  color: var(--mr-ivory) !important;
+  text-shadow: 0 2px 18px rgba(0,0,0,.48) !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-title {
+  max-width: 12ch;
+  margin-inline: auto;
+  color: var(--mr-ivory) !important;
+  font-size: clamp(2.8rem, 9vw, 6.5rem) !important;
+  font-weight: 400 !important;
+  line-height: .94 !important;
+  letter-spacing: -.055em !important;
+  text-wrap: balance;
+  text-shadow: 0 3px 28px rgba(0,0,0,.42) !important;
+}
+@media (min-width: 768px) {
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero-frame { inset: 28px !important; }
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero-title { max-width: 14ch; }
+}
+@media (max-width: 639px) {
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero-frame { inset: 12px !important; outline-offset: 3px; }
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero-title {
+    font-size: clamp(2.35rem, 10vw, 3.5rem) !important;
+    line-height: .98 !important;
+  }
+}
+
+.invitation-public.invitation-template-wedding_editorial #detalles {
+  position: relative;
+  isolation: isolate;
+  background: var(--mr-ivory) !important;
+  color: var(--mr-charcoal) !important;
+  padding-block: clamp(3.5rem, 8vw, 7rem) !important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles::before {
+  content: "";
+  display: block;
+  width: 3.5rem;
+  height: 2px;
+  margin: 0 auto 2rem;
+  background: var(--mr-champagne);
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-introduction,
+.invitation-public.invitation-template-wedding_editorial #detalles > .mx-auto.max-w-3xl > p,
+.invitation-public.invitation-template-wedding_editorial #detalles p,
+.invitation-public.invitation-template-wedding_editorial #detalles h2,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-title {
+  color: var(--mr-charcoal) !important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-title {
+  font-size: clamp(2.4rem, 6vw, 4.5rem) !important;
+  line-height: 1.02 !important;
+  letter-spacing: -.045em !important;
+  text-shadow: none !important;
+}
+
+/* Keep the intentional surface rhythm: ink venue cards, ivory dress-code card,
+   and an ink countdown. Text and controls must remain readable on each surface. */
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-countdown {
+  margin-top: 2.5rem !important;
+  border: 1px solid rgba(213,183,124,.78) !important;
+  border-radius: 1rem !important;
+  background: var(--mr-midnight) !important;
+  color: var(--mr-ivory) !important;
+  box-shadow: 0 20px 50px rgba(17,27,41,.18), inset 0 0 0 4px rgba(213,183,124,.07) !important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-countdown > p,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-countdown > div p {
+  color: var(--mr-ivory) !important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-countdown > p { letter-spacing: .18em; }
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-countdown > div { border-color: rgba(213,183,124,.34) !important; }
+
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card {
+  border: 1px solid rgba(213,183,124,.42) !important;
+  border-radius: 1rem !important;
+  background: linear-gradient(145deg, #34465D, #111B29) !important;
+  color: var(--mr-ivory) !important;
+  box-shadow: 0 18px 42px rgba(17,27,41,.17) !important;
+  transition: box-shadow .22s ease !important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card h3,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card p,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card .invitation-location-venue,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card .invitation-location-address {
+  color: var(--mr-ivory) !important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card > div:first-child > p { color: var(--mr-champagne) !important; }
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card > div:first-child > span {
+  background: rgba(213,183,124,.12) !important;
+  color: var(--mr-champagne) !important;
+  border-color: rgba(213,183,124,.45) !important;
+  box-shadow: none !important;
+}
+
+/* IMPORTANT: links are nested inside the card's action-grid div, not direct
+   children of the card. Descendant selectors fix the previously ineffective
+   override that left the button labels pale against their light backgrounds. */
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card a.invitation-location-button,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card a[aria-label^="Agregar"] {
+  background: var(--mr-champagne) !important;
+  background-image: none !important;
+  border: 1px solid var(--mr-champagne) !important;
+  color: var(--mr-midnight) !important;
+  text-decoration: none !important;
+  opacity: 1 !important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card a.invitation-location-button > span:first-child,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card a[aria-label^="Agregar"] > span:first-child {
+  background: var(--mr-midnight) !important;
+  border-color: var(--mr-midnight) !important;
+  color: var(--mr-champagne) !important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card a.invitation-location-button > span:last-child,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card a[aria-label^="Agregar"] > span:last-child,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card a.invitation-location-button > span:last-child span,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card a[aria-label^="Agregar"] > span:last-child span {
+  color: var(--mr-midnight) !important;
+  opacity: 1 !important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card a.invitation-location-button:hover,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card a[aria-label^="Agregar"]:hover {
+  background: #E4CA91 !important;
+  border-color: #E4CA91 !important;
+}
+
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-dress-code-card {
+  border-color: var(--mr-stone) !important;
+  background: #FFFDF9 !important;
+  color: var(--mr-charcoal) !important;
+  box-shadow: 0 12px 28px rgba(17,27,41,.06) !important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-dress-code-card p { color: var(--mr-charcoal) !important; }
+
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp {
+  background: var(--mr-midnight) !important;
+  color: var(--mr-ivory) !important;
+  border-block: 5px solid var(--mr-champagne);
+}
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp > div > p,
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp h2 { color: var(--mr-ivory) !important; }
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp > div > p:first-child {
+  color: var(--mr-champagne) !important;
+  letter-spacing: .22em;
+}
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp form {
+  border: 1px solid rgba(213,183,124,.62) !important;
+  border-radius: 1rem !important;
+  background: #FFFDF9 !important;
+  color: var(--mr-charcoal) !important;
+  box-shadow: 0 24px 60px rgba(0,0,0,.2) !important;
+}
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp form label,
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp form legend,
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp form p:not([role="alert"]):not([role="status"]) { color: var(--mr-charcoal) !important; }
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp form input,
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp form select,
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp form button[aria-pressed="false"] {
+  background: #FFFDF9 !important;
+  color: var(--mr-charcoal) !important;
+  border-color: var(--mr-stone) !important;
+}
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp form button[aria-pressed="true"] {
+  background: #E9DFCA !important;
+  color: var(--mr-midnight) !important;
+  border-color: var(--mr-champagne) !important;
+}
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp form button[type="submit"] {
+  background: var(--mr-champagne) !important;
+  color: var(--mr-midnight) !important;
+  border: 0 !important;
+  font-weight: 700 !important;
+}
+.invitation-public.invitation-template-wedding_editorial .personal-rsvp-link { border-color: var(--mr-champagne) !important; }
+.invitation-public.invitation-template-wedding_editorial footer {
+  background: var(--mr-ivory) !important;
+  color: var(--mr-charcoal) !important;
+}
+.invitation-public.invitation-template-wedding_editorial footer p { color: var(--mr-charcoal) !important; }
+.invitation-public.invitation-template-wedding_editorial footer p[style*="italic"] { color: var(--mr-slate) !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .invitation-public.invitation-template-wedding_editorial .invitation-location-card,
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero-image {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* Midnight Romance — editorial bridge between the cinematic hero and venue cards.
+   Wedding-only classes keep the other invitation templates unchanged. */
+.invitation-public.invitation-template-wedding_editorial #detalles.invitation-wedding-details {
+  padding-top: clamp(3.25rem, 7vw, 5.5rem) !important;
+  padding-bottom: clamp(2.75rem, 5vw, 4rem) !important;
+  background:
+    linear-gradient(180deg, rgba(213,183,124,.10) 0, rgba(245,240,231,0) 5rem),
+    var(--mr-ivory) !important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles.invitation-wedding-details::before {
+  content: none !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-intro-block {
+  max-width: 46rem;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-introduction {
+  max-width: 39rem !important;
+  margin: 0 auto !important;
+  color: var(--mr-charcoal) !important;
+  font-family: var(--font-display), Georgia, serif !important;
+  font-size: clamp(1.12rem, 2.8vw, 1.55rem) !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  line-height: 1.65 !important;
+  letter-spacing: -.018em !important;
+  text-wrap: pretty;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-details-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .9rem;
+  margin: clamp(2.25rem, 5vw, 3.5rem) auto 0;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-details-rule {
+  display: block;
+  width: 2.75rem;
+  height: 1px;
+  background: var(--mr-champagne);
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-details-title {
+  margin: 0 !important;
+  color: var(--mr-midnight) !important;
+  font-family: var(--font-display), Georgia, serif !important;
+  font-size: clamp(1.65rem, 4.8vw, 2.35rem) !important;
+  font-weight: 400 !important;
+  letter-spacing: -.035em !important;
+  line-height: 1.12 !important;
+  text-transform: none !important;
+  text-shadow: none !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-location-grid {
+  margin-top: clamp(1.75rem, 4vw, 2.5rem) !important;
+}
+@media (max-width: 639px) {
+  .invitation-public.invitation-template-wedding_editorial #detalles.invitation-wedding-details {
+    padding-top: 2.65rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+  .invitation-public.invitation-template-wedding_editorial .invitation-introduction {
+    font-size: 1.08rem !important;
+    line-height: 1.62 !important;
+  }
+  .invitation-public.invitation-template-wedding_editorial .invitation-details-heading {
+    gap: .7rem;
+    margin-top: 2rem;
+  }
+  .invitation-public.invitation-template-wedding_editorial .invitation-details-title {
+    font-size: 1.7rem !important;
+  }
+  .invitation-public.invitation-template-wedding_editorial .invitation-location-grid {
+    margin-top: 1.5rem !important;
+  }
+}
+
+
+/* Approved wedding intro refinement: remove eyebrow and give the introduction
+   a little more presence without changing Midnight Romance art direction. */
+.invitation-public.invitation-template-wedding_editorial .invitation-introduction {
+  font-size: clamp(1.16rem, 2.9vw, 1.3rem) !important;
+  line-height: 1.72 !important;
+}
+@media (max-width: 639px) {
+  .invitation-public.invitation-template-wedding_editorial .invitation-introduction {
+    font-size: 1.16rem !important;
+    line-height: 1.72 !important;
+  }
+}

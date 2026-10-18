@@ -3379,3 +3379,20 @@
   );
   box-shadow: 0 1px 0 color-mix(in srgb, var(--inv-accent) 30%, transparent);
 }
+
+/* Soft translucent fade immediately above the colored bottom strip,
+   recreating the original atmospheric transition from the photo. */
+.invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-bottom-strip::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: clamp(2.25rem, 7vh, 4rem);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, var(--inv-background) 10%, transparent) 38%,
+    color-mix(in srgb, var(--inv-background) 38%, transparent) 100%
+  );
+}

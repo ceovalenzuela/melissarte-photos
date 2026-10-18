@@ -3361,28 +3361,3 @@
     padding-bottom: clamp(2.75rem, 5.5vh, 4.5rem) !important;
   }
 }
-
-
-/* Two-layer transition at the bottom of the hero:
-   a broad translucent fade over the photo, followed by a full-width palette strip. */
-.invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-bottom-strip {
-  z-index: 2;
-  height: 22px;
-  opacity: 1;
-  background: var(--inv-border);
-  box-shadow: none;
-}
-.invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-bottom-strip::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 100%;
-  height: clamp(2.5rem, 7vh, 4rem);
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    color-mix(in srgb, var(--inv-background) 12%, transparent) 35%,
-    color-mix(in srgb, var(--inv-background) 34%, transparent) 100%
-  );
-}

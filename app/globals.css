@@ -2941,6 +2941,11 @@
   .invitation-public.invitation-template-wedding_editorial .invitation-hero-title { max-width: 14ch; }
 }
 @media (min-width: 640px) {
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero {
+    min-height: clamp(44rem, 88svh, 64rem) !important;
+    padding-top: clamp(4rem, 8vh, 6rem);
+    padding-bottom: clamp(2.75rem, 5.5vh, 4.5rem);
+  }
   .invitation-public .invitation-hero {
     min-height: clamp(44rem, 88svh, 64rem);
     padding-top: clamp(4rem, 8vh, 6rem);

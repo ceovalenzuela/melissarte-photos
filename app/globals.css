@@ -3013,3 +3013,92 @@
     transform: none !important;
   }
 }
+
+/* Midnight Romance — editorial bridge between the cinematic hero and venue cards.
+   Wedding-only classes keep the other invitation templates unchanged. */
+.invitation-public.invitation-template-wedding_editorial #detalles.invitation-wedding-details {
+  padding-top: clamp(3.25rem, 7vw, 5.5rem) !important;
+  padding-bottom: clamp(2.75rem, 5vw, 4rem) !important;
+  background:
+    linear-gradient(180deg, rgba(213,183,124,.10) 0, rgba(245,240,231,0) 5rem),
+    var(--mr-ivory) !important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles.invitation-wedding-details::before {
+  content: none !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-intro-block {
+  max-width: 46rem;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-intro-eyebrow {
+  margin: 0 auto 1.1rem !important;
+  color: var(--mr-slate) !important;
+  font-size: .62rem !important;
+  font-weight: 600 !important;
+  letter-spacing: .24em !important;
+  line-height: 1.7 !important;
+  text-transform: uppercase;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-introduction {
+  max-width: 39rem !important;
+  margin: 0 auto !important;
+  color: var(--mr-charcoal) !important;
+  font-family: var(--font-display), Georgia, serif !important;
+  font-size: clamp(1.12rem, 2.8vw, 1.55rem) !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  line-height: 1.65 !important;
+  letter-spacing: -.018em !important;
+  text-wrap: pretty;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-details-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .9rem;
+  margin: clamp(2.25rem, 5vw, 3.5rem) auto 0;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-details-rule {
+  display: block;
+  width: 2.75rem;
+  height: 1px;
+  background: var(--mr-champagne);
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-details-title {
+  margin: 0 !important;
+  color: var(--mr-midnight) !important;
+  font-family: var(--font-display), Georgia, serif !important;
+  font-size: clamp(1.65rem, 4.8vw, 2.35rem) !important;
+  font-weight: 400 !important;
+  letter-spacing: -.035em !important;
+  line-height: 1.12 !important;
+  text-transform: none !important;
+  text-shadow: none !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-location-grid {
+  margin-top: clamp(1.75rem, 4vw, 2.5rem) !important;
+}
+@media (max-width: 639px) {
+  .invitation-public.invitation-template-wedding_editorial #detalles.invitation-wedding-details {
+    padding-top: 2.65rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+  .invitation-public.invitation-template-wedding_editorial .invitation-intro-eyebrow {
+    margin-bottom: .8rem !important;
+    font-size: .56rem !important;
+    letter-spacing: .19em !important;
+  }
+  .invitation-public.invitation-template-wedding_editorial .invitation-introduction {
+    font-size: 1.08rem !important;
+    line-height: 1.62 !important;
+  }
+  .invitation-public.invitation-template-wedding_editorial .invitation-details-heading {
+    gap: .7rem;
+    margin-top: 2rem;
+  }
+  .invitation-public.invitation-template-wedding_editorial .invitation-details-title {
+    font-size: 1.7rem !important;
+  }
+  .invitation-public.invitation-template-wedding_editorial .invitation-location-grid {
+    margin-top: 1.5rem !important;
+  }
+}

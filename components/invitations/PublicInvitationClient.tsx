@@ -307,10 +307,14 @@ export default function PublicInvitationClient({
             </div>
             <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-white/70 to-transparent opacity-60" />
           </header>
-          <section id="detalles" className="px-5 py-12 sm:px-12 sm:py-16 lg:px-20">
-            <div className="mx-auto max-w-3xl text-center">
+          <section id="detalles" className={`invitation-details-section px-5 py-12 sm:px-12 sm:py-16 lg:px-20 ${templateKey === "wedding_editorial" ? "invitation-wedding-details" : ""}`}>
+            <div className="invitation-intro-block mx-auto max-w-3xl text-center">
+              {templateKey === "wedding_editorial" && <p className="invitation-intro-eyebrow">Una historia, un nuevo comienzo</p>}
               {content.introduction && <p className="invitation-introduction mx-auto max-w-xl font-normal text-neutral-700">{content.introduction}</p>}
-              <p className={content.introduction ? "mt-8 text-[10px] font-semibold uppercase tracking-[0.3em]" : "text-[10px] font-semibold uppercase tracking-[0.3em]"} style={{ color: accent }}>Detalles del evento</p>
+              <div className="invitation-details-heading">
+                <span className="invitation-details-rule" aria-hidden="true" />
+                <h2 className="invitation-details-title">Detalles del evento</h2>
+              </div>
             </div>
 
             {(content.ceremony_venue || content.ceremony_time || content.ceremony_address || content.reception_venue || content.reception_time || content.reception_address || (content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address))) && (

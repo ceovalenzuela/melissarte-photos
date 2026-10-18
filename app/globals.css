@@ -3363,18 +3363,18 @@
 }
 
 /* Shared photo treatment for all invitation covers:
-   slightly lift the image while concentrating text contrast in the lower portion. */
+   moderate lift, natural color, and readability focused at the bottom. */
 .invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-has-cover .invitation-hero-image {
-  filter: brightness(1.12) contrast(1.08) saturate(1.06) !important;
+  filter: brightness(1.06) contrast(1.04) saturate(1.03) !important;
 }
 .invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-has-cover .invitation-hero-overlay {
   background: linear-gradient(
     180deg,
     rgba(10, 16, 25, 0) 0%,
-    rgba(10, 16, 25, 0.015) 42%,
-    rgba(10, 16, 25, 0.08) 58%,
-    rgba(10, 16, 25, 0.30) 72%,
-    rgba(10, 16, 25, 0.62) 88%,
-    rgba(10, 16, 25, 0.76) 100%
+    rgba(10, 16, 25, 0.01) 42%,
+    rgba(10, 16, 25, 0.04) 58%,
+    rgba(10, 16, 25, 0.20) 72%,
+    rgba(10, 16, 25, 0.44) 88%,
+    rgba(10, 16, 25, 0.60) 100%
   ) !important;
 }

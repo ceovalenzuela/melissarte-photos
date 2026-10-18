@@ -436,7 +436,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                 </label>
                 <p className="mt-1 text-xs leading-5 text-[#8A8074]">Incluye el código de país (por ejemplo, 52 para México). Al confirmar, WhatsApp abrirá un mensaje listo para enviar; no se guardará en el panel RSVP.</p>
               </div>}
-              {content.confirmation_mode === "rsvp" && <label className="flex flex-wrap items-center gap-3 border-t border-[#F0E9DF] pt-4 text-sm text-[#4E463D]">
+              {(content.confirmation_mode === "rsvp" || content.confirmation_mode === "whatsapp") && <label className="flex flex-wrap items-center gap-3 border-t border-[#F0E9DF] pt-4 text-sm text-[#4E463D]">
                 Máximo de personas por confirmación
                 <select value={maxPartySize} onChange={(e) => setMaxPartySize(Number(e.target.value))} className="rounded-lg border border-[#E7DCC8] bg-white px-3 py-2">
                   {Array.from({ length: 20 }, (_, i) => i + 1).map((n) => <option key={n} value={n}>{n} {n === 1 ? "persona" : "personas"}</option>)}

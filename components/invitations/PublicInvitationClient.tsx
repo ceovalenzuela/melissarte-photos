@@ -99,19 +99,19 @@ export default function PublicInvitationClient({
   const templatePalette = INVITATION_PALETTES[templateKey];
   const weddingColor = (value: string | undefined, fallback: string, oldColors: string[], newColor: string) =>
     resolveDesignColor(value, fallback, templateKey, oldColors, newColor);
-  const background = weddingColor(design.background_color, templatePalette.background_color ?? "#F5F3EE", ["#F4EAD8", "#FFF7F0"], "#F5F3EE");
-  const accent = weddingColor(design.accent_color, templatePalette.accent_color ?? "#344B61", ["#87642F", "#D6A33D"], "#344B61");
-  const textColor = weddingColor(design.text_color, templatePalette.text_color ?? "#4D5357", ["#273747", "#39252B"], "#4D5357");
-  const titleColor = weddingColor(design.title_color, templatePalette.title_color ?? "#20272D", ["#273747", "#702638"], "#20272D");
-  const cardBackgroundColor = weddingColor(design.card_background_color, templatePalette.card_background_color ?? "#FFFFFF", ["#FFFCF6", "#FFF7F0", "#EAE7DF"], "#FFFFFF");
-  const cardTextColor = weddingColor(design.card_text_color, templatePalette.card_text_color ?? "#20272D", ["#302F30", "#39252B"], "#20272D");
-  const borderColor = weddingColor(design.border_color, templatePalette.border_color ?? "#D9D8D1", ["#C9AD6B", "#E5B84F"], "#D9D8D1");
-  const buttonColor = weddingColor(design.button_color, templatePalette.button_color ?? accent, ["#87642F", "#702638"], "#344B61");
-  const buttonTextColor = safeColor(design.button_text_color, templatePalette.button_text_color ?? "#FFFFFF");
-  const rsvpBackgroundColor = weddingColor(design.rsvp_background_color, templatePalette.rsvp_background_color ?? background, ["#273747", "#F0D9D9"], "#EAE7DF");
-  const rsvpTextColor = weddingColor(design.rsvp_text_color, templatePalette.rsvp_text_color ?? "#20272D", ["#FFFAF0", "#39252B"], "#20272D");
-  const formBackgroundColor = weddingColor(design.form_background_color, templatePalette.form_background_color ?? "#FFFFFF", ["#FFFDF8", "#FFF7F0"], "#FFFFFF");
-  const formTextColor = weddingColor(design.form_text_color, templatePalette.form_text_color ?? "#20272D", ["#302F30", "#39252B"], "#20272D");
+  const background = weddingColor(design.background_color, templatePalette.background_color ?? "#F5F0E7", ["#F4EAD8", "#FFF7F0", "#F5F3EE"], "#F5F0E7");
+  const accent = weddingColor(design.accent_color, templatePalette.accent_color ?? "#D5B77C", ["#87642F", "#D6A33D", "#344B61"], "#D5B77C");
+  const textColor = weddingColor(design.text_color, templatePalette.text_color ?? "#282A2E", ["#273747", "#39252B", "#4D5357"], "#282A2E");
+  const titleColor = weddingColor(design.title_color, templatePalette.title_color ?? "#111B29", ["#273747", "#702638", "#20272D"], "#111B29");
+  const cardBackgroundColor = weddingColor(design.card_background_color, templatePalette.card_background_color ?? "#34465D", ["#FFFCF6", "#FFF7F0", "#EAE7DF", "#FFFFFF"], "#34465D");
+  const cardTextColor = weddingColor(design.card_text_color, templatePalette.card_text_color ?? "#F5F0E7", ["#302F30", "#39252B", "#20272D"], "#F5F0E7");
+  const borderColor = weddingColor(design.border_color, templatePalette.border_color ?? "#D5B77C", ["#C9AD6B", "#E5B84F", "#D9D8D1"], "#D5B77C");
+  const buttonColor = weddingColor(design.button_color, templatePalette.button_color ?? "#D5B77C", ["#87642F", "#702638", "#344B61"], "#D5B77C");
+  const buttonTextColor = weddingColor(design.button_text_color, templatePalette.button_text_color ?? "#111B29", ["#FFFFFF"], "#111B29");
+  const rsvpBackgroundColor = weddingColor(design.rsvp_background_color, templatePalette.rsvp_background_color ?? "#111B29", ["#273747", "#F0D9D9", "#EAE7DF"], "#111B29");
+  const rsvpTextColor = weddingColor(design.rsvp_text_color, templatePalette.rsvp_text_color ?? "#F5F0E7", ["#FFFAF0", "#39252B", "#20272D"], "#F5F0E7");
+  const formBackgroundColor = weddingColor(design.form_background_color, templatePalette.form_background_color ?? "#FFFDF9", ["#FFFDF8", "#FFF7F0", "#FFFFFF"], "#FFFDF9");
+  const formTextColor = weddingColor(design.form_text_color, templatePalette.form_text_color ?? "#282A2E", ["#302F30", "#39252B", "#20272D"], "#282A2E");
   const todayInMonterrey = new Intl.DateTimeFormat("en-CA", {
     timeZone: "America/Monterrey",
     year: "numeric",

@@ -2770,3 +2770,136 @@
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
+
+
+/* MIDNIGHT ROMANCE — canonical wedding layer.
+   Scoped to wedding_editorial; supersedes legacy wedding rules above without
+   changing the other templates or their existing customization controls. */
+.invitation-public.invitation-template-wedding_editorial {
+  --mr-midnight:#111B29; --mr-ivory:#F5F0E7; --mr-champagne:#D5B77C;
+  --mr-slate:#34465D; --mr-charcoal:#282A2E; --mr-stone:#DCD4C8;
+  background:var(--mr-ivory)!important; color:var(--mr-charcoal);
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero {
+  min-height:clamp(620px,88svh,920px); background:var(--mr-midnight)!important;
+  border:0!important; border-bottom:5px solid var(--mr-champagne)!important; box-shadow:none!important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-image {
+  background-size:cover!important; background-position:center 42%!important;
+  transform:none!important; animation:none!important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-overlay {
+  background:linear-gradient(180deg,rgba(10,16,25,.04) 8%,rgba(10,16,25,.14) 38%,rgba(10,16,25,.86) 100%)!important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-placeholder {
+  background:radial-gradient(ellipse at 75% 10%,rgba(213,183,124,.28),transparent 35%),linear-gradient(145deg,#34465D,#111B29 70%)!important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-frame {
+  inset:14px!important; border:1px solid rgba(213,183,124,.68)!important; border-radius:0!important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-event-label,
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-date {
+  color:var(--mr-ivory)!important; text-shadow:0 2px 18px rgba(0,0,0,.48)!important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-title {
+  max-width:12ch; margin-inline:auto; color:var(--mr-ivory)!important;
+  font-size:clamp(3.1rem,10vw,7.5rem)!important; font-weight:400!important;
+  line-height:.94!important; letter-spacing:-.055em!important; text-wrap:balance;
+  text-shadow:0 3px 28px rgba(0,0,0,.42)!important;
+}
+@media(min-width:768px) {
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero-frame { inset:28px!important; }
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero-title { max-width:14ch; }
+}
+@media(max-width:420px) {
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero { min-height:76svh; }
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero-frame { inset:10px!important; }
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero-title { font-size:clamp(2.7rem,11vw,4rem)!important; }
+}
+.invitation-public.invitation-template-wedding_editorial #detalles {
+  position:relative; isolation:isolate; background:var(--mr-ivory)!important;
+  color:var(--mr-charcoal)!important; padding-block:clamp(3.5rem,8vw,7rem)!important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles::before {
+  content:""; display:block; width:3.5rem; height:2px; margin:0 auto 2rem; background:var(--mr-champagne);
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-introduction,
+.invitation-public.invitation-template-wedding_editorial #detalles > .mx-auto.max-w-3xl > p,
+.invitation-public.invitation-template-wedding_editorial #detalles p,
+.invitation-public.invitation-template-wedding_editorial #detalles h2,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-title { color:var(--mr-charcoal)!important; }
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-title {
+  font-size:clamp(2.4rem,6vw,4.5rem)!important; line-height:1.02!important;
+  letter-spacing:-.045em!important; text-shadow:none!important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-countdown {
+  margin-top:2.5rem!important; border:1px solid rgba(213,183,124,.78)!important;
+  border-radius:1rem!important; background:var(--mr-midnight)!important; color:var(--mr-ivory)!important;
+  box-shadow:0 20px 50px rgba(17,27,41,.18),inset 0 0 0 4px rgba(213,183,124,.07)!important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-countdown > p,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-countdown > div p { color:var(--mr-ivory)!important; }
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-countdown > p { letter-spacing:.18em; }
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-countdown > div { border-color:rgba(213,183,124,.34)!important; }
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card {
+  border:1px solid rgba(213,183,124,.42)!important; border-radius:1rem!important;
+  background:linear-gradient(145deg,#34465D,#111B29)!important; color:var(--mr-ivory)!important;
+  box-shadow:0 18px 42px rgba(17,27,41,.17)!important; transition:transform .22s ease,box-shadow .22s ease!important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card h3,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card p,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card .invitation-location-venue,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card .invitation-location-address { color:var(--mr-ivory)!important; }
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card > div:first-child > p { color:var(--mr-champagne)!important; }
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card > div:first-child > span {
+  background:rgba(213,183,124,.12)!important; color:var(--mr-champagne)!important;
+  border-color:rgba(213,183,124,.45)!important; box-shadow:none!important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card > a.invitation-location-button {
+  border:1px solid rgba(213,183,124,.68)!important; background:transparent!important; color:var(--mr-ivory)!important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card > a.invitation-location-button > span:first-child {
+  background:rgba(213,183,124,.12)!important; color:var(--mr-champagne)!important; border-color:rgba(213,183,124,.34)!important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-dress-code-card {
+  border-color:var(--mr-stone)!important; background:#fffdf9!important; color:var(--mr-charcoal)!important;
+  box-shadow:0 12px 28px rgba(17,27,41,.06)!important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-dress-code-card p { color:var(--mr-charcoal)!important; }
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp {
+  background:var(--mr-midnight)!important; color:var(--mr-ivory)!important;
+  border-block:5px solid var(--mr-champagne);
+}
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp > div > p,
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp h2 { color:var(--mr-ivory)!important; }
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp > div > p:first-child {
+  color:var(--mr-champagne)!important; letter-spacing:.22em;
+}
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp form {
+  border:1px solid rgba(213,183,124,.62)!important; border-radius:1rem!important;
+  background:#fffdf9!important; color:var(--mr-charcoal)!important; box-shadow:0 24px 60px rgba(0,0,0,.2)!important;
+}
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp form label,
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp form legend,
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp form p:not([role="alert"]):not([role="status"]) { color:var(--mr-charcoal)!important; }
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp form input,
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp form select,
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp form button[aria-pressed="false"] {
+  background:#fffdf9!important; color:var(--mr-charcoal)!important; border-color:var(--mr-stone)!important;
+}
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp form button[aria-pressed="true"] {
+  background:#e9dfca!important; color:var(--mr-midnight)!important; border-color:var(--mr-champagne)!important;
+}
+.invitation-public.invitation-template-wedding_editorial #confirmar.invitation-rsvp form button[type="submit"] {
+  background:var(--mr-champagne)!important; color:var(--mr-midnight)!important; border:0!important; font-weight:700!important;
+}
+.invitation-public.invitation-template-wedding_editorial .personal-rsvp-link { border-color:var(--mr-champagne)!important; }
+.invitation-public.invitation-template-wedding_editorial footer { background:var(--mr-ivory)!important; color:var(--mr-charcoal)!important; }
+.invitation-public.invitation-template-wedding_editorial footer p { color:var(--mr-charcoal)!important; }
+.invitation-public.invitation-template-wedding_editorial footer p[style*="italic"] { color:var(--mr-slate)!important; }
+@media(prefers-reduced-motion:reduce) {
+  .invitation-public.invitation-template-wedding_editorial .invitation-location-card,
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero-image {
+    animation:none!important; transition:none!important; transform:none!important;
+  }
+}

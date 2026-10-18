@@ -355,39 +355,6 @@ export default function PublicInvitationClient({
               </div>
             )}
 
-            {((content.dress_code && !personalizedGuest && !existingRSVP) || ((content.gift_message || content.gift_type || safeExternalUrl(content.gift_registry_url)) && !personalizedGuest && !existingRSVP)) && (
-              <div className={`invitation-dress-code-wrap mx-auto mt-6 grid w-full max-w-5xl gap-4 ${content.dress_code && (content.gift_message || content.gift_type || safeExternalUrl(content.gift_registry_url)) ? "sm:grid-cols-2" : "grid-cols-1"}`}>
-                {content.dress_code && !personalizedGuest && !existingRSVP && (
-                  <article className="invitation-dress-code-card flex h-full items-start gap-4 rounded-[1.5rem] border px-5 py-5 text-left shadow-[0_8px_24px_rgba(48,36,27,0.035)] sm:px-7 sm:py-6" style={{ borderColor: "var(--inv-border)", backgroundColor: "var(--inv-card-bg)", color: "var(--inv-card-text)" }}>
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}>
-                      <Shirt size={20} strokeWidth={1.65} />
-                    </span>
-                    <div className="min-w-0 flex-1 pt-0.5">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: accent }}>Código de vestimenta</p>
-                      <p className="mt-2 text-sm leading-6 sm:text-base" style={{ color: "var(--inv-card-text)" }}>{content.dress_code}</p>
-                    </div>
-                  </article>
-                )}
-                {(content.gift_message || content.gift_type || safeExternalUrl(content.gift_registry_url)) && !personalizedGuest && !existingRSVP && (
-                  <article className="invitation-dress-code-card flex h-full items-start gap-4 rounded-[1.5rem] border px-5 py-5 text-left shadow-[0_8px_24px_rgba(48,36,27,0.035)] sm:px-7 sm:py-6" style={{ borderColor: "var(--inv-border)", backgroundColor: "var(--inv-card-bg)", color: "var(--inv-card-text)" }}>
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}>
-                      <Gift size={20} strokeWidth={1.65} />
-                    </span>
-                    <div className="min-w-0 flex-1 pt-0.5">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: accent }}>Sugerencias de regalo</p>
-                      {content.gift_message && <p className="mt-2 text-sm leading-6 sm:text-base" style={{ color: "var(--inv-card-text)" }}>{content.gift_message}</p>}
-                      {content.gift_type && <p className={`${content.gift_message ? "mt-2" : "mt-2"} text-sm font-medium leading-6 sm:text-base`} style={{ color: "var(--inv-card-text)" }}>{content.gift_type}</p>}
-                      {safeExternalUrl(content.gift_registry_url) && (
-                        <a href={safeExternalUrl(content.gift_registry_url)!} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex min-h-10 items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style={{ backgroundColor: buttonColor, color: buttonTextColor, outlineColor: buttonColor }}>
-                          {content.gift_registry_label?.trim() || "Ver mesa de regalos"} <ArrowUpRight size={15} />
-                        </a>
-                      )}
-                    </div>
-                  </article>
-                )}
-              </div>
-            )}
-
             {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} />}
 
           </section>
@@ -406,8 +373,8 @@ export default function PublicInvitationClient({
                 <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>{existingRSVP || personalizedGuest?.attendance_status ? "Tu respuesta" : "Nos encantará saber de ti"}</p>
                 <h2 className="mt-3 text-center font-[var(--font-display)] text-4xl leading-tight sm:text-5xl">{existingRSVP || personalizedGuest?.attendance_status ? "Tu confirmación" : "¿Nos acompañas?"}</h2>
                 <p className="mt-3 text-center text-sm leading-6 text-neutral-600">{existingRSVP || personalizedGuest?.attendance_status ? "Puedes actualizar tus datos aquí." : personalizedGuest ? `Esta invitación está preparada para ti. Tienes ${personalizedGuest.passes} ${personalizedGuest.passes === 1 ? "pase asignado" : "pases asignados"}.` : "Solo te tomará unos segundos confirmar."}</p>
-                {content.confirmation_mode !== "whatsapp" && (content.dress_code || content.rsvp_deadline) && (
-                  <div className={`mx-auto mt-6 grid w-full gap-3 ${content.dress_code && content.rsvp_deadline ? "sm:grid-cols-2" : "max-w-sm grid-cols-1"}`}>
+                {(content.dress_code || content.gift_message || content.gift_type || safeExternalUrl(content.gift_registry_url) || (content.confirmation_mode !== "whatsapp" && content.rsvp_deadline)) && (
+                  <div className="mx-auto mt-6 grid w-full gap-3 sm:grid-cols-2">
                     {content.dress_code && (
                       <div className="invitation-rsvp-info-card flex items-start gap-3 rounded-2xl border bg-white/90 p-4 text-left shadow-sm" style={{ borderColor: `${accent}30` }}>
                         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: `${accent}12`, color: accent }}><Shirt size={18} strokeWidth={1.7} /></span>
@@ -417,7 +384,18 @@ export default function PublicInvitationClient({
                         </div>
                       </div>
                     )}
-                    {content.rsvp_deadline && (
+                    {(content.gift_message || content.gift_type || safeExternalUrl(content.gift_registry_url)) && (
+                      <div className="invitation-rsvp-info-card flex items-start gap-3 rounded-2xl border bg-white/90 p-4 text-left shadow-sm" style={{ borderColor: `${accent}30` }}>
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: `${accent}12`, color: accent }}><Gift size={18} strokeWidth={1.7} /></span>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Sugerencias de regalo</p>
+                          {content.gift_message && <p className="mt-1.5 text-sm leading-5" style={{ color: "#30283A" }}>{content.gift_message}</p>}
+                          {content.gift_type && <p className="mt-1.5 text-sm font-medium leading-5" style={{ color: "#30283A" }}>{content.gift_type}</p>}
+                          {safeExternalUrl(content.gift_registry_url) && <a href={safeExternalUrl(content.gift_registry_url)!} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex min-h-9 items-center justify-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold transition hover:opacity-90" style={{ backgroundColor: buttonColor, color: buttonTextColor }}>{content.gift_registry_label?.trim() || "Ver mesa de regalos"} <ArrowUpRight size={14} /></a>}
+                        </div>
+                      </div>
+                    )}
+                    {content.confirmation_mode !== "whatsapp" && content.rsvp_deadline && (
                       <div className="invitation-rsvp-info-card flex items-start gap-3 rounded-2xl border bg-white/90 p-4 text-left shadow-sm" style={{ borderColor: `${accent}30` }}>
                         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: `${accent}12`, color: accent }}><Clock3 size={18} strokeWidth={1.7} /></span>
                         <div className="min-w-0">

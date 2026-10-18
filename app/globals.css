@@ -3293,3 +3293,19 @@
     line-height: 1.72 !important;
   }
 }
+
+
+/* Final footer-divider alignment: match the separator used at the start of
+   event details, while retaining each template's own accent palette. */
+.invitation-public.invitation-template-wedding_editorial footer > div:first-child {
+  width: 2.75rem !important;
+  height: 1px !important;
+  opacity: 1 !important;
+  background: var(--mr-champagne, var(--inv-accent, #D5B77C)) !important;
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) footer > div:first-child {
+  width: 5rem !important;
+  height: 2px !important;
+  opacity: .85 !important;
+  background: linear-gradient(90deg, transparent, var(--inv-accent), var(--inv-border), transparent) !important;
+}

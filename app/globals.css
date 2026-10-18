@@ -3361,3 +3361,21 @@
     padding-bottom: clamp(2.75rem, 5.5vh, 4.5rem) !important;
   }
 }
+
+
+/* Full-width strip at the bottom edge of the hero frame.
+   This is the cover-to-introduction transition, not a centered divider. */
+.invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-bottom-strip {
+  z-index: 2;
+  height: 6px;
+  opacity: 1;
+  background: linear-gradient(
+    90deg,
+    var(--inv-accent) 0%,
+    color-mix(in srgb, var(--inv-accent) 45%, var(--inv-border)) 28%,
+    var(--inv-border) 50%,
+    color-mix(in srgb, var(--inv-accent) 45%, var(--inv-border)) 72%,
+    var(--inv-accent) 100%
+  );
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--inv-accent) 30%, transparent);
+}

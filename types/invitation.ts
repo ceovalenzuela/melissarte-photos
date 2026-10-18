@@ -24,8 +24,6 @@ export interface InvitationContent {
   gift_type?: string;
   gift_registry_url?: string;
   gift_registry_label?: string;
-  confirmation_mode?: "rsvp" | "whatsapp" | "none";
-  whatsapp_confirmation_phone?: string;
   rsvp_deadline?: string;
   closing_note?: string;
 }

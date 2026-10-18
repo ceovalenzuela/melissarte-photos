@@ -188,7 +188,7 @@ export default function PublicInvitationClient({
     const end = new Date(start.getTime() + 60 * 60 * 1000);
     const calendarDate = (date: Date) => String(date.getFullYear()) + pad(date.getMonth() + 1) + pad(date.getDate()) + "T" + pad(date.getHours()) + pad(date.getMinutes()) + "00";
     const location = [venue, address].filter(Boolean).join(", ");
-    const details = [content.headline || invitation.event_title || "Evento", title, typeof window !== "undefined" ? window.location.href : ""].filter(Boolean).join("\\n");
+    const details = [content.headline || invitation.event_title || "Evento", title, typeof window !== "undefined" ? window.location.href : ""].filter(Boolean).join("\n");
     const params = new URLSearchParams({ action: "TEMPLATE", text: (content.headline || invitation.event_title || "Evento") + " · " + title, dates: calendarDate(start) + "/" + calendarDate(end), details, ctz: "America/Monterrey" });
     if (location) params.set("location", location);
     return "https://calendar.google.com/calendar/render?" + params.toString();
@@ -212,7 +212,7 @@ export default function PublicInvitationClient({
     event.preventDefault();
     setErrorMessage("");
     if (content.confirmation_mode === "whatsapp") {
-      const destination = (content.whatsapp_confirmation_phone ?? "").replace(/\\D/g, "");
+      const destination = (content.whatsapp_confirmation_phone ?? "").replace(/\D/g, "");
       if (!destination) {
         setErrorMessage("La organización todavía no ha configurado el número de WhatsApp para recibir confirmaciones.");
         return;
@@ -225,7 +225,7 @@ export default function PublicInvitationClient({
       const isAttending = attendance === "attending";
       const guests = isAttending ? partySize : 0;
       const eventName = content.headline || invitation.event_title || "el evento";
-      const message = `Hola, quiero confirmar mi asistencia a ${eventName}.\\nNombre: ${name}.\\nAsistencia: ${isAttending ? "Sí asistiré" : "No podré asistir"}.\\nNúmero de asistentes: ${guests}.`;
+      const message = `Hola, quiero confirmar mi asistencia a ${eventName}.\nNombre: ${name}.\nAsistencia: ${isAttending ? "Sí asistiré" : "No podré asistir"}.\nNúmero de asistentes: ${guests}.`;
       window.open(`https://wa.me/${destination}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
       return;
     }

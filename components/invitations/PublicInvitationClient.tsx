@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState, type CSSProperties } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Clock3, MapPin, Shirt, Gift, ArrowUpRight, Share2, CalendarPlus, Church, PartyPopper, Sparkles } from "lucide-react";
+import { CheckCircle2, Clock3, MapPin, Shirt, Gift, ArrowUpRight, CalendarPlus, Church, PartyPopper, Sparkles } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { InvitationTemplateKey, PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
 import { INVITATION_PALETTES } from "@/lib/invitation-palettes";
@@ -177,7 +177,6 @@ export default function PublicInvitationClient({
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [linkCopied, setLinkCopied] = useState(false);
-  const [publicLinkCopied, setPublicLinkCopied] = useState(false);
 
   function calendarUrl(title: string, time?: string, venue?: string, address?: string) {
     if (!invitation.event_date || !/^\d{4}-\d{2}-\d{2}$/.test(invitation.event_date) || !time) return null;
@@ -194,30 +193,6 @@ export default function PublicInvitationClient({
     if (location) params.set("location", location);
     return "https://calendar.google.com/calendar/render?" + params.toString();
   }
-  async function sharePublicInvitation() {
-    const link = `${window.location.origin}${window.location.pathname}`;
-    const title = content.headline || invitation.event_title || "Nuestra invitación";
-    const shareData = { title, text: "Te compartimos la invitación y los detalles del evento:", url: link };
-    try {
-      if (typeof navigator.share === "function") {
-        await navigator.share(shareData);
-      } else {
-        await navigator.clipboard.writeText(link);
-        setPublicLinkCopied(true);
-        window.setTimeout(() => setPublicLinkCopied(false), 2500);
-      }
-    } catch (error) {
-      if (error instanceof Error && error.name === "AbortError") return;
-      try {
-        await navigator.clipboard.writeText(link);
-        setPublicLinkCopied(true);
-        window.setTimeout(() => setPublicLinkCopied(false), 2500);
-      } catch {
-        window.prompt("Copia el enlace de la invitación:", link);
-      }
-    }
-  }
-
   async function copyPersonalLink() {
     try {
       await navigator.clipboard.writeText(window.location.href);
@@ -236,6 +211,24 @@ export default function PublicInvitationClient({
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setErrorMessage("");
+    if (content.confirmation_mode === "whatsapp") {
+      const destination = (content.whatsapp_confirmation_phone ?? "").replace(/\\D/g, "");
+      if (!destination) {
+        setErrorMessage("La organización todavía no ha configurado el número de WhatsApp para recibir confirmaciones.");
+        return;
+      }
+      const name = guestName.trim();
+      if (!name) {
+        setErrorMessage("Escribe tu nombre para continuar.");
+        return;
+      }
+      const isAttending = attendance === "attending";
+      const guests = isAttending ? partySize : 0;
+      const eventName = content.headline || invitation.event_title || "el evento";
+      const message = `Hola, quiero confirmar mi asistencia a ${eventName}.\\nNombre: ${name}.\\nAsistencia: ${isAttending ? "Sí asistiré" : "No podré asistir"}.\\nNúmero de asistentes: ${guests}.`;
+      window.open(`https://wa.me/${destination}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+      return;
+    }
     setSuccessMessage("");
     setSubmitting(true);
     try {
@@ -397,18 +390,9 @@ export default function PublicInvitationClient({
 
             {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} />}
 
-            {!personalizedGuest && !existingRSVP && (
-              <div className="mx-auto mt-8 flex max-w-3xl justify-center">
-                <button type="button" aria-live="polite" onClick={() => void sharePublicInvitation()} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold shadow-sm transition hover:-translate-y-0.5 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style={{ backgroundColor: buttonColor, color: buttonTextColor, outlineColor: buttonColor }}>
-                  <Share2 size={17} strokeWidth={1.8} />
-                  {publicLinkCopied ? "Enlace copiado" : "Compartir invitación"}
-                </button>
-              </div>
-            )}
-
           </section>
 
-          {invitation.rsvp_enabled && Boolean((personalizedGuest && personalizedToken) || (existingRSVP && editToken)) && (rsvpDeadlinePassed ? (
+          {((invitation.rsvp_enabled && Boolean((personalizedGuest && personalizedToken) || (existingRSVP && editToken))) || content.confirmation_mode === "whatsapp") && (content.confirmation_mode !== "whatsapp" && rsvpDeadlinePassed ? (
             <section id="confirmar" className="invitation-rsvp scroll-mt-6 px-5 py-12 sm:px-12 sm:py-16 lg:px-20" style={{ background: `linear-gradient(135deg, ${accent}12, ${background})` }}>
               <div className="invitation-rsvp-closed mx-auto max-w-xl rounded-[1.5rem] border border-black/5 bg-white p-6 text-center shadow-[0_16px_50px_rgba(48,36,27,0.06)] sm:p-8" style={{ backgroundColor: "#FFFDFA", color: "#30283A" }}>
                 <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: "#805773" }}>Confirmaciones cerradas</p>
@@ -422,7 +406,7 @@ export default function PublicInvitationClient({
                 <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>{existingRSVP || personalizedGuest?.attendance_status ? "Tu respuesta" : "Nos encantará saber de ti"}</p>
                 <h2 className="mt-3 text-center font-[var(--font-display)] text-4xl leading-tight sm:text-5xl">{existingRSVP || personalizedGuest?.attendance_status ? "Tu confirmación" : "¿Nos acompañas?"}</h2>
                 <p className="mt-3 text-center text-sm leading-6 text-neutral-600">{existingRSVP || personalizedGuest?.attendance_status ? "Puedes actualizar tus datos aquí." : personalizedGuest ? `Esta invitación está preparada para ti. Tienes ${personalizedGuest.passes} ${personalizedGuest.passes === 1 ? "pase asignado" : "pases asignados"}.` : "Solo te tomará unos segundos confirmar."}</p>
-                {(content.dress_code || content.rsvp_deadline) && (
+                {content.confirmation_mode !== "whatsapp" && (content.dress_code || content.rsvp_deadline) && (
                   <div className={`mx-auto mt-6 grid w-full gap-3 ${content.dress_code && content.rsvp_deadline ? "sm:grid-cols-2" : "max-w-sm grid-cols-1"}`}>
                     {content.dress_code && (
                       <div className="invitation-rsvp-info-card flex items-start gap-3 rounded-2xl border bg-white/90 p-4 text-left shadow-sm" style={{ borderColor: `${accent}30` }}>
@@ -444,7 +428,7 @@ export default function PublicInvitationClient({
                     )}
                   </div>
                 )}
-                {((existingRSVP && editToken) || (personalizedGuest && personalizedToken && (personalizedGuest.attendance_status || successMessage))) && (
+                {content.confirmation_mode !== "whatsapp" && (((existingRSVP && editToken) || (personalizedGuest && personalizedToken && (personalizedGuest.attendance_status || successMessage)))) && (
                   <div className="personal-rsvp-link mt-7 overflow-hidden rounded-[1.5rem] border bg-white shadow-[0_12px_36px_rgba(48,36,27,0.07)]" style={{ borderColor: `${accent}44` }}>
                     <div className="h-1" style={{ background: `linear-gradient(90deg, ${accent}55, ${accent}, ${accent}55)` }} />
                     <div className="p-5 sm:p-6" style={{ background: `linear-gradient(145deg, ${accent}0A, #FFFFFF 68%)` }}>
@@ -488,8 +472,8 @@ export default function PublicInvitationClient({
                   </div>}
                   {errorMessage && <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{errorMessage}</p>}
                   {successMessage && <p role="status" className="flex items-center gap-2 rounded-xl bg-green-50 px-4 py-3 text-sm text-green-800"><CheckCircle2 size={18} />{successMessage}</p>}
-                  <button type="submit" disabled={submitting} className="w-full rounded-full px-5 py-4 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60" style={{ backgroundColor: buttonColor, color: buttonTextColor }}>{submitting ? "Guardando..." : existingRSVP || personalizedGuest?.attendance_status ? "Guardar cambios" : "Confirmar"}</button>
-                  {!existingRSVP && <p className="text-center text-xs leading-5 text-neutral-400">Tu respuesta solo será visible para quienes organizan el evento.</p>}
+                  <button type="submit" disabled={submitting} className="w-full rounded-full px-5 py-4 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60" style={{ backgroundColor: buttonColor, color: buttonTextColor }}>{content.confirmation_mode === "whatsapp" ? "Confirmar por WhatsApp" : submitting ? "Guardando..." : existingRSVP || personalizedGuest?.attendance_status ? "Guardar cambios" : "Confirmar"}</button>
+                  {content.confirmation_mode === "whatsapp" ? <p className="text-center text-xs leading-5 text-neutral-400">Se abrirá WhatsApp con tus datos para que envíes la confirmación.</p> : !existingRSVP && <p className="text-center text-xs leading-5 text-neutral-400">Tu respuesta solo será visible para quienes organizan el evento.</p>}
                 </form>
               </div>
             </section>

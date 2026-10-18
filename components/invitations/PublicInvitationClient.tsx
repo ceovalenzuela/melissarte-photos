@@ -309,7 +309,6 @@ export default function PublicInvitationClient({
           </header>
           <section id="detalles" className={`invitation-details-section px-5 py-12 sm:px-12 sm:py-16 lg:px-20 ${templateKey === "wedding_editorial" ? "invitation-wedding-details" : ""}`}>
             <div className="invitation-intro-block mx-auto max-w-3xl text-center">
-              {templateKey === "wedding_editorial" && <p className="invitation-intro-eyebrow">Una historia, un nuevo comienzo</p>}
               {content.introduction && <p className="invitation-introduction mx-auto max-w-xl font-normal text-neutral-700">{content.introduction}</p>}
               <div className="invitation-details-heading">
                 <span className="invitation-details-rule" aria-hidden="true" />

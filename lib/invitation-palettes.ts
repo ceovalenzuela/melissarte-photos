@@ -8,8 +8,8 @@ export const INVITATION_PALETTES: Record<InvitationTemplateKey, InvitationDesign
 };
 
 export const INVITATION_TEMPLATE_OPTIONS: { key: InvitationTemplateKey; label: string; description: string }[] = [
-  { key: "wedding_editorial", label: "Boda · Editorial", description: "Azul tinta, marfil editorial, carbón y piedra" },
-  { key: "xv_gala", label: "XV años · Gala", description: "Ciruela profunda, malva y oro" },
-  { key: "baby_soft", label: "Baby shower · Suave", description: "Durazno, salvia, amarillo mantequilla y celeste" },
-  { key: "baptism_light", label: "Bautizo · Luz", description: "Marfil, azul cielo y dorado" },
+  { key: "wedding_editorial", label: "Boda · Editorial", description: "Azul noche, marfil, champagne y carbón" },
+  { key: "xv_gala", label: "XV años · Gala", description: "Ciruela profunda, malva y oro suave" },
+  { key: "baby_soft", label: "Baby shower · Suave", description: "Durazno, terracota y celeste suave" },
+  { key: "baptism_light", label: "Bautizo · Luz", description: "Marfil, azul grisáceo y celeste" },
 ];

@@ -91,7 +91,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
   const [maxPartySize, setMaxPartySize] = useState(2);
   const [status, setStatus] = useState<InvitationStatus>("draft");
   const [copiedOrganizerLink, setCopiedOrganizerLink] = useState(false);
-  const [contrastView, setContrastView] = useState<"general" | "cards">("general");
+  const [contrastView, setContrastView] = useState<"general" | "cards" | "buttons" | "confirmation">("general");
 
   useEffect(() => {
     let active = true;
@@ -308,13 +308,20 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                     className={`group relative min-w-0 overflow-hidden rounded-2xl border p-3 text-left transition duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${selected ? "shadow-sm ring-1" : "border-[#E7DCC8] bg-white hover:border-[#C5AD88]"}`}
                     style={{ outlineColor: palette.accent_color, borderColor: selected ? palette.border_color : undefined, backgroundColor: selected ? "#FFFFFF" : undefined }}
                   >
-                    <div className="mb-3 flex h-20 items-end gap-1.5 overflow-hidden rounded-xl border p-2.5" style={{ background: palette.background_color, borderColor: palette.border_color }}>
-                      <span className="h-11 w-[34%] rounded-t-lg border" style={{ background: palette.card_background_color, borderColor: palette.border_color }} />
-                      <span className="h-14 flex-1 rounded-t-lg border p-1.5" style={{ background: palette.card_background_color, borderColor: palette.border_color }}>
-                        <span className="block mt-1 h-1 w-3/4 rounded-full" style={{ backgroundColor: palette.title_color }} />
-                        <span className="mt-1.5 block h-1 w-1/2 rounded-full" style={{ backgroundColor: palette.text_color, opacity: 0.65 }} />
-                        <span className="mt-2 block h-2 w-2/3 rounded-full" style={{ backgroundColor: palette.button_color }} />
-                      </span>
+                    <div className="mb-3 overflow-hidden rounded-xl border shadow-sm" style={{ backgroundColor: palette.background_color, borderColor: palette.border_color }}>
+                      <div className="relative flex h-12 items-end overflow-hidden px-3 pb-2" style={{ background: `linear-gradient(135deg, ${palette.title_color} 0%, ${palette.card_background_color} 100%)` }}>
+                        <span className="absolute inset-1.5 border opacity-50" style={{ borderColor: palette.border_color }} />
+                        <span className="relative block h-1.5 w-2/3 rounded-full" style={{ backgroundColor: palette.card_text_color }} />
+                      </div>
+                      <div className="space-y-2 px-3 py-2.5">
+                        <span className="mx-auto block h-1 w-6 rounded-full" style={{ backgroundColor: palette.accent_color }} />
+                        <span className="mx-auto block h-1.5 w-3/4 rounded-full" style={{ backgroundColor: palette.title_color }} />
+                        <div className="grid grid-cols-2 gap-1.5 pt-0.5">
+                          <span className="h-5 rounded-md border" style={{ backgroundColor: palette.card_background_color, borderColor: palette.border_color }} />
+                          <span className="h-5 rounded-md border" style={{ backgroundColor: palette.card_background_color, borderColor: palette.border_color }} />
+                        </div>
+                        <span className="mx-auto block h-2 w-1/2 rounded-full" style={{ backgroundColor: palette.button_color }} />
+                      </div>
                     </div>
                     <span className="flex items-start justify-between gap-2">
                       <span className="min-w-0">
@@ -419,18 +426,40 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
               <div className="mb-5 grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
                 <div className="min-w-0 rounded-xl border border-[#D9C7AA] bg-[#FBF7F0] p-3 sm:p-4">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#62594F]">Vista de contraste</p>
-                  <div className="mt-3 flex gap-2" role="group" aria-label="Seleccionar vista de contraste">
-                    <button type="button" aria-pressed={contrastView === "general"} onClick={() => setContrastView("general")} className={contrastView === "general" ? "rounded-full px-3 py-2 text-xs font-semibold text-white" : "rounded-full border bg-white px-3 py-2 text-xs font-semibold text-[#51483E]"} style={contrastView === "general" ? { backgroundColor: design.button_color ?? INVITATION_PALETTES[templateKey].button_color ?? "#20272D" } : { borderColor: design.border_color ?? INVITATION_PALETTES[templateKey].border_color ?? "#D9D8D1" }}>Texto general</button>
-                    <button type="button" aria-pressed={contrastView === "cards"} onClick={() => setContrastView("cards")} className={contrastView === "cards" ? "rounded-full px-3 py-2 text-xs font-semibold text-white" : "rounded-full border bg-white px-3 py-2 text-xs font-semibold text-[#51483E]"} style={contrastView === "cards" ? { backgroundColor: design.button_color ?? INVITATION_PALETTES[templateKey].button_color ?? "#20272D" } : { borderColor: design.border_color ?? INVITATION_PALETTES[templateKey].border_color ?? "#D9D8D1" }}>Tarjetas</button>
+                  <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label="Seleccionar vista de contraste">
+                    {([
+                      ["general", "General"],
+                      ["cards", "Tarjetas"],
+                      ["buttons", "Botones"],
+                      ["confirmation", "Confirmación"],
+                    ] as const).map(([key, label]) => (
+                      <button key={key} type="button" aria-pressed={contrastView === key} onClick={() => setContrastView(key)} className={contrastView === key ? "rounded-full px-3 py-2 text-xs font-semibold text-white" : "rounded-full border bg-white px-3 py-2 text-xs font-semibold text-[#51483E]"} style={contrastView === key ? { backgroundColor: design.button_color ?? INVITATION_PALETTES[templateKey].button_color ?? "#20272D" } : { borderColor: design.border_color ?? INVITATION_PALETTES[templateKey].border_color ?? "#D9D8D1" }}>{label}</button>
+                    ))}
                   </div>
-                  <div className="mt-3 overflow-hidden rounded-xl border" style={{ backgroundColor: contrastView === "general" ? design.background_color ?? INVITATION_PALETTES[templateKey].background_color ?? "#F5F3EE" : design.card_background_color ?? INVITATION_PALETTES[templateKey].card_background_color ?? "#F5F3EE", color: contrastView === "general" ? design.text_color ?? INVITATION_PALETTES[templateKey].text_color ?? "#20272D" : design.card_text_color ?? INVITATION_PALETTES[templateKey].card_text_color, borderColor: design.border_color ?? INVITATION_PALETTES[templateKey].border_color ?? "#D9D8D1" }}>
-                    <div className="p-4">
-                      <p className="text-base font-semibold" style={{ color: contrastView === "general" ? design.title_color ?? design.text_color ?? INVITATION_PALETTES[templateKey].title_color ?? "#20272D" : design.card_text_color ?? design.text_color ?? INVITATION_PALETTES[templateKey].card_text_color ?? "#20272D" }}>{contrastView === "general" ? "Una invitación especial" : "Detalles del evento"}</p>
-                      <p className="mt-2 text-sm leading-6">{contrastView === "general" ? "Nos encantará compartir este día contigo." : "Sábado · 6:00 p. m. · Salón de eventos"}</p>
-                      <span className="mt-3 inline-flex min-h-9 items-center rounded-full px-4 text-xs font-semibold" style={{ backgroundColor: design.button_color ?? INVITATION_PALETTES[templateKey].button_color ?? "#20272D", color: design.button_text_color ?? INVITATION_PALETTES[templateKey].button_text_color ?? "#FFFFFF" }}>Confirmar asistencia</span>
-                    </div>
-                  </div>
-                  <p className="mt-2 text-xs text-[#62594F]">La muestra usa los colores actuales de la categoría seleccionada.</p>
+                  {(() => {
+                    const palette = INVITATION_PALETTES[templateKey];
+                    const background = contrastView === "general" ? design.background_color ?? palette.background_color ?? "#F5F3EE"
+                      : contrastView === "cards" ? design.card_background_color ?? palette.card_background_color ?? "#FFFFFF"
+                      : contrastView === "buttons" ? design.button_color ?? palette.button_color ?? "#20272D"
+                      : design.rsvp_background_color ?? palette.rsvp_background_color ?? "#EAE7DF";
+                    const foreground = contrastView === "general" ? design.text_color ?? palette.text_color ?? "#20272D"
+                      : contrastView === "cards" ? design.card_text_color ?? palette.card_text_color ?? "#20272D"
+                      : contrastView === "buttons" ? design.button_text_color ?? palette.button_text_color ?? "#FFFFFF"
+                      : design.rsvp_text_color ?? palette.rsvp_text_color ?? "#20272D";
+                    const heading = contrastView === "general" ? design.title_color ?? palette.title_color ?? foreground : foreground;
+                    const border = design.border_color ?? palette.border_color ?? "#D9D8D1";
+                    return (
+                      <div className="mt-3 overflow-hidden rounded-xl border" style={{ backgroundColor: background, color: foreground, borderColor: border }}>
+                        <div className="p-4">
+                          <p className="text-base font-semibold" style={{ color: heading }}>{contrastView === "general" ? "Una invitación especial" : contrastView === "cards" ? "Detalles del evento" : contrastView === "buttons" ? "Acción principal" : "¿Nos acompañas?"}</p>
+                          <p className="mt-2 text-sm leading-6">{contrastView === "general" ? "Nos encantará compartir este día contigo." : contrastView === "cards" ? "Sábado · 6:00 p. m. · Salón de eventos" : contrastView === "buttons" ? "Así se verá el texto en tus botones." : "La confirmación y su formulario conservan su identidad."}</p>
+                          <span className="mt-3 inline-flex min-h-9 items-center rounded-full px-4 text-xs font-semibold" style={{ backgroundColor: contrastView === "buttons" ? background : design.button_color ?? palette.button_color ?? "#20272D", color: contrastView === "buttons" ? foreground : design.button_text_color ?? palette.button_text_color ?? "#FFFFFF" }}>{contrastView === "buttons" ? "Texto del botón" : "Confirmar asistencia"}</span>
+                          {contrastView === "confirmation" && <div className="mt-3 rounded-lg border p-3 text-sm" style={{ backgroundColor: design.form_background_color ?? palette.form_background_color ?? "#FFFFFF", color: design.form_text_color ?? palette.form_text_color ?? "#20272D", borderColor: border }}>Ejemplo de formulario de confirmación</div>}
+                        </div>
+                      </div>
+                    );
+                  })()}
+                  <p className="mt-2 text-xs text-[#62594F]">La muestra usa los colores actuales de «{TEMPLATE_OPTIONS.find((option) => option.key === templateKey)?.label}» y se actualiza al cambiar cada valor.</p>
                 </div>
                 <div className="rounded-xl border border-[#D9C7AA] bg-white p-3 sm:p-4">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#62594F]">Consejo de legibilidad</p>

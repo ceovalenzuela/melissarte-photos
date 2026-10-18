@@ -369,7 +369,7 @@ export default function PublicInvitationClient({
                   </article>
                 )}
                 {(content.gift_message || content.gift_type || safeExternalUrl(content.gift_registry_url)) && !personalizedGuest && !existingRSVP && (
-                  <article className="flex h-full items-start gap-4 rounded-[1.5rem] border px-5 py-5 text-left shadow-[0_8px_24px_rgba(48,36,27,0.035)] sm:px-7 sm:py-6" style={{ borderColor: "var(--inv-border)", backgroundColor: "var(--inv-card-bg)", color: "var(--inv-card-text)" }}>
+                  <article className="invitation-dress-code-card flex h-full items-start gap-4 rounded-[1.5rem] border px-5 py-5 text-left shadow-[0_8px_24px_rgba(48,36,27,0.035)] sm:px-7 sm:py-6" style={{ borderColor: "var(--inv-border)", backgroundColor: "var(--inv-card-bg)", color: "var(--inv-card-text)" }}>
                     <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}>
                       <Gift size={20} strokeWidth={1.65} />
                     </span>

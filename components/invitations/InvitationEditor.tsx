@@ -112,7 +112,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
       const row = (data?.[0] as InvitationRow | undefined) ?? null;
       if (row) {
         const rowTemplate = (TEMPLATE_OPTIONS.find((option) => option.key === row.template_key)?.key) ?? defaultTemplate(event);
-        setContent({ ...emptyContent(event), ...(row.content_config ?? {}), event_label: row.content_config?.event_label ?? defaultEventLabel(rowTemplate) });
+        setContent({ ...emptyContent(event), ...(row.content_config ?? {}), confirmation_mode: row.content_config?.confirmation_mode ?? (row.rsvp_enabled ? "rsvp" : "none"), event_label: row.content_config?.event_label ?? defaultEventLabel(rowTemplate) });
         setDesign({ ...INVITATION_PALETTES[rowTemplate], ...(row.design_config ?? {}) });
         setTemplateKey(rowTemplate);
         setRsvpEnabled(row.rsvp_enabled);
@@ -169,7 +169,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
         p_template_key: templateKey,
         p_design_config: design,
         p_content_config: content,
-        p_rsvp_enabled: rsvpEnabled,
+        p_rsvp_enabled: (content.confirmation_mode ?? (rsvpEnabled ? "rsvp" : "none")) === "rsvp",
         p_max_party_size: maxPartySize,
         p_status: nextStatus,
       });
@@ -421,14 +421,22 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
           <section id="editor-rsvp" className="scroll-mt-6 border-t border-[#E7DCC8] pt-6">
             <h3 className="mb-4 text-base font-semibold text-[#332B27]">Confirmación de asistencia</h3>
             <div className="space-y-4 rounded-2xl bg-white p-4 sm:p-5">
-              <label className="flex items-center justify-between gap-4">
-                <span>
-                  <span className="block text-sm font-medium text-[#4E463D]">Permitir confirmar asistencia</span>
-                  <span className="mt-1 block text-xs text-[#8A8074]">Los invitados podrán responder desde la invitación.</span>
-                </span>
-                <input type="checkbox" checked={rsvpEnabled} onChange={(e) => setRsvpEnabled(e.target.checked)} className="h-5 w-5 accent-[#A88249]" />
+              <label className={labelClass}>
+                Tipo de confirmación
+                <select value={content.confirmation_mode ?? (rsvpEnabled ? "rsvp" : "none")} onChange={(e) => { const mode = e.target.value as "rsvp" | "whatsapp" | "none"; updateContent("confirmation_mode", mode); setRsvpEnabled(mode === "rsvp"); }} className={inputClass}>
+                  <option value="rsvp">RSVP con registro y panel de respuestas</option>
+                  <option value="whatsapp">Formulario con confirmación por WhatsApp (básica)</option>
+                  <option value="none">Sin confirmación de asistencia</option>
+                </select>
               </label>
-              {rsvpEnabled && <label className="flex flex-wrap items-center gap-3 border-t border-[#F0E9DF] pt-4 text-sm text-[#4E463D]">
+              {content.confirmation_mode === "whatsapp" && <div>
+                <label className={labelClass}>
+                  Número de WhatsApp que recibirá las confirmaciones
+                  <input type="tel" inputMode="tel" autoComplete="tel" value={content.whatsapp_confirmation_phone ?? ""} onChange={(e) => updateContent("whatsapp_confirmation_phone", e.target.value)} placeholder="Ej. 528112345678" maxLength={20} className={inputClass} />
+                </label>
+                <p className="mt-1 text-xs leading-5 text-[#8A8074]">Incluye el código de país (por ejemplo, 52 para México). Al confirmar, WhatsApp abrirá un mensaje listo para enviar; no se guardará en el panel RSVP.</p>
+              </div>}
+              {content.confirmation_mode === "rsvp" && <label className="flex flex-wrap items-center gap-3 border-t border-[#F0E9DF] pt-4 text-sm text-[#4E463D]">
                 Máximo de personas por confirmación
                 <select value={maxPartySize} onChange={(e) => setMaxPartySize(Number(e.target.value))} className="rounded-lg border border-[#E7DCC8] bg-white px-3 py-2">
                   {Array.from({ length: 20 }, (_, i) => i + 1).map((n) => <option key={n} value={n}>{n} {n === 1 ? "persona" : "personas"}</option>)}

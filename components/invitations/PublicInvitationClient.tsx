@@ -323,7 +323,7 @@ export default function PublicInvitationClient({
             "--inv-form-text": formTextColor,
           } as CSSProperties}
         >
-          <header className={`invitation-hero relative isolate flex min-h-[48svh] items-end justify-center overflow-hidden px-6 pb-8 pt-12 text-center sm:min-h-[620px] sm:px-12 sm:pb-14 sm:pt-16 lg:min-h-[720px] ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>
+          <header className={`invitation-hero relative isolate flex min-h-[42svh] items-end justify-center overflow-hidden px-6 pb-7 pt-10 text-center sm:min-h-[540px] sm:px-12 sm:pb-12 sm:pt-14 lg:min-h-[640px] ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>
             {cover ? (
               <div aria-hidden="true" className={`absolute inset-0 -z-20 bg-cover bg-center invitation-hero-image transition-all duration-[1200ms] ease-out motion-reduce:transition-none ${coverLoaded ? "scale-100 opacity-100" : "scale-[1.025] opacity-0"}`} style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />
             ) : (
@@ -335,7 +335,7 @@ export default function PublicInvitationClient({
             <div className="invitation-hero-content invitation-hero-copy relative z-10 mx-auto max-w-4xl">
               {(content.event_label ?? defaultEventLabel(templateKey)).trim() && <p className="invitation-hero-event-label mb-1.5 text-[10px] font-semibold uppercase tracking-[0.24em] sm:mb-2.5 sm:text-xs sm:tracking-[0.28em]" style={{ color: cover ? "#FFFAF2" : accent, textShadow: cover ? "0 1px 12px rgba(0,0,0,0.35)" : undefined }}>{(content.event_label ?? defaultEventLabel(templateKey)).trim()}</p>}
               <h1 className="invitation-hero-title font-[var(--font-display)] text-4xl leading-tight sm:text-6xl lg:text-7xl">{content.headline || invitation.event_title}</h1>
-              {invitation.event_date && <p className="invitation-hero-date mt-5 text-base font-semibold uppercase tracking-[0.16em] sm:mt-6 sm:text-lg sm:tracking-[0.2em] lg:text-xl">{formatDate(invitation.event_date)}</p>}
+              {invitation.event_date && <p className="invitation-hero-date mt-5 text-[1.1rem] font-semibold uppercase tracking-[0.16em] sm:mt-6 sm:text-xl sm:tracking-[0.2em] lg:text-[1.4rem]">{formatDate(invitation.event_date)}</p>}
             </div>
 
           </header>

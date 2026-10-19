@@ -339,13 +339,9 @@ export default function PublicInvitationClient({
             </div>
 
           </header>
-          <section id="detalles" className={`invitation-details-section px-5 py-12 sm:px-12 sm:py-16 lg:px-20 ${templateKey === "wedding_editorial" ? "invitation-wedding-details" : ""}`}>
+          <section id="detalles" className={`invitation-details-section px-5 pt-7 pb-12 sm:px-12 sm:pt-10 sm:pb-16 lg:px-20 ${templateKey === "wedding_editorial" ? "invitation-wedding-details" : ""}`}>
             <div className="invitation-intro-block mx-auto max-w-3xl text-center">
-              <div className="mx-auto mb-5 flex items-center justify-center gap-3 sm:mb-6" aria-hidden="true">
-                <span className="h-px w-8 sm:w-12" style={{ backgroundColor: accent, opacity: 0.65 }} />
-                <Sparkles className="h-4 w-4" style={{ color: accent }} strokeWidth={1.4} />
-                <span className="h-px w-8 sm:w-12" style={{ backgroundColor: accent, opacity: 0.65 }} />
-              </div>
+              <span className="invitation-details-rule mb-5 sm:mb-6" aria-hidden="true" />
               <h2 className="mx-auto mb-3 max-w-2xl font-[var(--font-display)] text-3xl leading-tight sm:mb-4 sm:text-4xl lg:text-5xl" style={{ color: titleColor }}>
                 {content.intro_headline?.trim() || defaultIntroHeadline(templateKey)}
               </h2>

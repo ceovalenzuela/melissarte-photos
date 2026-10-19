@@ -3423,3 +3423,28 @@
     margin-top: 1.25rem !important;
   }
 }
+
+/* Apply the approved wedding layout rhythm to XV, baby, and baptism templates.
+   Keep each template's own typography, decoration, background, and palette. */
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero {
+  min-height: clamp(34rem, 78svh, 44rem) !important;
+  height: auto !important;
+  border-bottom: 0 !important;
+}
+@media (min-width: 640px) {
+  .invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero {
+    min-height: clamp(42rem, 82svh, 52rem) !important;
+    padding-top: clamp(4rem, 8vh, 6rem) !important;
+    padding-bottom: clamp(2.75rem, 5.5vh, 4.5rem) !important;
+  }
+}
+.invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) #detalles.invitation-details-section {
+  padding-top: clamp(3.25rem, 7vw, 5.5rem) !important;
+  padding-bottom: clamp(2.75rem, 5vw, 4rem) !important;
+}
+@media (max-width: 639px) {
+  .invitation-public:is(.invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) #detalles.invitation-details-section {
+    padding-top: 2.65rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+}

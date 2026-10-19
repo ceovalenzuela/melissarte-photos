@@ -316,7 +316,7 @@ export default function PublicInvitationClient({
             "--inv-form-text": formTextColor,
           } as CSSProperties}
         >
-          <header className={`invitation-hero relative isolate flex min-h-[58svh] items-end justify-center overflow-hidden px-6 pb-12 pt-16 text-center sm:min-h-[680px] sm:px-12 sm:pb-16 lg:min-h-[760px] ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>
+          <header className={`invitation-hero relative isolate flex min-h-[48svh] items-end justify-center overflow-hidden px-6 pb-8 pt-12 text-center sm:min-h-[620px] sm:px-12 sm:pb-14 sm:pt-16 lg:min-h-[720px] ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>
             {cover ? (
               <div aria-hidden="true" className={`absolute inset-0 -z-20 bg-cover bg-center invitation-hero-image transition-all duration-[1200ms] ease-out motion-reduce:transition-none ${coverLoaded ? "scale-100 opacity-100" : "scale-[1.025] opacity-0"}`} style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />
             ) : (

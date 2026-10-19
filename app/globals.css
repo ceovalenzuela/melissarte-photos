@@ -3384,34 +3384,3 @@
     rgba(10, 16, 25, 0.62) 100%
   ) !important;
 }
-
-
-/* Cover typography refinement: give every line in the hero more presence,
-   while keeping the four invitation templates visually consistent. */
-.invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-event-label {
-  font-size: clamp(.8rem, 1.5vw, 1rem) !important;
-}
-.invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-title {
-  font-size: clamp(2.65rem, 6.5vw, 5.5rem) !important;
-  line-height: 1.08 !important;
-}
-.invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-date {
-  font-size: clamp(1.25rem, 2.5vw, 1.65rem) !important;
-}
-.invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-details-heading {
-  margin-top: clamp(2.75rem, 6vw, 4rem) !important;
-}
-@media (max-width: 639px) {
-  .invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-event-label {
-    font-size: .78rem !important;
-  }
-  .invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-title {
-    font-size: clamp(2.35rem, 10vw, 3.25rem) !important;
-  }
-  .invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-date {
-    font-size: 1.2rem !important;
-  }
-  .invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-details-heading {
-    margin-top: 2.5rem !important;
-  }
-}

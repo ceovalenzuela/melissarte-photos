@@ -2906,6 +2906,12 @@
   border-radius: 0 !important; outline: 1px solid color-mix(in srgb, var(--inv-border, #D5B77C) 24%, transparent);
   outline-offset: 4px;
 }
+.invitation-public .invitation-hero-date::before,
+.invitation-public .invitation-hero-date::after {
+  content: none !important;
+  display: none !important;
+}
+
 .invitation-public.invitation-template-wedding_editorial .invitation-hero-event-label,
 .invitation-public.invitation-template-wedding_editorial .invitation-hero-date {
   color: #F5F0E7 !important; text-shadow: 0 2px 18px rgba(0,0,0,.48) !important;

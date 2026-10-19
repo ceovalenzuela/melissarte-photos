@@ -335,13 +335,13 @@ export default function PublicInvitationClient({
             <div className="invitation-hero-content invitation-hero-copy relative z-10 mx-auto max-w-4xl">
               {(content.event_label ?? defaultEventLabel(templateKey)).trim() && <p className="invitation-hero-event-label mb-1.5 text-[10px] font-semibold uppercase tracking-[0.24em] sm:mb-2.5 sm:text-xs sm:tracking-[0.28em]" style={{ color: cover ? "#FFFAF2" : accent, textShadow: cover ? "0 1px 12px rgba(0,0,0,0.35)" : undefined }}>{(content.event_label ?? defaultEventLabel(templateKey)).trim()}</p>}
               <h1 className="invitation-hero-title font-[var(--font-display)] text-4xl leading-tight sm:text-6xl lg:text-7xl">{content.headline || invitation.event_title}</h1>
-              {invitation.event_date && <p className="invitation-hero-date mt-5 text-xs font-semibold uppercase tracking-[0.22em] sm:mt-6 sm:text-sm sm:tracking-[0.24em] lg:text-base">{formatDate(invitation.event_date)}</p>}
+              {invitation.event_date && <p className="invitation-hero-date mt-5 text-base font-semibold uppercase tracking-[0.16em] sm:mt-6 sm:text-lg sm:tracking-[0.2em] lg:text-xl">{formatDate(invitation.event_date)}</p>}
             </div>
 
           </header>
           <section id="detalles" className={`invitation-details-section px-5 pt-7 pb-12 sm:px-12 sm:pt-10 sm:pb-16 lg:px-20 ${templateKey === "wedding_editorial" ? "invitation-wedding-details" : ""}`}>
             <div className="invitation-intro-block mx-auto max-w-3xl text-center">
-              <span className="invitation-details-rule mb-5 sm:mb-6" aria-hidden="true" />
+              <span className="invitation-details-rule mx-auto mb-5 sm:mb-6" aria-hidden="true" />
               <h2 className="mx-auto mb-3 max-w-2xl font-[var(--font-display)] text-3xl leading-tight sm:mb-4 sm:text-4xl lg:text-5xl" style={{ color: titleColor }}>
                 {content.intro_headline?.trim() || defaultIntroHeadline(templateKey)}
               </h2>

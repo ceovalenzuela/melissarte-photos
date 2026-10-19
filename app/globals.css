@@ -2789,7 +2789,7 @@
   text-transform: none !important; text-wrap: pretty;
 }
 .invitation-public .invitation-details-heading {
-  display: flex; flex-direction: column; align-items: center; gap: 1.05rem;
+  display: flex; flex-direction: column; align-items: center; gap: 1.25rem;
   margin: clamp(2rem, 4.5vw, 3rem) auto 0;
 }
 .invitation-public .invitation-details-rule {
@@ -3242,7 +3242,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.1rem;
+  gap: 1.3rem;
   margin: clamp(2.25rem, 5vw, 3.5rem) auto 0;
 }
 .invitation-public.invitation-template-wedding_editorial .invitation-details-rule {

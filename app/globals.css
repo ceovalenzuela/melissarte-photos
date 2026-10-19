@@ -3417,4 +3417,9 @@
     margin-top: 1.25rem !important;
     gap: .95rem !important;
   }
+  /* The lower divider follows the full intro copy; add breathing room here
+     without moving the title or changing the upper divider spacing. */
+  .invitation-public .invitation-intro-block .invitation-details-heading > .invitation-details-rule {
+    margin-top: 1.25rem !important;
+  }
 }

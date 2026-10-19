@@ -3401,10 +3401,10 @@
 /* Final spacing override: keep the details divider close to the introduction
    across every public invitation template, overriding earlier template rules. */
 .invitation-public .invitation-intro-block .invitation-details-heading {
-  margin-top: 1.35rem !important;
+  margin-top: .5rem !important;
 }
 @media (max-width: 639px) {
   .invitation-public .invitation-intro-block .invitation-details-heading {
-    margin-top: 1rem !important;
+    margin-top: .5rem !important;
   }
 }

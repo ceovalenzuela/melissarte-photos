@@ -3398,15 +3398,15 @@
 }
 
 
-/* Final spacing override: keep the details divider close to the introduction
-   across every public invitation template, overriding earlier template rules. */
+/* Balance the spacing around the introduction: match the lower divider's
+   distance from the text to the upper divider's margin below it. */
 .invitation-public .invitation-intro-block .invitation-details-heading {
-  margin-top: .5rem !important;
+  margin-top: 1.5rem !important;
   gap: 1.2rem !important;
 }
 @media (max-width: 639px) {
   .invitation-public .invitation-intro-block .invitation-details-heading {
-    margin-top: .5rem !important;
+    margin-top: 1.25rem !important;
     gap: .95rem !important;
   }
 }

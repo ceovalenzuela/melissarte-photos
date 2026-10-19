@@ -3398,13 +3398,21 @@
 }
 
 
-/* Balance the spacing around the introduction: match the lower divider's
-   distance from the text to the upper divider's margin below it. */
+/* Explicitly balance both sides of the introduction paragraph.
+   Set the upper divider's bottom margin and lower divider's top margin together,
+   overriding utility classes and earlier template-specific rules. */
+.invitation-public .invitation-intro-block > .invitation-details-rule {
+  display: block !important;
+  margin-bottom: 1.5rem !important;
+}
 .invitation-public .invitation-intro-block .invitation-details-heading {
   margin-top: 1.5rem !important;
   gap: 1.2rem !important;
 }
 @media (max-width: 639px) {
+  .invitation-public .invitation-intro-block > .invitation-details-rule {
+    margin-bottom: 1.25rem !important;
+  }
   .invitation-public .invitation-intro-block .invitation-details-heading {
     margin-top: 1.25rem !important;
     gap: .95rem !important;

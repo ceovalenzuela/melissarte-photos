@@ -9,6 +9,7 @@ export interface InvitationContent {
   subtitle?: string;
   host_names?: string;
   introduction?: string;
+  intro_headline?: string;
   ceremony_time?: string;
   ceremony_venue?: string;
   ceremony_address?: string;

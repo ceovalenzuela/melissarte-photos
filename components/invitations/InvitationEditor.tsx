@@ -40,6 +40,7 @@ const emptyContent = (event: Event): InvitationContent => ({
   headline: event.title,
   host_names: "",
   introduction: "Nos encantará compartir este día contigo.",
+  intro_headline: "",
   ceremony_time: "",
   ceremony_venue: "",
   ceremony_address: "",
@@ -353,6 +354,11 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
               <Field label="Nombre del evento (etiqueta superior)" value={content.event_label ?? ""} onChange={(v) => updateContent("event_label", v)} placeholder={defaultEventLabel(templateKey)} maxLength={60} />
               <Field label="Título principal" value={content.headline ?? ""} onChange={(v) => updateContent("headline", v)} placeholder={event.title} />
               <Field label="Nombres de quienes invitan" value={content.host_names ?? ""} onChange={(v) => updateContent("host_names", v)} placeholder="Ej. Sofía y Alejandro" />
+              <div className="sm:col-span-2">
+                <label className={labelClass}>Título de introducción</label>
+                <input type="text" value={content.intro_headline ?? ""} onChange={(e) => updateContent("intro_headline", e.target.value)} placeholder="Ej. Un día para recordar" maxLength={80} className={inputClass} />
+                <p className="mt-1 text-right text-xs text-[#8A8074]">{(content.intro_headline ?? "").length}/80 caracteres</p>
+              </div>
               <div className="sm:col-span-2">
                 <label className={labelClass}>Mensaje breve</label>
                 <textarea rows={3} value={content.introduction ?? ""} onChange={(e) => updateContent("introduction", e.target.value)} placeholder="Nos encantará compartir este día contigo." maxLength={240} className={inputClass} />

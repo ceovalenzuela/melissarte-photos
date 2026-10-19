@@ -32,6 +32,13 @@ function defaultEventLabel(template: InvitationTemplateKey): string {
   return "Boda";
 }
 
+function defaultIntroHeadline(template: InvitationTemplateKey): string {
+  if (template === "xv_gala") return "Una noche para recordar";
+  if (template === "baby_soft") return "Una nueva historia comienza";
+  if (template === "baptism_light") return "Un día lleno de bendiciones";
+  return "Un día para recordar";
+}
+
 function safeColor(value: string | undefined, fallback: string) {
   return value && /^#[0-9a-fA-F]{6}$/.test(value) ? value : fallback;
 }
@@ -334,7 +341,15 @@ export default function PublicInvitationClient({
           </header>
           <section id="detalles" className={`invitation-details-section px-5 py-12 sm:px-12 sm:py-16 lg:px-20 ${templateKey === "wedding_editorial" ? "invitation-wedding-details" : ""}`}>
             <div className="invitation-intro-block mx-auto max-w-3xl text-center">
-              {content.introduction && <p className="invitation-introduction mx-auto max-w-xl font-normal text-neutral-700">{content.introduction}</p>}
+              <div className="mx-auto mb-5 flex items-center justify-center gap-3 sm:mb-6" aria-hidden="true">
+                <span className="h-px w-8 sm:w-12" style={{ backgroundColor: accent, opacity: 0.65 }} />
+                <Sparkles className="h-4 w-4" style={{ color: accent }} strokeWidth={1.4} />
+                <span className="h-px w-8 sm:w-12" style={{ backgroundColor: accent, opacity: 0.65 }} />
+              </div>
+              <h2 className="mx-auto mb-3 max-w-2xl font-[var(--font-display)] text-3xl leading-tight sm:mb-4 sm:text-4xl lg:text-5xl" style={{ color: titleColor }}>
+                {content.intro_headline?.trim() || defaultIntroHeadline(templateKey)}
+              </h2>
+              {content.introduction && <p className="invitation-introduction mx-auto max-w-xl font-normal text-neutral-700" style={{ color: textColor }}>{content.introduction}</p>}
               <div className="invitation-details-heading">
                 <span className="invitation-details-rule" aria-hidden="true" />
                 <h2 className="invitation-details-title">Detalles del evento</h2>

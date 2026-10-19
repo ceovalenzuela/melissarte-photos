@@ -3402,9 +3402,11 @@
    across every public invitation template, overriding earlier template rules. */
 .invitation-public .invitation-intro-block .invitation-details-heading {
   margin-top: .5rem !important;
+  gap: 1.2rem !important;
 }
 @media (max-width: 639px) {
   .invitation-public .invitation-intro-block .invitation-details-heading {
     margin-top: .5rem !important;
+    gap: .95rem !important;
   }
 }

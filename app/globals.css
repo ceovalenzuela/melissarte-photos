@@ -3386,15 +3386,14 @@
 }
 
 
-/* Tighten the actual space after the intro paragraph.
-   The separator lives inside .invitation-details-heading, so margin-top—not gap—
-   controls its distance from the introductory message. */
+/* Explicit override for the intro-to-details separator spacing.
+   Keep the heading close to the intro paragraph across every public template. */
 .invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) #detalles .invitation-details-heading {
-  margin-top: clamp(1.35rem, 3vw, 2rem) !important;
+  margin-top: .5rem !important;
 }
 @media (max-width: 639px) {
   .invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) #detalles .invitation-details-heading {
-    margin-top: 1.25rem !important;
+    margin-top: .5rem !important;
   }
 }
 

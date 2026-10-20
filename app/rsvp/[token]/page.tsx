@@ -48,9 +48,11 @@ export default async function OrganizerConfirmationsPage({ params }: Props) {
     "--organizer-accent": palette.accent_color,
     "--organizer-bg": palette.background_color,
     "--organizer-text": palette.text_color,
-    "--organizer-card": palette.card_background_color,
-    "--organizer-card-text": palette.card_text_color,
-    "--organizer-border": `color-mix(in srgb, ${palette.border_color} 34%, ${palette.card_background_color})`,
+    // Keep management surfaces light and readable across every template.
+    // The selected palette remains on the hero, page background, and accents.
+    "--organizer-card": "#FFFDFA",
+    "--organizer-card-text": "#302B27",
+    "--organizer-border": "#E7E1D8",
     "--organizer-button": palette.button_color,
     "--organizer-button-text": palette.button_text_color,
     "--organizer-banner-start": organizerAccent.bannerStart,
@@ -58,7 +60,7 @@ export default async function OrganizerConfirmationsPage({ params }: Props) {
     "--organizer-banner-text": organizerAccent.bannerText,
     "--organizer-banner-accent": organizerAccent.bannerAccent,
     "--organizer-muted": organizerAccent.muted,
-    "--organizer-soft": organizerAccent.soft,
+    "--organizer-soft": "#F5F1EB",
   } as CSSProperties;
 
   return (

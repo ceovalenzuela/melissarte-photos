@@ -3602,16 +3602,16 @@
 }
 
 
-/* Wedding invitation wax seal: replace the intro divider without changing other templates. */
+/* Wedding invitation wax seal: prominent but balanced, without changing other templates. */
 .invitation-public.invitation-template-wedding_editorial .invitation-wax-seal {
   display: block;
-  width: 4.375rem;
-  height: 4.375rem;
+  width: 5.5rem;
+  height: 5.5rem;
   object-fit: contain;
 }
 @media (min-width: 640px) {
   .invitation-public.invitation-template-wedding_editorial .invitation-wax-seal {
-    width: 5rem;
-    height: 5rem;
+    width: 6.25rem;
+    height: 6.25rem;
   }
 }

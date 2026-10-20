@@ -59,7 +59,7 @@ export default async function OrganizerConfirmationsPage({ params }: Props) {
     "--organizer-banner-end": organizerAccent.bannerEnd,
     "--organizer-banner-text": organizerAccent.bannerText,
     "--organizer-banner-accent": organizerAccent.bannerAccent,
-    "--organizer-muted": organizerAccent.muted,
+    "--organizer-muted": "#62574C",
     "--organizer-soft": "#F5F1EB",
   } as CSSProperties;
 

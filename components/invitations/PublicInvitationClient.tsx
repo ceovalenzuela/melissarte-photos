@@ -345,7 +345,16 @@ export default function PublicInvitationClient({
           </header>
           <section id="detalles" className={`invitation-details-section px-5 pt-7 pb-12 sm:px-12 sm:pt-10 sm:pb-16 lg:px-20 ${templateKey === "wedding_editorial" ? "invitation-wedding-details" : ""}`}>
             <div className="invitation-intro-block mx-auto max-w-3xl text-center">
-              <span className="invitation-details-rule mx-auto mb-5 sm:mb-6" aria-hidden="true" />
+              {templateKey === "wedding_editorial" && design.wax_seal_image_url?.startsWith("https://") ? (
+                <img
+                  src={design.wax_seal_image_url}
+                  alt=""
+                  aria-hidden="true"
+                  className="invitation-wax-seal mx-auto mb-5 sm:mb-6"
+                />
+              ) : (
+                <span className="invitation-details-rule mx-auto mb-5 sm:mb-6" aria-hidden="true" />
+              )}
               <h2 className="mx-auto mb-3 max-w-2xl font-[var(--font-display)] text-3xl leading-tight sm:mb-4 sm:text-4xl lg:text-5xl" style={{ color: titleColor }}>
                 {content.intro_headline?.trim() || defaultIntroHeadline(templateKey)}
               </h2>

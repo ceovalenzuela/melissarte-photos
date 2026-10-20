@@ -46,6 +46,7 @@ export interface InvitationDesign {
   form_background_color?: string;
   form_text_color?: string;
   cover_image_url?: string;
+  wax_seal_image_url?: string;
 }
 
 export interface PublicInvitation {

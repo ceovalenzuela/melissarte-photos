@@ -308,11 +308,11 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                 <p className="mt-3 text-xs leading-5 text-[#8A8074]">JPG, PNG o WebP · máximo 10 MB. Recuerda guardar los cambios después de subirla.</p>
               </div>
             </div>
-            {templateKey === "wedding_editorial" && (
+            {(["wedding_editorial", "xv_gala", "baby_soft", "baptism_light"] as TemplateKey[]).includes(templateKey) && (
               <div className="mt-6 rounded-2xl border border-[#E7DCC8] bg-white p-5 sm:p-6">
                 <div className="mb-4">
-                  <h4 className="text-sm font-semibold text-[#332B27]">Sello de cera de los novios</h4>
-                  <p className="mt-1 text-sm leading-5 text-[#7D7467]">Opcional. Sube una imagen con las iniciales de la pareja para reemplazar la línea decorativa debajo de la portada.</p>
+                  <h4 className="text-sm font-semibold text-[#332B27]">{templateKey === "wedding_editorial" ? "Sello de cera de los novios" : templateKey === "xv_gala" ? "Distintivo de XV años" : templateKey === "baby_soft" ? "Distintivo de baby shower" : "Distintivo de bautizo"}</h4>
+                  <p className="mt-1 text-sm leading-5 text-[#7D7467]">Opcional. Sube una imagen decorativa para reemplazar la línea debajo de la portada. Si no hay imagen, se conserva la línea original.</p>
                 </div>
                 <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
                   {design.wax_seal_image_url?.startsWith("https://") ? (

@@ -3658,3 +3658,32 @@
     padding-bottom: clamp(2.25rem, 4.5vh, 3.25rem) !important;
   }
 }
+
+
+/* Authoritative cover sizing: use one identical box model and height for every
+   photo hero. This deliberately overrides the older shared and per-template
+   height/min-height/padding rules above; no-cover heroes remain unaffected. */
+.invitation-public.invitation-template-wedding_editorial .invitation-hero.invitation-hero-has-cover,
+.invitation-public.invitation-template-xv_gala .invitation-hero.invitation-hero-has-cover,
+.invitation-public.invitation-template-baby_soft .invitation-hero.invitation-hero-has-cover,
+.invitation-public.invitation-template-baptism_light .invitation-hero.invitation-hero-has-cover {
+  box-sizing: border-box !important;
+  flex: 0 0 auto !important;
+  height: clamp(28rem, 68svh, 36rem) !important;
+  min-height: clamp(28rem, 68svh, 36rem) !important;
+  max-height: clamp(28rem, 68svh, 36rem) !important;
+  padding-top: clamp(2rem, 5vh, 3rem) !important;
+  padding-bottom: clamp(1.75rem, 4vh, 2.75rem) !important;
+}
+@media (min-width: 640px) {
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero.invitation-hero-has-cover,
+  .invitation-public.invitation-template-xv_gala .invitation-hero.invitation-hero-has-cover,
+  .invitation-public.invitation-template-baby_soft .invitation-hero.invitation-hero-has-cover,
+  .invitation-public.invitation-template-baptism_light .invitation-hero.invitation-hero-has-cover {
+    height: clamp(34rem, 70svh, 42rem) !important;
+    min-height: clamp(34rem, 70svh, 42rem) !important;
+    max-height: clamp(34rem, 70svh, 42rem) !important;
+    padding-top: clamp(3rem, 6vh, 4rem) !important;
+    padding-bottom: clamp(2.25rem, 4.5vh, 3.25rem) !important;
+  }
+}

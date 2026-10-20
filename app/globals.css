@@ -3476,3 +3476,55 @@
   color: rgba(245,240,231,.78) !important;
   -webkit-text-fill-color: rgba(245,240,231,.78);
 }
+
+
+/* Baby Soft polish: centered no-cover hero, readable action buttons, and
+   a single clean divider treatment. Keep the template's existing palette. */
+.invitation-public.invitation-template-baby_soft .invitation-hero-no-cover {
+  min-height: clamp(25rem, 58svh, 34rem) !important;
+  padding: 4rem 1.25rem 3.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+.invitation-public.invitation-template-baby_soft .invitation-hero-no-cover .invitation-hero-content {
+  width: 100% !important;
+  max-width: 42rem !important;
+  margin-inline: auto !important;
+  text-align: center !important;
+}
+.invitation-public.invitation-template-baby_soft .invitation-hero-no-cover .invitation-hero-title,
+.invitation-public.invitation-template-baby_soft .invitation-hero-no-cover .invitation-hero-event-label,
+.invitation-public.invitation-template-baby_soft .invitation-hero-no-cover .invitation-hero-date {
+  width: 100%;
+  text-align: center !important;
+}
+@media (min-width: 640px) {
+  .invitation-public.invitation-template-baby_soft .invitation-hero-no-cover {
+    min-height: clamp(30rem, 62svh, 40rem) !important;
+    padding: 4.5rem 2.5rem !important;
+  }
+}
+.invitation-public.invitation-template-baby_soft .invitation-location-card a.invitation-location-button {
+  color: #6F4437 !important;
+  -webkit-text-fill-color: #6F4437 !important;
+  background: #FFF7F0 !important;
+  border-color: #B9DCE7 !important;
+}
+.invitation-public.invitation-template-baby_soft .invitation-location-card a.invitation-location-button > span:last-child,
+.invitation-public.invitation-template-baby_soft .invitation-location-card a.invitation-location-button > span:last-child span {
+  color: #6F4437 !important;
+  -webkit-text-fill-color: #6F4437 !important;
+}
+.invitation-public.invitation-template-baby_soft .invitation-location-card a.invitation-location-button > span:first-child {
+  background: #E5F3F6 !important;
+  color: #B85E45 !important;
+  border-color: #B9DCE7 !important;
+}
+/* The divider itself is the only decorative line; disable inherited pseudo-lines. */
+.invitation-public.invitation-template-baby_soft .invitation-details-rule::before,
+.invitation-public.invitation-template-baby_soft .invitation-details-rule::after {
+  content: none !important;
+  display: none !important;
+}

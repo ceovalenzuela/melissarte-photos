@@ -179,10 +179,10 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
     try {
       const url = await uploadCover(file, event.id, organizerToken);
       updateDesign("wax_seal_image_url", url);
-      toast.success("Sello de cera cargado. Guarda los cambios para aplicarlo.");
+      toast.success("Distintivo cargado. Guarda los cambios para aplicarlo.");
     } catch (error) {
-      console.error("Error cargando sello de cera:", error);
-      toast.error("No fue posible subir el sello de cera.");
+      console.error("Error cargando distintivo:", error);
+      toast.error("No fue posible subir el distintivo.");
     } finally {
       setUploadingWaxSeal(false);
     }
@@ -308,26 +308,26 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                 <p className="mt-3 text-xs leading-5 text-[#8A8074]">JPG, PNG o WebP · máximo 10 MB. Recuerda guardar los cambios después de subirla.</p>
               </div>
             </div>
-            {templateKey === "wedding_editorial" && (
+            {(["wedding_editorial", "xv_gala", "baby_soft", "baptism_light"] as TemplateKey[]).includes(templateKey) && (
               <div className="mt-6 rounded-2xl border border-[#E7DCC8] bg-white p-5 sm:p-6">
                 <div className="mb-4">
-                  <h4 className="text-sm font-semibold text-[#332B27]">Sello de cera de los novios</h4>
-                  <p className="mt-1 text-sm leading-5 text-[#7D7467]">Opcional. Sube una imagen con las iniciales de la pareja para reemplazar la línea decorativa debajo de la portada.</p>
+                  <h4 className="text-sm font-semibold text-[#332B27]">{templateKey === "wedding_editorial" ? "Sello de cera de los novios" : templateKey === "xv_gala" ? "Distintivo de XV años" : templateKey === "baby_soft" ? "Distintivo de baby shower" : "Distintivo de bautizo"}</h4>
+                  <p className="mt-1 text-sm leading-5 text-[#7D7467]">Opcional. Sube una imagen decorativa para reemplazar la línea debajo de la portada. Si no hay imagen, se conserva la línea original.</p>
                 </div>
                 <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
                   {design.wax_seal_image_url?.startsWith("https://") ? (
                     <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-xl border border-[#EEE5D8] bg-[#FBF7F1] p-2">
-                      <img src={design.wax_seal_image_url} alt="Vista previa del sello de cera" className="h-full w-full object-contain" />
+                      <img src={design.wax_seal_image_url} alt="Vista previa del distintivo decorativo" className="h-full w-full object-contain" />
                     </div>
                   ) : (
-                    <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-xl border border-dashed border-[#D9CBB6] bg-[#FBF7F1] text-center text-xs text-[#8A8074]">Sin sello</div>
+                    <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-xl border border-dashed border-[#D9CBB6] bg-[#FBF7F1] text-center text-xs text-[#8A8074]">Sin imagen</div>
                   )}
                   <div className="flex flex-wrap gap-2">
                     <input ref={waxSealFileRef} type="file" accept="image/jpeg,image/png,image/webp" className="hidden" disabled={uploadingWaxSeal} onChange={handleWaxSealUpload} />
                     <button type="button" onClick={() => waxSealFileRef.current?.click()} disabled={uploadingWaxSeal} className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full bg-[#A88249] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#8E6D3D] disabled:cursor-not-allowed disabled:opacity-60">
-                      <ImagePlus size={16} /> {uploadingWaxSeal ? "Subiendo sello..." : design.wax_seal_image_url ? "Cambiar sello" : "Subir sello"}
+                      <ImagePlus size={16} /> {uploadingWaxSeal ? "Subiendo imagen..." : design.wax_seal_image_url ? "Cambiar imagen" : "Subir imagen"}
                     </button>
-                    {design.wax_seal_image_url && <button type="button" onClick={() => updateDesign("wax_seal_image_url", "")} className="inline-flex min-h-10 items-center justify-center rounded-full px-3 py-2.5 text-sm text-[#7D7467] hover:bg-[#F7F3EC]">Quitar sello</button>}
+                    {design.wax_seal_image_url && <button type="button" onClick={() => updateDesign("wax_seal_image_url", "")} className="inline-flex min-h-10 items-center justify-center rounded-full px-3 py-2.5 text-sm text-[#7D7467] hover:bg-[#F7F3EC]">Quitar imagen</button>}
                   </div>
                 </div>
                 <p className="mt-3 text-xs leading-5 text-[#8A8074]">JPG, PNG o WebP · máximo 10 MB. Si no hay imagen, se conserva la línea original.</p>

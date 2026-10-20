@@ -3448,3 +3448,31 @@
     padding-bottom: 2.5rem !important;
   }
 }
+
+
+/* Final compatibility override for embedded browsers (WhatsApp in-app preview).
+   Keep wedding venue cards readable even when generic card theme rules win. */
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card {
+  background: linear-gradient(145deg, #34465D, #111B29) !important;
+  background-color: #223249 !important;
+  color: #F5F0E7 !important;
+  -webkit-text-fill-color: #F5F0E7;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card h3,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card p,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card .invitation-location-venue,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card .invitation-location-address,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card > p.mt-5,
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card > p.mt-5 span {
+  color: #F5F0E7 !important;
+  -webkit-text-fill-color: #F5F0E7;
+  opacity: 1 !important;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card > div:first-child > p {
+  color: #D5B77C !important;
+  -webkit-text-fill-color: #D5B77C;
+}
+.invitation-public.invitation-template-wedding_editorial #detalles .invitation-location-card .invitation-location-address {
+  color: rgba(245,240,231,.78) !important;
+  -webkit-text-fill-color: rgba(245,240,231,.78);
+}

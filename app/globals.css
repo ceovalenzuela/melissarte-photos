@@ -682,7 +682,7 @@
 .organizer-confirmations .organizer-rsvp-muted { color: var(--organizer-muted, #70665c); }
 .organizer-confirmations .organizer-rsvp-empty,
 .organizer-confirmations .organizer-rsvp-summary { background: var(--organizer-soft, #f7f3ec); }
-.organizer-confirmations .organizer-rsvp-summary-accent { color: var(--organizer-button); }
+.organizer-confirmations .organizer-rsvp-summary-accent { color: #62513C; }
 .organizer-confirmations .organizer-rsvp-response {
   background: var(--organizer-card);
   border-color: var(--organizer-border);
@@ -3795,7 +3795,7 @@
 .organizer-confirmations [class*="text-[#8E6D3D]"],
 .organizer-confirmations [class*="text-[#98702F]"],
 .organizer-confirmations [class*="text-[#9A773F]"] {
-  color: var(--organizer-button) !important;
+  color: #62513C !important;
 }
 .organizer-confirmations [class*="border-[#A88249]"] {
   border-color: var(--organizer-button) !important;
@@ -3831,7 +3831,7 @@
   background-color: var(--organizer-card);
 }
 .organizer-confirmations .organizer-rsvp-phone {
-  color: var(--organizer-button);
+  color: #62513C;
 }
 @media (min-width: 768px) {
   .organizer-confirmations .organizer-confirmations-banner {

@@ -3574,3 +3574,29 @@
   content: none !important;
   display: none !important;
 }
+
+
+/* Baby Soft footer: remove any inherited/pseudo duplicate and keep one
+   centered divider using the same warm accent as the template. */
+.invitation-public.invitation-template-baby_soft footer > div:first-child {
+  display: block !important;
+  width: 5rem !important;
+  height: 2px !important;
+  margin-inline: auto !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--inv-accent, #B85E45) 35%, transparent) 18%,
+    var(--inv-accent, #B85E45) 50%,
+    color-mix(in srgb, var(--inv-accent, #B85E45) 35%, transparent) 82%,
+    transparent 100%
+  ) !important;
+}
+.invitation-public.invitation-template-baby_soft footer > div:first-child::before,
+.invitation-public.invitation-template-baby_soft footer > div:first-child::after {
+  content: none !important;
+  display: none !important;
+}

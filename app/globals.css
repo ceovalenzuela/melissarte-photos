@@ -3687,3 +3687,189 @@
     padding-bottom: clamp(2.25rem, 4.5vh, 3.25rem) !important;
   }
 }
+
+
+/* Organizer panel visual refinement — presentation only.
+   Keep all existing copy, RSVP behavior, controls, and guest-management actions unchanged.
+   Theme variables are supplied by the selected invitation template in /rsvp/[token]. */
+.organizer-confirmations {
+  background:
+    radial-gradient(ellipse at 8% 0%, color-mix(in srgb, var(--organizer-accent) 10%, transparent), transparent 34rem),
+    linear-gradient(180deg, var(--organizer-bg) 0%, color-mix(in srgb, var(--organizer-bg) 55%, var(--organizer-soft)) 100%);
+  min-height: 100svh;
+}
+.organizer-confirmations > div {
+  max-width: 76rem;
+}
+.organizer-confirmations .organizer-confirmations-header {
+  border-radius: 1.6rem;
+  box-shadow: 0 18px 55px color-mix(in srgb, var(--organizer-banner-end) 16%, transparent);
+  isolation: isolate;
+}
+.organizer-confirmations .organizer-confirmations-banner {
+  min-height: 10.5rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background-size: 160% 160%;
+}
+.organizer-confirmations .organizer-confirmations-ornament {
+  pointer-events: none;
+  position: absolute;
+  inset: auto -2rem -5rem auto;
+  width: 14rem;
+  height: 14rem;
+  border: 1px solid color-mix(in srgb, var(--organizer-banner-accent) 30%, transparent);
+  border-radius: 50%;
+  opacity: .7;
+}
+.organizer-confirmations .organizer-confirmations-ornament::after {
+  content: "";
+  position: absolute;
+  inset: 1.2rem;
+  border: 1px solid color-mix(in srgb, var(--organizer-banner-accent) 24%, transparent);
+  border-radius: 50%;
+}
+.organizer-confirmations .organizer-confirmations-title {
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+.organizer-confirmations .organizer-confirmations-subtitle {
+  opacity: .9;
+}
+.organizer-confirmations .organizer-rsvp-list,
+.organizer-confirmations section[class*="mt-6 overflow-hidden"] {
+  border-radius: 1.5rem;
+  border-color: var(--organizer-border);
+  background: var(--organizer-card);
+  box-shadow: 0 12px 36px color-mix(in srgb, var(--organizer-text) 7%, transparent);
+}
+.organizer-confirmations .organizer-rsvp-list-header {
+  background: color-mix(in srgb, var(--organizer-card) 84%, var(--organizer-soft));
+}
+.organizer-confirmations .organizer-rsvp-summary,
+.organizer-confirmations .organizer-rsvp-empty {
+  border-color: var(--organizer-border);
+  background: color-mix(in srgb, var(--organizer-soft) 75%, var(--organizer-card));
+}
+.organizer-confirmations .organizer-rsvp-response {
+  border-color: var(--organizer-border);
+  border-radius: 1rem;
+  transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+.organizer-confirmations .organizer-rsvp-response:hover {
+  border-color: color-mix(in srgb, var(--organizer-accent) 50%, var(--organizer-border));
+  box-shadow: 0 5px 18px color-mix(in srgb, var(--organizer-text) 6%, transparent);
+}
+.organizer-confirmations button,
+.organizer-confirmations a,
+.organizer-confirmations input,
+.organizer-confirmations select,
+.organizer-confirmations textarea {
+  transition-duration: .18s;
+}
+.organizer-confirmations button:focus-visible,
+.organizer-confirmations a:focus-visible,
+.organizer-confirmations input:focus-visible,
+.organizer-confirmations select:focus-visible,
+.organizer-confirmations textarea:focus-visible {
+  outline-color: var(--organizer-accent);
+  outline-offset: 2px;
+}
+.organizer-confirmations input:not([type="checkbox"]):not([type="radio"]),
+.organizer-confirmations select,
+.organizer-confirmations textarea {
+  border-color: var(--organizer-border);
+  background-color: var(--organizer-card);
+  color: var(--organizer-card-text);
+}
+.organizer-confirmations input:not([type="checkbox"]):not([type="radio"]):focus,
+.organizer-confirmations select:focus,
+.organizer-confirmations textarea:focus {
+  border-color: var(--organizer-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--organizer-accent) 14%, transparent);
+}
+.organizer-confirmations [class*="bg-[#A88249]"],
+.organizer-confirmations [class*="hover:bg-[#92703E]"]:hover {
+  background-color: var(--organizer-button) !important;
+}
+.organizer-confirmations [class*="text-[#A88249]"],
+.organizer-confirmations [class*="text-[#8E6D3D]"],
+.organizer-confirmations [class*="text-[#98702F]"],
+.organizer-confirmations [class*="text-[#9A773F]"] {
+  color: var(--organizer-button) !important;
+}
+.organizer-confirmations [class*="border-[#A88249]"] {
+  border-color: var(--organizer-button) !important;
+}
+.organizer-confirmations [class*="bg-[#FFFCF7]"],
+.organizer-confirmations [class*="hover:bg-[#FFFCF7]"]:hover,
+.organizer-confirmations [class*="hover:bg-[#F8F2E8]"]:hover {
+  background-color: color-mix(in srgb, var(--organizer-soft) 70%, var(--organizer-card)) !important;
+}
+.organizer-confirmations [class*="border-[#E7DCC8]"],
+.organizer-confirmations [class*="border-[#EEE5D7]"],
+.organizer-confirmations [class*="border-[#E8DECF]"],
+.organizer-confirmations [class*="border-[#F0E9DF]"] {
+  border-color: var(--organizer-border) !important;
+}
+.organizer-confirmations [class*="text-[#332B27]"],
+.organizer-confirmations [class*="text-[#4E463D]"],
+.organizer-confirmations [class*="text-[#5C554B]"] {
+  color: var(--organizer-card-text);
+}
+.organizer-confirmations [class*="text-[#7D7467]"],
+.organizer-confirmations [class*="text-[#8A7860]"],
+.organizer-confirmations [class*="text-[#8A7860]"] {
+  color: var(--organizer-muted);
+}
+.organizer-confirmations [class*="bg-white"] {
+  background-color: var(--organizer-card);
+}
+.organizer-confirmations [class*="bg-white/90"] {
+  background-color: color-mix(in srgb, var(--organizer-card) 90%, transparent);
+}
+.organizer-confirmations [class*="hover:bg-white"]:hover {
+  background-color: var(--organizer-card);
+}
+.organizer-confirmations .organizer-rsvp-phone {
+  color: var(--organizer-button);
+}
+@media (min-width: 768px) {
+  .organizer-confirmations .organizer-confirmations-banner {
+    min-height: 12rem;
+  }
+  .organizer-confirmations .organizer-rsvp-response {
+    border-radius: 1.1rem;
+  }
+}
+@media (max-width: 639px) {
+  .organizer-confirmations .organizer-confirmations-header {
+    margin-top: .5rem;
+    border-radius: 1.25rem;
+  }
+  .organizer-confirmations .organizer-confirmations-banner {
+    min-height: 9rem;
+    padding: 1.35rem 1.2rem;
+  }
+  .organizer-confirmations .organizer-confirmations-title {
+    font-size: clamp(2rem, 10vw, 2.6rem);
+  }
+  .organizer-confirmations section[class*="mt-6 overflow-hidden"] {
+    border-radius: 1.15rem;
+  }
+  .organizer-confirmations .organizer-confirmations-ornament {
+    width: 9rem;
+    height: 9rem;
+    right: -2.5rem;
+    bottom: -3.5rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .organizer-confirmations button,
+  .organizer-confirmations a,
+  .organizer-confirmations input,
+  .organizer-confirmations select,
+  .organizer-confirmations textarea,
+  .organizer-confirmations .organizer-rsvp-response {
+    transition: none !important;
+  }
+}

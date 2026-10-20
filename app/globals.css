@@ -3603,7 +3603,7 @@
 
 
 /* Wedding invitation wax seal: prominent but balanced, without changing other templates. */
-.invitation-public.invitation-template-wedding_editorial .invitation-wax-seal {
+.invitation-public.invitation-template-wedding_editorial .invitation-wax-seal,\n.invitation-public.invitation-template-xv_gala .invitation-wax-seal,\n.invitation-public.invitation-template-baby_soft .invitation-wax-seal,\n.invitation-public.invitation-template-baptism_light .invitation-wax-seal {
   display: block;
   width: 5.5rem;
   height: 5.5rem;

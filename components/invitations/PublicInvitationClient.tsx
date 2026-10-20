@@ -134,6 +134,10 @@ export default function PublicInvitationClient({
     ? (invitation.template_key as InvitationTemplateKey)
     : "wedding_editorial";
   const templateClass = `invitation-template-${templateKey}`;
+  // Demo invitation: do not expose the WhatsApp confirmation flow on this public sample.
+  const disableDemoWhatsAppConfirmation =
+    invitation.invitation_slug === "boda-sofia-y-alejandro" &&
+    content.confirmation_mode === "whatsapp";
   const templatePalette = INVITATION_PALETTES[templateKey];
   const weddingColor = (value: string | undefined, fallback: string, oldColors: string[], newColor: string) =>
     resolveDesignColor(value, fallback, templateKey, oldColors, newColor);
@@ -370,7 +374,7 @@ export default function PublicInvitationClient({
 
           </section>
 
-          {((invitation.rsvp_enabled && Boolean((personalizedGuest && personalizedToken) || (existingRSVP && editToken))) || content.confirmation_mode === "whatsapp") && (content.confirmation_mode !== "whatsapp" && rsvpDeadlinePassed ? (
+          {!disableDemoWhatsAppConfirmation && (((invitation.rsvp_enabled && Boolean((personalizedGuest && personalizedToken) || (existingRSVP && editToken))) || content.confirmation_mode === "whatsapp")) && (content.confirmation_mode !== "whatsapp" && rsvpDeadlinePassed ? (
             <section id="confirmar" className="invitation-rsvp scroll-mt-6 px-5 py-12 sm:px-12 sm:py-16 lg:px-20" style={{ background: `linear-gradient(135deg, ${accent}12, ${background})` }}>
               <div className="invitation-rsvp-closed mx-auto max-w-xl rounded-[1.5rem] border border-black/5 bg-white p-6 text-center shadow-[0_16px_50px_rgba(48,36,27,0.06)] sm:p-8" style={{ backgroundColor: "#FFFDFA", color: "#30283A" }}>
                 <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: "#805773" }}>Confirmaciones cerradas</p>

@@ -3368,6 +3368,23 @@
   }
 }
 
+/* Standardize photo-cover height across all four invitation templates.
+   Keep no-photo heroes unchanged; use a shorter, consistent frame for uploaded photos. */
+.invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-has-cover {
+  height: clamp(28rem, 68svh, 36rem) !important;
+  min-height: 0 !important;
+  padding-top: clamp(2rem, 5vh, 3rem) !important;
+  padding-bottom: clamp(1.75rem, 4vh, 2.75rem) !important;
+}
+@media (min-width: 640px) {
+  .invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-has-cover {
+    height: clamp(34rem, 70svh, 42rem) !important;
+    min-height: 0 !important;
+    padding-top: clamp(3rem, 6vh, 4rem) !important;
+    padding-bottom: clamp(2.25rem, 4.5vh, 3.25rem) !important;
+  }
+}
+
 /* Shared photo treatment for all invitation covers:
    slightly muted brightness with natural color and a bottom-focused text gradient. */
 .invitation-public:is(.invitation-template-wedding_editorial, .invitation-template-xv_gala, .invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-has-cover .invitation-hero-image {

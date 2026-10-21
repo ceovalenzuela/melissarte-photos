@@ -1,28 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
-import Script from "next/script";
 import {
   CalendarDays, Camera, CheckCircle2, Copy, Download, Gift, MapPin, Minus,
   MessageCircle, Palette, PartyPopper, Plus, ShieldCheck, Sparkles, Upload, Users,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-
-declare global {
-  interface Window {
-    turnstile?: {
-      render: (container: HTMLElement, options: {
-        sitekey: string;
-        action: string;
-        theme: "light";
-        callback: (token: string) => void;
-        "error-callback": () => void;
-        "expired-callback": () => void;
-      }) => string;
-      reset: (widgetId?: string) => void;
-    };
-  }
-}
 
 type EventType = "boda" | "xv" | "baby_shower" | "revelacion" | "bautizo" | "otro";
 type Plan = "esencial" | "plus" | "";
@@ -37,7 +20,6 @@ type RequestData = {
 };
 
 const WHATSAPP_MELISSARTE = "528133867050";
-const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 const INITIAL_FORM: RequestData = {
   eventType: "", otherEventType: "", plan: "", headline: "", eventDate: "",
   receptionTime: "", receptionVenue: "", receptionAddress: "", hostNames: "", introduction: "",
@@ -285,9 +267,8 @@ export default function InvitationRequestPage() {
   const [requestText, setRequestText] = useState("");
   const [whatsAppUrl, setWhatsAppUrl] = useState("");
   const [preparingMessage, setPreparingMessage] = useState(false);
-  const [turnstileToken, setTurnstileToken] = useState("");
-  const turnstileContainerRef = useRef<HTMLDivElement>(null);
-  const turnstileWidgetRef = useRef<string | null>(null);
+  const [honeypotValue, setHoneypotValue] = useState("");
+  const formStartedAtRef = useRef(Date.now());
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => () => {
@@ -299,34 +280,6 @@ export default function InvitationRequestPage() {
     setFormError("");
     setRequestText("");
     setWhatsAppUrl("");
-  }
-
-  function renderTurnstile() {
-    if (!TURNSTILE_SITE_KEY || !turnstileContainerRef.current || !window.turnstile || turnstileWidgetRef.current) return;
-    turnstileWidgetRef.current = window.turnstile.render(turnstileContainerRef.current, {
-      sitekey: TURNSTILE_SITE_KEY,
-      action: "invitation_request",
-      theme: "light",
-      callback: (token) => {
-        setTurnstileToken(token);
-        setFormError("");
-      },
-      "error-callback": () => {
-        setTurnstileToken("");
-        setFormError("No se pudo completar la verificación de seguridad. Inténtalo de nuevo.");
-      },
-      "expired-callback": () => {
-        setTurnstileToken("");
-        setFormError("La verificación de seguridad venció. Complétala de nuevo para continuar.");
-      },
-    });
-  }
-
-  function resetTurnstile() {
-    setTurnstileToken("");
-    if (turnstileWidgetRef.current && window.turnstile) {
-      window.turnstile.reset(turnstileWidgetRef.current);
-    }
   }
 
   function clearPreparedMessage() {
@@ -448,15 +401,6 @@ export default function InvitationRequestPage() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (preparingMessage || !validateForm() || !coverFile) return;
-    if (!TURNSTILE_SITE_KEY) {
-      setFormError("La verificación de seguridad todavía no está configurada. Inténtalo más tarde.");
-      return;
-    }
-    if (!turnstileToken) {
-      setFormError("Completa la verificación de seguridad para continuar.");
-      return;
-    }
-
     const requestData = { ...form };
     const imageFile = coverFile;
     setPreparingMessage(true);
@@ -465,12 +409,15 @@ export default function InvitationRequestPage() {
 
     try {
       const { data, error } = await supabase.functions.invoke("prepare-invitation-request-cover", {
-        body: { content_type: imageFile.type, turnstile_token: turnstileToken },
+        body: {
+          content_type: imageFile.type,
+          website: honeypotValue,
+          elapsed_ms: Date.now() - formStartedAtRef.current,
+        },
       });
       if (error || data?.success !== true || typeof data.path !== "string" || typeof data.token !== "string") {
         throw new Error(data?.error ?? error?.message ?? "No fue posible preparar la carga de la imagen.");
       }
-      resetTurnstile();
 
       const { error: uploadError } = await supabase.storage
         .from("event-covers")
@@ -497,7 +444,6 @@ export default function InvitationRequestPage() {
       }
       window.setTimeout(() => document.getElementById("solicitud-preparada")?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
     } catch (error) {
-      resetTurnstile();
       if (whatsappWindow && !whatsappWindow.closed) whatsappWindow.close();
       console.error("No fue posible preparar la solicitud de invitación:", error);
       setFormError("No pudimos subir la foto y preparar el mensaje. Revisa tu conexión e inténtalo de nuevo.");
@@ -698,21 +644,17 @@ export default function InvitationRequestPage() {
                 <p className="mt-1 text-sm leading-6 text-[#62594F]">Al continuar, se abrirá WhatsApp de Melissarte con el resumen listo. La solicitud no se envía hasta que pulses el botón de enviar dentro de WhatsApp.</p>
               </div>
             </div>
-            <div className="mt-5 rounded-xl border border-[#E8DED0] bg-[#FBF8F2] p-4">
-              <p className="mb-2 text-sm font-semibold text-[#3B342E]">Verificación de seguridad</p>
-              {TURNSTILE_SITE_KEY ? (
-                <>
-                  <Script
-                    src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
-                    strategy="afterInteractive"
-                    onLoad={renderTurnstile}
-                  />
-                  <div ref={turnstileContainerRef} className="min-h-[65px]" aria-label="Verificación de seguridad" />
-                  <p className="mt-1 text-xs leading-5 text-[#62594F]">Esta comprobación ayuda a evitar envíos automáticos.</p>
-                </>
-              ) : (
-                <p role="alert" className="text-sm leading-5 text-[#8D3028]">El formulario aún requiere configurar la verificación de seguridad antes de habilitar los envíos.</p>
-              )}
+            <div aria-hidden="true" className="pointer-events-none absolute -left-[10000px] top-auto h-px w-px overflow-hidden">
+              <label htmlFor="website-verification">No llenar este campo</label>
+              <input
+                id="website-verification"
+                name="website-verification"
+                type="text"
+                value={honeypotValue}
+                onChange={(event) => setHoneypotValue(event.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+              />
             </div>
             <button type="submit" disabled={preparingMessage} className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#237544] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#1B6238] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#237544] focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-65 sm:w-auto"><MessageCircle size={18} /> {preparingMessage ? "Subiendo foto y preparando WhatsApp..." : "Enviar solicitud por WhatsApp"}</button>
             <p className="mt-3 text-xs leading-5 text-[#62594F]">Se subirá la foto para generar un enlace que se incluirá en el mensaje.</p>

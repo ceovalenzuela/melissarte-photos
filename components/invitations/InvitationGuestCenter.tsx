@@ -264,7 +264,11 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
           <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#D8C39B] bg-white/90 text-[#9A773F] shadow-sm"><Users size={19}/></span>
           <div><p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#A17E46]">Tu evento · organización</p><h2 className="mt-1 text-xl font-semibold tracking-tight text-[#332B27]">Lista de invitados</h2><p className="mt-1 text-sm text-[#7D7467]">{guests.length ? `${guests.length} invitaciones · ${passCount} pases` : "Agrega invitados y lleva el control de sus respuestas"}</p></div>
         </div>
-        <div className="relative flex items-center gap-2">
+        <div className="relative flex flex-wrap items-center gap-2">
+          <a href="/manual-panel-organizador.pdf" download="Manual-del-panel-del-organizador.pdf" aria-label="Descargar el manual del panel del organizador" title="Descargar manual del organizador" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-[#D8C39B] bg-white px-3 py-3 text-sm font-semibold text-[#62513C] shadow-sm transition hover:bg-[#FFFCF7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A88249]/40 focus-visible:ring-offset-2">
+            <Download size={17} aria-hidden="true" />
+            <span>Descargar manual</span>
+          </a>
           <button type="button" onClick={() => showTools ? closeGuestTools() : setShowTools(true)} disabled={importing} className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-[#A88249] bg-[#A88249] px-4 py-3 text-sm font-semibold text-white shadow-[0_5px_14px_rgba(168,130,73,0.22)] transition hover:bg-[#92703E] disabled:cursor-not-allowed disabled:opacity-60">{showTools ? <X size={17}/> : <Plus size={17}/ >}{showTools ? "Cerrar" : "Agregar invitados"}</button>
           <button type="button" onClick={() => { setLoading(true); void loadGuests(); }} disabled={loading} aria-label="Actualizar lista de invitados" title="Actualizar lista" className="flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-[#E7DCC8] bg-white/90 p-3 text-[#5C554B] transition hover:border-[#C9AD7B] hover:bg-white disabled:opacity-50"><RefreshCw size={17} className={loading ? "animate-spin" : ""}/></button>
         </div>

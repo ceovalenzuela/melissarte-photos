@@ -383,9 +383,16 @@ Deno.serve(async (req) => {
       events = [selectedEvent];
     }
 
-    const expiredRequestCoverPaths = await getExpiredRequestCoverPaths(supabaseAdmin);
-    if (!dryRun && expiredRequestCoverPaths.length > 0) {
-      await removeStorageObjects(supabaseAdmin, "event-covers", expiredRequestCoverPaths);
+    let expiredRequestCoverPaths: string[] = [];
+    let requestCoverCleanupError: string | null = null;
+    try {
+      expiredRequestCoverPaths = await getExpiredRequestCoverPaths(supabaseAdmin);
+      if (!dryRun && expiredRequestCoverPaths.length > 0) {
+        await removeStorageObjects(supabaseAdmin, "event-covers", expiredRequestCoverPaths);
+      }
+    } catch (error) {
+      requestCoverCleanupError = error instanceof Error ? error.message : "Error desconocido";
+      console.error("No se pudieron limpiar las fotos de solicitudes antiguas:", error);
     }
 
     const results = {
@@ -396,6 +403,7 @@ Deno.serve(async (req) => {
       request_covers_deleted: dryRun ? 0 : expiredRequestCoverPaths.length,
       request_covers_would_delete: dryRun ? expiredRequestCoverPaths.length : 0,
       request_cover_retention_days: REQUEST_COVER_RETENTION_DAYS,
+      request_cover_cleanup_error: requestCoverCleanupError,
       details: [] as Array<Record<string, unknown>>,
       dry_run: dryRun,
       requested_event_id: requestedEventId,

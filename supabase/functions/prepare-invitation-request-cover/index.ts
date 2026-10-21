@@ -57,8 +57,16 @@ function rateLimitKey(req: Request) {
     ?? "unknown";
 }
 
+let rateLimitCleanupCounter = 0;
+
 function checkRateLimit(key: string) {
   const now = Date.now();
+  rateLimitCleanupCounter += 1;
+  if (rateLimitCleanupCounter % 100 === 0) {
+    for (const [storedKey, entry] of requests) {
+      if (now - entry.startedAt > RATE_WINDOW_MS) requests.delete(storedKey);
+    }
+  }
   const current = requests.get(key);
   if (!current || now - current.startedAt > RATE_WINDOW_MS) {
     requests.set(key, { count: 1, startedAt: now });

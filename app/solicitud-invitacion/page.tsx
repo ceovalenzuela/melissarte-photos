@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
+import Script from "next/script";
 import {
   CalendarDays, Camera, CheckCircle2, Copy, Download, Gift, MapPin, Minus,
   MessageCircle, Palette, PartyPopper, Plus, ShieldCheck, Sparkles, Upload, Users,
@@ -9,7 +10,7 @@ import { supabase } from "@/lib/supabase";
 
 type EventType = "boda" | "xv" | "baby_shower" | "revelacion" | "bautizo" | "otro";
 type Plan = "esencial" | "plus" | "";
-type ColorPreference = "plantilla" | "champagne" | "azules";
+type ColorPreference = "plantilla" | "alternativa1" | "alternativa2";
 type RequestData = {
   eventType: EventType | ""; otherEventType: string; plan: Plan; headline: string; eventDate: string;
   receptionTime: string; receptionVenue: string; receptionAddress: string; hostNames: string;
@@ -37,11 +38,35 @@ const EVENT_TYPES: { value: EventType; label: string; description: string }[] = 
   { value: "otro", label: "Otro evento", description: "Para cualquier otra celebración." },
 ];
 
-const COLOR_OPTIONS: { value: ColorPreference; label: string; description: string }[] = [
-  { value: "plantilla", label: "Colores originales", description: "Conservar los colores principales del diseño sugerido." },
-  { value: "champagne", label: "Champagne y dorado", description: "Un acento cálido y elegante." },
-  { value: "azules", label: "Azules y celestes", description: "Un acento fresco y delicado." },
-];
+type PaletteChoice = { value: ColorPreference; label: string; description: string; colors: string[] };
+type PaletteAlternative = Omit<PaletteChoice, "value">;
+
+const ALTERNATIVE_PALETTES: Record<EventType, [PaletteAlternative, PaletteAlternative]> = {
+  boda: [
+    { label: "Verde salvia, marfil y dorado", description: "Natural, luminoso y elegante.", colors: ["#9EAF9A", "#F6F1E7", "#C5A66A"] },
+    { label: "Borgoña, champagne y crema", description: "Romántico y sofisticado, con tonos profundos.", colors: ["#713543", "#E7D4B7", "#FFF7EA"] },
+  ],
+  xv: [
+    { label: "Rosa empolvado y oro rosa", description: "Romántico y glamuroso, sin tonos demasiado intensos.", colors: ["#D9A1AA", "#B8757D", "#FFF5EC"] },
+    { label: "Lavanda, plata y lila", description: "Delicado, moderno y luminoso.", colors: ["#B9A5D2", "#B9BEC8", "#F1EAF7"] },
+  ],
+  baby_shower: [
+    { label: "Verde salvia, avena y marfil", description: "Neutro, natural y sereno.", colors: ["#A5B59D", "#D9CBB4", "#FAF6EE"] },
+    { label: "Amarillo mantequilla, durazno y crema", description: "Cálido, dulce y suave.", colors: ["#F2D574", "#E5A28A", "#FFF5E8"] },
+  ],
+  revelacion: [
+    { label: "Amarillo suave, salvia y marfil", description: "Una opción neutra que une tonos cálidos y naturales.", colors: ["#F1D16C", "#A0B39A", "#FFF6E8"] },
+    { label: "Durazno, celeste y crema", description: "Equilibrado, fresco y apropiado para una revelación.", colors: ["#E7A18A", "#8CB9CF", "#FFF5E8"] },
+  ],
+  bautizo: [
+    { label: "Verde salvia, marfil y dorado tenue", description: "Clásico, natural y delicado.", colors: ["#9EAF9A", "#F8F4EA", "#C7AD72"] },
+    { label: "Azul empolvado, beige y blanco cálido", description: "Sereno, luminoso y atemporal.", colors: ["#9AB6C9", "#D6C5AD", "#FBF8F1"] },
+  ],
+  otro: [
+    { label: "Terracota, arena y verde olivo", description: "Cálido y natural para una celebración con personalidad.", colors: ["#B96F54", "#E7D3B8", "#6D7652"] },
+    { label: "Azul profundo, champagne y marfil", description: "Elegante y versátil para eventos formales.", colors: ["#23374B", "#D2B478", "#F7F2E8"] },
+  ],
+};
 
 const PLAN_DETAILS: Record<Exclude<Plan, "">, { title: string; description: string }> = {
   esencial: {
@@ -85,8 +110,23 @@ function getSuggestedTemplate(eventType: EventType | ""): TemplateSuggestion {
   };
 }
 
-function colorPreferenceLabel(value: ColorPreference) {
-  return COLOR_OPTIONS.find((item) => item.value === value)?.label ?? COLOR_OPTIONS[0].label;
+function getColorOptions(eventType: EventType | ""): PaletteChoice[] {
+  const template = getSuggestedTemplate(eventType);
+  const alternatives = eventType ? ALTERNATIVE_PALETTES[eventType] : ALTERNATIVE_PALETTES.otro;
+  return [
+    {
+      value: "plantilla",
+      label: "Colores originales",
+      description: template.description,
+      colors: template.colors,
+    },
+    { value: "alternativa1", ...alternatives[0] },
+    { value: "alternativa2", ...alternatives[1] },
+  ];
+}
+
+function colorPreferenceLabel(value: ColorPreference, eventType: EventType | "") {
+  return getColorOptions(eventType).find((item) => item.value === value)?.label ?? "Colores originales";
 }
 
 function digits(value: string) { return value.replace(/\D/g, ""); }
@@ -106,11 +146,7 @@ function getEventLabel(data: RequestData) {
   if (data.eventType === "otro") return data.otherEventType.trim();
   return EVENT_TYPES.find((item) => item.value === data.eventType)?.label ?? "Evento";
 }
-function getColorSwatches(eventType: EventType | "", preference: ColorPreference) {
-  if (preference === "champagne") return ["#F5F0E7", "#D5B77C", "#E2C47A"];
-  if (preference === "azules") return ["#263641", "#426D86", "#C7DBE5"];
-  return getSuggestedTemplate(eventType).colors;
-}
+
 
 function createRequestText(data: RequestData, coverUrl: string) {
   const template = getSuggestedTemplate(data.eventType);
@@ -161,7 +197,7 @@ function createRequestText(data: RequestData, coverUrl: string) {
   lines.push(
     "", "SUGERENCIA DE DISEÑO",
     "Diseño sugerido: " + template.label,
-    "Preferencia de color: " + colorPreferenceLabel(data.colorPreference),
+    "Preferencia de color: " + colorPreferenceLabel(data.colorPreference, data.eventType),
     "", "FOTO DE PORTADA",
     "Enlace a la foto: " + coverUrl,
   );
@@ -313,6 +349,12 @@ export default function InvitationRequestPage() {
       setFormError("Selecciona la fecha del evento.");
       return false;
     }
+    const now = new Date();
+    const localToday = [now.getFullYear(), String(now.getMonth() + 1).padStart(2, "0"), String(now.getDate()).padStart(2, "0")].join("-");
+    if (form.eventDate < localToday) {
+      setFormError("La fecha del evento no puede ser anterior a hoy.");
+      return false;
+    }
     if (!form.receptionTime || !form.receptionVenue.trim() || !form.receptionAddress.trim()) {
       setFormError("Completa la hora, el lugar y la dirección de la recepción.");
       return false;
@@ -344,6 +386,10 @@ export default function InvitationRequestPage() {
     }
     if (form.plan === "plus" && form.rsvpDeadline && form.rsvpDeadline > form.eventDate) {
       setFormError("La fecha límite para confirmar no puede ser posterior a la fecha del evento.");
+      return false;
+    }
+    if (form.plan === "plus" && form.rsvpDeadline && form.rsvpDeadline < localToday) {
+      setFormError("La fecha límite para confirmar no puede ser anterior a hoy.");
       return false;
     }
     return true;
@@ -555,7 +601,7 @@ export default function InvitationRequestPage() {
                   <p className="mb-3 text-sm leading-6 text-[#62594F]">Selecciona una foto nítida, más alta que ancha. Recomendamos una proporción aproximada de 4:5.</p>
                   <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={handleCoverChange} className="sr-only" aria-label="Seleccionar foto de portada" />
                   <button type="button" onClick={() => fileInputRef.current?.click()} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#34465D] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#25364B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#34465D] focus-visible:ring-offset-2"><Upload size={16} /> {coverFile ? "Cambiar foto" : "Seleccionar foto"}</button>
-                  {coverFile && <p className="mt-2 break-all text-xs font-medium text-[#3A6946]">Foto seleccionada: {coverFile.name}</p>}
+                  {coverFile && <p className="mt-2 break-all text-xs font-medium text-[#3A6946]">Foto lista para subir.</p>}
                   <p className="mt-2 text-xs leading-5 text-[#62594F]">Formatos permitidos: JPG, PNG o WebP. Máximo 10 MB.</p>
                   {coverError && <p role="alert" className="mt-2 text-sm font-medium text-[#A33F35]">{coverError}</p>}
                 </div>
@@ -565,9 +611,9 @@ export default function InvitationRequestPage() {
             <div className="mt-5">
               <p className="mb-3 text-sm font-semibold text-[#3B342E]">Sugerencia de color <span className="ml-2 text-xs font-normal text-[#71675D]">Opcional</span></p>
               <div className="grid gap-2.5 sm:grid-cols-3">
-                {COLOR_OPTIONS.map((option) => {
+                {getColorOptions(form.eventType).map((option) => {
                   const selected = form.colorPreference === option.value;
-                  const swatches = getColorSwatches(form.eventType, option.value);
+                  const swatches = option.colors;
                   return <label key={option.value} className={"flex cursor-pointer items-start gap-3 rounded-xl border p-3 transition " + (selected ? "border-[#967544] bg-[#F8F1E5] ring-1 ring-[#967544]/20" : "border-[#E8DED0] bg-white hover:border-[#CBB797]")}>
                     <input type="radio" name="colorPreference" value={option.value} checked={selected} onChange={() => updateForm("colorPreference", option.value)} className="mt-1 h-4 w-4 shrink-0 accent-[#8B6C42]" />
                     <span className="min-w-0 flex-1">
@@ -578,7 +624,7 @@ export default function InvitationRequestPage() {
                   </label>;
                 })}
               </div>
-              <p className="mt-3 rounded-xl bg-[#F8F5EF] p-3 text-xs leading-5 text-[#62594F]">La elección de color es una sugerencia. La invitación conservará el estilo de su diseño prediseñado.</p>
+              <p className="mt-3 rounded-xl bg-[#F8F5EF] p-3 text-xs leading-5 text-[#62594F]">La paleta elegida orienta los colores del diseño; se conserva la estructura de la plantilla seleccionada.</p>
             </div>
           </Section>
 
@@ -600,7 +646,7 @@ export default function InvitationRequestPage() {
         {requestText && <section id="solicitud-preparada" aria-live="polite" className="mt-5 scroll-mt-5 rounded-2xl border border-[#C8DEC9] bg-[#F6FAF5] p-4 shadow-sm sm:p-6">
           <div className="flex items-start gap-3">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#E3F1E4] text-[#237544]"><CheckCircle2 size={20} /></span>
-            <div className="min-w-0 flex-1"><h2 className="text-lg font-semibold text-[#294E35]">Tu mensaje está preparado</h2><p className="mt-1 text-sm leading-6 text-[#4E5E50]">Si WhatsApp no se abrió automáticamente, usa el botón para abrirlo. Envía el texto y después adjunta manualmente la foto vertical seleccionada en este formulario.</p></div>
+            <div className="min-w-0 flex-1"><h2 className="text-lg font-semibold text-[#294E35]">Tu mensaje está preparado</h2><p className="mt-1 text-sm leading-6 text-[#4E5E50]">Si WhatsApp no se abrió automáticamente, usa el botón para abrirlo. Revisa el resumen y confirma que el enlace de la foto esté incluido antes de enviar el mensaje.</p></div>
           </div>
           <div className="mt-4 grid gap-2 sm:grid-cols-3">
             <a href={whatsAppUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#237544] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#1B6238]"><MessageCircle size={16} /> Abrir WhatsApp</a>
@@ -611,7 +657,7 @@ export default function InvitationRequestPage() {
             <summary className="cursor-pointer text-sm font-semibold text-[#294E35]">Ver el mensaje que se enviará</summary>
             <textarea readOnly value={requestText} rows={12} className="mt-3 w-full rounded-lg border border-[#DDD3C5] bg-[#FFFEFC] p-3 text-xs leading-5 text-[#302B27]" />
           </details>
-          <p className="mt-4 text-xs leading-5 text-[#4E5E50]">Importante: abrir WhatsApp no envía el mensaje ni adjunta la fotografía. Debes confirmar el envío y añadir la foto manualmente en el mismo chat.</p>
+          <p className="mt-4 text-xs leading-5 text-[#4E5E50]">Importante: abrir WhatsApp no envía el mensaje automáticamente. Revisa los datos y pulsa enviar dentro del chat para completar tu solicitud.</p>
         </section>}
 
         <footer className="mt-6 flex flex-col items-center gap-2 pb-4 text-center text-xs leading-5 text-[#71675D]">

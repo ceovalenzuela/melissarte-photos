@@ -2,6 +2,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 
 const MAX_EVENTS_PER_RUN = 50;
 const STORAGE_BATCH_SIZE = 1000;
+const REQUEST_COVER_RETENTION_DAYS = 90;
 
 type ExpiredEvent = {
   id: string;
@@ -166,6 +167,44 @@ async function getEventCoverPaths(
   return paths;
 }
 
+async function getExpiredRequestCoverPaths(
+  supabaseAdmin: ReturnType<typeof createClient>,
+) {
+  const paths: string[] = [];
+  const cutoff = Date.now() - REQUEST_COVER_RETENTION_DAYS * 24 * 60 * 60 * 1000;
+  let offset = 0;
+
+  while (true) {
+    const { data, error } = await supabaseAdmin.storage
+      .from("event-covers")
+      .list("solicitudes", {
+        limit: STORAGE_BATCH_SIZE,
+        offset,
+        sortBy: { column: "created_at", order: "asc" },
+      });
+
+    if (error) {
+      throw new Error(
+        `No se pudieron consultar las fotos de solicitudes: ${error.message}`
+      );
+    }
+
+    const objects = data ?? [];
+    for (const object of objects) {
+      if (!object.id) continue;
+      const timestamp = Date.parse(object.created_at ?? object.updated_at ?? "");
+      if (Number.isFinite(timestamp) && timestamp < cutoff) {
+        paths.push(`solicitudes/${object.name}`);
+      }
+    }
+
+    if (objects.length < STORAGE_BATCH_SIZE) break;
+    offset += STORAGE_BATCH_SIZE;
+  }
+
+  return paths;
+}
+
 async function cleanupEvent(
   supabaseAdmin: ReturnType<typeof createClient>,
   event: ExpiredEvent
@@ -291,6 +330,11 @@ Deno.serve(async (req) => {
       serviceKey
     );
 
+    const expiredRequestCoverPaths = await getExpiredRequestCoverPaths(supabaseAdmin);
+    if (!dryRun && expiredRequestCoverPaths.length > 0) {
+      await removeStorageObjects(supabaseAdmin, "event-covers", expiredRequestCoverPaths);
+    }
+
     const cutoff = new Date();
     cutoff.setUTCDate(
       cutoff.getUTCDate() - 30
@@ -349,6 +393,9 @@ Deno.serve(async (req) => {
       found: events?.length ?? 0,
       deleted: 0,
       failed: 0,
+      request_covers_deleted: dryRun ? 0 : expiredRequestCoverPaths.length,
+      request_covers_would_delete: dryRun ? expiredRequestCoverPaths.length : 0,
+      request_cover_retention_days: REQUEST_COVER_RETENTION_DAYS,
       details: [] as Array<Record<string, unknown>>,
       dry_run: dryRun,
       requested_event_id: requestedEventId,

@@ -39,6 +39,8 @@ const INVITATION_DEMOS = [
     title: "Sofía y Alejandro",
     href: "https://events.melissartedecorativo.com/i/boda-sofia-y-alejandro",
     image: "/invitaciones/demo-boda.webp",
+    imageWidth: 220,
+    imageHeight: 273,
     button: "Ver invitación completa",
   },
   {
@@ -48,6 +50,8 @@ const INVITATION_DEMOS = [
     title: "Valentina",
     href: "https://events.melissartedecorativo.com/i/xv",
     image: "/invitaciones/demo-xv.webp",
+    imageWidth: 220,
+    imageHeight: 275,
     button: "Ver invitación completa",
   },
 ] as const;
@@ -196,8 +200,8 @@ export default function InvitationsLandingPage() {
                     <Image
                       src={demo.image}
                       alt={`Captura de la invitación digital de ${demo.title}`}
-                      width={430}
-                      height={913}
+                      width={demo.imageWidth}
+                      height={demo.imageHeight}
                       sizes="(min-width: 640px) 310px, 90vw"
                       className="h-auto w-full"
                     />

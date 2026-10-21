@@ -1,35 +1,25 @@
 # Solicitud de invitación: lista de despliegue
 
-Esta rama agrega paletas específicas por evento, validaciones de fecha, protección con Cloudflare Turnstile, un límite de solicitudes persistente y limpieza de imágenes de solicitudes antiguas. No se deben desplegar los cambios de backend hasta completar esta configuración.
-
-## Variables y secretos
-
-1. Crear un widget de Cloudflare Turnstile de tipo administrado. Autorizar el dominio de producción `fotos.melissartedecorativo.com` y el host de vista previa que se vaya a probar.
-2. Configurar `NEXT_PUBLIC_TURNSTILE_SITE_KEY` en Vercel para Preview y Production. Es la clave pública del widget.
-3. Configurar `TURNSTILE_SECRET_KEY` como secreto de la Edge Function en Supabase. Nunca colocar esta clave en variables `NEXT_PUBLIC_*`, el código del cliente ni el repositorio.
-
-Si se necesita probar el formulario antes de producción, usar un entorno aislado o credenciales de prueba compatibles entre el widget y la función. No enviar pruebas contra la función activa de producción desde una vista previa.
+Esta versión no depende de un CAPTCHA ni de un servicio antispam de terceros. Usa controles de Supabase y validaciones del formulario: origen permitido, un campo trampa invisible, tiempo mínimo de llenado, enlaces de carga firmados y un límite persistente de solicitudes.
 
 ## Orden de despliegue
 
-Para evitar dejar fuera de servicio el formulario que ya está publicado, hacer el cambio en etapas:
+1. Aplicar la migración `20261020000000_invitation_request_rate_limit.sql`. Crea una tabla privada de huellas HMAC (no IP en claro) y una función RPC que limita a 8 solicitudes por origen de red cada 10 minutos.
+2. Desplegar la Edge Function `prepare-invitation-request-cover`. Valida el origen de la página, descarta el campo trampa si está rellenado, rechaza envíos demasiado rápidos, usa el límite persistente y crea enlaces de carga únicos en el bucket `event-covers`.
+3. Desplegar la Edge Function `cleanup-expired-events`. La tarea programada existente incluirá también la limpieza de fotos de solicitudes de más de 90 días.
+4. Fusionar este PR con *squash* para llevar a `main` un único commit de cambios y dejar que Vercel publique la página.
+5. Verificar el recorrido completo una vez que los cambios estén activos.
 
-1. Crear el widget y configurar `TURNSTILE_SECRET_KEY` en Supabase. Temporalmente establecer `TURNSTILE_REQUIRE_TOKEN=false`; el valor predeterminado del código es exigir el token, así que no debe dejarse esta variable sin configurar durante la transición.
-2. Aplicar la migración `20261020000000_invitation_request_rate_limit.sql` en la ventana aprobada. Crea un registro privado de huellas HMAC para limitar las solicitudes a 8 por IP cada 10 minutos; no guarda las IP en claro.
-3. Desplegar `prepare-invitation-request-cover` y `cleanup-expired-events` usando esta rama, mientras el PR todavía no se fusiona. Con `TURNSTILE_REQUIRE_TOKEN=false`, el formulario actual sigue funcionando y usa el límite persistente; cualquier token Turnstile que sí se envíe se valida.
-4. Verificar que `NEXT_PUBLIC_TURNSTILE_SITE_KEY` esté configurada en Vercel y, tras aprobar el cambio, fusionar el PR y esperar a que la página nueva quede publicada. Esta versión no deja continuar al usuario si no completa Turnstile.
-5. Confirmar que la página nueva está activa y que las solicitudes reales se validan correctamente; después cambiar `TURNSTILE_REQUIRE_TOKEN=true` en Supabase para rechazar también las peticiones directas que no incluyan token. **No dejar el valor en `false` después de la transición.**
-6. Completar las pruebas de la sección siguiente antes de anunciar el formulario como listo.
+## Comprobaciones previas y posteriores
 
-La limpieza de portadas de solicitud usa el cron existente de `cleanup-expired-events` y elimina archivos en `event-covers/solicitudes/` con más de 90 días. Los eventos y sus reglas de limpieza actuales se conservan.
+- Confirmar que cada uno de los seis tipos de evento muestra los colores originales y dos paletas propias; verificar que el resumen de WhatsApp incluye el nombre de la paleta y sus códigos HEX.
+- Confirmar que las fechas del evento y del límite para confirmar no pueden ser pasadas, y que la fecha límite no excede la fecha del evento.
+- Verificar que una imagen JPG, PNG o WebP vertical se pueda subir; comprobar el rechazo de imágenes horizontales, formatos no admitidos y archivos mayores de 10 MB.
+- Confirmar que la carga solo funciona con solicitudes desde los orígenes autorizados y que el servidor rechaza el campo trampa rellenado y los envíos más rápidos que el tiempo mínimo.
+- Enviar varias solicitudes de prueba y confirmar que, una vez alcanzado el límite, la función responda HTTP 429.
+- Abrir el enlace público de la imagen en una ventana privada y confirmar que WhatsApp recibe ese enlace y no pide volver a adjuntar la foto; el cliente aún debe pulsar Enviar dentro de WhatsApp.
+- Revisar la respuesta de la tarea de limpieza. Debe mostrar cuántas portadas antiguas eliminaría en modo `dry_run: true` antes de una ejecución manual de simulación. La ejecución programada normal elimina portadas que superan los 90 días.
 
-## Pruebas antes de producción
+## Alcance de la protección antispam
 
-- Confirmar que cada uno de los seis tipos de evento muestra los colores originales y dos paletas propias; verificar que el resumen de WhatsApp incluye el nombre de la paleta.
-- Confirmar que las fechas del evento y de límite de confirmación rechazan fechas pasadas, y que la fecha límite no excede la fecha del evento.
-- Completar Turnstile y verificar que la carga de una imagen JPG, PNG o WebP vertical funciona; comprobar rechazo de imágenes horizontales, formatos no admitidos y archivos mayores de 10 MB.
-- Verificar que un token Turnstile ausente, inválido, vencido o duplicado se rechaza desde la función y que los envíos excedentes reciben HTTP 429.
-- Abrir la URL de la imagen en una ventana privada y confirmar que el mensaje de WhatsApp tiene ese enlace, no solicita adjuntar la foto de nuevo y requiere que el usuario pulse Enviar.
-- Ejecutar una llamada autorizada a `cleanup-expired-events` con `dry_run: true` y confirmar el conteo de fotos antiguas antes de permitir una eliminación real.
-
-No se considera validado el recorrido completo hasta ejecutar esas pruebas contra un entorno con variables de Turnstile configuradas.
+Estos controles reducen envíos automatizados sencillos y limitan la frecuencia de solicitudes. No equivalen a un CAPTCHA frente a un bot adaptativo: sin un proveedor externo o autenticación, un atacante decidido puede imitar tiempos y omitir un campo trampa. El límite en Supabase y los enlaces de carga firmados son los controles principales; la validación de origen es una capa adicional, no una autenticación por sí sola.

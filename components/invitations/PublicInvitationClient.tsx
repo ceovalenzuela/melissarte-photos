@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState, type CSSProperties } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Clock3, MapPin, Shirt, Gift, ArrowUpRight, CalendarPlus, Church, PartyPopper, Sparkles } from "lucide-react";
+import { CheckCircle2, Clock3, Shirt, Gift, ArrowUpRight, CalendarPlus, Church, PartyPopper, Sparkles } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { InvitationTemplateKey, PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
 import { INVITATION_PALETTES } from "@/lib/invitation-palettes";
@@ -105,22 +105,21 @@ export default function PublicInvitationClient({
   personalizedToken = null,
 }: Props) {
   const router = useRouter();
-  const [coverLoaded, setCoverLoaded] = useState(false);
+  const [loadedCoverUrl, setLoadedCoverUrl] = useState<string | null>(null);
   const content = invitation.content_config ?? {};
   const design = invitation.design_config ?? {};
   const cover = design.cover_image_url?.startsWith("https://") ? design.cover_image_url : null;
 
   useEffect(() => {
-    setCoverLoaded(false);
     if (!cover) return;
 
     let active = true;
     const image = new window.Image();
     image.onload = () => {
-      if (active) setCoverLoaded(true);
+      if (active) setLoadedCoverUrl(cover);
     };
     image.onerror = () => {
-      if (active) setCoverLoaded(true);
+      if (active) setLoadedCoverUrl(cover);
     };
     image.src = cover;
 
@@ -129,6 +128,7 @@ export default function PublicInvitationClient({
     };
   }, [cover]);
 
+  const coverLoaded = Boolean(cover && loadedCoverUrl === cover);
   const templateKeys: InvitationTemplateKey[] = ["wedding_editorial", "xv_gala", "baby_soft", "baptism_light"];
   const templateKey: InvitationTemplateKey = templateKeys.includes(invitation.template_key as InvitationTemplateKey)
     ? (invitation.template_key as InvitationTemplateKey)

@@ -11,10 +11,6 @@ const ALLOWED_ORIGIN_PATTERNS = [
   /^https:\/\/[a-z0-9-]*melissarte-photos[a-z0-9-]*\.vercel\.app$/,
   /^http:\/\/(?:localhost|127\.0\.0\.1)(?::\d+)?$/,
 ];
-const RATE_WINDOW_MS = 10 * 60 * 1000;
-const MAX_REQUESTS_PER_WINDOW = 15;
-const requests = new Map<string, { count: number; startedAt: number }>();
-
 function corsHeaders(origin: string | null) {
   return {
     "Access-Control-Allow-Origin": origin ?? "*",
@@ -32,7 +28,7 @@ function jsonResponse(body: Record<string, unknown>, status = 200, origin: strin
 }
 
 function isAllowedOrigin(origin: string | null) {
-  if (!origin) return true;
+  if (!origin) return false;
   return ALLOWED_ORIGIN_PATTERNS.some((pattern) => pattern.test(origin));
 }
 
@@ -51,23 +47,20 @@ function getServiceKey() {
   return key;
 }
 
-function rateLimitKey(req: Request) {
-  return req.headers.get("cf-connecting-ip")
-    ?? req.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
-    ?? "unknown";
-}
+async function rateLimitFingerprint(req: Request, secret: string) {
+  const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+    || req.headers.get("x-real-ip")?.trim();
+  if (!clientIp) throw new Error("No fue posible determinar el origen de la solicitud.");
 
-function checkRateLimit(key: string) {
-  const now = Date.now();
-  const current = requests.get(key);
-  if (!current || now - current.startedAt > RATE_WINDOW_MS) {
-    requests.set(key, { count: 1, startedAt: now });
-    return true;
-  }
-  if (current.count >= MAX_REQUESTS_PER_WINDOW) return false;
-  current.count += 1;
-  requests.set(key, current);
-  return true;
+  const key = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
+  const signature = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(clientIp));
+  return Array.from(new Uint8Array(signature), (byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
 Deno.serve(async (req: Request) => {
@@ -78,9 +71,6 @@ Deno.serve(async (req: Request) => {
   }
   if (req.method !== "POST") return jsonResponse({ error: "Método no permitido." }, 405, origin);
   if (!isAllowedOrigin(origin)) return jsonResponse({ error: "Origen no permitido." }, 403, origin);
-  if (!checkRateLimit(rateLimitKey(req))) {
-    return jsonResponse({ error: "Has realizado varias solicitudes. Espera unos minutos y vuelve a intentarlo." }, 429, origin);
-  }
 
   try {
     const body = await req.json();
@@ -88,11 +78,39 @@ Deno.serve(async (req: Request) => {
     const extension = ALLOWED_TYPES[contentType];
     if (!extension) return jsonResponse({ error: "Formato no permitido. Usa JPG, PNG o WebP." }, 415, origin);
 
+    if (!origin) {
+      return jsonResponse({ error: "Origen no permitido." }, 403, origin);
+    }
+
+    const website = typeof body?.website === "string" ? body.website.trim() : "";
+    if (website) {
+      return jsonResponse({ error: "No fue posible procesar la solicitud." }, 400, origin);
+    }
+
+    const elapsedMs = typeof body?.elapsed_ms === "number" ? body.elapsed_ms : 0;
+    if (!Number.isFinite(elapsedMs) || elapsedMs < 2500) {
+      return jsonResponse({ error: "Espera un momento y vuelve a intentarlo." }, 400, origin);
+    }
+
+    const serviceKey = getServiceKey();
     const supabaseAdmin = createClient(
       Deno.env.get("SUPABASE_URL")!,
-      getServiceKey(),
+      serviceKey,
       { auth: { persistSession: false, autoRefreshToken: false } },
     );
+
+    const fingerprint = await rateLimitFingerprint(req, serviceKey);
+    const { data: requestAllowed, error: rateLimitError } = await supabaseAdmin.rpc(
+      "consume_invitation_request_rate_limit",
+      { p_fingerprint: fingerprint, p_max_requests: 8, p_window_seconds: 600 },
+    );
+    if (rateLimitError) {
+      console.error("No fue posible comprobar el límite de solicitudes:", rateLimitError.message);
+      throw new Error("No fue posible comprobar el límite de solicitudes.");
+    }
+    if (requestAllowed !== true) {
+      return jsonResponse({ error: "Has enviado varias solicitudes recientemente. Espera unos minutos y vuelve a intentarlo." }, 429, origin);
+    }
 
     const path = "solicitudes/" + crypto.randomUUID() + "." + extension;
     const { data: signed, error } = await supabaseAdmin.storage

@@ -1,5 +1,8 @@
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf-lib";
 
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 const PW = 612, PH = 792, M = 48, CW = PW - 2 * M;
 const C = {
   navy: rgb(0.14, 0.20, 0.25), gold: rgb(0.65, 0.49, 0.28),
@@ -206,7 +209,7 @@ export async function GET() {
   finishPage();
 
   const bytes = await pdf.save({ useObjectStreams: true });
-  return new Response(new Uint8Array(bytes), {
+  return new Response(Buffer.from(bytes), {
     status: 200,
     headers: {
       "Content-Type": "application/pdf",

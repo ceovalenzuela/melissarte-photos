@@ -37,8 +37,8 @@ export async function GET() {
   function startPage() {
     page = pdf.addPage([PW, PH]); pageNo++;
     page.drawRectangle({ x: 0, y: 0, width: PW, height: PH, color: C.paper });
-    page.drawText("MELISSARTE  /  INVITACIONES DIGITALES", { x: M, y: PH - 35, size: 8, font: bold, color: C.navy, characterSpacing: 0.8 });
-    page.drawText("MANUAL RÁPIDO", { x: PW - M - 94, y: PH - 35, size: 7.5, font: bold, color: C.gold, characterSpacing: 0.6 });
+    page.drawText("MELISSARTE  /  INVITACIONES DIGITALES", { x: M, y: PH - 35, size: 8, font: bold, color: C.navy });
+    page.drawText("MANUAL RÁPIDO", { x: PW - M - 94, y: PH - 35, size: 7.5, font: bold, color: C.gold });
     page.drawLine({ start: { x: M, y: PH - 45 }, end: { x: PW - M, y: PH - 45 }, thickness: 1, color: C.border });
     y = PH - 62;
   }
@@ -104,7 +104,7 @@ export async function GET() {
   }
 
   startPage();
-  page.drawText("GUÍA RÁPIDA  ·  PASO A PASO", { x: M, y, size: 8.5, font: bold, color: C.gold, characterSpacing: 1.2 });
+  page.drawText("GUÍA RÁPIDA  ·  PASO A PASO", { x: M, y, size: 8.5, font: bold, color: C.gold });
   y -= 30; page.drawText("Manual del panel", { x: M, y, size: 27, font: bold, color: C.navy });
   y -= 31; page.drawText("del organizador", { x: M, y, size: 27, font: bold, color: C.navy }); y -= 19;
   paragraph("Cómo registrar invitados, enviar invitaciones por WhatsApp y controlar las respuestas, sin complicaciones.", { size: 10.2, color: C.muted, lineHeight: 14, after: 9 });

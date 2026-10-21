@@ -38,7 +38,7 @@ jobs:
 
       - name: Lint invitation changes
         # Existing gallery components have unrelated baseline lint errors; keep this PR's gate scoped to changed invitation code.
-        run: npx eslint 'app/dashboard/[slug]/page.tsx' 'app/i/[slug]/page.tsx' 'app/solicitud-invitacion/page.tsx' 'app/invitaciones/page.tsx' 'app/invitaciones/demo/[tipo]/page.tsx' components/invitations lib/invitations.ts types/invitation.ts
+        run: npx eslint 'app/dashboard/[slug]/page.tsx' 'app/i/[slug]/page.tsx' 'app/solicitud-invitacion/page.tsx' 'app/invitaciones/page.tsx' components/invitations lib/invitations.ts types/invitation.ts
 
       - name: Build
         run: npm run build

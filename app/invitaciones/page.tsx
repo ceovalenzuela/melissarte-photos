@@ -21,7 +21,7 @@ import {
 export const metadata = {
   title: "Invitaciones digitales para tu evento | Melissarte",
   description:
-    "Invitaciones digitales personalizadas para bodas, XV años, baby shower, revelaciones y bautizos. Elige tu opción y conoce los diseños demo.",
+    "Invitaciones digitales personalizadas para bodas y XV años. Explora los diseños disponibles y elige la opción ideal para tu evento.",
 };
 
 const WHATSAPP_NUMBER = "528133867050";
@@ -185,7 +185,7 @@ export default function InvitationsLandingPage() {
               Mira cómo podría verse la tuya
             </h2>
             <p className="mt-4 text-sm leading-6 text-[#625A50] sm:text-base">
-              Explora un ejemplo de cada celebración. Cada invitación tiene su propio estilo y puedes ver cómo se presenta en el celular.
+              Por ahora puedes explorar nuestras invitaciones de boda y XV años. Ábrelas desde tu celular para conocer la experiencia completa.
             </p>
           </div>
           <div className="mx-auto mt-10 grid max-w-5xl gap-7 sm:grid-cols-2">

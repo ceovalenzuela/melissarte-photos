@@ -330,11 +330,6 @@ Deno.serve(async (req) => {
       serviceKey
     );
 
-    const expiredRequestCoverPaths = await getExpiredRequestCoverPaths(supabaseAdmin);
-    if (!dryRun && expiredRequestCoverPaths.length > 0) {
-      await removeStorageObjects(supabaseAdmin, "event-covers", expiredRequestCoverPaths);
-    }
-
     const cutoff = new Date();
     cutoff.setUTCDate(
       cutoff.getUTCDate() - 30
@@ -386,6 +381,11 @@ Deno.serve(async (req) => {
       }
 
       events = [selectedEvent];
+    }
+
+    const expiredRequestCoverPaths = await getExpiredRequestCoverPaths(supabaseAdmin);
+    if (!dryRun && expiredRequestCoverPaths.length > 0) {
+      await removeStorageObjects(supabaseAdmin, "event-covers", expiredRequestCoverPaths);
     }
 
     const results = {

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { ReactNode } from "react";
 import {
   ArrowDown,
   ArrowRight,
@@ -12,12 +13,10 @@ import {
   Heart,
   MapPin,
   MessageCircle,
-  Mic,
   Play,
   QrCode,
   Sparkles,
   Users,
-  Volume2,
 } from "lucide-react";
 
 export const metadata = {
@@ -115,7 +114,7 @@ function PriceLink({
 }: {
   href: string;
   whatsappText: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   const target = href || WHATSAPP_URL;
   const label = href ? children : whatsappText;

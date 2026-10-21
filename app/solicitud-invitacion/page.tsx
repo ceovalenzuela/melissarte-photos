@@ -167,6 +167,7 @@ function getEventLabel(data: RequestData) {
 
 function createRequestText(data: RequestData, coverUrl: string) {
   const template = getSuggestedTemplate(data.eventType);
+  const selectedPalette = getColorOptions(data.eventType).find((item) => item.value === data.colorPreference);
   const lines = [
     "SOLICITUD DE INVITACIÓN DIGITAL · MELISSARTE", "",
     "TIPO DE EVENTO: " + getEventLabel(data),
@@ -215,6 +216,7 @@ function createRequestText(data: RequestData, coverUrl: string) {
     "", "SUGERENCIA DE DISEÑO",
     "Diseño sugerido: " + template.label,
     "Preferencia de color: " + colorPreferenceLabel(data.colorPreference, data.eventType),
+    "Colores de referencia (HEX): " + (selectedPalette?.colors ?? template.colors).join(", "),
     "", "FOTO DE PORTADA",
     "Enlace a la foto: " + coverUrl,
   );

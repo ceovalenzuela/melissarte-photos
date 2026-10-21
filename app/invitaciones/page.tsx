@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { ReactNode } from "react";
 import {
   ArrowDown,
@@ -38,9 +37,6 @@ const INVITATION_DEMOS = [
     detail: "Elegante · Editorial",
     title: "Sofía y Alejandro",
     href: "https://events.melissartedecorativo.com/i/boda-sofia-y-alejandro",
-    image: "/invitaciones/demo-boda.webp",
-    imageWidth: 220,
-    imageHeight: 273,
     button: "Ver invitación completa",
   },
   {
@@ -49,9 +45,6 @@ const INVITATION_DEMOS = [
     detail: "Gala · Ciruela y oro",
     title: "Valentina",
     href: "https://events.melissartedecorativo.com/i/xv",
-    image: "/invitaciones/demo-xv.webp",
-    imageWidth: 220,
-    imageHeight: 275,
     button: "Ver invitación completa",
   },
 ] as const;
@@ -174,10 +167,14 @@ export default function InvitationsLandingPage() {
             <div aria-hidden="true" className="absolute -left-4 top-12 h-32 w-32 rounded-full bg-[#E2CDAE]/45 blur-2xl" />
             <div className="relative grid grid-cols-2 items-start gap-3 sm:gap-4">
               <a href="https://events.melissartedecorativo.com/i/boda-sofia-y-alejandro" target="_blank" rel="noreferrer" aria-label="Ver invitación real de boda" className="mt-9 block rotate-[-3deg] overflow-hidden rounded-[1.4rem] border border-white/80 bg-white p-2.5 shadow-[0_24px_70px_rgba(49,41,30,.12)] transition hover:-translate-y-1 sm:mt-12 sm:rounded-[1.8rem] sm:p-3">
-                <Image src="/invitaciones/demo-boda.webp" alt="Vista previa de la invitación de boda de Sofía y Alejandro" width={220} height={273} priority sizes="(min-width: 1024px) 260px, 44vw" className="h-auto w-full rounded-[1rem] sm:rounded-[1.3rem]" />
+                <div className="relative aspect-[9/20] w-full overflow-hidden rounded-[1rem] bg-[#F0E8DB] sm:rounded-[1.3rem]">
+                  <iframe title="Vista previa de la invitación de boda de Sofía y Alejandro" src="https://events.melissartedecorativo.com/i/boda-sofia-y-alejandro" loading="eager" className="pointer-events-none absolute inset-0 h-full w-full border-0 bg-white" />
+                </div>
               </a>
               <a href="https://events.melissartedecorativo.com/i/xv" target="_blank" rel="noreferrer" aria-label="Ver invitación real de XV años" className="block overflow-hidden rounded-[1.4rem] border border-white/80 bg-white p-2.5 shadow-[0_24px_70px_rgba(49,41,30,.12)] transition hover:-translate-y-1 sm:rounded-[1.8rem] sm:p-3">
-                <Image src="/invitaciones/demo-xv.webp" alt="Vista previa de la invitación de XV años de Valentina" width={220} height={275} priority sizes="(min-width: 1024px) 260px, 44vw" className="h-auto w-full rounded-[1rem] sm:rounded-[1.3rem]" />
+                <div className="relative aspect-[9/20] w-full overflow-hidden rounded-[1rem] bg-[#F0E8DB] sm:rounded-[1.3rem]">
+                  <iframe title="Vista previa de la invitación de XV años de Valentina" src="https://events.melissartedecorativo.com/i/xv" loading="eager" className="pointer-events-none absolute inset-0 h-full w-full border-0 bg-white" />
+                </div>
               </a>
               <div className="absolute -bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full border border-[#E6D8C4] bg-[#FCFAF6] px-4 py-2.5 text-[11px] font-medium text-[#625A50] shadow-lg sm:text-xs">
                 <CalendarDays size={15} className="text-[#A88249]" />
@@ -203,14 +200,12 @@ export default function InvitationsLandingPage() {
             {INVITATION_DEMOS.map((demo) => (
               <article key={demo.key} className="mx-auto w-full max-w-[420px] overflow-hidden rounded-[1.5rem] border border-[#E8E0D4] bg-[#FCFAF6] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(53,44,32,.10)]">
                 <a href={demo.href} target="_blank" rel="noreferrer" aria-label={demo.button} className="block bg-[#F0E8DB] p-3 sm:p-4">
-                  <div className="mx-auto max-w-[310px] overflow-hidden rounded-[1.1rem] border border-white/80 bg-white shadow-[0_14px_40px_rgba(49,41,30,.16)] sm:rounded-[1.4rem]">
-                    <Image
-                      src={demo.image}
-                      alt={`Captura de la invitación digital de ${demo.title}`}
-                      width={demo.imageWidth}
-                      height={demo.imageHeight}
-                      sizes="(min-width: 640px) 310px, 90vw"
-                      className="h-auto w-full"
+                  <div className="relative mx-auto aspect-[9/20] w-full max-w-[310px] overflow-hidden rounded-[1.1rem] border border-white/80 bg-white shadow-[0_14px_40px_rgba(49,41,30,.16)] sm:rounded-[1.4rem]">
+                    <iframe
+                      title={`Vista previa de la invitación de ${demo.title}`}
+                      src={demo.href}
+                      loading="lazy"
+                      className="pointer-events-none absolute inset-0 h-full w-full border-0 bg-white"
                     />
                   </div>
                 </a>

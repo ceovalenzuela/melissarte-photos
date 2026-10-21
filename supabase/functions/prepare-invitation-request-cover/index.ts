@@ -11,10 +11,6 @@ const ALLOWED_ORIGIN_PATTERNS = [
   /^https:\/\/[a-z0-9-]*melissarte-photos[a-z0-9-]*\.vercel\.app$/,
   /^http:\/\/(?:localhost|127\.0\.0\.1)(?::\d+)?$/,
 ];
-const RATE_WINDOW_MS = 10 * 60 * 1000;
-const MAX_REQUESTS_PER_WINDOW = 15;
-const requests = new Map<string, { count: number; startedAt: number }>();
-
 function corsHeaders(origin: string | null) {
   return {
     "Access-Control-Allow-Origin": origin ?? "*",
@@ -51,57 +47,9 @@ function getServiceKey() {
   return key;
 }
 
-function rateLimitKey(req: Request) {
-  return req.headers.get("cf-connecting-ip")
-    ?? req.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
-    ?? "unknown";
-}
-
-let rateLimitCleanupCounter = 0;
-
-function checkRateLimit(key: string) {
-  const now = Date.now();
-  rateLimitCleanupCounter += 1;
-  if (rateLimitCleanupCounter % 100 === 0) {
-    for (const [storedKey, entry] of requests) {
-      if (now - entry.startedAt > RATE_WINDOW_MS) requests.delete(storedKey);
-    }
-  }
-  const current = requests.get(key);
-  if (!current || now - current.startedAt > RATE_WINDOW_MS) {
-    requests.set(key, { count: 1, startedAt: now });
-    return true;
-  }
-  if (current.count >= MAX_REQUESTS_PER_WINDOW) return false;
-  current.count += 1;
-  requests.set(key, current);
-  return true;
-}
-
-async function verifyTurnstileToken(token: string, expectedHostname: string) {
-  const secret = Deno.env.get("TURNSTILE_SECRET_KEY");
-  if (!secret) throw new Error("Falta configurar TURNSTILE_SECRET_KEY.");
-
-  const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ secret, response: token }),
-  });
-  if (!response.ok) throw new Error("No se pudo validar la verificación de seguridad.");
-
-  const result = await response.json() as {
-    success?: boolean;
-    hostname?: string;
-    action?: string;
-  };
-  return result.success === true
-    && result.action === "invitation_request"
-    && result.hostname === expectedHostname;
-}
-
 async function rateLimitFingerprint(req: Request, secret: string) {
-  const clientIp = req.headers.get("cf-connecting-ip")?.trim()
-    || req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+    || req.headers.get("x-real-ip")?.trim();
   if (!clientIp) throw new Error("No fue posible determinar el origen de la solicitud.");
 
   const key = await crypto.subtle.importKey(
@@ -123,9 +71,6 @@ Deno.serve(async (req: Request) => {
   }
   if (req.method !== "POST") return jsonResponse({ error: "Método no permitido." }, 405, origin);
   if (!isAllowedOrigin(origin)) return jsonResponse({ error: "Origen no permitido." }, 403, origin);
-  if (!checkRateLimit(rateLimitKey(req))) {
-    return jsonResponse({ error: "Has realizado varias solicitudes. Espera unos minutos y vuelve a intentarlo." }, 429, origin);
-  }
 
   try {
     const body = await req.json();
@@ -133,20 +78,18 @@ Deno.serve(async (req: Request) => {
     const extension = ALLOWED_TYPES[contentType];
     if (!extension) return jsonResponse({ error: "Formato no permitido. Usa JPG, PNG o WebP." }, 415, origin);
 
-    const turnstileToken = typeof body?.turnstile_token === "string" ? body.turnstile_token.trim() : "";
-    const turnstileRequired = Deno.env.get("TURNSTILE_REQUIRE_TOKEN") !== "false";
     if (!origin) {
       return jsonResponse({ error: "Origen no permitido." }, 403, origin);
     }
-    if (!turnstileToken && turnstileRequired) {
-      return jsonResponse({ error: "Completa la verificación de seguridad para continuar." }, 400, origin);
+
+    const website = typeof body?.website === "string" ? body.website.trim() : "";
+    if (website) {
+      return jsonResponse({ error: "No fue posible procesar la solicitud." }, 400, origin);
     }
-    if (turnstileToken) {
-      const expectedHostname = new URL(origin).hostname;
-      const turnstileValid = await verifyTurnstileToken(turnstileToken, expectedHostname);
-      if (!turnstileValid) {
-        return jsonResponse({ error: "La verificación de seguridad no fue válida. Inténtalo de nuevo." }, 403, origin);
-      }
+
+    const elapsedMs = typeof body?.elapsed_ms === "number" ? body.elapsed_ms : 0;
+    if (!Number.isFinite(elapsedMs) || elapsedMs < 2500) {
+      return jsonResponse({ error: "Espera un momento y vuelve a intentarlo." }, 400, origin);
     }
 
     const serviceKey = getServiceKey();

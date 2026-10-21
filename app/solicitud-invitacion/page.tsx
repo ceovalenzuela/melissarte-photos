@@ -268,11 +268,14 @@ export default function InvitationRequestPage() {
   const [whatsAppUrl, setWhatsAppUrl] = useState("");
   const [preparingMessage, setPreparingMessage] = useState(false);
   const [honeypotValue, setHoneypotValue] = useState("");
-  const formStartedAtRef = useRef(Date.now());
+  const formStartedAtRef = useRef<number | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => () => {
-    if (coverPreview) URL.revokeObjectURL(coverPreview);
+  useEffect(() => {
+    if (formStartedAtRef.current === null) formStartedAtRef.current = Date.now();
+    return () => {
+      if (coverPreview) URL.revokeObjectURL(coverPreview);
+    };
   }, [coverPreview]);
 
   function updateForm<K extends keyof RequestData>(key: K, value: RequestData[K]) {
@@ -412,7 +415,7 @@ export default function InvitationRequestPage() {
         body: {
           content_type: imageFile.type,
           website: honeypotValue,
-          elapsed_ms: Date.now() - formStartedAtRef.current,
+          elapsed_ms: formStartedAtRef.current === null ? 0 : Date.now() - formStartedAtRef.current,
         },
       });
       if (error || data?.success !== true || typeof data.path !== "string" || typeof data.token !== "string") {

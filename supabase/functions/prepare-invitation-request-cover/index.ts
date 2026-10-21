@@ -134,14 +134,19 @@ Deno.serve(async (req: Request) => {
     if (!extension) return jsonResponse({ error: "Formato no permitido. Usa JPG, PNG o WebP." }, 415, origin);
 
     const turnstileToken = typeof body?.turnstile_token === "string" ? body.turnstile_token.trim() : "";
-    if (!turnstileToken || !origin) {
+    const turnstileRequired = Deno.env.get("TURNSTILE_REQUIRE_TOKEN") !== "false";
+    if (!origin) {
+      return jsonResponse({ error: "Origen no permitido." }, 403, origin);
+    }
+    if (!turnstileToken && turnstileRequired) {
       return jsonResponse({ error: "Completa la verificación de seguridad para continuar." }, 400, origin);
     }
-
-    const expectedHostname = new URL(origin).hostname;
-    const turnstileValid = await verifyTurnstileToken(turnstileToken, expectedHostname);
-    if (!turnstileValid) {
-      return jsonResponse({ error: "La verificación de seguridad no fue válida. Inténtalo de nuevo." }, 403, origin);
+    if (turnstileToken) {
+      const expectedHostname = new URL(origin).hostname;
+      const turnstileValid = await verifyTurnstileToken(turnstileToken, expectedHostname);
+      if (!turnstileValid) {
+        return jsonResponse({ error: "La verificación de seguridad no fue válida. Inténtalo de nuevo." }, 403, origin);
+      }
     }
 
     const serviceKey = getServiceKey();

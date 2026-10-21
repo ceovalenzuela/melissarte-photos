@@ -439,7 +439,7 @@ export default function InvitationRequestPage() {
         </header>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          <Section number="1" title="Tipo de evento y plan" description="Elige el tipo de celebración y el tipo de invitación que contrataste." icon={<PartyPopper size={20} />}>
+          <Section number="1" title="Tipo de evento e invitación" description="Elige el tipo de celebración y el tipo de invitación que contrataste." icon={<PartyPopper size={20} />}>
             <div className="grid gap-3 sm:grid-cols-2">
               {EVENT_TYPES.map((item) => {
                 const selected = form.eventType === item.value;
@@ -514,7 +514,7 @@ export default function InvitationRequestPage() {
               </div>
             ) : (
               <div className="rounded-2xl border border-[#D8E5D9] bg-[#F4F8F3] p-4 sm:p-5">
-                <p className="text-sm font-semibold text-[#294E35]">Plus · Formulario de confirmación y panel</p>
+                <p className="text-sm font-semibold text-[#294E35]">Plus · Confirmación con registro</p>
                 <p className="mt-1 text-sm leading-6 text-[#4E5E50]">Tus invitados podrán confirmar desde la invitación y tú podrás consultar sus respuestas.</p>
               </div>
             )}

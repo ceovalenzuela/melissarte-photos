@@ -64,7 +64,7 @@ const ALTERNATIVE_PALETTES: Record<EventType, [PaletteAlternative, PaletteAltern
     { label: "Borgoña, champagne y crema", description: "Romántico y sofisticado, con tonos profundos.", colors: ["#713543", "#E7D4B7", "#FFF7EA"] },
   ],
   xv: [
-    { label: "Rosa empolvado y oro rosa", description: "Romántico y glamuroso, sin tonos demasiado intensos.", colors: ["#D9A1AA", "#B8757D", "#FFF5EC"] },
+    { label: "Rosa empolvado, oro rosa y marfil", description: "Romántico y glamuroso, sin tonos demasiado intensos.", colors: ["#D9A1AA", "#B8757D", "#FFF5EC"] },
     { label: "Lavanda, plata y lila", description: "Delicado, moderno y luminoso.", colors: ["#B9A5D2", "#B9BEC8", "#F1EAF7"] },
   ],
   baby_shower: [

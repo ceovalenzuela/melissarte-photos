@@ -78,17 +78,24 @@ const INVITATION_PLUS_URL =
 
 function PriceLink({
   href,
+  tone = "navy",
   children,
 }: {
   href: string;
+  tone?: "navy" | "gold";
   children: ReactNode;
 }) {
+  const colors =
+    tone === "gold"
+      ? "bg-[#D5B77C] text-[#202B34] hover:bg-[#E8D09E] focus-visible:ring-white"
+      : "bg-[#263D4B] text-white hover:bg-[#172C38] focus-visible:ring-[#A88249]";
+
   return (
     <a
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#263D4B] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#172C38] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A88249] focus-visible:ring-offset-2"
+      className={`inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent ${colors}`}
     >
       {children}
       <ArrowRight size={16} />
@@ -279,7 +286,7 @@ export default function InvitationsLandingPage() {
                 <p className="mt-1 text-xs leading-5 text-white/70">Ya no necesitas reunir los mensajes uno por uno: consulta el estado de las respuestas en el panel.</p>
               </div>
               <div className="relative mt-auto pt-6">
-                <PriceLink href={INVITATION_PLUS_URL}>Comprar Plus</PriceLink>
+                <PriceLink href={INVITATION_PLUS_URL} tone="gold">Comprar Plus</PriceLink>
               </div>
             </article>
           </div>

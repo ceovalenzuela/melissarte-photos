@@ -12,10 +12,14 @@ Si se necesita probar el formulario antes de producción, usar un entorno aislad
 
 ## Orden de despliegue
 
-1. Revisar y fusionar la migración `20261020000000_invitation_request_rate_limit.sql` en la ventana aprobada. Crea un registro privado de huellas HMAC para limitar las solicitudes a 8 por IP cada 10 minutos; no guarda las IP en claro.
-2. Configurar `TURNSTILE_SECRET_KEY` en Supabase.
-3. Desplegar `prepare-invitation-request-cover` y `cleanup-expired-events` desde el código revisado. La función de carga exige un token Turnstile verificado en servidor y usa el límite persistente.
-4. Configurar `NEXT_PUBLIC_TURNSTILE_SITE_KEY` en Vercel y desplegar la página. No promover a producción hasta probar el flujo completo.
+Para evitar dejar fuera de servicio el formulario que ya está publicado, hacer el cambio en etapas:
+
+1. Crear el widget y configurar `TURNSTILE_SECRET_KEY` en Supabase. Temporalmente establecer `TURNSTILE_REQUIRE_TOKEN=false`; el valor predeterminado del código es exigir el token, así que no debe dejarse esta variable sin configurar durante la transición.
+2. Aplicar la migración `20261020000000_invitation_request_rate_limit.sql` en la ventana aprobada. Crea un registro privado de huellas HMAC para limitar las solicitudes a 8 por IP cada 10 minutos; no guarda las IP en claro.
+3. Desplegar `prepare-invitation-request-cover` y `cleanup-expired-events` desde el código revisado. Durante la transición, el formulario anterior sigue funcionando y cada solicitud usa el límite persistente; cualquier token Turnstile que sí se envíe se valida.
+4. Configurar `NEXT_PUBLIC_TURNSTILE_SITE_KEY` en Vercel y publicar la página nueva. Esta versión no deja continuar al usuario si no completa Turnstile.
+5. Confirmar que la página nueva está activa y que las solicitudes reales se validan correctamente; después cambiar `TURNSTILE_REQUIRE_TOKEN=true` en Supabase para rechazar también las peticiones directas que no incluyan token. **No dejar el valor en `false` después de la transición.**
+6. Completar las pruebas de la sección siguiente antes de anunciar el formulario como listo.
 
 La limpieza de portadas de solicitud usa el cron existente de `cleanup-expired-events` y elimina archivos en `event-covers/solicitudes/` con más de 90 días. Los eventos y sus reglas de limpieza actuales se conservan.
 

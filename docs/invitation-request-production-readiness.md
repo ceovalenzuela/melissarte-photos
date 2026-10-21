@@ -16,8 +16,8 @@ Para evitar dejar fuera de servicio el formulario que ya está publicado, hacer 
 
 1. Crear el widget y configurar `TURNSTILE_SECRET_KEY` en Supabase. Temporalmente establecer `TURNSTILE_REQUIRE_TOKEN=false`; el valor predeterminado del código es exigir el token, así que no debe dejarse esta variable sin configurar durante la transición.
 2. Aplicar la migración `20261020000000_invitation_request_rate_limit.sql` en la ventana aprobada. Crea un registro privado de huellas HMAC para limitar las solicitudes a 8 por IP cada 10 minutos; no guarda las IP en claro.
-3. Desplegar `prepare-invitation-request-cover` y `cleanup-expired-events` desde el código revisado. Durante la transición, el formulario anterior sigue funcionando y cada solicitud usa el límite persistente; cualquier token Turnstile que sí se envíe se valida.
-4. Configurar `NEXT_PUBLIC_TURNSTILE_SITE_KEY` en Vercel y publicar la página nueva. Esta versión no deja continuar al usuario si no completa Turnstile.
+3. Desplegar `prepare-invitation-request-cover` y `cleanup-expired-events` usando esta rama, mientras el PR todavía no se fusiona. Con `TURNSTILE_REQUIRE_TOKEN=false`, el formulario actual sigue funcionando y usa el límite persistente; cualquier token Turnstile que sí se envíe se valida.
+4. Verificar que `NEXT_PUBLIC_TURNSTILE_SITE_KEY` esté configurada en Vercel y, tras aprobar el cambio, fusionar el PR y esperar a que la página nueva quede publicada. Esta versión no deja continuar al usuario si no completa Turnstile.
 5. Confirmar que la página nueva está activa y que las solicitudes reales se validan correctamente; después cambiar `TURNSTILE_REQUIRE_TOKEN=true` en Supabase para rechazar también las peticiones directas que no incluyan token. **No dejar el valor en `false` después de la transición.**
 6. Completar las pruebas de la sección siguiente antes de anunciar el formulario como listo.
 

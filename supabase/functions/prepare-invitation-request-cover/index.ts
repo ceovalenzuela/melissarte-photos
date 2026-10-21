@@ -32,7 +32,7 @@ function jsonResponse(body: Record<string, unknown>, status = 200, origin: strin
 }
 
 function isAllowedOrigin(origin: string | null) {
-  if (!origin) return true;
+  if (!origin) return false;
   return ALLOWED_ORIGIN_PATTERNS.some((pattern) => pattern.test(origin));
 }
 
@@ -70,6 +70,43 @@ function checkRateLimit(key: string) {
   return true;
 }
 
+async function verifyTurnstileToken(token: string, expectedHostname: string) {
+  const secret = Deno.env.get("TURNSTILE_SECRET_KEY");
+  if (!secret) throw new Error("Falta configurar TURNSTILE_SECRET_KEY.");
+
+  const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ secret, response: token }),
+  });
+  if (!response.ok) throw new Error("No se pudo validar la verificación de seguridad.");
+
+  const result = await response.json() as {
+    success?: boolean;
+    hostname?: string;
+    action?: string;
+  };
+  return result.success === true
+    && result.action === "invitation_request"
+    && result.hostname === expectedHostname;
+}
+
+async function rateLimitFingerprint(req: Request, secret: string) {
+  const clientIp = req.headers.get("cf-connecting-ip")?.trim()
+    || req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  if (!clientIp) throw new Error("No fue posible determinar el origen de la solicitud.");
+
+  const key = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
+  const signature = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(clientIp));
+  return Array.from(new Uint8Array(signature), (byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
 Deno.serve(async (req: Request) => {
   const origin = req.headers.get("origin");
   if (req.method === "OPTIONS") {
@@ -88,11 +125,36 @@ Deno.serve(async (req: Request) => {
     const extension = ALLOWED_TYPES[contentType];
     if (!extension) return jsonResponse({ error: "Formato no permitido. Usa JPG, PNG o WebP." }, 415, origin);
 
+    const turnstileToken = typeof body?.turnstile_token === "string" ? body.turnstile_token.trim() : "";
+    if (!turnstileToken || !origin) {
+      return jsonResponse({ error: "Completa la verificación de seguridad para continuar." }, 400, origin);
+    }
+
+    const expectedHostname = new URL(origin).hostname;
+    const turnstileValid = await verifyTurnstileToken(turnstileToken, expectedHostname);
+    if (!turnstileValid) {
+      return jsonResponse({ error: "La verificación de seguridad no fue válida. Inténtalo de nuevo." }, 403, origin);
+    }
+
+    const serviceKey = getServiceKey();
     const supabaseAdmin = createClient(
       Deno.env.get("SUPABASE_URL")!,
-      getServiceKey(),
+      serviceKey,
       { auth: { persistSession: false, autoRefreshToken: false } },
     );
+
+    const fingerprint = await rateLimitFingerprint(req, serviceKey);
+    const { data: requestAllowed, error: rateLimitError } = await supabaseAdmin.rpc(
+      "consume_invitation_request_rate_limit",
+      { p_fingerprint: fingerprint, p_max_requests: 8, p_window_seconds: 600 },
+    );
+    if (rateLimitError) {
+      console.error("No fue posible comprobar el límite de solicitudes:", rateLimitError.message);
+      throw new Error("No fue posible comprobar el límite de solicitudes.");
+    }
+    if (requestAllowed !== true) {
+      return jsonResponse({ error: "Has enviado varias solicitudes recientemente. Espera unos minutos y vuelve a intentarlo." }, 429, origin);
+    }
 
     const path = "solicitudes/" + crypto.randomUUID() + "." + extension;
     const { data: signed, error } = await supabaseAdmin.storage

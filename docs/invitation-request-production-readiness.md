@@ -4,10 +4,10 @@ Esta versión no depende de un CAPTCHA ni de un servicio antispam de terceros. U
 
 ## Orden de despliegue
 
-1. Aplicar la migración `20261020000000_invitation_request_rate_limit.sql`. Crea una tabla privada de huellas HMAC (no IP en claro) y una función RPC que limita a 8 solicitudes por origen de red cada 10 minutos.
+1. La migración `20261021013123_invitation_request_rate_limit.sql` ya está aplicada en producción. En un entorno nuevo, aplícala una sola vez. Crea una tabla privada de huellas HMAC (no IP en claro) y una función RPC que limita a 8 solicitudes por origen de red cada 10 minutos.
 2. Desplegar la Edge Function `prepare-invitation-request-cover`. Valida el origen de la página, descarta el campo trampa si está rellenado, rechaza envíos demasiado rápidos, usa el límite persistente y crea enlaces de carga únicos en el bucket `event-covers`.
 3. Desplegar la Edge Function `cleanup-expired-events`. La tarea programada existente incluirá también la limpieza de fotos de solicitudes de más de 90 días.
-4. Fusionar este PR con *squash* para llevar a `main` un único commit de cambios y dejar que Vercel publique la página.
+4. Publicar los cambios de la página en `main` y confirmar que Vercel complete el despliegue.
 5. Verificar el recorrido completo una vez que los cambios estén activos.
 
 ## Comprobaciones previas y posteriores

@@ -163,10 +163,10 @@ export default function InvitationsLandingPage() {
             <div aria-hidden="true" className="absolute -left-4 top-12 h-32 w-32 rounded-full bg-[#E2CDAE]/45 blur-2xl" />
             <div className="relative grid grid-cols-2 items-start gap-3 sm:gap-4">
               <a href="https://events.melissartedecorativo.com/i/boda-sofia-y-alejandro" target="_blank" rel="noreferrer" aria-label="Ver invitación real de boda" className="mt-9 block rotate-[-3deg] overflow-hidden rounded-[1.4rem] border border-white/80 bg-white p-2.5 shadow-[0_24px_70px_rgba(49,41,30,.12)] transition hover:-translate-y-1 sm:mt-12 sm:rounded-[1.8rem] sm:p-3">
-                <Image src="/invitaciones/demo-boda.webp" alt="Vista previa de la invitación de boda de Sofía y Alejandro" width={430} height={910} priority sizes="(min-width: 1024px) 260px, 44vw" className="h-auto w-full rounded-[1rem] sm:rounded-[1.3rem]" />
+                <Image src="/invitaciones/demo-boda.webp" alt="Vista previa de la invitación de boda de Sofía y Alejandro" width={220} height={273} priority sizes="(min-width: 1024px) 260px, 44vw" className="h-auto w-full rounded-[1rem] sm:rounded-[1.3rem]" />
               </a>
               <a href="https://events.melissartedecorativo.com/i/xv" target="_blank" rel="noreferrer" aria-label="Ver invitación real de XV años" className="block overflow-hidden rounded-[1.4rem] border border-white/80 bg-white p-2.5 shadow-[0_24px_70px_rgba(49,41,30,.12)] transition hover:-translate-y-1 sm:rounded-[1.8rem] sm:p-3">
-                <Image src="/invitaciones/demo-xv.webp" alt="Vista previa de la invitación de XV años de Valentina" width={430} height={913} priority sizes="(min-width: 1024px) 260px, 44vw" className="h-auto w-full rounded-[1rem] sm:rounded-[1.3rem]" />
+                <Image src="/invitaciones/demo-xv.webp" alt="Vista previa de la invitación de XV años de Valentina" width={220} height={275} priority sizes="(min-width: 1024px) 260px, 44vw" className="h-auto w-full rounded-[1rem] sm:rounded-[1.3rem]" />
               </a>
               <div className="absolute -bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full border border-[#E6D8C4] bg-[#FCFAF6] px-4 py-2.5 text-[11px] font-medium text-[#625A50] shadow-lg sm:text-xs">
                 <CalendarDays size={15} className="text-[#A88249]" />

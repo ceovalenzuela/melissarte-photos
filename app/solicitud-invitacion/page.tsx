@@ -2,15 +2,16 @@
 
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 import {
-  CalendarDays, Camera, CheckCircle2, Copy, Download, Gift, MapPin,
-  MessageCircle, Palette, PartyPopper, ShieldCheck, Sparkles, Upload, Users,
+  CalendarDays, Camera, CheckCircle2, Copy, Download, Gift, MapPin, Minus,
+  MessageCircle, Palette, PartyPopper, Plus, ShieldCheck, Sparkles, Upload, Users,
 } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 type EventType = "boda" | "xv" | "baby_shower" | "revelacion" | "bautizo" | "otro";
-type Plan = "esencial" | "plus";
-type ColorPreference = "recomendada" | "claros" | "oscuros" | "champagne" | "azules" | "calidos" | "asesoria";
+type Plan = "esencial" | "plus" | "";
+type ColorPreference = "plantilla" | "champagne" | "azules";
 type RequestData = {
-  eventType: EventType; otherEventType: string; plan: Plan; headline: string; eventDate: string;
+  eventType: EventType | ""; otherEventType: string; plan: Plan; headline: string; eventDate: string;
   receptionTime: string; receptionVenue: string; receptionAddress: string; hostNames: string;
   introduction: string; hasReligiousCeremony: boolean; religiousTime: string; religiousVenue: string;
   religiousAddress: string; dressCode: string; rsvpDeadline: string; giftMessage: string;
@@ -20,46 +21,73 @@ type RequestData = {
 
 const WHATSAPP_MELISSARTE = "528133867050";
 const INITIAL_FORM: RequestData = {
-  eventType: "boda", otherEventType: "", plan: "esencial", headline: "", eventDate: "",
+  eventType: "", otherEventType: "", plan: "", headline: "", eventDate: "",
   receptionTime: "", receptionVenue: "", receptionAddress: "", hostNames: "", introduction: "",
   hasReligiousCeremony: false, religiousTime: "", religiousVenue: "", religiousAddress: "",
   dressCode: "", rsvpDeadline: "", giftMessage: "", giftType: "", giftRegistryLabel: "",
-  giftRegistryUrl: "", confirmationPhone: "", maxPartySize: "2", colorPreference: "recomendada",
+  giftRegistryUrl: "", confirmationPhone: "", maxPartySize: "2", colorPreference: "plantilla",
 };
 
 const EVENT_TYPES: { value: EventType; label: string; description: string }[] = [
-  { value: "boda", label: "Boda", description: "Azul noche, marfil y champagne." },
-  { value: "xv", label: "XV años", description: "Ciruela, malva y dorado suave." },
-  { value: "baby_shower", label: "Baby shower", description: "Durazno, terracota y celeste." },
-  { value: "revelacion", label: "Revelación de género", description: "Tonos suaves, cálidos y celestes." },
-  { value: "bautizo", label: "Bautizo", description: "Marfil y azul grisáceo." },
-  { value: "otro", label: "Otro evento", description: "Recomendaremos la plantilla disponible que mejor encaje." },
+  { value: "boda", label: "Boda", description: "Para celebrar su unión." },
+  { value: "xv", label: "XV años", description: "Para una celebración de gala." },
+  { value: "baby_shower", label: "Baby shower", description: "Para celebrar la llegada de un bebé." },
+  { value: "revelacion", label: "Revelación de género", description: "Para compartir la noticia con familia y amigos." },
+  { value: "bautizo", label: "Bautizo", description: "Para una celebración familiar y religiosa." },
+  { value: "otro", label: "Otro evento", description: "Para cualquier otra celebración." },
 ];
 
-const COLOR_OPTIONS: { value: ColorPreference; label: string; description: string; colors: string[] }[] = [
-  { value: "recomendada", label: "La paleta recomendada para mi evento", description: "Partimos de los colores principales de la plantilla sugerida.", colors: ["#F5F0E7", "#D5B77C", "#111B29"] },
-  { value: "claros", label: "Tonos claros y delicados", description: "Preferencia por fondos suaves, marfil y acentos ligeros.", colors: ["#FFF4E8", "#F5F0E7", "#C7DBE5"] },
-  { value: "oscuros", label: "Tonos oscuros y elegantes", description: "Preferencia por colores profundos, como azul noche o ciruela.", colors: ["#111B29", "#211B35", "#49324F"] },
-  { value: "champagne", label: "Detalles dorados o champagne", description: "Acentos cálidos inspirados en dorado suave y champagne.", colors: ["#D5B77C", "#E2C47A", "#F5F0E7"] },
-  { value: "azules", label: "Acentos azules", description: "Preferencia por azul grisáceo y celeste.", colors: ["#263641", "#426D86", "#C7DBE5"] },
-  { value: "calidos", label: "Tonos cálidos", description: "Preferencia por durazno, marfil o terracota.", colors: ["#FFF4E8", "#A85F47", "#E9F4F6"] },
-  { value: "asesoria", label: "Prefiero que me asesoren", description: "El equipo recomendará una combinación acorde al evento.", colors: ["#F5F0E7", "#9CA3AF", "#302B27"] },
+const COLOR_OPTIONS: { value: ColorPreference; label: string; description: string }[] = [
+  { value: "plantilla", label: "Colores originales", description: "Conservar los colores principales del diseño sugerido." },
+  { value: "champagne", label: "Champagne y dorado", description: "Un acento cálido y elegante." },
+  { value: "azules", label: "Azules y celestes", description: "Un acento fresco y delicado." },
 ];
 
-const PLAN_DETAILS: Record<Plan, { title: string; subtitle: string; description: string; features: string[] }> = {
+const PLAN_DETAILS: Record<Exclude<Plan, "">, { title: string; description: string }> = {
   esencial: {
     title: "Esencial",
-    subtitle: "Confirmaciones por WhatsApp",
-    description: "Las respuestas de asistencia se envían al número que indiques.",
-    features: ["Invitación basada en una plantilla", "Ubicación, calendario, vestimenta y regalos", "Cuenta regresiva y confirmaciones por WhatsApp"],
+    description: "Tus invitados confirman por WhatsApp al número que nos compartas.",
   },
   plus: {
     title: "Plus",
-    subtitle: "Confirmaciones con registro",
-    description: "Las respuestas se registran y se consultan en el panel del evento.",
-    features: ["Invitación basada en una plantilla", "Ubicación, calendario, vestimenta y regalos", "Formulario RSVP y panel de confirmaciones"],
+    description: "Tus invitados confirman desde la invitación y podrás consultar sus respuestas.",
   },
 };
+
+type TemplateSuggestion = { label: string; description: string; colors: string[] };
+function getSuggestedTemplate(eventType: EventType | ""): TemplateSuggestion {
+  if (eventType === "xv") return {
+    label: "XV años · Gala",
+    description: "Ciruela, malva y dorado suave.",
+    colors: ["#211B35", "#805773", "#E2C47A"],
+  };
+  if (eventType === "baby_shower" || eventType === "revelacion") return {
+    label: "Baby · Suave",
+    description: "Durazno, terracota y celeste.",
+    colors: ["#FFF4E8", "#A85F47", "#3F7184"],
+  };
+  if (eventType === "bautizo") return {
+    label: "Bautizo · Luz",
+    description: "Marfil y azul grisáceo.",
+    colors: ["#FAF7F0", "#426D86", "#C7DBE5"],
+  };
+  if (eventType === "boda") return {
+    label: "Boda · Editorial",
+    description: "Azul noche, marfil y champagne.",
+    colors: ["#F5F0E7", "#D5B77C", "#111B29"],
+  };
+  return {
+    label: eventType === "otro" ? "Diseño sugerido para tu evento" : "Elige el tipo de evento",
+    description: eventType === "otro"
+      ? "Te recomendaremos una opción que se adapte a tu celebración."
+      : "Al elegir tu evento verás aquí el diseño sugerido.",
+    colors: ["#F5F0E7", "#D5B77C", "#111B29"],
+  };
+}
+
+function colorPreferenceLabel(value: ColorPreference) {
+  return COLOR_OPTIONS.find((item) => item.value === value)?.label ?? COLOR_OPTIONS[0].label;
+}
 
 function digits(value: string) { return value.replace(/\D/g, ""); }
 function normalizeConfirmationPhone(value: string) {
@@ -78,18 +106,18 @@ function getEventLabel(data: RequestData) {
   if (data.eventType === "otro") return data.otherEventType.trim();
   return EVENT_TYPES.find((item) => item.value === data.eventType)?.label ?? "Evento";
 }
-function recommendedColors(eventType: EventType) {
-  if (eventType === "xv") return ["#211B35", "#E2C47A", "#805773"];
-  if (eventType === "baby_shower" || eventType === "revelacion") return ["#FFF4E8", "#A85F47", "#3F7184"];
-  if (eventType === "bautizo") return ["#FAF7F0", "#426D86", "#C7DBE5"];
-  return ["#F5F0E7", "#D5B77C", "#111B29"];
+function getColorSwatches(eventType: EventType | "", preference: ColorPreference) {
+  if (preference === "champagne") return ["#F5F0E7", "#D5B77C", "#E2C47A"];
+  if (preference === "azules") return ["#263641", "#426D86", "#C7DBE5"];
+  return getSuggestedTemplate(eventType).colors;
 }
 
-function createRequestText(data: RequestData, coverFile: File) {
+function createRequestText(data: RequestData, coverUrl: string) {
+  const template = getSuggestedTemplate(data.eventType);
   const lines = [
     "SOLICITUD DE INVITACIÓN DIGITAL · MELISSARTE", "",
     "TIPO DE EVENTO: " + getEventLabel(data),
-    "PLAN: " + (data.plan === "esencial" ? "ESENCIAL" : "PLUS"), "",
+    "INVITACIÓN: " + (data.plan === "esencial" ? "ESENCIAL" : "PLUS"), "",
     "DATOS PRINCIPALES",
     "Nombres o título para la portada: " + data.headline.trim(),
     "Fecha del evento: " + formatDate(data.eventDate),
@@ -108,7 +136,9 @@ function createRequestText(data: RequestData, coverFile: File) {
       "Iglesia o recinto: " + (data.religiousVenue.trim() || "Por definir"),
       "Dirección: " + (data.religiousAddress.trim() || "Por definir"),
     );
-  } else lines.push("Incluir ceremonia adicional: No");
+  } else {
+    lines.push("Incluir ceremonia adicional: No");
+  }
 
   lines.push("", "DETALLES OPCIONALES");
   if (data.dressCode.trim()) lines.push("Código de vestimenta: " + data.dressCode.trim());
@@ -122,17 +152,18 @@ function createRequestText(data: RequestData, coverFile: File) {
 
   lines.push("", "CONFIRMACIÓN DE ASISTENCIA");
   if (data.plan === "esencial") {
-    lines.push("Modalidad: WhatsApp (Esencial)", "WhatsApp para recibir confirmaciones: +" + normalizeConfirmationPhone(data.confirmationPhone));
-  } else lines.push("Modalidad: formulario RSVP y panel de respuestas (Plus)");
+    lines.push("Modalidad: Confirmación por WhatsApp", "WhatsApp para recibir confirmaciones: +" + normalizeConfirmationPhone(data.confirmationPhone));
+  } else {
+    lines.push("Modalidad: Confirmación desde la invitación");
+  }
   lines.push("Máximo de personas por confirmación: " + data.maxPartySize);
 
-  const colorLabel = COLOR_OPTIONS.find((item) => item.value === data.colorPreference)?.label ?? COLOR_OPTIONS[0].label;
   lines.push(
-    "", "PREFERENCIA DE COLOR", colorLabel,
-    "Es una referencia de estilo, no una solicitud de personalización exacta.",
-    "", "FOTO DE PORTADA", "Archivo seleccionado: " + coverFile.name,
-    "La foto es vertical. Debe adjuntarse manualmente en este mismo chat después de enviar este mensaje.",
-    "", "Nota: las respuestas no se guardan en Admin ni en una base de datos; se comparten mediante este mensaje de WhatsApp.",
+    "", "SUGERENCIA DE DISEÑO",
+    "Diseño sugerido: " + template.label,
+    "Preferencia de color: " + colorPreferenceLabel(data.colorPreference),
+    "", "FOTO DE PORTADA",
+    "Enlace a la foto: " + coverUrl,
   );
   return lines.join("\n");
 }
@@ -198,6 +229,7 @@ export default function InvitationRequestPage() {
   const [formError, setFormError] = useState("");
   const [requestText, setRequestText] = useState("");
   const [whatsAppUrl, setWhatsAppUrl] = useState("");
+  const [preparingMessage, setPreparingMessage] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => () => {
@@ -259,39 +291,47 @@ export default function InvitationRequestPage() {
     image.src = previewUrl;
   }
 
-  function validateAndBuildMessage() {
+  function validateForm(): boolean {
     setFormError("");
+    if (!form.eventType) {
+      setFormError("Selecciona el tipo de evento.");
+      return false;
+    }
     if (form.eventType === "otro" && !form.otherEventType.trim()) {
-      setFormError("Especifica qué tipo de evento vas a celebrar.");
-      return "";
+      setFormError("Indica qué tipo de evento vas a celebrar.");
+      return false;
+    }
+    if (!form.plan) {
+      setFormError("Selecciona el tipo de invitación que contrataste.");
+      return false;
     }
     if (!form.headline.trim()) {
       setFormError("Escribe los nombres o el título principal que aparecerá en la portada.");
-      return "";
+      return false;
     }
     if (!form.eventDate) {
       setFormError("Selecciona la fecha del evento.");
-      return "";
+      return false;
     }
     if (!form.receptionTime || !form.receptionVenue.trim() || !form.receptionAddress.trim()) {
       setFormError("Completa la hora, el lugar y la dirección de la recepción.");
-      return "";
+      return false;
     }
     if (form.hasReligiousCeremony && !form.religiousTime && !form.religiousVenue.trim() && !form.religiousAddress.trim()) {
-      setFormError("Si vas a incluir una ceremonia, completa al menos uno de sus datos.");
-      return "";
+      setFormError("Si incluyes ceremonia, completa al menos uno de sus datos.");
+      return false;
     }
     if (form.plan === "esencial") {
       const phone = digits(form.confirmationPhone);
       if (phone.length < 10 || phone.length > 15) {
         setFormError("Escribe un WhatsApp válido para recibir las confirmaciones, incluyendo la lada internacional si corresponde.");
-        return "";
+        return false;
       }
     }
     if (!coverFile) {
-      setFormError("Selecciona una foto de portada en formato vertical para continuar.");
+      setFormError("Selecciona una foto de portada vertical para continuar.");
       setCoverError("Necesitas seleccionar una foto vertical para la portada.");
-      return "";
+      return false;
     }
     if (form.giftRegistryUrl.trim()) {
       try {
@@ -299,28 +339,65 @@ export default function InvitationRequestPage() {
         if (parsed.protocol !== "https:" && parsed.protocol !== "http:") throw new Error("URL inválida");
       } catch {
         setFormError("Revisa el enlace de la mesa de regalos. Debe comenzar con https:// o http://.");
-        return "";
+        return false;
       }
     }
     if (form.plan === "plus" && form.rsvpDeadline && form.rsvpDeadline > form.eventDate) {
       setFormError("La fecha límite para confirmar no puede ser posterior a la fecha del evento.");
-      return "";
+      return false;
     }
-    return createRequestText(form, coverFile);
+    return true;
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const message = validateAndBuildMessage();
-    if (!message) return;
+    if (preparingMessage || !validateForm() || !coverFile) return;
 
-    const url = "https://wa.me/" + WHATSAPP_MELISSARTE + "?text=" + encodeURIComponent(message);
-    setRequestText(message);
-    setWhatsAppUrl(url);
-    const whatsappWindow = window.open(url, "_blank");
-    if (whatsappWindow) whatsappWindow.opener = null;
-    else setFormError("Si WhatsApp no se abrió, usa el botón «Abrir WhatsApp» que aparece abajo.");
-    window.setTimeout(() => document.getElementById("solicitud-preparada")?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+    const requestData = { ...form };
+    const imageFile = coverFile;
+    setPreparingMessage(true);
+    setFormError("");
+    const whatsappWindow = window.open("about:blank", "_blank");
+
+    try {
+      const { data, error } = await supabase.functions.invoke("prepare-invitation-request-cover", {
+        body: { content_type: imageFile.type },
+      });
+      if (error || data?.success !== true || typeof data.path !== "string" || typeof data.token !== "string") {
+        throw new Error(data?.error ?? error?.message ?? "No fue posible preparar la carga de la imagen.");
+      }
+
+      const { error: uploadError } = await supabase.storage
+        .from("event-covers")
+        .uploadToSignedUrl(data.path, data.token, imageFile, {
+          contentType: imageFile.type,
+          upsert: false,
+        });
+      if (uploadError) throw uploadError;
+
+      const { data: publicImage } = supabase.storage.from("event-covers").getPublicUrl(data.path);
+      if (!publicImage.publicUrl) throw new Error("No fue posible crear el enlace de la imagen.");
+
+      const message = createRequestText(requestData, publicImage.publicUrl);
+      const url = "https://wa.me/" + WHATSAPP_MELISSARTE + "?text=" + encodeURIComponent(message);
+      setRequestText(message);
+      setWhatsAppUrl(url);
+
+      if (whatsappWindow) {
+        whatsappWindow.opener = null;
+        whatsappWindow.location.href = url;
+        setFormError("");
+      } else {
+        setFormError("Tus datos quedaron preparados. Usa «Abrir WhatsApp» abajo para compartirlos.");
+      }
+      window.setTimeout(() => document.getElementById("solicitud-preparada")?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+    } catch (error) {
+      if (whatsappWindow && !whatsappWindow.closed) whatsappWindow.close();
+      console.error("No fue posible preparar la solicitud de invitación:", error);
+      setFormError("No pudimos subir la foto y preparar el mensaje. Revisa tu conexión e inténtalo de nuevo.");
+    } finally {
+      setPreparingMessage(false);
+    }
   }
 
   async function copyRequest() {
@@ -355,9 +432,8 @@ export default function InvitationRequestPage() {
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#E8DED0] bg-[#FBF7F0] px-3 py-1.5 text-xs font-semibold text-[#725A3C]"><Sparkles size={14} /> Invitaciones digitales personalizadas</div>
             <h1 className="font-[var(--font-display)] text-3xl font-semibold leading-tight tracking-tight text-[#302B27] sm:text-4xl">Cuéntanos los detalles de tu evento</h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-[#62594F] sm:text-base">Completa este formulario para que podamos preparar tu invitación. Solo pedimos los datos necesarios y algunas preferencias sencillas para orientar el diseño.</p>
-            <div className="mt-5 grid gap-3 rounded-2xl border border-[#E8DED0] bg-[#FBF7F0] p-4 sm:grid-cols-2">
+            <div className="mt-5 rounded-2xl border border-[#E8DED0] bg-[#FBF7F0] p-4">
               <p className="text-sm leading-6 text-[#4E463D]"><strong>* Obligatorio.</strong> Los campos opcionales pueden dejarse vacíos.</p>
-              <p className="text-sm leading-6 text-[#4E463D]"><strong>Privacidad:</strong> las respuestas no se guardan en Admin ni en una base de datos. Se preparan para enviarlas por WhatsApp.</p>
             </div>
           </div>
         </header>
@@ -378,14 +454,15 @@ export default function InvitationRequestPage() {
             <div className="mt-5 border-t border-[#E8DED0] pt-5">
               <p className="mb-3 text-sm font-semibold text-[#3B342E]">Tipo de invitación <span className="text-[#A85F47">*</span></p>
               <div className="grid gap-3 sm:grid-cols-2">
-                {(["esencial", "plus"] as Plan[]).map((plan) => {
-                  const details = PLAN_DETAILS[plan], selected = form.plan === plan;
-                  return <label key={plan} className={"relative flex cursor-pointer flex-col rounded-2xl border p-4 transition " + (selected ? "border-[#967544] bg-[#F8F1E5] ring-1 ring-[#967544]/20" : "border-[#E8DED0] bg-white hover:border-[#CBB797]")}>
-                    <input type="radio" name="plan" value={plan} checked={selected} onChange={() => updateForm("plan", plan)} required className="sr-only" />
-                    <span className="flex items-center justify-between gap-2"><span className="text-base font-semibold text-[#302B27]">{details.title}</span>{selected && <CheckCircle2 size={18} className="text-[#7B623F]" />}</span>
-                    <span className="mt-1 text-xs font-semibold uppercase tracking-wide text-[#8B6C42]">{details.subtitle}</span>
-                    <span className="mt-2 text-sm leading-5 text-[#62594F]">{details.description}</span>
-                    <span className="mt-3 block space-y-1.5">{details.features.map((feature) => <span key={feature} className="block text-xs leading-5 text-[#51483E]">• {feature}</span>)}</span>
+                {(["esencial", "plus"] as const).map((plan) => {
+                  const details = PLAN_DETAILS[plan];
+                  const selected = form.plan === plan;
+                  return <label key={plan} className={"relative flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition " + (selected ? "border-[#967544] bg-[#F8F1E5] ring-1 ring-[#967544]/20" : "border-[#E8DED0] bg-white hover:border-[#CBB797]")}>
+                    <input type="radio" name="plan" value={plan} checked={selected} onChange={() => updateForm("plan", plan)} required className="mt-1 h-4 w-4 shrink-0 accent-[#8B6C42]" />
+                    <span className="min-w-0">
+                      <span className="block text-base font-semibold text-[#302B27]">{details.title}</span>
+                      <span className="mt-1 block text-sm leading-5 text-[#62594F]">{details.description}</span>
+                    </span>
                   </label>;
                 })}
               </div>
@@ -438,29 +515,44 @@ export default function InvitationRequestPage() {
             ) : (
               <div className="rounded-2xl border border-[#D8E5D9] bg-[#F4F8F3] p-4 sm:p-5">
                 <p className="text-sm font-semibold text-[#294E35]">Plus · Formulario de confirmación y panel</p>
-                <p className="mt-1 text-sm leading-6 text-[#4E5E50]">Las respuestas de asistencia se registrarán en el panel del evento cuando se prepare la invitación. No necesitas proporcionar un WhatsApp para esta función.</p>
+                <p className="mt-1 text-sm leading-6 text-[#4E5E50]">Tus invitados podrán confirmar desde la invitación y tú podrás consultar sus respuestas.</p>
               </div>
             )}
             <div className="mt-4">
-              <label className="block">
-                <FieldLabel required>Máximo de personas por confirmación</FieldLabel>
-                <select value={form.maxPartySize} onChange={(event) => updateForm("maxPartySize", event.target.value)} required className="w-full rounded-xl border border-[#DDD3C5] bg-white px-3.5 py-3 text-sm text-[#302B27] outline-none focus:border-[#9C7A4A] focus:ring-2 focus:ring-[#9C7A4A]/15">
-                  {Array.from({ length: 20 }, (_, index) => String(index + 1)).map((value) => <option key={value} value={value}>{value} {value === "1" ? "persona" : "personas"}</option>)}
-                </select>
-                <span className="mt-1.5 block text-xs leading-5 text-[#62594F]">Incluye al invitado y sus acompañantes. Puedes pedir un máximo de 1 a 20 personas.</span>
-              </label>
+              <FieldLabel required>Máximo de personas por confirmación</FieldLabel>
+              <div className="flex max-w-xs items-center gap-3 rounded-xl border border-[#DDD3C5] bg-white p-2">
+                <button type="button" aria-label="Restar una persona" onClick={() => updateForm("maxPartySize", String(Math.max(1, Number(form.maxPartySize) - 1)))} disabled={Number(form.maxPartySize) <= 1} className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-[#E8DED0] text-[#51483E] transition hover:bg-[#F8F1E5] disabled:cursor-not-allowed disabled:opacity-35"><Minus size={17} /></button>
+                <input aria-label="Máximo de personas por confirmación" type="number" inputMode="numeric" min={1} max={20} step={1} value={form.maxPartySize} onChange={(event) => updateForm("maxPartySize", String(Math.min(20, Math.max(1, Math.trunc(Number(event.target.value) || 1)))))} required className="min-w-0 flex-1 border-0 bg-transparent text-center text-lg font-semibold tabular-nums text-[#302B27] outline-none focus:ring-0" />
+                <button type="button" aria-label="Sumar una persona" onClick={() => updateForm("maxPartySize", String(Math.min(20, Number(form.maxPartySize) + 1)))} disabled={Number(form.maxPartySize) >= 20} className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-[#E8DED0] text-[#51483E] transition hover:bg-[#F8F1E5] disabled:cursor-not-allowed disabled:opacity-35"><Plus size={17} /></button>
+              </div>
+              <span className="mt-1.5 block text-xs leading-5 text-[#62594F]">Incluye al invitado y sus acompañantes. Puedes elegir de 1 a 20 personas.</span>
             </div>
           </Section>
 
-          <Section number="6" title="Foto y preferencias de diseño" description="Pedimos una foto vertical y una orientación sencilla de colores. La plantilla conserva su estilo; no se solicita un rediseño completo." icon={<Palette size={20} />}>
-            <div className="rounded-2xl border border-dashed border-[#CDBB9D] bg-[#FBF7F0] p-4 sm:p-5">
+          <Section number="6" title="Foto y sugerencia de color" description="Selecciona una foto vertical y, si lo deseas, una preferencia de color para orientar el diseño." icon={<Palette size={20} />}>
+            <div className="rounded-2xl border border-[#E8DED0] bg-white p-4 sm:p-5">
+              <p className="text-sm font-semibold text-[#302B27]">Diseño prediseñado sugerido</p>
+              <div className="mt-3 flex items-center gap-3">
+                <div className="flex h-20 w-16 shrink-0 flex-col justify-end gap-1 overflow-hidden rounded-lg border border-[#DED1BE] p-2" style={{ backgroundColor: getSuggestedTemplate(form.eventType).colors[0] }}>
+                  <span className="block h-2 rounded-sm" style={{ backgroundColor: getSuggestedTemplate(form.eventType).colors[2] }} />
+                  <span className="block h-1.5 w-2/3 rounded-sm" style={{ backgroundColor: getSuggestedTemplate(form.eventType).colors[1] }} />
+                  <span className="block h-1 w-1/2 rounded-sm" style={{ backgroundColor: getSuggestedTemplate(form.eventType).colors[2] }} />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-[#302B27]">{getSuggestedTemplate(form.eventType).label}</p>
+                  <p className="mt-1 text-sm leading-5 text-[#62594F]">{getSuggestedTemplate(form.eventType).description}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 rounded-2xl border border-dashed border-[#CDBB9D] bg-[#FBF7F0] p-4 sm:p-5">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
                 <div className="flex h-48 w-full max-w-[150px] shrink-0 items-center justify-center self-center overflow-hidden rounded-xl border border-[#DED1BE] bg-white sm:self-start">
                   {coverPreview ? <img src={coverPreview} alt="Vista previa de la foto vertical seleccionada" className="h-full w-full object-cover" /> : <div className="px-3 text-center text-xs leading-5 text-[#71675D]"><Camera size={28} className="mx-auto mb-2 text-[#8B6C42]" />Vista previa de portada vertical</div>}
                 </div>
                 <div className="min-w-0 flex-1">
                   <FieldLabel required>Foto de portada vertical</FieldLabel>
-                  <p className="mb-3 text-sm leading-6 text-[#62594F]">Elige una foto más alta que ancha. Recomendamos una proporción aproximada de 4:5 y una imagen nítida, con buena iluminación.</p>
+                  <p className="mb-3 text-sm leading-6 text-[#62594F]">Selecciona una foto nítida, más alta que ancha. Recomendamos una proporción aproximada de 4:5.</p>
                   <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={handleCoverChange} className="sr-only" aria-label="Seleccionar foto de portada" />
                   <button type="button" onClick={() => fileInputRef.current?.click()} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#34465D] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#25364B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#34465D] focus-visible:ring-offset-2"><Upload size={16} /> {coverFile ? "Cambiar foto" : "Seleccionar foto"}</button>
                   {coverFile && <p className="mt-2 break-all text-xs font-medium text-[#3A6946]">Foto seleccionada: {coverFile.name}</p>}
@@ -471,11 +563,11 @@ export default function InvitationRequestPage() {
             </div>
 
             <div className="mt-5">
-              <p className="mb-3 text-sm font-semibold text-[#3B342E]">¿Qué estilo de color te gusta más? <span className="ml-2 text-xs font-normal text-[#71675D]">Opcional</span></p>
-              <div className="grid gap-2.5 sm:grid-cols-2">
+              <p className="mb-3 text-sm font-semibold text-[#3B342E]">Sugerencia de color <span className="ml-2 text-xs font-normal text-[#71675D]">Opcional</span></p>
+              <div className="grid gap-2.5 sm:grid-cols-3">
                 {COLOR_OPTIONS.map((option) => {
                   const selected = form.colorPreference === option.value;
-                  const swatches = option.value === "recomendada" ? recommendedColors(form.eventType) : option.colors;
+                  const swatches = getColorSwatches(form.eventType, option.value);
                   return <label key={option.value} className={"flex cursor-pointer items-start gap-3 rounded-xl border p-3 transition " + (selected ? "border-[#967544] bg-[#F8F1E5] ring-1 ring-[#967544]/20" : "border-[#E8DED0] bg-white hover:border-[#CBB797]")}>
                     <input type="radio" name="colorPreference" value={option.value} checked={selected} onChange={() => updateForm("colorPreference", option.value)} className="mt-1 h-4 w-4 shrink-0 accent-[#8B6C42]" />
                     <span className="min-w-0 flex-1">
@@ -486,7 +578,7 @@ export default function InvitationRequestPage() {
                   </label>;
                 })}
               </div>
-              <p className="mt-3 rounded-xl bg-[#F8F5EF] p-3 text-xs leading-5 text-[#62594F]">Los colores son una referencia para orientar la selección de la paleta. La invitación conservará la plantilla elegida y sus textos base; no incluye personalización completa de colores o redacción.</p>
+              <p className="mt-3 rounded-xl bg-[#F8F5EF] p-3 text-xs leading-5 text-[#62594F]">La elección de color es una sugerencia. La invitación conservará el estilo de su diseño prediseñado.</p>
             </div>
           </Section>
 
@@ -500,8 +592,8 @@ export default function InvitationRequestPage() {
                 <p className="mt-1 text-sm leading-6 text-[#62594F]">Al continuar, se abrirá WhatsApp de Melissarte con el resumen listo. La solicitud no se envía hasta que pulses el botón de enviar dentro de WhatsApp.</p>
               </div>
             </div>
-            <button type="submit" className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#237544] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#1B6238] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#237544] focus-visible:ring-offset-2 sm:w-auto"><MessageCircle size={18} /> Enviar datos a WhatsApp de Melissarte</button>
-            <p className="mt-3 text-xs leading-5 text-[#62594F]">Este formulario no guarda tus respuestas. Tu navegador prepara un mensaje dirigido al WhatsApp de Melissarte.</p>
+            <button type="submit" disabled={preparingMessage} className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#237544] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#1B6238] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#237544] focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-65 sm:w-auto"><MessageCircle size={18} /> {preparingMessage ? "Subiendo foto y preparando WhatsApp..." : "Enviar solicitud por WhatsApp"}</button>
+            <p className="mt-3 text-xs leading-5 text-[#62594F]">Se subirá la foto para generar un enlace que se incluirá en el mensaje.</p>
           </div>
         </form>
 
@@ -524,7 +616,7 @@ export default function InvitationRequestPage() {
 
         <footer className="mt-6 flex flex-col items-center gap-2 pb-4 text-center text-xs leading-5 text-[#71675D]">
           <span className="inline-flex items-center gap-1.5"><Sparkles size={13} /> Melissarte · Invitaciones digitales</span>
-          <span>Los datos se comparten únicamente cuando decides enviar el mensaje por WhatsApp.</span>
+          <span>Gracias por compartir los detalles de tu celebración.</span>
         </footer>
       </div>
     </main>

@@ -1,2 +1,5 @@
 [functions.cleanup-expired-events]
 verify_jwt = false
+
+[functions.prepare-invitation-request-cover]
+verify_jwt = false

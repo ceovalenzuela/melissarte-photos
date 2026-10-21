@@ -384,11 +384,13 @@ Deno.serve(async (req) => {
     }
 
     let expiredRequestCoverPaths: string[] = [];
+    let requestCoversDeleted = 0;
     let requestCoverCleanupError: string | null = null;
     try {
       expiredRequestCoverPaths = await getExpiredRequestCoverPaths(supabaseAdmin);
       if (!dryRun && expiredRequestCoverPaths.length > 0) {
         await removeStorageObjects(supabaseAdmin, "event-covers", expiredRequestCoverPaths);
+        requestCoversDeleted = expiredRequestCoverPaths.length;
       }
     } catch (error) {
       requestCoverCleanupError = error instanceof Error ? error.message : "Error desconocido";
@@ -400,7 +402,7 @@ Deno.serve(async (req) => {
       found: events?.length ?? 0,
       deleted: 0,
       failed: 0,
-      request_covers_deleted: dryRun ? 0 : expiredRequestCoverPaths.length,
+      request_covers_deleted: requestCoversDeleted,
       request_covers_would_delete: dryRun ? expiredRequestCoverPaths.length : 0,
       request_cover_retention_days: REQUEST_COVER_RETENTION_DAYS,
       request_cover_cleanup_error: requestCoverCleanupError,

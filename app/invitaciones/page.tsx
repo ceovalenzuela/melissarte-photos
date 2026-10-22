@@ -262,30 +262,30 @@ export default function InvitationsLandingPage() {
         </div>
       </section>
 
-      <section id="galeria" className="scroll-mt-8 px-5 py-10 sm:px-8 sm:py-16">
-        <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] bg-[#202B34] text-white">
-          <div className="grid lg:grid-cols-[1fr_1fr]">
-            <div className="px-5 py-7 sm:px-10 sm:py-10 lg:px-12 lg:py-12">
-              <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[.2em] text-[#E3C994]"><Camera size={15} /> Complementa tu invitación</p>
-              <h2 className="mt-4 font-[var(--font-display)] text-4xl font-semibold leading-tight sm:text-5xl">Guarda también los recuerdos del gran día.</h2>
-              <p className="mt-4 max-w-xl text-sm leading-6 text-white/75 sm:text-base">
+      <section id="galeria" className="scroll-mt-8 px-5 py-7 sm:px-8 sm:py-10">
+        <div className="mx-auto max-w-6xl overflow-hidden rounded-[1.5rem] border border-[#D8D0C4] bg-[#303A40] text-white">
+          <div className="grid lg:grid-cols-[1.05fr_.95fr]">
+            <div className="px-5 py-6 sm:px-8 sm:py-8 lg:px-9 lg:py-9">
+              <p className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[.18em] text-[#D8C49F]"><Camera size={13} /> Un extra para tu evento</p>
+              <h2 className="mt-3 font-[var(--font-display)] text-2xl font-semibold leading-tight sm:text-3xl">Conserva los recuerdos de tu evento</h2>
+              <p className="mt-3 max-w-xl text-xs leading-5 text-white/70 sm:text-sm">
                 La invitación comparte los detalles antes del evento. La galería digital reúne las fotos, mensajes y voces que tus invitados comparten durante la celebración.
               </p>
-              <div className="mt-6 flex flex-wrap gap-3 text-xs text-white/80">
+              <div className="mt-4 flex flex-wrap gap-2 text-[11px] text-white/75">
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-2"><QrCode size={15} /> QR y enlace</span>
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-2"><Camera size={15} /> Fotos ilimitadas</span>
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-2"><Play size={15} /> Presentación en vivo</span>
               </div>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link href={GALLERY_URL} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D5B77C] px-5 py-3 text-sm font-semibold text-[#202B34] transition hover:bg-[#E4CC9C]">Conocer la galería <ArrowRight size={16} /></Link>
-                <Link href="https://events.melissartedecorativo.com/e/boda-sofia-y-alejandro" target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/25 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10">Ver demo de galería <ArrowRight size={16} /></Link>
+              <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+                <Link href={GALLERY_URL} className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full bg-[#D5B77C] px-4 py-2.5 text-xs font-semibold text-[#202B34] transition hover:bg-[#E4CC9C]">Conocer la galería <ArrowRight size={16} /></Link>
+                <Link href="https://events.melissartedecorativo.com/e/boda-sofia-y-alejandro" target="_blank" rel="noreferrer" className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full border border-white/20 px-4 py-2.5 text-xs font-semibold text-white/90 transition hover:bg-white/10">Ver demo de galería <ArrowRight size={16} /></Link>
               </div>
             </div>
-            <div className="border-t border-white/10 p-5 sm:p-8 lg:border-l lg:border-t-0">
+            <div className="border-t border-white/10 p-4 sm:p-6 lg:border-l lg:border-t-0">
               <div className="grid gap-3 sm:grid-cols-2">
-                <article className="rounded-2xl border border-white/15 bg-white/[.04] p-5">
+                <article className="rounded-xl border border-white/10 bg-white/[.035] p-4">
                   <p className="text-[11px] font-semibold uppercase tracking-[.17em] text-[#E3C994]">Galería Esencial</p>
-                  <p className="mt-3 font-[var(--font-display)] text-4xl font-semibold">$349 <span className="font-sans text-xs font-medium text-white/60">MXN</span></p>
+                  <p className="mt-2 font-[var(--font-display)] text-3xl font-semibold">$349 <span className="font-sans text-xs font-medium text-white/60">MXN</span></p>
                   <ul className="mt-4 space-y-2 text-xs leading-5 text-white/75">
                     <li className="flex gap-2"><Check size={14} className="mt-0.5 shrink-0 text-[#E3C994]" />Fotos ilimitadas</li>
                     <li className="flex gap-2"><Check size={14} className="mt-0.5 shrink-0 text-[#E3C994]" />QR y enlace personalizado</li>
@@ -295,7 +295,7 @@ export default function InvitationsLandingPage() {
                 </article>
                 <article className="rounded-2xl border border-[#D5B77C]/45 bg-[#D5B77C]/[.08] p-5">
                   <p className="text-[11px] font-semibold uppercase tracking-[.17em] text-[#E3C994]">Galería Recuerdos</p>
-                  <p className="mt-3 font-[var(--font-display)] text-4xl font-semibold">$449 <span className="font-sans text-xs font-medium text-white/60">MXN</span></p>
+                  <p className="mt-2 font-[var(--font-display)] text-3xl font-semibold">$449 <span className="font-sans text-xs font-medium text-white/60">MXN</span></p>
                   <ul className="mt-4 space-y-2 text-xs leading-5 text-white/75">
                     <li className="flex gap-2"><Check size={14} className="mt-0.5 shrink-0 text-[#E3C994]" />Todo lo de Esencial</li>
                     <li className="flex gap-2"><Check size={14} className="mt-0.5 shrink-0 text-[#E3C994]" />Mensajes escritos y de voz</li>

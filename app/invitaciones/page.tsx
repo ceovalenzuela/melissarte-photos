@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import {
@@ -94,9 +95,18 @@ export default function InvitationsLandingPage() {
     <main className="min-h-screen overflow-hidden bg-[#F8F6F2] text-[#27251F]">
       <header className="relative z-10 border-b border-[#E7DFD3] bg-[#F8F6F2]/95">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
-          <div className="shrink-0 leading-tight">
-            <span className="block font-[var(--font-display)] text-lg font-semibold tracking-tight text-[#263D4B] sm:text-xl">Invitaciones</span>
-            <span className="mt-0.5 block text-[9px] font-semibold uppercase tracking-[.22em] text-[#9A7544]">Digitales</span>
+          <div
+            className="shrink-0 rounded-lg bg-[#20262B] px-2.5 py-1.5 shadow-sm"
+            aria-label="Melissarte Events"
+          >
+            <Image
+              src="/me-logo.png"
+              alt="Melissarte Events"
+              width={2024}
+              height={777}
+              priority
+              className="h-auto w-[108px] sm:w-[140px]"
+            />
           </div>
           <nav className="hidden items-center gap-7 text-sm text-[#625A50] md:flex">
             <a href="#demos" className="transition hover:text-[#9A7544]">Ver demos</a>

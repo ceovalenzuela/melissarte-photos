@@ -182,7 +182,7 @@ export default function InvitationsLandingPage() {
                   </div>
                 </a>
                 <div className="p-5 sm:p-6">
-                  <p className="text-[11px] font-semibold uppercase tracking-[.15em] text-[#A88249]">{demo.label}</p>
+                  <p className="font-[var(--font-display)] text-2xl font-semibold tracking-tight text-[#263D4B] sm:text-3xl">{demo.label}</p>
                   <a href={demo.href} target="_blank" rel="noreferrer" className="mt-4 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-full border border-[#CDB99D] px-4 py-2.5 text-xs font-semibold text-[#34465D] transition hover:border-[#34465D] hover:bg-white sm:text-sm">
                     {demo.button}
                     <ArrowRight size={15} />
@@ -202,19 +202,19 @@ export default function InvitationsLandingPage() {
               Dos opciones, el mismo cuidado en cada detalle
             </h2>
             <p className="mt-4 text-sm leading-6 text-[#625A50] sm:text-base">
-              Ambas son personalizadas; elige cómo quieres recibir las confirmaciones.
+              Las dos incluyen diseño personalizado y confirmación de asistencia. Plus te ayuda a organizar a tus invitados.
             </p>
           </div>
 
           <div className="mx-auto mt-7 grid max-w-5xl gap-4 lg:grid-cols-2">
             <article className="flex flex-col rounded-[1.6rem] border border-[#E1D5C4] bg-[#FFFEFC] p-6 shadow-[0_14px_40px_rgba(49,41,30,.05)] sm:p-8">
               <div className="flex items-center justify-between gap-3">
-                <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#9A7544]">La opción práctica</p>
+                <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#9A7544]">Tu invitación personalizada</p>
                 <span className="rounded-full bg-[#F2EBE1] px-3 py-1 text-[11px] font-medium text-[#6E5A43]">Esencial</span>
               </div>
               <h3 className="mt-3 font-[var(--font-display)] text-3xl font-semibold text-[#20262B] sm:text-4xl">Invitación Esencial</h3>
-              <p className="mt-2 text-sm leading-6 text-[#625A50]">Todo lo esencial para compartir los detalles de tu evento con estilo.</p>
-              <p className="mt-6 font-[var(--font-display)] text-5xl font-semibold tracking-tight text-[#20262B]">$199 <span className="font-sans text-sm font-medium text-[#766B5C]">MXN</span></p>
+              <p className="mt-2 text-sm leading-6 text-[#625A50]">Comparte los detalles de tu evento y recibe confirmaciones.</p>
+              <p className="mt-5 font-[var(--font-display)] text-5xl font-semibold tracking-tight text-[#20262B]">$199 <span className="font-sans text-sm font-medium text-[#766B5C]">MXN · pago único</span></p>
               <div className="my-6 h-px bg-[#E9E0D4]" />
               <p className="text-sm font-semibold text-[#34465D]">Incluye</p>
               <ul className="mt-4 space-y-3 text-sm leading-5 text-[#514A41]">
@@ -226,31 +226,31 @@ export default function InvitationsLandingPage() {
                 <p className="mt-1 text-xs leading-5 text-[#625A50]">Tus invitados te escriben directamente al número que elijas para confirmar su asistencia.</p>
               </div>
               <div className="mt-auto pt-6">
-                <PriceLink href={INVITATION_ESSENTIAL_URL}>Comprar Esencial</PriceLink>
+                <PriceLink href={INVITATION_ESSENTIAL_URL}>Elegir Esencial</PriceLink>
               </div>
             </article>
 
-            <article className="relative flex flex-col overflow-hidden rounded-[1.6rem] border border-[#354A56] bg-[#263D4B] p-6 text-white shadow-[0_22px_60px_rgba(38,61,75,.18)] sm:p-8">
+            <article className="relative flex flex-col overflow-hidden rounded-[1.75rem] border-2 border-[#D5B77C] bg-[#263D4B] p-6 text-white shadow-[0_22px_55px_rgba(38,61,75,.22)] sm:p-8">
               <div aria-hidden="true" className="absolute -right-14 -top-14 h-44 w-44 rounded-full border border-white/10" />
               <div aria-hidden="true" className="absolute -right-4 -top-4 h-24 w-24 rounded-full border border-[#D5B77C]/25" />
               <div className="relative flex items-center justify-between gap-3">
-                <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#E3C994]">Más control</p>
-                <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-medium text-[#F5E4C2]">Plus</span>
+                <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#E3C994]">Organiza todo fácilmente</p>
+                <span className="rounded-full bg-[#D5B77C] px-3 py-1.5 text-xs font-bold text-[#202B34]">PLUS · MÁS ELEGIDA</span>
               </div>
               <h3 className="relative mt-3 font-[var(--font-display)] text-3xl font-semibold sm:text-4xl">Invitación Plus</h3>
-              <p className="relative mt-2 text-sm leading-6 text-white/75">Ideal para llevar el seguimiento de las respuestas en un solo lugar.</p>
-              <p className="relative mt-6 font-[var(--font-display)] text-5xl font-semibold tracking-tight">$349 <span className="font-sans text-sm font-medium text-white/60">MXN</span></p>
+              <p className="relative mt-2 text-sm leading-6 text-white/75">Administra invitados, envíos y respuestas desde un solo lugar.</p>
+              <p className="relative mt-5 font-[var(--font-display)] text-5xl font-semibold tracking-tight">$349 <span className="font-sans text-sm font-medium text-white/60">MXN · pago único</span></p>
               <div className="relative my-6 h-px bg-white/15" />
               <p className="relative text-sm font-semibold text-[#E3C994]">Todo lo de Esencial, más</p>
               <ul className="relative mt-4 space-y-3 text-sm leading-5 text-white/85">
-                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Carga tu lista de invitados desde Excel</li>
-                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Envío de invitaciones por WhatsApp con enlaces personalizados</li>
+                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Importa tu lista desde Excel</li>
+                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Envía por WhatsApp con enlaces personalizados</li>
                 <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Asignación de pases por invitado o familia</li>
-                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Panel privado para administrar invitados y consultar respuestas</li>
-                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Seguimiento de invitaciones enviadas y confirmaciones recibidas</li>
+                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Administra invitados y respuestas en tu panel privado</li>
+                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Da seguimiento a envíos y confirmaciones</li>
               </ul>
               <div className="relative mt-auto pt-6">
-                <PriceLink href={INVITATION_PLUS_URL} tone="gold">Comprar Plus</PriceLink>
+                <PriceLink href={INVITATION_PLUS_URL} tone="gold">Elegir Plus</PriceLink>
               </div>
             </article>
           </div>

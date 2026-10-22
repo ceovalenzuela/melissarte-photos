@@ -116,7 +116,7 @@ export default function InvitationsLandingPage() {
         </div>
       </header>
 
-      <section className="relative isolate px-5 pb-10 pt-10 sm:px-8 sm:pb-16 sm:pt-16">
+      <section className="relative isolate px-5 pb-8 pt-8 sm:px-8 sm:pb-11 sm:pt-11">
         <div aria-hidden="true" className="pointer-events-none absolute -right-28 top-8 -z-10 h-[26rem] w-[26rem] rounded-full bg-[#E9DCC9]/45 blur-3xl" />
         <div aria-hidden="true" className="pointer-events-none absolute -left-40 bottom-0 -z-10 h-80 w-80 rounded-full bg-[#D8E2E4]/60 blur-3xl" />
         <div className="mx-auto max-w-4xl">
@@ -125,15 +125,15 @@ export default function InvitationsLandingPage() {
               <Sparkles size={14} />
               Invitaciones digitales personalizadas
             </p>
-            <h1 className="mt-5 font-[var(--font-display)] text-[clamp(3rem,8vw,6.2rem)] font-semibold leading-[.94] tracking-[-.045em] text-[#20262B]">
+            <h1 className="mt-4 font-[var(--font-display)] text-[clamp(2.8rem,7vw,5.5rem)] font-semibold leading-[.94] tracking-[-.045em] text-[#20262B]">
               Tu gran día
               <span className="mt-1 block text-[#A88249]">merece una</span>
               <span className="block">gran invitación.</span>
             </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-[#625A50] sm:text-lg sm:leading-8">
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-[#625A50] sm:text-base sm:leading-7">
               Comparte los detalles de tu evento y recibe confirmaciones desde un solo enlace.
             </p>
-            <div className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:justify-center">
+            <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:justify-center">
               <a
                 href="#demos"
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#263D4B] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#172C38]"
@@ -148,7 +148,7 @@ export default function InvitationsLandingPage() {
                 Ver precios
               </a>
             </div>
-            <div className="mt-5 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs text-[#746A5D] sm:text-sm">
+            <div className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-1.5 text-xs text-[#746A5D] sm:text-sm">
               <span className="inline-flex items-center gap-1.5"><CheckCircle2 size={15} className="text-[#A88249]" /> Enlace para compartir</span>
               <span className="inline-flex items-center gap-1.5"><CheckCircle2 size={15} className="text-[#A88249]" /> Diseño personalizado</span>
               <span className="inline-flex items-center gap-1.5"><CheckCircle2 size={15} className="text-[#A88249]" /> Confirmaciones de asistencia</span>
@@ -157,18 +157,18 @@ export default function InvitationsLandingPage() {
         </div>
       </section>
 
-      <section id="demos" className="scroll-mt-8 border-y border-[#E8E0D4] bg-[#FFFEFC] px-5 py-10 sm:px-8 sm:py-16">
+      <section id="demos" className="scroll-mt-8 border-y border-[#E8E0D4] bg-[#FFFEFC] px-5 py-8 sm:px-8 sm:py-11">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-semibold uppercase tracking-[.22em] text-[#A88249]">Inspírate</p>
-            <h2 className="mt-3 font-[var(--font-display)] text-4xl font-semibold tracking-tight text-[#20262B] sm:text-5xl">
+            <h2 className="mt-2 font-[var(--font-display)] text-3xl font-semibold tracking-tight text-[#20262B] sm:text-4xl">
               Mira cómo podría verse la tuya
             </h2>
             <p className="mt-4 text-sm leading-6 text-[#625A50] sm:text-base">
               Explora las demos de boda y XV años desde tu celular.
             </p>
           </div>
-          <div className="mx-auto mt-7 grid max-w-5xl gap-5 sm:grid-cols-2">
+          <div className="mx-auto mt-6 grid max-w-5xl gap-4 sm:grid-cols-2">
             {INVITATION_DEMOS.map((demo) => (
               <article key={demo.key} className="mx-auto w-full max-w-[420px] overflow-hidden rounded-[1.5rem] border border-[#E8E0D4] bg-[#FCFAF6] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(53,44,32,.10)]">
                 <a href={demo.href} target="_blank" rel="noreferrer" aria-label={demo.button} className="block bg-[#F0E8DB] p-3 sm:p-4">
@@ -194,11 +194,11 @@ export default function InvitationsLandingPage() {
         </div>
       </section>
 
-      <section id="opciones" className="scroll-mt-8 px-5 py-10 sm:px-8 sm:py-16">
+      <section id="opciones" className="scroll-mt-8 px-5 py-8 sm:px-8 sm:py-11">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-semibold uppercase tracking-[.22em] text-[#A88249]">Elige tu invitación</p>
-            <h2 className="mt-3 font-[var(--font-display)] text-4xl font-semibold tracking-tight text-[#20262B] sm:text-5xl">
+            <h2 className="mt-2 font-[var(--font-display)] text-3xl font-semibold tracking-tight text-[#20262B] sm:text-4xl">
               Dos opciones, el mismo cuidado en cada detalle
             </h2>
             <p className="mt-4 text-sm leading-6 text-[#625A50] sm:text-base">
@@ -262,7 +262,7 @@ export default function InvitationsLandingPage() {
         </div>
       </section>
 
-      <section id="galeria" className="scroll-mt-8 px-5 py-7 sm:px-8 sm:py-10">
+      <section id="galeria" className="scroll-mt-8 px-5 py-5 sm:px-8 sm:py-7">
         <div className="mx-auto max-w-6xl overflow-hidden rounded-[1.5rem] border border-[#D8D0C4] bg-[#303A40] text-white">
           <div className="grid lg:grid-cols-[1.05fr_.95fr]">
             <div className="px-5 py-6 sm:px-8 sm:py-8 lg:px-9 lg:py-9">
@@ -310,7 +310,7 @@ export default function InvitationsLandingPage() {
         </div>
       </section>
 
-      <section className="px-5 pb-10 sm:px-8 sm:pb-16">
+      <section className="px-5 pb-8 sm:px-8 sm:pb-10">
         <div className="mx-auto max-w-6xl rounded-[1.6rem] border border-[#E8E0D4] bg-[#FCFAF6] px-5 py-7 text-center sm:px-10 sm:py-10">
           <p className="text-xs font-semibold uppercase tracking-[.22em] text-[#A88249]">¿Listo para empezar?</p>
           <h2 className="mt-3 font-[var(--font-display)] text-3xl font-semibold text-[#20262B] sm:text-5xl">Hagamos una invitación muy tuya.</h2>

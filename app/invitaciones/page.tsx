@@ -79,8 +79,6 @@ function PriceLink({
   return (
     <a
       href={href}
-      target="_blank"
-      rel="noreferrer"
       className={`inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent ${colors}`}
     >
       {children}
@@ -171,7 +169,7 @@ export default function InvitationsLandingPage() {
           <div className="mx-auto mt-6 grid max-w-5xl gap-4 sm:grid-cols-2">
             {INVITATION_DEMOS.map((demo) => (
               <article key={demo.key} className="mx-auto w-full max-w-[420px] overflow-hidden rounded-[1.5rem] border border-[#E8E0D4] bg-[#FCFAF6] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(53,44,32,.10)]">
-                <a href={demo.href} target="_blank" rel="noreferrer" aria-label={demo.button} className="block bg-[#F0E8DB] p-3 sm:p-4">
+                <a href={demo.href} aria-label={demo.button} className="block bg-[#F0E8DB] p-3 sm:p-4">
                   <div className="relative mx-auto aspect-[9/20] w-full max-w-[310px] overflow-hidden rounded-[1.1rem] border border-white/80 bg-white shadow-[0_14px_40px_rgba(49,41,30,.16)] sm:rounded-[1.4rem]">
                     <iframe
                       title={`Vista previa de invitación demo de ${demo.label}`}
@@ -183,7 +181,7 @@ export default function InvitationsLandingPage() {
                 </a>
                 <div className="p-5 sm:p-6">
                   <p className="font-[var(--font-display)] text-2xl font-semibold tracking-tight text-[#263D4B] sm:text-3xl">{demo.label}</p>
-                  <a href={demo.href} target="_blank" rel="noreferrer" className="mt-4 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-full border border-[#CDB99D] px-4 py-2.5 text-xs font-semibold text-[#34465D] transition hover:border-[#34465D] hover:bg-white sm:text-sm">
+                  <a href={demo.href} className="mt-4 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-full border border-[#CDB99D] px-4 py-2.5 text-xs font-semibold text-[#34465D] transition hover:border-[#34465D] hover:bg-white sm:text-sm">
                     {demo.button}
                     <ArrowRight size={15} />
                   </a>
@@ -277,8 +275,8 @@ export default function InvitationsLandingPage() {
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-2"><Play size={15} /> Presentación en vivo</span>
               </div>
               <div className="mt-5 flex flex-col gap-2 sm:flex-row">
-                <Link href={GALLERY_URL} className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full bg-[#D5B77C] px-4 py-2.5 text-xs font-semibold text-[#202B34] transition hover:bg-[#E4CC9C]">Conocer la galería <ArrowRight size={16} /></Link>
-                <Link href="https://events.melissartedecorativo.com/e/boda-sofia-y-alejandro" target="_blank" rel="noreferrer" className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full border border-white/20 px-4 py-2.5 text-xs font-semibold text-white/90 transition hover:bg-white/10">Ver demo de galería <ArrowRight size={16} /></Link>
+                <a href={GALLERY_URL} className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full bg-[#D5B77C] px-4 py-2.5 text-xs font-semibold text-[#202B34] transition hover:bg-[#E4CC9C]">Conocer la galería <ArrowRight size={16} /></a>
+                <a href="https://events.melissartedecorativo.com/e/boda-sofia-y-alejandro" className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full border border-white/20 px-4 py-2.5 text-xs font-semibold text-white/90 transition hover:bg-white/10">Ver demo de galería <ArrowRight size={16} /></a>
               </div>
             </div>
             <div className="border-t border-white/10 p-4 sm:p-6 lg:border-l lg:border-t-0">

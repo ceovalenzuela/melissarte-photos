@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import type { ReactNode } from "react";
 import {
   ArrowDown,
@@ -7,12 +6,8 @@ import {
   Camera,
   Check,
   CheckCircle2,
-  Clock3,
   MessageCircle,
-  Play,
-  QrCode,
   Sparkles,
-  Users,
 } from "lucide-react";
 
 export const metadata = {
@@ -53,10 +48,6 @@ const INVITATION_FEATURES = [
 
 const GALLERY_URL =
   "https://melissartedecorativo.com/products/galeria-digital-para-tu-evento";
-const GALLERY_ESSENTIAL_URL =
-  "https://melissartedecorativo.com/products/galeria-digital-para-tu-evento?variant=67687177715805";
-const GALLERY_MEMORIES_URL =
-  "https://melissartedecorativo.com/products/galeria-digital-para-tu-evento?variant=67687177748573";
 
 const INVITATION_ESSENTIAL_URL =
   "https://melissartedecorativo.com/products/invitacion-digital-para-tu-evento?variant=67790310834269";
@@ -95,17 +86,14 @@ export default function InvitationsLandingPage() {
     <main className="min-h-screen overflow-hidden bg-[#F8F6F2] text-[#27251F]">
       <header className="relative z-10 border-b border-[#E7DFD3] bg-[#F8F6F2]/95">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
-          <div
-            className="relative h-[77px] w-[140px] shrink-0 overflow-hidden sm:h-[104px] sm:w-[190px]"
-            aria-label="Melissarte Events"
-          >
+          <div className="shrink-0" aria-label="Melissarte Events">
             <Image
               src="/me-logo.png"
               alt="Melissarte Events"
               width={2024}
               height={777}
               priority
-              className="absolute left-[-26.7%] top-[-3.8%] h-[107.4%] w-auto max-w-none drop-shadow-[0_1px_2px_rgba(93,66,33,0.15)]"
+              className="h-auto w-[138px] drop-shadow-[0_1px_2px_rgba(93,66,33,0.12)] sm:w-[190px]"
             />
           </div>
           <nav className="hidden items-center gap-7 text-sm text-[#625A50] md:flex">
@@ -272,50 +260,37 @@ export default function InvitationsLandingPage() {
         </div>
       </section>
 
-      <section id="galeria" className="scroll-mt-8 px-5 py-5 sm:px-8 sm:py-7">
-        <div className="mx-auto max-w-6xl overflow-hidden rounded-[1.5rem] border border-[#D8D0C4] bg-[#303A40] text-white">
-          <div className="grid lg:grid-cols-[1.05fr_.95fr]">
-            <div className="px-5 py-6 sm:px-8 sm:py-8 lg:px-9 lg:py-9">
-              <p className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[.18em] text-[#D8C49F]"><Camera size={13} /> Un extra para tu evento</p>
-              <h2 className="mt-3 font-[var(--font-display)] text-2xl font-semibold leading-tight sm:text-3xl">Conserva los recuerdos de tu evento</h2>
-              <p className="mt-3 max-w-xl text-xs leading-5 text-white/70 sm:text-sm">
-                La invitación comparte los detalles antes del evento. La galería digital reúne las fotos, mensajes y voces que tus invitados comparten durante la celebración.
-              </p>
-              <div className="mt-4 flex flex-wrap gap-2 text-[11px] text-white/75">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-2"><QrCode size={15} /> QR y enlace</span>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-2"><Camera size={15} /> Fotos ilimitadas</span>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-2"><Play size={15} /> Presentación en vivo</span>
-              </div>
-              <div className="mt-5 flex flex-col gap-2 sm:flex-row">
-                <a href={GALLERY_URL} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full bg-[#D5B77C] px-4 py-2.5 text-xs font-semibold text-[#202B34] transition hover:bg-[#E4CC9C]">Conocer la galería <ArrowRight size={16} /></a>
-                <a href="https://events.melissartedecorativo.com/e/boda-sofia-y-alejandro" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full border border-white/20 px-4 py-2.5 text-xs font-semibold text-white/90 transition hover:bg-white/10">Ver demo de galería <ArrowRight size={16} /></a>
-              </div>
-            </div>
-            <div className="border-t border-white/10 p-4 sm:p-6 lg:border-l lg:border-t-0">
-              <div className="grid gap-3 sm:grid-cols-2">
-                <article className="rounded-xl border border-white/10 bg-white/[.035] p-4">
-                  <p className="text-[11px] font-semibold uppercase tracking-[.17em] text-[#E3C994]">Galería Esencial</p>
-                  <p className="mt-2 font-[var(--font-display)] text-3xl font-semibold">$349 <span className="font-sans text-xs font-medium text-white/60">MXN</span></p>
-                  <ul className="mt-4 space-y-2 text-xs leading-5 text-white/75">
-                    <li className="flex gap-2"><Check size={14} className="mt-0.5 shrink-0 text-[#E3C994]" />Fotos ilimitadas</li>
-                    <li className="flex gap-2"><Check size={14} className="mt-0.5 shrink-0 text-[#E3C994]" />QR y enlace personalizado</li>
-                    <li className="flex gap-2"><Check size={14} className="mt-0.5 shrink-0 text-[#E3C994]" />Presentación en vivo y descarga</li>
-                  </ul>
-                  <Link href={GALLERY_ESSENTIAL_URL} className="mt-5 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-full border border-white/25 px-3 py-2 text-xs font-semibold text-white transition hover:bg-white/10">Comprar Esencial <ArrowRight size={14} /></Link>
-                </article>
-                <article className="rounded-2xl border border-[#D5B77C]/45 bg-[#D5B77C]/[.08] p-5">
-                  <p className="text-[11px] font-semibold uppercase tracking-[.17em] text-[#E3C994]">Galería Recuerdos</p>
-                  <p className="mt-2 font-[var(--font-display)] text-3xl font-semibold">$449 <span className="font-sans text-xs font-medium text-white/60">MXN</span></p>
-                  <ul className="mt-4 space-y-2 text-xs leading-5 text-white/75">
-                    <li className="flex gap-2"><Check size={14} className="mt-0.5 shrink-0 text-[#E3C994]" />Todo lo de Esencial</li>
-                    <li className="flex gap-2"><Check size={14} className="mt-0.5 shrink-0 text-[#E3C994]" />Mensajes escritos y de voz</li>
-                    <li className="flex gap-2"><Check size={14} className="mt-0.5 shrink-0 text-[#E3C994]" />Libro digital y audios descargables</li>
-                  </ul>
-                  <Link href={GALLERY_MEMORIES_URL} className="mt-5 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-full bg-[#D5B77C] px-3 py-2 text-xs font-semibold text-[#202B34] transition hover:bg-[#E4CC9C]">Comprar Recuerdos <ArrowRight size={14} /></Link>
-                </article>
-              </div>
-              <p className="mt-4 flex items-start gap-2 text-[11px] leading-5 text-white/55"><Clock3 size={14} className="mt-0.5 shrink-0" /> La galería se habilita un día antes del evento y permanece disponible hasta 30 días después.</p>
-            </div>
+      <section id="galeria" className="scroll-mt-8 px-5 py-3 sm:px-8 sm:py-5">
+        <div className="mx-auto flex max-w-5xl flex-col gap-4 rounded-xl border border-[#E6DED1] bg-[#F2EEE7] px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-4">
+          <div className="min-w-0">
+            <p className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[.16em] text-[#9A7544]">
+              <Camera size={13} /> Complemento opcional
+            </p>
+            <h2 className="mt-1 font-[var(--font-display)] text-lg font-semibold text-[#35414A] sm:text-xl">
+              Conserva también los recuerdos de tu evento
+            </h2>
+            <p className="mt-1 max-w-2xl text-xs leading-5 text-[#70675B] sm:text-sm">
+              Reúne fotos, mensajes y audios de tus invitados en una galería digital con QR y presentación en vivo.
+            </p>
+          </div>
+          <div className="flex shrink-0 flex-row flex-wrap items-center gap-x-4 gap-y-2 sm:flex-col sm:items-end">
+            <span className="text-[11px] font-medium text-[#746A5D]">Desde $349 MXN</span>
+            <a
+              href={GALLERY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-full border border-[#D6C8B4] px-3.5 py-2 text-xs font-semibold text-[#34465D] transition hover:bg-white"
+            >
+              Conocer galería <ArrowRight size={14} />
+            </a>
+            <a
+              href="https://events.melissartedecorativo.com/e/boda-sofia-y-alejandro"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-medium text-[#776B5B] underline decoration-[#CDB99D] underline-offset-4 transition hover:text-[#34465D]"
+            >
+              Ver demo
+            </a>
           </div>
         </div>
       </section>

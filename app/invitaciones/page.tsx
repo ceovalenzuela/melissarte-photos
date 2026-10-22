@@ -96,7 +96,7 @@ export default function InvitationsLandingPage() {
       <header className="relative z-10 border-b border-[#E7DFD3] bg-[#F8F6F2]/95">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
           <div
-            className="shrink-0 rounded-lg bg-[#20262B] px-2.5 py-1.5 shadow-sm"
+            className="relative h-[77px] w-[140px] shrink-0 overflow-hidden sm:h-[104px] sm:w-[190px]"
             aria-label="Melissarte Events"
           >
             <Image
@@ -105,7 +105,7 @@ export default function InvitationsLandingPage() {
               width={2024}
               height={777}
               priority
-              className="h-auto w-[108px] sm:w-[140px]"
+              className="absolute left-[-26.7%] top-[-3.8%] h-[107.4%] w-auto max-w-none drop-shadow-[0_1px_2px_rgba(93,66,33,0.15)]"
             />
           </div>
           <nav className="hidden items-center gap-7 text-sm text-[#625A50] md:flex">

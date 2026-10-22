@@ -31,16 +31,12 @@ const INVITATION_DEMOS = [
   {
     key: "boda",
     label: "Boda",
-    detail: "Elegante · Editorial",
-    title: "Sofía y Alejandro",
     href: "https://events.melissartedecorativo.com/i/boda-sofia-y-alejandro",
     button: "Ver invitación completa",
   },
   {
     key: "xv",
     label: "XV años",
-    detail: "Gala · Ciruela y oro",
-    title: "Valentina",
     href: "https://events.melissartedecorativo.com/i/xv",
     button: "Ver invitación completa",
   },
@@ -178,7 +174,7 @@ export default function InvitationsLandingPage() {
                 <a href={demo.href} target="_blank" rel="noreferrer" aria-label={demo.button} className="block bg-[#F0E8DB] p-3 sm:p-4">
                   <div className="relative mx-auto aspect-[9/20] w-full max-w-[310px] overflow-hidden rounded-[1.1rem] border border-white/80 bg-white shadow-[0_14px_40px_rgba(49,41,30,.16)] sm:rounded-[1.4rem]">
                     <iframe
-                      title={`Vista previa de la invitación de ${demo.title}`}
+                      title={`Vista previa de invitación demo de ${demo.label}`}
                       src={demo.href}
                       loading="lazy"
                       className="pointer-events-none absolute inset-0 h-full w-full border-0 bg-white"
@@ -187,8 +183,6 @@ export default function InvitationsLandingPage() {
                 </a>
                 <div className="p-5 sm:p-6">
                   <p className="text-[11px] font-semibold uppercase tracking-[.15em] text-[#A88249]">{demo.label}</p>
-                  <h3 className="mt-1 font-[var(--font-display)] text-2xl font-semibold text-[#20262B] sm:text-3xl">{demo.title}</h3>
-                  <p className="mt-1 text-sm text-[#756B5F]">{demo.detail}</p>
                   <a href={demo.href} target="_blank" rel="noreferrer" className="mt-4 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-full border border-[#CDB99D] px-4 py-2.5 text-xs font-semibold text-[#34465D] transition hover:border-[#34465D] hover:bg-white sm:text-sm">
                     {demo.button}
                     <ArrowRight size={15} />
@@ -225,6 +219,7 @@ export default function InvitationsLandingPage() {
               <p className="text-sm font-semibold text-[#34465D]">Incluye</p>
               <ul className="mt-4 space-y-3 text-sm leading-5 text-[#514A41]">
                 {INVITATION_FEATURES.map((feature) => <li key={feature} className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#A88249]" />{feature}</li>)}
+                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#A88249]" />Formulario de confirmación de asistencia en la invitación</li>
               </ul>
               <div className="mt-5 rounded-2xl bg-[#F8F3EB] p-4">
                 <p className="flex items-center gap-2 text-sm font-semibold text-[#34465D]"><MessageCircle size={17} /> Confirmación por WhatsApp</p>
@@ -248,14 +243,12 @@ export default function InvitationsLandingPage() {
               <div className="relative my-6 h-px bg-white/15" />
               <p className="relative text-sm font-semibold text-[#E3C994]">Todo lo de Esencial, más</p>
               <ul className="relative mt-4 space-y-3 text-sm leading-5 text-white/85">
-                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Formulario de confirmación en la invitación</li>
-                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Consulta las respuestas de tus invitados</li>
-                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Organiza confirmaciones y número de asistentes desde tu panel</li>
+                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Carga tu lista de invitados desde Excel</li>
+                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Envío de invitaciones por WhatsApp con enlaces personalizados</li>
+                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Asignación de pases por invitado o familia</li>
+                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Panel privado para administrar invitados y consultar respuestas</li>
+                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Seguimiento de invitaciones enviadas y confirmaciones recibidas</li>
               </ul>
-              <div className="relative mt-5 rounded-2xl border border-white/10 bg-white/5 p-4">
-                <p className="flex items-center gap-2 text-sm font-semibold text-[#F5E4C2]"><Users size={17} /> Confirmaciones organizadas</p>
-                <p className="mt-1 text-xs leading-5 text-white/70">Ya no necesitas reunir los mensajes uno por uno: consulta el estado de las respuestas en el panel.</p>
-              </div>
               <div className="relative mt-auto pt-6">
                 <PriceLink href={INVITATION_PLUS_URL} tone="gold">Comprar Plus</PriceLink>
               </div>

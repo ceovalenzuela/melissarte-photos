@@ -64,7 +64,7 @@ function PriceLink({
       rel="noopener noreferrer"
       className={`inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent ${colors}`}
     >
-      Comprar invitación
+      {children}
       <ArrowRight size={16} />
     </a>
   );
@@ -167,7 +167,7 @@ export default function InvitationsLandingPage() {
                 <li className="flex items-start gap-2"><Check size={16} className="mt-0.5 shrink-0 text-[#A88249]" />Confirmaciones de asistencia por WhatsApp</li>
               </ul>
               <div className="mt-auto pt-1">
-                <PriceLink href={INVITATION_ESSENTIAL_URL}>Elegir Esencial</PriceLink>
+                <PriceLink href={INVITATION_ESSENTIAL_URL}>Comprar Esencial</PriceLink>
               </div>
             </article>
 
@@ -189,7 +189,7 @@ export default function InvitationsLandingPage() {
                 <li className="flex items-start gap-2"><Check size={16} className="mt-0.5 shrink-0 text-[#E3C994]" />Panel para consultar invitados y confirmaciones</li>
               </ul>
               <div className="relative mt-auto pt-1">
-                <PriceLink href={INVITATION_PLUS_URL} tone="gold">Elegir Plus</PriceLink>
+                <PriceLink href={INVITATION_PLUS_URL} tone="gold">Comprar Plus</PriceLink>
               </div>
             </article>
           </div>

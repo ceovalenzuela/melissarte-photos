@@ -5,7 +5,6 @@ import {
   ArrowRight,
   Camera,
   Check,
-  CheckCircle2,
   MessageCircle,
   Sparkles,
 } from "lucide-react";
@@ -13,7 +12,7 @@ import {
 export const metadata = {
   title: "Invitaciones digitales para tu evento | Melissarte",
   description:
-    "Invitaciones digitales personalizadas para bodas y XV años. Explora los diseños disponibles y elige la opción ideal para tu evento.",
+    "Invitaciones digitales personalizadas para bodas y XV años. Elige tu diseño y compra en línea.",
 };
 
 const WHATSAPP_NUMBER = "528133867050";
@@ -28,23 +27,13 @@ const INVITATION_DEMOS = [
     key: "boda",
     label: "Boda",
     href: "https://events.melissartedecorativo.com/i/boda-sofia-y-alejandro",
-    button: "Ver invitación completa",
   },
   {
     key: "xv",
     label: "XV años",
     href: "https://events.melissartedecorativo.com/i/xv",
-    button: "Ver invitación completa",
   },
 ] as const;
-
-const INVITATION_FEATURES = [
-  "Diseño personalizado con los datos de tu evento",
-  "Ubicación con acceso a Google Maps",
-  "Botón para agregar la fecha al calendario",
-  "Código de vestimenta y sugerencias de regalos",
-  "Cuenta regresiva para el gran día",
-];
 
 const GALLERY_URL =
   "https://melissartedecorativo.com/products/galeria-digital-para-tu-evento";
@@ -73,9 +62,9 @@ function PriceLink({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent ${colors}`}
+      className={`inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent ${colors}`}
     >
-      {children}
+      Comprar invitación
       <ArrowRight size={16} />
     </a>
   );
@@ -84,93 +73,146 @@ function PriceLink({
 export default function InvitationsLandingPage() {
   return (
     <main className="min-h-screen overflow-hidden bg-[#F8F6F2] text-[#27251F]">
-      <header className="relative z-10 border-b border-[#E7DFD3] bg-[#F8F6F2]/95">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
-          <div className="shrink-0" aria-label="Melissarte Events">
+      <header className="border-b border-[#E7DFD3] bg-[#F8F6F2]/95">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-2.5 sm:px-8 sm:py-3">
+          <a href="#inicio" className="shrink-0" aria-label="Melissarte Events, inicio">
             <Image
               src="/me-logo.png"
               alt="Melissarte Events"
               width={2024}
               height={777}
               priority
-              className="h-auto w-[138px] drop-shadow-[0_1px_2px_rgba(93,66,33,0.12)] sm:w-[190px]"
+              className="h-auto w-[112px] sm:w-[150px]"
             />
-          </div>
-          <nav className="hidden items-center gap-7 text-sm text-[#625A50] md:flex">
+          </a>
+          <nav className="hidden items-center gap-6 text-sm text-[#625A50] md:flex">
+            <a href="#opciones" className="transition hover:text-[#9A7544]">Precios</a>
             <a href="#demos" className="transition hover:text-[#9A7544]">Ver demos</a>
-            <a href="#opciones" className="transition hover:text-[#9A7544]">Opciones</a>
             <a href="#galeria" className="transition hover:text-[#9A7544]">Galería digital</a>
           </nav>
           <a
             href={WHATSAPP_URL}
             target="_blank"
-            rel="noreferrer"
-            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full border border-[#D6C8B4] px-4 py-2 text-xs font-semibold text-[#34465D] transition hover:bg-white sm:text-sm"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-full border border-[#D6C8B4] px-3.5 py-2 text-xs font-semibold text-[#34465D] transition hover:bg-white sm:min-h-10 sm:gap-2 sm:px-4 sm:text-sm"
           >
-            <MessageCircle size={16} />
-            <span className="hidden sm:inline">Resolver dudas</span>
+            <MessageCircle size={15} />
+            <span className="hidden sm:inline">¿Tienes dudas?</span>
             <span className="sm:hidden">WhatsApp</span>
           </a>
         </div>
       </header>
 
-      <section className="relative isolate px-5 pb-8 pt-8 sm:px-8 sm:pb-11 sm:pt-11">
-        <div aria-hidden="true" className="pointer-events-none absolute -right-28 top-8 -z-10 h-[26rem] w-[26rem] rounded-full bg-[#E9DCC9]/45 blur-3xl" />
-        <div aria-hidden="true" className="pointer-events-none absolute -left-40 bottom-0 -z-10 h-80 w-80 rounded-full bg-[#D8E2E4]/60 blur-3xl" />
-        <div className="mx-auto max-w-4xl">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="inline-flex items-center gap-2 rounded-full border border-[#D9C9B0] bg-[#FCFAF6] px-3.5 py-2 text-[11px] font-semibold uppercase tracking-[0.19em] text-[#967443] sm:text-xs">
-              <Sparkles size={14} />
-              Invitaciones digitales personalizadas
-            </p>
-            <h1 className="mt-4 font-[var(--font-display)] text-[clamp(2.8rem,7vw,5.5rem)] font-semibold leading-[.94] tracking-[-.045em] text-[#20262B]">
-              Tu gran día
-              <span className="mt-1 block text-[#A88249]">merece una</span>
-              <span className="block">gran invitación.</span>
-            </h1>
-            <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-[#625A50] sm:text-base sm:leading-7">
-              Comparte los detalles de tu evento y recibe confirmaciones desde un solo enlace.
-            </p>
-            <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:justify-center">
-              <a
-                href="#demos"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#263D4B] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#172C38]"
-              >
-                Ver invitaciones demo
-                <ArrowDown size={16} />
-              </a>
-              <a
-                href="#opciones"
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#D6C8B4] bg-[#FCFAF6] px-6 py-3 text-sm font-semibold text-[#34465D] transition hover:bg-white"
-              >
-                Ver precios
-              </a>
-            </div>
-            <div className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-1.5 text-xs text-[#746A5D] sm:text-sm">
-              <span className="inline-flex items-center gap-1.5"><CheckCircle2 size={15} className="text-[#A88249]" /> Enlace para compartir</span>
-              <span className="inline-flex items-center gap-1.5"><CheckCircle2 size={15} className="text-[#A88249]" /> Diseño personalizado</span>
-              <span className="inline-flex items-center gap-1.5"><CheckCircle2 size={15} className="text-[#A88249]" /> Confirmaciones de asistencia</span>
-            </div>
+      <section id="inicio" className="relative isolate px-5 py-8 sm:px-8 sm:py-11">
+        <div aria-hidden="true" className="pointer-events-none absolute -right-28 top-0 -z-10 h-72 w-72 rounded-full bg-[#E9DCC9]/40 blur-3xl" />
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="inline-flex items-center gap-2 rounded-full border border-[#D9C9B0] bg-[#FCFAF6] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[.17em] text-[#967443] sm:text-xs">
+            <Sparkles size={13} />
+            Invitaciones digitales personalizadas
+          </p>
+          <h1 className="mt-4 font-[var(--font-display)] text-[clamp(2.55rem,7vw,4.7rem)] font-semibold leading-[.96] tracking-[-.045em] text-[#20262B]">
+            Tu gran día merece
+            <span className="block text-[#A88249]">una gran invitación.</span>
+          </h1>
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#625A50] sm:text-base">
+            Comparte los detalles de tu evento y facilita las confirmaciones desde un solo enlace.
+          </p>
+          <div className="mt-5 flex flex-col justify-center gap-2 sm:flex-row">
+            <a
+              href="#opciones"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#263D4B] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[#172C38]"
+            >
+              Ver precios y comprar <ArrowRight size={16} />
+            </a>
+            <a
+              href="#demos"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[#D6C8B4] bg-[#FCFAF6] px-6 py-2.5 text-sm font-semibold text-[#34465D] transition hover:bg-white"
+            >
+              Ver ejemplos <ArrowDown size={15} />
+            </a>
           </div>
+          <p className="mt-4 text-xs text-[#746A5D]">
+            Diseño personalizado <span className="mx-1.5 text-[#CDB99D]">·</span>
+            Enlace para compartir <span className="mx-1.5 text-[#CDB99D]">·</span>
+            Confirmaciones de asistencia
+          </p>
         </div>
       </section>
 
-      <section id="demos" className="scroll-mt-8 border-y border-[#E8E0D4] bg-[#FFFEFC] px-5 py-8 sm:px-8 sm:py-11">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[.22em] text-[#A88249]">Inspírate</p>
+      <section id="opciones" className="scroll-mt-5 border-y border-[#E8E0D4] bg-[#FFFEFC] px-5 py-8 sm:px-8 sm:py-11">
+        <div className="mx-auto max-w-5xl">
+          <div className="text-center">
+            <p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#A88249]">Elige tu opción</p>
             <h2 className="mt-2 font-[var(--font-display)] text-3xl font-semibold tracking-tight text-[#20262B] sm:text-4xl">
-              Mira cómo podría verse la tuya
+              Una invitación a tu medida
             </h2>
-            <p className="mt-4 text-sm leading-6 text-[#625A50] sm:text-base">
-              Explora las demos de boda y XV años desde tu celular.
+            <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-[#625A50]">
+              Ambas son personalizadas. Plus añade herramientas para organizar a tus invitados.
             </p>
           </div>
-          <div className="mx-auto mt-6 grid max-w-5xl gap-4 sm:grid-cols-2">
+
+          <div className="mx-auto mt-6 grid gap-4 lg:grid-cols-2">
+            <article className="flex flex-col rounded-2xl border border-[#E1D5C4] bg-[#FCFAF6] p-5 sm:p-6">
+              <div className="flex items-center justify-between gap-3">
+                <h3 className="font-[var(--font-display)] text-2xl font-semibold text-[#20262B]">Esencial</h3>
+                <span className="rounded-full bg-[#F2EBE1] px-3 py-1 text-[10px] font-medium text-[#6E5A43]">Diseño personalizado</span>
+              </div>
+              <p className="mt-2 text-sm text-[#625A50]">Todo lo necesario para compartir la información de tu evento.</p>
+              <p className="mt-4 font-[var(--font-display)] text-4xl font-semibold tracking-tight text-[#20262B]">
+                $199 <span className="font-sans text-xs font-medium text-[#766B5C]">MXN · pago único</span>
+              </p>
+              <ul className="my-5 space-y-2.5 text-sm leading-5 text-[#514A41]">
+                <li className="flex items-start gap-2"><Check size={16} className="mt-0.5 shrink-0 text-[#A88249]" />Ubicación, calendario y cuenta regresiva</li>
+                <li className="flex items-start gap-2"><Check size={16} className="mt-0.5 shrink-0 text-[#A88249]" />Vestimenta y sugerencias de regalos</li>
+                <li className="flex items-start gap-2"><Check size={16} className="mt-0.5 shrink-0 text-[#A88249]" />Confirmaciones de asistencia por WhatsApp</li>
+              </ul>
+              <div className="mt-auto pt-1">
+                <PriceLink href={INVITATION_ESSENTIAL_URL}>Elegir Esencial</PriceLink>
+              </div>
+            </article>
+
+            <article className="relative flex flex-col overflow-hidden rounded-2xl border-2 border-[#D5B77C] bg-[#263D4B] p-5 text-white shadow-[0_12px_30px_rgba(38,61,75,.12)] sm:p-6">
+              <div aria-hidden="true" className="absolute -right-10 -top-10 h-32 w-32 rounded-full border border-white/10" />
+              <div className="relative flex items-center justify-between gap-3">
+                <h3 className="font-[var(--font-display)] text-2xl font-semibold">Plus</h3>
+                <span className="rounded-full bg-[#D5B77C] px-3 py-1 text-[10px] font-bold text-[#202B34]">Gestión de invitados</span>
+              </div>
+              <p className="relative mt-2 text-sm leading-5 text-white/75">Ideal para llevar las invitaciones y respuestas organizadas.</p>
+              <p className="relative mt-4 font-[var(--font-display)] text-4xl font-semibold tracking-tight">
+                $349 <span className="font-sans text-xs font-medium text-white/60">MXN · pago único</span>
+              </p>
+              <p className="relative mt-4 text-xs font-semibold uppercase tracking-[.12em] text-[#E3C994]">Todo lo de Esencial, más</p>
+              <ul className="relative my-4 space-y-2.5 text-sm leading-5 text-white/85">
+                <li className="flex items-start gap-2"><Check size={16} className="mt-0.5 shrink-0 text-[#E3C994]" />Importa la lista de invitados desde Excel</li>
+                <li className="flex items-start gap-2"><Check size={16} className="mt-0.5 shrink-0 text-[#E3C994]" />Enlaces personalizados para enviar por WhatsApp</li>
+                <li className="flex items-start gap-2"><Check size={16} className="mt-0.5 shrink-0 text-[#E3C994]" />Pases por persona o familia</li>
+                <li className="flex items-start gap-2"><Check size={16} className="mt-0.5 shrink-0 text-[#E3C994]" />Panel para consultar invitados y confirmaciones</li>
+              </ul>
+              <div className="relative mt-auto pt-1">
+                <PriceLink href={INVITATION_PLUS_URL} tone="gold">Elegir Plus</PriceLink>
+              </div>
+            </article>
+          </div>
+          <p className="mt-4 text-center text-xs text-[#746A5D]">
+            ¿Tienes dudas? <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#34465D] underline decoration-[#CDB99D] underline-offset-4">Escríbenos por WhatsApp</a>
+          </p>
+        </div>
+      </section>
+
+      <section id="demos" className="scroll-mt-5 px-5 py-8 sm:px-8 sm:py-10">
+        <div className="mx-auto max-w-5xl">
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#A88249]">Mira los diseños</p>
+              <h2 className="mt-1 font-[var(--font-display)] text-2xl font-semibold text-[#20262B] sm:text-3xl">Conoce una invitación real</h2>
+            </div>
+            <p className="text-xs text-[#746A5D]">Abre cada demo para verla completa.</p>
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:gap-5">
             {INVITATION_DEMOS.map((demo) => (
-              <article key={demo.key} className="mx-auto w-full max-w-[420px] overflow-hidden rounded-[1.5rem] border border-[#E8E0D4] bg-[#FCFAF6] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(53,44,32,.10)]">
-                <a href={demo.href} target="_blank" rel="noopener noreferrer" aria-label={demo.button} className="block bg-[#F0E8DB] p-3 sm:p-4">
-                  <div className="relative mx-auto aspect-[9/20] w-full max-w-[310px] overflow-hidden rounded-[1.1rem] border border-white/80 bg-white shadow-[0_14px_40px_rgba(49,41,30,.16)] sm:rounded-[1.4rem]">
+              <article key={demo.key} className="overflow-hidden rounded-xl border border-[#E8E0D4] bg-[#FCFAF6]">
+                <a href={demo.href} target="_blank" rel="noopener noreferrer" aria-label={`Ver invitación de ${demo.label}`} className="block bg-[#F0E8DB] p-2.5 sm:p-3">
+                  <div className="relative mx-auto aspect-[4/5] w-full max-w-[280px] overflow-hidden rounded-lg border border-white/80 bg-white">
                     <iframe
                       title={`Vista previa de invitación demo de ${demo.label}`}
                       src={demo.href}
@@ -179,10 +221,9 @@ export default function InvitationsLandingPage() {
                     />
                   </div>
                 </a>
-                <div className="p-5 sm:p-6">
-                  <p className="font-[var(--font-display)] text-2xl font-semibold tracking-tight text-[#263D4B] sm:text-3xl">{demo.label}</p>
-                  <a href={demo.href} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-full border border-[#CDB99D] px-4 py-2.5 text-xs font-semibold text-[#34465D] transition hover:border-[#34465D] hover:bg-white sm:text-sm">
-                    {demo.button}
+                <div className="flex items-center justify-between gap-2 px-3 py-3 sm:px-4">
+                  <h3 className="font-[var(--font-display)] text-base font-semibold text-[#263D4B] sm:text-lg">{demo.label}</h3>
+                  <a href={demo.href} target="_blank" rel="noopener noreferrer" aria-label={`Abrir demo de ${demo.label}`} className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#CDB99D] text-[#34465D] transition hover:bg-white">
                     <ArrowRight size={15} />
                   </a>
                 </div>
@@ -192,126 +233,20 @@ export default function InvitationsLandingPage() {
         </div>
       </section>
 
-      <section id="opciones" className="scroll-mt-8 px-5 py-8 sm:px-8 sm:py-11">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[.22em] text-[#A88249]">Elige tu invitación</p>
-            <h2 className="mt-2 font-[var(--font-display)] text-3xl font-semibold tracking-tight text-[#20262B] sm:text-4xl">
-              Dos opciones, el mismo cuidado en cada detalle
-            </h2>
-            <p className="mt-4 text-sm leading-6 text-[#625A50] sm:text-base">
-              Las dos incluyen diseño personalizado y confirmación de asistencia. Plus te ayuda a organizar a tus invitados.
-            </p>
-          </div>
-
-          <div className="mx-auto mt-7 grid max-w-5xl gap-4 lg:grid-cols-2">
-            <article className="flex flex-col rounded-[1.6rem] border border-[#E1D5C4] bg-[#FFFEFC] p-6 shadow-[0_14px_40px_rgba(49,41,30,.05)] sm:p-8">
-              <div className="flex items-center justify-between gap-3">
-                <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#9A7544]">Tu invitación personalizada</p>
-                <span className="rounded-full bg-[#F2EBE1] px-3 py-1 text-[11px] font-medium text-[#6E5A43]">Esencial</span>
-              </div>
-              <h3 className="mt-3 font-[var(--font-display)] text-3xl font-semibold text-[#20262B] sm:text-4xl">Invitación Esencial</h3>
-              <p className="mt-2 text-sm leading-6 text-[#625A50]">Comparte los detalles de tu evento y recibe confirmaciones.</p>
-              <p className="mt-5 font-[var(--font-display)] text-5xl font-semibold tracking-tight text-[#20262B]">$199 <span className="font-sans text-sm font-medium text-[#766B5C]">MXN · pago único</span></p>
-              <div className="my-6 h-px bg-[#E9E0D4]" />
-              <p className="text-sm font-semibold text-[#34465D]">Incluye</p>
-              <ul className="mt-4 space-y-3 text-sm leading-5 text-[#514A41]">
-                {INVITATION_FEATURES.map((feature) => <li key={feature} className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#A88249]" />{feature}</li>)}
-                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#A88249]" />Formulario de confirmación de asistencia en la invitación</li>
-              </ul>
-              <div className="mt-5 rounded-2xl bg-[#F8F3EB] p-4">
-                <p className="flex items-center gap-2 text-sm font-semibold text-[#34465D]"><MessageCircle size={17} /> Confirmación por WhatsApp</p>
-                <p className="mt-1 text-xs leading-5 text-[#625A50]">Tus invitados te escriben directamente al número que elijas para confirmar su asistencia.</p>
-              </div>
-              <div className="mt-auto pt-6">
-                <PriceLink href={INVITATION_ESSENTIAL_URL}>Elegir Esencial</PriceLink>
-              </div>
-            </article>
-
-            <article className="relative flex flex-col overflow-hidden rounded-[1.75rem] border-2 border-[#D5B77C] bg-[#263D4B] p-6 text-white shadow-[0_22px_55px_rgba(38,61,75,.22)] sm:p-8">
-              <div aria-hidden="true" className="absolute -right-14 -top-14 h-44 w-44 rounded-full border border-white/10" />
-              <div aria-hidden="true" className="absolute -right-4 -top-4 h-24 w-24 rounded-full border border-[#D5B77C]/25" />
-              <div className="relative flex items-center justify-between gap-3">
-                <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#E3C994]">Organiza todo fácilmente</p>
-                <span className="rounded-full bg-[#D5B77C] px-3 py-1.5 text-xs font-bold text-[#202B34]">PLUS · MÁS ELEGIDA</span>
-              </div>
-              <h3 className="relative mt-3 font-[var(--font-display)] text-3xl font-semibold sm:text-4xl">Invitación Plus</h3>
-              <p className="relative mt-2 text-sm leading-6 text-white/75">Administra invitados, envíos y respuestas desde un solo lugar.</p>
-              <p className="relative mt-5 font-[var(--font-display)] text-5xl font-semibold tracking-tight">$349 <span className="font-sans text-sm font-medium text-white/60">MXN · pago único</span></p>
-              <div className="relative my-6 h-px bg-white/15" />
-              <p className="relative text-sm font-semibold text-[#E3C994]">Todo lo de Esencial, más</p>
-              <ul className="relative mt-4 space-y-3 text-sm leading-5 text-white/85">
-                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Importa tu lista desde Excel</li>
-                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Envía por WhatsApp con enlaces personalizados</li>
-                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Asignación de pases por invitado o familia</li>
-                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Administra invitados y respuestas en tu panel privado</li>
-                <li className="flex items-start gap-2.5"><Check size={17} className="mt-0.5 shrink-0 text-[#E3C994]" />Da seguimiento a envíos y confirmaciones</li>
-              </ul>
-              <div className="relative mt-auto pt-6">
-                <PriceLink href={INVITATION_PLUS_URL} tone="gold">Elegir Plus</PriceLink>
-              </div>
-            </article>
-          </div>
-
-          <div className="mx-auto mt-6 flex max-w-5xl flex-col gap-2 rounded-2xl border border-[#E7DFD3] bg-[#FCFAF6] p-5 sm:flex-row sm:items-center sm:justify-between">
-            <p className="flex items-start gap-2 text-sm leading-6 text-[#625A50]"><CheckCircle2 size={18} className="mt-0.5 shrink-0 text-[#A88249]" /> En ambas opciones puedes compartir tu invitación por WhatsApp, mensaje o redes sociales.</p>
-            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="inline-flex shrink-0 items-center justify-center gap-2 text-sm font-semibold text-[#34465D] hover:text-[#A88249]">¿Cuál me conviene? <MessageCircle size={16} /></a>
-          </div>
-        </div>
-      </section>
-
-      <section id="galeria" className="scroll-mt-8 px-5 py-3 sm:px-8 sm:py-5">
-        <div className="mx-auto flex max-w-5xl flex-col gap-4 rounded-xl border border-[#E6DED1] bg-[#F2EEE7] px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-4">
-          <div className="min-w-0">
-            <p className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[.16em] text-[#9A7544]">
-              <Camera size={13} /> Complemento opcional
-            </p>
-            <h2 className="mt-1 font-[var(--font-display)] text-lg font-semibold text-[#35414A] sm:text-xl">
-              Conserva también los recuerdos de tu evento
-            </h2>
-            <p className="mt-1 max-w-2xl text-xs leading-5 text-[#70675B] sm:text-sm">
-              Reúne fotos, mensajes y audios de tus invitados en una galería digital con QR y presentación en vivo.
-            </p>
-          </div>
-          <div className="flex shrink-0 flex-row flex-wrap items-center gap-x-4 gap-y-2 sm:flex-col sm:items-end">
-            <span className="text-[11px] font-medium text-[#746A5D]">Desde $349 MXN</span>
-            <a
-              href={GALLERY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-full border border-[#D6C8B4] px-3.5 py-2 text-xs font-semibold text-[#34465D] transition hover:bg-white"
-            >
-              Conocer galería <ArrowRight size={14} />
-            </a>
-            <a
-              href="https://events.melissartedecorativo.com/e/boda-sofia-y-alejandro"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs font-medium text-[#776B5B] underline decoration-[#CDB99D] underline-offset-4 transition hover:text-[#34465D]"
-            >
-              Ver demo
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section className="px-5 pb-8 sm:px-8 sm:pb-10">
-        <div className="mx-auto max-w-6xl rounded-[1.6rem] border border-[#E8E0D4] bg-[#FCFAF6] px-5 py-7 text-center sm:px-10 sm:py-10">
-          <p className="text-xs font-semibold uppercase tracking-[.22em] text-[#A88249]">¿Listo para empezar?</p>
-          <h2 className="mt-3 font-[var(--font-display)] text-3xl font-semibold text-[#20262B] sm:text-5xl">Hagamos una invitación muy tuya.</h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-[#625A50] sm:text-base">
-            Elige la opción que se adapte a tu celebración y, si tienes dudas, te ayudamos a decidir.
+      <section id="galeria" className="scroll-mt-5 px-5 pb-6 sm:px-8 sm:pb-8">
+        <div className="mx-auto flex max-w-5xl flex-col gap-2 rounded-xl border border-[#E6DED1] bg-[#F2EEE7] px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">
+          <p className="text-xs leading-5 text-[#70675B] sm:text-sm">
+            <Camera size={14} className="mr-1.5 inline-block align-[-2px] text-[#9A7544]" />
+            <span className="font-semibold text-[#35414A]">¿Quieres guardar los recuerdos?</span> Complementa tu evento con una galería de fotos, mensajes y audios.
           </p>
-          <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#263D4B] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#172C38]"><MessageCircle size={17} /> Hablar por WhatsApp</a>
-            <a href="#opciones" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#D6C8B4] px-6 py-3 text-sm font-semibold text-[#34465D] transition hover:bg-white">Ver opciones <ArrowRight size={16} /></a>
-          </div>
+          <a href={GALLERY_URL} target="_blank" rel="noopener noreferrer" className="inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold text-[#34465D] underline decoration-[#CDB99D] underline-offset-4">
+            Galería digital desde $349 <ArrowRight size={14} />
+          </a>
         </div>
       </section>
 
-      <footer className="border-t border-[#E8E0D4] px-5 py-6 text-center text-xs text-[#766B5C] sm:px-8">
-        <p>Invitaciones digitales para los momentos que importan.</p>
-        
+      <footer className="border-t border-[#E8E0D4] px-5 py-4 text-center text-[11px] text-[#766B5C] sm:px-8">
+        Melissarte Events · Invitaciones digitales para los momentos que importan.
       </footer>
     </main>
   );

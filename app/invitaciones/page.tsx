@@ -287,7 +287,7 @@ export default function InvitationsLandingPage() {
         </div>
       </section>
 
-      <section id="galeria" className="scroll-mt-5 px-5 pb-6 sm:px-8 sm:pb-8">
+      <section id="galeria" className="scroll-mt-5 px-5 pt-10 pb-10 sm:px-8 sm:pt-14 sm:pb-14">
         <div className="mx-auto flex max-w-5xl flex-col gap-3 rounded-2xl border border-[#E6DED1] bg-[#F2EEE7] px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-7 sm:py-6">
           <p className="text-xs leading-5 text-[#70675B] sm:text-sm">
             <Camera size={14} className="mr-1.5 inline-block align-[-2px] text-[#9A7544]" />

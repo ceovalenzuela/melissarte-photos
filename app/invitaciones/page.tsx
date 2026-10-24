@@ -7,6 +7,7 @@ import {
   Check,
   MessageCircle,
   Sparkles,
+  Users,
 } from "lucide-react";
 
 export const metadata = {
@@ -230,6 +231,59 @@ export default function InvitationsLandingPage() {
               </article>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section id="organizador" className="scroll-mt-5 border-y border-[#E8E0D4] bg-[#FFFEFC] px-5 py-9 sm:px-8 sm:py-12">
+        <div className="mx-auto max-w-5xl">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#A88249]">Exclusivo de Invitación Plus</p>
+            <h2 className="mt-2 font-[var(--font-display)] text-3xl font-semibold tracking-tight text-[#20262B] sm:text-4xl">Tu evento, bajo control</h2>
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#625A50]">Organiza tu lista, asigna pases y revisa las respuestas desde un solo lugar, sin perder de vista ningún detalle.</p>
+          </div>
+          <div className="mt-6 grid items-start gap-4 md:grid-cols-[1.05fr_.95fr] md:gap-5">
+            <article className="overflow-hidden rounded-[1.35rem] border border-[#E6DED1] bg-[#F7F3ED] shadow-[0_12px_34px_rgba(45,38,29,.08)]">
+              <div className="bg-gradient-to-br from-[#344B61] to-[#202B34] px-5 py-5 text-white sm:px-6 sm:py-6">
+                <p className="text-[9px] font-semibold uppercase tracking-[.24em] text-[#B7C5D0]">Panel del organizador</p>
+                <h3 className="mt-2 font-[var(--font-display)] text-3xl leading-tight sm:text-4xl">Confirmaciones</h3>
+                <p className="mt-2 text-xs text-white/80 sm:text-sm">Boda Sofía y Alejandro · 5 de diciembre</p>
+              </div>
+              <div className="grid grid-cols-2 gap-2.5 p-3.5 sm:gap-3 sm:p-4">
+                <div className="rounded-xl border border-[#E7DFD3] bg-white p-3 sm:p-4"><p className="font-[var(--font-display)] text-2xl font-semibold text-[#332B27]">5</p><p className="mt-1 text-xs text-[#746A5D]">Invitaciones</p></div>
+                <div className="rounded-xl border border-[#E7DFD3] bg-white p-3 sm:p-4"><p className="font-[var(--font-display)] text-2xl font-semibold text-[#725A3C]">10</p><p className="mt-1 text-xs text-[#746A5D]">Pases asignados</p></div>
+                <div className="rounded-xl border border-[#D7E7DA] bg-white p-3 sm:p-4"><p className="font-[var(--font-display)] text-2xl font-semibold text-[#34734D]">1</p><p className="mt-1 text-xs text-[#746A5D]">Confirmados</p></div>
+                <div className="rounded-xl border border-[#F0DFC0] bg-white p-3 sm:p-4"><p className="font-[var(--font-display)] text-2xl font-semibold text-[#947044]">4</p><p className="mt-1 text-xs text-[#746A5D]">Por responder</p></div>
+              </div>
+              <div className="border-t border-[#E6DED1] px-4 py-3.5 sm:px-5"><p className="text-xs leading-5 text-[#746A5D]">Consulta las respuestas y lleva el control de los pases de cada invitación.</p></div>
+            </article>
+            <article className="overflow-hidden rounded-[1.35rem] border border-[#E6DED1] bg-[#F7F3ED] shadow-[0_12px_34px_rgba(45,38,29,.08)]">
+              <div className="flex items-center justify-between gap-3 border-b border-[#E6DED1] bg-white px-4 py-4 sm:px-5">
+                <div><p className="text-[9px] font-semibold uppercase tracking-[.18em] text-[#A88249]">Tu evento · Organización</p><h3 className="mt-1 font-[var(--font-display)] text-xl font-semibold text-[#332B27]">Lista de invitados</h3><p className="mt-1 text-xs text-[#746A5D]">Pases y respuestas en un vistazo</p></div>
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#DCC69D] bg-[#FCFAF6] text-[#725A3C]"><Users size={20} strokeWidth={1.7} /></span>
+              </div>
+              <div>
+                {[
+                  { name: "Carlos Ramírez", group: "Amigos de la universidad", passes: "2 pases", status: "Por responder", sent: "Sin enviar", color: "text-[#A65B20]" },
+                  { name: "María González", group: "Familia González", passes: "3 pases", status: "Por responder", sent: "Sin enviar", color: "text-[#A65B20]" },
+                  { name: "Carlos López", group: "Trabajo", passes: "2 pases", status: "Confirmó · 1", sent: "Enviada", color: "text-[#287247]" },
+                ].map((guest) => (
+                  <div key={guest.name} className="border-b border-[#E6DED1] px-4 py-3.5 last:border-b-0 sm:px-5">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0"><p className="truncate text-sm font-semibold text-[#332B27]">{guest.name}</p><p className="mt-0.5 truncate text-xs text-[#746A5D]">{guest.group}</p></div>
+                      <span className={`shrink-0 rounded-full bg-white px-2 py-1 text-[10px] font-medium ${guest.color}`}>{guest.status}</span>
+                    </div>
+                    <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] text-[#746A5D]"><span>{guest.passes}</span><span>·</span><span>{guest.sent}</span></div>
+                  </div>
+                ))}
+              </div>
+              <div className="border-t border-[#E6DED1] bg-white px-4 py-3.5 sm:px-5"><p className="text-xs leading-5 text-[#746A5D]">Identifica rápidamente a quién contactar y qué invitaciones faltan por enviar.</p></div>
+            </article>
+          </div>
+          <div className="mt-5 flex flex-col items-center justify-between gap-3 rounded-2xl border border-[#E1D5C4] bg-[#F8F4EC] p-4 text-center sm:flex-row sm:px-5 sm:text-left">
+            <div><p className="text-sm font-semibold text-[#263D4B]">Más organización, menos pendientes.</p><p className="mt-1 text-xs leading-5 text-[#625A50]">Incluido en Invitación Plus por $349 MXN, pago único.</p></div>
+            <PriceLink href={INVITATION_PLUS_URL} tone="gold">Conocer Invitación Plus</PriceLink>
+          </div>
+          <p className="mt-3 text-center text-[10px] leading-4 text-[#8A8073]">Vista ilustrativa del panel basada en sus funciones; los datos mostrados son ejemplos.</p>
         </div>
       </section>
 

@@ -281,14 +281,14 @@ export default function InvitationsLandingPage() {
           </div>
           <div className="mt-5 flex flex-col items-center justify-between gap-3 rounded-2xl border border-[#E1D5C4] bg-[#F8F4EC] p-4 text-center sm:flex-row sm:px-5 sm:text-left">
             <div><p className="text-sm font-semibold text-[#263D4B]">Más organización, menos pendientes.</p><p className="mt-1 text-xs leading-5 text-[#625A50]">Incluido en Invitación Plus por $349 MXN, pago único.</p></div>
-            <PriceLink href={INVITATION_PLUS_URL} tone="gold">Conocer Invitación Plus</PriceLink>
+            <PriceLink href={INVITATION_PLUS_URL} tone="gold">Comprar Invitación Plus</PriceLink>
           </div>
           <p className="mt-3 text-center text-[10px] leading-4 text-[#8A8073]">Vista ilustrativa del panel basada en sus funciones; los datos mostrados son ejemplos.</p>
         </div>
       </section>
 
       <section id="galeria" className="scroll-mt-5 px-5 pb-6 sm:px-8 sm:pb-8">
-        <div className="mx-auto flex max-w-5xl flex-col gap-2 rounded-xl border border-[#E6DED1] bg-[#F2EEE7] px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">
+        <div className="mx-auto flex max-w-5xl flex-col gap-3 rounded-2xl border border-[#E6DED1] bg-[#F2EEE7] px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-7 sm:py-6">
           <p className="text-xs leading-5 text-[#70675B] sm:text-sm">
             <Camera size={14} className="mr-1.5 inline-block align-[-2px] text-[#9A7544]" />
             <span className="font-semibold text-[#35414A]">¿Quieres guardar los recuerdos?</span> Complementa tu evento con una galería de fotos, mensajes y audios.

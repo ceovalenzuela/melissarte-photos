@@ -502,7 +502,7 @@ export default function PublicInvitationClient({
               </div>
             )}
             <p className={content.host_names?.trim() ? "mt-3 text-[9px] uppercase tracking-[0.3em] text-neutral-400" : "text-[9px] uppercase tracking-[0.3em] text-neutral-400"}>Gracias por ser parte de este día</p>
-            <div className="mt-8 flex justify-center pt-5"><span aria-hidden="true" className="absolute" /><img src="/me-logo.png" alt="Melissarte Events" className="h-auto w-24 max-w-[28vw] object-contain opacity-80 sm:w-28" loading="lazy" /></div>
+            <div className="mt-8 flex flex-col items-center pt-5"><span aria-hidden="true" className="mb-5 h-px w-full bg-black/5" /><img src="/me-logo.png" alt="Melissarte Events" className="h-auto w-24 max-w-[28vw] object-contain opacity-80 sm:w-28" loading="lazy" /></div>
           </footer>
         </article>
       </div>

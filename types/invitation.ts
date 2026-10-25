@@ -8,6 +8,9 @@ export interface InvitationContent {
   headline?: string;
   subtitle?: string;
   host_names?: string;
+  godparents_enabled?: boolean;
+  godparents_heading?: string;
+  godparents?: Array<{ role: string; name: string }>;
   introduction?: string;
   intro_headline?: string;
   ceremony_time?: string;

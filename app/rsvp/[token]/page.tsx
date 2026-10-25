@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";\nimport { ExternalLink } from "lucide-react";
+import Link from "next/link";
+import { ExternalLink } from "lucide-react";
 import type { CSSProperties } from "react";
 import type { InvitationTemplateKey } from "@/types/invitation";
 import { INVITATION_PALETTES } from "@/lib/invitation-palettes";

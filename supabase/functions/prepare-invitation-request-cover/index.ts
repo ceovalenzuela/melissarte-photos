@@ -7,7 +7,7 @@ const ALLOWED_TYPES: Record<string, string> = {
 };
 const ALLOWED_ORIGIN_PATTERNS = [
   /^https:\/\/fotos\.melissartedecorativo\.com$/,
-  /^https:\/\/(?:www\.)?melissartedecorativo\.com$/,
+  /^https:\/\/(?:www\.)?melissartedecorativo\.com$/,\n  /^https:\/\/events\\.melissartedecorativo\\.com$/,
   /^https:\/\/[a-z0-9-]*melissarte-photos[a-z0-9-]*\.vercel\.app$/,
   /^http:\/\/(?:localhost|127\.0\.0\.1)(?::\d+)?$/,
 ];

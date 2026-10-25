@@ -502,7 +502,7 @@ export default function PublicInvitationClient({
               </div>
             )}
             <p className={content.host_names?.trim() ? "mt-3 text-[9px] uppercase tracking-[0.3em] text-neutral-400" : "text-[9px] uppercase tracking-[0.3em] text-neutral-400"}>Gracias por ser parte de este día</p>
-            <p className="mt-8 border-t border-black/5 pt-5 text-[10px] font-medium uppercase tracking-[0.28em]" style={{ color: accent }}>Melissarte Invitaciones</p>
+            <div className="mt-8 flex justify-center border-t border-black/5 pt-5"><img src="/me-logo.png" alt="Melissarte Events" className="h-auto w-24 max-w-[28vw] object-contain opacity-80 sm:w-28" loading="lazy" /></div>
           </footer>
         </article>
       </div>

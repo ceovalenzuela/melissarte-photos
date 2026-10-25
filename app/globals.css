@@ -3938,3 +3938,20 @@
     min-width: 34rem;
   }
 }
+
+
+/* Desktop cover: keep the original portrait photo fully visible over an elegant blurred fill.
+   Mobile hero behavior remains unchanged. */
+@media (min-width: 1024px) {
+  .invitation-hero-has-cover .invitation-hero-image {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+  .invitation-hero-has-cover .invitation-hero-image-backdrop {
+    background-size: cover;
+    background-position: center center;
+    filter: blur(28px) saturate(0.82);
+    transform: scale(1.12);
+  }
+}

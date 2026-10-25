@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import Link from "next/link";\nimport { ExternalLink } from "lucide-react";
 import type { CSSProperties } from "react";
 import type { InvitationTemplateKey } from "@/types/invitation";
 import { INVITATION_PALETTES } from "@/lib/invitation-palettes";
@@ -76,6 +76,18 @@ export default async function OrganizerConfirmationsPage({ params }: Props) {
                 {eventDetails?.title ?? "Tu evento"}
                 {eventDetails?.event_date ? ` · ${new Date(`${eventDetails.event_date}T12:00:00`).toLocaleDateString("es-MX", { day: "numeric", month: "long", year: "numeric" })}` : ""}
               </p>
+              {invitation?.slug && (
+                <Link
+                  href={`/i/${encodeURIComponent(invitation.slug)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                  style={{ borderColor: "var(--organizer-banner-accent)", backgroundColor: "var(--organizer-card)", color: "var(--organizer-card-text)" }}
+                >
+                  <ExternalLink size={16} aria-hidden="true" />
+                  Ver mi invitación
+                </Link>
+              )}
             </div>
           </div>
         </header>

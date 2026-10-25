@@ -449,7 +449,15 @@ export default function InvitationRequestPage() {
     } catch (error) {
       if (whatsappWindow && !whatsappWindow.closed) whatsappWindow.close();
       console.error("No fue posible preparar la solicitud de invitación:", error);
-      setFormError("No pudimos subir la foto y preparar el mensaje. Revisa tu conexión e inténtalo de nuevo.");
+      const detail = error instanceof Error ? error.message : "";
+      const friendlyDetail = detail.includes("Origen no permitido")
+        ? "El dominio del formulario no está autorizado en Supabase. Ya estamos corrigiendo la configuración."
+        : detail.includes("Failed to fetch")
+          ? "No pudimos conectar con el servicio de fotos. Revisa tu conexión e inténtalo de nuevo."
+          : detail && detail.length < 180
+            ? detail
+            : "Revisa tu conexión e inténtalo de nuevo.";
+      setFormError("No pudimos subir la foto. " + friendlyDetail);
     } finally {
       setPreparingMessage(false);
     }

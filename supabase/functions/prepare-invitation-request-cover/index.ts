@@ -10,7 +10,6 @@ const ALLOWED_ORIGIN_PATTERNS = [
   /^https:\/\/(?:www\.)?melissartedecorativo\.com$/,
   /^https:\/\/events\.melissartedecorativo\.com$/,
   /^https:\/\/[a-z0-9-]*melissarte-photos[a-z0-9-]*\.vercel\.app$/,
-  /^https:\/\/events\.melissartedecorativo\.com$/,
   /^http:\/\/(?:localhost|127\.0\.0\.1)(?::\d+)?$/,
 ];
 function corsHeaders(origin: string | null) {

@@ -407,6 +407,32 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
               <Field label="Nombre del evento (etiqueta superior)" value={content.event_label ?? ""} onChange={(v) => updateContent("event_label", v)} placeholder={defaultEventLabel(templateKey)} maxLength={60} />
               <Field label="Título principal" value={content.headline ?? ""} onChange={(v) => updateContent("headline", v)} placeholder={event.title} />
               <Field label="Nombres de quienes invitan" value={content.host_names ?? ""} onChange={(v) => updateContent("host_names", v)} placeholder="Ej. Sofía y Alejandro" />
+              <div className="sm:col-span-2 rounded-2xl border border-[#E7DCC8] bg-white p-4">
+                <label className="flex cursor-pointer items-center gap-3 text-sm font-medium text-[#4E463D]">
+                  <input type="checkbox" checked={content.godparents_enabled ?? false} onChange={(e) => updateContent("godparents_enabled", e.target.checked)} className="h-4 w-4 accent-[#A88249]" />
+                  Mostrar sección de padrinos
+                </label>
+                {content.godparents_enabled && (
+                  <div className="mt-4 space-y-4">
+                    <Field label="Título de la sección" value={content.godparents_heading ?? "Nuestros padrinos"} onChange={(v) => updateContent("godparents_heading", v)} placeholder="Ej. Nuestros padrinos" maxLength={60} />
+                    {(content.godparents ?? []).map((godparent, index) => (
+                      <div key={index} className="grid gap-3 rounded-xl border border-[#EEE5D8] p-3 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)_auto] sm:items-end">
+                        <div>
+                          <label className={labelClass}>Título / parentesco</label>
+                          <input value={godparent.role} onChange={(e) => updateContent("godparents", (content.godparents ?? []).map((item, i) => i === index ? { ...item, role: e.target.value } : item))} placeholder="Ej. Madrina" maxLength={40} className={inputClass} />
+                        </div>
+                        <div>
+                          <label className={labelClass}>Nombre</label>
+                          <input value={godparent.name} onChange={(e) => updateContent("godparents", (content.godparents ?? []).map((item, i) => i === index ? { ...item, name: e.target.value } : item))} placeholder="Nombre del padrino o madrina" maxLength={100} className={inputClass} />
+                        </div>
+                        <button type="button" onClick={() => updateContent("godparents", (content.godparents ?? []).filter((_, i) => i !== index))} className="min-h-10 rounded-full border border-[#E7DCC8] px-3 text-xs font-medium text-[#7D7467] hover:bg-[#F7F3EC]">Eliminar</button>
+                      </div>
+                    ))}
+                    <button type="button" disabled={(content.godparents ?? []).length >= 8} onClick={() => updateContent("godparents", [...(content.godparents ?? []), { role: "", name: "" }])} className="rounded-full border border-[#D8C5A5] px-4 py-2.5 text-sm font-medium text-[#795D35] disabled:opacity-40">Agregar padrino o madrina</button>
+                    <p className="text-xs leading-5 text-[#8A8074]">Puedes agregar hasta 8 personas. Solo se mostrarán los registros que tengan nombre.</p>
+                  </div>
+                )}
+              </div>
               <div className="sm:col-span-2">
                 <label className={labelClass}>Título de introducción</label>
                 <input type="text" value={content.intro_headline ?? ""} onChange={(e) => updateContent("intro_headline", e.target.value)} placeholder="Ej. Un día para recordar" maxLength={80} className={inputClass} />

@@ -329,7 +329,10 @@ export default function PublicInvitationClient({
         >
           <header className={`invitation-hero relative isolate flex min-h-[30svh] items-end justify-center overflow-hidden px-6 pb-5 pt-7 text-center sm:min-h-[420px] sm:px-12 sm:pb-9 sm:pt-10 lg:min-h-[500px] ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>
             {cover ? (
-              <div aria-hidden="true" className={`absolute inset-0 -z-20 bg-cover bg-center invitation-hero-image transition-all duration-[1200ms] ease-out motion-reduce:transition-none ${coverLoaded ? "scale-100 opacity-100" : "scale-[1.025] opacity-0"}`} style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />
+              <>
+                <div aria-hidden="true" className={`invitation-hero-image-backdrop pointer-events-none absolute inset-0 hidden bg-cover bg-center blur-2xl scale-110 lg:block ${coverLoaded ? "opacity-70" : "opacity-0"}`} style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />
+                <div aria-hidden="true" className={`absolute inset-0 -z-20 bg-cover bg-center invitation-hero-image transition-all duration-[1200ms] ease-out motion-reduce:transition-none ${coverLoaded ? "scale-100 opacity-100" : "scale-[1.025] opacity-0"}`} style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />
+              </>
             ) : (
               <div aria-hidden="true" className="absolute inset-0 -z-20 invitation-hero-placeholder" style={{ background: `radial-gradient(ellipse at 75% 18%, ${accent}55, transparent 38%), linear-gradient(145deg, ${background} 0%, ${accent} 100%)` }} />
             )}
@@ -502,7 +505,7 @@ export default function PublicInvitationClient({
               </div>
             )}
             <p className={content.host_names?.trim() ? "mt-3 text-[9px] uppercase tracking-[0.3em] text-neutral-400" : "text-[9px] uppercase tracking-[0.3em] text-neutral-400"}>Gracias por ser parte de este día</p>
-            <div className="invitation-footer-brand mt-8 border-t pt-5" style={{ borderColor: `${borderColor}88` }}><img src="/me-logo.png" alt="Melissarte Events" className="mx-auto h-auto w-24 max-w-[28vw] object-contain opacity-80 sm:w-28" loading="lazy" /></div>
+            <div className="invitation-footer-brand mt-8 border-t pt-5" style={{ borderColor: `${borderColor}88` }}><a href="https://events.melissartedecorativo.com/invitaciones" aria-label="Conoce las invitaciones de Melissarte" className="inline-flex rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4" style={{ outlineColor: accent }}><img src="/me-logo.png" alt="Melissarte Events — ver invitaciones" className="mx-auto h-auto w-24 max-w-[28vw] object-contain opacity-80 transition-opacity hover:opacity-100 sm:w-28" loading="lazy" /></a></div>
           </footer>
         </article>
       </div>

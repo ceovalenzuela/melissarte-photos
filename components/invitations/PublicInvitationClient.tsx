@@ -488,6 +488,19 @@ export default function PublicInvitationClient({
                 <p className="font-[var(--font-display)] text-2xl italic" style={{ color: accent }}>{content.host_names.trim()}</p>
               </>
             )}
+            {content.godparents_enabled && (content.godparents ?? []).some((person) => person.name.trim()) && (
+              <div className="mx-auto mt-5 mb-5 max-w-2xl">
+                {content.godparents_heading?.trim() && <p className="mb-3 text-[9px] font-semibold uppercase tracking-[0.24em]" style={{ color: accent }}>{content.godparents_heading.trim()}</p>}
+                <div className="flex flex-wrap justify-center gap-x-7 gap-y-3">
+                  {(content.godparents ?? []).filter((person) => person.name.trim()).map((person, index) => (
+                    <div key={index} className="min-w-[100px] text-center">
+                      {person.role.trim() && <p className="mb-1 text-[8px] uppercase tracking-[0.2em] text-neutral-400">{person.role.trim()}</p>}
+                      <p className="font-[var(--font-display)] text-base sm:text-lg" style={{ color: textColor }}>{person.name.trim()}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             <p className={content.host_names?.trim() ? "mt-3 text-[9px] uppercase tracking-[0.3em] text-neutral-400" : "text-[9px] uppercase tracking-[0.3em] text-neutral-400"}>Gracias por ser parte de este día</p>
             <p className="mt-8 border-t border-black/5 pt-5 text-[10px] font-medium uppercase tracking-[0.28em]" style={{ color: accent }}>Melissarte Invitaciones</p>
           </footer>

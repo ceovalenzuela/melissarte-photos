@@ -490,7 +490,7 @@ export default function PublicInvitationClient({
             )}
             {content.godparents_enabled && (content.godparents ?? []).some((person) => person.name.trim()) && (
               <div className="mx-auto mt-5 mb-5 max-w-2xl">
-                {content.godparents_heading?.trim() && <p className="mb-3 text-[9px] font-semibold uppercase tracking-[0.24em]" style={{ color: accent }}>{content.godparents_heading.trim()}</p>}
+                {(content.godparents_heading?.trim() || "Nuestros padrinos") && <p className="mb-3 text-[9px] font-semibold uppercase tracking-[0.24em]" style={{ color: accent }}>{content.godparents_heading?.trim() || "Nuestros padrinos"}</p>}
                 <div className="flex flex-wrap justify-center gap-x-7 gap-y-3">
                   {(content.godparents ?? []).filter((person) => person.name.trim()).map((person, index) => (
                     <div key={index} className="min-w-[100px] text-center">

@@ -4162,3 +4162,29 @@
     inset: 1rem !important;
   }
 }
+
+
+/* Baptism footer divider: remove doubled decorative strokes and retain one
+   centered separator matching the shared invitation separator style. */
+.invitation-public.invitation-template-baptism_light footer > div:first-child::before,
+.invitation-public.invitation-template-baptism_light footer > div:first-child::after {
+  content: none !important;
+  display: none !important;
+}
+.invitation-public.invitation-template-baptism_light footer > div:first-child {
+  display: block !important;
+  width: 5rem !important;
+  height: 2px !important;
+  margin-inline: auto !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--inv-accent, #527F98) 35%, transparent) 18%,
+    var(--inv-accent, #527F98) 50%,
+    color-mix(in srgb, var(--inv-accent, #527F98) 35%, transparent) 82%,
+    transparent 100%
+  ) !important;
+}

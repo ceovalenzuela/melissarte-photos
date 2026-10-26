@@ -4092,3 +4092,48 @@
     padding-bottom: clamp(2.25rem, 4.5vh, 3.25rem) !important;
   }
 }
+
+
+/* More expressive typography for Baby Soft and Baptism no-photo covers only.
+   Widen the text block and give the headline more visual presence without
+   changing the photo-cover layout. */
+.invitation-public:is(.invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-no-cover .invitation-hero-content {
+  width: min(100%, 52rem) !important;
+  max-width: 52rem !important;
+}
+
+.invitation-public:is(.invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-no-cover .invitation-hero-title {
+  width: 100% !important;
+  max-width: 15ch !important;
+  margin-inline: auto !important;
+  font-size: clamp(3rem, 11vw, 4.6rem) !important;
+  line-height: 1.02 !important;
+  letter-spacing: -.035em !important;
+  text-wrap: balance;
+}
+
+.invitation-public:is(.invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-no-cover .invitation-hero-event-label {
+  font-size: clamp(.72rem, 2.4vw, .9rem) !important;
+  letter-spacing: .3em !important;
+  margin-bottom: 1rem !important;
+}
+
+.invitation-public:is(.invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-no-cover .invitation-hero-date {
+  max-width: 36rem !important;
+  margin: 1.5rem auto 0 !important;
+  font-size: clamp(1rem, 3.3vw, 1.35rem) !important;
+  letter-spacing: .12em !important;
+  line-height: 1.5 !important;
+}
+
+@media (min-width: 640px) {
+  .invitation-public:is(.invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-no-cover .invitation-hero-title {
+    font-size: clamp(4rem, 6vw, 5.4rem) !important;
+    max-width: 16ch !important;
+  }
+
+  .invitation-public:is(.invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero-no-cover .invitation-hero-date {
+    margin-top: 1.75rem !important;
+    font-size: clamp(1.2rem, 1.8vw, 1.5rem) !important;
+  }
+}

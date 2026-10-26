@@ -369,7 +369,7 @@ export default function PublicInvitationClient({
             </div>
 
             {(content.ceremony_venue || content.ceremony_time || content.ceremony_address || content.reception_venue || content.reception_time || content.reception_address || (content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address))) && (
-              <div className={`invitation-location-grid mx-auto mt-12 grid w-full items-stretch gap-4 ${locationCount === 2 ? "max-w-5xl md:grid-cols-2" : locationCount >= 3 ? "max-w-6xl md:grid-cols-2 xl:grid-cols-3" : "max-w-xl grid-cols-1"}`}>
+              <div className={`invitation-location-grid mx-auto mt-8 grid w-full items-stretch gap-4 ${locationCount === 2 ? "max-w-5xl md:grid-cols-2" : locationCount >= 3 ? "max-w-6xl md:grid-cols-2 xl:grid-cols-3" : "max-w-xl grid-cols-1"}`}>
                 {content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address) && (
                   <LocationCard title="Ceremonia" time={content.religious_ceremony_time} venue={content.religious_ceremony_venue} address={content.religious_ceremony_address} maps={religiousCeremonyMapsUrl} calendarUrl={calendarUrl("Ceremonia", content.religious_ceremony_time, content.religious_ceremony_venue, content.religious_ceremony_address)} accent={accent} />
                 )}
@@ -383,22 +383,26 @@ export default function PublicInvitationClient({
             )}
 
             {(content.dress_code || content.gift_message || content.gift_type || safeExternalUrl(content.gift_registry_url)) && (
-              <div className="invitation-info-grid mx-auto mt-8 grid w-full max-w-4xl grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="invitation-info-grid mx-auto mt-8 grid w-full max-w-4xl grid-cols-1 gap-4 sm:grid-cols-2">
                 {content.dress_code && (
-                  <article className="invitation-location-card flex h-full items-start gap-3 rounded-[1.5rem] border p-4 sm:p-5" style={{ backgroundColor: cardBackgroundColor, color: cardTextColor, borderColor: `${borderColor}88` }}>
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}><Shirt size={18} strokeWidth={1.7} /></span>
-                    <div className="min-w-0">
+                  <article className="invitation-location-card flex h-full flex-col rounded-[1.5rem] border p-4 sm:p-5" style={{ backgroundColor: cardBackgroundColor, color: cardTextColor, borderColor: `${borderColor}88` }}>
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}><Shirt size={18} strokeWidth={1.7} /></span>
                       <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Código de vestimenta</p>
-                      <p className="mt-1.5 text-sm font-medium leading-5">{content.dress_code}</p>
+                    </div>
+                    <div className="min-w-0">
+                      <p className="mt-3 text-sm font-medium leading-5">{content.dress_code}</p>
                     </div>
                   </article>
                 )}
                 {(content.gift_message || content.gift_type || safeExternalUrl(content.gift_registry_url)) && (
-                  <article className="invitation-location-card flex h-full items-start gap-3 rounded-[1.5rem] border p-4 sm:p-5" style={{ backgroundColor: cardBackgroundColor, color: cardTextColor, borderColor: `${borderColor}88` }}>
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}><Gift size={18} strokeWidth={1.7} /></span>
-                    <div className="min-w-0 flex-1">
+                  <article className="invitation-location-card flex h-full flex-col rounded-[1.5rem] border p-4 sm:p-5" style={{ backgroundColor: cardBackgroundColor, color: cardTextColor, borderColor: `${borderColor}88` }}>
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}><Gift size={18} strokeWidth={1.7} /></span>
                       <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Sugerencias de regalo</p>
-                      {content.gift_message && <p className="mt-1.5 text-sm leading-5">{content.gift_message}</p>}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      {content.gift_message && <p className="mt-3 text-sm leading-5">{content.gift_message}</p>}
                       {content.gift_type && <p className="mt-1.5 text-sm font-medium leading-5">{content.gift_type}</p>}
                       {safeExternalUrl(content.gift_registry_url) && <a href={safeExternalUrl(content.gift_registry_url)!} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex min-h-9 items-center justify-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold transition hover:opacity-90" style={{ backgroundColor: buttonColor, color: buttonTextColor }}>{content.gift_registry_label?.trim() || "Ver mesa de regalos"} <ArrowUpRight size={14} /></a>}
                     </div>

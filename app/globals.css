@@ -3970,3 +3970,75 @@
     margin-top: 1.25rem !important;
   }
 }
+
+
+/* Baptism template consistency fixes: one divider, shared cover sizing, and readable action buttons. */
+.invitation-public.invitation-template-baptism_light .invitation-details-rule::before,
+.invitation-public.invitation-template-baptism_light .invitation-details-rule::after,
+.invitation-public.invitation-template-baptism_light .invitation-details-heading::before,
+.invitation-public.invitation-template-baptism_light .invitation-details-heading::after,
+.invitation-public.invitation-template-baptism_light .invitation-intro-block::before,
+.invitation-public.invitation-template-baptism_light .invitation-intro-block::after {
+  content: none !important;
+  display: none !important;
+}
+
+.invitation-public.invitation-template-baptism_light .invitation-details-rule {
+  display: block !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--inv-accent, #527F98) 35%, transparent) 18%,
+    var(--inv-accent, #527F98) 50%,
+    color-mix(in srgb, var(--inv-accent, #527F98) 35%, transparent) 82%,
+    transparent 100%
+  ) !important;
+}
+
+.invitation-public.invitation-template-baptism_light .invitation-location-card a.invitation-location-button {
+  color: #355F78 !important;
+  -webkit-text-fill-color: #355F78 !important;
+  background: #F2F7F9 !important;
+  border-color: #C5DDE7 !important;
+}
+
+.invitation-public.invitation-template-baptism_light .invitation-location-card a.invitation-location-button > span:last-child,
+.invitation-public.invitation-template-baptism_light .invitation-location-card a.invitation-location-button > span:last-child span {
+  color: #355F78 !important;
+  -webkit-text-fill-color: #355F78 !important;
+  opacity: 1 !important;
+}
+
+.invitation-public.invitation-template-baptism_light .invitation-location-card a.invitation-location-button > span:first-child {
+  background: #E3EFF4 !important;
+  color: #355F78 !important;
+  border-color: #C5DDE7 !important;
+}
+
+.invitation-public.invitation-template-baptism_light .invitation-location-card a.invitation-location-button:hover {
+  background: #E8F2F6 !important;
+}
+
+/* Last override: baptism photo cover uses the same dimensions as the other templates. */
+.invitation-public.invitation-template-baptism_light .invitation-hero.invitation-hero-has-cover {
+  box-sizing: border-box !important;
+  flex: 0 0 auto !important;
+  height: clamp(28rem, 68svh, 36rem) !important;
+  min-height: clamp(28rem, 68svh, 36rem) !important;
+  max-height: clamp(28rem, 68svh, 36rem) !important;
+  padding-top: clamp(2rem, 5vh, 3rem) !important;
+  padding-bottom: clamp(1.75rem, 4vh, 2.75rem) !important;
+}
+
+@media (min-width: 640px) {
+  .invitation-public.invitation-template-baptism_light .invitation-hero.invitation-hero-has-cover {
+    height: clamp(34rem, 70svh, 42rem) !important;
+    min-height: clamp(34rem, 70svh, 42rem) !important;
+    max-height: clamp(34rem, 70svh, 42rem) !important;
+    padding-top: clamp(3rem, 6vh, 4rem) !important;
+    padding-bottom: clamp(2.25rem, 4.5vh, 3.25rem) !important;
+  }
+}

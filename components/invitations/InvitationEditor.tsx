@@ -44,6 +44,7 @@ const emptyContent = (event: Event): InvitationContent => ({
   ceremony_time: "",
   ceremony_venue: "",
   ceremony_address: "",
+  reception_title: "Recepción",
   religious_ceremony_enabled: false,
   religious_ceremony_time: "",
   religious_ceremony_venue: "",
@@ -449,6 +450,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
           <section id="editor-event" className="scroll-mt-6 border-t border-[#E7DCC8] pt-6">
             <h3 className="mb-1 text-base font-semibold text-[#332B27]">Detalles del evento</h3>
             <p className="mb-4 text-sm text-[#7D7467]">La fecha se toma de la configuración general del evento.</p>
+            <div className="mb-4 max-w-xl"><Field label="Título de la tarjeta de recepción" value={content.reception_title ?? ""} onChange={(v) => updateContent("reception_title", v)} placeholder="Recepción" maxLength={40} /><p className="mt-1 text-xs text-[#8A8074]">Si lo dejas vacío, se mostrará “Recepción”.</p></div>}
             <div className="grid gap-4 sm:grid-cols-2">
               <Field label="Hora de recepción" type="time" value={content.ceremony_time ?? ""} onChange={(v) => updateContent("ceremony_time", v)} />
               <Field label="Lugar de recepción" value={content.ceremony_venue ?? ""} onChange={(v) => updateContent("ceremony_venue", v)} placeholder="Nombre del salón o recinto" />

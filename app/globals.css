@@ -4137,3 +4137,15 @@
     font-size: clamp(1.2rem, 1.8vw, 1.5rem) !important;
   }
 }
+
+
+/* Baby Soft photo cover: align frame inset with the other templates. */
+.invitation-public.invitation-template-baby_soft .invitation-hero.invitation-hero-has-cover .invitation-hero-frame {
+  inset: 1.5rem !important;
+}
+
+@media (max-width: 639px) {
+  .invitation-public.invitation-template-baby_soft .invitation-hero.invitation-hero-has-cover .invitation-hero-frame {
+    inset: 1rem !important;
+  }
+}

@@ -382,6 +382,30 @@ export default function PublicInvitationClient({
               </div>
             )}
 
+            {(content.dress_code || content.gift_message || content.gift_type || safeExternalUrl(content.gift_registry_url)) && (
+              <div className="invitation-info-grid mx-auto mt-8 grid w-full max-w-4xl grid-cols-1 gap-3 sm:grid-cols-2">
+                {content.dress_code && (
+                  <article className="invitation-location-card flex h-full items-start gap-3 rounded-[1.5rem] border p-4 sm:p-5" style={{ backgroundColor: cardBackgroundColor, color: cardTextColor, borderColor: `${borderColor}88` }}>
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}><Shirt size={18} strokeWidth={1.7} /></span>
+                    <div className="min-w-0">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Código de vestimenta</p>
+                      <p className="mt-1.5 text-sm font-medium leading-5">{content.dress_code}</p>
+                    </div>
+                  </article>
+                )}
+                {(content.gift_message || content.gift_type || safeExternalUrl(content.gift_registry_url)) && (
+                  <article className="invitation-location-card flex h-full items-start gap-3 rounded-[1.5rem] border p-4 sm:p-5" style={{ backgroundColor: cardBackgroundColor, color: cardTextColor, borderColor: `${borderColor}88` }}>
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}><Gift size={18} strokeWidth={1.7} /></span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Sugerencias de regalo</p>
+                      {content.gift_message && <p className="mt-1.5 text-sm leading-5">{content.gift_message}</p>}
+                      {content.gift_type && <p className="mt-1.5 text-sm font-medium leading-5">{content.gift_type}</p>}
+                      {safeExternalUrl(content.gift_registry_url) && <a href={safeExternalUrl(content.gift_registry_url)!} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex min-h-9 items-center justify-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold transition hover:opacity-90" style={{ backgroundColor: buttonColor, color: buttonTextColor }}>{content.gift_registry_label?.trim() || "Ver mesa de regalos"} <ArrowUpRight size={14} /></a>}
+                    </div>
+                  </article>
+                )}
+              </div>
+            )}
             {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} />}
 
           </section>
@@ -400,37 +424,15 @@ export default function PublicInvitationClient({
                 <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: accent }}>{existingRSVP || personalizedGuest?.attendance_status ? "Tu respuesta" : "Nos encantará saber de ti"}</p>
                 <h2 className="mt-3 text-center font-[var(--font-display)] text-4xl leading-tight sm:text-5xl">{existingRSVP || personalizedGuest?.attendance_status ? "Tu confirmación" : "¿Nos acompañas?"}</h2>
                 <p className="mt-3 text-center text-sm leading-6 text-neutral-600">{existingRSVP || personalizedGuest?.attendance_status ? "Puedes actualizar tus datos aquí." : personalizedGuest ? `Esta invitación está preparada para ti. Tienes ${personalizedGuest.passes} ${personalizedGuest.passes === 1 ? "pase asignado" : "pases asignados"}.` : "Solo te tomará unos segundos confirmar."}</p>
-                {(content.dress_code || content.gift_message || content.gift_type || safeExternalUrl(content.gift_registry_url) || (content.confirmation_mode !== "whatsapp" && content.rsvp_deadline)) && (
+                {content.confirmation_mode !== "whatsapp" && content.rsvp_deadline && (
                   <div className="mx-auto mt-6 grid w-full gap-3 sm:grid-cols-2">
-                    {content.dress_code && (
-                      <div className="invitation-rsvp-info-card flex items-start gap-3 rounded-2xl border bg-white/90 p-4 text-left shadow-sm" style={{ borderColor: `${accent}30` }}>
-                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: `${accent}12`, color: accent }}><Shirt size={18} strokeWidth={1.7} /></span>
-                        <div className="min-w-0">
-                          <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Código de vestimenta</p>
-                          <p className="mt-1.5 text-sm font-medium leading-5" style={{ color: "#30283A" }}>{content.dress_code}</p>
-                        </div>
+                    <div className="invitation-rsvp-info-card flex items-start gap-3 rounded-2xl border bg-white/90 p-4 text-left shadow-sm" style={{ borderColor: `${accent}30` }}>
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: `${accent}12`, color: accent }}><Clock3 size={18} strokeWidth={1.7} /></span>
+                      <div className="min-w-0">
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Fecha límite para confirmar</p>
+                        <p className="mt-1.5 text-sm font-medium leading-5" style={{ color: "#30283A" }}>{formatDate(content.rsvp_deadline) ?? content.rsvp_deadline}</p>
                       </div>
-                    )}
-                    {(content.gift_message || content.gift_type || safeExternalUrl(content.gift_registry_url)) && (
-                      <div className="invitation-rsvp-info-card flex items-start gap-3 rounded-2xl border bg-white/90 p-4 text-left shadow-sm" style={{ borderColor: `${accent}30` }}>
-                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: `${accent}12`, color: accent }}><Gift size={18} strokeWidth={1.7} /></span>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Sugerencias de regalo</p>
-                          {content.gift_message && <p className="mt-1.5 text-sm leading-5" style={{ color: "#30283A" }}>{content.gift_message}</p>}
-                          {content.gift_type && <p className="mt-1.5 text-sm font-medium leading-5" style={{ color: "#30283A" }}>{content.gift_type}</p>}
-                          {safeExternalUrl(content.gift_registry_url) && <a href={safeExternalUrl(content.gift_registry_url)!} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex min-h-9 items-center justify-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold transition hover:opacity-90" style={{ backgroundColor: buttonColor, color: buttonTextColor }}>{content.gift_registry_label?.trim() || "Ver mesa de regalos"} <ArrowUpRight size={14} /></a>}
-                        </div>
-                      </div>
-                    )}
-                    {content.confirmation_mode !== "whatsapp" && content.rsvp_deadline && (
-                      <div className="invitation-rsvp-info-card flex items-start gap-3 rounded-2xl border bg-white/90 p-4 text-left shadow-sm" style={{ borderColor: `${accent}30` }}>
-                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: `${accent}12`, color: accent }}><Clock3 size={18} strokeWidth={1.7} /></span>
-                        <div className="min-w-0">
-                          <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Fecha límite para confirmar</p>
-                          <p className="mt-1.5 text-sm font-medium leading-5" style={{ color: "#30283A" }}>{formatDate(content.rsvp_deadline) ?? content.rsvp_deadline}</p>
-                        </div>
-                      </div>
-                    )}
+                    </div>
                   </div>
                 )}
                 {content.confirmation_mode !== "whatsapp" && (((existingRSVP && editToken) || (personalizedGuest && personalizedToken && (personalizedGuest.attendance_status || successMessage)))) && (

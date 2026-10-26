@@ -4149,3 +4149,16 @@
     inset: 1rem !important;
   }
 }
+
+
+/* Baby Soft no-photo cover: keep the decorative frame inset identical to
+   the photo-cover version and aligned with the other invitation templates. */
+.invitation-public.invitation-template-baby_soft .invitation-hero.invitation-hero-no-cover .invitation-hero-frame {
+  inset: 1.5rem !important;
+}
+
+@media (max-width: 639px) {
+  .invitation-public.invitation-template-baby_soft .invitation-hero.invitation-hero-no-cover .invitation-hero-frame {
+    inset: 1rem !important;
+  }
+}

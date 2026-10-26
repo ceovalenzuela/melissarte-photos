@@ -13,7 +13,7 @@ import {
 export const metadata = {
   title: "Invitaciones digitales para tu evento | Melissarte",
   description:
-    "Invitaciones digitales personalizadas para bodas y XV años. Elige tu diseño y compra en línea.",
+    "Invitaciones digitales personalizadas para bodas, XV años, baby showers y bautizos. Elige tu diseño y compra en línea.",
 };
 
 const WHATSAPP_NUMBER = "528133867050";
@@ -33,6 +33,16 @@ const INVITATION_DEMOS = [
     key: "xv",
     label: "XV años",
     href: "https://events.melissartedecorativo.com/i/xv",
+  },
+  {
+    key: "baby-shower",
+    label: "Baby Shower",
+    href: "https://events.melissartedecorativo.com/i/baby-shower-valeria-mateo-demo",
+  },
+  {
+    key: "bautizo",
+    label: "Bautizo",
+    href: "https://events.melissartedecorativo.com/i/bautizo-emilia-demo",
   },
 ] as const;
 
@@ -209,7 +219,7 @@ export default function InvitationsLandingPage() {
             </div>
             <p className="text-xs text-[#746A5D]">Abre cada demo para verla completa.</p>
           </div>
-          <div className="mt-4 grid grid-cols-2 gap-3 sm:gap-5">
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
             {INVITATION_DEMOS.map((demo) => (
               <article key={demo.key} className="overflow-hidden rounded-xl border border-[#E8E0D4] bg-[#FCFAF6]">
                 <a href={demo.href} target="_blank" rel="noopener noreferrer" aria-label={`Ver invitación de ${demo.label}`} className="block bg-[#F0E8DB] p-2.5 sm:p-3">

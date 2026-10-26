@@ -3955,3 +3955,18 @@
     transform: scale(1.12);
   }
 }
+
+
+/* Keep the vertical rhythm identical between every public invitation detail card group. */
+.invitation-public #detalles > .invitation-location-grid,
+.invitation-public #detalles > .invitation-info-grid,
+.invitation-public #detalles > .invitation-countdown {
+  margin-top: 1.5rem !important;
+}
+@media (max-width: 639px) {
+  .invitation-public #detalles > .invitation-location-grid,
+  .invitation-public #detalles > .invitation-info-grid,
+  .invitation-public #detalles > .invitation-countdown {
+    margin-top: 1.25rem !important;
+  }
+}

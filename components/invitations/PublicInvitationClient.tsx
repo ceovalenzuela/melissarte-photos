@@ -134,10 +134,15 @@ export default function PublicInvitationClient({
     ? (invitation.template_key as InvitationTemplateKey)
     : "wedding_editorial";
   const templateClass = `invitation-template-${templateKey}`;
-  // Demo invitation: do not expose the WhatsApp confirmation flow on this public sample.
+  // Keep RSVP controls visible but inactive on the four public demo invitations.
+  const isDemoInvitation = [
+    "boda-sofia-y-alejandro",
+    "xv",
+    "baby-shower-valeria-mateo-demo",
+    "bautizo-emilia-demo",
+  ].includes(invitation.invitation_slug);
   const disableDemoWhatsAppConfirmation =
-    invitation.invitation_slug === "boda-sofia-y-alejandro" &&
-    content.confirmation_mode === "whatsapp";
+    isDemoInvitation && content.confirmation_mode === "whatsapp";
   const templatePalette = INVITATION_PALETTES[templateKey];
   const weddingColor = (value: string | undefined, fallback: string, oldColors: string[], newColor: string) =>
     resolveDesignColor(value, fallback, templateKey, oldColors, newColor);
@@ -221,6 +226,7 @@ export default function PublicInvitationClient({
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (isDemoInvitation) return;
     setErrorMessage("");
     if (content.confirmation_mode === "whatsapp") {
       const destination = (content.whatsapp_confirmation_phone ?? "").replace(/\D/g, "");
@@ -471,8 +477,8 @@ export default function PublicInvitationClient({
                   <fieldset>
                     <legend className="mb-2 text-sm font-medium">¿Podrás acompañarnos?</legend>
                     <div className="grid grid-cols-2 gap-3">
-                      <button type="button" onClick={() => setAttendance("attending")} aria-pressed={attendance === "attending"} className="rounded-xl border px-3 py-3.5 text-sm transition" style={attendance === "attending" ? { borderColor: accent, backgroundColor: `${accent}12`, color: accent } : { borderColor: "#e5e5e5" }}>Sí, asistiré</button>
-                      <button type="button" onClick={() => setAttendance("declined")} aria-pressed={attendance === "declined"} className="rounded-xl border px-3 py-3.5 text-sm transition" style={attendance === "declined" ? { borderColor: accent, backgroundColor: `${accent}12`, color: accent } : { borderColor: "#e5e5e5" }}>No podré asistir</button>
+                      <button type="button" disabled={isDemoInvitation} onClick={() => setAttendance("attending")} aria-pressed={attendance === "attending"} className="rounded-xl border px-3 py-3.5 text-sm transition disabled:cursor-not-allowed disabled:opacity-70" style={attendance === "attending" ? { borderColor: accent, backgroundColor: `${accent}12`, color: accent } : { borderColor: "#e5e5e5" }}>Sí, asistiré</button>
+                      <button type="button" disabled={isDemoInvitation} onClick={() => setAttendance("declined")} aria-pressed={attendance === "declined"} className="rounded-xl border px-3 py-3.5 text-sm transition disabled:cursor-not-allowed disabled:opacity-70" style={attendance === "declined" ? { borderColor: accent, backgroundColor: `${accent}12`, color: accent } : { borderColor: "#e5e5e5" }}>No podré asistir</button>
                     </div>
                   </fieldset>
                   {attendance === "attending" && <div>
@@ -483,7 +489,7 @@ export default function PublicInvitationClient({
                   </div>}
                   {errorMessage && <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{errorMessage}</p>}
                   {successMessage && <p role="status" className="flex items-center gap-2 rounded-xl bg-green-50 px-4 py-3 text-sm text-green-800"><CheckCircle2 size={18} />{successMessage}</p>}
-                  <button type="submit" disabled={submitting || disableDemoWhatsAppConfirmation} aria-disabled={submitting || disableDemoWhatsAppConfirmation} className="w-full rounded-full px-5 py-4 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60" style={{ backgroundColor: buttonColor, color: buttonTextColor, ...(disableDemoWhatsAppConfirmation ? { opacity: 0.55, cursor: "not-allowed" } : {}) }}>{content.confirmation_mode === "whatsapp" ? "Confirmar por WhatsApp" : submitting ? "Guardando..." : existingRSVP || personalizedGuest?.attendance_status ? "Guardar cambios" : "Confirmar"}</button>
+                  <button type="submit" disabled={submitting || isDemoInvitation || disableDemoWhatsAppConfirmation} aria-disabled={submitting || isDemoInvitation || disableDemoWhatsAppConfirmation} className="w-full rounded-full px-5 py-4 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60" style={{ backgroundColor: buttonColor, color: buttonTextColor, ...((isDemoInvitation || disableDemoWhatsAppConfirmation) ? { opacity: 0.55, cursor: "not-allowed" } : {}) }}>{content.confirmation_mode === "whatsapp" ? "Confirmar por WhatsApp" : submitting ? "Guardando..." : existingRSVP || personalizedGuest?.attendance_status ? "Guardar cambios" : "Confirmar"}</button>
                   {content.confirmation_mode === "whatsapp" ? <p className="text-center text-xs leading-5 text-neutral-400">Se abrirá WhatsApp con tus datos para que envíes la confirmación.</p> : !existingRSVP && <p className="text-center text-xs leading-5 text-neutral-400">Tu respuesta solo será visible para quienes organizan el evento.</p>}
                 </form>
               </div>

@@ -4042,3 +4042,53 @@
     padding-bottom: clamp(2.25rem, 4.5vh, 3.25rem) !important;
   }
 }
+
+
+/* Match Baptism hero dimensions to Baby Soft, with and without a photo.
+   Keep the same responsive height, padding, and centered composition. */
+.invitation-public.invitation-template-baptism_light .invitation-hero-no-cover {
+  box-sizing: border-box !important;
+  height: auto !important;
+  min-height: clamp(25rem, 58svh, 34rem) !important;
+  max-height: none !important;
+  padding: 4rem 1.25rem 3.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.invitation-public.invitation-template-baptism_light .invitation-hero-no-cover .invitation-hero-content {
+  width: 100% !important;
+  max-width: 42rem !important;
+  margin-inline: auto !important;
+  text-align: center !important;
+}
+
+@media (min-width: 640px) {
+  .invitation-public.invitation-template-baptism_light .invitation-hero-no-cover {
+    min-height: clamp(30rem, 62svh, 40rem) !important;
+    padding: 4.5rem 2.5rem !important;
+  }
+}
+
+/* Ensure both cover states use the same exact sizing rules as Baby Soft. */
+.invitation-public:is(.invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero.invitation-hero-has-cover {
+  box-sizing: border-box !important;
+  flex: 0 0 auto !important;
+  height: clamp(28rem, 68svh, 36rem) !important;
+  min-height: clamp(28rem, 68svh, 36rem) !important;
+  max-height: clamp(28rem, 68svh, 36rem) !important;
+  padding-top: clamp(2rem, 5vh, 3rem) !important;
+  padding-bottom: clamp(1.75rem, 4vh, 2.75rem) !important;
+}
+
+@media (min-width: 640px) {
+  .invitation-public:is(.invitation-template-baby_soft, .invitation-template-baptism_light) .invitation-hero.invitation-hero-has-cover {
+    height: clamp(34rem, 70svh, 42rem) !important;
+    min-height: clamp(34rem, 70svh, 42rem) !important;
+    max-height: clamp(34rem, 70svh, 42rem) !important;
+    padding-top: clamp(3rem, 6vh, 4rem) !important;
+    padding-bottom: clamp(2.25rem, 4.5vh, 3.25rem) !important;
+  }
+}

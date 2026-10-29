@@ -33,6 +33,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
   const [template, setTemplate] = useState<InvitationTemplateKey>("wedding_editorial");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
 
@@ -72,7 +73,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
     rsvp_enabled: true,
     max_party_size: 5,
     invitation_status: "draft",
-    cover_image: null,
+    cover_image: design.cover_image_url ?? null,
     cover_position_y: null,
   }) : null, [draft, content, design, eventDate, template, palette]);
 
@@ -83,7 +84,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
     const { data, error: saveError } = await supabase.rpc("update_invitation_draft", {
       p_access_token: token,
       p_template_key: template,
-      p_design_config: { cover_image_url: design.cover_image_url ?? null },
+      p_design_config: design,
       p_content_config: content,
       p_event_date: eventDate || null,
     });
@@ -95,7 +96,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
     setSaving(false);
   }
 
-  async function continueToCheckout(selected: "essential" | "plus") {
+  async function uploadCover(file: File) {\n    if (!draft || locked) return;\n    setUploading(true); setError(""); setNotice("");\n    try {\n      const { data: signed, error: signError } = await supabase.functions.invoke("upload-invitation-draft-cover", { body: { access_token: token, content_type: file.type } });\n      if (signError || !signed?.path || !signed?.token) throw new Error(signError?.message ?? "No se pudo preparar la carga.");\n      const { error: uploadError } = await supabase.storage.from("event-covers").uploadToSignedUrl(signed.path, signed.token, file, { contentType: file.type, upsert: false });\n      if (uploadError) throw uploadError;\n      const { data: publicUrl } = supabase.storage.from("event-covers").getPublicUrl(signed.path);\n      setDesign(current => ({ ...current, cover_image_url: publicUrl.publicUrl }));\n      setNotice("Portada cargada. Guarda los cambios para conservarla.");\n    } catch (uploadError) {\n      setError(uploadError instanceof Error ? uploadError.message : "No fue posible cargar la portada.");\n    } finally { setUploading(false); }\n  }\n\n  async function continueToCheckout(selected: "essential" | "plus") {
     setSaving(true);
     setError("");
     const { data, error: packageError } = await supabase.rpc("set_invitation_draft_package", {
@@ -132,7 +133,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
         <section className="space-y-4">
           <div className="rounded-2xl border border-[#E7DCC8] bg-white p-5">
             <div className="flex items-center justify-between"><h2 className="font-semibold">Datos principales</h2><span className="text-xs text-[#8A8074]">{locked ? "Edición bloqueada" : "Borrador"}</span></div>
-            <label className="mt-4 block text-sm font-medium">Título o nombres<input disabled={locked} value={content.headline ?? ""} onChange={e=>update("headline",e.target.value)} maxLength={120} placeholder="Ej. Sofía y Alejandro" className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
+            <label className="mt-4 block text-sm font-medium">Portada de tu invitación<input disabled={locked || uploading} type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>{const file=e.target.files?.[0];if(file) void uploadCover(file);e.currentTarget.value="";}} className="mt-1.5 block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-[#F2EBE1] file:px-3 file:py-2 file:text-xs file:font-semibold disabled:opacity-50" /></label>\n            {design.cover_image_url && <img src={design.cover_image_url} alt="Portada seleccionada" className="mt-3 aspect-[4/3] w-full rounded-xl object-cover" />}\n            <label className="mt-4 block text-sm font-medium">Título o nombres<input disabled={locked} value={content.headline ?? ""} onChange={e=>update("headline",e.target.value)} maxLength={120} placeholder="Ej. Sofía y Alejandro" className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
             <label className="mt-3 block text-sm font-medium">Texto secundario<input disabled={locked} value={content.subtitle ?? ""} onChange={e=>update("subtitle",e.target.value)} maxLength={180} placeholder="Nos encantará compartir..." className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
             <label className="mt-3 block text-sm font-medium">Anfitriones<input disabled={locked} value={content.host_names ?? ""} onChange={e=>update("host_names",e.target.value)} maxLength={160} placeholder="Nombres" className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
             <label className="mt-3 block text-sm font-medium">Fecha del evento<input disabled={locked} type="date" value={eventDate} onChange={e=>setEventDate(e.target.value)} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
@@ -149,7 +150,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
               {INVITATION_TEMPLATE_OPTIONS.map(option=><option key={option.key} value={option.key}>{option.label}</option>)}
             </select>
             <p className="mt-2 text-xs text-[#746A5D]">La paleta prediseñada cambia junto con la plantilla. La personalización avanzada se habilita después de validar tu pago.</p>
-            <button disabled={locked || saving} onClick={save} className="mt-4 w-full rounded-full bg-[#263D4B] px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">{saving ? "Guardando..." : "Guardar cambios"}</button>
+            <button disabled={locked || saving} onClick={save} className="mt-4 w-full rounded-full bg-[#263D4B] px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">{uploading ? "Subiendo portada..." : saving ? "Guardando..." : "Guardar cambios"}</button>
             {notice && <p role="status" className="mt-2 text-sm text-green-700">{notice}</p>}
             {error && <p role="alert" className="mt-2 text-sm text-red-700">{error}</p>}
           </div>

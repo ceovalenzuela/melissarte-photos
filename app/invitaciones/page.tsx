@@ -49,10 +49,6 @@ const INVITATION_DEMOS = [
 const GALLERY_URL =
   "https://melissartedecorativo.com/products/galeria-digital-para-tu-evento";
 
-const INVITATION_ESSENTIAL_URL =
-  "https://melissartedecorativo.com/products/invitacion-digital-para-tu-evento?variant=67790310834269";
-const INVITATION_PLUS_URL =
-  "https://melissartedecorativo.com/products/invitacion-digital-para-tu-evento?variant=67790310867037";
 
 function PriceLink({
   href,

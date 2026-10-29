@@ -291,7 +291,7 @@ export default function InvitationsLandingPage() {
           </div>
           <div className="mt-5 flex flex-col items-center justify-between gap-3 rounded-2xl border border-[#E1D5C4] bg-[#F8F4EC] p-4 text-center sm:flex-row sm:px-5 sm:text-left">
             <div><p className="text-sm font-semibold text-[#263D4B]">Más organización, menos pendientes.</p><p className="mt-1 text-xs leading-5 text-[#625A50]">Incluido en Invitación Plus por $349 MXN, pago único.</p></div>
-            <PriceLink href={INVITATION_PLUS_URL} tone="gold">Comprar Invitación Plus</PriceLink>
+            <PriceLink href="/crear-invitacion" tone="gold">Diseñar mi invitación</PriceLink>
           </div>
           <p className="mt-3 text-center text-[10px] leading-4 text-[#8A8073]">Vista ilustrativa del panel basada en sus funciones; los datos mostrados son ejemplos.</p>
         </div>

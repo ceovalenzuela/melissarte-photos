@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { ListFilter, Search, X, SlidersHorizontal } from "lucide-react";
 
 import AppHeader from "@/components/layout/AppHeader";
@@ -147,7 +148,7 @@ export default function AdminPage() {
         />
       </AppHeader>
 
-      <div className="mx-auto max-w-7xl min-w-0 space-y-4 px-3 py-4 sm:space-y-5 sm:p-6">
+      <div className="mx-auto max-w-7xl min-w-0 space-y-4 px-3 py-4 sm:space-y-5 sm:p-6">\n        <Link href="/admin/invitaciones" className="flex items-center justify-between rounded-2xl border border-[#E7DCC8] bg-white px-4 py-3 text-sm font-semibold text-[#263D4B] shadow-sm hover:bg-[#FDFBF8]"><span>Administrar borradores de invitaciones</span><span aria-hidden="true">→</span></Link>
         <StatsCards events={events} />
 
         <section className="min-w-0 rounded-2xl border border-[#E7DCC8] bg-[#FDFBF8] p-3 shadow-sm sm:p-4">

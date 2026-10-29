@@ -25,7 +25,7 @@ export default function InvitationDraftAdmin(){
   setLoading(true);setError("");
   const {data,error}=await supabase.rpc("admin_list_invitation_drafts");
   if(error){setError(error.message);setDrafts([]);}
-  else{const rows=(data??[]) as Draft[];setDrafts(rows);setForms(Object.fromEntries(rows.map(d=>[d.draft_id,{payment_status:d.payment_status,editing_enabled:d.editing_enabled,phone:d.whatsapp_confirmation_phone??"",order:d.shopify_order_name??"")])));}
+  else{const rows=(data??[]) as Draft[];setDrafts(rows);setForms(Object.fromEntries(rows.map(d=>[d.draft_id,{payment_status:d.payment_status,editing_enabled:d.editing_enabled,phone:d.whatsapp_confirmation_phone??"",order:d.shopify_order_name??""}])));}
   setLoading(false);
  },[]);
  useEffect(()=>{void load();},[load]);

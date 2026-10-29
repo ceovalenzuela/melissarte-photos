@@ -96,7 +96,23 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
     setSaving(false);
   }
 
-  async function uploadCover(file: File) {\n    if (!draft || locked) return;\n    setUploading(true); setError(""); setNotice("");\n    try {\n      const { data: signed, error: signError } = await supabase.functions.invoke("upload-invitation-draft-cover", { body: { access_token: token, content_type: file.type } });\n      if (signError || !signed?.path || !signed?.token) throw new Error(signError?.message ?? "No se pudo preparar la carga.");\n      const { error: uploadError } = await supabase.storage.from("event-covers").uploadToSignedUrl(signed.path, signed.token, file, { contentType: file.type, upsert: false });\n      if (uploadError) throw uploadError;\n      const { data: publicUrl } = supabase.storage.from("event-covers").getPublicUrl(signed.path);\n      setDesign(current => ({ ...current, cover_image_url: publicUrl.publicUrl }));\n      setNotice("Portada cargada. Guarda los cambios para conservarla.");\n    } catch (uploadError) {\n      setError(uploadError instanceof Error ? uploadError.message : "No fue posible cargar la portada.");\n    } finally { setUploading(false); }\n  }\n\n  async function continueToCheckout(selected: "essential" | "plus") {
+  async function uploadCover(file: File) {
+    if (!draft || locked) return;
+    setUploading(true); setError(""); setNotice("");
+    try {
+      const { data: signed, error: signError } = await supabase.functions.invoke("upload-invitation-draft-cover", { body: { access_token: token, content_type: file.type } });
+      if (signError || !signed?.path || !signed?.token) throw new Error(signError?.message ?? "No se pudo preparar la carga.");
+      const { error: uploadError } = await supabase.storage.from("event-covers").uploadToSignedUrl(signed.path, signed.token, file, { contentType: file.type, upsert: false });
+      if (uploadError) throw uploadError;
+      const { data: publicUrl } = supabase.storage.from("event-covers").getPublicUrl(signed.path);
+      setDesign(current => ({ ...current, cover_image_url: publicUrl.publicUrl }));
+      setNotice("Portada cargada. Guarda los cambios para conservarla.");
+    } catch (uploadError) {
+      setError(uploadError instanceof Error ? uploadError.message : "No fue posible cargar la portada.");
+    } finally { setUploading(false); }
+  }
+
+  async function continueToCheckout(selected: "essential" | "plus") {
     setSaving(true);
     setError("");
     const { data, error: packageError } = await supabase.rpc("set_invitation_draft_package", {
@@ -133,7 +149,9 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
         <section className="space-y-4">
           <div className="rounded-2xl border border-[#E7DCC8] bg-white p-5">
             <div className="flex items-center justify-between"><h2 className="font-semibold">Datos principales</h2><span className="text-xs text-[#8A8074]">{locked ? "Edición bloqueada" : "Borrador"}</span></div>
-            <label className="mt-4 block text-sm font-medium">Portada de tu invitación<input disabled={locked || uploading} type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>{const file=e.target.files?.[0];if(file) void uploadCover(file);e.currentTarget.value="";}} className="mt-1.5 block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-[#F2EBE1] file:px-3 file:py-2 file:text-xs file:font-semibold disabled:opacity-50" /></label>\n            {design.cover_image_url && <img src={design.cover_image_url} alt="Portada seleccionada" className="mt-3 aspect-[4/3] w-full rounded-xl object-cover" />}\n            <label className="mt-4 block text-sm font-medium">Título o nombres<input disabled={locked} value={content.headline ?? ""} onChange={e=>update("headline",e.target.value)} maxLength={120} placeholder="Ej. Sofía y Alejandro" className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
+            <label className="mt-4 block text-sm font-medium">Portada de tu invitación<input disabled={locked || uploading} type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>{const file=e.target.files?.[0];if(file) void uploadCover(file);e.currentTarget.value="";}} className="mt-1.5 block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-[#F2EBE1] file:px-3 file:py-2 file:text-xs file:font-semibold disabled:opacity-50" /></label>
+            {design.cover_image_url && <img src={design.cover_image_url} alt="Portada seleccionada" className="mt-3 aspect-[4/3] w-full rounded-xl object-cover" />}
+            <label className="mt-4 block text-sm font-medium">Título o nombres<input disabled={locked} value={content.headline ?? ""} onChange={e=>update("headline",e.target.value)} maxLength={120} placeholder="Ej. Sofía y Alejandro" className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
             <label className="mt-3 block text-sm font-medium">Texto secundario<input disabled={locked} value={content.subtitle ?? ""} onChange={e=>update("subtitle",e.target.value)} maxLength={180} placeholder="Nos encantará compartir..." className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
             <label className="mt-3 block text-sm font-medium">Anfitriones<input disabled={locked} value={content.host_names ?? ""} onChange={e=>update("host_names",e.target.value)} maxLength={160} placeholder="Nombres" className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
             <label className="mt-3 block text-sm font-medium">Fecha del evento<input disabled={locked} type="date" value={eventDate} onChange={e=>setEventDate(e.target.value)} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>

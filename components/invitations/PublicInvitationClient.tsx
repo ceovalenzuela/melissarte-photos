@@ -23,6 +23,7 @@ interface Props {
   editRequested: boolean;
   personalizedGuest?: PersonalizedGuest | null;
   personalizedToken?: string | null;
+  previewMode?: boolean;
 }
 
 function defaultEventLabel(template: InvitationTemplateKey): string {
@@ -103,6 +104,7 @@ export default function PublicInvitationClient({
   editRequested,
   personalizedGuest = null,
   personalizedToken = null,
+  previewMode = false,
 }: Props) {
   const router = useRouter();
   const [loadedCoverUrl, setLoadedCoverUrl] = useState<string | null>(null);
@@ -226,7 +228,7 @@ export default function PublicInvitationClient({
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (isDemoInvitation) return;
+    if (isDemoInvitation || previewMode) return;
     setErrorMessage("");
     if (content.confirmation_mode === "whatsapp") {
       const destination = (content.whatsapp_confirmation_phone ?? "").replace(/\D/g, "");
@@ -469,7 +471,7 @@ export default function PublicInvitationClient({
                     </div>
                   </div>
                 )}
-                <form onSubmit={handleSubmit} className="mt-6 space-y-4 rounded-2xl border border-black/5 bg-white p-4 shadow-sm sm:p-6">
+                <form onSubmit={handleSubmit} className="mt-6 space-y-4 rounded-2xl border border-black/5 bg-white p-4 shadow-sm sm:p-6"><fieldset disabled={previewMode} className={previewMode ? "space-y-4 opacity-75" : "space-y-4"}>
                   <div>
                     <label htmlFor="guest-name" className="mb-2 block text-sm font-medium">Nombre completo</label>
                     <input id="guest-name" required minLength={1} maxLength={80} value={guestName} onChange={(e) => setGuestName(e.target.value)} className="w-full rounded-xl border border-neutral-200 px-4 py-3.5 outline-none transition focus:border-neutral-400" placeholder="Escribe tu nombre" />
@@ -491,7 +493,7 @@ export default function PublicInvitationClient({
                   {successMessage && <p role="status" className="flex items-center gap-2 rounded-xl bg-green-50 px-4 py-3 text-sm text-green-800"><CheckCircle2 size={18} />{successMessage}</p>}
                   <button type="submit" disabled={submitting || isDemoInvitation || disableDemoWhatsAppConfirmation} aria-disabled={submitting || isDemoInvitation || disableDemoWhatsAppConfirmation} className="w-full rounded-full px-5 py-4 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60" style={{ backgroundColor: buttonColor, color: buttonTextColor, ...((isDemoInvitation || disableDemoWhatsAppConfirmation) ? { opacity: 0.55, cursor: "not-allowed" } : {}) }}>{content.confirmation_mode === "whatsapp" ? "Confirmar por WhatsApp" : submitting ? "Guardando..." : existingRSVP || personalizedGuest?.attendance_status ? "Guardar cambios" : "Confirmar"}</button>
                   {content.confirmation_mode === "whatsapp" ? <p className="text-center text-xs leading-5 text-neutral-400">Se abrirá WhatsApp con tus datos para que envíes la confirmación.</p> : !existingRSVP && <p className="text-center text-xs leading-5 text-neutral-400">Tu respuesta solo será visible para quienes organizan el evento.</p>}
-                </form>
+                </fieldset></form>
               </div>
             </section>
           ))}

@@ -178,7 +178,7 @@ export default function InvitationsLandingPage() {
                 <li className="flex items-start gap-2"><Check size={16} className="mt-0.5 shrink-0 text-[#A88249]" />Confirmaciones de asistencia por WhatsApp</li>
               </ul>
               <div className="mt-auto pt-1">
-                <PriceLink href={INVITATION_ESSENTIAL_URL}>Comprar Esencial</PriceLink>
+                <PriceLink href="/crear-invitacion">Diseñar mi invitación</PriceLink>
               </div>
             </article>
 
@@ -200,7 +200,7 @@ export default function InvitationsLandingPage() {
                 <li className="flex items-start gap-2"><Check size={16} className="mt-0.5 shrink-0 text-[#E3C994]" />Panel para consultar invitados y confirmaciones</li>
               </ul>
               <div className="relative mt-auto pt-1">
-                <PriceLink href={INVITATION_PLUS_URL} tone="gold">Comprar Plus</PriceLink>
+                <PriceLink href="/crear-invitacion" tone="gold">Diseñar mi invitación</PriceLink>
               </div>
             </article>
           </div>

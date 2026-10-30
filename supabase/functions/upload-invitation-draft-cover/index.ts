@@ -41,7 +41,7 @@ Deno.serve(async (req: Request) => {
       .maybeSingle();
     if (error) throw error;
     if (!draft) return json({ error: "Borrador no encontrado." }, 404);
-    if (!["draft", "awaiting_payment"].includes(draft.status) || draft.payment_status !== "pending" || draft.editing_enabled) {
+    if (!["draft", "awaiting_payment", "editing_enabled"].includes(draft.status) || draft.payment_status === "rejected" || (draft.payment_status === "paid" && !draft.editing_enabled) || (draft.payment_status === "pending" && draft.editing_enabled)) {
       return json({ error: "La carga de portada está bloqueada para este borrador." }, 403);
     }
 

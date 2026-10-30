@@ -4188,3 +4188,30 @@
     transparent 100%
   ) !important;
 }
+
+
+/* Additional cross-event invitation styles: distinct hero frames and decorative language. */
+.invitation-template-botanical .invitation-hero-frame { inset: 1.25rem; border: 1px solid rgba(113,131,106,.72); border-radius: 48% 48% 1rem 1rem; }
+.invitation-template-botanical .invitation-hero-overlay { background: linear-gradient(180deg, rgba(35,55,39,0) 25%, rgba(35,55,39,.56) 100%); }
+.invitation-template-botanical .invitation-details-rule::before,
+.invitation-template-botanical .invitation-details-rule::after { border-color: #71836A; }
+.invitation-template-noir .invitation-hero-frame { inset: 1.25rem; border: 1px solid rgba(198,166,107,.85); border-radius: 0; outline: 1px solid rgba(198,166,107,.25); outline-offset: 5px; }
+.invitation-template-noir .invitation-hero-overlay { background: linear-gradient(180deg, rgba(25,23,21,0) 20%, rgba(25,23,21,.72) 100%); }
+.invitation-template-noir .invitation-details-rule::before,
+.invitation-template-noir .invitation-details-rule::after { border-color: #C6A66B; }
+.invitation-template-pink_atelier .invitation-hero-frame { inset: 1rem; border: 2px solid rgba(255,250,252,.88); border-radius: 2rem; outline: 1px solid rgba(197,47,112,.45); outline-offset: 4px; }
+.invitation-template-pink_atelier .invitation-hero-overlay { background: linear-gradient(180deg, rgba(84,40,60,0) 20%, rgba(84,40,60,.62) 100%); }
+.invitation-template-pink_atelier .invitation-details-rule::before,
+.invitation-template-pink_atelier .invitation-details-rule::after { border-color: #C52F70; }
+.invitation-template-celestial .invitation-hero-frame { inset: 1.25rem; border: 1px solid rgba(174,184,223,.9); border-radius: 50% 50% 1.25rem 1.25rem; }
+.invitation-template-celestial .invitation-hero-overlay { background: linear-gradient(180deg, rgba(35,43,77,0) 15%, rgba(35,43,77,.64) 100%); }
+.invitation-template-celestial .invitation-details-rule::before,
+.invitation-template-celestial .invitation-details-rule::after { border-color: #7886BD; }
+.invitation-template-cloud .invitation-hero-frame { inset: 1rem; border: 1px solid rgba(255,255,255,.9); border-radius: 2.5rem; }
+.invitation-template-cloud .invitation-hero-overlay { background: linear-gradient(180deg, rgba(85,72,61,0) 20%, rgba(85,72,61,.48) 100%); }
+.invitation-template-cloud .invitation-details-rule::before,
+.invitation-template-cloud .invitation-details-rule::after { border-color: #B58C66; }
+.invitation-template-garden .invitation-hero-frame { inset: 1.25rem; border: 1px solid rgba(185,111,85,.8); border-radius: 1.5rem 1.5rem 4rem 4rem; }
+.invitation-template-garden .invitation-hero-overlay { background: linear-gradient(180deg, rgba(73,60,53,0) 20%, rgba(73,60,53,.56) 100%); }
+.invitation-template-garden .invitation-details-rule::before,
+.invitation-template-garden .invitation-details-rule::after { border-color: #B96F55; }

@@ -354,13 +354,13 @@ export default function PublicInvitationClient({
             <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-white/70 to-transparent opacity-60" />
             <div className="invitation-hero-content invitation-hero-copy relative z-10 mx-auto max-w-4xl">
               
-              <h1 className="invitation-hero-title font-[var(--font-display)] text-4xl leading-tight sm:text-6xl lg:text-7xl">{content.headline || invitation.event_title}</h1>
-              {invitation.event_date && <p className="invitation-hero-date mt-5 text-[1.1rem] font-semibold uppercase tracking-[0.16em] sm:mt-6 sm:text-xl sm:tracking-[0.2em] lg:text-[1.4rem]">{formatDate(invitation.event_date)}</p>}
+              <h1 className="invitation-hero-title font-[var(--font-display)] text-4xl leading-tight sm:text-6xl lg:text-7xl" style={isEditorialFlagship ? { color: "#293746", textShadow: "none" } : undefined}>{content.headline || invitation.event_title}</h1>
+              {invitation.event_date && <p className="invitation-hero-date mt-5 text-[1.1rem] font-semibold uppercase tracking-[0.16em] sm:mt-6 sm:text-xl sm:tracking-[0.2em] lg:text-[1.4rem]" style={isEditorialFlagship ? { color: "#625D55", textShadow: "none" } : undefined}>{formatDate(invitation.event_date)}</p>}
               
             </div>
 
           </header>
-          {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} />}
+          {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} editorial={isEditorialFlagship} />}
           <section id="detalles" className={`invitation-details-section px-5 pt-7 pb-12 sm:px-12 sm:pt-10 sm:pb-16 lg:px-20 ${templateKey === "wedding_editorial" ? "invitation-wedding-details" : ""}`}>
             <div className="invitation-intro-block mx-auto max-w-3xl text-center">
               {design.wax_seal_image_url?.startsWith("https://") ? (
@@ -389,13 +389,13 @@ export default function PublicInvitationClient({
             {(content.ceremony_venue || content.ceremony_time || content.ceremony_address || content.reception_venue || content.reception_time || content.reception_address || (content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address))) && (
               <div className={`invitation-location-grid mx-auto mt-8 grid w-full items-stretch gap-4 ${locationCount === 2 ? "max-w-5xl md:grid-cols-2" : locationCount >= 3 ? "max-w-6xl md:grid-cols-2 xl:grid-cols-3" : "max-w-xl grid-cols-1"}`}>
                 {content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address) && (
-                  <LocationCard title="Ceremonia" time={content.religious_ceremony_time} venue={content.religious_ceremony_venue} address={content.religious_ceremony_address} maps={religiousCeremonyMapsUrl} calendarUrl={calendarUrl("Ceremonia", content.religious_ceremony_time, content.religious_ceremony_venue, content.religious_ceremony_address)} accent={accent} />
+                  <LocationCard title="Ceremonia" time={content.religious_ceremony_time} venue={content.religious_ceremony_venue} address={content.religious_ceremony_address} maps={religiousCeremonyMapsUrl} calendarUrl={calendarUrl("Ceremonia", content.religious_ceremony_time, content.religious_ceremony_venue, content.religious_ceremony_address)} accent={accent} editorial={isEditorialFlagship} />
                 )}
                 {(content.ceremony_venue || content.ceremony_time || content.ceremony_address) && (
-                  <LocationCard title={content.reception_title?.trim() || "Recepción"} time={content.ceremony_time} venue={content.ceremony_venue} address={content.ceremony_address} maps={primaryMapsUrl} calendarUrl={calendarUrl(content.reception_title?.trim() || "Recepción", content.ceremony_time, content.ceremony_venue, content.ceremony_address)} accent={accent} />
+                  <LocationCard title={content.reception_title?.trim() || "Recepción"} time={content.ceremony_time} venue={content.ceremony_venue} address={content.ceremony_address} maps={primaryMapsUrl} calendarUrl={calendarUrl(content.reception_title?.trim() || "Recepción", content.ceremony_time, content.ceremony_venue, content.ceremony_address)} accent={accent} editorial={isEditorialFlagship} />
                 )}
                 {(content.reception_venue || content.reception_time || content.reception_address) && (
-                  <LocationCard title="Celebración" time={content.reception_time} venue={content.reception_venue} address={content.reception_address} maps={receptionMapsUrl} calendarUrl={calendarUrl("Celebración", content.reception_time, content.reception_venue, content.reception_address)} accent={accent} />
+                  <LocationCard title="Celebración" time={content.reception_time} venue={content.reception_venue} address={content.reception_address} maps={receptionMapsUrl} calendarUrl={calendarUrl("Celebración", content.reception_time, content.reception_venue, content.reception_address)} accent={accent} editorial={isEditorialFlagship} />
                 )}
               </div>
             )}
@@ -537,7 +537,7 @@ export default function PublicInvitationClient({
   );
 }
 
-function Countdown({ eventDate, eventTime, accent, textColor }: { eventDate: string; eventTime?: string; accent: string; textColor: string }) {
+function Countdown({ eventDate, eventTime, accent, textColor, editorial = false }: { eventDate: string; eventTime?: string; accent: string; textColor: string; editorial?: boolean }) {
   const [remaining, setRemaining] = useState<number | null>(null);
   useEffect(() => {
     const target = new Date(`${eventDate}T${eventTime || "00:00"}:00`).getTime();
@@ -553,29 +553,29 @@ function Countdown({ eventDate, eventTime, accent, textColor }: { eventDate: str
   const seconds = Math.floor((remaining % 60_000) / 1_000);
   const parts = [{ value: days, label: "días" }, { value: hours, label: "horas" }, { value: minutes, label: "min" }, { value: seconds, label: "seg" }];
   return (
-    <section className="invitation-countdown mx-auto w-full max-w-xl px-3 py-4 text-center sm:px-5 sm:py-5" aria-label="Cuenta regresiva para el evento">
-      <p className="invitation-countdown-caption text-[9px] font-semibold uppercase tracking-[0.3em] sm:text-[10px]">La celebración comienza en</p>
-      <div className="invitation-countdown-grid mx-auto mt-4 grid max-w-2xl grid-cols-4 items-center">
+    <section className="invitation-countdown mx-auto w-full max-w-xl px-3 py-4 text-center sm:px-5 sm:py-5" aria-label="Cuenta regresiva para el evento" style={editorial ? { background: "transparent", color: "#293746", border: 0, borderRadius: 0, boxShadow: "none", padding: "1.5rem .5rem" } : undefined}>
+      <p className="invitation-countdown-caption text-[9px] font-semibold uppercase tracking-[0.3em] sm:text-[10px]" style={editorial ? { color: "#625D55" } : undefined}>La celebración comienza en</p>
+      <div className="invitation-countdown-grid mx-auto mt-4 grid max-w-2xl grid-cols-4 items-center" style={editorial ? { borderTop: "1px solid #D9C9A8", borderBottom: "1px solid #D9C9A8", padding: ".85rem 0" } : undefined}>
         {parts.map((part, index) => (
           <div key={part.label} className="invitation-countdown-part relative px-1 sm:px-3">
             {index > 0 && <span aria-hidden="true" className="invitation-countdown-separator absolute left-0 top-1/2 -translate-y-1/2">✦</span>}
-            <p className="invitation-countdown-value font-[var(--font-display)] text-3xl font-normal leading-none tabular-nums sm:text-5xl">{String(part.value).padStart(2, "0")}</p>
-            <p className="invitation-countdown-unit mt-2 text-[8px] font-medium uppercase tracking-[0.14em] sm:text-[9px] sm:tracking-[0.2em]">{part.label}</p>
+            <p className="invitation-countdown-value font-[var(--font-display)] text-3xl font-normal leading-none tabular-nums sm:text-5xl" style={editorial ? { color: "#293746" } : undefined}>{String(part.value).padStart(2, "0")}</p>
+            <p className="invitation-countdown-unit mt-2 text-[8px] font-medium uppercase tracking-[0.14em] sm:text-[9px] sm:tracking-[0.2em]" style={editorial ? { color: "#625D55" } : undefined}>{part.label}</p>
           </div>
         ))}
       </div>
     </section>
   );
 }
-function LocationCard({ title, time, venue, address, maps, calendarUrl, accent }: { title: string; time?: string; venue?: string; address?: string; maps: string | null; calendarUrl: string | null; accent: string }) {
+function LocationCard({ title, time, venue, address, maps, calendarUrl, accent, editorial = false }: { title: string; time?: string; venue?: string; address?: string; maps: string | null; calendarUrl: string | null; accent: string; editorial?: boolean }) {
   const isCeremony = title.toLowerCase().includes("ceremonia");
   const isReception = title.toLowerCase().includes("recepción");
   const CardIcon = isCeremony ? Church : isReception ? PartyPopper : Sparkles;
   return (
-    <article className="invitation-location-card h-full rounded-[1.5rem] border border-neutral-100 bg-[#FEFDFC] p-5 sm:p-7">
+    <article className="invitation-location-card h-full rounded-[1.5rem] border border-neutral-100 bg-[#FEFDFC] p-5 sm:p-7" style={editorial ? { background: "#FFFCF7", color: "#293746", borderColor: "#D9C9A8", boxShadow: "0 8px 24px rgba(41,55,70,.055)" } : undefined}>
       <div className="flex items-center gap-3">
         <span className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border shadow-[0_2px_8px_rgba(0,0,0,0.035)]" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}><span className="absolute inset-[4px] rounded-full border" style={{ borderColor: `${accent}25` }} /><CardIcon size={20} strokeWidth={1.65} className="relative" /></span>
-        <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: accent }}>{title}</p>
+        <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: editorial ? "#A88750" : accent }}>{title}</p>
       </div>
       {time && (() => {
         const formattedTime = formatTime(time);
@@ -599,9 +599,9 @@ function LocationCard({ title, time, venue, address, maps, calendarUrl, accent }
               rel="noreferrer"
               aria-label={`Ver ubicación de ${title}`}
               className="invitation-location-button group inline-flex min-h-[52px] min-w-0 items-center justify-start gap-2 rounded-xl border px-2.5 py-2 text-left transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_5px_14px_rgba(0,0,0,0.055)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:gap-3 sm:rounded-2xl sm:px-3.5"
-              style={{ borderColor: `${accent}40`, color: accent, background: `linear-gradient(145deg, #FFFFFF, ${accent}08)`, outlineColor: accent }}
+              style={editorial ? { borderColor: "#D9C9A8", color: "#FFFCF7", background: "#293746", outlineColor: "#293746" } : { borderColor: `${accent}40`, color: accent, background: `linear-gradient(145deg, #FFFFFF, ${accent}08)`, outlineColor: accent }}
             >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border transition-colors group-hover:bg-white" style={{ backgroundColor: `${accent}0D`, borderColor: `${accent}24` }}>
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border transition-colors group-hover:bg-white" style={editorial ? { backgroundColor: "#1E2C3A", borderColor: "#A88750", color: "#D9C9A8" } : { backgroundColor: `${accent}0D`, borderColor: `${accent}24` }}>
                 <ArrowUpRight size={18} strokeWidth={1.8} />
               </span>
               <span className="min-w-0">

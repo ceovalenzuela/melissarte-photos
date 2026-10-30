@@ -145,7 +145,7 @@ export default function PublicInvitationClient({
     const article = document.querySelector(".invitation-public.invitation-template-editorial-flagship");
     if (!article) return;
     const targets = article.querySelectorAll(
-      ".invitation-countdown, .invitation-intro-block, .invitation-details-heading, .invitation-location-grid, .invitation-info-grid, .invitation-rsvp, .invitation-footer"
+      ".invitation-intro-block, .invitation-location-grid, .invitation-info-grid, .invitation-rsvp, .invitation-footer"
     );
     if (!targets.length) return;
     article.classList.add("editorial-motion-ready");

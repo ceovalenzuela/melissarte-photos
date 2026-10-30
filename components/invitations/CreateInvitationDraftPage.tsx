@@ -11,6 +11,7 @@ const TYPES = [
   { value: "xv", label: "XV años" },
   { value: "baby_shower", label: "Baby shower" },
   { value: "baptism", label: "Bautizo" },
+  { value: "other", label: "Otro" },
 ] as const;
 
 export default function CreateInvitationDraftPage() {

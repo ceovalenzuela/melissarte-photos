@@ -352,7 +352,7 @@ export default function PublicInvitationClient({
               
               <h1 className="invitation-hero-title font-[var(--font-display)] text-4xl leading-tight sm:text-6xl lg:text-7xl">{content.headline || invitation.event_title}</h1>
               {invitation.event_date && <p className="invitation-hero-date mt-5 text-[1.1rem] font-semibold uppercase tracking-[0.16em] sm:mt-6 sm:text-xl sm:tracking-[0.2em] lg:text-[1.4rem]">{formatDate(invitation.event_date)}</p>}
-              {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} /> }
+              
             </div>
 
           </header>
@@ -369,7 +369,7 @@ export default function PublicInvitationClient({
               ) : (
                 <span className="invitation-details-rule mx-auto mb-5 sm:mb-6" aria-hidden="true" />
               )}
-              <h2 className="mx-auto mb-3 max-w-2xl font-[var(--font-display)] text-3xl leading-tight sm:mb-4 sm:text-4xl lg:text-5xl" style={{ color: titleColor }}>
+              <h2 className="invitation-intro-headline mx-auto mb-3 max-w-2xl font-[var(--font-display)] leading-tight sm:mb-4" style={{ color: titleColor }}>
                 {content.intro_headline?.trim() || defaultIntroHeadline(templateKey)}
               </h2>
               {content.introduction && <p className="invitation-introduction mx-auto max-w-xl font-normal text-neutral-700" style={{ color: textColor }}>{content.introduction}</p>}
@@ -521,7 +521,7 @@ export default function PublicInvitationClient({
                 </div>
               </div>
             )}
-            <p className={content.host_names?.trim() ? "mt-3 text-[9px] uppercase tracking-[0.3em] text-neutral-400" : "text-[9px] uppercase tracking-[0.3em] text-neutral-400"}>Gracias por ser parte de este día</p>
+            <p className="invitation-footer-thanks mt-3 text-[9px] uppercase tracking-[0.3em] text-neutral-400">Gracias por ser parte de este día</p>
             <div className="invitation-footer-brand mt-8 border-t pt-5" style={{ borderColor: `${borderColor}88` }}><a href="https://events.melissartedecorativo.com/invitaciones" aria-label="Conoce las invitaciones de Melissarte" className="inline-flex rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4" style={{ outlineColor: accent }}><img src="/me-logo.png" alt="Melissarte Events — ver invitaciones" className="mx-auto h-auto w-24 max-w-[28vw] object-contain opacity-80 transition-opacity hover:opacity-100 sm:w-28" loading="lazy" /></a></div>
           </footer>
         </article>
@@ -546,7 +546,7 @@ function Countdown({ eventDate, eventTime, accent, textColor }: { eventDate: str
   const seconds = Math.floor((remaining % 60_000) / 1_000);
   const parts = [{ value: days, label: "días" }, { value: hours, label: "horas" }, { value: minutes, label: "min" }, { value: seconds, label: "seg" }];
   return (
-    <section className="invitation-countdown mx-auto w-full max-w-3xl px-5 py-8 text-center sm:py-10" aria-label="Cuenta regresiva para el evento">
+    <section className="invitation-countdown mx-auto w-full max-w-xl px-3 py-4 text-center sm:px-5 sm:py-5" aria-label="Cuenta regresiva para el evento">
       <p className="invitation-countdown-caption text-[9px] font-semibold uppercase tracking-[0.3em] sm:text-[10px]">La celebración comienza en</p>
       <div className="invitation-countdown-grid mx-auto mt-4 grid max-w-2xl grid-cols-4 items-center">
         {parts.map((part, index) => (

@@ -151,5 +151,7 @@ BEGIN
   RETURN true;
 END;
 $function$;
+REVOKE ALL ON FUNCTION public.update_invitation_draft(text,text,jsonb,jsonb,date) FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.update_invitation_draft(text,text,jsonb,jsonb,date) TO anon, authenticated;
 
 GRANT EXECUTE ON FUNCTION public.update_invitation_draft(text,text,jsonb,jsonb,date) TO anon, authenticated;

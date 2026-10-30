@@ -5420,9 +5420,29 @@
 .invitation-public.invitation-template-editorial-flagship .invitation-hero-overlay {
   background: linear-gradient(180deg, transparent 58%, rgba(20,28,35,.12) 100%) !important;
 }
-.invitation-public.invitation-template-editorial-flagship .invitation-hero-frame,
-.invitation-public.invitation-template-editorial-flagship .invitation-hero > .pointer-events-none.absolute.bottom-0 {
-  display: none !important;
+/* Editorial cover: a restrained ivory frame and a soft blend into the paper section. */
+.invitation-public.invitation-template-editorial-flagship .invitation-hero-has-cover .invitation-hero-frame {
+  display: block !important;
+  inset: 1rem !important;
+  border: 1px solid rgba(255, 250, 242, .82) !important;
+  border-radius: 2px !important;
+  box-shadow: inset 0 0 0 1px rgba(28, 39, 49, .08) !important;
+}
+.invitation-public.invitation-template-editorial-flagship .invitation-hero-has-cover::after {
+  content: "";
+  position: absolute;
+  z-index: -5;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 22%;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(246, 241, 232, 0) 0%, rgba(246, 241, 232, .38) 48%, var(--ef-paper) 100%);
+}
+@media (min-width: 640px) {
+  .invitation-public.invitation-template-editorial-flagship .invitation-hero-has-cover .invitation-hero-frame {
+    inset: 1.5rem !important;
+  }
 }
 .invitation-public.invitation-template-editorial-flagship .invitation-hero-content {
   position: relative !important;

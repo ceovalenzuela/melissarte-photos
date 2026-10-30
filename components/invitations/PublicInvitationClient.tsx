@@ -356,6 +356,7 @@ export default function PublicInvitationClient({
             </div>
 
           </header>
+          {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} />}
           <section id="detalles" className={`invitation-details-section px-5 pt-7 pb-12 sm:px-12 sm:pt-10 sm:pb-16 lg:px-20 ${templateKey === "wedding_editorial" ? "invitation-wedding-details" : ""}`}>
             <div className="invitation-intro-block mx-auto max-w-3xl text-center">
               {design.wax_seal_image_url?.startsWith("https://") ? (
@@ -536,23 +537,20 @@ function Countdown({ eventDate, eventTime, accent, textColor }: { eventDate: str
     const update = () => setRemaining(Math.max(0, target - Date.now()));
     update();
     const interval = window.setInterval(update, 1_000);
-    return () => window.clearInterval(interval);
-  }, [eventDate, eventTime]);
-  if (remaining === null || remaining <= 0) return null;
-  const days = Math.floor(remaining / 86_400_000);
-  const hours = Math.floor((remaining % 86_400_000) / 3_600_000);
-  const minutes = Math.floor((remaining % 3_600_000) / 60_000);
-  const seconds = Math.floor((remaining % 60_000) / 1_000);
-  const parts = [{ value: days, label: "días" }, { value: hours, label: "horas" }, { value: minutes, label: "min" }, { value: seconds, label: "seg" }];
-  return (
-    <div className="invitation-countdown mx-auto mt-7 w-full max-w-2xl rounded-3xl border px-4 py-5 shadow-xl backdrop-blur-md sm:mt-8 sm:px-8 sm:py-6" style={{ borderColor: `${accent}88`, backgroundColor: `${textColor}B8`, color: "#FFFFFF", boxShadow: `0 18px 50px ${accent}30` }}>
-      <p className="text-[10px] font-semibold uppercase tracking-[0.28em] sm:text-xs" style={{ color: "#FFFFFF" }}>La celebración comienza en</p>
-      <div className="mt-4 grid grid-cols-4 divide-x divide-white/25">
-        {parts.map((part) => <div key={part.label} className="px-1 text-center sm:px-3"><p className="font-[var(--font-display)] text-3xl font-semibold tabular-nums sm:text-5xl">{String(part.value).padStart(2, "0")}</p><p className="mt-1 text-[9px] font-medium uppercase tracking-[0.16em] text-white/80 sm:text-[10px] sm:tracking-[0.2em]">{part.label}</p></div>)}
+    return (
+    <section className="invitation-countdown mx-auto w-full max-w-3xl px-5 py-8 text-center sm:py-10" aria-label="Cuenta regresiva para el evento">
+      <p className="invitation-countdown-caption text-[9px] font-semibold uppercase tracking-[0.3em] sm:text-[10px]">La celebración comienza en</p>
+      <div className="invitation-countdown-grid mx-auto mt-4 grid max-w-2xl grid-cols-4 items-center">
+        {parts.map((part, index) => (
+          <div key={part.label} className="invitation-countdown-part relative px-1 sm:px-3">
+            {index > 0 && <span aria-hidden="true" className="invitation-countdown-separator absolute left-0 top-1/2 -translate-y-1/2">✦</span>}
+            <p className="invitation-countdown-value font-[var(--font-display)] text-3xl font-normal leading-none tabular-nums sm:text-5xl">{String(part.value).padStart(2, "0")}</p>
+            <p className="invitation-countdown-unit mt-2 text-[8px] font-medium uppercase tracking-[0.14em] sm:text-[9px] sm:tracking-[0.2em]">{part.label}</p>
+          </div>
+        ))}
       </div>
-    </div>
-  );
-}
+    </section>
+  );}
 
 function LocationCard({ title, time, venue, address, maps, calendarUrl, accent }: { title: string; time?: string; venue?: string; address?: string; maps: string | null; calendarUrl: string | null; accent: string }) {
   const isCeremony = title.toLowerCase().includes("ceremonia");

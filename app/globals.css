@@ -5656,7 +5656,14 @@
 .invitation-public.invitation-template-editorial-flagship .invitation-hero-date {
   animation-delay: .24s;
 }
-.invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-countdown,
+
+/* The countdown is critical information: never hide it behind scroll reveal. */
+.invitation-public.invitation-template-editorial-flagship .invitation-countdown {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  animation: editorial-countdown-arrive .9s .28s cubic-bezier(.2,.65,.25,1) both;
+}
 .invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-intro-block,
 .invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-details-heading,
 .invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-location-grid,
@@ -5682,6 +5689,10 @@
     box-shadow: 0 14px 32px rgba(41,55,70,.09) !important;
   }
 }
+@keyframes editorial-countdown-arrive {
+  from { opacity: 0; transform: translate3d(0, 10px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
 @keyframes editorial-cover-arrive {
   from { transform: scale(1.045); }
   to { transform: scale(1); }
@@ -5699,8 +5710,7 @@
     scroll-behavior: auto !important;
     transition-duration: .01ms !important;
   }
-  .invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-countdown,
-  .invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-intro-block,
+    .invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-intro-block,
   .invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-details-heading,
   .invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-location-grid,
   .invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-info-grid,
@@ -5708,5 +5718,66 @@
   .invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-footer {
     opacity: 1 !important;
     transform: none !important;
+  }
+}
+
+
+/* Editorial flagship refinement: more balanced rhythm and clearer hierarchy. */
+.invitation-public.invitation-template-editorial-flagship .invitation-countdown {
+  max-width: 42rem !important;
+  padding: 1.05rem .5rem !important;
+}
+.invitation-public.invitation-template-editorial-flagship .invitation-countdown-caption {
+  font-size: .62rem !important;
+  letter-spacing: .24em !important;
+  line-height: 1.5 !important;
+}
+.invitation-public.invitation-template-editorial-flagship .invitation-countdown-grid {
+  margin-top: .8rem !important;
+  padding: .72rem 0 !important;
+}
+.invitation-public.invitation-template-editorial-flagship .invitation-countdown-value {
+  font-size: clamp(1.65rem, 6vw, 2.45rem) !important;
+}
+.invitation-public.invitation-template-editorial-flagship .invitation-countdown-unit {
+  font-size: .58rem !important;
+  letter-spacing: .13em !important;
+  margin-top: .35rem !important;
+}
+.invitation-public.invitation-template-editorial-flagship .invitation-details-section {
+  padding-top: 1.25rem !important;
+  padding-bottom: 3rem !important;
+}
+.invitation-public.invitation-template-editorial-flagship .invitation-intro-block {
+  max-width: 48rem !important;
+}
+.invitation-public.invitation-template-editorial-flagship .invitation-details-heading {
+  margin-top: 1.35rem !important;
+  gap: .55rem !important;
+}
+.invitation-public.invitation-template-editorial-flagship .invitation-details-title {
+  font-size: clamp(1.65rem, 4.4vw, 2.2rem) !important;
+  line-height: 1.12 !important;
+}
+.invitation-public.invitation-template-editorial-flagship .invitation-location-grid,
+.invitation-public.invitation-template-editorial-flagship .invitation-info-grid {
+  margin-top: 1.5rem !important;
+}
+.invitation-public.invitation-template-editorial-flagship .invitation-details-rule {
+  transform-origin: center;
+}
+.invitation-public.invitation-template-editorial-flagship .invitation-intro-block.editorial-is-visible .invitation-details-rule {
+  animation: editorial-rule-draw .7s .12s ease both;
+}
+@keyframes editorial-rule-draw {
+  from { transform: scaleX(.25); opacity: .35; }
+  to { transform: scaleX(1); opacity: 1; }
+}
+@media (max-width: 640px) {
+  .invitation-public.invitation-template-editorial-flagship .invitation-countdown {
+    padding: .9rem .35rem !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-details-section {
+    padding-top: 1rem !important;
   }
 }

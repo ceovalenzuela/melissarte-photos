@@ -5188,3 +5188,210 @@
     padding: 1.55rem .15rem 1.8rem !important;
   }
 }
+
+
+/* ==========================================================================
+   EDITORIAL — SISTEMA INSIGNIA / ÚNICA FUENTE DE VERDAD
+   Corrige colores inline heredados, contrastes y ritmo vertical de Editorial.
+   ========================================================================== */
+.invitation-public.invitation-template-wedding_editorial {
+  --editorial-paper: #F6F1E8;
+  --editorial-paper-deep: #EEE7DA;
+  --editorial-ink: #293746;
+  --editorial-muted: #625D55;
+  --editorial-gold: #A88750;
+  --editorial-line: #D9C9A8;
+  background: var(--editorial-paper) !important;
+  color: var(--editorial-ink) !important;
+}
+.invitation-public.invitation-template-wedding_editorial,
+.invitation-public.invitation-template-wedding_editorial #detalles,
+.invitation-public.invitation-template-wedding_editorial #detalles.invitation-wedding-details,
+.invitation-public.invitation-template-wedding_editorial .invitation-details-section,
+.invitation-public.invitation-template-wedding_editorial footer {
+  background: var(--editorial-paper) !important;
+  color: var(--editorial-ink) !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero {
+  --hero-copy-space: clamp(8.25rem, 29%, 10.5rem);
+  background: var(--editorial-paper) !important;
+  min-height: clamp(31rem, 76svh, 43rem);
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-content {
+  background: var(--editorial-paper) !important;
+  color: var(--editorial-ink) !important;
+  padding-top: 1.35rem;
+  padding-bottom: 1.65rem;
+  gap: .5rem;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-content::before {
+  content: "UNA CELEBRACIÓN PARA RECORDAR";
+  display: block;
+  max-width: 24rem;
+  color: var(--editorial-gold) !important;
+  font-size: .58rem;
+  line-height: 1.6;
+  letter-spacing: .24em;
+  text-align: center;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-title {
+  color: var(--editorial-ink) !important;
+  font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(2.65rem, 8vw, 5.2rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.02 !important;
+  letter-spacing: -.045em !important;
+  text-shadow: none !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero-date {
+  color: var(--editorial-muted) !important;
+  font-size: .66rem !important;
+  font-weight: 600 !important;
+  letter-spacing: .16em !important;
+  line-height: 1.5 !important;
+  text-shadow: none !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-hero::before,
+.invitation-public.invitation-template-wedding_editorial .invitation-hero::after {
+  background: var(--editorial-gold) !important;
+  opacity: .8;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown {
+  width: min(100% - 2rem, 36rem) !important;
+  max-width: 36rem !important;
+  margin: 0 auto !important;
+  padding: 1.65rem .5rem 1.8rem !important;
+  background: transparent !important;
+  color: var(--editorial-ink) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown::before {
+  width: 2.5rem;
+  margin-bottom: .85rem;
+  background: var(--editorial-gold) !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown-caption {
+  color: var(--editorial-muted) !important;
+  font-size: .56rem !important;
+  letter-spacing: .2em !important;
+  line-height: 1.5 !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown-grid {
+  max-width: 33rem !important;
+  margin-top: .85rem !important;
+  padding: .8rem 0 !important;
+  border-top: 1px solid var(--editorial-line) !important;
+  border-bottom: 1px solid var(--editorial-line) !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown-value {
+  color: var(--editorial-ink) !important;
+  font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(1.7rem, 6vw, 2.45rem) !important;
+  font-weight: 400 !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown-unit {
+  color: var(--editorial-muted) !important;
+  font-size: .5rem !important;
+  letter-spacing: .13em !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown-separator {
+  color: var(--editorial-gold) !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-details-section {
+  padding-top: 1.8rem !important;
+  padding-bottom: 3rem !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-details-rule,
+.invitation-public.invitation-template-wedding_editorial .invitation-details-heading .invitation-details-rule {
+  display: block;
+  width: 2.5rem !important;
+  height: 1px !important;
+  min-height: 1px !important;
+  margin-inline: auto;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: var(--editorial-gold) !important;
+  opacity: .85;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-intro-copy {
+  max-width: 28rem !important;
+  margin: 0 auto .9rem !important;
+  color: var(--editorial-ink) !important;
+  font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(1.55rem, 4.8vw, 2.15rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -.025em !important;
+  text-transform: none !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-introduction {
+  color: var(--editorial-muted) !important;
+  font-family: Georgia, serif !important;
+  font-size: .92rem !important;
+  line-height: 1.7 !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-details-heading {
+  margin-top: 1.7rem !important;
+  padding-top: 0 !important;
+  gap: .7rem !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-details-title {
+  margin: 0 !important;
+  color: var(--editorial-ink) !important;
+  font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(1.8rem, 5vw, 2.55rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.15 !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card {
+  background: #FFFCF7 !important;
+  color: var(--editorial-ink) !important;
+  border: 1px solid var(--editorial-line) !important;
+  border-radius: 1.15rem !important;
+  box-shadow: 0 8px 24px rgba(41,55,70,.055) !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card :is(h2,h3,p,span) {
+  color: var(--editorial-ink) !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-location-card a {
+  background: var(--editorial-ink) !important;
+  color: #FFFCF7 !important;
+  border-color: var(--editorial-ink) !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-footer-thanks {
+  margin-top: 1.8rem !important;
+  color: var(--editorial-ink) !important;
+  font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(1.35rem, 4vw, 1.8rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0 !important;
+}
+.invitation-public.invitation-template-wedding_editorial .invitation-footer-brand {
+  border-color: var(--editorial-line) !important;
+}
+@media (max-width: 639px) {
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero {
+    min-height: clamp(28rem, 72svh, 36rem);
+  }
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero-content {
+    padding: 1.1rem .8rem 1.3rem;
+  }
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero-content::before {
+    max-width: 19rem;
+    font-size: .52rem;
+    letter-spacing: .18em;
+  }
+  .invitation-public.invitation-template-wedding_editorial .invitation-hero-title {
+    font-size: clamp(2.35rem, 9vw, 3.35rem) !important;
+  }
+  .invitation-public.invitation-template-wedding_editorial .invitation-countdown {
+    padding: 1.25rem .2rem 1.35rem !important;
+  }
+  .invitation-public.invitation-template-wedding_editorial .invitation-details-section {
+    padding-top: 1.3rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+}

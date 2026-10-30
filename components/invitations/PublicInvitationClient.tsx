@@ -369,9 +369,13 @@ export default function PublicInvitationClient({
               ) : (
                 <span className="invitation-details-rule mx-auto mb-5 sm:mb-6" aria-hidden="true" />
               )}
-              <h2 className="invitation-intro-headline mx-auto mb-3 max-w-2xl font-[var(--font-display)] leading-tight sm:mb-4" style={{ color: titleColor }}>
-                {content.intro_headline?.trim() || defaultIntroHeadline(templateKey)}
-              </h2>
+              {content.intro_headline?.trim() ? (
+                <h2 className="invitation-intro-headline mx-auto mb-3 max-w-2xl font-[var(--font-display)] leading-tight sm:mb-4" style={{ color: titleColor }}>
+                  {content.intro_headline.trim()}
+                </h2>
+              ) : (
+                <p className="invitation-introduction mx-auto max-w-xl font-normal text-neutral-700" style={{ color: textColor }}>{defaultIntroHeadline(templateKey)}</p>
+              )}
               {content.introduction && <p className="invitation-introduction mx-auto max-w-xl font-normal text-neutral-700" style={{ color: textColor }}>{content.introduction}</p>}
               <div className="invitation-details-heading">
                 <span className="invitation-details-rule" aria-hidden="true" />

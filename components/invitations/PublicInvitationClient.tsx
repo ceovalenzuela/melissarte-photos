@@ -348,7 +348,7 @@ export default function PublicInvitationClient({
             <div className="invitation-hero-frame pointer-events-none absolute inset-4 sm:inset-7" aria-hidden="true" />
             <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-white/70 to-transparent opacity-60" />
             <div className="invitation-hero-content invitation-hero-copy relative z-10 mx-auto max-w-4xl">
-              {(content.event_label ?? defaultEventLabel(templateKey)).trim() && <p className="invitation-hero-event-label mb-1.5 text-[10px] font-semibold uppercase tracking-[0.24em] sm:mb-2.5 sm:text-xs sm:tracking-[0.28em]" style={{ color: cover ? "#FFFAF2" : accent, textShadow: cover ? "0 1px 12px rgba(0,0,0,0.35)" : undefined }}>{(content.event_label ?? defaultEventLabel(templateKey)).trim()}</p>}
+              
               <h1 className="invitation-hero-title font-[var(--font-display)] text-4xl leading-tight sm:text-6xl lg:text-7xl">{content.headline || invitation.event_title}</h1>
               {invitation.event_date && <p className="invitation-hero-date mt-5 text-[1.1rem] font-semibold uppercase tracking-[0.16em] sm:mt-6 sm:text-xl sm:tracking-[0.2em] lg:text-[1.4rem]">{formatDate(invitation.event_date)}</p>}
             </div>

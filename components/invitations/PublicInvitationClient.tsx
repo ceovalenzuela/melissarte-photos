@@ -149,15 +149,19 @@ export default function PublicInvitationClient({
   const templatePalette = INVITATION_PALETTES[templateKey];
   const weddingColor = (value: string | undefined, fallback: string, oldColors: string[], newColor: string) =>
     resolveDesignColor(value, fallback, templateKey, oldColors, newColor);
-  const background = weddingColor(design.background_color, templatePalette.background_color ?? "#F5F0E7", ["#F4EAD8", "#FFF7F0", "#F5F3EE"], "#F5F0E7");
-  const accent = weddingColor(design.accent_color, templatePalette.accent_color ?? "#D5B77C", ["#87642F", "#D6A33D", "#344B61"], "#D5B77C");
-  const textColor = weddingColor(design.text_color, templatePalette.text_color ?? "#282A2E", ["#273747", "#39252B", "#4D5357"], "#282A2E");
-  const titleColor = weddingColor(design.title_color, templatePalette.title_color ?? "#111B29", ["#273747", "#702638", "#20272D"], "#111B29");
-  const cardBackgroundColor = weddingColor(design.card_background_color, templatePalette.card_background_color ?? "#34465D", ["#FFFCF6", "#FFF7F0", "#EAE7DF", "#FFFFFF"], "#34465D");
-  const cardTextColor = weddingColor(design.card_text_color, templatePalette.card_text_color ?? "#F5F0E7", ["#302F30", "#39252B", "#20272D"], "#F5F0E7");
-  const borderColor = weddingColor(design.border_color, templatePalette.border_color ?? "#D5B77C", ["#C9AD6B", "#E5B84F", "#D9D8D1"], "#D5B77C");
-  const buttonColor = weddingColor(design.button_color, templatePalette.button_color ?? "#D5B77C", ["#87642F", "#702638", "#344B61"], "#D5B77C");
-  const buttonTextColor = weddingColor(design.button_text_color, templatePalette.button_text_color ?? "#111B29", ["#FFFFFF"], "#111B29");
+  const isEditorialFlagship = templateKey === "wedding_editorial";
+  // Editorial is the flagship art direction: its palette is deliberately locked
+  // to the template tokens so stale design_config values cannot reintroduce
+  // low-contrast white-on-ivory or the former navy countdown card.
+  const background = isEditorialFlagship ? "#F6F1E8" : weddingColor(design.background_color, templatePalette.background_color ?? "#F5F0E7", ["#F4EAD8", "#FFF7F0", "#F5F3EE"], "#F5F0E7");
+  const accent = isEditorialFlagship ? "#A88750" : weddingColor(design.accent_color, templatePalette.accent_color ?? "#D5B77C", ["#87642F", "#D6A33D", "#344B61"], "#D5B77C");
+  const textColor = isEditorialFlagship ? "#625D55" : weddingColor(design.text_color, templatePalette.text_color ?? "#282A2E", ["#273747", "#39252B", "#4D5357"], "#282A2E");
+  const titleColor = isEditorialFlagship ? "#293746" : weddingColor(design.title_color, templatePalette.title_color ?? "#111B29", ["#273747", "#702638", "#20272D"], "#111B29");
+  const cardBackgroundColor = isEditorialFlagship ? "#FFFCF7" : weddingColor(design.card_background_color, templatePalette.card_background_color ?? "#34465D", ["#FFFCF6", "#FFF7F0", "#EAE7DF", "#FFFFFF"], "#34465D");
+  const cardTextColor = isEditorialFlagship ? "#293746" : weddingColor(design.card_text_color, templatePalette.card_text_color ?? "#F5F0E7", ["#302F30", "#39252B", "#20272D"], "#F5F0E7");
+  const borderColor = isEditorialFlagship ? "#D9C9A8" : weddingColor(design.border_color, templatePalette.border_color ?? "#D5B77C", ["#C9AD6B", "#E5B84F", "#D9D8D1"], "#D5B77C");
+  const buttonColor = isEditorialFlagship ? "#293746" : weddingColor(design.button_color, templatePalette.button_color ?? "#D5B77C", ["#87642F", "#702638", "#344B61"], "#D5B77C");
+  const buttonTextColor = isEditorialFlagship ? "#FFFCF7" : weddingColor(design.button_text_color, templatePalette.button_text_color ?? "#111B29", ["#FFFFFF"], "#111B29");
   const rsvpBackgroundColor = weddingColor(design.rsvp_background_color, templatePalette.rsvp_background_color ?? "#111B29", ["#273747", "#F0D9D9", "#EAE7DF"], "#111B29");
   const rsvpTextColor = weddingColor(design.rsvp_text_color, templatePalette.rsvp_text_color ?? "#F5F0E7", ["#FFFAF0", "#39252B", "#20272D"], "#F5F0E7");
   const formBackgroundColor = weddingColor(design.form_background_color, templatePalette.form_background_color ?? "#FFFDF9", ["#FFFDF8", "#FFF7F0", "#FFFFFF"], "#FFFDF9");

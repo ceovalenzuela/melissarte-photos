@@ -4974,3 +4974,45 @@
   .invitation-public .invitation-countdown-value { font-size: 1.8rem; }
   .invitation-public .invitation-countdown-separator { font-size: .42rem; }
 }
+
+
+/* Final sizing rules: countdown stays compact below the hero; optional copy never changes scale. */
+.invitation-public .invitation-countdown {
+  width: min(100%, 38rem) !important;
+  max-width: 38rem !important;
+  margin: 0 auto !important;
+  padding: 1.25rem 1rem !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.invitation-public .invitation-countdown-grid {
+  max-width: 34rem !important;
+  margin-top: 1rem !important;
+}
+.invitation-public .invitation-countdown-value {
+  font-size: clamp(1.85rem, 7vw, 2.65rem) !important;
+  line-height: 1 !important;
+}
+.invitation-public .invitation-countdown-caption {
+  font-size: .58rem !important;
+  letter-spacing: .24em !important;
+}
+.invitation-public .invitation-intro-headline {
+  font-size: clamp(2rem, 4.5vw, 3rem) !important;
+  line-height: 1.12 !important;
+  font-weight: 400 !important;
+  letter-spacing: -.035em !important;
+  text-transform: none !important;
+}
+.invitation-public .invitation-footer-thanks {
+  display: block !important;
+  margin-top: .75rem !important;
+  font-family: var(--font-sans), Arial, sans-serif !important;
+  font-size: .5625rem !important;
+  font-weight: 500 !important;
+  line-height: 1.6 !important;
+  letter-spacing: .3em !important;
+  text-transform: uppercase !important;
+}

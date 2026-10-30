@@ -369,13 +369,12 @@ export default function PublicInvitationClient({
               ) : (
                 <span className="invitation-details-rule mx-auto mb-5 sm:mb-6" aria-hidden="true" />
               )}
-              {content.intro_headline?.trim() ? (
-                <h2 className="invitation-intro-headline mx-auto mb-3 max-w-2xl font-[var(--font-display)] leading-tight sm:mb-4" style={{ color: titleColor }}>
-                  {content.intro_headline.trim()}
-                </h2>
-              ) : (
-                <p className="invitation-introduction mx-auto max-w-xl font-normal text-neutral-700" style={{ color: textColor }}>{defaultIntroHeadline(templateKey)}</p>
-              )}
+              <p
+                className="invitation-intro-copy mx-auto mb-3 max-w-2xl sm:mb-4"
+                style={{ color: content.intro_headline?.trim() ? titleColor : textColor }}
+              >
+                {content.intro_headline?.trim() || defaultIntroHeadline(templateKey)}
+              </p>
               {content.introduction && <p className="invitation-introduction mx-auto max-w-xl font-normal text-neutral-700" style={{ color: textColor }}>{content.introduction}</p>}
               <div className="invitation-details-heading">
                 <span className="invitation-details-rule" aria-hidden="true" />
@@ -525,7 +524,7 @@ export default function PublicInvitationClient({
                 </div>
               </div>
             )}
-            <p className="invitation-footer-thanks mt-3 text-[9px] uppercase tracking-[0.3em] text-neutral-400">Gracias por ser parte de este día</p>
+            <p className="invitation-footer-thanks mt-3">Gracias por ser parte de esta historia</p>
             <div className="invitation-footer-brand mt-8 border-t pt-5" style={{ borderColor: `${borderColor}88` }}><a href="https://events.melissartedecorativo.com/invitaciones" aria-label="Conoce las invitaciones de Melissarte" className="inline-flex rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4" style={{ outlineColor: accent }}><img src="/me-logo.png" alt="Melissarte Events — ver invitaciones" className="mx-auto h-auto w-24 max-w-[28vw] object-contain opacity-80 transition-opacity hover:opacity-100 sm:w-28" loading="lazy" /></a></div>
           </footer>
         </article>

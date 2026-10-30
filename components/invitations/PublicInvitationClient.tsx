@@ -131,6 +131,35 @@ export default function PublicInvitationClient({
   }, [cover]);
 
   const coverLoaded = Boolean(cover && loadedCoverUrl === cover);
+
+  // Editorial flagship: reveal each major chapter gently as the guest scrolls.
+  // Content remains visible when reduced motion is preferred or IO is unavailable.
+  useEffect(() => {
+    if (!isEditorialFlagship || typeof IntersectionObserver === "undefined") return;
+    const article = document.querySelector(".invitation-public.invitation-template-editorial-flagship");
+    if (!article) return;
+    const targets = article.querySelectorAll(
+      ".invitation-countdown, .invitation-intro-block, .invitation-details-heading, .invitation-location-grid, .invitation-info-grid, .invitation-rsvp, .invitation-footer"
+    );
+    if (!targets.length) return;
+    article.classList.add("editorial-motion-ready");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("editorial-is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+    targets.forEach((target) => observer.observe(target));
+    return () => {
+      observer.disconnect();
+      article.classList.remove("editorial-motion-ready");
+      targets.forEach((target) => target.classList.remove("editorial-is-visible"));
+    };
+  }, [isEditorialFlagship, invitation.invitation_slug]);
+
+
   const templateKeys: InvitationTemplateKey[] = ["wedding_editorial", "xv_gala", "baby_soft", "baptism_light", "botanical", "noir", "pink_atelier", "celestial", "cloud", "garden"];
   const templateKey: InvitationTemplateKey = templateKeys.includes(invitation.template_key as InvitationTemplateKey)
     ? (invitation.template_key as InvitationTemplateKey)

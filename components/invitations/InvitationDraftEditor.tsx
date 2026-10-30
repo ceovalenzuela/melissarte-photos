@@ -37,6 +37,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [linkCopied, setLinkCopied] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -50,7 +51,8 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
         setDraft(row);
         setContent(row.content_config ?? {});
         setDesign({ ...(row.design_config ?? {}), art_direction_version: 2 });
-        setEventDate(row.event_date ?? "");
+        const dateFromUrl = new URLSearchParams(window.location.search).get("fecha");
+        setEventDate(row.event_date ?? dateFromUrl ?? "");
         setTemplate(row.template_key);
       }
       setLoading(false);
@@ -95,7 +97,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
     window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
   }
 
-  async function save() {
+  async function save(openPreviewAfterSave = false) {
     setSaving(true);
     setError("");
     setNotice("");
@@ -110,6 +112,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
       setError(saveError?.message ?? "No fue posible guardar. Es posible que la edición esté bloqueada.");
     } else {
       setNotice("Cambios guardados.");
+      if (openPreviewAfterSave) setPreviewOpen(true);
     }
     setSaving(false);
   }
@@ -167,7 +170,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
           </div>
         </div>
       </header>
-      <div className="mx-auto grid max-w-6xl gap-6 px-4 py-6 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)]">
+      <div className="mx-auto max-w-3xl px-4 py-6">
         <section className="space-y-4">
           <div className="rounded-2xl border border-[#E7DCC8] bg-white p-5">
             <div className="flex items-center justify-between"><h2 className="font-semibold">Datos principales</h2><span className="text-xs text-[#8A8074]">{locked ? "Edición bloqueada" : "Borrador"}</span></div>
@@ -191,6 +194,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
             </select>
             <p className="mt-2 text-xs text-[#746A5D]">La paleta prediseñada cambia junto con la plantilla. La personalización avanzada se habilita después de validar tu pago.</p>
             <button disabled={locked || saving} onClick={save} className="mt-4 w-full rounded-full bg-[#263D4B] px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">{uploading ? "Subiendo portada..." : saving ? "Guardando..." : "Guardar cambios"}</button>
+            <button disabled={locked || saving || uploading || !eventDate || !content.headline?.trim() || !design.cover_image_url} onClick={()=>void save(true)} className="mt-2 w-full rounded-full border border-[#D5B77C] px-4 py-3 text-sm font-semibold text-[#51483E] disabled:opacity-40">Guardar y ver invitación completa</button>
             {notice && <p role="status" className="mt-2 text-sm text-green-700">{notice}</p>}
             {error && <p role="alert" className="mt-2 text-sm text-red-700">{error}</p>}
           </div>
@@ -201,13 +205,23 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
             <button disabled={saving || locked || draft.payment_status !== "pending"} onClick={()=>continueToCheckout("plus")} className="mt-2 w-full rounded-full border border-[#D5B77C] px-4 py-3 text-sm font-semibold text-[#51483E] disabled:opacity-50">Elegir Plus · $349 MXN</button>
           </div>
         </section>
-        <section className="min-w-0">
-          <div className="sticky top-4 overflow-hidden rounded-2xl border border-[#E7DCC8] bg-white">
-            <div className="border-b border-[#EEE4D5] px-4 py-3"><h2 className="text-sm font-semibold">Vista previa</h2></div>
-            <div className="max-h-[82vh] overflow-y-auto">{preview && <PublicInvitationClient invitation={preview} existingRSVP={null} editToken={null} editRequested={false} previewMode />}</div>
-          </div>
-        </section>
       </div>
+      {previewOpen && preview && (
+        <div className="fixed inset-0 z-[100] flex min-h-0 flex-col bg-[#F8F6F2]">
+          <div className="flex shrink-0 items-center justify-between gap-3 border-b border-[#E7DCC8] bg-white px-4 py-3">
+            <h2 className="text-sm font-semibold">Vista previa de tu invitación</h2>
+            <div className="flex gap-2">
+              <button type="button" onClick={()=>setPreviewOpen(false)} className="rounded-full border px-4 py-2 text-xs font-semibold">Volver a editar</button>
+              <button type="button" disabled={saving} onClick={()=>void save()} className="rounded-full bg-[#263D4B] px-4 py-2 text-xs font-semibold text-white">Guardar</button>
+            </div>
+          </div>
+          <div className="min-h-0 flex-1 overflow-y-auto">
+            <div className="mx-auto min-h-full max-w-5xl bg-white">
+              <PublicInvitationClient invitation={preview} existingRSVP={null} editToken={null} editRequested={false} previewMode />
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

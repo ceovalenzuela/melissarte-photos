@@ -11,7 +11,7 @@ type Draft = {
   whatsapp_confirmation_phone:string|null; shopify_order_name:string|null; created_at:string;
 };
 type Form = {payment_status:Draft["payment_status"];editing_enabled:boolean;phone:string;order:string};
-const eventLabels:Record<string,string>={wedding:"Boda",xv:"XV años",baby_shower:"Baby shower",baptism:"Bautizo"};
+const eventLabels:Record<string,string>={wedding:"Boda",xv:"XV años",baby_shower:"Baby shower",baptism:"Bautizo",other:"Otro"};
 const templateLabels:Record<string,string>={wedding_editorial:"Editorial",xv_gala:"Gala",baby_soft:"Suave",baptism_light:"Luz",botanical:"Botánico",noir:"Noir",pink_atelier:"Pink Atelier",celestial:"Celestial",cloud:"Nube",garden:"Jardín"};
 
 export default function InvitationDraftAdmin(){

@@ -352,7 +352,7 @@ export default function PublicInvitationClient({
               
               <h1 className="invitation-hero-title font-[var(--font-display)] text-4xl leading-tight sm:text-6xl lg:text-7xl">{content.headline || invitation.event_title}</h1>
               {invitation.event_date && <p className="invitation-hero-date mt-5 text-[1.1rem] font-semibold uppercase tracking-[0.16em] sm:mt-6 sm:text-xl sm:tracking-[0.2em] lg:text-[1.4rem]">{formatDate(invitation.event_date)}</p>}
-              {hasModernArtDirection && invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} /> }
+              {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} /> }
             </div>
 
           </header>
@@ -420,7 +420,7 @@ export default function PublicInvitationClient({
                 )}
               </div>
             )}
-            {!hasModernArtDirection && invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} />}
+            
 
           </section>
 

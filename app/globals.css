@@ -5665,7 +5665,6 @@
   animation: editorial-countdown-arrive .9s .28s cubic-bezier(.2,.65,.25,1) both;
 }
 .invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-intro-block,
-.invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-details-heading,
 .invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-location-grid,
 .invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-info-grid,
 .invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-rsvp,
@@ -5711,7 +5710,6 @@
     transition-duration: .01ms !important;
   }
     .invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-intro-block,
-  .invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-details-heading,
   .invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-location-grid,
   .invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-info-grid,
   .invitation-public.invitation-template-editorial-flagship.editorial-motion-ready .invitation-rsvp,
@@ -5780,4 +5778,12 @@
   .invitation-public.invitation-template-editorial-flagship .invitation-details-section {
     padding-top: 1rem !important;
   }
+}
+
+
+/* Details heading belongs to the intro chapter, never hide it as a nested reveal target. */
+.invitation-public.invitation-template-editorial-flagship .invitation-details-heading {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
 }

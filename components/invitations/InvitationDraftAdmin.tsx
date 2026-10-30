@@ -11,7 +11,7 @@ type Draft = {
   whatsapp_confirmation_phone:string|null; shopify_order_name:string|null; created_at:string;
 };
 type Form = {payment_status:Draft["payment_status"];editing_enabled:boolean;phone:string;order:string};
-const eventLabels:Record<string,string>={wedding:"Boda",xv:"XV años",baby_shower:"Baby shower",baptism:"Bautizo"};
+const eventLabels:Record<string,string>={wedding:"Boda",xv:"XV años",baby_shower:"Baby shower",baptism:"Bautizo"};\nconst templateLabels:Record<string,string>={wedding_editorial:"Editorial",xv_gala:"Gala",baby_soft:"Suave",baptism_light:"Luz",botanical:"Botánico",noir:"Noir",pink_atelier:"Pink Atelier",celestial:"Celestial",cloud:"Nube",garden:"Jardín"};
 
 export default function InvitationDraftAdmin(){
  const [drafts,setDrafts]=useState<Draft[]>([]);
@@ -58,7 +58,7 @@ export default function InvitationDraftAdmin(){
    {loading?<p className="py-10 text-center text-sm text-[#746A5D]">Cargando borradores...</p>:visible.length===0?<div className="rounded-2xl border border-dashed border-[#D9CBB3] bg-white p-10 text-center text-sm text-[#746A5D]">No hay borradores para este filtro.</div>:visible.map(d=>{
     const f=forms[d.draft_id]??{payment_status:d.payment_status,editing_enabled:d.editing_enabled,phone:"",order:""};
     return <article key={d.draft_id} className="space-y-4 rounded-2xl border border-[#E7DCC8] bg-white p-4 shadow-sm sm:p-5">
-     <div><p className="text-xs font-semibold tracking-wide text-[#A88249]">{d.draft_reference}</p><h2 className="mt-1 text-lg font-semibold">{String(d.content_config?.headline??"Invitación sin título")}</h2><p className="mt-1 text-xs text-[#746A5D]">{eventLabels[d.event_type]??d.event_type} · {d.package==="plus"?"Plus":"Esencial"} · {d.template_key}</p><p className="mt-1 text-xs text-[#8A8074]">Creado: {new Date(d.created_at).toLocaleString("es-MX")}</p></div>
+     <div><p className="text-xs font-semibold tracking-wide text-[#A88249]">{d.draft_reference}</p><h2 className="mt-1 text-lg font-semibold">{String(d.content_config?.headline??"Invitación sin título")}</h2><p className="mt-1 text-xs text-[#746A5D]">{eventLabels[d.event_type]??d.event_type} · {d.package==="plus"?"Plus":"Esencial"} · {templateLabels[d.template_key]??d.template_key}</p><p className="mt-1 text-xs text-[#8A8074]">Creado: {new Date(d.created_at).toLocaleString("es-MX")}</p></div>
      <div className="grid gap-3 sm:grid-cols-2">
       <label className="text-sm font-medium">Estado del pago<select value={f.payment_status} onChange={e=>setForms(p=>({...p,[d.draft_id]:{...f,payment_status:e.target.value as Draft["payment_status"],editing_enabled:e.target.value==="paid"?f.editing_enabled:false}}))} className="mt-1 block w-full rounded-xl border border-[#E7DCC8] bg-white px-3 py-2.5 text-sm"><option value="pending">Pendiente</option><option value="paid">Pagado · validado manualmente</option><option value="rejected">Rechazado</option></select></label>
       <label className="text-sm font-medium">Pedido de Shopify<input value={f.order} onChange={e=>setForms(p=>({...p,[d.draft_id]:{...f,order:e.target.value}}))} placeholder="#1001" maxLength={80} className="mt-1 block w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm"/></label>

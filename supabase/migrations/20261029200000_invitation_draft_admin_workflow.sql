@@ -151,3 +151,5 @@ BEGIN
   RETURN true;
 END;
 $function$;
+
+GRANT EXECUTE ON FUNCTION public.update_invitation_draft(text,text,jsonb,jsonb,date) TO anon, authenticated;

@@ -4803,7 +4803,7 @@
 .invitation-public.invitation-template-wedding_editorial .invitation-hero-content { background: #F5F0E7; }
 .invitation-public.invitation-template-wedding_editorial .invitation-hero-title { font-family: "Bodoni  Moda",Georgia,serif !important; font-size: clamp(2.5rem,7.5vw,5.1rem) !important; letter-spacing: -.055em !important; }
 .invitation-public.invitation-template-wedding_editorial .invitation-hero-content::before {
-  content: "THE WEDDING";
+  content: "INVITACIÓN";
   color: var(--inv-accent);
   font: 600 .55rem/1 var(--font-sans),Arial,sans-serif;
   letter-spacing: .32em;
@@ -4818,7 +4818,7 @@
 .invitation-public.invitation-template-xv_gala .invitation-hero-content { background: #211B35; color: #FFFAF0; }
 .invitation-public.invitation-template-xv_gala .invitation-hero-title { color: #FFFAF0 !important; font-family: "Bodoni  Moda",Georgia,serif !important; font-size: clamp(2.65rem,8vw,5.4rem) !important; letter-spacing: -.025em !important; }
 .invitation-public.invitation-template-xv_gala .invitation-hero-content::before {
-  content: "MIS QUINCE AÑOS";
+  content: "CELEBRACIÓN";
   color: var(--inv-accent);
   font: 600 .56rem/1 var(--font-sans),Arial,sans-serif;
   letter-spacing: .34em;

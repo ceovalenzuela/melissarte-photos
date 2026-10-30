@@ -4215,3 +4215,410 @@
 .invitation-template-garden .invitation-hero-overlay { background: linear-gradient(180deg, rgba(73,60,53,0) 20%, rgba(73,60,53,.56) 100%); }
 .invitation-template-garden .invitation-details-rule::before,
 .invitation-template-garden .invitation-details-rule::after { border-color: #B96F55; }
+
+
+/* -------------------------------------------------------------------------
+   Six new invitation identities.
+   Each style changes composition, typography, ornament language and surfaces;
+   the original four templates remain untouched.
+   ------------------------------------------------------------------------- */
+
+/* BOTÁNICO — romantic garden editorial: arched portrait, botanical linework,
+   serif italic titles and quiet sage/ivory surfaces. */
+.invitation-public.invitation-template-botanical {
+  --template-ink: #354B3A;
+  --template-paper: #F7F7F0;
+  --template-accent: var(--inv-accent, #71836A);
+  background: var(--template-paper);
+}
+.invitation-public.invitation-template-botanical .invitation-hero {
+  min-height: clamp(31rem, 68svh, 43rem);
+  background: #354B3A;
+}
+.invitation-public.invitation-template-botanical .invitation-hero-frame {
+  inset: 1.1rem 1.5rem 1.5rem;
+  border: 1px solid rgba(238, 235, 215, .78);
+  border-radius: 48% 48% 1.25rem 1.25rem;
+}
+.invitation-public.invitation-template-botanical .invitation-hero-frame::before,
+.invitation-public.invitation-template-botanical .invitation-hero-frame::after {
+  content: "❧";
+  position: absolute;
+  top: 1.5rem;
+  color: #F0E8D4;
+  font-family: Georgia, serif;
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  line-height: 1;
+  opacity: .9;
+}
+.invitation-public.invitation-template-botanical .invitation-hero-frame::before { left: 1.25rem; transform: rotate(-35deg); }
+.invitation-public.invitation-template-botanical .invitation-hero-frame::after { right: 1.25rem; transform: scaleX(-1) rotate(-35deg); }
+.invitation-public.invitation-template-botanical .invitation-hero-overlay {
+  background: linear-gradient(180deg, rgba(23,43,31,.12) 15%, rgba(23,43,31,.78) 100%);
+}
+.invitation-public.invitation-template-botanical .invitation-hero-placeholder {
+  background:
+    radial-gradient(ellipse at 15% 18%, #B7C1A966, transparent 30%),
+    radial-gradient(ellipse at 85% 75%, #D5C6A555, transparent 32%),
+    linear-gradient(145deg, #354B3A, #71836A) !important;
+}
+.invitation-public.invitation-template-botanical .invitation-hero-title,
+.invitation-public.invitation-template-botanical #detalles .invitation-intro-block > h2 {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -.045em;
+}
+.invitation-public.invitation-template-botanical .invitation-hero-has-cover .invitation-hero-title,
+.invitation-public.invitation-template-botanical .invitation-hero-has-cover .invitation-hero-date {
+  color: #FFFCF4 !important;
+  text-shadow: 0 2px 18px rgba(15,32,21,.55);
+}
+.invitation-public.invitation-template-botanical .invitation-hero-no-cover .invitation-hero-title { color: #FFFDF7 !important; }
+.invitation-public.invitation-template-botanical #detalles {
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(183,193,169,.22), transparent 34%),
+    linear-gradient(180deg, #F7F7F0, #EFF1E8);
+  color: #343C32;
+}
+.invitation-public.invitation-template-botanical .invitation-details-rule {
+  width: 5rem; height: 2px; border: 0;
+  background: linear-gradient(90deg, transparent, #71836A, transparent);
+}
+.invitation-public.invitation-template-botanical .invitation-location-card {
+  border: 1px solid #C9D0BE !important;
+  border-radius: 1.5rem 1.5rem 1.5rem .35rem !important;
+  background: #FFFEF9 !important;
+  box-shadow: 0 14px 34px rgba(53,75,58,.07);
+}
+
+/* NOIR — modern black-tie editorial: cinematic dark cover, sharp geometry,
+   condensed uppercase display, gold hairlines and high-contrast ivory cards. */
+.invitation-public.invitation-template-noir {
+  --template-ink: #211F1D;
+  --template-paper: #211F1D;
+  background: #211F1D;
+}
+.invitation-public.invitation-template-noir .invitation-hero {
+  min-height: clamp(32rem, 72svh, 45rem);
+  justify-content: flex-start;
+  text-align: left;
+  background: #211F1D;
+}
+.invitation-public.invitation-template-noir .invitation-hero-content {
+  width: 100%; max-width: 58rem; margin-inline: 0;
+  text-align: left;
+}
+.invitation-public.invitation-template-noir .invitation-hero-frame {
+  inset: 1.25rem;
+  border: 1px solid rgba(198,166,107,.85);
+  outline: 1px solid rgba(198,166,107,.32);
+  outline-offset: 7px;
+}
+.invitation-public.invitation-template-noir .invitation-hero-frame::before {
+  content: "AN OCCASION TO REMEMBER";
+  position: absolute; top: 1.5rem; left: 1.5rem;
+  color: #E1C995; font: 600 .58rem/1.2 Arial, sans-serif;
+  letter-spacing: .32em;
+}
+.invitation-public.invitation-template-noir .invitation-hero-overlay {
+  background: linear-gradient(90deg, rgba(18,17,16,.82), rgba(18,17,16,.38) 72%, rgba(18,17,16,.2)),
+              linear-gradient(0deg, rgba(18,17,16,.5), transparent 70%);
+}
+.invitation-public.invitation-template-noir .invitation-hero-image { filter: saturate(.55) contrast(1.08) brightness(.78); }
+.invitation-public.invitation-template-noir .invitation-hero-placeholder {
+  background: radial-gradient(ellipse at 80% 15%, #8D744E55, transparent 34%), linear-gradient(120deg,#171615,#39322A 55%,#211F1D) !important;
+}
+.invitation-public.invitation-template-noir .invitation-hero-title {
+  max-width: 11ch;
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif !important;
+  font-weight: 300;
+  font-size: clamp(3.1rem, 10vw, 7rem) !important;
+  line-height: .92 !important;
+  letter-spacing: .025em !important;
+  text-transform: uppercase;
+}
+.invitation-public.invitation-template-noir .invitation-hero-has-cover .invitation-hero-title,
+.invitation-public.invitation-template-noir .invitation-hero-has-cover .invitation-hero-date,
+.invitation-public.invitation-template-noir .invitation-hero-no-cover .invitation-hero-title { color: #F8F2E8 !important; }
+.invitation-public.invitation-template-noir .invitation-hero-event-label { letter-spacing: .34em !important; }
+.invitation-public.invitation-template-noir #detalles {
+  background: linear-gradient(180deg,#211F1D,#2B2722);
+  color: #F3EDE2;
+}
+.invitation-public.invitation-template-noir #detalles .invitation-intro-block > h2,
+.invitation-public.invitation-template-noir .invitation-details-title { color: #E4C88E !important; }
+.invitation-public.invitation-template-noir .invitation-details-rule {
+  width: 4.5rem; height: 1px; border: 0; background: #C6A66B;
+}
+.invitation-public.invitation-template-noir .invitation-location-card {
+  border: 1px solid #8D744E !important;
+  border-radius: .25rem !important;
+  background: #F8F4EC !important;
+  color: #302A24 !important;
+}
+.invitation-public.invitation-template-noir .invitation-location-card * { color: #302A24; }
+
+/* PINK ATELIER — fashion-magazine celebration: asymmetric editorial alignment,
+   oversized high-contrast serif, blush panels and framed raspberry accents. */
+.invitation-public.invitation-template-pink_atelier {
+  --template-ink: #54283C;
+  --template-paper: #FCE9EF;
+  background: #FCE9EF;
+}
+.invitation-public.invitation-template-pink_atelier .invitation-hero {
+  min-height: clamp(30rem, 66svh, 42rem);
+  justify-content: flex-end;
+  text-align: left;
+  background: #9B285A;
+}
+.invitation-public.invitation-template-pink_atelier .invitation-hero-content {
+  width: 100%; max-width: 56rem; margin-inline: 0; text-align: left;
+}
+.invitation-public.invitation-template-pink_atelier .invitation-hero-frame {
+  inset: 1.1rem 1.1rem 1.1rem 2.6rem;
+  border: 2px solid rgba(255,250,252,.9);
+  border-radius: 46% 46% .35rem .35rem;
+}
+.invitation-public.invitation-template-pink_atelier .invitation-hero-frame::before {
+  content: "ÉDITION SPÉCIALE";
+  position: absolute; right: 1rem; top: 50%;
+  writing-mode: vertical-rl;
+  color: #FFF8FA; font: 600 .58rem/1 Arial, sans-serif; letter-spacing: .28em;
+}
+.invitation-public.invitation-template-pink_atelier .invitation-hero-overlay {
+  background: linear-gradient(0deg,rgba(73,20,48,.78),rgba(73,20,48,.08) 72%);
+}
+.invitation-public.invitation-template-pink_atelier .invitation-hero-placeholder {
+  background:
+    radial-gradient(ellipse at 80% 15%, #F5B8CF 0, transparent 27%),
+    radial-gradient(ellipse at 12% 85%, #C52F70 0, transparent 38%),
+    linear-gradient(145deg,#F6C9D9,#9B285A) !important;
+}
+.invitation-public.invitation-template-pink_atelier .invitation-hero-title {
+  max-width: 13ch;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: clamp(3.4rem, 11vw, 7.4rem) !important;
+  line-height: .88 !important;
+  font-weight: 400;
+  letter-spacing: -.075em !important;
+}
+.invitation-public.invitation-template-pink_atelier .invitation-hero-has-cover .invitation-hero-title,
+.invitation-public.invitation-template-pink_atelier .invitation-hero-has-cover .invitation-hero-date,
+.invitation-public.invitation-template-pink_atelier .invitation-hero-no-cover .invitation-hero-title { color: #FFFAFC !important; }
+.invitation-public.invitation-template-pink_atelier .invitation-hero-event-label { letter-spacing: .3em !important; }
+.invitation-public.invitation-template-pink_atelier #detalles {
+  background: linear-gradient(145deg,#FFF8FA 0%,#FCE9EF 56%,#F8D2E0 100%);
+  color: #54283C;
+}
+.invitation-public.invitation-template-pink_atelier .invitation-intro-block > h2 { color: #8F2454 !important; }
+.invitation-public.invitation-template-pink_atelier .invitation-details-rule {
+  width: 4rem; height: 4px; border: 0; border-radius: 99px; background: #C52F70;
+}
+.invitation-public.invitation-template-pink_atelier .invitation-location-card {
+  border: 1px solid #E7A9C2 !important;
+  border-radius: 1.75rem .35rem 1.75rem .35rem !important;
+  background: #FFFAFC !important;
+  box-shadow: 0 16px 36px rgba(143,36,84,.08);
+}
+
+/* CELESTIAL — midnight observatory: oval portal, star-map ornament, airy
+   tracking and luminous silver/lavender details. */
+.invitation-public.invitation-template-celestial {
+  --template-ink: #303752;
+  --template-paper: #E9ECF8;
+  background: #E9ECF8;
+}
+.invitation-public.invitation-template-celestial .invitation-hero {
+  min-height: clamp(32rem, 70svh, 44rem);
+  background: #303B68;
+}
+.invitation-public.invitation-template-celestial .invitation-hero-frame {
+  inset: 1.15rem 2rem;
+  border: 1px solid rgba(220,226,250,.8);
+  border-radius: 50% 50% 1.5rem 1.5rem / 32% 32% 1.5rem 1.5rem;
+}
+.invitation-public.invitation-template-celestial .invitation-hero-frame::before {
+  content: "✦     ·      ✧       ·      ✦";
+  position: absolute; top: 1.8rem; left: 0; right: 0;
+  text-align: center; color: #E6E9FA;
+  font: 1.1rem/1 Georgia,serif; letter-spacing: .75em;
+}
+.invitation-public.invitation-template-celestial .invitation-hero-overlay {
+  background:
+    radial-gradient(ellipse at 50% 15%, rgba(174,184,223,.24), transparent 42%),
+    linear-gradient(180deg,rgba(24,31,67,.12),rgba(24,31,67,.82));
+}
+.invitation-public.invitation-template-celestial .invitation-hero-placeholder {
+  background:
+    radial-gradient(circle at 18% 22%,#F4F0D7 0 1px,transparent 2px),
+    radial-gradient(circle at 82% 34%,#F4F0D7 0 1px,transparent 2px),
+    radial-gradient(circle at 70% 72%,#F4F0D7 0 1px,transparent 2px),
+    radial-gradient(ellipse at 50% 10%,#7886BD,transparent 42%),
+    linear-gradient(145deg,#303B68,#1C244A) !important;
+}
+.invitation-public.invitation-template-celestial .invitation-hero-title {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-weight: 400; font-style: italic;
+  letter-spacing: -.04em;
+}
+.invitation-public.invitation-template-celestial .invitation-hero-has-cover .invitation-hero-title,
+.invitation-public.invitation-template-celestial .invitation-hero-has-cover .invitation-hero-date,
+.invitation-public.invitation-template-celestial .invitation-hero-no-cover .invitation-hero-title { color: #FAFAFF !important; }
+.invitation-public.invitation-template-celestial .invitation-hero-event-label { letter-spacing: .38em !important; }
+.invitation-public.invitation-template-celestial #detalles {
+  background: linear-gradient(180deg,#F7F8FE,#E9ECF8);
+  color: #303752;
+}
+.invitation-public.invitation-template-celestial .invitation-intro-block > h2 { color: #303B68 !important; font-style: italic; }
+.invitation-public.invitation-template-celestial .invitation-details-rule {
+  width: 5rem; height: 1px; border: 0; background: linear-gradient(90deg,transparent,#7886BD,transparent);
+}
+.invitation-public.invitation-template-celestial .invitation-location-card {
+  border: 1px solid #AEB8DF !important;
+  border-radius: 50% 50% 1.25rem 1.25rem / 1.2rem 1.2rem 1.25rem 1.25rem !important;
+  background: #FAFAFF !important;
+}
+
+/* NUBE — playful soft celebration: cloud-like rounded shapes, friendly
+   geometric typography, warm butter base and pastel floating color fields. */
+.invitation-public.invitation-template-cloud {
+  --template-ink: #55483D;
+  --template-paper: #FFF8E9;
+  background: #FFF8E9;
+}
+.invitation-public.invitation-template-cloud .invitation-hero {
+  min-height: clamp(29rem, 64svh, 40rem);
+  background: #E9D8BD;
+}
+.invitation-public.invitation-template-cloud .invitation-hero-frame {
+  inset: 1rem;
+  border: 2px solid rgba(255,255,255,.92);
+  border-radius: 3rem 3rem 2rem 2rem;
+}
+.invitation-public.invitation-template-cloud .invitation-hero-frame::before,
+.invitation-public.invitation-template-cloud .invitation-hero-frame::after {
+  content: "";
+  position: absolute; width: clamp(4rem, 12vw, 8rem); aspect-ratio: 1;
+  border: 1px solid rgba(255,255,255,.72); border-radius: 50%;
+  background: rgba(255,255,255,.12);
+}
+.invitation-public.invitation-template-cloud .invitation-hero-frame::before { top: 1.1rem; left: 1.1rem; }
+.invitation-public.invitation-template-cloud .invitation-hero-frame::after { right: 1.1rem; bottom: 1.1rem; }
+.invitation-public.invitation-template-cloud .invitation-hero-overlay {
+  background: linear-gradient(180deg,rgba(85,72,61,.05),rgba(85,72,61,.58));
+}
+.invitation-public.invitation-template-cloud .invitation-hero-placeholder {
+  background:
+    radial-gradient(ellipse at 20% 20%,#DCCFF0 0 14%,transparent 15%),
+    radial-gradient(ellipse at 80% 25%,#D6E5D3 0 17%,transparent 18%),
+    radial-gradient(ellipse at 55% 82%,#F1D8C5 0 22%,transparent 23%),
+    linear-gradient(145deg,#FFF3CF,#F6E7CF) !important;
+}
+.invitation-public.invitation-template-cloud .invitation-hero-title {
+  font-family: "Trebuchet MS", "Arial Rounded MT Bold", Arial, sans-serif !important;
+  font-weight: 700; letter-spacing: -.065em;
+  line-height: .98;
+}
+.invitation-public.invitation-template-cloud .invitation-hero-has-cover .invitation-hero-title,
+.invitation-public.invitation-template-cloud .invitation-hero-has-cover .invitation-hero-date,
+.invitation-public.invitation-template-cloud .invitation-hero-no-cover .invitation-hero-title { color: #FFFEFA !important; }
+.invitation-public.invitation-template-cloud .invitation-hero-event-label { letter-spacing: .22em !important; }
+.invitation-public.invitation-template-cloud #detalles {
+  background:
+    radial-gradient(ellipse at 0% 0%,rgba(220,207,240,.28),transparent 32%),
+    radial-gradient(ellipse at 100% 45%,rgba(214,229,211,.36),transparent 34%),
+    linear-gradient(180deg,#FFFDF6,#FFF5E3);
+  color: #55483D;
+}
+.invitation-public.invitation-template-cloud .invitation-intro-block > h2 { color: #80634D !important; font-family: "Trebuchet MS",Arial,sans-serif !important; font-weight: 700; }
+.invitation-public.invitation-template-cloud .invitation-details-rule {
+  width: 3rem; height: 3rem; border: 0; border-radius: 50%;
+  background: radial-gradient(circle,#B58C66 0 3px,transparent 4px), radial-gradient(circle at 50% 50%,transparent 0 12px,#E8D9C2 13px 14px,transparent 15px);
+}
+.invitation-public.invitation-template-cloud .invitation-location-card {
+  border: 1px solid #E8D9C2 !important;
+  border-radius: 2rem !important;
+  background: #FFFEFA !important;
+  box-shadow: 0 12px 28px rgba(128,99,77,.08);
+}
+
+/* JARDÍN — Mediterranean garden party: asymmetrical photo mat, terracotta
+   editorial serif, olive accents and handmade-paper card shapes. */
+.invitation-public.invitation-template-garden {
+  --template-ink: #493C35;
+  --template-paper: #F7F0E7;
+  background: #F7F0E7;
+}
+.invitation-public.invitation-template-garden .invitation-hero {
+  min-height: clamp(31rem, 68svh, 43rem);
+  background: #596F56;
+}
+.invitation-public.invitation-template-garden .invitation-hero-frame {
+  inset: 1.2rem 1.8rem 1.2rem 1.2rem;
+  border: 1px solid rgba(255,246,231,.85);
+  border-radius: 1.5rem 1.5rem 5rem 1.5rem;
+}
+.invitation-public.invitation-template-garden .invitation-hero-frame::before {
+  content: "✳";
+  position: absolute; right: 1.3rem; top: 1.2rem;
+  color: #F4D6BE; font: 3.2rem/1 Georgia,serif;
+}
+.invitation-public.invitation-template-garden .invitation-hero-overlay {
+  background: linear-gradient(180deg,rgba(35,55,39,.08),rgba(35,55,39,.7));
+}
+.invitation-public.invitation-template-garden .invitation-hero-placeholder {
+  background:
+    radial-gradient(ellipse at 80% 18%,#D9B7A188,transparent 28%),
+    radial-gradient(ellipse at 15% 80%,#B7C1A988,transparent 35%),
+    linear-gradient(145deg,#71816A,#B96F55) !important;
+}
+.invitation-public.invitation-template-garden .invitation-hero-title {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-weight: 400; font-style: italic;
+  font-size: clamp(3.2rem, 10vw, 6.7rem) !important;
+  line-height: .94 !important;
+  letter-spacing: -.06em !important;
+}
+.invitation-public.invitation-template-garden .invitation-hero-has-cover .invitation-hero-title,
+.invitation-public.invitation-template-garden .invitation-hero-has-cover .invitation-hero-date,
+.invitation-public.invitation-template-garden .invitation-hero-no-cover .invitation-hero-title { color: #FFFCF7 !important; }
+.invitation-public.invitation-template-garden #detalles {
+  background:
+    radial-gradient(ellipse at 100% 0%,rgba(217,183,161,.2),transparent 30%),
+    linear-gradient(180deg,#FCF8F1,#F2E8DC);
+  color: #493C35;
+}
+.invitation-public.invitation-template-garden .invitation-intro-block > h2 { color: #6C5142 !important; font-family: Georgia,serif !important; font-style: italic; }
+.invitation-public.invitation-template-garden .invitation-details-rule {
+  width: 4.5rem; height: 2px; border: 0; background: linear-gradient(90deg,transparent,#B96F55,#71816A,transparent);
+}
+.invitation-public.invitation-template-garden .invitation-location-card {
+  border: 1px solid #D9B7A1 !important;
+  border-radius: 1.5rem .35rem 1.5rem .35rem !important;
+  background: #FFFCF7 !important;
+  box-shadow: 0 14px 32px rgba(73,60,53,.07);
+}
+
+/* Mobile refinements: keep ornamentation inside the safe area and preserve
+   readable headlines when names or event titles are long. */
+@media (max-width: 639px) {
+  .invitation-public.invitation-template-noir .invitation-hero { text-align: left; }
+  .invitation-public.invitation-template-noir .invitation-hero-frame::before { top: 1.1rem; left: .8rem; font-size: .48rem; }
+  .invitation-public.invitation-template-pink_atelier .invitation-hero-frame { inset: .85rem .75rem .85rem 1.4rem; }
+  .invitation-public.invitation-template-celestial .invitation-hero-frame { inset: .85rem 1rem; }
+  .invitation-public.invitation-template-botanical .invitation-hero-frame { inset: .85rem 1rem 1rem; }
+  .invitation-public.invitation-template-cloud .invitation-hero-frame { inset: .75rem; border-radius: 2rem; }
+  .invitation-public.invitation-template-garden .invitation-hero-frame { inset: .85rem 1rem .85rem .85rem; }
+  .invitation-public:is(.invitation-template-botanical,.invitation-template-noir,.invitation-template-pink_atelier,.invitation-template-celestial,.invitation-template-cloud,.invitation-template-garden) .invitation-hero-title {
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .invitation-public:is(.invitation-template-botanical,.invitation-template-noir,.invitation-template-pink_atelier,.invitation-template-celestial,.invitation-template-cloud,.invitation-template-garden) * {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}

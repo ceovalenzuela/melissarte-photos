@@ -35,11 +35,18 @@ Deno.serve(async (req: Request) => {
     const admin = createClient(Deno.env.get("SUPABASE_URL")!, serviceKey(), { auth: { persistSession: false, autoRefreshToken: false } });
     const hash = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(token));
     const tokenHash = Array.from(new Uint8Array(hash)).map(byte => byte.toString(16).padStart(2, "0")).join("");
-    const { data: draft, error } = await admin.from("invitation_drafts")
-      .select("id,status,payment_status,editing_enabled")
-      .eq("id", (await admin.from("invitation_draft_access").select("draft_id").eq("token_hash", tokenHash).maybeSingle()).data?.draft_id ?? "")
+    const { data: access, error: accessError } = await admin.from("invitation_draft_access")
+      .select("draft_id")
+      .eq("token_hash", tokenHash)
       .maybeSingle();
-    if (error) throw error;
+    if (accessError) throw accessError;
+    if (!access) return json({ error: "El enlace del borrador no es válido." }, 404);
+
+    const { data: draft, error: draftError } = await admin.from("invitation_drafts")
+      .select("id,status,payment_status,editing_enabled")
+      .eq("id", access.draft_id)
+      .maybeSingle();
+    if (draftError) throw draftError;
     if (!draft) return json({ error: "Borrador no encontrado." }, 404);
     if (!["draft", "awaiting_payment", "editing_enabled"].includes(draft.status) || draft.payment_status === "rejected" || (draft.payment_status === "paid" && !draft.editing_enabled) || (draft.payment_status === "pending" && draft.editing_enabled)) {
       return json({ error: "La carga de portada está bloqueada para este borrador." }, 403);

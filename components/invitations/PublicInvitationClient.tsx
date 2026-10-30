@@ -136,6 +136,7 @@ export default function PublicInvitationClient({
     ? (invitation.template_key as InvitationTemplateKey)
     : "wedding_editorial";
   const templateClass = `invitation-template-${templateKey}`;
+  const hasModernArtDirection = design.art_direction_version === 2;
   // Keep RSVP controls visible but inactive on the four public demo invitations.
   const isDemoInvitation = [
     "boda-sofia-y-alejandro",
@@ -316,7 +317,7 @@ export default function PublicInvitationClient({
     <main className="min-h-screen overflow-hidden" style={{ backgroundColor: background, color: textColor }}>
       <div className="mx-auto max-w-7xl sm:px-6 sm:py-8 lg:px-8">
         <article
-          className={`invitation-public ${templateClass} overflow-hidden shadow-[0_28px_100px_rgba(48,36,27,0.12)] sm:rounded-[2rem]`}
+          className={`invitation-public ${templateClass} ${hasModernArtDirection ? "invitation-art-v2" : ""} overflow-hidden shadow-[0_28px_100px_rgba(48,36,27,0.12)] sm:rounded-[2rem]`}
           style={{
             backgroundColor: background,
             color: textColor,
@@ -351,6 +352,7 @@ export default function PublicInvitationClient({
               
               <h1 className="invitation-hero-title font-[var(--font-display)] text-4xl leading-tight sm:text-6xl lg:text-7xl">{content.headline || invitation.event_title}</h1>
               {invitation.event_date && <p className="invitation-hero-date mt-5 text-[1.1rem] font-semibold uppercase tracking-[0.16em] sm:mt-6 sm:text-xl sm:tracking-[0.2em] lg:text-[1.4rem]">{formatDate(invitation.event_date)}</p>}
+              {hasModernArtDirection && invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} /> }
             </div>
 
           </header>
@@ -418,7 +420,7 @@ export default function PublicInvitationClient({
                 )}
               </div>
             )}
-            {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} />}
+            {!hasModernArtDirection && invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} />}
 
           </section>
 
@@ -543,10 +545,10 @@ function Countdown({ eventDate, eventTime, accent, textColor }: { eventDate: str
   const seconds = Math.floor((remaining % 60_000) / 1_000);
   const parts = [{ value: days, label: "días" }, { value: hours, label: "horas" }, { value: minutes, label: "min" }, { value: seconds, label: "seg" }];
   return (
-    <div className="invitation-countdown mx-auto mt-8 max-w-xl rounded-2xl border px-5 py-4 sm:px-7 sm:py-5" style={{ borderColor: `${accent}55`, backgroundColor: `${accent}0A`, color: textColor }}>
-      <p className="text-[10px] font-semibold uppercase tracking-[0.25em]" style={{ color: accent }}>La cuenta regresiva ha comenzado</p>
-      <div className="mt-4 grid grid-cols-4 divide-x" style={{ borderColor: `${accent}30` }}>
-        {parts.map((part) => <div key={part.label} className="px-2 text-center"><p className="font-[var(--font-display)] text-3xl tabular-nums sm:text-4xl">{String(part.value).padStart(2, "0")}</p><p className="mt-1 text-[10px] uppercase tracking-[0.18em] opacity-70">{part.label}</p></div>)}
+    <div className="invitation-countdown mx-auto mt-7 w-full max-w-2xl rounded-3xl border px-4 py-5 shadow-xl backdrop-blur-md sm:mt-8 sm:px-8 sm:py-6" style={{ borderColor: `${accent}88`, backgroundColor: `${textColor}B8`, color: "#FFFFFF", boxShadow: `0 18px 50px ${accent}30` }}>
+      <p className="text-[10px] font-semibold uppercase tracking-[0.28em] sm:text-xs" style={{ color: "#FFFFFF" }}>La celebración comienza en</p>
+      <div className="mt-4 grid grid-cols-4 divide-x divide-white/25">
+        {parts.map((part) => <div key={part.label} className="px-1 text-center sm:px-3"><p className="font-[var(--font-display)] text-3xl font-semibold tabular-nums sm:text-5xl">{String(part.value).padStart(2, "0")}</p><p className="mt-1 text-[9px] font-medium uppercase tracking-[0.16em] text-white/80 sm:text-[10px] sm:tracking-[0.2em]">{part.label}</p></div>)}
       </div>
     </div>
   );

@@ -382,7 +382,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                     <span className="flex items-start justify-between gap-2">
                       <span className="min-w-0">
                         <span className="block text-sm font-semibold leading-5 text-[#332B27]">{option.label}</span>
-                        <span className="mt-1 block text-xs leading-5 text-[#62594F]">{option.description}</span>
+                        <span className="mt-1.5 block text-sm leading-5 text-[#51483E]">{option.description}</span>
                       </span>
                       <span className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${selected ? "text-white" : "border-[#D6C9B7] bg-white text-transparent"}`}
                       style={selected ? { borderColor: palette.button_color, backgroundColor: palette.button_color } : undefined} aria-hidden="true">

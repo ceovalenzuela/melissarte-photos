@@ -4878,3 +4878,56 @@
     text-wrap: balance;
   }
 }
+
+
+/* Motion and elevated countdown for invitations using the refreshed art direction only. */
+.invitation-public.invitation-art-v2 .invitation-hero-content {
+  animation: invitation-v2-enter 850ms cubic-bezier(.2,.75,.25,1) both;
+}
+.invitation-public.invitation-art-v2 .invitation-hero-frame {
+  animation: invitation-v2-frame 1.2s ease-out both;
+}
+.invitation-public.invitation-art-v2 .invitation-countdown {
+  animation: invitation-v2-countdown 900ms 180ms cubic-bezier(.2,.75,.25,1) both;
+  transform-origin: center top;
+}
+.invitation-public.invitation-art-v2 .invitation-location-card,
+.invitation-public.invitation-art-v2 .invitation-intro-block,
+.invitation-public.invitation-art-v2 .invitation-rsvp-closed {
+  animation: invitation-v2-rise 700ms ease-out both;
+}
+.invitation-public.invitation-art-v2 a,
+.invitation-public.invitation-art-v2 button {
+  transition: transform 220ms ease, box-shadow 220ms ease, opacity 220ms ease, filter 220ms ease;
+}
+.invitation-public.invitation-art-v2 a:hover,
+.invitation-public.invitation-art-v2 button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.04);
+}
+@keyframes invitation-v2-enter {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes invitation-v2-frame {
+  from { opacity: 0; transform: scale(.985); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes invitation-v2-countdown {
+  from { opacity: 0; transform: translateY(16px) scale(.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes invitation-v2-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .invitation-public.invitation-art-v2 *,
+  .invitation-public.invitation-art-v2 *::before,
+  .invitation-public.invitation-art-v2 *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

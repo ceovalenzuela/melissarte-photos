@@ -21,14 +21,26 @@ export default function InvitationDraftAdmin(){
  const [busy,setBusy]=useState("");
  const [error,setError]=useState("");
  const [notice,setNotice]=useState("");
+ const applyRows=useCallback((rows:Draft[])=>{
+  setDrafts(rows);
+  setForms(Object.fromEntries(rows.map(d=>[d.draft_id,{payment_status:d.payment_status,editing_enabled:d.editing_enabled,phone:d.whatsapp_confirmation_phone??"",order:d.shopify_order_name??""}])));
+ },[]);
  const load=useCallback(async()=>{
   const {data,error}=await supabase.rpc("admin_list_invitation_drafts");
   setError(error?.message??"");
-  if(error){setDrafts([]);}
-  else{const rows=(data??[]) as Draft[];setDrafts(rows);setForms(Object.fromEntries(rows.map(d=>[d.draft_id,{payment_status:d.payment_status,editing_enabled:d.editing_enabled,phone:d.whatsapp_confirmation_phone??"",order:d.shopify_order_name??""}])));}
+  if(error)setDrafts([]);else applyRows((data??[]) as Draft[]);
   setLoading(false);
- },[]);
- useEffect(()=>{void load();},[load]);
+ },[applyRows]);
+ useEffect(()=>{
+  let active=true;
+  supabase.rpc("admin_list_invitation_drafts").then(({data,error})=>{
+   if(!active)return;
+   setError(error?.message??"");
+   if(error)setDrafts([]);else applyRows((data??[]) as Draft[]);
+   setLoading(false);
+  });
+  return ()=>{active=false;};
+ },[applyRows]);
  async function save(d:Draft){
   const f=forms[d.draft_id];if(!f)return;
   setBusy(d.draft_id);setError("");setNotice("");

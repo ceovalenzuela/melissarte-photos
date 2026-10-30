@@ -195,6 +195,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
             <p className="mt-2 text-xs text-[#746A5D]">La paleta prediseñada cambia junto con la plantilla. La personalización avanzada se habilita después de validar tu pago.</p>
             <button disabled={locked || saving} onClick={save} className="mt-4 w-full rounded-full bg-[#263D4B] px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">{uploading ? "Subiendo portada..." : saving ? "Guardando..." : "Guardar cambios"}</button>
             <button disabled={locked || saving || uploading || !eventDate || !content.headline?.trim() || !design.cover_image_url} onClick={()=>void save(true)} className="mt-2 w-full rounded-full border border-[#D5B77C] px-4 py-3 text-sm font-semibold text-[#51483E] disabled:opacity-40">Guardar y ver invitación completa</button>
+            <p className="mt-2 text-xs leading-5 text-[#8A8074]">La vista previa se habilita cuando agregues la fecha, el título o nombres y la foto de portada.</p>
             {notice && <p role="status" className="mt-2 text-sm text-green-700">{notice}</p>}
             {error && <p role="alert" className="mt-2 text-sm text-red-700">{error}</p>}
           </div>
@@ -216,7 +217,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
             </div>
           </div>
           <div className="min-h-0 flex-1 overflow-y-auto">
-            <div className="mx-auto min-h-full max-w-5xl bg-white">
+            <div className="min-h-full w-full bg-white">
               <PublicInvitationClient invitation={preview} existingRSVP={null} editToken={null} editRequested={false} previewMode />
             </div>
           </div>

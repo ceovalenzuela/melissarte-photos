@@ -16,7 +16,7 @@ const TYPES = [
 
 export default function CreateInvitationDraftPage() {
   const [eventType, setEventType] = useState<(typeof TYPES)[number]["value"]>("wedding");
-  const [template, setTemplate] = useState<InvitationTemplateKey>("wedding_editorial");
+  const [template] = useState<InvitationTemplateKey>(INVITATION_TEMPLATE_OPTIONS[0].key);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
@@ -41,15 +41,10 @@ export default function CreateInvitationDraftPage() {
       <section className="w-full max-w-lg rounded-3xl border border-[#E7DCC8] bg-white p-7 shadow-sm sm:p-9">
         <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#A88249]">Melissarte Events</p>
         <h1 className="mt-3 font-[var(--font-display)] text-3xl font-semibold">Comienza tu invitación</h1>
-        <p className="mt-2 text-sm leading-6 text-[#746A5D]">Primero elige el tipo de celebración y después el diseño que más te guste. Puedes usar cualquier diseño para cualquier evento.</p>
+        <p className="mt-2 text-sm leading-6 text-[#746A5D]">Selecciona el tipo de celebración para comenzar. Tu invitación se creará con el diseño Editorial y podrás cambiarlo después desde el editor.</p>
         <label className="mt-6 block text-sm font-medium">Tipo de evento
           <select value={eventType} onChange={e=>setEventType(e.target.value as typeof eventType)} className="mt-2 w-full rounded-xl border border-[#E7DCC8] bg-white px-4 py-3 text-sm">
             {TYPES.map(type=><option key={type.value} value={type.value}>{type.label}</option>)}
-          </select>
-        </label>
-        <label className="mt-4 block text-sm font-medium">Elige tu diseño
-          <select value={template} onChange={e=>setTemplate(e.target.value as InvitationTemplateKey)} className="mt-2 w-full rounded-xl border border-[#E7DCC8] bg-white px-4 py-3 text-sm">
-            {INVITATION_TEMPLATE_OPTIONS.map(option=><option key={option.key} value={option.key}>{option.label} — {option.description}</option>)}
           </select>
         </label>
         <button onClick={createDraft} disabled={busy} className="mt-6 w-full rounded-full bg-[#263D4B] px-5 py-3.5 text-sm font-semibold text-white disabled:opacity-60">{busy ? "Preparando..." : "Crear mi invitación"}</button>

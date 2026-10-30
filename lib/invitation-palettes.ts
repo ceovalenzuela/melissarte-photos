@@ -14,14 +14,14 @@ export const INVITATION_PALETTES: Record<InvitationTemplateKey, InvitationDesign
 };
 
 export const INVITATION_TEMPLATE_OPTIONS: { key: InvitationTemplateKey; label: string; description: string }[] = [
-  { key: "wedding_editorial", label: "Editorial", description: "Minimalismo editorial, marfil y azul noche" },
-  { key: "xv_gala", label: "Gala", description: "Glamour contemporáneo, ciruela y oro suave" },
-  { key: "baby_soft", label: "Suave", description: "Pasteles cálidos, formas orgánicas y ligereza" },
-  { key: "baptism_light", label: "Luz", description: "Serenidad clásica, marfil y azul grisáceo" },
-  { key: "botanical", label: "Botánico", description: "Verde salvia, marfil, rosa empolvado y oliva" },
-  { key: "noir", label: "Noir", description: "Negro espresso, dorado antiguo, crema y café" },
-  { key: "pink_atelier", label: "Pink Atelier", description: "Rosa intenso, blush, frambuesa y champagne" },
-  { key: "celestial", label: "Celestial", description: "Azul profundo, lavanda azulada, plata y perla" },
-  { key: "cloud", label: "Nube", description: "Amarillo mantequilla, lavanda, menta y durazno" },
-  { key: "garden", label: "Jardín", description: "Verde salvia, terracota, durazno y marfil" },
+  { key: "wedding_editorial", label: "Editorial", description: "Marfil, azul noche y detalles champagne; elegante y minimalista" },
+  { key: "xv_gala", label: "Gala", description: "Ciruela, malva y dorado suave; sofisticada y glamourosa" },
+  { key: "baby_soft", label: "Suave", description: "Durazno, terracota y celeste; tonos pastel y formas suaves" },
+  { key: "baptism_light", label: "Luz", description: "Marfil y azul grisáceo; estilo clásico, limpio y sereno" },
+  { key: "botanical", label: "Botánico", description: "Verde salvia, oliva, marfil y rosa empolvado; natural y botánica" },
+  { key: "noir", label: "Noir", description: "Negro espresso, crema y dorado antiguo; elegante y de alto contraste" },
+  { key: "pink_atelier", label: "Pink Atelier", description: "Rosa intenso, blush y champagne; moderno, femenino y vibrante" },
+  { key: "celestial", label: "Celestial", description: "Azul profundo, lavanda y plata; celestial y sofisticada" },
+  { key: "cloud", label: "Nube", description: "Amarillo mantequilla, lavanda, menta y durazno; alegre y delicada" },
+  { key: "garden", label: "Jardín", description: "Verde salvia, terracota y durazno; inspiración jardín y tonos cálidos" },
 ];

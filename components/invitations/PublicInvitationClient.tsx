@@ -131,7 +131,7 @@ export default function PublicInvitationClient({
   }, [cover]);
 
   const coverLoaded = Boolean(cover && loadedCoverUrl === cover);
-  const templateKeys: InvitationTemplateKey[] = ["wedding_editorial", "xv_gala", "baby_soft", "baptism_light"];
+  const templateKeys: InvitationTemplateKey[] = ["wedding_editorial", "xv_gala", "baby_soft", "baptism_light", "botanical", "noir", "pink_atelier", "celestial", "cloud", "garden"];
   const templateKey: InvitationTemplateKey = templateKeys.includes(invitation.template_key as InvitationTemplateKey)
     ? (invitation.template_key as InvitationTemplateKey)
     : "wedding_editorial";

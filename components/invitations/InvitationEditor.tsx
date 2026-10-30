@@ -32,7 +32,7 @@ function defaultEventLabel(template: TemplateKey): string {
   if (template === "xv_gala") return "Mis XV";
   if (template === "baby_soft") return "Mi Baby";
   if (template === "baptism_light") return "Mi Bautizo";
-  return "Boda";
+  return "Mi celebración";
 }
 
 const emptyContent = (event: Event): InvitationContent => ({

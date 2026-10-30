@@ -1,4 +1,4 @@
-export type InvitationTemplateKey = "wedding_editorial" | "xv_gala" | "baby_soft" | "baptism_light";
+export type InvitationTemplateKey = "wedding_editorial" | "xv_gala" | "baby_soft" | "baptism_light" | "botanical" | "noir" | "pink_atelier" | "celestial" | "cloud" | "garden";
 
 export type InvitationStatus = "draft" | "published";
 export type RSVPStatus = "attending" | "declined";

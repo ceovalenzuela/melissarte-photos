@@ -15,7 +15,7 @@ language plpgsql security definer set search_path = ''
 as $$
 declare v_id uuid; v_token text; v_ref text;
 begin
-  if p_event_type not in ('wedding','xv','baby_shower','baptism') then
+  if p_event_type not in ('wedding','xv','baby_shower','baptism','other') then
     raise exception 'Tipo de evento no válido';
   end if;
   if p_template_key not in (

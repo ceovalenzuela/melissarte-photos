@@ -135,7 +135,12 @@ export default function PublicInvitationClient({
   const templateKey: InvitationTemplateKey = templateKeys.includes(invitation.template_key as InvitationTemplateKey)
     ? (invitation.template_key as InvitationTemplateKey)
     : "wedding_editorial";
-  const templateClass = `invitation-template-${templateKey}`;
+  const isEditorialFlagship = templateKey === "wedding_editorial";
+  // Use a fresh namespace for Editorial so legacy wedding_editorial CSS cannot
+  // cascade into the flagship layout. Other templates retain their existing keys.
+  const templateClass = isEditorialFlagship
+    ? "invitation-template-editorial-flagship"
+    : `invitation-template-${templateKey}`;
   const hasModernArtDirection = design.art_direction_version === 2;
   // Keep RSVP controls visible but inactive on the four public demo invitations.
   const isDemoInvitation = [
@@ -149,7 +154,6 @@ export default function PublicInvitationClient({
   const templatePalette = INVITATION_PALETTES[templateKey];
   const weddingColor = (value: string | undefined, fallback: string, oldColors: string[], newColor: string) =>
     resolveDesignColor(value, fallback, templateKey, oldColors, newColor);
-  const isEditorialFlagship = templateKey === "wedding_editorial";
   // Editorial is the flagship art direction: its palette is deliberately locked
   // to the template tokens so stale design_config values cannot reintroduce
   // low-contrast white-on-ivory or the former navy countdown card.

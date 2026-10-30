@@ -132,6 +132,12 @@ export default function PublicInvitationClient({
 
   const coverLoaded = Boolean(cover && loadedCoverUrl === cover);
 
+  const templateKeys: InvitationTemplateKey[] = ["wedding_editorial", "xv_gala", "baby_soft", "baptism_light", "botanical", "noir", "pink_atelier", "celestial", "cloud", "garden"];
+  const templateKey: InvitationTemplateKey = templateKeys.includes(invitation.template_key as InvitationTemplateKey)
+    ? (invitation.template_key as InvitationTemplateKey)
+    : "wedding_editorial";
+  const isEditorialFlagship = templateKey === "wedding_editorial";
+
   // Editorial flagship: reveal each major chapter gently as the guest scrolls.
   // Content remains visible when reduced motion is preferred or IO is unavailable.
   useEffect(() => {
@@ -159,12 +165,6 @@ export default function PublicInvitationClient({
     };
   }, [isEditorialFlagship, invitation.invitation_slug]);
 
-
-  const templateKeys: InvitationTemplateKey[] = ["wedding_editorial", "xv_gala", "baby_soft", "baptism_light", "botanical", "noir", "pink_atelier", "celestial", "cloud", "garden"];
-  const templateKey: InvitationTemplateKey = templateKeys.includes(invitation.template_key as InvitationTemplateKey)
-    ? (invitation.template_key as InvitationTemplateKey)
-    : "wedding_editorial";
-  const isEditorialFlagship = templateKey === "wedding_editorial";
   // Use a fresh namespace for Editorial so legacy wedding_editorial CSS cannot
   // cascade into the flagship layout. Other templates retain their existing keys.
   const templateClass = isEditorialFlagship

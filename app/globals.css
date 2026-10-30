@@ -4931,3 +4931,46 @@
     scroll-behavior: auto !important;
   }
 }
+
+
+/* Countdown: editorial typography, integrated below the hero without a card. */
+.invitation-public .invitation-countdown {
+  color: var(--inv-text);
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  position: relative;
+}
+.invitation-public .invitation-countdown::before,
+.invitation-public .invitation-countdown::after {
+  content: "";
+  display: block;
+  width: 3.5rem;
+  height: 1px;
+  margin: 0 auto 1rem;
+  background: var(--inv-accent);
+  opacity: .65;
+}
+.invitation-public .invitation-countdown::after { display: none; }
+.invitation-public .invitation-countdown-caption,
+.invitation-public .invitation-countdown-unit { color: var(--inv-accent); }
+.invitation-public .invitation-countdown-value { color: var(--inv-title); }
+.invitation-public .invitation-countdown-separator { color: var(--inv-accent); font-size: .55rem; opacity: .8; }
+.invitation-public .invitation-countdown-part:first-child .invitation-countdown-separator { display: none; }
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown { padding-top: 2.6rem; padding-bottom: 2.4rem; }
+.invitation-public.invitation-template-wedding_editorial .invitation-countdown-grid { border-top: 1px solid color-mix(in srgb, var(--inv-accent) 38%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--inv-accent) 38%, transparent); padding: 1.25rem 0; }
+.invitation-public.invitation-template-xv_gala .invitation-countdown::before { width: 5rem; height: 2px; box-shadow: 0 4px 0 color-mix(in srgb, var(--inv-accent) 35%, transparent); }
+.invitation-public.invitation-template-xv_gala .invitation-countdown-separator { font-size: .7rem; }
+.invitation-public.invitation-template-baby_soft .invitation-countdown::before { width: 2.4rem; height: 2.4rem; border: 1px solid color-mix(in srgb, var(--inv-accent) 45%, transparent); border-radius: 50%; background: radial-gradient(circle, var(--inv-accent) 0 2px, transparent 3px); }
+.invitation-public.invitation-template-baptism_light .invitation-countdown-grid { max-width: 34rem; }
+.invitation-public.invitation-template-botanical .invitation-countdown::before,
+.invitation-public.invitation-template-garden .invitation-countdown::before { width: 4.5rem; height: 1px; transform: rotate(-3deg); }
+.invitation-public.invitation-template-noir .invitation-countdown-grid,
+.invitation-public.invitation-template-celestial .invitation-countdown-grid { max-width: 34rem; }
+.invitation-public.invitation-template-pink_atelier .invitation-countdown-value { font-style: italic; }
+.invitation-public.invitation-template-cloud .invitation-countdown::before { width: 2.8rem; height: .35rem; border-radius: 50%; opacity: .4; }
+@media (max-width: 420px) {
+  .invitation-public .invitation-countdown { padding-inline: .75rem; }
+  .invitation-public .invitation-countdown-value { font-size: 1.8rem; }
+  .invitation-public .invitation-countdown-separator { font-size: .42rem; }
+}

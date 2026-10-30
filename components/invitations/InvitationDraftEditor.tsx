@@ -36,6 +36,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [linkCopied, setLinkCopied] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -76,6 +77,23 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
     cover_image: design.cover_image_url ?? null,
     cover_position_y: null,
   }) : null, [draft, content, design, eventDate, template, palette]);
+
+  const draftUrl = typeof window !== "undefined" ? `${window.location.origin}/borrador/${token}` : "";
+
+  async function copyDraftLink() {
+    try {
+      await navigator.clipboard.writeText(draftUrl);
+      setLinkCopied(true);
+      setNotice("Enlace del borrador copiado. Guárdalo para continuar después.");
+    } catch {
+      setError("No fue posible copiar el enlace. Puedes copiarlo desde la barra de direcciones.");
+    }
+  }
+
+  function shareDraftWhatsApp() {
+    const message = `Aquí puedes continuar editando tu invitación de Melissarte: ${draftUrl}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+  }
 
   async function save() {
     setSaving(true);
@@ -142,7 +160,11 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
         <div className="mx-auto max-w-6xl">
           <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#A88249]">Melissarte Events</p>
           <h1 className="mt-1 text-2xl font-semibold">Personaliza tu invitación</h1>
-          <p className="mt-1 text-xs text-[#746A5D]">Referencia: {draft.draft_reference} · Guarda este enlace para continuar después.</p>
+          <p className="mt-1 text-xs text-[#746A5D]">Referencia: {draft.draft_reference} · Guarda tu enlace privado para continuar después.</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <button type="button" onClick={()=>void copyDraftLink()} className="rounded-full border border-[#D5B77C] px-4 py-2 text-xs font-semibold text-[#51483E]">{linkCopied ? "Enlace copiado ✓" : "Copiar enlace del borrador"}</button>
+            <button type="button" onClick={shareDraftWhatsApp} className="rounded-full bg-[#263D4B] px-4 py-2 text-xs font-semibold text-white">Enviar por WhatsApp</button>
+          </div>
         </div>
       </header>
       <div className="mx-auto grid max-w-6xl gap-6 px-4 py-6 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)]">
@@ -181,7 +203,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
         </section>
         <section className="min-w-0">
           <div className="sticky top-4 overflow-hidden rounded-2xl border border-[#E7DCC8] bg-white">
-            <div className="border-b border-[#EEE4D5] px-4 py-3"><h2 className="text-sm font-semibold">Vista previa · formulario de confirmación deshabilitado</h2></div>
+            <div className="border-b border-[#EEE4D5] px-4 py-3"><h2 className="text-sm font-semibold">Vista previa</h2></div>
             <div className="max-h-[82vh] overflow-y-auto">{preview && <PublicInvitationClient invitation={preview} existingRSVP={null} editToken={null} editRequested={false} previewMode />}</div>
           </div>
         </section>

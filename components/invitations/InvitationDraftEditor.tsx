@@ -97,7 +97,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
   }
 
   async function uploadCover(file: File) {
-    if (!draft || locked || draft.payment_status !== "pending") return;
+    if (!draft || locked || (draft.payment_status !== "pending" && !(draft.payment_status === "paid" && draft.editing_enabled))) return;
     setUploading(true); setError(""); setNotice("");
     try {
       const { data: signed, error: signError } = await supabase.functions.invoke("upload-invitation-draft-cover", { body: { access_token: token, content_type: file.type } });
@@ -149,7 +149,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
         <section className="space-y-4">
           <div className="rounded-2xl border border-[#E7DCC8] bg-white p-5">
             <div className="flex items-center justify-between"><h2 className="font-semibold">Datos principales</h2><span className="text-xs text-[#8A8074]">{locked ? "Edición bloqueada" : "Borrador"}</span></div>
-            <label className="mt-4 block text-sm font-medium">Portada de tu invitación<input disabled={locked || draft.payment_status !== "pending" || uploading} type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>{const file=e.target.files?.[0];if(file) void uploadCover(file);e.currentTarget.value="";}} className="mt-1.5 block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-[#F2EBE1] file:px-3 file:py-2 file:text-xs file:font-semibold disabled:opacity-50" /></label>
+            <label className="mt-4 block text-sm font-medium">Portada de tu invitación<input disabled={locked || (draft.payment_status !== "pending" && !(draft.payment_status === "paid" && draft.editing_enabled)) || uploading} type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>{const file=e.target.files?.[0];if(file) void uploadCover(file);e.currentTarget.value="";}} className="mt-1.5 block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-[#F2EBE1] file:px-3 file:py-2 file:text-xs file:font-semibold disabled:opacity-50" /></label>
             {design.cover_image_url && <img src={design.cover_image_url} alt="Portada seleccionada" className="mt-3 aspect-[4/3] w-full rounded-xl object-cover" />}
             <label className="mt-4 block text-sm font-medium">Título o nombres<input disabled={locked} value={content.headline ?? ""} onChange={e=>update("headline",e.target.value)} maxLength={120} placeholder="Ej. Sofía y Alejandro" className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
             <label className="mt-3 block text-sm font-medium">Texto secundario<input disabled={locked} value={content.subtitle ?? ""} onChange={e=>update("subtitle",e.target.value)} maxLength={180} placeholder="Nos encantará compartir..." className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
@@ -173,8 +173,8 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
             {error && <p role="alert" className="mt-2 text-sm text-red-700">{error}</p>}
           </div>
           <div className="rounded-2xl border border-[#D5B77C] bg-[#FFFEFC] p-5">
-            <h2 className="font-semibold">Continúa con tu compra</h2>
-            <p className="mt-1 text-sm text-[#746A5D]">Al finalizar, tu borrador quedará asociado al pedido para que podamos validar el pago y habilitar la edición.</p>
+            <h2 className="font-semibold">{draft.payment_status === "paid" ? "Pago validado" : "Continúa con tu compra"}</h2>
+            <p className="mt-1 text-sm text-[#746A5D]">{draft.payment_status === "paid" ? (draft.editing_enabled ? `Tu paquete ${draft.package === "plus" ? "Plus" : "Esencial"} está habilitado. Puedes continuar con los ajustes autorizados.` : "Tu pago fue validado. Estamos preparando la siguiente etapa de edición.") : "Al finalizar, tu borrador quedará asociado al pedido para que podamos validar el pago y habilitar la edición."}</p>
             <button disabled={saving || locked || draft.payment_status !== "pending"} onClick={()=>continueToCheckout("essential")} className="mt-4 w-full rounded-full bg-[#263D4B] px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">Elegir Esencial · $199 MXN</button>
             <button disabled={saving || locked || draft.payment_status !== "pending"} onClick={()=>continueToCheckout("plus")} className="mt-2 w-full rounded-full border border-[#D5B77C] px-4 py-3 text-sm font-semibold text-[#51483E] disabled:opacity-50">Elegir Plus · $349 MXN</button>
           </div>

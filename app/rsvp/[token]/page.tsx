@@ -18,6 +18,12 @@ const organizerAccents: Record<InvitationTemplateKey, { bannerStart: string; ban
   xv_gala: { bannerStart: "#211B35", bannerEnd: "#49324F", bannerText: "#FFFAF0", bannerAccent: "#E2C47A", muted: "#C9BED1", soft: "#30263F" },
   baby_soft: { bannerStart: "#A85F47", bannerEnd: "#3F7184", bannerText: "#FFFEFA", bannerAccent: "#F0D276", muted: "#756054", soft: "#E9F4F6" },
   baptism_light: { bannerStart: "#263641", bannerEnd: "#426D86", bannerText: "#FFFFFF", bannerAccent: "#C7DBE5", muted: "#536873", soft: "#E3EEF3" },
+  botanical: { bannerStart: "#354B3A", bannerEnd: "#71836A", bannerText: "#FFFDF7", bannerAccent: "#D5C6A5", muted: "#53604F", soft: "#E4E8DC" },
+  noir: { bannerStart: "#211F1D", bannerEnd: "#494039", bannerText: "#F3EDE2", bannerAccent: "#C6A66B", muted: "#6D6255", soft: "#E9E1D5" },
+  pink_atelier: { bannerStart: "#8F2454", bannerEnd: "#C52F70", bannerText: "#FFFAFC", bannerAccent: "#F2C6D7", muted: "#7A3B58", soft: "#F8D2E0" },
+  celestial: { bannerStart: "#303B68", bannerEnd: "#7886BD", bannerText: "#FAFAFF", bannerAccent: "#D5DAF0", muted: "#59658E", soft: "#D5DAF0" },
+  cloud: { bannerStart: "#80634D", bannerEnd: "#B58C66", bannerText: "#FFFEFA", bannerAccent: "#F8EEDC", muted: "#776453", soft: "#F8EEDC" },
+  garden: { bannerStart: "#596F56", bannerEnd: "#B96F55", bannerText: "#FFFCF7", bannerAccent: "#E8D4C1", muted: "#6B5B4F", soft: "#E8E6D8" },
 };
 
 export default async function OrganizerConfirmationsPage({ params }: Props) {
@@ -37,7 +43,10 @@ export default async function OrganizerConfirmationsPage({ params }: Props) {
 
   if (invitationEnabled !== true) notFound();
   const invitation = invitationResult.data?.[0];
-  const templateKeys: InvitationTemplateKey[] = ["wedding_editorial", "xv_gala", "baby_soft", "baptism_light"];
+  const templateKeys: InvitationTemplateKey[] = [
+    "wedding_editorial", "xv_gala", "baby_soft", "baptism_light",
+    "botanical", "noir", "pink_atelier", "celestial", "cloud", "garden",
+  ];
   const templateKey: InvitationTemplateKey = templateKeys.includes(invitation?.template_key as InvitationTemplateKey)
     ? (invitation.template_key as InvitationTemplateKey)
     : "wedding_editorial";

@@ -192,7 +192,14 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
             <select disabled={locked} value={template} onChange={e=>{const key=e.target.value as InvitationTemplateKey;setTemplate(key);setDesign(current=>({...current,...INVITATION_PALETTES[key],art_direction_version:2}));}} className="mt-3 w-full rounded-xl border border-[#E7DCC8] bg-white px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]">
               {INVITATION_TEMPLATE_OPTIONS.map(option=><option key={option.key} value={option.key}>{option.label}</option>)}
             </select>
-            <p className="mt-2 text-xs text-[#746A5D]">La paleta prediseñada cambia junto con la plantilla. La personalización avanzada se habilita después de validar tu pago.</p>
+            <div className="mt-3 rounded-xl border border-[#E7DCC8] bg-[#FBF8F3] p-3">
+              <p className="text-sm font-semibold text-[#332B27]">{INVITATION_TEMPLATE_OPTIONS.find(option=>option.key===template)?.label}</p>
+              <p className="mt-1 text-xs leading-5 text-[#62594F]">{INVITATION_TEMPLATE_OPTIONS.find(option=>option.key===template)?.description}</p>
+              <div className="mt-3 flex items-center gap-2">
+                {[INVITATION_PALETTES[template].background_color,INVITATION_PALETTES[template].title_color,INVITATION_PALETTES[template].accent_color,INVITATION_PALETTES[template].button_color,INVITATION_PALETTES[template].border_color].map((color,index)=><span key={index} className="h-5 w-5 rounded-full border border-black/10" style={{backgroundColor:color}} />)}
+              </div>
+            </div>
+            <p className="mt-2 text-xs leading-5 text-[#746A5D]">La paleta prediseñada cambia junto con la plantilla. La personalización avanzada se habilita después de validar tu pago.</p>
             <button disabled={locked || saving} onClick={()=>void save()} className="mt-4 w-full rounded-full bg-[#263D4B] px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">{uploading ? "Subiendo portada..." : saving ? "Guardando..." : "Guardar cambios"}</button>
             <button disabled={locked || saving || uploading || !eventDate || !content.headline?.trim() || !design.cover_image_url} onClick={()=>void save(true)} className="mt-2 w-full rounded-full border border-[#D5B77C] px-4 py-3 text-sm font-semibold text-[#51483E] disabled:opacity-40">Guardar y ver invitación completa</button>
             <p className="mt-2 text-xs leading-5 text-[#8A8074]">La vista previa se habilita cuando agregues la fecha, el título o nombres y la foto de portada.</p>

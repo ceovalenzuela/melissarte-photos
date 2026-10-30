@@ -4910,3 +4910,123 @@
     transition-duration: .01ms !important;
   }
 }
+
+
+/* ==========================================================================
+   FIX DE CONSISTENCIA — COPYS Y ESPECIFICIDAD ENTRE LAS DIEZ PLANTILLAS
+   Estas reglas neutralizan estilos heredados de las primeras versiones.
+   ========================================================================== */
+.invitation-public .invitation-intro-copy {
+  display: block !important;
+  width: min(100%, 39rem) !important;
+  max-width: 39rem !important;
+  margin: 0 auto 1rem !important;
+  padding: 0 !important;
+  color: var(--inv-text) !important;
+  font-family: var(--font-sans), Arial, sans-serif !important;
+  font-size: clamp(.96rem, 2.8vw, 1.08rem) !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  line-height: 1.75 !important;
+  letter-spacing: 0 !important;
+  text-align: center !important;
+  text-transform: none !important;
+  text-wrap: pretty !important;
+}
+.invitation-public .invitation-footer-thanks {
+  display: block !important;
+  max-width: 36rem !important;
+  margin: 1.25rem auto 0 !important;
+  padding: 0 1rem !important;
+  color: var(--inv-text) !important;
+  font-family: var(--font-sans), Arial, sans-serif !important;
+  font-size: .72rem !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  line-height: 1.6 !important;
+  letter-spacing: .08em !important;
+  text-align: center !important;
+  text-transform: none !important;
+}
+
+/* Mismo esqueleto de portada en cada plantilla, incluso donde sobrevivían
+   reglas antiguas con mayor especificidad. */
+.invitation-public:is(
+  .invitation-template-wedding_editorial,
+  .invitation-template-xv_gala,
+  .invitation-template-baby_soft,
+  .invitation-template-baptism_light,
+  .invitation-template-botanical,
+  .invitation-template-noir,
+  .invitation-template-pink_atelier,
+  .invitation-template-celestial,
+  .invitation-template-cloud,
+  .invitation-template-garden
+) .invitation-hero-frame {
+  display: none !important;
+}
+.invitation-public:is(
+  .invitation-template-wedding_editorial,
+  .invitation-template-xv_gala,
+  .invitation-template-baby_soft,
+  .invitation-template-baptism_light,
+  .invitation-template-botanical,
+  .invitation-template-noir,
+  .invitation-template-pink_atelier,
+  .invitation-template-celestial,
+  .invitation-template-cloud,
+  .invitation-template-garden
+) .invitation-hero-content {
+  position: relative !important;
+  inset: auto !important;
+  transform: none !important;
+  width: 100% !important;
+  min-height: var(--hero-copy-space) !important;
+  max-width: 58rem !important;
+  margin: 0 auto !important;
+  padding: 1.15rem 1rem 1.45rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: .45rem !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-align: center !important;
+}
+.invitation-public:is(
+  .invitation-template-wedding_editorial,
+  .invitation-template-xv_gala,
+  .invitation-template-baby_soft,
+  .invitation-template-baptism_light,
+  .invitation-template-botanical,
+  .invitation-template-noir,
+  .invitation-template-pink_atelier,
+  .invitation-template-celestial,
+  .invitation-template-cloud,
+  .invitation-template-garden
+) .invitation-hero-overlay {
+  inset: 0 0 var(--hero-copy-space) !important;
+  pointer-events: none !important;
+}
+.invitation-public .invitation-countdown {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.invitation-public .invitation-countdown-grid {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+@media (max-width: 639px) {
+  .invitation-public .invitation-intro-copy {
+    font-size: .96rem !important;
+    line-height: 1.7 !important;
+  }
+  .invitation-public .invitation-footer-thanks {
+    font-size: .68rem !important;
+  }
+}

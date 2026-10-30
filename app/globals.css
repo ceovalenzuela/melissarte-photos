@@ -5787,3 +5787,18 @@
   visibility: visible !important;
   transform: none !important;
 }
+
+
+/* Editorial flagship: host names use the same restrained display typography as the invitation. */
+.invitation-public.invitation-template-editorial-flagship .invitation-host-names-editorial {
+  max-width: 30ch;
+  margin: 0 auto;
+  color: var(--ef-gold) !important;
+  font-family: "Cormorant Garamond", "Bodoni Moda", Georgia, serif !important;
+  font-size: clamp(1.2rem, 3.8vw, 1.55rem) !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  line-height: 1.3 !important;
+  letter-spacing: .015em !important;
+  text-wrap: balance;
+}

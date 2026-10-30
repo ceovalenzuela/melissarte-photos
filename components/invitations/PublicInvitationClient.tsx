@@ -422,7 +422,7 @@ export default function PublicInvitationClient({
 
           </section>
 
-          {(((invitation.rsvp_enabled && Boolean((personalizedGuest && personalizedToken) || (existingRSVP && editToken))) || content.confirmation_mode === "whatsapp")) && (content.confirmation_mode !== "whatsapp" && rsvpDeadlinePassed ? (
+          {(((previewMode || (invitation.rsvp_enabled && Boolean((personalizedGuest && personalizedToken) || (existingRSVP && editToken)))) || content.confirmation_mode === "whatsapp")) && (content.confirmation_mode !== "whatsapp" && rsvpDeadlinePassed ? (
             <section id="confirmar" className="invitation-rsvp scroll-mt-6 px-5 py-12 sm:px-12 sm:py-16 lg:px-20" style={{ background: `linear-gradient(135deg, ${accent}12, ${background})` }}>
               <div className="invitation-rsvp-closed mx-auto max-w-xl rounded-[1.5rem] border border-black/5 bg-white p-6 text-center shadow-[0_16px_50px_rgba(48,36,27,0.06)] sm:p-8" style={{ backgroundColor: "#FFFDFA", color: "#30283A" }}>
                 <p className="text-center text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: "#805773" }}>Confirmaciones cerradas</p>

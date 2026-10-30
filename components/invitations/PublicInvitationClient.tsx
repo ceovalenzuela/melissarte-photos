@@ -545,7 +545,7 @@ export default function PublicInvitationClient({
             {content.host_names?.trim() && (
               <>
                 <div className="mx-auto mb-5 h-px w-10" style={{ backgroundColor: `${accent}66` }} />
-                <p className="font-[var(--font-display)] text-2xl italic" style={{ color: accent }}>{content.host_names.trim()}</p>
+                <p className={`invitation-host-names ${isEditorialFlagship ? "invitation-host-names-editorial" : ""}`} style={{ color: accent }}>{content.host_names.trim()}</p>
               </>
             )}
             {content.godparents_enabled && (content.godparents ?? []).some((person) => person.name.trim()) && (

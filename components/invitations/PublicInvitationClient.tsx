@@ -537,7 +537,15 @@ function Countdown({ eventDate, eventTime, accent, textColor }: { eventDate: str
     const update = () => setRemaining(Math.max(0, target - Date.now()));
     update();
     const interval = window.setInterval(update, 1_000);
-    return (
+    return () => window.clearInterval(interval);
+  }, [eventDate, eventTime]);
+  if (remaining === null || remaining <= 0) return null;
+  const days = Math.floor(remaining / 86_400_000);
+  const hours = Math.floor((remaining % 86_400_000) / 3_600_000);
+  const minutes = Math.floor((remaining % 3_600_000) / 60_000);
+  const seconds = Math.floor((remaining % 60_000) / 1_000);
+  const parts = [{ value: days, label: "días" }, { value: hours, label: "horas" }, { value: minutes, label: "min" }, { value: seconds, label: "seg" }];
+  return (
     <section className="invitation-countdown mx-auto w-full max-w-3xl px-5 py-8 text-center sm:py-10" aria-label="Cuenta regresiva para el evento">
       <p className="invitation-countdown-caption text-[9px] font-semibold uppercase tracking-[0.3em] sm:text-[10px]">La celebración comienza en</p>
       <div className="invitation-countdown-grid mx-auto mt-4 grid max-w-2xl grid-cols-4 items-center">
@@ -550,8 +558,8 @@ function Countdown({ eventDate, eventTime, accent, textColor }: { eventDate: str
         ))}
       </div>
     </section>
-  );}
-
+  );
+}
 function LocationCard({ title, time, venue, address, maps, calendarUrl, accent }: { title: string; time?: string; venue?: string; address?: string; maps: string | null; calendarUrl: string | null; accent: string }) {
   const isCeremony = title.toLowerCase().includes("ceremonia");
   const isReception = title.toLowerCase().includes("recepción");

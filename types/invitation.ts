@@ -50,6 +50,8 @@ export interface InvitationDesign {
   form_background_color?: string;
   form_text_color?: string;
   cover_image_url?: string;
+  /** Version 2 art direction is opt-in so existing published invitations remain unchanged. */
+  art_direction_version?: number;
   wax_seal_image_url?: string;
 }
 

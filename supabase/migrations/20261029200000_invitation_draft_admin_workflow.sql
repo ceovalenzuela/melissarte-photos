@@ -1,18 +1,10 @@
 -- Admin authorization and manual payment/edition workflow for private invitation drafts.
-CREATE TABLE IF NOT EXISTS public.invitation_draft_admins (
-  user_id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
-  created_at timestamptz NOT NULL DEFAULT now()
-);
-ALTER TABLE public.invitation_draft_admins ENABLE ROW LEVEL SECURITY;
-REVOKE ALL ON public.invitation_draft_admins FROM PUBLIC, anon, authenticated;
-GRANT ALL ON public.invitation_draft_admins TO service_role;
-
 CREATE OR REPLACE FUNCTION public.is_invitation_draft_admin()
 RETURNS boolean
 LANGUAGE sql STABLE SECURITY DEFINER SET search_path = ''
 AS $function$
   SELECT EXISTS (
-    SELECT 1 FROM public.invitation_draft_admins a
+    SELECT 1 FROM public.admin_users a
     WHERE a.user_id = (SELECT auth.uid())
   );
 $function$;

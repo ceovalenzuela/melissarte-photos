@@ -49,7 +49,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
       } else {
         setDraft(row);
         setContent(row.content_config ?? {});
-        setDesign(row.design_config ?? {});
+        setDesign({ ...(row.design_config ?? {}), art_direction_version: 2 });
         setEventDate(row.event_date ?? "");
         setTemplate(row.template_key);
       }
@@ -186,7 +186,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
           </div>
           <div className="rounded-2xl border border-[#E7DCC8] bg-white p-5">
             <h2 className="font-semibold">Plantilla y paleta</h2>
-            <select disabled={locked} value={template} onChange={e=>{const key=e.target.value as InvitationTemplateKey;setTemplate(key);setDesign(INVITATION_PALETTES[key]);}} className="mt-3 w-full rounded-xl border border-[#E7DCC8] bg-white px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]">
+            <select disabled={locked} value={template} onChange={e=>{const key=e.target.value as InvitationTemplateKey;setTemplate(key);setDesign(current=>({...current,...INVITATION_PALETTES[key],art_direction_version:2}));}} className="mt-3 w-full rounded-xl border border-[#E7DCC8] bg-white px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]">
               {INVITATION_TEMPLATE_OPTIONS.map(option=><option key={option.key} value={option.key}>{option.label}</option>)}
             </select>
             <p className="mt-2 text-xs text-[#746A5D]">La paleta prediseñada cambia junto con la plantilla. La personalización avanzada se habilita después de validar tu pago.</p>

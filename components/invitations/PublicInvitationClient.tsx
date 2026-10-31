@@ -35,19 +35,6 @@ function defaultEventLabel(template: InvitationTemplateKey): string {
   return "Boda";
 }
 
-function defaultIntroHeadline(template: InvitationTemplateKey): string {
-  if (["xv_gala", "velvet_royale"].includes(template)) return "Una noche digna de un sueño";
-  if (template === "celestial_etoile") return "Bajo un cielo de estrellas";
-  if (template === "coquette_couture") return "Un sueño hecho celebración";
-  if (["baby_soft", "little_wildflower"].includes(template)) return "Una nueva historia florece";
-  if (["baptism_light", "luz_de_cielo"].includes(template)) return "Un día lleno de luz y bendiciones";
-  if (template === "maison_botanique") return "Una celebración entre jardines";
-  if (template === "noir_champagne") return "Una noche para recordar";
-  if (template === "two_little_secrets") return "Una sorpresa está por llegar";
-  if (template === "studio_party") return "Hoy celebramos en grande";
-  return "Un día para recordar";
-}
-
 function safeColor(value: string | undefined, fallback: string) {
   return value && /^#[0-9a-fA-F]{6}$/.test(value) ? value : fallback;
 }

@@ -7239,3 +7239,32 @@
     font-size: .88rem !important;
   }
 }
+
+
+/* ==========================================================================
+   PORTADAS VERTICALES EN ESCRITORIO — composición editorial limpia
+   La foto conserva su proporción completa; los laterales usan el fondo de
+   la plantilla. Se elimina el duplicado desenfocado en todas las plantillas.
+   ========================================================================== */
+@media (min-width: 1024px) {
+  .invitation-public .invitation-hero-image.invitation-hero-image-portrait {
+    background-size: contain !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-color: var(--inv-background, #f3eee5) !important;
+    filter: none !important;
+    transform: none !important;
+  }
+  .invitation-public .invitation-hero-image-backdrop.invitation-hero-image-portrait-backdrop {
+    display: none !important;
+  }
+}
+
+/* Noir Atelier comparte exactamente la altura móvil de Editorial Flagship.
+   Se evita el clamp anterior, que limitaba la portada en pantallas altas. */
+@media (max-width: 639px) {
+  .invitation-public.invitation-template-noir_champagne .invitation-hero {
+    min-height: 72svh !important;
+    height: auto !important;
+  }
+}

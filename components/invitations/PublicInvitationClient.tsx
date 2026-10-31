@@ -386,8 +386,9 @@ export default function PublicInvitationClient({
             "--inv-form-text": formTextColor,
           } as CSSProperties}
         >
-          <div className="invitation-hero-shell">
-          <header className={`invitation-hero relative isolate flex min-h-[30svh] items-end justify-center overflow-hidden px-6 pb-5 pt-7 text-center sm:min-h-[420px] sm:px-12 sm:pb-9 sm:pt-10 lg:min-h-[500px] ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>            {cover ? (
+          <div className={`invitation-hero-shell ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>
+          <header className={`invitation-hero relative isolate flex min-h-[30svh] items-end justify-center overflow-hidden px-6 pb-5 pt-7 text-center sm:min-h-[420px] sm:px-12 sm:pb-9 sm:pt-10 lg:min-h-[500px] ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>
+            {cover ? (
               <>
                 <div aria-hidden="true" className={`invitation-hero-image-backdrop pointer-events-none absolute inset-0 -z-30 hidden bg-cover bg-center blur-2xl scale-110 lg:block ${coverLoaded ? "opacity-70" : "opacity-0"}`} style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />
                 <div aria-hidden="true" className={`absolute inset-0 -z-20 bg-cover bg-center invitation-hero-image transition-all duration-[1200ms] ease-out motion-reduce:transition-none ${coverLoaded ? "scale-100 opacity-100" : "scale-[1.025] opacity-0"}`} style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />

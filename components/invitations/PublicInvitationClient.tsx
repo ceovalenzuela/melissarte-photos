@@ -416,9 +416,7 @@ export default function PublicInvitationClient({
                   aria-hidden="true"
                   className="invitation-wax-seal mx-auto mb-5 sm:mb-6"
                 />
-              ) : (
-                <span className="invitation-details-rule mx-auto mb-5 sm:mb-6" aria-hidden="true" />
-              )}
+              ) : null}
               <p
                 className="invitation-intro-copy mx-auto mb-3 max-w-2xl sm:mb-4"
                 style={{ color: content.intro_headline?.trim() ? titleColor : textColor }}
@@ -468,7 +466,7 @@ export default function PublicInvitationClient({
                     <div className="min-w-0 flex-1">
                       {content.gift_message && <p className="mt-3 text-sm leading-5">{content.gift_message}</p>}
                       {content.gift_type && <p className="mt-1.5 text-sm font-medium leading-5">{content.gift_type}</p>}
-                      {safeExternalUrl(content.gift_registry_url) && <a href={safeExternalUrl(content.gift_registry_url)!} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex min-h-9 items-center justify-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold transition hover:opacity-90" style={{ backgroundColor: buttonColor, color: buttonTextColor }}>{content.gift_registry_label?.trim() || "Ver mesa de regalos"} <ArrowUpRight size={14} /></a>}
+                      {safeExternalUrl(content.gift_registry_url) && <a href={safeExternalUrl(content.gift_registry_url)!} target="_blank" rel="noopener noreferrer" className="invitation-gift-button mt-4 inline-flex min-h-11 items-center justify-center gap-2 rounded-full border px-4 py-2.5 text-xs font-semibold transition" style={{ backgroundColor: `${accent}12`, color: accent, borderColor: `${accent}66` }}>{content.gift_registry_label?.trim() || "Ver mesa de regalos"} <ArrowUpRight size={14} strokeWidth={1.8} /></a>}
                     </div>
                   </article>
                 )}

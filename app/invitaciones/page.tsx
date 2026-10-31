@@ -148,17 +148,44 @@ export default function InvitationsLandingPage() {
           </div>
           <div className="mx-auto mt-4 grid max-w-2xl grid-cols-2 gap-3 sm:gap-5">
             {INVITATION_DEMOS.map((demo) => (
-              <article key={demo.key} className="overflow-hidden rounded-xl border border-[#E8E0D4] bg-[#FCFAF6]">
-                <a href={demo.href} target="_blank" rel="noopener noreferrer" aria-label={`Ver invitación de ${demo.label}`} className="block bg-[#F0E8DB] p-2.5 sm:p-3">
-                  <div className="flex aspect-[4/5] w-full max-w-[280px] flex-col items-center justify-center rounded-lg border border-white/80 bg-[#FCFAF6] px-4 text-center">
-                    <span className="font-[var(--font-display)] text-2xl font-semibold text-[#263D4B]">{demo.label}</span>
-                    <span className="mt-2 text-xs text-[#746A5D]">Invitación de ejemplo</span>
-                  </div>
+              <article key={demo.key} className="overflow-hidden rounded-2xl border border-[#E8E0D4] bg-[#FCFAF6] shadow-[0_8px_24px_rgba(55,45,32,.045)]">
+                <a href={demo.href} target="_blank" rel="noopener noreferrer" aria-label={`Explorar inspiración de ${demo.label}`} className="group block p-2.5 sm:p-3">
+                  {demo.key === "boda" ? (
+                    <div className="relative flex aspect-[4/5] w-full flex-col items-center justify-center overflow-hidden rounded-xl border border-[#E7DECF] bg-[#F4F0E7] px-3 text-center">
+                      <span aria-hidden="true" className="absolute -left-8 -top-8 h-28 w-28 rounded-full border border-[#9EAF9A]/50" />
+                      <span aria-hidden="true" className="absolute -bottom-10 -right-7 h-36 w-36 rounded-full border border-[#C5A66A]/45" />
+                      <span className="relative text-[9px] font-semibold uppercase tracking-[.28em] text-[#788A76]">Una celebración</span>
+                      <span className="relative mt-4 font-[var(--font-display)] text-[clamp(1.7rem,5vw,2.5rem)] font-semibold leading-none tracking-[-.04em] text-[#263D4B]">Boda</span>
+                      <span aria-hidden="true" className="relative my-4 flex items-center gap-2 text-[#B3925F]"><span className="h-px w-7 bg-[#C5A66A]" />✦<span className="h-px w-7 bg-[#C5A66A]" /></span>
+                      <span className="relative max-w-[13rem] font-[var(--font-display)] text-xs italic leading-relaxed text-[#777467] sm:text-sm">Un día para recordar, una historia para celebrar</span>
+                      <span className="relative mt-5 text-[9px] uppercase tracking-[.2em] text-[#788A76]">Natural · Atemporal</span>
+                      <span aria-hidden="true" className="absolute bottom-4 left-4 h-2 w-2 rounded-full bg-[#9EAF9A]" />
+                      <span aria-hidden="true" className="absolute bottom-4 left-8 h-2 w-2 rounded-full bg-[#F6F1E7] ring-1 ring-[#D9D0C1]" />
+                      <span aria-hidden="true" className="absolute bottom-4 left-12 h-2 w-2 rounded-full bg-[#C5A66A]" />
+                    </div>
+                  ) : (
+                    <div className="relative flex aspect-[4/5] w-full flex-col items-center justify-center overflow-hidden rounded-xl border border-[#E9D6D9] bg-[#F5E8E9] px-3 text-center">
+                      <span aria-hidden="true" className="absolute left-3 top-3 h-10 w-10 rounded-full border border-[#C58F9B]/50" />
+                      <span aria-hidden="true" className="absolute right-3 top-3 h-10 w-10 rounded-full border border-[#C5A66A]/55" />
+                      <span aria-hidden="true" className="absolute -bottom-10 -left-8 h-36 w-36 rounded-full border border-[#C58F9B]/40" />
+                      <span className="relative text-[9px] font-semibold uppercase tracking-[.25em] text-[#A76D7C]">Un día especial</span>
+                      <span className="relative mt-4 font-[var(--font-display)] text-[clamp(1.55rem,4.8vw,2.35rem)] font-semibold leading-none tracking-[-.04em] text-[#633F50]">XV años</span>
+                      <span aria-hidden="true" className="relative my-4 text-xl text-[#B88B66]">✧</span>
+                      <span className="relative max-w-[13rem] font-[var(--font-display)] text-xs italic leading-relaxed text-[#856A75] sm:text-sm">Una noche para brillar y crear recuerdos</span>
+                      <span className="relative mt-5 text-[9px] uppercase tracking-[.2em] text-[#A76D7C]">Delicado · Especial</span>
+                      <span aria-hidden="true" className="absolute bottom-4 left-4 h-2 w-2 rounded-full bg-[#D49AA9]" />
+                      <span aria-hidden="true" className="absolute bottom-4 left-8 h-2 w-2 rounded-full bg-[#F2DDE1] ring-1 ring-[#D9BFC4]" />
+                      <span aria-hidden="true" className="absolute bottom-4 left-12 h-2 w-2 rounded-full bg-[#C5A66A]" />
+                    </div>
+                  )}
                 </a>
-                <div className="flex items-center justify-between gap-2 px-3 py-3 sm:px-4">
-                  <h3 className="font-[var(--font-display)] text-base font-semibold text-[#263D4B] sm:text-lg">{demo.label}</h3>
-                  <a href={demo.href} target="_blank" rel="noopener noreferrer" aria-label={`Abrir demo de ${demo.label}`} className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#CDB99D] text-[#34465D] transition hover:bg-white">
-                    <ArrowRight size={15} />
+                <div className="flex items-center justify-between gap-2 px-3 pb-3 pt-1 sm:px-4 sm:pb-4">
+                  <div className="min-w-0">
+                    <h3 className="font-[var(--font-display)] text-base font-semibold text-[#263D4B] sm:text-lg">{demo.label}</h3>
+                    <p className="mt-0.5 text-[10px] text-[#82786B] sm:text-xs">{demo.key === "boda" ? "Editorial · Marfil y salvia" : "Romántico · Rosa y champagne"}</p>
+                  </div>
+                  <a href={demo.href} target="_blank" rel="noopener noreferrer" aria-label={`Abrir ejemplo de ${demo.label}`} className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#CDB99D] text-[#34465D] transition group-hover:bg-[#F8F4EC] hover:bg-white">
+                    <ArrowRight size={16} />
                   </a>
                 </div>
               </article>

@@ -7052,62 +7052,94 @@
 }
 
 
-/* NOIR CHAMPAGNE — portada móvil alineada al sistema común.
-   Conserva la identidad oscura, pero elimina la placa y los solapamientos especiales. */
+
+/* NOIR CHAMPAGNE — neutralizar estilos heredados y volver al esqueleto compartido.
+   Se conserva la identidad cromática y tipográfica; se retiran marcos y solapes propios. */
+.invitation-public.invitation-template-noir_champagne .invitation-hero {
+  --hero-copy-space: 13rem !important;
+  min-height: clamp(34rem, 82svh, 49rem) !important;
+  height: auto !important;
+  padding: 0 1.25rem !important;
+  align-items: flex-end !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+  background: var(--inv-background) !important;
+  text-align: center !important;
+}
+.invitation-public.invitation-template-noir_champagne .invitation-hero-content {
+  position: relative !important;
+  inset: auto !important;
+  transform: none !important;
+  width: 100% !important;
+  max-width: 58rem !important;
+  min-height: var(--hero-copy-space) !important;
+  margin: 0 auto !important;
+  padding: 1.15rem 1rem 1.55rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: .45rem !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: var(--inv-background) !important;
+  color: var(--inv-title) !important;
+  text-align: center !important;
+}
+.invitation-public.invitation-template-noir_champagne .invitation-hero-content::before {
+  content: none !important;
+  display: none !important;
+}
+.invitation-public.invitation-template-noir_champagne .invitation-hero::before,
+.invitation-public.invitation-template-noir_champagne .invitation-hero::after {
+  content: none !important;
+  display: none !important;
+}
+.invitation-public.invitation-template-noir_champagne .invitation-hero-frame {
+  display: none !important;
+}
+.invitation-public.invitation-template-noir_champagne .invitation-hero-overlay {
+  inset: 0 0 var(--hero-copy-space) !important;
+  background: linear-gradient(180deg, rgba(12,11,10,.04) 24%, rgba(12,11,10,.34) 100%) !important;
+}
+.invitation-public.invitation-template-noir_champagne .invitation-hero-title {
+  max-width: 16ch !important;
+  color: var(--inv-title) !important;
+  font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(2rem, 6.4vw, 4.4rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.02 !important;
+  letter-spacing: -.025em !important;
+  text-transform: none !important;
+  text-shadow: none !important;
+}
+.invitation-public.invitation-template-noir_champagne .invitation-hero-eyebrow,
+.invitation-public.invitation-template-noir_champagne .invitation-hero-date {
+  color: var(--inv-accent) !important;
+}
 @media (max-width: 639px) {
   .invitation-public.invitation-template-noir_champagne .invitation-hero {
     min-height: clamp(29rem, 76svh, 39rem) !important;
-    height: auto !important;
     padding: 0 .65rem !important;
-    align-items: flex-end !important;
-    overflow: hidden !important;
-    background: var(--inv-background) !important;
-  }
-  .invitation-public.invitation-template-noir_champagne .invitation-hero-image,
-  .invitation-public.invitation-template-noir_champagne .invitation-hero-overlay {
-    inset: 0 !important;
-    background-position: center 40% !important;
-    background-size: cover !important;
-  }
-  .invitation-public.invitation-template-noir_champagne .invitation-hero-image-backdrop {
-    display: none !important;
-  }
-  .invitation-public.invitation-template-noir_champagne .invitation-hero-frame {
-    display: none !important;
   }
   .invitation-public.invitation-template-noir_champagne .invitation-hero-content {
-    position: relative !important;
-    inset: auto !important;
-    transform: none !important;
-    width: 100% !important;
-    min-height: var(--hero-copy-space, 11rem) !important;
-    margin: 0 auto !important;
+    min-height: var(--hero-copy-space) !important;
     padding: 1rem .8rem 1.25rem !important;
-    align-items: center !important;
-    justify-content: center !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    background: var(--inv-background) !important;
-    text-align: center !important;
   }
   .invitation-public.invitation-template-noir_champagne .invitation-hero-title {
     max-width: 15ch !important;
-    color: var(--inv-title) !important;
-    font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
     font-size: clamp(1.85rem, 8vw, 3rem) !important;
-    line-height: 1.04 !important;
-    letter-spacing: 0 !important;
-    text-shadow: none !important;
-  }
-  .invitation-public.invitation-template-noir_champagne .invitation-hero-eyebrow,
-  .invitation-public.invitation-template-noir_champagne .invitation-hero-date {
-    color: var(--inv-accent) !important;
   }
 }
-/* Escritorio: fotografía vertical completa; el desenfoque sólo ocupa el área
-   fotográfica y termina antes del panel de nombres, evitando bandas inferiores. */
 @media (min-width: 1024px) {
+  /* El panel inferior cubre el ancho completo para que no aparezca una banda
+     desenfocada debajo ni a los costados de la placa. */
+  .invitation-public.invitation-template-noir_champagne .invitation-hero-content {
+    width: 100% !important;
+    max-width: none !important;
+  }
   .invitation-public .invitation-hero-image.invitation-hero-image-portrait {
     inset: 0 0 var(--hero-copy-space, 14rem) 0 !important;
     background-size: contain !important;
@@ -7117,7 +7149,8 @@
   }
   .invitation-public .invitation-hero-image-backdrop.invitation-hero-image-portrait-backdrop {
     display: block !important;
-    inset: 0 0 var(--hero-copy-space, 14rem) 0 !important;
+    inset: 0 !important;
+    clip-path: inset(0 0 var(--hero-copy-space, 14rem) 0) !important;
     background-size: cover !important;
     background-position: center center !important;
     background-repeat: no-repeat !important;

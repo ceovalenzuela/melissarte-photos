@@ -7197,49 +7197,65 @@
   }
 }
 
-/* La proporción 2:3 se aplica únicamente en móvil. En escritorio
-   se conserva el comportamiento original de cada plantilla. */
+
+/* Portada estructurada: fotografía y placa de nombres independientes. */
+.invitation-public .invitation-hero-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  position: relative;
+}
+.invitation-public .invitation-hero-shell > .invitation-hero,
+.invitation-public .invitation-hero-shell > .invitation-hero-content {
+  grid-column: 1;
+  grid-row: 1;
+}
+.invitation-public .invitation-hero-shell > .invitation-hero-content {
+  align-self: end;
+}
 @media (max-width: 639px) {
-  .invitation-public .invitation-hero.invitation-hero-has-cover {
-    aspect-ratio: 2 / 3 !important;
-    width: 100% !important;
-    height: auto !important;
-    min-height: 0 !important;
-    max-height: none !important;
-    box-sizing: border-box !important;
-    overflow: hidden !important;
+  .invitation-public .invitation-hero-shell {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0;
   }
-  .invitation-public .invitation-hero-has-cover .invitation-hero-image {
+  .invitation-public .invitation-hero-shell > .invitation-hero {
+    width: 100% !important;
+    min-height: 0 !important;
+    height: auto !important;
+    aspect-ratio: 2 / 3 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    align-items: stretch !important;
+  }
+  .invitation-public .invitation-hero-shell > .invitation-hero .invitation-hero-image {
     inset: 0 !important;
     background-size: cover !important;
     background-position: center center !important;
     background-repeat: no-repeat !important;
     transform: none !important;
   }
-  /* El relleno desenfocado se reserva exclusivamente para escritorio. */
-  .invitation-public .invitation-hero-has-cover .invitation-hero-image-backdrop {
+  .invitation-public .invitation-hero-shell > .invitation-hero .invitation-hero-image-backdrop {
     display: none !important;
   }
-}
-
-
-/* En escritorio, las portadas verticales se muestran completas sobre un
-   relleno desenfocado; no se modifica el tamaño ni la proporción del hero. */
-@media (min-width: 640px) {
-  .invitation-public .invitation-hero-has-cover .invitation-hero-image {
-    background-size: contain !important;
-    background-position: center center !important;
-    background-repeat: no-repeat !important;
-    transform: none !important;
+  .invitation-public .invitation-hero-shell > .invitation-hero .invitation-hero-overlay {
+    inset: 0 !important;
   }
-  .invitation-public .invitation-hero-has-cover .invitation-hero-image-backdrop {
-    display: block !important;
-    inset: -3% !important;
-    background-size: cover !important;
-    background-position: center center !important;
-    background-repeat: no-repeat !important;
-    filter: blur(30px) saturate(.8) brightness(.7) !important;
-    transform: scale(1.06) !important;
-    opacity: .82 !important;
+  .invitation-public .invitation-hero-shell > .invitation-hero-content {
+    position: relative !important;
+    inset: auto !important;
+    align-self: stretch !important;
+    width: calc(100% - 2rem) !important;
+    max-width: 58rem !important;
+    min-height: 0 !important;
+    margin: -1.25rem auto 0 !important;
+    z-index: 5 !important;
+  }
+}
+@media (min-width: 640px) {
+  .invitation-public .invitation-hero-shell > .invitation-hero-content {
+    position: relative !important;
+    width: min(100%, 58rem) !important;
+    margin-inline: auto !important;
+    z-index: 5 !important;
   }
 }

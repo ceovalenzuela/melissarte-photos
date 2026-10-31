@@ -6293,73 +6293,6 @@
   background-image: radial-gradient(ellipse at 100% 0%, rgba(181, 193, 161, .18), transparent 36%) !important;
 }
 
-/* 02 — NOIR CHAMPAGNE: editorial nocturna, geometría fina y contraste cinematográfico. */
-.invitation-public.invitation-template-noir_champagne {
-  --hero-copy-space: 13rem;
-  background: var(--inv-background) !important;
-  color: var(--inv-text) !important;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-hero-overlay {
-  background: linear-gradient(180deg, rgba(12, 11, 10, .04) 24%, rgba(12, 11, 10, .4) 100%) !important;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-hero-content {
-  background: var(--inv-background) !important;
-  border-top: 1px solid var(--inv-border) !important;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-hero-content::before {
-  content: "UNA NOCHE PARA RECORDAR" !important;
-  color: var(--inv-accent) !important;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-hero-title {
-  color: var(--inv-title) !important;
-  font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
-  font-size: clamp(2.25rem, 6.5vw, 4.4rem) !important;
-  font-weight: 400 !important;
-  letter-spacing: .025em !important;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-hero-date { color: var(--inv-accent) !important; }
-.invitation-public.invitation-template-noir_champagne .invitation-hero::before {
-  content: "" !important;
-  position: absolute !important;
-  inset: 1rem !important;
-  z-index: 1 !important;
-  border: 1px solid rgba(230, 207, 162, .72) !important;
-  outline: 1px solid rgba(230, 207, 162, .25) !important;
-  outline-offset: 5px !important;
-  background: none !important;
-  width: auto !important;
-  height: auto !important;
-  pointer-events: none;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-hero::after {
-  content: "✦" !important;
-  position: absolute !important;
-  z-index: 2 !important;
-  top: 1.5rem !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  color: #E4C891 !important;
-  font-size: 1.2rem !important;
-  background: none !important;
-  border: 0 !important;
-  width: auto !important;
-  height: auto !important;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-details-section {
-  background: linear-gradient(180deg, var(--inv-background), color-mix(in srgb, var(--inv-background) 88%, #000000)) !important;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-countdown-grid {
-  border-top: 1px solid var(--inv-border) !important;
-  border-bottom: 1px solid var(--inv-border) !important;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-location-card {
-  border-radius: .4rem !important;
-  box-shadow: 0 16px 40px rgba(0,0,0,.22) !important;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-footer {
-  background: #1B1917 !important;
-}
-
 /* 03 — VELVET ROYALE: borgoña, terciopelo y elegancia de gala para XV años. */
 .invitation-public.invitation-template-velvet_royale {
   --hero-copy-space: 14rem;
@@ -7053,109 +6986,172 @@
 
 
 
-/* NOIR CHAMPAGNE — neutralizar estilos heredados y volver al esqueleto compartido.
-   Se conserva la identidad cromática y tipográfica; se retiran marcos y solapes propios. */
+
+
+/* ==========================================================================
+   NOIR ATELIER — nueva identidad visual
+   Misma composición insignia de Editorial; identidad carbón y champagne.
+   Sin marcos superpuestos, placas flotantes ni ornamentos estructurales.
+   ========================================================================== */
+.invitation-public.invitation-template-noir_champagne {
+  --inv-background: #211F1D !important;
+  --inv-surface: #292522 !important;
+  --inv-title: #F5EFE5 !important;
+  --inv-text: #D8D0C4 !important;
+  --inv-accent: #C6A66B !important;
+  --inv-border: rgba(198,166,107,.48) !important;
+  background: #211F1D !important;
+  color: #D8D0C4 !important;
+}
 .invitation-public.invitation-template-noir_champagne .invitation-hero {
-  --hero-copy-space: 13rem !important;
+  --hero-copy-space: clamp(8.25rem, 29%, 10.75rem) !important;
   min-height: clamp(34rem, 82svh, 49rem) !important;
   height: auto !important;
   padding: 0 1.25rem !important;
+  display: flex !important;
   align-items: flex-end !important;
   justify-content: center !important;
   overflow: hidden !important;
   isolation: isolate !important;
-  background: var(--inv-background) !important;
+  background: #211F1D !important;
   text-align: center !important;
+}
+.invitation-public.invitation-template-noir_champagne .invitation-hero-image,
+.invitation-public.invitation-template-noir_champagne .invitation-hero-image-backdrop {
+  inset: 0 0 var(--hero-copy-space) !important;
+}
+.invitation-public.invitation-template-noir_champagne .invitation-hero-image {
+  background-size: cover !important;
+  background-position: center 42% !important;
+  filter: saturate(.72) contrast(1.04) brightness(.88) !important;
+  transform: none !important;
+}
+.invitation-public.invitation-template-noir_champagne .invitation-hero-image-backdrop {
+  display: none !important;
+}
+.invitation-public.invitation-template-noir_champagne .invitation-hero-overlay {
+  inset: 0 0 var(--hero-copy-space) !important;
+  background: linear-gradient(180deg, rgba(18,16,14,.04) 45%, rgba(18,16,14,.34) 100%) !important;
+}
+.invitation-public.invitation-template-noir_champagne .invitation-hero-frame,
+.invitation-public.invitation-template-noir_champagne .invitation-hero::before,
+.invitation-public.invitation-template-noir_champagne .invitation-hero::after {
+  display: none !important;
+  content: none !important;
 }
 .invitation-public.invitation-template-noir_champagne .invitation-hero-content {
   position: relative !important;
   inset: auto !important;
   transform: none !important;
+  z-index: 3 !important;
   width: 100% !important;
   max-width: 58rem !important;
   min-height: var(--hero-copy-space) !important;
   margin: 0 auto !important;
-  padding: 1.15rem 1rem 1.55rem !important;
+  padding: 1.2rem 1rem 1.55rem !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
   gap: .45rem !important;
   border: 0 !important;
+  border-top: 1px solid rgba(198,166,107,.55) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
-  background: var(--inv-background) !important;
-  color: var(--inv-title) !important;
+  background: #211F1D !important;
+  color: #F5EFE5 !important;
   text-align: center !important;
 }
 .invitation-public.invitation-template-noir_champagne .invitation-hero-content::before {
-  content: none !important;
-  display: none !important;
+  content: "NOIR ATELIER" !important;
+  display: block !important;
+  margin-bottom: .25rem !important;
+  color: #C6A66B !important;
+  font: 600 .62rem/1.3 var(--font-sans), Arial, sans-serif !important;
+  letter-spacing: .28em !important;
 }
-.invitation-public.invitation-template-noir_champagne .invitation-hero::before,
-.invitation-public.invitation-template-noir_champagne .invitation-hero::after {
-  content: none !important;
-  display: none !important;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-hero-frame {
-  display: none !important;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-hero-overlay {
-  inset: 0 0 var(--hero-copy-space) !important;
-  background: linear-gradient(180deg, rgba(12,11,10,.04) 24%, rgba(12,11,10,.34) 100%) !important;
+.invitation-public.invitation-template-noir_champagne .invitation-hero-eyebrow {
+  color: #C6A66B !important;
+  font: 600 .62rem/1.3 var(--font-sans), Arial, sans-serif !important;
+  letter-spacing: .24em !important;
+  text-transform: uppercase !important;
 }
 .invitation-public.invitation-template-noir_champagne .invitation-hero-title {
   max-width: 16ch !important;
-  color: var(--inv-title) !important;
+  margin: 0 auto !important;
+  color: #F5EFE5 !important;
   font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
   font-size: clamp(2rem, 6.4vw, 4.4rem) !important;
   font-weight: 400 !important;
   line-height: 1.02 !important;
-  letter-spacing: -.025em !important;
+  letter-spacing: -.035em !important;
   text-transform: none !important;
   text-shadow: none !important;
 }
-.invitation-public.invitation-template-noir_champagne .invitation-hero-eyebrow,
 .invitation-public.invitation-template-noir_champagne .invitation-hero-date {
-  color: var(--inv-accent) !important;
+  margin: .3rem 0 0 !important;
+  color: #C6A66B !important;
+  font: 600 .72rem/1.5 var(--font-sans), Arial, sans-serif !important;
+  letter-spacing: .17em !important;
+  text-transform: uppercase !important;
+}
+.invitation-public.invitation-template-noir_champagne #detalles {
+  background: linear-gradient(180deg, #211F1D, #292522) !important;
+  color: #D8D0C4 !important;
+}
+.invitation-public.invitation-template-noir_champagne #detalles .invitation-intro-block > h2,
+.invitation-public.invitation-template-noir_champagne .invitation-details-title {
+  color: #C6A66B !important;
+}
+.invitation-public.invitation-template-noir_champagne .invitation-details-rule {
+  background: #C6A66B !important;
+}
+.invitation-public.invitation-template-noir_champagne .invitation-countdown-grid {
+  border-top: 1px solid rgba(198,166,107,.42) !important;
+  border-bottom: 1px solid rgba(198,166,107,.42) !important;
+}
+.invitation-public.invitation-template-noir_champagne .invitation-location-card {
+  border: 1px solid rgba(198,166,107,.55) !important;
+  border-radius: .6rem !important;
+  box-shadow: none !important;
+}
+.invitation-public.invitation-template-noir_champagne .invitation-footer {
+  background: #1B1917 !important;
 }
 @media (max-width: 639px) {
   .invitation-public.invitation-template-noir_champagne .invitation-hero {
-    min-height: clamp(29rem, 76svh, 39rem) !important;
+    min-height: clamp(34rem, 82svh, 46rem) !important;
     padding: 0 .65rem !important;
   }
   .invitation-public.invitation-template-noir_champagne .invitation-hero-content {
     min-height: var(--hero-copy-space) !important;
-    padding: 1rem .8rem 1.25rem !important;
+    padding: 1rem .8rem 1.3rem !important;
+  }
+  .invitation-public.invitation-template-noir_champagne .invitation-hero-content::before {
+    font-size: .56rem !important;
   }
   .invitation-public.invitation-template-noir_champagne .invitation-hero-title {
-    max-width: 15ch !important;
-    font-size: clamp(1.85rem, 8vw, 3rem) !important;
+    font-size: clamp(1.9rem, 8vw, 3rem) !important;
   }
 }
 @media (min-width: 1024px) {
-  /* El panel inferior cubre el ancho completo para que no aparezca una banda
-     desenfocada debajo ni a los costados de la placa. */
   .invitation-public.invitation-template-noir_champagne .invitation-hero-content {
     width: 100% !important;
-    max-width: none !important;
+    max-width: 58rem !important;
   }
-  .invitation-public .invitation-hero-image.invitation-hero-image-portrait {
-    inset: 0 0 var(--hero-copy-space, 14rem) 0 !important;
+  .invitation-public.invitation-template-noir_champagne .invitation-hero-image.invitation-hero-image-portrait {
     background-size: contain !important;
     background-position: center center !important;
     background-repeat: no-repeat !important;
-    transform: none !important;
   }
-  .invitation-public .invitation-hero-image-backdrop.invitation-hero-image-portrait-backdrop {
+  .invitation-public.invitation-template-noir_champagne .invitation-hero-image-backdrop.invitation-hero-image-portrait-backdrop {
     display: block !important;
     inset: 0 !important;
-    clip-path: inset(0 0 var(--hero-copy-space, 14rem) 0) !important;
+    clip-path: inset(0 0 var(--hero-copy-space) 0) !important;
     background-size: cover !important;
     background-position: center center !important;
-    background-repeat: no-repeat !important;
-    filter: blur(28px) saturate(.82) brightness(.72) !important;
+    filter: blur(28px) saturate(.78) brightness(.68) !important;
     transform: scale(1.04) !important;
-    opacity: .82 !important;
+    opacity: .8 !important;
   }
 }

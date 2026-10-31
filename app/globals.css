@@ -7000,3 +7000,58 @@
     transition: none !important;
   }
 }
+
+
+/* Shared editable introduction headline: one source for the hero and intro section. */
+.invitation-public:is(
+  .invitation-template-editorial-flagship,
+  .invitation-template-wedding_editorial,
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-hero-content::before {
+  content: none !important;
+  display: none !important;
+}
+.invitation-public:is(
+  .invitation-template-editorial-flagship,
+  .invitation-template-wedding_editorial,
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-hero-eyebrow {
+  display: block !important;
+  margin: 0 auto .45rem !important;
+  max-width: 32rem;
+  font-family: var(--font-sans), Arial, sans-serif !important;
+  font-size: clamp(.5rem, 1.2vw, .68rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.5 !important;
+  letter-spacing: .2em !important;
+  text-align: center !important;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+/* Noir Champagne: retain the desktop overlapping nameplate and bring the same detail to mobile. */
+@media (max-width: 639px) {
+  .invitation-public.invitation-template-noir_champagne .invitation-hero-content {
+    min-height: calc(var(--hero-copy-space) + 1.25rem) !important;
+    transform: translateY(-1.25rem);
+    padding-bottom: 2.55rem !important;
+    border-top: 1px solid var(--inv-border) !important;
+    box-shadow: 0 -12px 30px rgba(0,0,0,.12) !important;
+  }
+}

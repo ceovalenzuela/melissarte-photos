@@ -150,18 +150,19 @@ export default function InvitationsLandingPage() {
             {INVITATION_DEMOS.map((demo) => (
               <article key={demo.key} className="overflow-hidden rounded-2xl border border-[#E8E0D4] bg-[#FCFAF6] shadow-[0_8px_24px_rgba(55,45,32,.045)]">
                 <a href={demo.href} target="_blank" rel="noopener noreferrer" aria-label={`Explorar inspiración de ${demo.label}`} className="group block p-2.5 sm:p-3">
-                  <div className={`relative flex aspect-[4/5] w-full flex-col items-center justify-center overflow-hidden rounded-xl border px-3 text-center ${demo.key === "boda" ? "border-[#E5DFD2] bg-[#F4F1E9]" : "border-[#EADDE0] bg-[#F5ECEE]"}`}>
-                    <span className={`text-[9px] font-semibold uppercase tracking-[.24em] ${demo.key === "boda" ? "text-[#879783]" : "text-[#AD7D89]"}`}>Inspiración</span>
-                    <span className={`mt-2 font-[var(--font-display)] text-[clamp(1.65rem,5vw,2.35rem)] font-semibold leading-none tracking-[-.04em] ${demo.key === "boda" ? "text-[#263D4B]" : "text-[#684957]"}`}>{demo.label}</span>
-                    <span aria-hidden="true" className="my-3 flex items-center gap-2">
-                      <span className={`h-px w-7 ${demo.key === "boda" ? "bg-[#C5A66A]" : "bg-[#C99AA5]"}`} />
-                      <span className={`text-sm ${demo.key === "boda" ? "text-[#B3925F]" : "text-[#B88B66]"}`}>✦</span>
-                      <span className={`h-px w-7 ${demo.key === "boda" ? "bg-[#C5A66A]" : "bg-[#C99AA5]"}`} />
-                    </span>
-                    <span className={`max-w-[13rem] font-[var(--font-display)] text-xs italic leading-relaxed sm:text-sm ${demo.key === "boda" ? "text-[#777467]" : "text-[#856A75]"}`}>
-                      {demo.key === "boda" ? "Un día para recordar, una historia para celebrar" : "Una noche para brillar y crear recuerdos"}
-                    </span>
-                    <span className="mt-4 flex items-center gap-2" aria-label={demo.key === "boda" ? "Paleta marfil, salvia y dorado" : "Paleta rosa, champagne y malva"}>
+                  <div className={`relative flex aspect-[4/5] w-full items-center justify-center overflow-hidden rounded-xl border px-3 text-center ${demo.key === "boda" ? "border-[#E5DFD2] bg-[#F4F1E9]" : "border-[#EADDE0] bg-[#F5ECEE]"}`}>
+                    <div className="grid w-full grid-rows-[12px_44px_20px_60px_12px] content-center justify-items-center gap-y-3">
+                      <span className={`text-[9px] font-semibold uppercase leading-3 tracking-[.24em] ${demo.key === "boda" ? "text-[#879783]" : "text-[#AD7D89]"}`}>Inspiración</span>
+                      <span className={`flex h-11 items-center font-[var(--font-display)] text-[clamp(1.65rem,5vw,2.35rem)] font-semibold leading-none tracking-[-.04em] ${demo.key === "boda" ? "text-[#263D4B]" : "text-[#684957]"}`}>{demo.label}</span>
+                      <span aria-hidden="true" className="flex h-5 items-center gap-2">
+                        <span className={`h-px w-7 ${demo.key === "boda" ? "bg-[#C5A66A]" : "bg-[#C99AA5]"}`} />
+                        <span className={`text-sm ${demo.key === "boda" ? "text-[#B3925F]" : "text-[#B88B66]"}`}>✦</span>
+                        <span className={`h-px w-7 ${demo.key === "boda" ? "bg-[#C5A66A]" : "bg-[#C99AA5]"}`} />
+                      </span>
+                      <span className={`flex h-[60px] max-w-[13rem] items-center justify-center font-[var(--font-display)] text-xs italic leading-relaxed sm:text-sm ${demo.key === "boda" ? "text-[#777467]" : "text-[#856A75]"}`}>
+                        {demo.key === "boda" ? "Un día para recordar, una historia para celebrar" : "Una noche para brillar y crear recuerdos"}
+                      </span>
+                      <span className="flex h-3 items-center gap-2" aria-label={demo.key === "boda" ? "Paleta marfil, salvia y dorado" : "Paleta rosa, champagne y malva"}>
                       {demo.key === "boda" ? (
                         <>
                           <span className="h-3 w-3 rounded-full bg-[#F6F1E7] ring-1 ring-[#D9D0C1]" />
@@ -175,7 +176,7 @@ export default function InvitationsLandingPage() {
                           <span className="h-3 w-3 rounded-full bg-[#C5A66A]" />
                         </>
                       )}
-                    </span>
+                    </div>
                   </div>
                 </a>                <div className="flex items-center justify-between gap-2 px-3 pb-3 pt-1 sm:px-4 sm:pb-4">
                   <div className="min-w-0">

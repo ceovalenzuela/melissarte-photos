@@ -403,7 +403,7 @@ export default function PublicInvitationClient({
                 className="invitation-hero-eyebrow"
                 style={{ color: accent }}
               >
-                {content.intro_headline?.trim() || defaultIntroHeadline(templateKey)}
+                {content.event_label?.trim() || defaultEventLabel(templateKey)}
               </p>
               <h1 className="invitation-hero-title font-[var(--font-display)] text-4xl leading-tight sm:text-6xl lg:text-7xl" style={isEditorialFlagship ? { color: "#293746", textShadow: "none" } : undefined}>{content.headline || invitation.event_title}</h1>
               {invitation.event_date && <p className="invitation-hero-date mt-5 text-[1.1rem] font-semibold uppercase tracking-[0.16em] sm:mt-6 sm:text-xl sm:tracking-[0.2em] lg:text-[1.4rem]" style={isEditorialFlagship ? { color: "#625D55", textShadow: "none" } : undefined}>{formatDate(invitation.event_date)}</p>}

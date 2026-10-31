@@ -7,6 +7,7 @@ import {
   Camera,
   Check,
   MessageCircle,
+  Sparkles,
 } from "lucide-react";
 
 export const metadata = {

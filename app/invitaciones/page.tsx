@@ -34,16 +34,6 @@ const INVITATION_DEMOS = [
     label: "XV años",
     href: "https://events.melissartedecorativo.com/i/xv",
   },
-  {
-    key: "baby-shower",
-    label: "Baby Shower",
-    href: "https://events.melissartedecorativo.com/i/baby-shower-valeria-mateo-demo",
-  },
-  {
-    key: "bautizo",
-    label: "Bautizo",
-    href: "https://events.melissartedecorativo.com/i/bautizo-emilia-demo",
-  },
 ] as const;
 
 const GALLERY_URL =
@@ -93,8 +83,9 @@ export default function InvitationsLandingPage() {
             />
           </a>
           <nav className="hidden items-center gap-6 text-sm text-[#625A50] md:flex">
-            <a href="#opciones" className="transition hover:text-[#9A7544]">Precios</a>
-            <a href="#demos" className="transition hover:text-[#9A7544]">Ver demos</a>
+            <a href="/crear-invitacion" className="transition hover:text-[#9A7544]">Crear invitación</a>
+            <a href="#demos" className="transition hover:text-[#9A7544]">Ejemplos</a>
+            <a href="#opciones" className="transition hover:text-[#9A7544]">Paquetes</a>
             <a href="#galeria" className="transition hover:text-[#9A7544]">Galería digital</a>
           </nav>
           <a
@@ -122,14 +113,14 @@ export default function InvitationsLandingPage() {
             <span className="block text-[#A88249]">una gran invitación.</span>
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#625A50] sm:text-base">
-            Comparte los detalles de tu evento y facilita las confirmaciones desde un solo enlace.
+            Elige uno de nuestros 10 diseños, personaliza los detalles de tu evento y comparte tu invitación desde un solo enlace.
           </p>
           <div className="mt-5 flex flex-col justify-center gap-2 sm:flex-row">
             <a
-              href="#opciones"
+              href="/crear-invitacion"
               className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#263D4B] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[#172C38]"
             >
-              Ver precios y comprar <ArrowRight size={16} />
+              Crear mi invitación <ArrowRight size={16} />
             </a>
             <a
               href="#demos"
@@ -146,15 +137,81 @@ export default function InvitationsLandingPage() {
         </div>
       </section>
 
+      <section id="demos" className="scroll-mt-5 px-5 py-8 sm:px-8 sm:py-10">
+        <div className="mx-auto max-w-5xl">
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#A88249]">Inspírate</p>
+              <h2 className="mt-1 font-[var(--font-display)] text-2xl font-semibold text-[#20262B] sm:text-3xl">Conoce nuestros ejemplos</h2>
+            </div>
+            <p className="text-xs text-[#746A5D]">Abre cada demo para verla completa.</p>
+          </div>
+          <div className="mx-auto mt-4 grid max-w-2xl grid-cols-2 gap-3 sm:gap-5">
+            {INVITATION_DEMOS.map((demo) => (
+              <article key={demo.key} className="overflow-hidden rounded-xl border border-[#E8E0D4] bg-[#FCFAF6]">
+                <a href={demo.href} target="_blank" rel="noopener noreferrer" aria-label={`Ver invitación de ${demo.label}`} className="block bg-[#F0E8DB] p-2.5 sm:p-3">
+                  <div className="relative mx-auto aspect-[4/5] w-full max-w-[280px] overflow-hidden rounded-lg border border-white/80 bg-white">
+                    <iframe
+                      title={`Vista previa de invitación demo de ${demo.label}`}
+                      src={demo.href}
+                      loading="lazy"
+                      className={`pointer-events-none absolute inset-0 border-0 bg-white ${
+                        demo.key === "baby-shower" || demo.key === "bautizo"
+                          ? "h-[125%] w-[125%] origin-top-left scale-[0.8]"
+                          : "h-full w-full"
+                      }`}
+                    />
+                  </div>
+                </a>
+                <div className="flex items-center justify-between gap-2 px-3 py-3 sm:px-4">
+                  <h3 className="font-[var(--font-display)] text-base font-semibold text-[#263D4B] sm:text-lg">{demo.label}</h3>
+                  <a href={demo.href} target="_blank" rel="noopener noreferrer" aria-label={`Abrir demo de ${demo.label}`} className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#CDB99D] text-[#34465D] transition hover:bg-white">
+                    <ArrowRight size={15} />
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="crear" className="scroll-mt-5 border-y border-[#E8E0D4] bg-[#FFFEFC] px-5 py-8 sm:px-8 sm:py-10">
+        <div className="mx-auto grid max-w-5xl items-center gap-5 md:grid-cols-[1.1fr_.9fr]">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#A88249]">Tu invitación comienza aquí</p>
+            <h2 className="mt-2 font-[var(--font-display)] text-3xl font-semibold tracking-tight text-[#20262B] sm:text-4xl">Elige tu diseño y hazla tuya</h2>
+            <p className="mt-3 max-w-xl text-sm leading-6 text-[#625A50]">Explora 10 plantillas con estilos distintos, agrega la información de tu evento y personaliza tu invitación paso a paso. Al terminar podrás elegir el paquete que mejor se adapte a lo que necesitas.</p>
+            <a href="/crear-invitacion" className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#263D4B] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[#172C38]">Explorar las 10 plantillas <ArrowRight size={16} /></a>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="rounded-2xl border border-[#E5D9C8] bg-[#F8F4EC] p-4">
+              <span className="text-xs font-semibold uppercase tracking-[.15em] text-[#A88249]">01</span>
+              <p className="mt-2 font-[var(--font-display)] text-lg font-semibold text-[#263D4B]">Elige tu estilo</p>
+              <p className="mt-1 text-xs leading-5 text-[#70675B]">Encuentra el diseño que va con tu celebración.</p>
+            </div>
+            <div className="rounded-2xl border border-[#E5D9C8] bg-[#F8F4EC] p-4">
+              <span className="text-xs font-semibold uppercase tracking-[.15em] text-[#A88249]">02</span>
+              <p className="mt-2 font-[var(--font-display)] text-lg font-semibold text-[#263D4B]">Personaliza</p>
+              <p className="mt-1 text-xs leading-5 text-[#70675B]">Agrega nombres, fecha y detalles del evento.</p>
+            </div>
+            <div className="col-span-2 rounded-2xl border border-[#E5D9C8] bg-[#263D4B] p-4 text-white">
+              <span className="text-xs font-semibold uppercase tracking-[.15em] text-[#E3C994]">03</span>
+              <p className="mt-2 font-[var(--font-display)] text-lg font-semibold">Selecciona tu paquete</p>
+              <p className="mt-1 text-xs leading-5 text-white/75">Elige Esencial o Plus según las herramientas que quieras para organizar a tus invitados.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="opciones" className="scroll-mt-5 border-y border-[#E8E0D4] bg-[#FFFEFC] px-5 py-8 sm:px-8 sm:py-11">
         <div className="mx-auto max-w-5xl">
           <div className="text-center">
-            <p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#A88249]">Elige tu opción</p>
+            <p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#A88249]">Elige tu paquete</p>
             <h2 className="mt-2 font-[var(--font-display)] text-3xl font-semibold tracking-tight text-[#20262B] sm:text-4xl">
-              Una invitación a tu medida
+              Completa tu invitación
             </h2>
             <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-[#625A50]">
-              Ambas son personalizadas. Plus añade herramientas para organizar a tus invitados.
+              Después de elegir tu diseño y personalizarlo, selecciona el paquete que mejor se adapte a tu evento.
             </p>
           </div>
 
@@ -203,44 +260,6 @@ export default function InvitationsLandingPage() {
           <p className="mt-4 text-center text-xs text-[#746A5D]">
             ¿Tienes dudas? <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#34465D] underline decoration-[#CDB99D] underline-offset-4">Escríbenos por WhatsApp</a>
           </p>
-        </div>
-      </section>
-
-      <section id="demos" className="scroll-mt-5 px-5 py-8 sm:px-8 sm:py-10">
-        <div className="mx-auto max-w-5xl">
-          <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#A88249]">Mira los diseños</p>
-              <h2 className="mt-1 font-[var(--font-display)] text-2xl font-semibold text-[#20262B] sm:text-3xl">Conoce una invitación real</h2>
-            </div>
-            <p className="text-xs text-[#746A5D]">Abre cada demo para verla completa.</p>
-          </div>
-          <div className="mt-4 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
-            {INVITATION_DEMOS.map((demo) => (
-              <article key={demo.key} className="overflow-hidden rounded-xl border border-[#E8E0D4] bg-[#FCFAF6]">
-                <a href={demo.href} target="_blank" rel="noopener noreferrer" aria-label={`Ver invitación de ${demo.label}`} className="block bg-[#F0E8DB] p-2.5 sm:p-3">
-                  <div className="relative mx-auto aspect-[4/5] w-full max-w-[280px] overflow-hidden rounded-lg border border-white/80 bg-white">
-                    <iframe
-                      title={`Vista previa de invitación demo de ${demo.label}`}
-                      src={demo.href}
-                      loading="lazy"
-                      className={`pointer-events-none absolute inset-0 border-0 bg-white ${
-                        demo.key === "baby-shower" || demo.key === "bautizo"
-                          ? "h-[125%] w-[125%] origin-top-left scale-[0.8]"
-                          : "h-full w-full"
-                      }`}
-                    />
-                  </div>
-                </a>
-                <div className="flex items-center justify-between gap-2 px-3 py-3 sm:px-4">
-                  <h3 className="font-[var(--font-display)] text-base font-semibold text-[#263D4B] sm:text-lg">{demo.label}</h3>
-                  <a href={demo.href} target="_blank" rel="noopener noreferrer" aria-label={`Abrir demo de ${demo.label}`} className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#CDB99D] text-[#34465D] transition hover:bg-white">
-                    <ArrowRight size={15} />
-                  </a>
-                </div>
-              </article>
-            ))}
-          </div>
         </div>
       </section>
 

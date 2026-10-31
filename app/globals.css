@@ -6238,29 +6238,28 @@
 /* 01 — MAISON BOTANIQUE: jardín orgánico, papel cálido y serif romántica. */
 .invitation-public.invitation-template-maison_botanique {
   --hero-copy-space: 13.4rem;
-  --inv-background: #F4F1E8;
-  background: #F4F1E8 !important;
-  color: #3C4337 !important;
+  background: var(--inv-background) !important;
+  color: var(--inv-text) !important;
 }
 .invitation-public.invitation-template-maison_botanique .invitation-hero-overlay {
   background: linear-gradient(180deg, rgba(30, 45, 32, .02) 26%, rgba(30, 45, 32, .24) 100%) !important;
 }
 .invitation-public.invitation-template-maison_botanique .invitation-hero-content {
-  background: #F4F1E8 !important;
-  border-top: 1px solid #C5CEB7 !important;
+  background: var(--inv-background) !important;
+  border-top: 1px solid var(--inv-border) !important;
 }
 .invitation-public.invitation-template-maison_botanique .invitation-hero-content::before {
-  content: "A GARDEN CELEBRATION" !important;
+  content: "CELEBRAMOS ENTRE FLORES" !important;
 }
 .invitation-public.invitation-template-maison_botanique .invitation-hero-title {
-  color: #384A3A !important;
+  color: var(--inv-title) !important;
   font-family: "Cormorant Garamond", Georgia, serif !important;
   font-style: italic !important;
   font-weight: 500 !important;
   letter-spacing: -.035em !important;
 }
 .invitation-public.invitation-template-maison_botanique .invitation-hero-date {
-  color: #68745F !important;
+  color: var(--inv-accent) !important;
 }
 .invitation-public.invitation-template-maison_botanique .invitation-hero::before,
 .invitation-public.invitation-template-maison_botanique .invitation-hero::after {
@@ -6281,10 +6280,10 @@
 .invitation-public.invitation-template-maison_botanique .invitation-hero::before { left: 1.1rem !important; transform: rotate(-34deg); }
 .invitation-public.invitation-template-maison_botanique .invitation-hero::after { right: 1.1rem !important; transform: scaleX(-1) rotate(-34deg); }
 .invitation-public.invitation-template-maison_botanique .invitation-details-section {
-  background: radial-gradient(ellipse at 0% 5%, rgba(181, 193, 161, .18), transparent 34%), #F4F1E8 !important;
+  background: radial-gradient(ellipse at 0% 5%, color-mix(in srgb, var(--inv-accent) 15%, transparent), transparent 34%), var(--inv-background) !important;
 }
 .invitation-public.invitation-template-maison_botanique .invitation-countdown-grid {
-  border-top: 1px solid #C5CEB7 !important;
+  border-top: 1px solid var(--inv-border) !important;
   border-bottom: 1px solid #C5CEB7 !important;
 }
 .invitation-public.invitation-template-maison_botanique .invitation-location-card {
@@ -6297,29 +6296,28 @@
 /* 02 — NOIR CHAMPAGNE: editorial nocturna, geometría fina y contraste cinematográfico. */
 .invitation-public.invitation-template-noir_champagne {
   --hero-copy-space: 13rem;
-  --inv-background: #211E1B;
-  background: #211E1B !important;
-  color: #EFE8DC !important;
+  background: var(--inv-background) !important;
+  color: var(--inv-text) !important;
 }
 .invitation-public.invitation-template-noir_champagne .invitation-hero-overlay {
   background: linear-gradient(180deg, rgba(12, 11, 10, .04) 24%, rgba(12, 11, 10, .4) 100%) !important;
 }
 .invitation-public.invitation-template-noir_champagne .invitation-hero-content {
-  background: #211E1B !important;
-  border-top: 1px solid #8E7957 !important;
+  background: var(--inv-background) !important;
+  border-top: 1px solid var(--inv-border) !important;
 }
 .invitation-public.invitation-template-noir_champagne .invitation-hero-content::before {
-  content: "AN EVENING TO REMEMBER" !important;
+  content: "UNA NOCHE PARA RECORDAR" !important;
   color: #C9AC78 !important;
 }
 .invitation-public.invitation-template-noir_champagne .invitation-hero-title {
-  color: #F8F0E4 !important;
+  color: var(--inv-title) !important;
   font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
   font-size: clamp(2.25rem, 6.5vw, 4.4rem) !important;
   font-weight: 400 !important;
   letter-spacing: .025em !important;
 }
-.invitation-public.invitation-template-noir_champagne .invitation-hero-date { color: #D9C8A8 !important; }
+.invitation-public.invitation-template-noir_champagne .invitation-hero-date { color: var(--inv-accent) !important; }
 .invitation-public.invitation-template-noir_champagne .invitation-hero::before {
   content: "" !important;
   position: absolute !important;
@@ -6348,10 +6346,10 @@
   height: auto !important;
 }
 .invitation-public.invitation-template-noir_champagne .invitation-details-section {
-  background: linear-gradient(180deg, #211E1B, #29231F) !important;
+  background: linear-gradient(180deg, var(--inv-background), color-mix(in srgb, var(--inv-background) 88%, #000000)) !important;
 }
 .invitation-public.invitation-template-noir_champagne .invitation-countdown-grid {
-  border-top: 1px solid #8E7957 !important;
+  border-top: 1px solid var(--inv-border) !important;
   border-bottom: 1px solid #8E7957 !important;
 }
 .invitation-public.invitation-template-noir_champagne .invitation-location-card {
@@ -6365,30 +6363,29 @@
 /* 03 — VELVET ROYALE: borgoña, terciopelo y elegancia de gala para XV años. */
 .invitation-public.invitation-template-velvet_royale {
   --hero-copy-space: 14rem;
-  --inv-background: #421C2B;
-  background: #421C2B !important;
-  color: #F8EDE7 !important;
+  background: var(--inv-background) !important;
+  color: var(--inv-text) !important;
 }
 .invitation-public.invitation-template-velvet_royale .invitation-hero-overlay {
   background: linear-gradient(180deg, rgba(38, 9, 22, .04) 24%, rgba(38, 9, 22, .36) 100%) !important;
 }
 .invitation-public.invitation-template-velvet_royale .invitation-hero-content {
-  background: linear-gradient(145deg, #4A2031, #351522) !important;
-  border-top: 1px solid #A46B73 !important;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--inv-background) 88%, #FFFFFF), var(--inv-background)) !important;
+  border-top: 1px solid var(--inv-border) !important;
   box-shadow: inset 0 1px rgba(255,255,255,.08) !important;
 }
 .invitation-public.invitation-template-velvet_royale .invitation-hero-content::before {
-  content: "THE GRAND CELEBRATION" !important;
+  content: "UNA GRAN CELEBRACIÓN" !important;
   color: #D7AF83 !important;
 }
 .invitation-public.invitation-template-velvet_royale .invitation-hero-title {
-  color: #FFE8D9 !important;
+  color: var(--inv-title) !important;
   font-family: "Cormorant Garamond", Georgia, serif !important;
   font-size: clamp(2.65rem, 7.8vw, 4.9rem) !important;
   font-style: italic !important;
   letter-spacing: -.035em !important;
 }
-.invitation-public.invitation-template-velvet_royale .invitation-hero-date { color: #E7C9BD !important; }
+.invitation-public.invitation-template-velvet_royale .invitation-hero-date { color: var(--inv-accent) !important; }
 .invitation-public.invitation-template-velvet_royale .invitation-hero::after {
   content: "✧" !important;
   position: absolute !important;
@@ -6405,7 +6402,7 @@
   height: auto !important;
 }
 .invitation-public.invitation-template-velvet_royale .invitation-details-section {
-  background: radial-gradient(ellipse at 50% 0%, rgba(164, 107, 115, .2), transparent 42%), #421C2B !important;
+  background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--inv-accent) 18%, transparent), transparent 42%), var(--inv-background) !important;
 }
 .invitation-public.invitation-template-velvet_royale .invitation-countdown-grid {
   border-top: 1px solid rgba(215,175,131,.55) !important;
@@ -6415,14 +6412,13 @@
   border-radius: 1.3rem !important;
   box-shadow: 0 14px 36px rgba(19, 4, 11, .18) !important;
 }
-.invitation-public.invitation-template-velvet_royale .invitation-footer { background: #351522 !important; }
+.invitation-public.invitation-template-velvet_royale .invitation-footer { background: color-mix(in srgb, var(--inv-background) 85%, #000000) !important; }
 
 /* 04 — CELESTIAL ÉTOILE: cielo nocturno, constelaciones y luz plateada. */
 .invitation-public.invitation-template-celestial_etoile {
   --hero-copy-space: 13.8rem;
-  --inv-background: #171D3B;
-  background: #171D3B !important;
-  color: #EEF0FA !important;
+  background: var(--inv-background) !important;
+  color: var(--inv-text) !important;
 }
 .invitation-public.invitation-template-celestial_etoile .invitation-hero-overlay {
   background:
@@ -6433,21 +6429,21 @@
   background-size: 125px 110px, 160px 140px, 190px 160px, auto !important;
 }
 .invitation-public.invitation-template-celestial_etoile .invitation-hero-content {
-  background: #171D3B !important;
-  border-top: 1px solid #777FAF !important;
+  background: var(--inv-background) !important;
+  border-top: 1px solid var(--inv-border) !important;
 }
 .invitation-public.invitation-template-celestial_etoile .invitation-hero-content::before {
-  content: "A NIGHT UNDER THE STARS" !important;
+  content: "BAJO UN CIELO DE ESTRELLAS" !important;
   color: #B8B7DC !important;
 }
 .invitation-public.invitation-template-celestial_etoile .invitation-hero-title {
-  color: #F7F3FF !important;
+  color: var(--inv-title) !important;
   font-family: "Cormorant Garamond", Georgia, serif !important;
   font-size: clamp(2.65rem, 7.4vw, 4.85rem) !important;
   font-weight: 400 !important;
   letter-spacing: .01em !important;
 }
-.invitation-public.invitation-template-celestial_etoile .invitation-hero-date { color: #D0D3EA !important; }
+.invitation-public.invitation-template-celestial_etoile .invitation-hero-date { color: var(--inv-accent) !important; }
 .invitation-public.invitation-template-celestial_etoile .invitation-hero::before {
   content: "✦   ·   ✧   ·   ✦" !important;
   position: absolute !important;
@@ -6466,44 +6462,43 @@
   animation: celestial-twinkle 4.5s ease-in-out infinite alternate;
 }
 .invitation-public.invitation-template-celestial_etoile .invitation-countdown-grid {
-  border-top: 1px solid #777FAF !important;
+  border-top: 1px solid var(--inv-border) !important;
   border-bottom: 1px solid #777FAF !important;
 }
 .invitation-public.invitation-template-celestial_etoile .invitation-details-section {
-  background: radial-gradient(ellipse at 50% 0%, rgba(119,127,175,.2), transparent 38%), #171D3B !important;
+  background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--inv-accent) 18%, transparent), transparent 38%), var(--inv-background) !important;
 }
 .invitation-public.invitation-template-celestial_etoile .invitation-location-card {
   border-radius: 1.4rem !important;
   box-shadow: 0 14px 40px rgba(4, 8, 28, .24) !important;
 }
-.invitation-public.invitation-template-celestial_etoile .invitation-footer { background: #11172F !important; }
+.invitation-public.invitation-template-celestial_etoile .invitation-footer { background: color-mix(in srgb, var(--inv-background) 84%, #000000) !important; }
 
 /* 05 — COQUETTE COUTURE: ballet pink, cherry accents and delicate ribbon details. */
 .invitation-public.invitation-template-coquette_couture {
   --hero-copy-space: 13.5rem;
-  --inv-background: #FCECF0;
-  background: #FCECF0 !important;
-  color: #5B3540 !important;
+  background: var(--inv-background) !important;
+  color: var(--inv-text) !important;
 }
 .invitation-public.invitation-template-coquette_couture .invitation-hero-overlay {
   background: linear-gradient(180deg, rgba(67, 24, 44, .03) 28%, rgba(67, 24, 44, .2) 100%) !important;
 }
 .invitation-public.invitation-template-coquette_couture .invitation-hero-content {
-  background: #FCECF0 !important;
-  border-top: 1px solid #E8B8C5 !important;
+  background: var(--inv-background) !important;
+  border-top: 1px solid var(--inv-border) !important;
 }
 .invitation-public.invitation-template-coquette_couture .invitation-hero-content::before {
-  content: "A LITTLE BIT OF MAGIC" !important;
+  content: "UN SUEÑO HECHO CELEBRACIÓN" !important;
   color: #B9506C !important;
 }
 .invitation-public.invitation-template-coquette_couture .invitation-hero-title {
-  color: #8D3553 !important;
+  color: var(--inv-title) !important;
   font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
   font-style: italic !important;
   font-weight: 500 !important;
   letter-spacing: -.045em !important;
 }
-.invitation-public.invitation-template-coquette_couture .invitation-hero-date { color: #9C5B70 !important; }
+.invitation-public.invitation-template-coquette_couture .invitation-hero-date { color: var(--inv-accent) !important; }
 .invitation-public.invitation-template-coquette_couture .invitation-hero::before {
   content: "୨୧" !important;
   position: absolute !important;
@@ -6537,44 +6532,43 @@
   pointer-events: none;
 }
 .invitation-public.invitation-template-coquette_couture .invitation-details-section {
-  background: linear-gradient(180deg, #FCECF0, #FFF7F8) !important;
+  background: linear-gradient(180deg, var(--inv-background), color-mix(in srgb, var(--inv-background) 72%, #FFFFFF)) !important;
 }
 .invitation-public.invitation-template-coquette_couture .invitation-location-card {
   border-radius: 1.75rem !important;
   box-shadow: 0 12px 30px rgba(147, 65, 94, .075) !important;
 }
 .invitation-public.invitation-template-coquette_couture .invitation-countdown-grid {
-  border-top: 1px solid #E8B8C5 !important;
+  border-top: 1px solid var(--inv-border) !important;
   border-bottom: 1px solid #E8B8C5 !important;
 }
-.invitation-public.invitation-template-coquette_couture .invitation-footer { background: #FFF7F8 !important; }
+.invitation-public.invitation-template-coquette_couture .invitation-footer { background: color-mix(in srgb, var(--inv-background) 72%, #FFFFFF) !important; }
 
 /* 06 — LITTLE WILDFLOWER: buttercream, meadow florals and gentle organic shapes. */
 .invitation-public.invitation-template-little_wildflower {
   --hero-copy-space: 13.3rem;
-  --inv-background: #FBF4E5;
-  background: #FBF4E5 !important;
-  color: #514A39 !important;
+  background: var(--inv-background) !important;
+  color: var(--inv-text) !important;
 }
 .invitation-public.invitation-template-little_wildflower .invitation-hero-overlay {
   background: linear-gradient(180deg, rgba(48, 59, 31, .03) 25%, rgba(48, 59, 31, .2) 100%) !important;
 }
 .invitation-public.invitation-template-little_wildflower .invitation-hero-content {
-  background: #FBF4E5 !important;
-  border-top: 1px solid #D6C99F !important;
+  background: var(--inv-background) !important;
+  border-top: 1px solid var(--inv-border) !important;
 }
 .invitation-public.invitation-template-little_wildflower .invitation-hero-content::before {
-  content: "A LITTLE ONE IS ON THE WAY" !important;
+  content: "UNA NUEVA HISTORIA FLORECE" !important;
   color: #7E8D5A !important;
 }
 .invitation-public.invitation-template-little_wildflower .invitation-hero-title {
-  color: #68764E !important;
+  color: var(--inv-title) !important;
   font-family: "Cormorant Garamond", Georgia, serif !important;
   font-size: clamp(2.45rem, 7.4vw, 4.5rem) !important;
   font-style: italic !important;
   letter-spacing: -.035em !important;
 }
-.invitation-public.invitation-template-little_wildflower .invitation-hero-date { color: #78845E !important; }
+.invitation-public.invitation-template-little_wildflower .invitation-hero-date { color: var(--inv-accent) !important; }
 .invitation-public.invitation-template-little_wildflower .invitation-hero::before,
 .invitation-public.invitation-template-little_wildflower .invitation-hero::after {
   content: "✿" !important;
@@ -6594,43 +6588,42 @@
 .invitation-public.invitation-template-little_wildflower .invitation-hero::before { left: 1rem !important; }
 .invitation-public.invitation-template-little_wildflower .invitation-hero::after { right: 1rem !important; font-size: 1.65rem !important; animation-delay: -2s; }
 .invitation-public.invitation-template-little_wildflower .invitation-details-section {
-  background: radial-gradient(ellipse at 6% 0%, rgba(214,201,159,.28), transparent 36%), #FBF4E5 !important;
+  background: radial-gradient(ellipse at 6% 0%, color-mix(in srgb, var(--inv-accent) 18%, transparent), transparent 36%), var(--inv-background) !important;
 }
 .invitation-public.invitation-template-little_wildflower .invitation-countdown-grid {
-  border-top: 1px solid #D6C99F !important;
+  border-top: 1px solid var(--inv-border) !important;
   border-bottom: 1px solid #D6C99F !important;
 }
 .invitation-public.invitation-template-little_wildflower .invitation-location-card {
   border-radius: 1.6rem 1.6rem .6rem 1.6rem !important;
 }
-.invitation-public.invitation-template-little_wildflower .invitation-footer { background: #F6EED9 !important; }
+.invitation-public.invitation-template-little_wildflower .invitation-footer { background: color-mix(in srgb, var(--inv-background) 85%, #D6C99F) !important; }
 
 /* 07 — LUZ DE CIELO: light-filled ivory, mist blue and classical serenity. */
 .invitation-public.invitation-template-luz_de_cielo {
   --hero-copy-space: 13.8rem;
-  --inv-background: #F6F7F4;
-  background: #F6F7F4 !important;
-  color: #374751 !important;
+  background: var(--inv-background) !important;
+  color: var(--inv-text) !important;
 }
 .invitation-public.invitation-template-luz_de_cielo .invitation-hero-overlay {
   background: linear-gradient(180deg, rgba(18, 44, 58, .02) 24%, rgba(18, 44, 58, .25) 100%) !important;
 }
 .invitation-public.invitation-template-luz_de_cielo .invitation-hero-content {
-  background: #F6F7F4 !important;
-  border-top: 1px solid #C5D9E0 !important;
+  background: var(--inv-background) !important;
+  border-top: 1px solid var(--inv-border) !important;
 }
 .invitation-public.invitation-template-luz_de_cielo .invitation-hero-content::before {
   content: "UN DÍA DE LUZ Y BENDICIONES" !important;
   color: #6F95A9 !important;
 }
 .invitation-public.invitation-template-luz_de_cielo .invitation-hero-title {
-  color: #476B7A !important;
+  color: var(--inv-title) !important;
   font-family: "Cormorant Garamond", Georgia, serif !important;
   font-size: clamp(2.65rem, 7.2vw, 4.65rem) !important;
   font-weight: 400 !important;
   letter-spacing: -.02em !important;
 }
-.invitation-public.invitation-template-luz_de_cielo .invitation-hero-date { color: #6C8792 !important; }
+.invitation-public.invitation-template-luz_de_cielo .invitation-hero-date { color: var(--inv-accent) !important; }
 .invitation-public.invitation-template-luz_de_cielo .invitation-hero::before {
   content: "✧" !important;
   position: absolute !important;
@@ -6648,24 +6641,23 @@
   height: auto !important;
 }
 .invitation-public.invitation-template-luz_de_cielo .invitation-details-section {
-  background: radial-gradient(ellipse at 50% 0%, rgba(197,217,224,.28), transparent 44%), #F6F7F4 !important;
+  background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--inv-accent) 18%, transparent), transparent 44%), var(--inv-background) !important;
 }
 .invitation-public.invitation-template-luz_de_cielo .invitation-countdown-grid {
-  border-top: 1px solid #C5D9E0 !important;
+  border-top: 1px solid var(--inv-border) !important;
   border-bottom: 1px solid #C5D9E0 !important;
 }
 .invitation-public.invitation-template-luz_de_cielo .invitation-location-card {
   border-radius: 1.4rem !important;
   box-shadow: 0 12px 32px rgba(55, 71, 81, .07) !important;
 }
-.invitation-public.invitation-template-luz_de_cielo .invitation-footer { background: #EDF3F4 !important; }
+.invitation-public.invitation-template-luz_de_cielo .invitation-footer { background: color-mix(in srgb, var(--inv-background) 88%, #C5D9E0) !important; }
 
 /* 08 — TWO LITTLE SECRETS: dual blush and blue atmospheres for the reveal. */
 .invitation-public.invitation-template-two_little_secrets {
   --hero-copy-space: 13.7rem;
-  --inv-background: #FBF4EE;
-  background: #FBF4EE !important;
-  color: #51434D !important;
+  background: var(--inv-background) !important;
+  color: var(--inv-text) !important;
 }
 .invitation-public.invitation-template-two_little_secrets .invitation-hero-overlay {
   background:
@@ -6674,20 +6666,20 @@
 }
 .invitation-public.invitation-template-two_little_secrets .invitation-hero-content {
   background: linear-gradient(90deg, #F8E5E7 0 50%, #E5EEF4 50% 100%) !important;
-  border-top: 1px solid #E7C6C5 !important;
+  border-top: 1px solid var(--inv-border) !important;
 }
 .invitation-public.invitation-template-two_little_secrets .invitation-hero-content::before {
-  content: "BOY OR GIRL?" !important;
+  content: "¿NIÑO O NIÑA?" !important;
   color: #8B718A !important;
 }
 .invitation-public.invitation-template-two_little_secrets .invitation-hero-title {
-  color: #69536C !important;
+  color: var(--inv-title) !important;
   font-family: "Cormorant Garamond", Georgia, serif !important;
   font-size: clamp(2.7rem, 7.4vw, 4.65rem) !important;
   font-style: italic !important;
   letter-spacing: -.035em !important;
 }
-.invitation-public.invitation-template-two_little_secrets .invitation-hero-date { color: #776C80 !important; }
+.invitation-public.invitation-template-two_little_secrets .invitation-hero-date { color: var(--inv-accent) !important; }
 .invitation-public.invitation-template-two_little_secrets .invitation-hero::before,
 .invitation-public.invitation-template-two_little_secrets .invitation-hero::after {
   content: "" !important;
@@ -6703,7 +6695,7 @@
 .invitation-public.invitation-template-two_little_secrets .invitation-hero::before { left: 0 !important; }
 .invitation-public.invitation-template-two_little_secrets .invitation-hero::after { right: 0 !important; background: linear-gradient(180deg, rgba(139,173,198,.12), transparent 55%) !important; }
 .invitation-public.invitation-template-two_little_secrets .invitation-countdown-grid {
-  border-top: 1px solid #E7C6C5 !important;
+  border-top: 1px solid var(--inv-border) !important;
   border-bottom: 1px solid #D3DFE6 !important;
 }
 .invitation-public.invitation-template-two_little_secrets .invitation-details-section {
@@ -6719,21 +6711,20 @@
 /* 09 — STUDIO PARTY: graphic poster energy, cobalt blocks and citrus accents. */
 .invitation-public.invitation-template-studio_party {
   --hero-copy-space: 14.2rem;
-  --inv-background: #FFF4E8;
-  background: #FFF4E8 !important;
-  color: #272C4C !important;
+  background: var(--inv-background) !important;
+  color: var(--inv-text) !important;
 }
 .invitation-public.invitation-template-studio_party .invitation-hero-overlay {
   background: linear-gradient(180deg, rgba(17,29,78,.02) 20%, rgba(17,29,78,.64) 100%) !important;
 }
 .invitation-public.invitation-template-studio_party .invitation-hero-content {
-  background: #243D93 !important;
-  border-top: 5px solid #E35A36 !important;
+  background: var(--inv-title) !important;
+  border-top: 5px solid var(--inv-accent) !important;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.14) !important;
 }
 .invitation-public.invitation-template-studio_party .invitation-hero-content::before {
-  content: "LET'S CELEBRATE" !important;
-  color: #F3C66C !important;
+  content: "VAMOS A CELEBRAR" !important;
+  color: var(--inv-accent) !important;
 }
 .invitation-public.invitation-template-studio_party .invitation-hero-title {
   color: #FFFFFF !important;
@@ -6745,7 +6736,7 @@
   text-transform: uppercase;
 }
 .invitation-public.invitation-template-studio_party .invitation-hero-date {
-  color: #F3C66C !important;
+  color: var(--inv-accent) !important;
   font-weight: 800 !important;
 }
 .invitation-public.invitation-template-studio_party .invitation-hero::before {
@@ -6795,7 +6786,7 @@
   box-shadow: 5px 5px 0 rgba(36,61,147,.12) !important;
 }
 .invitation-public.invitation-template-studio_party .invitation-footer {
-  background: #F7E5D1 !important;
+  background: color-mix(in srgb, var(--inv-background) 80%, #E9A67E) !important;
 }
 
 /* Responsive art direction: preserve each identity on small screens, open up on desktop. */

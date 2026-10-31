@@ -7051,157 +7051,65 @@
   text-wrap: balance;
 }
 
-/* Noir Champagne — reglas finales consolidadas.
-   La fotografía conserva su altura y recorte; la placa de nombres se superpone
-   en el borde inferior sin que el overflow del hero la recorte. */
-.invitation-public.invitation-template-noir_champagne {
-  --noir-nameplate-overlap: 1.35rem;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-hero {
-  position: relative !important;
-  isolation: isolate !important;
-  min-height: clamp(31rem, 74svh, 46rem) !important;
-  height: auto !important;
-  padding: 0 .75rem 1.5rem !important;
-  align-items: flex-end !important;
-  justify-content: center !important;
-  overflow: visible !important;
-  background: var(--inv-background) !important;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-hero-image,
-.invitation-public.invitation-template-noir_champagne .invitation-hero-image-backdrop {
-  inset: 0 0 var(--noir-nameplate-overlap) !important;
-  background-size: cover !important;
-  background-position: center 42% !important;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-hero-overlay {
-  inset: 0 0 var(--noir-nameplate-overlap) !important;
-  background: linear-gradient(180deg, rgba(12,11,10,.02) 35%, rgba(12,11,10,.34) 100%) !important;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-hero-frame {
-  inset: 1rem 1rem calc(var(--noir-nameplate-overlap) + 1rem) !important;
-  display: block !important;
-  border: 1px solid color-mix(in srgb, var(--inv-accent) 72%, transparent) !important;
-  border-radius: 0 !important;
-  outline: none !important;
-  pointer-events: none !important;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-hero::before,
-.invitation-public.invitation-template-noir_champagne .invitation-hero::after {
-  content: none !important;
-  display: none !important;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-hero-content {
-  position: relative !important;
-  z-index: 5 !important;
-  width: min(88%, 58rem) !important;
-  min-height: 13rem !important;
-  max-width: 58rem !important;
-  margin: 0 auto calc(var(--noir-nameplate-overlap) * -1) !important;
-  padding: 1.6rem 1.5rem 1.8rem !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: .55rem !important;
-  border: 1px solid color-mix(in srgb, var(--inv-accent) 68%, transparent) !important;
-  background: var(--inv-background) !important;
-  box-shadow: 0 14px 42px rgba(0,0,0,.2) !important;
-  text-align: center !important;
-  transform: none !important;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-hero-eyebrow {
-  margin: 0 auto .25rem !important;
-  color: var(--inv-accent) !important;
-  font-size: .62rem !important;
-  letter-spacing: .22em !important;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-hero-title {
-  max-width: 16ch !important;
-  color: var(--inv-title) !important;
-  font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
-  font-size: clamp(2.35rem, 6.5vw, 4.4rem) !important;
-  font-weight: 400 !important;
-  line-height: 1.04 !important;
-  letter-spacing: .015em !important;
-  text-shadow: none !important;
-}
-.invitation-public.invitation-template-noir_champagne .invitation-hero-date {
-  margin: .45rem auto 0 !important;
-  color: var(--inv-accent) !important;
-  font-size: .72rem !important;
-  letter-spacing: .16em !important;
-}
+
+/* NOIR CHAMPAGNE — portada móvil alineada al sistema común.
+   Conserva la identidad oscura, pero elimina la placa y los solapamientos especiales. */
 @media (max-width: 639px) {
-  .invitation-public.invitation-template-noir_champagne {
-    --noir-nameplate-overlap: 1.1rem;
-  }
   .invitation-public.invitation-template-noir_champagne .invitation-hero {
-    min-height: clamp(29rem, 72svh, 37rem) !important;
-    padding: 0 .55rem 1.1rem !important;
-    overflow: visible !important;
+    min-height: clamp(29rem, 76svh, 39rem) !important;
+    height: auto !important;
+    padding: 0 .65rem !important;
+    align-items: flex-end !important;
+    overflow: hidden !important;
+    background: var(--inv-background) !important;
   }
   .invitation-public.invitation-template-noir_champagne .invitation-hero-image,
-  .invitation-public.invitation-template-noir_champagne .invitation-hero-image-backdrop {
-    inset: 0 0 var(--noir-nameplate-overlap) !important;
-    background-position: center 38% !important;
+  .invitation-public.invitation-template-noir_champagne .invitation-hero-overlay {
+    inset: 0 !important;
+    background-position: center 40% !important;
     background-size: cover !important;
   }
-  .invitation-public.invitation-template-noir_champagne .invitation-hero-overlay {
-    inset: 0 0 var(--noir-nameplate-overlap) !important;
+  .invitation-public.invitation-template-noir_champagne .invitation-hero-image-backdrop {
+    display: none !important;
   }
   .invitation-public.invitation-template-noir_champagne .invitation-hero-frame {
-    inset: .75rem .75rem calc(var(--noir-nameplate-overlap) + .75rem) !important;
+    display: none !important;
   }
   .invitation-public.invitation-template-noir_champagne .invitation-hero-content {
-    width: calc(100% - .9rem) !important;
-    min-height: 10.75rem !important;
-    margin-bottom: calc(var(--noir-nameplate-overlap) * -1) !important;
-    padding: 1.15rem .8rem 1.3rem !important;
-    gap: .4rem !important;
-    border-width: 1px !important;
-    box-shadow: 0 10px 28px rgba(0,0,0,.18) !important;
-  }
-  .invitation-public.invitation-template-noir_champagne .invitation-hero-eyebrow {
-    max-width: 24rem !important;
-    font-size: .5rem !important;
-    letter-spacing: .16em !important;
+    position: relative !important;
+    inset: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    min-height: var(--hero-copy-space, 11rem) !important;
+    margin: 0 auto !important;
+    padding: 1rem .8rem 1.25rem !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: var(--inv-background) !important;
+    text-align: center !important;
   }
   .invitation-public.invitation-template-noir_champagne .invitation-hero-title {
     max-width: 15ch !important;
-    font-size: clamp(2rem, 8.4vw, 3rem) !important;
-    line-height: 1.02 !important;
+    color: var(--inv-title) !important;
+    font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+    font-size: clamp(1.85rem, 8vw, 3rem) !important;
+    line-height: 1.04 !important;
     letter-spacing: 0 !important;
+    text-shadow: none !important;
   }
+  .invitation-public.invitation-template-noir_champagne .invitation-hero-eyebrow,
   .invitation-public.invitation-template-noir_champagne .invitation-hero-date {
-    margin-top: .3rem !important;
-    font-size: .58rem !important;
-    line-height: 1.45 !important;
-    letter-spacing: .12em !important;
+    color: var(--inv-accent) !important;
   }
 }
-@media (min-width: 640px) {
-  .invitation-public.invitation-template-noir_champagne .invitation-hero {
-    min-height: clamp(35rem, 76svh, 48rem) !important;
-    padding-inline: 1.5rem !important;
-    padding-bottom: 1.5rem !important;
-  }
-  .invitation-public.invitation-template-noir_champagne .invitation-hero-image,
-  .invitation-public.invitation-template-noir_champagne .invitation-hero-image-backdrop,
-  .invitation-public.invitation-template-noir_champagne .invitation-hero-overlay {
-    inset: 0 0 var(--noir-nameplate-overlap) 0 !important;
-  }
-  .invitation-public.invitation-template-noir_champagne .invitation-hero-content {
-    min-height: 13.5rem !important;
-    padding: 2rem 2rem 2.2rem !important;
-  }
-}
-
-
-/* Escritorio: sólo las fotografías verticales usan imagen completa + fondo difuminado.
-   Las horizontales conservan el recorte cover original. */
+/* Escritorio: fotografía vertical completa; el desenfoque sólo ocupa el área
+   fotográfica y termina antes del panel de nombres, evitando bandas inferiores. */
 @media (min-width: 1024px) {
   .invitation-public .invitation-hero-image.invitation-hero-image-portrait {
+    inset: 0 0 var(--hero-copy-space, 14rem) 0 !important;
     background-size: contain !important;
     background-position: center center !important;
     background-repeat: no-repeat !important;
@@ -7209,12 +7117,12 @@
   }
   .invitation-public .invitation-hero-image-backdrop.invitation-hero-image-portrait-backdrop {
     display: block !important;
-    inset: -3% !important;
+    inset: 0 0 var(--hero-copy-space, 14rem) 0 !important;
     background-size: cover !important;
     background-position: center center !important;
     background-repeat: no-repeat !important;
-    filter: blur(30px) saturate(.82) brightness(.72) !important;
-    transform: scale(1.06) !important;
+    filter: blur(28px) saturate(.82) brightness(.72) !important;
+    transform: scale(1.04) !important;
     opacity: .82 !important;
   }
 }

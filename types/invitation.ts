@@ -1,4 +1,4 @@
-export type InvitationTemplateKey = "wedding_editorial" | "xv_gala" | "baby_soft" | "baptism_light" | "botanical" | "noir" | "pink_atelier" | "celestial" | "cloud" | "garden";
+export type InvitationTemplateKey = "wedding_editorial" | "maison_botanique" | "noir_champagne" | "velvet_royale" | "celestial_etoile" | "coquette_couture" | "little_wildflower" | "luz_de_cielo" | "two_little_secrets" | "studio_party" | "xv_gala" | "baby_soft" | "baptism_light" | "botanical" | "noir" | "pink_atelier" | "celestial" | "cloud" | "garden";
 
 export type InvitationStatus = "draft" | "published";
 export type RSVPStatus = "attending" | "declined";

@@ -5428,12 +5428,13 @@
    Intentionally does not reuse wedding_editorial selectors: that namespace
    contains historical !important rules which caused the visual regressions. */
 .invitation-public.invitation-art-v2.invitation-template-editorial-flagship {
-  --ef-paper: #F6F1E8;
-  --ef-paper-light: #FFFCF7;
-  --ef-ink: #293746;
-  --ef-copy: #625D55;
-  --ef-gold: #A88750;
-  --ef-line: #D9C9A8;
+  /* Keep Editorial's visual identity, but source every palette color from the editor. */
+  --ef-paper: var(--inv-background, #F6F1E8);
+  --ef-paper-light: var(--inv-card-bg, #FFFCF7);
+  --ef-ink: var(--inv-title, #293746);
+  --ef-copy: var(--inv-text, #625D55);
+  --ef-gold: var(--inv-accent, #A88750);
+  --ef-line: var(--inv-border, #D9C9A8);
   background: var(--ef-paper) !important;
   color: var(--ef-copy) !important;
   font-family: var(--font-sans), Arial, sans-serif;
@@ -5596,7 +5597,7 @@
 }
 .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-card :is(h2,h3,p,span),
 .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-dress-code-card :is(h2,h3,p,span) {
-  color: var(--ef-ink);
+  color: var(--inv-card-text, var(--ef-ink));
 }
 .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-card > div:first-child > p,
 .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-dress-code-card p:first-child {
@@ -5607,14 +5608,14 @@
 }
 .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-card .invitation-location-button,
 .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-card a[aria-label^="Agregar"] {
-  background: var(--ef-ink) !important;
-  color: var(--ef-paper-light) !important;
-  border-color: var(--ef-ink) !important;
+  background: var(--inv-button, var(--ef-ink)) !important;
+  color: var(--inv-button-text, var(--ef-paper-light)) !important;
+  border-color: var(--inv-button, var(--ef-ink)) !important;
 }
 .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-card .invitation-location-button > span:first-child,
 .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-card a[aria-label^="Agregar"] > span:first-child {
-  background: #1E2C3A !important;
-  color: #E4C98F !important;
+  background: var(--inv-button, #1E2C3A) !important;
+  color: var(--inv-button-text, #E4C98F) !important;
   border-color: var(--ef-gold) !important;
 }
 .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-footer-thanks {

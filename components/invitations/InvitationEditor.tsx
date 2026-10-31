@@ -139,7 +139,13 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
   }
 
   function updateDesign<K extends keyof InvitationDesign>(key: K, value: InvitationDesign[K]) {
-    setDesign((current) => ({ ...current, [key]: value }));
+    setDesign((current) => {
+      const next: InvitationDesign = { ...current, [key]: value };
+      if (key === "accent_color") next.border_color = value as string;
+      if (key === "card_background_color") { next.rsvp_background_color = value as string; next.form_background_color = value as string; }
+      if (key === "card_text_color") { next.rsvp_text_color = value as string; next.form_text_color = value as string; }
+      return next;
+    });
   }
 
   async function handleCoverUpload(eventFile: ChangeEvent<HTMLInputElement>) {
@@ -314,10 +320,10 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                 <p className="mt-3 text-xs leading-5 text-[#8A8074]">JPG, PNG o WebP · máximo 10 MB. Recuerda guardar los cambios después de subirla.</p>
               </div>
             </div>
-            {(["wedding_editorial", "xv_gala", "baby_soft", "baptism_light"] as TemplateKey[]).includes(templateKey) && (
+            {TEMPLATE_OPTIONS.some((option) => option.key === templateKey) && (
               <div className="mt-6 rounded-2xl border border-[#E7DCC8] bg-white p-5 sm:p-6">
                 <div className="mb-4">
-                  <h4 className="text-sm font-semibold text-[#332B27]">{templateKey === "wedding_editorial" ? "Sello de cera de los novios" : templateKey === "xv_gala" ? "Distintivo de XV años" : templateKey === "baby_soft" ? "Distintivo de baby shower" : "Distintivo de bautizo"}</h4>
+                  <h4 className="text-sm font-semibold text-[#332B27]">{templateKey === "wedding_editorial" ? "Sello de cera" : "Distintivo decorativo"}</h4>
                   <p className="mt-1 text-sm leading-5 text-[#7D7467]">Opcional. Sube una imagen decorativa para reemplazar la línea debajo de la portada. Si no hay imagen, se conserva la línea original.</p>
                 </div>
                 <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
@@ -609,11 +615,11 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                     const background = contrastView === "general" ? design.background_color ?? palette.background_color ?? "#F5F3EE"
                       : contrastView === "cards" ? design.card_background_color ?? palette.card_background_color ?? "#FFFFFF"
                       : contrastView === "buttons" ? design.button_color ?? palette.button_color ?? "#20272D"
-                      : design.rsvp_background_color ?? palette.rsvp_background_color ?? "#EAE7DF";
+                      : design.card_background_color ?? palette.card_background_color ?? "#FFFFFF";
                     const foreground = contrastView === "general" ? design.text_color ?? palette.text_color ?? "#20272D"
                       : contrastView === "cards" ? design.card_text_color ?? palette.card_text_color ?? "#20272D"
                       : contrastView === "buttons" ? design.button_text_color ?? palette.button_text_color ?? "#FFFFFF"
-                      : design.rsvp_text_color ?? palette.rsvp_text_color ?? "#20272D";
+                      : design.card_text_color ?? palette.card_text_color ?? "#20272D";
                     const heading = contrastView === "general" ? design.title_color ?? palette.title_color ?? foreground : foreground;
                     const border = design.border_color ?? palette.border_color ?? "#D9D8D1";
                     return (
@@ -639,33 +645,26 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                 </div>
               </div>
               <div className="space-y-4">
-                <ColorGroup title="General" description="Colores principales de la invitación." >
-                  <ColorField label="Fondo general" value={design.background_color ?? INVITATION_PALETTES[templateKey].background_color ?? "#F5F3EE"} onChange={(v) => updateDesign("background_color", v)} />
-                  <ColorField label="Texto general" value={design.text_color ?? INVITATION_PALETTES[templateKey].text_color ?? "#20272D"} onChange={(v) => updateDesign("text_color", v)} />
-                  <ColorField label="Título principal" value={design.title_color ?? design.text_color ?? INVITATION_PALETTES[templateKey].title_color ?? "#20272D"} onChange={(v) => updateDesign("title_color", v)} />
-                  <ColorField label="Acentos e íconos" value={design.accent_color ?? INVITATION_PALETTES[templateKey].accent_color ?? "#344B61"} onChange={(v) => updateDesign("accent_color", v)} />
-                  <ColorField label="Bordes y divisores" value={design.border_color ?? INVITATION_PALETTES[templateKey].border_color ?? "#D9D8D1"} onChange={(v) => updateDesign("border_color", v)} />
+                <ColorGroup title="General" description="Fondo, lectura y personalidad visual de la invitación.">
+                  <ColorField label="Fondo" value={design.background_color ?? INVITATION_PALETTES[templateKey].background_color ?? "#F5F3EE"} onChange={(v) => updateDesign("background_color", v)} />
+                  <ColorField label="Texto" value={design.text_color ?? INVITATION_PALETTES[templateKey].text_color ?? "#20272D"} onChange={(v) => updateDesign("text_color", v)} />
+                  <ColorField label="Títulos" value={design.title_color ?? INVITATION_PALETTES[templateKey].title_color ?? "#20272D"} onChange={(v) => updateDesign("title_color", v)} />
+                  <ColorField label="Acentos" value={design.accent_color ?? INVITATION_PALETTES[templateKey].accent_color ?? "#344B61"} onChange={(v) => updateDesign("accent_color", v)} />
                 </ColorGroup>
-                <ColorGroup title="Tarjetas" description="Fondo y texto de las tarjetas de información.">
+                <ColorGroup title="Tarjetas" description="Fondo y texto de tarjetas y bloques informativos.">
                   <ColorField label="Fondo de tarjetas" value={design.card_background_color ?? INVITATION_PALETTES[templateKey].card_background_color ?? "#F5F3EE"} onChange={(v) => updateDesign("card_background_color", v)} />
-                  <ColorField label="Texto de tarjetas" value={design.card_text_color ?? design.text_color ?? INVITATION_PALETTES[templateKey].card_text_color ?? "#20272D"} onChange={(v) => updateDesign("card_text_color", v)} />
+                  <ColorField label="Texto de tarjetas" value={design.card_text_color ?? INVITATION_PALETTES[templateKey].card_text_color ?? design.text_color ?? "#20272D"} onChange={(v) => updateDesign("card_text_color", v)} />
                 </ColorGroup>
-                <ColorGroup title="Botones" description="Color del botón y del texto que aparece en él.">
+                <ColorGroup title="Botones" description="Color de los botones y de sus etiquetas.">
                   <ColorField label="Fondo de botones" value={design.button_color ?? INVITATION_PALETTES[templateKey].button_color ?? "#20272D"} onChange={(v) => updateDesign("button_color", v)} />
-                  <ColorField label="Texto de botones" value={design.button_text_color ?? "#FFFFFF"} onChange={(v) => updateDesign("button_text_color", v)} />
-                </ColorGroup>
-                <ColorGroup title="Confirmación" description="Colores de la confirmación de asistencia y su formulario.">
-                  <ColorField label="Fondo de confirmación" value={design.rsvp_background_color ?? INVITATION_PALETTES[templateKey].rsvp_background_color ?? "#EAE7DF"} onChange={(v) => updateDesign("rsvp_background_color", v)} />
-                  <ColorField label="Texto de confirmación" value={design.rsvp_text_color ?? design.text_color ?? INVITATION_PALETTES[templateKey].rsvp_text_color ?? "#20272D"} onChange={(v) => updateDesign("rsvp_text_color", v)} />
-                  <ColorField label="Fondo del formulario" value={design.form_background_color ?? INVITATION_PALETTES[templateKey].form_background_color ?? "#F5F3EE"} onChange={(v) => updateDesign("form_background_color", v)} />
-                  <ColorField label="Texto del formulario" value={design.form_text_color ?? design.text_color ?? INVITATION_PALETTES[templateKey].form_text_color ?? "#20272D"} onChange={(v) => updateDesign("form_text_color", v)} />
+                  <ColorField label="Texto de botones" value={design.button_text_color ?? INVITATION_PALETTES[templateKey].button_text_color ?? "#FFFFFF"} onChange={(v) => updateDesign("button_text_color", v)} />
                 </ColorGroup>
               </div>
             </div>
           </details>
 
           <div className="flex flex-wrap justify-end gap-3 border-t border-[#E7DCC8] pt-6">
-            <button type="button" disabled={saving || uploadingCover} onClick={() => void saveInvitation("draft")} className="inline-flex items-center gap-2 rounded-full border border-[#E7DCC8] bg-white px-5 py-3 text-sm font-medium text-[#5C554B] disabled:opacity-50">
+            <button type="button" disabled={saving || uploadingCover || uploadingWaxSeal} onClick={() => void saveInvitation("draft")} className="inline-flex items-center gap-2 rounded-full border border-[#E7DCC8] bg-white px-5 py-3 text-sm font-medium text-[#5C554B] disabled:opacity-50">
               <Save size={16} /> Guardar cambios
             </button>
             <button type="button" disabled={saving || uploadingCover} onClick={() => void saveInvitation("published")} className="rounded-full bg-[#A88249] px-6 py-3 text-sm font-semibold text-white disabled:opacity-50">

@@ -146,7 +146,7 @@ export default function PublicInvitationClient({
   // Legacy invitations remain untouched; content stays visible if motion is reduced
   // or IntersectionObserver is unavailable.
   useEffect(() => {
-    if (!hasModernArtDirection || typeof IntersectionObserver === "undefined") return;
+    if (design.art_direction_version !== 2 || typeof IntersectionObserver === "undefined") return;
     const article = document.querySelector(".invitation-public.invitation-art-v2");
     if (!article) return;
     const targets = article.querySelectorAll(
@@ -168,7 +168,7 @@ export default function PublicInvitationClient({
       article.classList.remove("editorial-motion-ready");
       targets.forEach((target) => target.classList.remove("editorial-is-visible"));
     };
-  }, [hasModernArtDirection, invitation.invitation_slug]);
+  }, [design.art_direction_version, invitation.invitation_slug]);
 
   // Use a fresh namespace for Editorial so legacy wedding_editorial CSS cannot
   // cascade into the flagship layout. Other templates retain their existing keys.

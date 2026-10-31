@@ -437,7 +437,7 @@ Deno.serve(async (req) => {
       request_cover_cleanup_error: requestCoverCleanupError,
       expired_drafts_processed: expiredDraftsProcessed,
       expired_drafts_failed: expiredDraftsFailed,
-      expired_drafts_retention_days: 30,
+      expired_drafts_retention_days: 15,
       details: [] as Array<Record<string, unknown>>,
       dry_run: dryRun,
       requested_event_id: requestedEventId,

@@ -6434,21 +6434,9 @@
 }
 .invitation-public.invitation-art-v2.invitation-template-coquette_couture .invitation-hero-date { color: var(--inv-accent) !important; }
 .invitation-public.invitation-art-v2.invitation-template-coquette_couture .invitation-hero::before {
-  content: "୨୧" !important;
-  position: absolute !important;
-  z-index: 2 !important;
-  top: .8rem !important;
-  right: 1.15rem !important;
-  color: #FCECF0 !important;
-  font-family: Georgia, serif !important;
-  font-size: 3.5rem !important;
-  line-height: 1 !important;
-  text-shadow: 0 2px 18px rgba(91, 35, 59, .2) !important;
-  background: none !important;
-  border: 0 !important;
-  width: auto !important;
-  height: auto !important;
-  animation: coquette-sway 5.5s ease-in-out infinite alternate;
+  content: none !important;
+  display: none !important;
+  animation: none !important;
 }
 .invitation-public.invitation-art-v2.invitation-template-coquette_couture .invitation-hero::after {
   content: "" !important;

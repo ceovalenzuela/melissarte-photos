@@ -67,6 +67,27 @@ function initialDesignForTemplate(template: TemplateKey): InvitationDesign {
   return { ...INVITATION_PALETTES[template], art_direction_version: 2 };
 }
 
+function migrateEditorialPalette(design: InvitationDesign): InvitationDesign {
+  const migrate = (value: string | undefined, legacy: string, current: string) =>
+    value?.toUpperCase() === legacy ? current : value;
+  return {
+    ...design,
+    background_color: migrate(design.background_color, "#F5F0E7", "#F6F1E8"),
+    accent_color: migrate(design.accent_color, "#D5B77C", "#A88750"),
+    text_color: migrate(design.text_color, "#282A2E", "#625D55"),
+    title_color: migrate(design.title_color, "#111B29", "#293746"),
+    card_background_color: migrate(design.card_background_color, "#34465D", "#FFFCF7"),
+    card_text_color: migrate(design.card_text_color, "#F5F0E7", "#293746"),
+    border_color: migrate(design.border_color, "#D5B77C", "#D9C9A8"),
+    button_color: migrate(design.button_color, "#D5B77C", "#293746"),
+    button_text_color: migrate(design.button_text_color, "#111B29", "#FFFCF7"),
+    rsvp_background_color: migrate(design.rsvp_background_color, "#111B29", "#FFFCF7"),
+    rsvp_text_color: migrate(design.rsvp_text_color, "#F5F0E7", "#293746"),
+    form_background_color: migrate(design.form_background_color, "#FFFDF9", "#FFFCF7"),
+    form_text_color: migrate(design.form_text_color, "#282A2E", "#293746"),
+  };
+}
+
 // Asigna una plantilla inicial coherente con el tipo de evento; todas pueden cambiarse desde el editor.
 function defaultTemplate(event: Event): TemplateKey {
   const type = String(event.type ?? "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -122,7 +143,8 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
       if (row) {
         const rowTemplate = isKnownTemplateKey(row.template_key) ? row.template_key : defaultTemplate(event);
         setContent({ ...emptyContent(event), ...(row.content_config ?? {}), confirmation_mode: row.content_config?.confirmation_mode ?? (row.rsvp_enabled ? "rsvp" : "none"), event_label: row.content_config?.event_label ?? defaultEventLabel(rowTemplate) });
-        setDesign({ ...INVITATION_PALETTES[rowTemplate], ...(row.design_config ?? {}) });
+        const savedDesign = { ...INVITATION_PALETTES[rowTemplate], ...(row.design_config ?? {}) };
+        setDesign(rowTemplate === "wedding_editorial" ? migrateEditorialPalette(savedDesign) : savedDesign);
         setTemplateKey(rowTemplate);
         setRsvpEnabled(row.rsvp_enabled);
         setMaxPartySize(row.max_party_size);

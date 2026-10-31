@@ -7116,7 +7116,8 @@
 }
 @media (max-width: 639px) {
   .invitation-public.invitation-template-noir_champagne .invitation-hero {
-    min-height: clamp(34rem, 82svh, 46rem) !important;
+    min-height: clamp(28rem, 72svh, 36rem) !important;
+    height: auto !important;
     padding: 0 .65rem !important;
   }
   .invitation-public.invitation-template-noir_champagne .invitation-hero-content {

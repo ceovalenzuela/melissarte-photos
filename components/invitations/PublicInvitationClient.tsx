@@ -426,12 +426,11 @@ export default function PublicInvitationClient({
                   className="invitation-wax-seal mx-auto mb-5 sm:mb-6"
                 />
               ) : null}
-              <p
-                className="invitation-intro-copy mx-auto mb-3 max-w-2xl sm:mb-4"
-                style={{ color: content.intro_headline?.trim() ? titleColor : textColor }}
-              >
-                {content.intro_headline?.trim() || defaultIntroHeadline(templateKey)}
-              </p>
+              {content.intro_headline?.trim() && (
+                <p className="invitation-intro-copy mx-auto mb-3 max-w-2xl sm:mb-4" style={{ color: titleColor }}>
+                  {content.intro_headline.trim()}
+                </p>
+              )}
               {content.introduction && <p className="invitation-introduction mx-auto max-w-xl font-normal text-neutral-700" style={{ color: textColor }}>{content.introduction}</p>}
               <div className="invitation-details-heading">
                 <span className="invitation-details-rule" aria-hidden="true" />

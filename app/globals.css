@@ -7055,3 +7055,65 @@
     box-shadow: 0 -12px 30px rgba(0,0,0,.12) !important;
   }
 }
+
+
+/* El texto superior de portada siempre viene del campo event_label del administrador. */
+.invitation-public .invitation-hero-content::before {
+  content: none !important;
+  display: none !important;
+}
+.invitation-public .invitation-hero-eyebrow {
+  display: block !important;
+  margin: 0 auto .45rem !important;
+  max-width: 32rem;
+  color: var(--inv-accent) !important;
+  font-family: var(--font-sans), Arial, sans-serif !important;
+  font-size: clamp(.5rem, 1.2vw, .68rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.5 !important;
+  letter-spacing: .2em !important;
+  text-align: center !important;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+/* Noir Champagne móvil: tarjeta de nombres solapada sobre la fotografía.
+   Esta regla va al final para prevalecer sobre el reset responsive general. */
+@media (max-width: 639px) {
+  .invitation-public.invitation-template-noir_champagne .invitation-hero {
+    overflow: hidden !important;
+    padding: 0 .65rem 1rem !important;
+    align-items: flex-end !important;
+  }
+  .invitation-public.invitation-template-noir_champagne .invitation-hero-content {
+    position: relative !important;
+    z-index: 4 !important;
+    width: calc(100% - .5rem) !important;
+    max-width: 34rem !important;
+    min-height: 11.75rem !important;
+    margin: 0 auto !important;
+    padding: 1.25rem .8rem 1.45rem !important;
+    transform: translateY(-1.15rem) !important;
+    border: 1px solid color-mix(in srgb, var(--inv-accent) 68%, transparent) !important;
+    border-bottom: 0 !important;
+    background: var(--inv-background) !important;
+    box-shadow: 0 -14px 34px rgba(0,0,0,.18) !important;
+  }
+  .invitation-public.invitation-template-noir_champagne .invitation-hero-image,
+  .invitation-public.invitation-template-noir_champagne .invitation-hero-image-backdrop,
+  .invitation-public.invitation-template-noir_champagne .invitation-hero-overlay {
+    inset: 0 !important;
+  }
+  .invitation-public.invitation-template-noir_champagne .invitation-hero-frame {
+    display: none !important;
+  }
+}
+@media (min-width: 640px) {
+  .invitation-public.invitation-template-noir_champagne .invitation-hero-content {
+    width: min(88%, 58rem) !important;
+    margin-bottom: 1.5rem !important;
+    border: 1px solid color-mix(in srgb, var(--inv-accent) 68%, transparent) !important;
+    background: var(--inv-background) !important;
+    box-shadow: 0 14px 42px rgba(0,0,0,.2) !important;
+  }
+}

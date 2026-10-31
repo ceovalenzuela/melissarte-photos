@@ -7197,11 +7197,11 @@
   }
 }
 
-/* La proporción 4:5 se aplica únicamente en móvil. En escritorio
+/* La proporción 2:3 se aplica únicamente en móvil. En escritorio
    se conserva el comportamiento original de cada plantilla. */
 @media (max-width: 639px) {
   .invitation-public .invitation-hero.invitation-hero-has-cover {
-    aspect-ratio: 4 / 5 !important;
+    aspect-ratio: 2 / 3 !important;
     width: 100% !important;
     height: auto !important;
     min-height: 0 !important;

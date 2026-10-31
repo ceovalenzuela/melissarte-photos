@@ -371,7 +371,7 @@ export default function PublicInvitationClient({
     <main className="min-h-screen overflow-hidden" style={{ backgroundColor: background, color: textColor }}>
       <div className="mx-auto max-w-7xl sm:px-6 sm:py-8 lg:px-8">
         <article
-          className={`invitation-public ${templateClass} ${hasModernArtDirection ? "invitation-art-v2" : ""} overflow-hidden shadow-[0_28px_100px_rgba(48,36,27,0.12)] sm:rounded-[2rem]`}
+          className={`invitation-public ${templateClass} ${hasModernArtDirection ? "invitation-art-v2" : "invitation-art-v1"} overflow-hidden shadow-[0_28px_100px_rgba(48,36,27,0.12)] sm:rounded-[2rem]`}
           style={{
             backgroundColor: background,
             color: textColor,

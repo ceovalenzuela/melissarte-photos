@@ -329,6 +329,35 @@ Deno.serve(async (req) => {
       getRequiredEnv("SUPABASE_URL"),
       serviceKey
     );
+    // Expire abandoned unpaid drafts before removing their temporary cover files.
+    // Draft records are retained for audit; the RPC invalidates access immediately.
+    const { data: expiredDrafts, error: expiredDraftsError } = await supabaseAdmin
+      .rpc("expire_abandoned_invitation_drafts");
+    if (expiredDraftsError) {
+      throw new Error(`No se pudieron identificar borradores vencidos: ${expiredDraftsError.message}`);
+    }
+
+    let expiredDraftsProcessed = 0;
+    let expiredDraftsFailed = 0;
+    for (const draft of (expiredDrafts ?? []) as Array<{ draft_id: string }>) {
+      try {
+        const folder = `draft-covers/${draft.draft_id}`;
+        const { data: objects, error: listError } = await supabaseAdmin.storage
+          .from("event-covers")
+          .list(folder, { limit: 1000 });
+        if (listError) throw listError;
+
+        const paths = (objects ?? [])
+          .filter((object) => object.id)
+          .map((object) => `${folder}/${object.name}`);
+        await removeStorageObjects(supabaseAdmin, "event-covers", paths);
+        expiredDraftsProcessed += 1;
+      } catch (error) {
+        expiredDraftsFailed += 1;
+        console.error("No se pudieron limpiar archivos del borrador vencido:", draft.draft_id, error);
+      }
+    }
+
 
     const cutoff = new Date();
     cutoff.setUTCDate(
@@ -406,6 +435,9 @@ Deno.serve(async (req) => {
       request_covers_would_delete: dryRun ? expiredRequestCoverPaths.length : 0,
       request_cover_retention_days: REQUEST_COVER_RETENTION_DAYS,
       request_cover_cleanup_error: requestCoverCleanupError,
+      expired_drafts_processed: expiredDraftsProcessed,
+      expired_drafts_failed: expiredDraftsFailed,
+      expired_drafts_retention_days: 30,
       details: [] as Array<Record<string, unknown>>,
       dry_run: dryRun,
       requested_event_id: requestedEventId,

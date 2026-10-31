@@ -7189,7 +7189,7 @@
   .invitation-public.invitation-template-noir_champagne .invitation-hero-image,
   .invitation-public.invitation-template-noir_champagne .invitation-hero-image-backdrop,
   .invitation-public.invitation-template-noir_champagne .invitation-hero-overlay {
-    inset-bottom: var(--noir-nameplate-overlap) !important;
+    inset: 0 0 var(--noir-nameplate-overlap) 0 !important;
   }
   .invitation-public.invitation-template-noir_champagne .invitation-hero-content {
     min-height: 13.5rem !important;

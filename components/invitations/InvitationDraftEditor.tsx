@@ -38,6 +38,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
   const [notice, setNotice] = useState("");
   const [linkCopied, setLinkCopied] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewHistoryEntry, setPreviewHistoryEntry] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -61,7 +62,22 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
     return () => { active = false; };
   }, [token]);
 
+  useEffect(() => {
+    if (!previewOpen) return;
+    window.history.pushState({ ...(window.history.state ?? {}), invitationPreview: true }, "", window.location.href);
+    setPreviewHistoryEntry(true);
+    const onPopState = () => { setPreviewOpen(false); setPreviewHistoryEntry(false); };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, [previewOpen]);
+
+  function closePreview() {
+    if (previewHistoryEntry && window.history.state?.invitationPreview) window.history.back();
+    else { setPreviewOpen(false); setPreviewHistoryEntry(false); }
+  }
+
   const palette = INVITATION_PALETTES[template];
+  const eventLabels: Record<string, string> = { wedding: "Boda", xv: "Mis XV", baby_shower: "Baby shower", baptism: "Mi bautizo", other: "Mi celebración" };
   const preview: PublicInvitation | null = useMemo(() => draft ? ({
     invitation_id: draft.draft_id,
     event_id: draft.draft_id,
@@ -72,7 +88,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
     invitation_slug: "preview-" + draft.draft_reference.toLowerCase(),
     template_key: template,
     design_config: { ...palette, ...design },
-    content_config: content,
+    content_config: { ...content, event_label: eventLabels[draft.event_type] ?? "Mi celebración", ceremony_time: content.ceremony_time || "17:00", ceremony_venue: content.ceremony_venue || "Lugar de ceremonia (ejemplo)", ceremony_address: content.ceremony_address || "Dirección de ejemplo", dress_code: content.dress_code || "Formal", gift_message: content.gift_message || "Tu presencia es nuestro mejor regalo.", confirmation_mode: content.confirmation_mode || "rsvp" },
     rsvp_enabled: true,
     max_party_size: 5,
     invitation_status: "draft",
@@ -97,7 +113,10 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
     window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
   }
 
+  function hasRequiredDetails() { return Boolean(eventDate && design.cover_image_url && content.headline?.trim() && content.reception_time && content.reception_venue?.trim() && content.reception_address?.trim()); }
+
   async function save(openPreviewAfterSave = false) {
+    if (openPreviewAfterSave && !hasRequiredDetails()) { setError("Completa la foto de portada, los nombres, la fecha y todos los datos de recepción para ver tu invitación."); return; }
     setSaving(true);
     setError("");
     setNotice("");
@@ -105,7 +124,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
       p_access_token: token,
       p_template_key: template,
       p_design_config: design,
-      p_content_config: content,
+      p_content_config: { ...content, event_label: eventLabels[draft?.event_type ?? "other"] ?? "Mi celebración" },
       p_event_date: eventDate || null,
     });
     if (saveError || data !== true) {
@@ -134,6 +153,9 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
   }
 
   async function continueToCheckout(selected: "essential" | "plus") {
+    if (!hasRequiredDetails()) { setError("Antes de continuar, completa la foto de portada, los nombres y los datos de recepción."); return; }
+    const { data: saved, error: saveError } = await supabase.rpc("update_invitation_draft", { p_access_token: token, p_template_key: template, p_design_config: design, p_content_config: { ...content, event_label: eventLabels[draft?.event_type ?? "other"] ?? "Mi celebración" }, p_event_date: eventDate || null });
+    if (saveError || saved !== true) { setError(saveError?.message ?? "No fue posible guardar los datos antes de la compra."); return; }
     setSaving(true);
     setError("");
     const { data, error: packageError } = await supabase.rpc("set_invitation_draft_package", {
@@ -174,43 +196,39 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
         <section className="space-y-4">
           <div className="rounded-2xl border border-[#E7DCC8] bg-white p-5">
             <div className="flex items-center justify-between"><h2 className="font-semibold">Datos principales</h2><span className="text-xs text-[#8A8074]">{locked ? "Edición bloqueada" : "Borrador"}</span></div>
-            <label className="mt-4 block text-sm font-medium">Portada de tu invitación<input disabled={locked || (draft.payment_status !== "pending" && !(draft.payment_status === "paid" && draft.editing_enabled)) || uploading} type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>{const file=e.target.files?.[0];if(file) void uploadCover(file);e.currentTarget.value="";}} className="mt-1.5 block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-[#F2EBE1] file:px-3 file:py-2 file:text-xs file:font-semibold disabled:opacity-50" /></label>
+            <label className="mt-4 block text-sm font-medium">Portada de tu invitación <span className="text-[#A35B4D]">*</span><input disabled={locked || (draft.payment_status !== "pending" && !(draft.payment_status === "paid" && draft.editing_enabled)) || uploading} type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>{const file=e.target.files?.[0];if(file) void uploadCover(file);e.currentTarget.value="";}} className="mt-1.5 block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-[#F2EBE1] file:px-3 file:py-2 file:text-xs file:font-semibold disabled:opacity-50" /></label>
             {design.cover_image_url && <img src={design.cover_image_url} alt="Portada seleccionada" className="mt-3 aspect-[4/3] w-full rounded-xl object-cover" />}
-            <label className="mt-4 block text-sm font-medium">Título o nombres<input disabled={locked} value={content.headline ?? ""} onChange={e=>update("headline",e.target.value)} maxLength={120} placeholder="Ej. Sofía y Alejandro" className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
+            <label className="mt-4 block text-sm font-medium">Título o nombres <span className="text-[#A35B4D]">*</span><input required disabled={locked} value={content.headline ?? ""} onChange={e=>update("headline",e.target.value)} maxLength={120} placeholder="Ej. Sofía y Alejandro" className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
             <label className="mt-3 block text-sm font-medium">Texto secundario<input disabled={locked} value={content.subtitle ?? ""} onChange={e=>update("subtitle",e.target.value)} maxLength={180} placeholder="Nos encantará compartir..." className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
             <label className="mt-3 block text-sm font-medium">Anfitriones<input disabled={locked} value={content.host_names ?? ""} onChange={e=>update("host_names",e.target.value)} maxLength={160} placeholder="Nombres" className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
             <label className="mt-3 block text-sm font-medium">Fecha del evento<input disabled={locked} type="date" value={eventDate} onChange={e=>setEventDate(e.target.value)} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
           </div>
           <div className="rounded-2xl border border-[#E7DCC8] bg-white p-5">
             <h2 className="font-semibold">Recepción</h2>
-            <label className="mt-3 block text-sm font-medium">Nombre del lugar<input disabled={locked} value={content.reception_venue ?? ""} onChange={e=>update("reception_venue",e.target.value)} maxLength={160} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
-            <label className="mt-3 block text-sm font-medium">Hora<input disabled={locked} type="time" value={content.reception_time ?? ""} onChange={e=>update("reception_time",e.target.value)} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
-            <label className="mt-3 block text-sm font-medium">Dirección<textarea disabled={locked} value={content.reception_address ?? ""} onChange={e=>update("reception_address",e.target.value)} maxLength={240} rows={2} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
+            <label className="mt-3 block text-sm font-medium">Nombre del lugar <span className="text-[#A35B4D]">*</span><input required disabled={locked} value={content.reception_venue ?? ""} onChange={e=>update("reception_venue",e.target.value)} maxLength={160} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
+            <label className="mt-3 block text-sm font-medium">Hora <span className="text-[#A35B4D]">*</span><input required disabled={locked} type="time" value={content.reception_time ?? ""} onChange={e=>update("reception_time",e.target.value)} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
+            <label className="mt-3 block text-sm font-medium">Dirección <span className="text-[#A35B4D]">*</span><textarea required disabled={locked} value={content.reception_address ?? ""} onChange={e=>update("reception_address",e.target.value)} maxLength={240} rows={2} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
           </div>
           <div className="rounded-2xl border border-[#E7DCC8] bg-white p-5">
-            <h2 className="font-semibold">Plantilla y paleta</h2>
-            <select disabled={locked} value={template} onChange={e=>{const key=e.target.value as InvitationTemplateKey;setTemplate(key);setDesign(current=>({...current,...INVITATION_PALETTES[key],art_direction_version:2}));}} className="mt-3 w-full rounded-xl border border-[#E7DCC8] bg-white px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]">
-              {INVITATION_TEMPLATE_OPTIONS.map(option=><option key={option.key} value={option.key}>{option.label}</option>)}
-            </select>
-            <div className="mt-3 rounded-xl border border-[#E7DCC8] bg-[#FBF8F3] p-3">
-              <p className="text-sm font-semibold text-[#332B27]">{INVITATION_TEMPLATE_OPTIONS.find(option=>option.key===template)?.label}</p>
-              <p className="mt-1 text-xs leading-5 text-[#62594F]">{INVITATION_TEMPLATE_OPTIONS.find(option=>option.key===template)?.description}</p>
-              <div className="mt-3 flex items-center gap-2">
-                {[INVITATION_PALETTES[template].background_color,INVITATION_PALETTES[template].title_color,INVITATION_PALETTES[template].accent_color,INVITATION_PALETTES[template].button_color,INVITATION_PALETTES[template].border_color].map((color,index)=><span key={index} className="h-5 w-5 rounded-full border border-black/10" style={{backgroundColor:color}} />)}
-              </div>
+            <div className="flex items-start justify-between gap-3"><div><h2 className="font-semibold">Elige tu diseño</h2><p className="mt-1 text-xs leading-5 text-[#746A5D]">Explora las 10 plantillas con tus datos. Puedes cambiarla cuantas veces quieras antes de comprar.</p></div><span className="shrink-0 rounded-full bg-[#F4EFE6] px-3 py-1 text-xs font-semibold text-[#806747]">10 diseños</span></div>
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              {INVITATION_TEMPLATE_OPTIONS.map(option => { const colors = INVITATION_PALETTES[option.key]; const selected = template === option.key; return (
+                <button key={option.key} type="button" disabled={locked} aria-pressed={selected} onClick={() => { setTemplate(option.key); setDesign(current => ({ ...current, ...colors, art_direction_version: 2 })); }} className={`overflow-hidden rounded-2xl border text-left transition ${selected ? "border-[#A88750] ring-2 ring-[#A88750]/25 shadow-md" : "border-[#E7DCC8] hover:border-[#C7AD82]"} disabled:opacity-50`}>
+                  <div className="relative flex aspect-[4/3] items-center justify-center p-3" style={{ backgroundColor: colors.background_color }}><div className="w-[76%] rounded-sm border px-2 py-5 text-center shadow-sm" style={{ backgroundColor: colors.card_background_color, borderColor: colors.border_color }}><div className="mx-auto mb-2 h-1 w-8 rounded-full" style={{ backgroundColor: colors.accent_color }} /><div className="mx-auto h-1.5 w-3/4 rounded-full" style={{ backgroundColor: colors.title_color }} /><div className="mx-auto mt-2 h-1 w-1/2 rounded-full" style={{ backgroundColor: colors.text_color, opacity: .55 }} /><div className="mx-auto mt-3 h-1 w-1/3 rounded-full" style={{ backgroundColor: colors.accent_color }} /></div>{selected && <span className="absolute right-2 top-2 rounded-full bg-[#263D4B] px-2 py-1 text-[10px] font-semibold text-white">✓ Elegida</span>}</div>
+                  <div className="p-3"><p className="text-sm font-semibold text-[#332B27]">{option.label}</p><p className="mt-1 min-h-[2.5rem] text-[11px] leading-4 text-[#746A5D]">{option.description}</p><div className="mt-2 flex gap-1.5">{[colors.background_color, colors.title_color, colors.accent_color, colors.button_color].map((color,index)=><span key={index} className="h-3.5 w-3.5 rounded-full border border-black/10" style={{ backgroundColor: color }} />)}</div></div>
+                </button>); })}
             </div>
-            <p className="mt-2 text-xs leading-5 text-[#746A5D]">La paleta prediseñada cambia junto con la plantilla. La personalización avanzada se habilita después de validar tu pago.</p>
-            <button disabled={locked || saving} onClick={()=>void save()} className="mt-4 w-full rounded-full bg-[#263D4B] px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">{uploading ? "Subiendo portada..." : saving ? "Guardando..." : "Guardar cambios"}</button>
-            <button disabled={locked || saving || uploading || !eventDate || !content.headline?.trim() || !design.cover_image_url} onClick={()=>void save(true)} className="mt-2 w-full rounded-full border border-[#D5B77C] px-4 py-3 text-sm font-semibold text-[#51483E] disabled:opacity-40">Guardar y ver invitación completa</button>
-            <p className="mt-2 text-xs leading-5 text-[#8A8074]">La vista previa se habilita cuando agregues la fecha, el título o nombres y la foto de portada.</p>
-            {notice && <p role="status" className="mt-2 text-sm text-green-700">{notice}</p>}
-            {error && <p role="alert" className="mt-2 text-sm text-red-700">{error}</p>}
+            <p className="mt-4 rounded-xl bg-[#F8F6F2] px-3 py-2.5 text-xs leading-5 text-[#746A5D]">La plantilla y la paleta se pueden cambiar antes de pagar. Los colores y ajustes avanzados se habilitan después de confirmar tu compra.</p>
+            <button disabled={locked || saving} onClick={()=>void save()} className="mt-4 w-full rounded-full bg-[#263D4B] px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">{saving ? "Guardando..." : "Guardar cambios"}</button>
+            <button disabled={locked || saving || uploading || !hasRequiredDetails()} onClick={()=>void save(true)} className="mt-2 w-full rounded-full border border-[#D5B77C] px-4 py-3 text-sm font-semibold text-[#51483E] disabled:opacity-40">Guardar y ver invitación completa</button>
+            <p className="mt-2 text-xs leading-5 text-[#8A8074]">Para crear la vista previa necesitas foto, nombres y todos los datos de recepción. Los detalles adicionales aparecerán con ejemplos y podrás personalizarlos después de la compra.</p>
+            {notice && <p role="status" className="mt-2 text-sm text-green-700">{notice}</p>}{error && <p role="alert" className="mt-2 text-sm text-red-700">{error}</p>}
           </div>
           <div className="rounded-2xl border border-[#D5B77C] bg-[#FFFEFC] p-5">
             <h2 className="font-semibold">{draft.payment_status === "paid" ? "Pago validado" : "Continúa con tu compra"}</h2>
             <p className="mt-1 text-sm text-[#746A5D]">{draft.payment_status === "paid" ? (draft.editing_enabled ? `Tu paquete ${draft.package === "plus" ? "Plus" : "Esencial"} está habilitado. Puedes continuar con los ajustes autorizados.` : "Tu pago fue validado. Estamos preparando la siguiente etapa de edición.") : "Al finalizar, tu borrador quedará asociado al pedido para que podamos validar el pago y habilitar la edición."}</p>
-            <button disabled={saving || locked || draft.payment_status !== "pending"} onClick={()=>continueToCheckout("essential")} className="mt-4 w-full rounded-full bg-[#263D4B] px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">Elegir Esencial · $199 MXN</button>
-            <button disabled={saving || locked || draft.payment_status !== "pending"} onClick={()=>continueToCheckout("plus")} className="mt-2 w-full rounded-full border border-[#D5B77C] px-4 py-3 text-sm font-semibold text-[#51483E] disabled:opacity-50">Elegir Plus · $349 MXN</button>
+            <button disabled={saving || locked || draft.payment_status !== "pending" || !hasRequiredDetails()} onClick={()=>continueToCheckout("essential")} className="mt-4 w-full rounded-full bg-[#263D4B] px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">Elegir Esencial · $199 MXN</button>
+            <button disabled={saving || locked || draft.payment_status !== "pending" || !hasRequiredDetails()} onClick={()=>continueToCheckout("plus")} className="mt-2 w-full rounded-full border border-[#D5B77C] px-4 py-3 text-sm font-semibold text-[#51483E] disabled:opacity-50">Elegir Plus · $349 MXN</button>
           </div>
         </section>
       </div>
@@ -219,7 +237,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
           <div className="flex shrink-0 items-center justify-between gap-3 border-b border-[#E7DCC8] bg-white px-4 py-3">
             <h2 className="text-sm font-semibold">Vista previa de tu invitación</h2>
             <div className="flex gap-2">
-              <button type="button" onClick={()=>setPreviewOpen(false)} className="rounded-full border px-4 py-2 text-xs font-semibold">Volver a editar</button>
+              <button type="button" onClick={closePreview} className="rounded-full border px-4 py-2 text-xs font-semibold">Volver a editar</button>
               <button type="button" disabled={saving} onClick={()=>void save()} className="rounded-full bg-[#263D4B] px-4 py-2 text-xs font-semibold text-white">Guardar</button>
             </div>
           </div>

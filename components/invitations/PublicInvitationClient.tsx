@@ -598,7 +598,10 @@ export default function PublicInvitationClient({
                 </div>
               </div>
             )}
-            <p className="invitation-footer-thanks mt-3">Gracias por ser parte de esta historia</p>
+            {(content.host_names?.trim() || (content.godparents_enabled && (content.godparents ?? []).some((person) => person.name.trim()))) && (
+              <div aria-hidden="true" className="mx-auto my-7 h-px w-14" style={{ backgroundColor: `${borderColor}AA` }} />
+            )}
+            <p className="invitation-footer-thanks mt-0">Gracias por ser parte de esta historia</p>
             <div className="invitation-footer-brand mt-8 border-t pt-5" style={{ borderColor: `${borderColor}88` }}><a href="https://events.melissartedecorativo.com/invitaciones" aria-label="Conoce las invitaciones de Melissarte" className="inline-flex rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4" style={{ outlineColor: accent }}><img src="/me-logo.png" alt="Melissarte Events — ver invitaciones" className="mx-auto h-auto w-24 max-w-[28vw] object-contain opacity-80 transition-opacity hover:opacity-100 sm:w-28" loading="lazy" /></a></div>
           </footer>
         </article>

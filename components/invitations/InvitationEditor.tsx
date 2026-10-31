@@ -457,9 +457,10 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                 )}
               </div>
               <div className="sm:col-span-2">
-                <label className={labelClass}>Título de introducción</label>
-                <input type="text" value={content.intro_headline ?? ""} onChange={(e) => updateContent("intro_headline", e.target.value)} placeholder="Ej. Un día para recordar" maxLength={80} className={inputClass} />
-                <p className="mt-1 text-right text-xs text-[#8A8074]">{(content.intro_headline ?? "").length}/80 caracteres</p>
+                <label className={labelClass}>Título de introducción <span className="font-normal text-[#8A8074]">(opcional)</span></label>
+                <input type="text" value={content.intro_headline ?? ""} onChange={(e) => updateContent("intro_headline", e.target.value)} placeholder="Déjalo vacío si no deseas mostrar un título" maxLength={80} className={inputClass} />
+                <p className="mt-1 text-xs text-[#8A8074]">Si lo dejas vacío, no se mostrará ningún título y la composición se ajustará automáticamente.</p>
+                <p className="text-right text-xs text-[#8A8074]">{(content.intro_headline ?? "").length}/80 caracteres</p>
               </div>
               <div className="sm:col-span-2">
                 <label className={labelClass}>Mensaje breve</label>

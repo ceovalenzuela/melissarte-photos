@@ -433,14 +433,27 @@ export default function PublicInvitationClient({
 
             {(content.ceremony_venue || content.ceremony_time || content.ceremony_address || content.reception_venue || content.reception_time || content.reception_address || (content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address))) && (
               <div className={`invitation-location-grid mx-auto mt-8 grid w-full items-stretch gap-4 ${locationCount === 2 ? "max-w-5xl md:grid-cols-2" : locationCount >= 3 ? "max-w-6xl md:grid-cols-2 xl:grid-cols-3" : "max-w-xl grid-cols-1"}`}>
-                {content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address) && (
-                  <LocationCard title="Ceremonia" time={content.religious_ceremony_time} venue={content.religious_ceremony_venue} address={content.religious_ceremony_address} maps={religiousCeremonyMapsUrl} calendarUrl={calendarUrl("Ceremonia", content.religious_ceremony_time, content.religious_ceremony_venue, content.religious_ceremony_address)} accent={accent} editorial={isEditorialFlagship} />
-                )}
-                {(content.ceremony_venue || content.ceremony_time || content.ceremony_address) && (
-                  <LocationCard title={content.reception_title?.trim() || "Recepción"} time={content.ceremony_time} venue={content.ceremony_venue} address={content.ceremony_address} maps={primaryMapsUrl} calendarUrl={calendarUrl(content.reception_title?.trim() || "Recepción", content.ceremony_time, content.ceremony_venue, content.ceremony_address)} accent={accent} editorial={isEditorialFlagship} />
-                )}
-                {(content.reception_venue || content.reception_time || content.reception_address) && (
-                  <LocationCard title={previewMode ? "Recepción" : "Celebración"} time={content.reception_time} venue={content.reception_venue} address={content.reception_address} maps={receptionMapsUrl} calendarUrl={calendarUrl(previewMode ? "Recepción" : "Celebración", content.reception_time, content.reception_venue, content.reception_address)} accent={accent} editorial={isEditorialFlagship} />
+                {previewMode ? (
+                  <>
+                    {(content.reception_venue || content.reception_time || content.reception_address) && (
+                      <LocationCard title="Recepción" time={content.reception_time} venue={content.reception_venue} address={content.reception_address} maps={receptionMapsUrl} calendarUrl={calendarUrl("Recepción", content.reception_time, content.reception_venue, content.reception_address)} accent={accent} editorial={isEditorialFlagship} />
+                    )}
+                    {content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address) && (
+                      <LocationCard title="Ceremonia" time={content.religious_ceremony_time} venue={content.religious_ceremony_venue} address={content.religious_ceremony_address} maps={religiousCeremonyMapsUrl} calendarUrl={calendarUrl("Ceremonia", content.religious_ceremony_time, content.religious_ceremony_venue, content.religious_ceremony_address)} accent={accent} editorial={isEditorialFlagship} />
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {content.religious_ceremony_enabled && (content.religious_ceremony_time || content.religious_ceremony_venue || content.religious_ceremony_address) && (
+                      <LocationCard title="Ceremonia" time={content.religious_ceremony_time} venue={content.religious_ceremony_venue} address={content.religious_ceremony_address} maps={religiousCeremonyMapsUrl} calendarUrl={calendarUrl("Ceremonia", content.religious_ceremony_time, content.religious_ceremony_venue, content.religious_ceremony_address)} accent={accent} editorial={isEditorialFlagship} />
+                    )}
+                    {(content.ceremony_venue || content.ceremony_time || content.ceremony_address) && (
+                      <LocationCard title={content.reception_title?.trim() || "Recepción"} time={content.ceremony_time} venue={content.ceremony_venue} address={content.ceremony_address} maps={primaryMapsUrl} calendarUrl={calendarUrl(content.reception_title?.trim() || "Recepción", content.ceremony_time, content.ceremony_venue, content.ceremony_address)} accent={accent} editorial={isEditorialFlagship} />
+                    )}
+                    {(content.reception_venue || content.reception_time || content.reception_address) && (
+                      <LocationCard title="Celebración" time={content.reception_time} venue={content.reception_venue} address={content.reception_address} maps={receptionMapsUrl} calendarUrl={calendarUrl("Celebración", content.reception_time, content.reception_venue, content.reception_address)} accent={accent} editorial={isEditorialFlagship} />
+                    )}
+                  </>
                 )}
               </div>
             )}

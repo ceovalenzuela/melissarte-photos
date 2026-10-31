@@ -31,6 +31,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
   const [design, setDesign] = useState<InvitationDesign>({});
   const [eventDate, setEventDate] = useState("");
   const [template, setTemplate] = useState<InvitationTemplateKey>("wedding_editorial");
+  const [whatsAppPackage, setWhatsAppPackage] = useState<"essential" | "plus">("essential");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -268,11 +269,14 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
             {draft.payment_status === "pending" && (
               <div className="mt-5 border-t border-[#E9E0D3] pt-4">
                 <p className="text-center text-xs leading-5 text-[#746A5D]">¿Prefieres que te atendamos personalmente?</p>
-                <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                  <button disabled={saving || locked || !hasRequiredDetails()} onClick={()=>void orderByWhatsApp("essential")} className="w-full rounded-full border border-[#B8CDBB] bg-white px-3 py-3 text-sm font-semibold text-[#315D43] transition hover:bg-[#F3F8F3] disabled:opacity-50">Ordenar Esencial por WhatsApp</button>
-                  <button disabled={saving || locked || !hasRequiredDetails()} onClick={()=>void orderByWhatsApp("plus")} className="w-full rounded-full border border-[#B8CDBB] bg-white px-3 py-3 text-sm font-semibold text-[#315D43] transition hover:bg-[#F3F8F3] disabled:opacity-50">Ordenar Plus por WhatsApp</button>
-                </div>
-                <p className="mt-2 text-center text-[11px] leading-4 text-[#8A8074]">Te ayudaremos a completar tu pedido sin necesidad de pagar directamente en Shopify.</p>
+                <label className="mt-3 block text-sm font-medium text-[#38352F]">Tipo de invitación
+                  <select value={whatsAppPackage} onChange={e=>setWhatsAppPackage(e.target.value as "essential" | "plus")} disabled={saving || locked} className="mt-2 min-h-11 w-full rounded-xl border border-[#E7DCC8] bg-white px-3 text-sm">
+                    <option value="essential">Esencial · $199 MXN</option>
+                    <option value="plus">Plus · $349 MXN</option>
+                  </select>
+                </label>
+                <button disabled={saving || locked || !hasRequiredDetails()} onClick={()=>void orderByWhatsApp(whatsAppPackage)} className="mt-3 w-full rounded-full border border-[#B8CDBB] bg-white px-3 py-3 text-sm font-semibold text-[#315D43] transition hover:bg-[#F3F8F3] disabled:opacity-50">{saving ? "Preparando tu pedido..." : "Ordenar por WhatsApp"}</button>
+                <p className="mt-2 text-center text-[11px] leading-4 text-[#8A8074]">Te ayudaremos a completar tu pedido por WhatsApp.</p>
               </div>
             )}
           </div>

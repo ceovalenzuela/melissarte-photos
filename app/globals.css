@@ -7211,20 +7211,14 @@
   }
   .invitation-public .invitation-hero-has-cover .invitation-hero-image {
     inset: 0 !important;
-    background-size: contain !important;
+    background-size: cover !important;
     background-position: center center !important;
     background-repeat: no-repeat !important;
     transform: none !important;
   }
+  /* El relleno desenfocado se reserva exclusivamente para escritorio. */
   .invitation-public .invitation-hero-has-cover .invitation-hero-image-backdrop {
-    display: block !important;
-    inset: -3% !important;
-    background-size: cover !important;
-    background-position: center center !important;
-    background-repeat: no-repeat !important;
-    filter: blur(24px) saturate(.82) brightness(.72) !important;
-    transform: scale(1.06) !important;
-    opacity: .78 !important;
+    display: none !important;
   }
 }
 

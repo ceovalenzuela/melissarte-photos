@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, useEffect, useRef, useState, type ReactNode } from "react";
-import { Copy, ExternalLink, ImagePlus, RotateCcw, Save, Sparkles, Users, Mail, Gift, Coins, Heart } from "lucide-react";
+import { Copy, ExternalLink, ImagePlus, RotateCcw, Save, Sparkles, Users, Mail, Mails, Gift, Heart } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 import { uploadCover } from "@/lib/events";
@@ -489,7 +489,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                   {([
                     { value: "envelope", label: "Sobre", Icon: Mail },
                     { value: "gift", label: "Regalo", Icon: Gift },
-                    { value: "coins", label: "Lluvia de sobres", Icon: Coins },
+                    { value: "envelopes", label: "Sobres", Icon: Mails },
                     { value: "heart", label: "Detalle especial", Icon: Heart },
                   ] as const).map(({ value, label, Icon }) => {
                     const selected = (content.gift_icon ?? "gift") === value;

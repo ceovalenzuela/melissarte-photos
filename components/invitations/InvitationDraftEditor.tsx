@@ -152,6 +152,41 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
     } finally { setUploading(false); }
   }
 
+  async function orderByWhatsApp(selected: "essential" | "plus") {
+    const whatsappWindow = window.open("about:blank", "_blank");
+    if (!whatsappWindow) {
+      setError("Permite las ventanas emergentes para continuar por WhatsApp.");
+      return;
+    }
+    setSaving(true);
+    setError("");
+    const { data: saved, error: saveError } = await supabase.rpc("update_invitation_draft", {
+      p_access_token: token,
+      p_template_key: template,
+      p_design_config: design,
+      p_content_config: { ...content, event_label: draft?.payment_status === "pending" ? (eventLabels[draft.event_type] ?? "Mi celebración") : content.event_label },
+      p_event_date: eventDate || null,
+    });
+    if (saveError || saved !== true) {
+      whatsappWindow.close();
+      setError(saveError?.message ?? "No fue posible guardar tu invitación. Inténtalo nuevamente.");
+      setSaving(false);
+      return;
+    }
+    const packageName = selected === "plus" ? "Plus" : "Esencial";
+    const price = selected === "plus" ? "$349 MXN" : "$199 MXN";
+    const message = [
+      "Hola, quiero ordenar mi invitación digital por WhatsApp.",
+      "Paquete: " + packageName + " (" + price + ").",
+      "Tipo de evento: " + (eventLabels[draft?.event_type ?? ""] ?? "Mi celebración") + ".",
+      "Referencia de mi borrador: " + (draft?.draft_reference ?? "") + ".",
+      "Pueden revisar mi avance aquí: " + draftUrl,
+    ].join("\n");
+    whatsappWindow.location.href = "https://wa.me/528133867050?text=" + encodeURIComponent(message);
+    setNotice("Guardamos tus cambios. Continúa la conversación por WhatsApp para completar tu pedido.");
+    setSaving(false);
+  }
+
   async function continueToCheckout(selected: "essential" | "plus") {
     if (!hasRequiredDetails()) { setError("Antes de continuar, completa la foto de portada, los nombres y los datos de recepción."); return; }
     const { data: saved, error: saveError } = await supabase.rpc("update_invitation_draft", { p_access_token: token, p_template_key: template, p_design_config: design, p_content_config: { ...content, event_label: draft?.payment_status === "pending" ? (eventLabels[draft.event_type] ?? "Mi celebración") : content.event_label }, p_event_date: eventDate || null });
@@ -229,6 +264,16 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
             <p className="mt-1 text-sm text-[#746A5D]">{draft.payment_status === "paid" ? (draft.editing_enabled ? `Tu paquete ${draft.package === "plus" ? "Plus" : "Esencial"} está habilitado. Puedes continuar con los ajustes autorizados.` : "Tu pago fue validado. Estamos preparando la siguiente etapa de edición.") : "Elige el paquete que incluya las herramientas que necesitas para tu evento."}</p>
             <button disabled={saving || locked || draft.payment_status !== "pending" || !hasRequiredDetails()} onClick={()=>continueToCheckout("essential")} className="mt-4 w-full rounded-full bg-[#263D4B] px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">Elegir Esencial · $199 MXN</button>
             <button disabled={saving || locked || draft.payment_status !== "pending" || !hasRequiredDetails()} onClick={()=>continueToCheckout("plus")} className="mt-2 w-full rounded-full border border-[#D5B77C] px-4 py-3 text-sm font-semibold text-[#51483E] disabled:opacity-50">Elegir Plus · $349 MXN</button>
+            {draft.payment_status === "pending" && (
+              <div className="mt-5 border-t border-[#E9E0D3] pt-4">
+                <p className="text-center text-xs leading-5 text-[#746A5D]">¿Prefieres que te atendamos personalmente?</p>
+                <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                  <button disabled={saving || locked || !hasRequiredDetails()} onClick={()=>void orderByWhatsApp("essential")} className="w-full rounded-full border border-[#B8CDBB] bg-white px-3 py-3 text-sm font-semibold text-[#315D43] transition hover:bg-[#F3F8F3] disabled:opacity-50">Ordenar Esencial por WhatsApp</button>
+                  <button disabled={saving || locked || !hasRequiredDetails()} onClick={()=>void orderByWhatsApp("plus")} className="w-full rounded-full border border-[#B8CDBB] bg-white px-3 py-3 text-sm font-semibold text-[#315D43] transition hover:bg-[#F3F8F3] disabled:opacity-50">Ordenar Plus por WhatsApp</button>
+                </div>
+                <p className="mt-2 text-center text-[11px] leading-4 text-[#8A8074]">Te ayudaremos a completar tu pedido sin necesidad de pagar directamente en Shopify.</p>
+              </div>
+            )}
           </div>
         </section>
       </div>

@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabase";
 import { uploadCover } from "@/lib/events";
 import type { Event } from "@/types/event";
 import type { InvitationContent, InvitationDesign, InvitationStatus, InvitationTemplateKey } from "@/types/invitation";
-import { INVITATION_PALETTES, INVITATION_TEMPLATE_OPTIONS } from "@/lib/invitation-palettes";
+import { INVITATION_PALETTES, INVITATION_TEMPLATE_OPTIONS, INVITATION_RETIRED_TEMPLATE_OPTIONS } from "@/lib/invitation-palettes";
 
 interface InvitationRow {
   invitation_id: string;
@@ -56,26 +56,23 @@ const emptyContent = (event: Event): InvitationContent => ({
 
 type TemplateKey = InvitationTemplateKey;
 const TEMPLATE_OPTIONS = INVITATION_TEMPLATE_OPTIONS.map((option) => ({ ...option, palette: INVITATION_PALETTES[option.key] }));
-function initialDesignForTemplate(template: TemplateKey): InvitationDesign {
-  return { ...(TEMPLATE_OPTIONS.find((option) => option.key === template)?.palette ?? emptyDesign) };
+const RETIRED_TEMPLATE_OPTIONS = INVITATION_RETIRED_TEMPLATE_OPTIONS;
+
+function isKnownTemplateKey(value: string): value is TemplateKey {
+  return Object.prototype.hasOwnProperty.call(INVITATION_PALETTES, value);
 }
 
-function defaultTemplate(event: Event): TemplateKey {
-  const type = String(event.type ?? "").toLowerCase();
-  if (type.includes("xv")) return "xv_gala";
-  if (type.includes("baby") || type.includes("reveal") || type.includes("gender")) return "baby_soft";
-  if (type.includes("bapt") || type.includes("baut")) return "baptism_light";
+function initialDesignForTemplate(template: TemplateKey): InvitationDesign {
+  return { ...INVITATION_PALETTES[template] };
+}
+
+// Editorial queda como única plantilla activa mientras desarrollamos la nueva colección.
+function defaultTemplate(_event: Event): TemplateKey {
   return "wedding_editorial";
 }
 
-const emptyDesign: InvitationDesign = {
-  accent_color: "#9A7358",
-  background_color: "#FBF7F1",
-  text_color: "#332B27",
-};
 function initialDesign(event: Event): InvitationDesign {
-  const template = defaultTemplate(event);
-  return { ...(TEMPLATE_OPTIONS.find((option) => option.key === template)?.palette ?? emptyDesign) };
+  return { ...INVITATION_PALETTES[defaultTemplate(event)] };
 }
 
 export default function InvitationEditor({ event, organizerToken }: Props) {
@@ -115,7 +112,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
       setLoadError(false);
       const row = (data?.[0] as InvitationRow | undefined) ?? null;
       if (row) {
-        const rowTemplate = (TEMPLATE_OPTIONS.find((option) => option.key === row.template_key)?.key) ?? defaultTemplate(event);
+        const rowTemplate = isKnownTemplateKey(row.template_key) ? row.template_key : defaultTemplate(event);
         setContent({ ...emptyContent(event), ...(row.content_config ?? {}), confirmation_mode: row.content_config?.confirmation_mode ?? (row.rsvp_enabled ? "rsvp" : "none"), event_label: row.content_config?.event_label ?? defaultEventLabel(rowTemplate) });
         setDesign({ ...INVITATION_PALETTES[rowTemplate], ...(row.design_config ?? {}) });
         setTemplateKey(rowTemplate);
@@ -341,6 +338,16 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
               <h3 className="text-base font-semibold text-[#332B27]">Diseño de la invitación</h3>
               <p className="mt-1 text-sm leading-6 text-[#6F665B]">Elige el estilo que mejor acompaña tu celebración. Puedes personalizar sus colores después.</p>
             </div>
+            {RETIRED_TEMPLATE_OPTIONS.some((option) => option.key === templateKey) && (
+              <div className="mb-4 rounded-2xl border border-[#E8DCCB] bg-[#F8F4ED] px-4 py-3.5">
+                <p className="text-sm font-semibold text-[#51483E]">
+                  Plantilla anterior: {RETIRED_TEMPLATE_OPTIONS.find((option) => option.key === templateKey)?.label}
+                </p>
+                <p className="mt-1 text-sm leading-5 text-[#756B5F]">
+                  Esta invitación conserva su diseño actual mientras preparamos las nuevas plantillas. Puedes seguir editando y guardando su contenido; su apariencia no cambiará hasta que selecciones otro diseño.
+                </p>
+              </div>
+            )}
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
               {TEMPLATE_OPTIONS.map((option) => {
                 const selected = templateKey === option.key;
@@ -399,7 +406,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                 );
               })}
             </div>
-            <p className="mt-3 text-xs leading-5 text-[#62594F]">Al elegir otra plantilla se aplica su paleta inicial. Tu portada se conserva; los demás colores se pueden ajustar en «Personalizar colores».</p>
+            <p className="mt-3 text-xs leading-5 text-[#62594F]">Al elegir una plantilla activa se aplica su paleta inicial. Tu portada se conserva; los demás colores se pueden ajustar en «Personalizar colores».</p>
           </section>
 
           <section id="editor-message" className="scroll-mt-6 border-t border-[#E7DCC8] pt-6">

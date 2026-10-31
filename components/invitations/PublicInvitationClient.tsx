@@ -410,15 +410,15 @@ export default function PublicInvitationClient({
           </header>
           {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} titleColor={titleColor} borderColor={borderColor} editorial={isEditorialFlagship} />}
           <section id="detalles" className={`invitation-details-section px-5 pt-7 pb-12 sm:px-12 sm:pt-10 sm:pb-16 lg:px-20 ${templateKey === "wedding_editorial" ? "invitation-wedding-details" : ""}`}>
-            <div className={`invitation-intro-block mx-auto max-w-3xl text-center ${!content.intro_headline?.trim() && !content.introduction?.trim() && !design.wax_seal_image_url?.startsWith("https://") ? "invitation-intro-block--compact" : ""}`}>
-              {design.wax_seal_image_url?.startsWith("https://") ? (
-                <img
-                  src={design.wax_seal_image_url}
-                  alt=""
-                  aria-hidden="true"
-                  className="invitation-wax-seal mx-auto mb-5 sm:mb-6"
-                />
-              ) : null}
+            {design.wax_seal_image_url?.startsWith("https://") ? (
+              <img
+                src={design.wax_seal_image_url}
+                alt=""
+                aria-hidden="true"
+                className="invitation-wax-seal mx-auto mb-5 sm:mb-6"
+              />
+            ) : null}
+            <div className={`invitation-intro-block mx-auto max-w-3xl text-center ${!content.intro_headline?.trim() && !content.introduction?.trim() ? "invitation-intro-block--compact" : ""}`}>
               {content.intro_headline?.trim() && (
                 <p className="invitation-intro-copy mx-auto mb-3 max-w-2xl sm:mb-4" style={{ color: titleColor }}>
                   {content.intro_headline.trim()}
@@ -476,8 +476,8 @@ export default function PublicInvitationClient({
                       const SelectedIcon = selected.Icon;
                       return (
                         <div className="mt-4 flex flex-col items-center justify-center gap-2 text-center" style={{ color: accent }}>
-                          <SelectedIcon size={30} strokeWidth={1.6} />
-                          <span className="text-sm font-semibold leading-5">{selected.label}</span>
+                          <SelectedIcon size={26} strokeWidth={1.6} />
+                          <span className="text-[13px] font-semibold leading-5">{selected.label}</span>
                         </div>
                       );
                     })()}

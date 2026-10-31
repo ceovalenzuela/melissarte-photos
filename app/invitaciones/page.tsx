@@ -151,7 +151,7 @@ export default function InvitationsLandingPage() {
               <article key={demo.key} className="overflow-hidden rounded-2xl border border-[#E8E0D4] bg-[#FCFAF6] shadow-[0_8px_24px_rgba(55,45,32,.045)]">
                 <a href={demo.href} target="_blank" rel="noopener noreferrer" aria-label={`Explorar inspiración de ${demo.label}`} className="group block p-2.5 sm:p-3">
                   <div className={`relative flex aspect-[4/5] w-full items-center justify-center overflow-hidden rounded-xl border px-3 text-center ${demo.key === "boda" ? "border-[#E5DFD2] bg-[#F4F1E9]" : "border-[#EADDE0] bg-[#F5ECEE]"}`}>
-                    <div className="grid w-full grid-rows-[12px_44px_20px_60px_12px] content-center justify-items-center gap-y-3">
+                    <div className="grid w-full grid-rows-[12px_44px_20px_60px_12px] content-center justify-items-center gap-y-4 py-3">
                       <span className={`text-[9px] font-semibold uppercase leading-3 tracking-[.24em] ${demo.key === "boda" ? "text-[#879783]" : "text-[#AD7D89]"}`}>Inspiración</span>
                       <span className={`flex h-11 items-center font-[var(--font-display)] text-[clamp(1.65rem,5vw,2.35rem)] font-semibold leading-none tracking-[-.04em] ${demo.key === "boda" ? "text-[#263D4B]" : "text-[#684957]"}`}>{demo.label}</span>
                       <span aria-hidden="true" className="flex h-5 items-center gap-2">

@@ -5831,6 +5831,10 @@
     background-position: left center, right center !important;
     background-repeat: no-repeat !important;
   }
+  /* Keep only the divider flanking the overline. Remove the legacy pair
+     anchored to the bottom edge of the hero, which caused the duplicate lines. */
+  .invitation-public.invitation-template-editorial-flagship .invitation-hero::before,
+  .invitation-public.invitation-template-editorial-flagship .invitation-hero::after,
   .invitation-public.invitation-template-editorial-flagship .invitation-hero-content::after,
   .invitation-public.invitation-template-editorial-flagship .invitation-hero-date::before,
   .invitation-public.invitation-template-editorial-flagship .invitation-hero-date::after {

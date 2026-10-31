@@ -13,7 +13,7 @@ import {
 export const metadata = {
   title: "Invitaciones digitales para tu evento | Melissarte",
   description:
-    "Invitaciones digitales personalizadas. Elige entre 10 diseños, personaliza tu evento y comparte tu invitación en línea.",
+    "Invitaciones digitales personalizadas para compartir los detalles de tu evento de una forma especial.",
 };
 
 const WHATSAPP_NUMBER = "528133867050";
@@ -113,7 +113,7 @@ export default function InvitationsLandingPage() {
             <span className="block text-[#A88249]">una gran invitación.</span>
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#625A50] sm:text-base">
-            Elige uno de nuestros 10 diseños, personaliza los detalles de tu evento y comparte tu invitación desde un solo enlace.
+            Encuentra un diseño que vaya contigo, personaliza los detalles de tu evento y comparte tu invitación desde un solo enlace.
           </p>
           <div className="mt-5 flex flex-col justify-center gap-2 sm:flex-row">
             <a
@@ -144,19 +144,15 @@ export default function InvitationsLandingPage() {
               <p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#A88249]">Inspírate</p>
               <h2 className="mt-1 font-[var(--font-display)] text-2xl font-semibold text-[#20262B] sm:text-3xl">Conoce nuestros ejemplos</h2>
             </div>
-            <p className="text-xs text-[#746A5D]">Abre cada demo para verla completa.</p>
+            <p className="text-xs text-[#746A5D]">Entra a cada invitación para conocerla.</p>
           </div>
           <div className="mx-auto mt-4 grid max-w-2xl grid-cols-2 gap-3 sm:gap-5">
             {INVITATION_DEMOS.map((demo) => (
               <article key={demo.key} className="overflow-hidden rounded-xl border border-[#E8E0D4] bg-[#FCFAF6]">
                 <a href={demo.href} target="_blank" rel="noopener noreferrer" aria-label={`Ver invitación de ${demo.label}`} className="block bg-[#F0E8DB] p-2.5 sm:p-3">
-                  <div className="relative mx-auto aspect-[4/5] w-full max-w-[280px] overflow-hidden rounded-lg border border-white/80 bg-white">
-                    <iframe
-                      title={`Vista previa de invitación demo de ${demo.label}`}
-                      src={demo.href}
-                      loading="lazy"
-                      className="pointer-events-none absolute inset-0 h-full w-full border-0 bg-white"
-                    />
+                  <div className="flex aspect-[4/5] w-full max-w-[280px] flex-col items-center justify-center rounded-lg border border-white/80 bg-[#FCFAF6] px-4 text-center">
+                    <span className="font-[var(--font-display)] text-2xl font-semibold text-[#263D4B]">{demo.label}</span>
+                    <span className="mt-2 text-xs text-[#746A5D]">Invitación de ejemplo</span>
                   </div>
                 </a>
                 <div className="flex items-center justify-between gap-2 px-3 py-3 sm:px-4">
@@ -176,8 +172,8 @@ export default function InvitationsLandingPage() {
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#A88249]">Tu invitación comienza aquí</p>
             <h2 className="mt-2 font-[var(--font-display)] text-3xl font-semibold tracking-tight text-[#20262B] sm:text-4xl">Elige tu diseño y hazla tuya</h2>
-            <p className="mt-3 max-w-xl text-sm leading-6 text-[#625A50]">Explora 10 plantillas con estilos distintos, agrega la información de tu evento y personaliza tu invitación paso a paso. Al terminar podrás elegir el paquete que mejor se adapte a lo que necesitas.</p>
-            <a href="/crear-invitacion" className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#263D4B] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[#172C38]">Explorar las 10 plantillas <ArrowRight size={16} /></a>
+            <p className="mt-3 max-w-xl text-sm leading-6 text-[#625A50]">Elige el estilo que más te guste y agrega los detalles de tu celebración. Después podrás seleccionar el paquete que mejor se adapte a lo que necesitas.</p>
+            <a href="/crear-invitacion" className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#263D4B] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[#172C38]">Ver diseños <ArrowRight size={16} /></a>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="rounded-2xl border border-[#E5D9C8] bg-[#F8F4EC] p-4">
@@ -206,9 +202,6 @@ export default function InvitationsLandingPage() {
             <h2 className="mt-2 font-[var(--font-display)] text-3xl font-semibold tracking-tight text-[#20262B] sm:text-4xl">
               Completa tu invitación
             </h2>
-            <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-[#625A50]">
-              Después de elegir tu diseño y personalizarlo, selecciona el paquete que mejor se adapte a tu evento.
-            </p>
           </div>
 
           <div className="mx-auto mt-6 grid gap-4 lg:grid-cols-2">
@@ -256,59 +249,6 @@ export default function InvitationsLandingPage() {
           <p className="mt-4 text-center text-xs text-[#746A5D]">
             ¿Tienes dudas? <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#34465D] underline decoration-[#CDB99D] underline-offset-4">Escríbenos por WhatsApp</a>
           </p>
-        </div>
-      </section>
-
-      <section id="organizador" className="scroll-mt-5 border-y border-[#E8E0D4] bg-[#FFFEFC] px-5 py-9 sm:px-8 sm:py-12">
-        <div className="mx-auto max-w-5xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#A88249]">Exclusivo de Invitación Plus</p>
-            <h2 className="mt-2 font-[var(--font-display)] text-3xl font-semibold tracking-tight text-[#20262B] sm:text-4xl">Tu evento, bajo control</h2>
-            <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#625A50]">Organiza tu lista, asigna pases y revisa las respuestas desde un solo lugar, sin perder de vista ningún detalle.</p>
-          </div>
-          <div className="mt-6 grid items-start gap-4 md:grid-cols-[1.05fr_.95fr] md:gap-5">
-            <article className="overflow-hidden rounded-[1.35rem] border border-[#E6DED1] bg-[#F7F3ED] shadow-[0_12px_34px_rgba(45,38,29,.08)]">
-              <div className="bg-gradient-to-br from-[#344B61] to-[#202B34] px-5 py-5 text-white sm:px-6 sm:py-6">
-                <p className="text-[9px] font-semibold uppercase tracking-[.24em] text-[#B7C5D0]">Panel del organizador</p>
-                <h3 className="mt-2 font-[var(--font-display)] text-3xl leading-tight sm:text-4xl">Confirmaciones</h3>
-                <p className="mt-2 text-xs text-white/80 sm:text-sm">Boda Sofía y Alejandro · 5 de diciembre</p>
-              </div>
-              <div className="grid grid-cols-2 gap-2.5 p-3.5 sm:gap-3 sm:p-4">
-                <div className="rounded-xl border border-[#E7DFD3] bg-white p-3 sm:p-4"><p className="font-[var(--font-display)] text-2xl font-semibold text-[#332B27]">5</p><p className="mt-1 text-xs text-[#746A5D]">Invitaciones</p></div>
-                <div className="rounded-xl border border-[#E7DFD3] bg-white p-3 sm:p-4"><p className="font-[var(--font-display)] text-2xl font-semibold text-[#725A3C]">10</p><p className="mt-1 text-xs text-[#746A5D]">Pases asignados</p></div>
-                <div className="rounded-xl border border-[#D7E7DA] bg-white p-3 sm:p-4"><p className="font-[var(--font-display)] text-2xl font-semibold text-[#34734D]">1</p><p className="mt-1 text-xs text-[#746A5D]">Confirmados</p></div>
-                <div className="rounded-xl border border-[#F0DFC0] bg-white p-3 sm:p-4"><p className="font-[var(--font-display)] text-2xl font-semibold text-[#947044]">4</p><p className="mt-1 text-xs text-[#746A5D]">Por responder</p></div>
-              </div>
-              <div className="border-t border-[#E6DED1] px-4 py-3.5 sm:px-5"><p className="text-xs leading-5 text-[#746A5D]">Consulta las respuestas y lleva el control de los pases de cada invitación.</p></div>
-            </article>
-            <article className="overflow-hidden rounded-[1.35rem] border border-[#E6DED1] bg-[#F7F3ED] shadow-[0_12px_34px_rgba(45,38,29,.08)]">
-              <div className="flex items-center justify-between gap-3 border-b border-[#E6DED1] bg-white px-4 py-4 sm:px-5">
-                <div><p className="text-[9px] font-semibold uppercase tracking-[.18em] text-[#A88249]">Tu evento · Organización</p><h3 className="mt-1 font-[var(--font-display)] text-xl font-semibold text-[#332B27]">Lista de invitados</h3><p className="mt-1 text-xs text-[#746A5D]">Pases y respuestas en un vistazo</p></div>
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#DCC69D] bg-[#FCFAF6] text-[#725A3C]"><Users size={20} strokeWidth={1.7} /></span>
-              </div>
-              <div>
-                {[
-                  { name: "Carlos Ramírez", group: "Amigos de la universidad", passes: "2 pases", status: "Por responder", sent: "Sin enviar", color: "text-[#A65B20]" },
-                  { name: "María González", group: "Familia González", passes: "3 pases", status: "Por responder", sent: "Sin enviar", color: "text-[#A65B20]" },
-                  { name: "Carlos López", group: "Trabajo", passes: "2 pases", status: "Confirmó · 1", sent: "Enviada", color: "text-[#287247]" },
-                ].map((guest) => (
-                  <div key={guest.name} className="border-b border-[#E6DED1] px-4 py-3.5 last:border-b-0 sm:px-5">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0"><p className="truncate text-sm font-semibold text-[#332B27]">{guest.name}</p><p className="mt-0.5 truncate text-xs text-[#746A5D]">{guest.group}</p></div>
-                      <span className={`shrink-0 rounded-full bg-white px-2 py-1 text-[10px] font-medium ${guest.color}`}>{guest.status}</span>
-                    </div>
-                    <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] text-[#746A5D]"><span>{guest.passes}</span><span>·</span><span>{guest.sent}</span></div>
-                  </div>
-                ))}
-              </div>
-              <div className="border-t border-[#E6DED1] bg-white px-4 py-3.5 sm:px-5"><p className="text-xs leading-5 text-[#746A5D]">Identifica rápidamente a quién contactar y qué invitaciones faltan por enviar.</p></div>
-            </article>
-          </div>
-          <div className="mt-5 flex flex-col items-center justify-between gap-3 rounded-2xl border border-[#E1D5C4] bg-[#F8F4EC] p-4 text-center sm:flex-row sm:px-5 sm:text-left">
-            <div><p className="text-sm font-semibold text-[#263D4B]">Más organización, menos pendientes.</p><p className="mt-1 text-xs leading-5 text-[#625A50]">Incluido en Invitación Plus por $349 MXN, pago único.</p></div>
-            <PriceLink href="/crear-invitacion" tone="gold">Diseñar mi invitación</PriceLink>
-          </div>
-          <p className="mt-3 text-center text-[10px] leading-4 text-[#8A8073]">Vista ilustrativa del panel basada en sus funciones; los datos mostrados son ejemplos.</p>
         </div>
       </section>
 

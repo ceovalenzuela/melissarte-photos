@@ -465,10 +465,16 @@ export default function PublicInvitationClient({
                 {(content.gift_icon || content.gift_message || content.gift_type || safeExternalUrl(content.gift_registry_url)) && (
                   <article className="invitation-location-card flex h-full flex-col rounded-[1.5rem] border p-4 sm:p-5" style={{ backgroundColor: cardBackgroundColor, color: cardTextColor, borderColor: `${borderColor}88` }}>
                     <div className="flex items-center gap-3">
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}>{content.gift_icon === "envelope" ? <Mail size={18} strokeWidth={1.7} /> : content.gift_icon === "envelopes" ? <Mails size={18} strokeWidth={1.7} /> : content.gift_icon === "heart" ? <Heart size={18} strokeWidth={1.7} /> : <Gift size={18} strokeWidth={1.7} />}</span>
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}><Gift size={18} strokeWidth={1.7} /></span>
                       <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Sugerencias de regalo</p>
                     </div>
                     <div className="min-w-0 flex-1">
+                      {content.gift_icon && <div className="mt-3 flex items-center gap-2.5 text-sm font-medium leading-5">
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border" style={{ backgroundColor: `${accent}10`, borderColor: `${accent}44`, color: accent }}>
+                          {content.gift_icon === "envelope" ? <Mail size={16} strokeWidth={1.7} /> : content.gift_icon === "envelopes" ? <Mails size={16} strokeWidth={1.7} /> : content.gift_icon === "heart" ? <Heart size={16} strokeWidth={1.7} /> : <Gift size={16} strokeWidth={1.7} />}
+                        </span>
+                        <span>{content.gift_icon === "envelope" ? "Sobre" : content.gift_icon === "envelopes" ? "Lluvia de sobres" : content.gift_icon === "heart" ? "Detalle especial" : "Regalo"}</span>
+                      </div>}
                       {content.gift_message && <p className="mt-3 text-sm leading-5">{content.gift_message}</p>}
                       {content.gift_type && <p className="mt-1.5 text-sm font-medium leading-5">{content.gift_type}</p>}
                       {safeExternalUrl(content.gift_registry_url) && <a href={safeExternalUrl(content.gift_registry_url)!} target="_blank" rel="noopener noreferrer" className="invitation-gift-button mt-4 inline-flex min-h-11 items-center justify-center gap-2 rounded-full border px-4 py-2.5 text-xs font-semibold transition" style={{ backgroundColor: `${accent}12`, color: accent, borderColor: `${accent}66` }}>{content.gift_registry_label?.trim() || "Ver mesa de regalos"} <ArrowUpRight size={14} strokeWidth={1.8} /></a>}

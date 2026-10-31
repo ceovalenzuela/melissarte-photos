@@ -6916,3 +6916,87 @@
     animation: none !important;
   }
 }
+
+
+/* ==========================================================================
+   AJUSTES DE REVISIÓN VISUAL — OCTUBRE 2026
+   ========================================================================== */
+
+/* Noir Champagne: el marco queda dentro de la fotografía, sin outline que sobresalga. */
+.invitation-public.invitation-template-noir_champagne .invitation-hero-frame {
+  inset: 1rem !important;
+  bottom: calc(var(--hero-copy-space, 13rem) + 1rem) !important;
+  border: 1px solid color-mix(in srgb, var(--inv-accent) 76%, transparent) !important;
+  border-radius: 0 !important;
+  outline: none !important;
+  outline-offset: 0 !important;
+}
+.invitation-public.invitation-template-noir_champagne .invitation-hero::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* Studio Party: números y etiquetas oscuros sobre el fondo claro de la cuenta. */
+.invitation-public.invitation-template-studio_party .invitation-countdown-caption,
+.invitation-public.invitation-template-studio_party .invitation-countdown-value,
+.invitation-public.invitation-template-studio_party .invitation-countdown-unit {
+  color: var(--inv-text, #272C4C) !important;
+}
+.invitation-public.invitation-template-studio_party .invitation-countdown-separator {
+  color: var(--inv-accent, #E35A36) !important;
+}
+
+/* Transición más continua entre cuenta regresiva y mensaje introductorio, en todas. */
+.invitation-public .invitation-countdown {
+  padding-bottom: clamp(.55rem, 1.8vw, .95rem) !important;
+}
+.invitation-public .invitation-details-section {
+  padding-top: clamp(.65rem, 1.8vw, 1.1rem) !important;
+}
+
+/* Distintivo decorativo: límite real de tamaño para todas las plantillas. */
+.invitation-public .invitation-wax-seal {
+  display: block !important;
+  width: min(5rem, 22vw) !important;
+  height: min(5rem, 22vw) !important;
+  max-width: 5rem !important;
+  max-height: 5rem !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  flex: 0 0 auto !important;
+}
+@media (min-width: 640px) {
+  .invitation-public .invitation-wax-seal {
+    width: 5.75rem !important;
+    height: 5.75rem !important;
+    max-width: 5.75rem !important;
+    max-height: 5.75rem !important;
+  }
+}
+
+/* Mesa de regalos: botón tipo cápsula, discreto y coherente con cada paleta. */
+.invitation-public .invitation-gift-button {
+  min-height: 2.75rem !important;
+  padding: .7rem 1.05rem !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: 9999px !important;
+  font-size: .68rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  letter-spacing: .035em !important;
+  text-decoration: none !important;
+  box-shadow: 0 5px 15px color-mix(in srgb, var(--inv-accent) 12%, transparent) !important;
+  transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease !important;
+}
+.invitation-public .invitation-gift-button:hover {
+  background: color-mix(in srgb, var(--inv-accent) 18%, var(--inv-background)) !important;
+  border-color: var(--inv-accent) !important;
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--inv-accent) 18%, transparent) !important;
+  transform: translateY(-1px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .invitation-public .invitation-gift-button {
+    transition: none !important;
+  }
+}

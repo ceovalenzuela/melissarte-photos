@@ -7355,3 +7355,26 @@
     transform: none !important;
   }
 }
+
+
+/* Shared close: one elegant divider between host/godparent names and the thank-you line. */
+.invitation-public.invitation-art-v2 .invitation-footer-separator {
+  display: block !important;
+  width: clamp(3.5rem, 10vw, 5rem) !important;
+  height: 1px !important;
+  margin: 1.45rem auto 1.1rem !important;
+  border: 0 !important;
+  background: linear-gradient(90deg, transparent, var(--inv-border, currentColor), transparent) !important;
+  opacity: .9;
+}
+
+/* If no optional introduction content or seal exists, bring the event heading up. */
+.invitation-public.invitation-art-v2 .invitation-intro-block--compact .invitation-details-heading {
+  margin-top: 0 !important;
+}
+
+/* The Editorial separator-draw transition is shared by all current v2 templates. */
+.invitation-public.invitation-art-v2 .invitation-intro-block.editorial-is-visible .invitation-details-rule {
+  transform-origin: center;
+  animation: editorial-rule-draw .7s .12s ease both;
+}

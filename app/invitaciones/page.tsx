@@ -49,10 +49,6 @@ const INVITATION_DEMOS = [
 const GALLERY_URL =
   "https://melissartedecorativo.com/products/galeria-digital-para-tu-evento";
 
-const INVITATION_ESSENTIAL_URL =
-  "https://melissartedecorativo.com/products/invitacion-digital-para-tu-evento?variant=67790310834269";
-const INVITATION_PLUS_URL =
-  "https://melissartedecorativo.com/products/invitacion-digital-para-tu-evento?variant=67790310867037";
 
 function PriceLink({
   href,
@@ -178,7 +174,7 @@ export default function InvitationsLandingPage() {
                 <li className="flex items-start gap-2"><Check size={16} className="mt-0.5 shrink-0 text-[#A88249]" />Confirmaciones de asistencia por WhatsApp</li>
               </ul>
               <div className="mt-auto pt-1">
-                <PriceLink href={INVITATION_ESSENTIAL_URL}>Comprar Esencial</PriceLink>
+                <PriceLink href="/crear-invitacion">Diseñar mi invitación</PriceLink>
               </div>
             </article>
 
@@ -200,7 +196,7 @@ export default function InvitationsLandingPage() {
                 <li className="flex items-start gap-2"><Check size={16} className="mt-0.5 shrink-0 text-[#E3C994]" />Panel para consultar invitados y confirmaciones</li>
               </ul>
               <div className="relative mt-auto pt-1">
-                <PriceLink href={INVITATION_PLUS_URL} tone="gold">Comprar Plus</PriceLink>
+                <PriceLink href="/crear-invitacion" tone="gold">Diseñar mi invitación</PriceLink>
               </div>
             </article>
           </div>
@@ -295,7 +291,7 @@ export default function InvitationsLandingPage() {
           </div>
           <div className="mt-5 flex flex-col items-center justify-between gap-3 rounded-2xl border border-[#E1D5C4] bg-[#F8F4EC] p-4 text-center sm:flex-row sm:px-5 sm:text-left">
             <div><p className="text-sm font-semibold text-[#263D4B]">Más organización, menos pendientes.</p><p className="mt-1 text-xs leading-5 text-[#625A50]">Incluido en Invitación Plus por $349 MXN, pago único.</p></div>
-            <PriceLink href={INVITATION_PLUS_URL} tone="gold">Comprar Invitación Plus</PriceLink>
+            <PriceLink href="/crear-invitacion" tone="gold">Diseñar mi invitación</PriceLink>
           </div>
           <p className="mt-3 text-center text-[10px] leading-4 text-[#8A8073]">Vista ilustrativa del panel basada en sus funciones; los datos mostrados son ejemplos.</p>
         </div>

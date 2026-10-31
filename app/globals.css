@@ -4188,3 +4188,3108 @@
     transparent 100%
   ) !important;
 }
+
+
+/* Additional cross-event invitation styles: distinct hero frames and decorative language. */
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-hero-frame { inset: 1.25rem; border: 1px solid rgba(113,131,106,.72); border-radius: 48% 48% 1rem 1rem; }
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-hero-overlay { background: linear-gradient(180deg, rgba(35,55,39,0) 25%, rgba(35,55,39,.56) 100%); }
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-details-rule::before,
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-details-rule::after { border-color: #71836A; }
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero-frame { inset: 1.25rem; border: 1px solid rgba(198,166,107,.85); border-radius: 0; outline: 1px solid rgba(198,166,107,.25); outline-offset: 5px; }
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero-overlay { background: linear-gradient(180deg, rgba(25,23,21,0) 20%, rgba(25,23,21,.72) 100%); }
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-details-rule::before,
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-details-rule::after { border-color: #C6A66B; }
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-hero-frame { inset: 1rem; border: 2px solid rgba(255,250,252,.88); border-radius: 2rem; outline: 1px solid rgba(197,47,112,.45); outline-offset: 4px; }
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-hero-overlay { background: linear-gradient(180deg, rgba(84,40,60,0) 20%, rgba(84,40,60,.62) 100%); }
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-details-rule::before,
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-details-rule::after { border-color: #C52F70; }
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-hero-frame { inset: 1.25rem; border: 1px solid rgba(174,184,223,.9); border-radius: 50% 50% 1.25rem 1.25rem; }
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-hero-overlay { background: linear-gradient(180deg, rgba(35,43,77,0) 15%, rgba(35,43,77,.64) 100%); }
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-details-rule::before,
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-details-rule::after { border-color: #7886BD; }
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero-frame { inset: 1rem; border: 1px solid rgba(255,255,255,.9); border-radius: 2.5rem; }
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero-overlay { background: linear-gradient(180deg, rgba(85,72,61,0) 20%, rgba(85,72,61,.48) 100%); }
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-details-rule::before,
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-details-rule::after { border-color: #B58C66; }
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-hero-frame { inset: 1.25rem; border: 1px solid rgba(185,111,85,.8); border-radius: 1.5rem 1.5rem 4rem 4rem; }
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-hero-overlay { background: linear-gradient(180deg, rgba(73,60,53,0) 20%, rgba(73,60,53,.56) 100%); }
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-details-rule::before,
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-details-rule::after { border-color: #B96F55; }
+
+
+/* -------------------------------------------------------------------------
+   Six new invitation identities.
+   Each style changes composition, typography, ornament language and surfaces;
+   the original four templates remain untouched.
+   ------------------------------------------------------------------------- */
+
+/* BOTÁNICO — romantic garden editorial: arched portrait, botanical linework,
+   serif italic titles and quiet sage/ivory surfaces. */
+.invitation-public.invitation-art-v2.invitation-template-botanical {
+  --template-ink: #354B3A;
+  --template-paper: #F7F7F0;
+  --template-accent: var(--inv-accent, #71836A);
+  background: var(--template-paper);
+}
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-hero {
+  min-height: clamp(31rem, 68svh, 43rem);
+  background: #354B3A;
+}
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-hero-frame {
+  inset: 1.1rem 1.5rem 1.5rem;
+  border: 1px solid rgba(238, 235, 215, .78);
+  border-radius: 48% 48% 1.25rem 1.25rem;
+}
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-hero-frame::before,
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-hero-frame::after {
+  content: "❧";
+  position: absolute;
+  top: 1.5rem;
+  color: #F0E8D4;
+  font-family: Georgia, serif;
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  line-height: 1;
+  opacity: .9;
+}
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-hero-frame::before { left: 1.25rem; transform: rotate(-35deg); }
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-hero-frame::after { right: 1.25rem; transform: scaleX(-1) rotate(-35deg); }
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-hero-overlay {
+  background: linear-gradient(180deg, rgba(23,43,31,.12) 15%, rgba(23,43,31,.78) 100%);
+}
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-hero-placeholder {
+  background:
+    radial-gradient(ellipse at 15% 18%, #B7C1A966, transparent 30%),
+    radial-gradient(ellipse at 85% 75%, #D5C6A555, transparent 32%),
+    linear-gradient(145deg, #354B3A, #71836A) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-hero-title,
+.invitation-public.invitation-art-v2.invitation-template-botanical #detalles .invitation-intro-block > h2 {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -.045em;
+}
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-hero-has-cover .invitation-hero-title,
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-hero-has-cover .invitation-hero-date {
+  color: #FFFCF4 !important;
+  text-shadow: 0 2px 18px rgba(15,32,21,.55);
+}
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-hero-no-cover .invitation-hero-title { color: #FFFDF7 !important; }
+.invitation-public.invitation-art-v2.invitation-template-botanical #detalles {
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(183,193,169,.22), transparent 34%),
+    linear-gradient(180deg, #F7F7F0, #EFF1E8);
+  color: #343C32;
+}
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-details-rule {
+  width: 5rem; height: 2px; border: 0;
+  background: linear-gradient(90deg, transparent, #71836A, transparent);
+}
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-location-card {
+  border: 1px solid #C9D0BE !important;
+  border-radius: 1.5rem 1.5rem 1.5rem .35rem !important;
+  background: #FFFEF9 !important;
+  box-shadow: 0 14px 34px rgba(53,75,58,.07);
+}
+
+/* NOIR — modern black-tie editorial: cinematic dark cover, sharp geometry,
+   condensed uppercase display, gold hairlines and high-contrast ivory cards. */
+.invitation-public.invitation-art-v2.invitation-template-noir {
+  --template-ink: #211F1D;
+  --template-paper: #211F1D;
+  background: #211F1D;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero {
+  min-height: clamp(32rem, 72svh, 45rem);
+  justify-content: flex-start;
+  text-align: left;
+  background: #211F1D;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero-content {
+  width: 100%; max-width: 58rem; margin-inline: 0;
+  text-align: left;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero-frame {
+  inset: 1.25rem;
+  border: 1px solid rgba(198,166,107,.85);
+  outline: 1px solid rgba(198,166,107,.32);
+  outline-offset: 7px;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero-frame::before {
+  content: "AN OCCASION TO REMEMBER";
+  position: absolute; top: 1.5rem; left: 1.5rem;
+  color: #E1C995; font: 600 .58rem/1.2 Arial, sans-serif;
+  letter-spacing: .32em;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero-overlay {
+  background: linear-gradient(90deg, rgba(18,17,16,.82), rgba(18,17,16,.38) 72%, rgba(18,17,16,.2)),
+              linear-gradient(0deg, rgba(18,17,16,.5), transparent 70%);
+}
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero-image { filter: saturate(.55) contrast(1.08) brightness(.78); }
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero-placeholder {
+  background: radial-gradient(ellipse at 80% 15%, #8D744E55, transparent 34%), linear-gradient(120deg,#171615,#39322A 55%,#211F1D) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero-title {
+  max-width: 11ch;
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif !important;
+  font-weight: 300;
+  font-size: clamp(3.1rem, 10vw, 7rem) !important;
+  line-height: .92 !important;
+  letter-spacing: .025em !important;
+  text-transform: uppercase;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero-has-cover .invitation-hero-title,
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero-has-cover .invitation-hero-date,
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero-no-cover .invitation-hero-title { color: #F8F2E8 !important; }
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero-event-label { letter-spacing: .34em !important; }
+.invitation-public.invitation-art-v2.invitation-template-noir #detalles {
+  background: linear-gradient(180deg,#211F1D,#2B2722);
+  color: #F3EDE2;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir #detalles .invitation-intro-block > h2,
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-details-title { color: #E4C88E !important; }
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-details-rule {
+  width: 4.5rem; height: 1px; border: 0; background: #C6A66B;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-location-card {
+  border: 1px solid #8D744E !important;
+  border-radius: .25rem !important;
+  background: #F8F4EC !important;
+  color: #302A24 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-location-card * { color: #302A24; }
+
+/* PINK ATELIER — fashion-magazine celebration: asymmetric editorial alignment,
+   oversized high-contrast serif, blush panels and framed raspberry accents. */
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier {
+  --template-ink: #54283C;
+  --template-paper: #FCE9EF;
+  background: #FCE9EF;
+}
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-hero {
+  min-height: clamp(30rem, 66svh, 42rem);
+  justify-content: flex-end;
+  text-align: left;
+  background: #9B285A;
+}
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-hero-content {
+  width: 100%; max-width: 56rem; margin-inline: 0; text-align: left;
+}
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-hero-frame {
+  inset: 1.1rem 1.1rem 1.1rem 2.6rem;
+  border: 2px solid rgba(255,250,252,.9);
+  border-radius: 46% 46% .35rem .35rem;
+}
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-hero-frame::before {
+  content: "ÉDITION SPÉCIALE";
+  position: absolute; right: 1rem; top: 50%;
+  writing-mode: vertical-rl;
+  color: #FFF8FA; font: 600 .58rem/1 Arial, sans-serif; letter-spacing: .28em;
+}
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-hero-overlay {
+  background: linear-gradient(0deg,rgba(73,20,48,.78),rgba(73,20,48,.08) 72%);
+}
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-hero-placeholder {
+  background:
+    radial-gradient(ellipse at 80% 15%, #F5B8CF 0, transparent 27%),
+    radial-gradient(ellipse at 12% 85%, #C52F70 0, transparent 38%),
+    linear-gradient(145deg,#F6C9D9,#9B285A) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-hero-title {
+  max-width: 13ch;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: clamp(3.4rem, 11vw, 7.4rem) !important;
+  line-height: .88 !important;
+  font-weight: 400;
+  letter-spacing: -.075em !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-hero-has-cover .invitation-hero-title,
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-hero-has-cover .invitation-hero-date,
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-hero-no-cover .invitation-hero-title { color: #FFFAFC !important; }
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-hero-event-label { letter-spacing: .3em !important; }
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier #detalles {
+  background: linear-gradient(145deg,#FFF8FA 0%,#FCE9EF 56%,#F8D2E0 100%);
+  color: #54283C;
+}
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-intro-block > h2 { color: #8F2454 !important; }
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-details-rule {
+  width: 4rem; height: 4px; border: 0; border-radius: 99px; background: #C52F70;
+}
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-location-card {
+  border: 1px solid #E7A9C2 !important;
+  border-radius: 1.75rem .35rem 1.75rem .35rem !important;
+  background: #FFFAFC !important;
+  box-shadow: 0 16px 36px rgba(143,36,84,.08);
+}
+
+/* CELESTIAL — midnight observatory: oval portal, star-map ornament, airy
+   tracking and luminous silver/lavender details. */
+.invitation-public.invitation-art-v2.invitation-template-celestial {
+  --template-ink: #303752;
+  --template-paper: #E9ECF8;
+  background: #E9ECF8;
+}
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-hero {
+  min-height: clamp(32rem, 70svh, 44rem);
+  background: #303B68;
+}
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-hero-frame {
+  inset: 1.15rem 2rem;
+  border: 1px solid rgba(220,226,250,.8);
+  border-radius: 50% 50% 1.5rem 1.5rem / 32% 32% 1.5rem 1.5rem;
+}
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-hero-frame::before {
+  content: "✦     ·      ✧       ·      ✦";
+  position: absolute; top: 1.8rem; left: 0; right: 0;
+  text-align: center; color: #E6E9FA;
+  font: 1.1rem/1 Georgia,serif; letter-spacing: .75em;
+}
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-hero-overlay {
+  background:
+    radial-gradient(ellipse at 50% 15%, rgba(174,184,223,.24), transparent 42%),
+    linear-gradient(180deg,rgba(24,31,67,.12),rgba(24,31,67,.82));
+}
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-hero-placeholder {
+  background:
+    radial-gradient(circle at 18% 22%,#F4F0D7 0 1px,transparent 2px),
+    radial-gradient(circle at 82% 34%,#F4F0D7 0 1px,transparent 2px),
+    radial-gradient(circle at 70% 72%,#F4F0D7 0 1px,transparent 2px),
+    radial-gradient(ellipse at 50% 10%,#7886BD,transparent 42%),
+    linear-gradient(145deg,#303B68,#1C244A) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-hero-title {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-weight: 400; font-style: italic;
+  letter-spacing: -.04em;
+}
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-hero-has-cover .invitation-hero-title,
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-hero-has-cover .invitation-hero-date,
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-hero-no-cover .invitation-hero-title { color: #FAFAFF !important; }
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-hero-event-label { letter-spacing: .38em !important; }
+.invitation-public.invitation-art-v2.invitation-template-celestial #detalles {
+  background: linear-gradient(180deg,#F7F8FE,#E9ECF8);
+  color: #303752;
+}
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-intro-block > h2 { color: #303B68 !important; font-style: italic; }
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-details-rule {
+  width: 5rem; height: 1px; border: 0; background: linear-gradient(90deg,transparent,#7886BD,transparent);
+}
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-location-card {
+  border: 1px solid #AEB8DF !important;
+  border-radius: 50% 50% 1.25rem 1.25rem / 1.2rem 1.2rem 1.25rem 1.25rem !important;
+  background: #FAFAFF !important;
+}
+
+/* NUBE — playful soft celebration: cloud-like rounded shapes, friendly
+   geometric typography, warm butter base and pastel floating color fields. */
+.invitation-public.invitation-art-v2.invitation-template-cloud {
+  --template-ink: #55483D;
+  --template-paper: #FFF8E9;
+  background: #FFF8E9;
+}
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero {
+  min-height: clamp(29rem, 64svh, 40rem);
+  background: #E9D8BD;
+}
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero-frame {
+  inset: 1rem;
+  border: 2px solid rgba(255,255,255,.92);
+  border-radius: 3rem 3rem 2rem 2rem;
+}
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero-frame::before,
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero-frame::after {
+  content: "";
+  position: absolute; width: clamp(4rem, 12vw, 8rem); aspect-ratio: 1;
+  border: 1px solid rgba(255,255,255,.72); border-radius: 50%;
+  background: rgba(255,255,255,.12);
+}
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero-frame::before { top: 1.1rem; left: 1.1rem; }
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero-frame::after { right: 1.1rem; bottom: 1.1rem; }
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero-overlay {
+  background: linear-gradient(180deg,rgba(85,72,61,.05),rgba(85,72,61,.58));
+}
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero-placeholder {
+  background:
+    radial-gradient(ellipse at 20% 20%,#DCCFF0 0 14%,transparent 15%),
+    radial-gradient(ellipse at 80% 25%,#D6E5D3 0 17%,transparent 18%),
+    radial-gradient(ellipse at 55% 82%,#F1D8C5 0 22%,transparent 23%),
+    linear-gradient(145deg,#FFF3CF,#F6E7CF) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero-title {
+  font-family: "Trebuchet MS", "Arial Rounded MT Bold", Arial, sans-serif !important;
+  font-weight: 700; letter-spacing: -.065em;
+  line-height: .98;
+}
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero-has-cover .invitation-hero-title,
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero-has-cover .invitation-hero-date,
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero-no-cover .invitation-hero-title { color: #FFFEFA !important; }
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero-event-label { letter-spacing: .22em !important; }
+.invitation-public.invitation-art-v2.invitation-template-cloud #detalles {
+  background:
+    radial-gradient(ellipse at 0% 0%,rgba(220,207,240,.28),transparent 32%),
+    radial-gradient(ellipse at 100% 45%,rgba(214,229,211,.36),transparent 34%),
+    linear-gradient(180deg,#FFFDF6,#FFF5E3);
+  color: #55483D;
+}
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-intro-block > h2 { color: #80634D !important; font-family: "Trebuchet MS",Arial,sans-serif !important; font-weight: 700; }
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-details-rule {
+  width: 3rem; height: 3rem; border: 0; border-radius: 50%;
+  background: radial-gradient(circle,#B58C66 0 3px,transparent 4px), radial-gradient(circle at 50% 50%,transparent 0 12px,#E8D9C2 13px 14px,transparent 15px);
+}
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-location-card {
+  border: 1px solid #E8D9C2 !important;
+  border-radius: 2rem !important;
+  background: #FFFEFA !important;
+  box-shadow: 0 12px 28px rgba(128,99,77,.08);
+}
+
+/* JARDÍN — Mediterranean garden party: asymmetrical photo mat, terracotta
+   editorial serif, olive accents and handmade-paper card shapes. */
+.invitation-public.invitation-art-v2.invitation-template-garden {
+  --template-ink: #493C35;
+  --template-paper: #F7F0E7;
+  background: #F7F0E7;
+}
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-hero {
+  min-height: clamp(31rem, 68svh, 43rem);
+  background: #596F56;
+}
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-hero-frame {
+  inset: 1.2rem 1.8rem 1.2rem 1.2rem;
+  border: 1px solid rgba(255,246,231,.85);
+  border-radius: 1.5rem 1.5rem 5rem 1.5rem;
+}
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-hero-frame::before {
+  content: "✳";
+  position: absolute; right: 1.3rem; top: 1.2rem;
+  color: #F4D6BE; font: 3.2rem/1 Georgia,serif;
+}
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-hero-overlay {
+  background: linear-gradient(180deg,rgba(35,55,39,.08),rgba(35,55,39,.7));
+}
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-hero-placeholder {
+  background:
+    radial-gradient(ellipse at 80% 18%,#D9B7A188,transparent 28%),
+    radial-gradient(ellipse at 15% 80%,#B7C1A988,transparent 35%),
+    linear-gradient(145deg,#71816A,#B96F55) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-hero-title {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-weight: 400; font-style: italic;
+  font-size: clamp(3.2rem, 10vw, 6.7rem) !important;
+  line-height: .94 !important;
+  letter-spacing: -.06em !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-hero-has-cover .invitation-hero-title,
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-hero-has-cover .invitation-hero-date,
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-hero-no-cover .invitation-hero-title { color: #FFFCF7 !important; }
+.invitation-public.invitation-art-v2.invitation-template-garden #detalles {
+  background:
+    radial-gradient(ellipse at 100% 0%,rgba(217,183,161,.2),transparent 30%),
+    linear-gradient(180deg,#FCF8F1,#F2E8DC);
+  color: #493C35;
+}
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-intro-block > h2 { color: #6C5142 !important; font-family: Georgia,serif !important; font-style: italic; }
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-details-rule {
+  width: 4.5rem; height: 2px; border: 0; background: linear-gradient(90deg,transparent,#B96F55,#71816A,transparent);
+}
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-location-card {
+  border: 1px solid #D9B7A1 !important;
+  border-radius: 1.5rem .35rem 1.5rem .35rem !important;
+  background: #FFFCF7 !important;
+  box-shadow: 0 14px 32px rgba(73,60,53,.07);
+}
+
+/* Mobile refinements: keep ornamentation inside the safe area and preserve
+   readable headlines when names or event titles are long. */
+@media (max-width: 639px) {
+  .invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero { text-align: left; }
+  .invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero-frame::before { top: 1.1rem; left: .8rem; font-size: .48rem; }
+  .invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-hero-frame { inset: .85rem .75rem .85rem 1.4rem; }
+  .invitation-public.invitation-art-v2.invitation-template-celestial .invitation-hero-frame { inset: .85rem 1rem; }
+  .invitation-public.invitation-art-v2.invitation-template-botanical .invitation-hero-frame { inset: .85rem 1rem 1rem; }
+  .invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero-frame { inset: .75rem; border-radius: 2rem; }
+  .invitation-public.invitation-art-v2.invitation-template-garden .invitation-hero-frame { inset: .85rem 1rem .85rem .85rem; }
+  .invitation-public.invitation-art-v2:is(.invitation-template-botanical,.invitation-template-noir,.invitation-template-pink_atelier,.invitation-template-celestial,.invitation-template-cloud,.invitation-template-garden) .invitation-hero-title {
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .invitation-public.invitation-art-v2:is(.invitation-template-botanical,.invitation-template-noir,.invitation-template-pink_atelier,.invitation-template-celestial,.invitation-template-cloud,.invitation-template-garden) * {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+
+/* ==========================================================================
+   MELISSARTE INVITACIONES — SISTEMA VISUAL UNIFICADO
+   Una sola composición de portada para las diez identidades:
+   fotografía protagonista arriba, banda editorial inferior para textos,
+   ornamentos en la banda y contador independiente debajo del hero.
+   ========================================================================== */
+
+.invitation-public.invitation-art-v2 .invitation-hero {
+  --hero-copy-space: clamp(7.25rem, 29%, 10.5rem);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: clamp(34rem, 82svh, 49rem);
+  padding: 0 1.25rem 0;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--inv-background);
+  text-align: center;
+}
+.invitation-public.invitation-art-v2 .invitation-hero-image,
+.invitation-public.invitation-art-v2 .invitation-hero-image-backdrop {
+  inset: 0 0 var(--hero-copy-space) !important;
+  background-position: center 42%;
+  background-size: cover;
+}
+.invitation-public.invitation-art-v2 .invitation-hero-image-backdrop { display: none !important; }
+.invitation-public.invitation-art-v2 .invitation-hero-overlay {
+  inset: 0 0 var(--hero-copy-space) !important;
+  background: linear-gradient(180deg, rgba(18,18,22,0) 58%, rgba(18,18,22,.16) 100%) !important;
+}
+.invitation-public.invitation-art-v2 .invitation-hero-frame { display: none !important; }
+.invitation-public.invitation-art-v2 .invitation-hero > .pointer-events-none.absolute.bottom-0 {
+  display: none !important;
+}
+.invitation-public.invitation-art-v2 .invitation-hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 58rem;
+  min-height: var(--hero-copy-space);
+  margin: 0 auto;
+  padding: 1.15rem 1rem 1.55rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  background: var(--inv-background);
+  color: var(--inv-title);
+}
+.invitation-public.invitation-art-v2 .invitation-hero-title {
+  max-width: 16ch;
+  margin: 0 auto;
+  color: var(--inv-title) !important;
+  font-family: var(--font-display), Georgia, serif !important;
+  font-size: clamp(2rem, 6.4vw, 4.4rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.02 !important;
+  letter-spacing: -.035em !important;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+.invitation-public.invitation-art-v2 .invitation-hero-date {
+  margin: .3rem 0 0 !important;
+  color: var(--inv-text) !important;
+  font-family: var(--font-sans), Arial, sans-serif !important;
+  font-size: clamp(.62rem, 1.5vw, .82rem) !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
+  letter-spacing: .17em !important;
+  text-transform: uppercase;
+}
+.invitation-public.invitation-art-v2 .invitation-hero::before,
+.invitation-public.invitation-art-v2 .invitation-hero::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  bottom: calc(var(--hero-copy-space) - .85rem);
+  width: 2.6rem;
+  height: 1px;
+  background: var(--inv-accent);
+  opacity: .85;
+}
+.invitation-public.invitation-art-v2 .invitation-hero::before { left: max(1.1rem, calc(50% - 15rem)); }
+.invitation-public.invitation-art-v2 .invitation-hero::after { right: max(1.1rem, calc(50% - 15rem)); }
+
+/* La cuenta regresiva vive siempre fuera de la portada y nunca como tarjeta. */
+.invitation-public.invitation-art-v2 .invitation-countdown {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: min(100% - 2rem, 38rem) !important;
+  max-width: 38rem !important;
+  margin: 0 auto !important;
+  padding: clamp(1.35rem, 4vw, 2.35rem) .75rem !important;
+  color: var(--inv-text);
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-align: center;
+}
+.invitation-public.invitation-art-v2 .invitation-countdown::before {
+  content: "";
+  display: block;
+  width: 3.2rem;
+  height: 1px;
+  margin: 0 auto 1rem;
+  background: var(--inv-accent);
+  opacity: .8;
+}
+.invitation-public.invitation-art-v2 .invitation-countdown::after { display: none !important; }
+.invitation-public.invitation-art-v2 .invitation-countdown-caption {
+  color: var(--inv-accent) !important;
+  font-size: .58rem !important;
+  font-weight: 600 !important;
+  letter-spacing: .22em !important;
+  text-transform: uppercase;
+}
+.invitation-public.invitation-art-v2 .invitation-countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  max-width: 34rem !important;
+  margin: .95rem auto 0 !important;
+  padding: .85rem 0;
+  border-top: 1px solid color-mix(in srgb,var(--inv-accent) 32%,transparent);
+  border-bottom: 1px solid color-mix(in srgb,var(--inv-accent) 32%,transparent);
+}
+.invitation-public.invitation-art-v2 .invitation-countdown-value {
+  color: var(--inv-title) !important;
+  font-family: var(--font-display),Georgia,serif !important;
+  font-size: clamp(1.65rem,6vw,2.6rem) !important;
+  font-weight: 400 !important;
+  line-height: 1 !important;
+  font-variant-numeric: tabular-nums;
+}
+.invitation-public.invitation-art-v2 .invitation-countdown-unit {
+  margin-top: .45rem !important;
+  color: var(--inv-accent) !important;
+  font-size: .52rem !important;
+  letter-spacing: .14em !important;
+  text-transform: uppercase;
+}
+.invitation-public.invitation-art-v2 .invitation-countdown-separator { color: var(--inv-accent) !important; font-size: .55rem !important; }
+.invitation-public.invitation-art-v2 .invitation-countdown-part:first-child .invitation-countdown-separator { display: none; }
+
+/* El texto introductorio conserva la misma escala, sea predeterminado o capturado. */
+.invitation-public.invitation-art-v2 .invitation-intro-headline {
+  max-width: 25ch !important;
+  margin-inline: auto !important;
+  color: var(--inv-title) !important;
+  font-family: var(--font-display),Georgia,serif !important;
+  font-size: clamp(1.55rem,4.5vw,2.35rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.16 !important;
+  letter-spacing: -.025em !important;
+  text-transform: none !important;
+  text-wrap: balance;
+}
+.invitation-public.invitation-art-v2 .invitation-introduction {
+  max-width: 39rem;
+  margin-inline: auto;
+  font-family: var(--font-sans),Arial,sans-serif !important;
+  font-size: .95rem !important;
+  font-weight: 400 !important;
+  line-height: 1.75 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+/* 01 EDITORIAL — boda contemporánea: marfil, tinta y champagne.
+   La identidad se expresa en la banda tipográfica, no sobre la fotografía. */
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial { background: #F5F0E7; }
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero { --hero-copy-space: clamp(8rem,31%,11rem); background: #F5F0E7; }
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-content { background: #F5F0E7; }
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-title { font-family: "Bodoni  Moda",Georgia,serif !important; font-size: clamp(2.5rem,7.5vw,5.1rem) !important; letter-spacing: -.055em !important; }
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-content::before {
+  content: "INVITACIÓN";
+  color: var(--inv-accent);
+  font: 600 .55rem/1 var(--font-sans),Arial,sans-serif;
+  letter-spacing: .32em;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero::before,
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero::after { width: 3.4rem; height: 1px; }
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial #detalles { background: linear-gradient(180deg,#F5F0E7,#EEE8DC); color: #283342; }
+
+/* 02 GALA — XV editorial de noche: ciruela, rosa humo y oro suave. */
+.invitation-public.invitation-art-v2.invitation-template-xv_gala { background: #211B35; }
+.invitation-public.invitation-art-v2.invitation-template-xv_gala .invitation-hero { --hero-copy-space: clamp(8.5rem,33%,11.5rem); background: #211B35; }
+.invitation-public.invitation-art-v2.invitation-template-xv_gala .invitation-hero-content { background: #211B35; color: #FFFAF0; }
+.invitation-public.invitation-art-v2.invitation-template-xv_gala .invitation-hero-title { color: #FFFAF0 !important; font-family: "Bodoni  Moda",Georgia,serif !important; font-size: clamp(2.65rem,8vw,5.4rem) !important; letter-spacing: -.025em !important; }
+.invitation-public.invitation-art-v2.invitation-template-xv_gala .invitation-hero-content::before {
+  content: "CELEBRACIÓN";
+  color: var(--inv-accent);
+  font: 600 .56rem/1 var(--font-sans),Arial,sans-serif;
+  letter-spacing: .34em;
+}
+.invitation-public.invitation-art-v2.invitation-template-xv_gala .invitation-hero-date { color: #E8D9C6 !important; }
+.invitation-public.invitation-art-v2.invitation-template-xv_gala .invitation-hero::before,
+.invitation-public.invitation-art-v2.invitation-template-xv_gala .invitation-hero::after { width: 2rem; height: 2rem; bottom: calc(var(--hero-copy-space) - 1.35rem); background: transparent; border: 1px solid var(--inv-accent); transform: rotate(45deg); }
+.invitation-public.invitation-art-v2.invitation-template-xv_gala #detalles { background: linear-gradient(180deg,#211B35,#2D253E); color: #FFFAF0; }
+
+/* 03 SUAVE — baby editorial, luz cálida y bordes orgánicos. */
+.invitation-public.invitation-art-v2.invitation-template-baby_soft { background: #FFF4E8; }
+.invitation-public.invitation-art-v2.invitation-template-baby_soft .invitation-hero { --hero-copy-space: clamp(7.8rem,30%,10.5rem); background: #FFF4E8; }
+.invitation-public.invitation-art-v2.invitation-template-baby_soft .invitation-hero-content { border-radius: 2.2rem 2.2rem 0 0; background: #FFF4E8; }
+.invitation-public.invitation-art-v2.invitation-template-baby_soft .invitation-hero-title { color: #875744 !important; }
+.invitation-public.invitation-art-v2.invitation-template-baby_soft .invitation-hero::before,
+.invitation-public.invitation-art-v2.invitation-template-baby_soft .invitation-hero::after { width: 1.1rem; height: 1.1rem; border: 1px solid var(--inv-accent); border-radius: 50%; background: transparent; bottom: calc(var(--hero-copy-space) - .55rem); }
+
+/* 04 LUZ — bautizo clásico, azul niebla y marfil. */
+.invitation-public.invitation-art-v2.invitation-template-baptism_light { background: #FAF7F0; }
+.invitation-public.invitation-art-v2.invitation-template-baptism_light .invitation-hero { --hero-copy-space: clamp(7.8rem,30%,10.5rem); background: #FAF7F0; }
+.invitation-public.invitation-art-v2.invitation-template-baptism_light .invitation-hero-content { background: #FAF7F0; }
+.invitation-public.invitation-art-v2.invitation-template-baptism_light .invitation-hero-title { color: #263641 !important; }
+.invitation-public.invitation-art-v2.invitation-template-baptism_light .invitation-hero-content::before { content: "UN DÍA ESPECIAL"; color: var(--inv-accent); font: 600 .55rem/1 var(--font-sans),Arial,sans-serif; letter-spacing: .28em; }
+
+/* 05 BOTÁNICO — verdes apagados y detalle de herbario. */
+.invitation-public.invitation-art-v2.invitation-template-botanical { background: #F4F3EA; }
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-hero-content { background: #F4F3EA; }
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-hero-title { color: #354B3A !important; font-family: "Cormorant Garamond",Georgia,serif !important; font-style: italic; }
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-hero::before,
+.invitation-public.invitation-art-v2.invitation-template-botanical .invitation-hero::after { width: 2.2rem; height: .7rem; border-top: 1px solid var(--inv-accent); border-radius: 50%; background: transparent; }
+
+/* 06 NOIR — espresso, alto contraste y composición asimétrica. */
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero { text-align: left; }
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero-content { align-items: flex-start; padding-left: clamp(1.5rem,8vw,5rem); background: #211E1B; color: #F5EFE4; }
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero-title { color: #F5EFE4 !important; font-family: "Playfair Display",Georgia,serif !important; }
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero-date { color: #D5C6A7 !important; }
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero::before { left: 1.5rem; right: auto; }
+.invitation-public.invitation-art-v2.invitation-template-noir .invitation-hero::after { display: none; }
+
+/* 07 PINK ATELIER — rosa editorial, energía y champagne. */
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier { background: #F9E8ED; }
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-hero-content { background: #F9E8ED; }
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-hero-title { color: #9D345F !important; font-family: "Bodoni  Moda",Georgia,serif !important; font-style: italic; }
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-hero::before,
+.invitation-public.invitation-art-v2.invitation-template-pink_atelier .invitation-hero::after { width: 1.5rem; height: 1.5rem; border: 1px solid var(--inv-accent); background: transparent; transform: rotate(45deg); }
+
+/* 08 CELESTIAL — azul profundo, plata y constelaciones discretas. */
+.invitation-public.invitation-art-v2.invitation-template-celestial { background: #202B46; }
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-hero-content { background: #202B46; color: #F4F2F8; }
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-hero-title { color: #F4F2F8 !important; font-family: "Cormorant Garamond",Georgia,serif !important; }
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-hero-date { color: #D5D7E7 !important; }
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-hero::before,
+.invitation-public.invitation-art-v2.invitation-template-celestial .invitation-hero::after { width: .42rem; height: .42rem; border-radius: 50%; background: var(--inv-accent); box-shadow: 0 0 0 .35rem color-mix(in srgb,var(--inv-accent) 18%,transparent); }
+
+/* 09 NUBE — amarillo mantequilla y tipografía amable. */
+.invitation-public.invitation-art-v2.invitation-template-cloud { background: #F8F1D9; }
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero-content { background: #F8F1D9; border-radius: 2.5rem 2.5rem 0 0; }
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero-title { color: #665A72 !important; font-family: "Nunito",Arial,sans-serif !important; font-weight: 600 !important; letter-spacing: -.045em !important; }
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero::before,
+.invitation-public.invitation-art-v2.invitation-template-cloud .invitation-hero::after { width: 2rem; height: .8rem; border-radius: 50%; background: color-mix(in srgb,var(--inv-accent) 28%,transparent); }
+
+/* 10 JARDÍN — terracota, salvia y romanticismo natural. */
+.invitation-public.invitation-art-v2.invitation-template-garden { background: #F7F0E7; }
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-hero-content { background: #F7F0E7; }
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-hero-title { color: #6C5142 !important; font-family: "Cormorant Garamond",Georgia,serif !important; font-style: italic; }
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-hero::before,
+.invitation-public.invitation-art-v2.invitation-template-garden .invitation-hero::after { width: 2.6rem; height: 1px; transform: rotate(-8deg); }
+
+/* Las diez identidades comparten el mismo comportamiento responsivo. */
+@media (max-width: 639px) {
+  .invitation-public.invitation-art-v2 .invitation-hero { min-height: clamp(29rem,76svh,39rem); padding-inline: .65rem; }
+  .invitation-public.invitation-art-v2 .invitation-hero-image,
+  .invitation-public.invitation-art-v2 .invitation-hero-image-backdrop,
+  .invitation-public.invitation-art-v2 .invitation-hero-overlay { inset-inline: 0 !important; }
+  .invitation-public.invitation-art-v2 .invitation-hero-content { padding: 1rem .8rem 1.25rem; }
+  .invitation-public.invitation-art-v2 .invitation-hero-title { max-width: 15ch; font-size: clamp(1.85rem,8vw,3rem) !important; }
+  .invitation-public.invitation-art-v2 .invitation-hero-date { font-size: .58rem !important; letter-spacing: .12em !important; }
+  .invitation-public.invitation-art-v2 .invitation-countdown { width: calc(100% - 1.25rem) !important; padding: 1.2rem .2rem !important; }
+  .invitation-public.invitation-art-v2 .invitation-countdown-value { font-size: clamp(1.45rem,7vw,2rem) !important; }
+  .invitation-public.invitation-art-v2 .invitation-countdown-unit { font-size: .46rem !important; letter-spacing: .08em !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .invitation-public.invitation-art-v2 .invitation-hero *,
+  .invitation-public.invitation-art-v2 .invitation-countdown *,
+  .invitation-public.invitation-art-v2 .invitation-location-card,
+  .invitation-public.invitation-art-v2 .invitation-public a,
+  .invitation-public.invitation-art-v2 .invitation-public button {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+
+/* ==========================================================================
+   FIX DE CONSISTENCIA — COPYS Y ESPECIFICIDAD ENTRE LAS DIEZ PLANTILLAS
+   Estas reglas neutralizan estilos heredados de las primeras versiones.
+   ========================================================================== */
+.invitation-public.invitation-art-v2 .invitation-intro-copy {
+  display: block !important;
+  width: min(100%, 39rem) !important;
+  max-width: 39rem !important;
+  margin: 0 auto 1rem !important;
+  padding: 0 !important;
+  color: var(--inv-text) !important;
+  font-family: var(--font-sans), Arial, sans-serif !important;
+  font-size: clamp(.96rem, 2.8vw, 1.08rem) !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  line-height: 1.75 !important;
+  letter-spacing: 0 !important;
+  text-align: center !important;
+  text-transform: none !important;
+  text-wrap: pretty !important;
+}
+.invitation-public.invitation-art-v2 .invitation-footer-thanks {
+  display: block !important;
+  max-width: 36rem !important;
+  margin: 1.25rem auto 0 !important;
+  padding: 0 1rem !important;
+  color: var(--inv-text) !important;
+  font-family: var(--font-sans), Arial, sans-serif !important;
+  font-size: .72rem !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  line-height: 1.6 !important;
+  letter-spacing: .08em !important;
+  text-align: center !important;
+  text-transform: none !important;
+}
+
+/* Mismo esqueleto de portada en cada plantilla, incluso donde sobrevivían
+   reglas antiguas con mayor especificidad. */
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-wedding_editorial,
+  .invitation-template-xv_gala,
+  .invitation-template-baby_soft,
+  .invitation-template-baptism_light,
+  .invitation-template-botanical,
+  .invitation-template-noir,
+  .invitation-template-pink_atelier,
+  .invitation-template-celestial,
+  .invitation-template-cloud,
+  .invitation-template-garden,
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-hero-frame {
+  display: none !important;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-wedding_editorial,
+  .invitation-template-xv_gala,
+  .invitation-template-baby_soft,
+  .invitation-template-baptism_light,
+  .invitation-template-botanical,
+  .invitation-template-noir,
+  .invitation-template-pink_atelier,
+  .invitation-template-celestial,
+  .invitation-template-cloud,
+  .invitation-template-garden,
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-hero-content {
+  position: relative !important;
+  inset: auto !important;
+  transform: none !important;
+  width: 100% !important;
+  min-height: var(--hero-copy-space) !important;
+  max-width: 58rem !important;
+  margin: 0 auto !important;
+  padding: 1.15rem 1rem 1.45rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: .45rem !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-align: center !important;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-wedding_editorial,
+  .invitation-template-xv_gala,
+  .invitation-template-baby_soft,
+  .invitation-template-baptism_light,
+  .invitation-template-botanical,
+  .invitation-template-noir,
+  .invitation-template-pink_atelier,
+  .invitation-template-celestial,
+  .invitation-template-cloud,
+  .invitation-template-garden,
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-hero-overlay {
+  inset: 0 0 var(--hero-copy-space) !important;
+  pointer-events: none !important;
+}
+.invitation-public.invitation-art-v2 .invitation-countdown {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.invitation-public.invitation-art-v2 .invitation-countdown-grid {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+@media (max-width: 639px) {
+  .invitation-public.invitation-art-v2 .invitation-intro-copy {
+    font-size: .96rem !important;
+    line-height: 1.7 !important;
+  }
+  .invitation-public.invitation-art-v2 .invitation-footer-thanks {
+    font-size: .68rem !important;
+  }
+}
+
+
+/* ==========================================================================
+   EDITORIAL — PORTADA PRINCIPAL / DIRECCIÓN DE ARTE DEFINITIVA
+   Primera impresión de Melissarte: boda contemporánea, fotografía limpia,
+   tipografía editorial y una sola banda inferior de información.
+   Se fuerza la paleta para evitar que design_config antiguos hereden
+   combinaciones de contraste incorrectas (texto blanco sobre marfil).
+   ========================================================================== */
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial {
+  --inv-background: #F6F1E8 !important;
+  --inv-title: #263747 !important;
+  --inv-text: #4B4A45 !important;
+  --inv-accent: #B69A68 !important;
+  --inv-border: #D8CBB5 !important;
+  background: #F6F1E8 !important;
+  color: #263747 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero {
+  --hero-copy-space: clamp(8.25rem, 29%, 10.75rem) !important;
+  min-height: clamp(35rem, 88svh, 50rem) !important;
+  padding: 0 .75rem !important;
+  background: #F6F1E8 !important;
+  border: 0 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-image,
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-image-backdrop,
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-overlay {
+  inset: 0 0 var(--hero-copy-space) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-overlay {
+  background: linear-gradient(180deg,rgba(18,27,36,0) 68%,rgba(18,27,36,.12) 100%) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-frame,
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero > .pointer-events-none.absolute.bottom-0 {
+  display: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-content {
+  min-height: var(--hero-copy-space) !important;
+  padding: 1.25rem .8rem 1.55rem !important;
+  background: #F6F1E8 !important;
+  color: #263747 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-content::before {
+  content: "UNA CELEBRACIÓN PARA RECORDAR" !important;
+  display: block !important;
+  margin-bottom: .45rem !important;
+  color: #A88B59 !important;
+  font: 600 .53rem/1.4 var(--font-sans),Arial,sans-serif !important;
+  letter-spacing: .24em !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-title {
+  max-width: 16ch !important;
+  color: #263747 !important;
+  font-family: "Bodoni Moda","Cormorant Garamond",Georgia,serif !important;
+  font-size: clamp(2.65rem,8vw,5.4rem) !important;
+  font-weight: 400 !important;
+  line-height: .98 !important;
+  letter-spacing: -.045em !important;
+  text-shadow: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-date {
+  margin-top: .85rem !important;
+  color: #55534D !important;
+  font-family: var(--font-sans),Arial,sans-serif !important;
+  font-size: .76rem !important;
+  font-weight: 600 !important;
+  letter-spacing: .18em !important;
+  text-shadow: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero::before,
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero::after {
+  bottom: calc(var(--hero-copy-space) - .55rem) !important;
+  width: 2.5rem !important;
+  height: 1px !important;
+  background: #B69A68 !important;
+  border: 0 !important;
+  transform: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-countdown {
+  width: min(100% - 2.5rem, 38rem) !important;
+  max-width: 38rem !important;
+  margin: 0 auto !important;
+  padding: 2rem .5rem 2.35rem !important;
+  background: transparent !important;
+  color: #263747 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-countdown::before {
+  width: 3rem !important;
+  margin-bottom: 1.1rem !important;
+  background: #B69A68 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-countdown-caption {
+  color: #8D744B !important;
+  font-size: .57rem !important;
+  letter-spacing: .23em !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-countdown-grid {
+  max-width: 34rem !important;
+  margin-top: 1rem !important;
+  padding: 1.15rem 0 !important;
+  border-top: 1px solid #D8CBB5 !important;
+  border-bottom: 1px solid #D8CBB5 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-countdown-value {
+  color: #263747 !important;
+  font-family: "Bodoni Moda","Cormorant Garamond",Georgia,serif !important;
+  font-size: clamp(1.8rem,6vw,2.65rem) !important;
+  font-weight: 400 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-countdown-unit {
+  color: #82745F !important;
+  font-size: .5rem !important;
+  letter-spacing: .15em !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-countdown-separator {
+  color: #B69A68 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial #detalles,
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-details-section {
+  background: #F6F1E8 !important;
+  color: #263747 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-intro-copy {
+  color: #263747 !important;
+  font-family: "Bodoni Moda","Cormorant Garamond",Georgia,serif !important;
+  font-size: clamp(1.45rem,4.5vw,2rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.25 !important;
+  letter-spacing: -.02em !important;
+  text-transform: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-introduction {
+  color: #56534C !important;
+}
+@media (max-width: 639px) {
+  .invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero {
+    min-height: clamp(31rem,80svh,41rem) !important;
+    padding-inline: 0 !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-title {
+    font-size: clamp(2.25rem,9vw,3.35rem) !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-date {
+    font-size: .55rem !important;
+    letter-spacing: .12em !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-countdown {
+    width: calc(100% - 2rem) !important;
+    padding: 1.55rem .15rem 1.8rem !important;
+  }
+}
+
+
+/* ==========================================================================
+   EDITORIAL — SISTEMA INSIGNIA / ÚNICA FUENTE DE VERDAD
+   Corrige colores inline heredados, contrastes y ritmo vertical de Editorial.
+   ========================================================================== */
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial {
+  --editorial-paper: #F6F1E8;
+  --editorial-paper-deep: #EEE7DA;
+  --editorial-ink: #293746;
+  --editorial-muted: #625D55;
+  --editorial-gold: #A88750;
+  --editorial-line: #D9C9A8;
+  background: var(--editorial-paper) !important;
+  color: var(--editorial-ink) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial,
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial #detalles,
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial #detalles.invitation-wedding-details,
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-details-section,
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial footer {
+  background: var(--editorial-paper) !important;
+  color: var(--editorial-ink) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero {
+  --hero-copy-space: clamp(8.25rem, 29%, 10.5rem);
+  background: var(--editorial-paper) !important;
+  min-height: clamp(31rem, 76svh, 43rem);
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-content {
+  background: var(--editorial-paper) !important;
+  color: var(--editorial-ink) !important;
+  padding-top: 1.35rem;
+  padding-bottom: 1.65rem;
+  gap: .5rem;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-content::before {
+  content: "UNA CELEBRACIÓN PARA RECORDAR";
+  display: block;
+  max-width: 24rem;
+  color: var(--editorial-gold) !important;
+  font-size: .58rem;
+  line-height: 1.6;
+  letter-spacing: .24em;
+  text-align: center;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-title {
+  color: var(--editorial-ink) !important;
+  font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(2.65rem, 8vw, 5.2rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.02 !important;
+  letter-spacing: -.045em !important;
+  text-shadow: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-date {
+  color: var(--editorial-muted) !important;
+  font-size: .82rem !important;
+  font-weight: 600 !important;
+  letter-spacing: .16em !important;
+  line-height: 1.5 !important;
+  text-shadow: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero::before,
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero::after {
+  background: var(--editorial-gold) !important;
+  opacity: .8;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-countdown {
+  width: min(100% - 2rem, 36rem) !important;
+  max-width: 36rem !important;
+  margin: 0 auto !important;
+  padding: 1.65rem .5rem 1.8rem !important;
+  background: transparent !important;
+  color: var(--editorial-ink) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-countdown::before {
+  width: 2.5rem;
+  margin-bottom: .85rem;
+  background: var(--editorial-gold) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-countdown-caption {
+  color: var(--editorial-muted) !important;
+  font-size: .56rem !important;
+  letter-spacing: .2em !important;
+  line-height: 1.5 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-countdown-grid {
+  max-width: 33rem !important;
+  margin-top: .85rem !important;
+  padding: .8rem 0 !important;
+  border-top: 1px solid var(--editorial-line) !important;
+  border-bottom: 1px solid var(--editorial-line) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-countdown-value {
+  color: var(--editorial-ink) !important;
+  font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(1.7rem, 6vw, 2.45rem) !important;
+  font-weight: 400 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-countdown-unit {
+  color: var(--editorial-muted) !important;
+  font-size: .5rem !important;
+  letter-spacing: .13em !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-countdown-separator {
+  color: var(--editorial-gold) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-details-section {
+  padding-top: 1.8rem !important;
+  padding-bottom: 3rem !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-details-rule,
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-details-heading .invitation-details-rule {
+  display: block;
+  width: 2.5rem !important;
+  height: 1px !important;
+  min-height: 1px !important;
+  margin-inline: auto;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: var(--editorial-gold) !important;
+  opacity: .85;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-intro-copy {
+  max-width: 28rem !important;
+  margin: 0 auto .9rem !important;
+  color: var(--editorial-ink) !important;
+  font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(1.55rem, 4.8vw, 2.15rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -.025em !important;
+  text-transform: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-introduction {
+  color: var(--editorial-muted) !important;
+  font-family: Georgia, serif !important;
+  font-size: .92rem !important;
+  line-height: 1.7 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-details-heading {
+  margin-top: 1.7rem !important;
+  padding-top: 0 !important;
+  gap: .7rem !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-details-title {
+  margin: 0 !important;
+  color: var(--editorial-ink) !important;
+  font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(1.8rem, 5vw, 2.55rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.15 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-location-card {
+  background: #FFFCF7 !important;
+  color: var(--editorial-ink) !important;
+  border: 1px solid var(--editorial-line) !important;
+  border-radius: 1.15rem !important;
+  box-shadow: 0 8px 24px rgba(41,55,70,.055) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-location-card :is(h2,h3,p,span) {
+  color: var(--editorial-ink) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-location-card a {
+  background: var(--editorial-ink) !important;
+  color: #FFFCF7 !important;
+  border-color: var(--editorial-ink) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-footer-thanks {
+  margin-top: 1.8rem !important;
+  color: var(--editorial-ink) !important;
+  font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(1.35rem, 4vw, 1.8rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-footer-brand {
+  border-color: var(--editorial-line) !important;
+}
+@media (max-width: 639px) {
+  .invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero {
+    min-height: clamp(28rem, 72svh, 36rem);
+  }
+  .invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-content {
+    padding: 1.1rem .8rem 1.3rem;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-content::before {
+    max-width: 19rem;
+    font-size: .52rem;
+    letter-spacing: .18em;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-hero-title {
+    font-size: clamp(2.35rem, 9vw, 3.35rem) !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-countdown {
+    padding: 1.25rem .2rem 1.35rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-wedding_editorial .invitation-details-section {
+    padding-top: 1.3rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+}
+
+
+/* EDITORIAL FLAGSHIP — isolated namespace.
+   Intentionally does not reuse wedding_editorial selectors: that namespace
+   contains historical !important rules which caused the visual regressions. */
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship {
+  --ef-paper: #F6F1E8;
+  --ef-paper-light: #FFFCF7;
+  --ef-ink: #293746;
+  --ef-copy: #625D55;
+  --ef-gold: #A88750;
+  --ef-line: #D9C9A8;
+  background: var(--ef-paper) !important;
+  color: var(--ef-copy) !important;
+  font-family: var(--font-sans), Arial, sans-serif;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero {
+  min-height: min(82svh, 760px) !important;
+  padding: 0 !important;
+  align-items: flex-end !important;
+  background: var(--ef-paper) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-overlay {
+  background: linear-gradient(180deg, transparent 58%, rgba(20,28,35,.12) 100%) !important;
+}
+/* Editorial cover: subtle cinematic treatment, without decorative frame or added ornaments. */
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-has-cover .invitation-hero-frame {
+  display: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-overlay {
+  background:
+    radial-gradient(ellipse at center, rgba(12, 17, 20, 0) 54%, rgba(12, 17, 20, .16) 100%),
+    linear-gradient(180deg, rgba(15, 20, 24, .08) 0%, transparent 22%, transparent 66%, rgba(18, 22, 25, .2) 100%) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-content {
+  position: relative !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: clamp(1.25rem, 4vw, 2rem) 1rem clamp(1.4rem, 4vw, 2rem) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: .5rem !important;
+  transform: none !important;
+  background: var(--ef-paper) !important;
+  color: var(--ef-ink) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-content::before {
+  content: "UNA CELEBRACIÓN PARA RECORDAR" !important;
+  display: block !important;
+  margin: 0 0 .35rem !important;
+  color: var(--ef-gold) !important;
+  font: 600 .62rem/1.5 var(--font-sans), Arial, sans-serif !important;
+  letter-spacing: .22em !important;
+  text-align: center !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-title {
+  max-width: 16ch !important;
+  margin: 0 auto !important;
+  color: var(--ef-ink) !important;
+  font: 400 clamp(2.7rem, 8vw, 5rem)/1.03 "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+  letter-spacing: -.04em !important;
+  text-shadow: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-date {
+  margin: .45rem 0 0 !important;
+  color: var(--ef-copy) !important;
+  font: 600 .68rem/1.6 var(--font-sans), Arial, sans-serif !important;
+  letter-spacing: .15em !important;
+  text-shadow: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-date::before,
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-date::after {
+  display: none !important;
+  content: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown {
+  width: min(calc(100% - 2.5rem), 38rem) !important;
+  max-width: 38rem !important;
+  margin: 0 auto !important;
+  padding: 1.6rem .5rem 1.8rem !important;
+  background: transparent !important;
+  color: var(--ef-ink) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown::before {
+  content: "" !important;
+  display: block !important;
+  width: 2.8rem !important;
+  height: 1px !important;
+  margin: 0 auto .9rem !important;
+  background: var(--ef-gold) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown-caption {
+  color: var(--ef-copy) !important;
+  font: 600 .58rem/1.5 var(--font-sans), Arial, sans-serif !important;
+  letter-spacing: .19em !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown-grid {
+  max-width: 34rem !important;
+  margin: .9rem auto 0 !important;
+  padding: 1rem 0 !important;
+  border-top: 1px solid var(--ef-line) !important;
+  border-bottom: 1px solid var(--ef-line) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown-part + .invitation-countdown-part {
+  border-left: 1px solid rgba(168,135,80,.22) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown-value {
+  color: var(--ef-ink) !important;
+  font: 400 clamp(1.8rem, 6vw, 2.6rem)/1.05 "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown-unit {
+  color: var(--ef-copy) !important;
+  font: 600 .52rem/1.4 var(--font-sans), Arial, sans-serif !important;
+  letter-spacing: .13em !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown-separator {
+  color: var(--ef-gold) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-details-section,
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship #detalles {
+  padding: 1.5rem 1.25rem 3rem !important;
+  background: var(--ef-paper) !important;
+  color: var(--ef-copy) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-details-rule {
+  display: block !important;
+  width: 2.8rem !important;
+  height: 1px !important;
+  margin: 0 auto 1rem !important;
+  border: 0 !important;
+  background: var(--ef-gold) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-intro-copy {
+  margin: 0 auto .8rem !important;
+  color: var(--ef-ink) !important;
+  font: 400 clamp(1.6rem, 5vw, 2.2rem)/1.2 "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+  letter-spacing: -.02em !important;
+  text-transform: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-introduction {
+  color: var(--ef-copy) !important;
+  font: 400 .95rem/1.7 Georgia, serif !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-details-heading {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: .75rem !important;
+  margin: 1.5rem auto 0 !important;
+  padding: 0 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-details-title {
+  margin: 0 !important;
+  color: var(--ef-ink) !important;
+  font: 400 clamp(1.9rem, 5vw, 2.6rem)/1.15 "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-card,
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-dress-code-card {
+  background: var(--ef-paper-light) !important;
+  color: var(--ef-ink) !important;
+  border: 1px solid var(--ef-line) !important;
+  border-radius: 1.1rem !important;
+  box-shadow: 0 8px 24px rgba(41,55,70,.05) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-card :is(h2,h3,p,span),
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-dress-code-card :is(h2,h3,p,span) {
+  color: var(--ef-ink);
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-card > div:first-child > p,
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-dress-code-card p:first-child {
+  color: var(--ef-gold) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-card .invitation-location-address {
+  color: var(--ef-copy) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-card .invitation-location-button,
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-card a[aria-label^="Agregar"] {
+  background: var(--ef-ink) !important;
+  color: var(--ef-paper-light) !important;
+  border-color: var(--ef-ink) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-card .invitation-location-button > span:first-child,
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-card a[aria-label^="Agregar"] > span:first-child {
+  background: #1E2C3A !important;
+  color: #E4C98F !important;
+  border-color: var(--ef-gold) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-footer-thanks {
+  margin-top: 1.7rem !important;
+  color: var(--ef-ink) !important;
+  font: 400 clamp(1.45rem, 4vw, 1.9rem)/1.25 "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+  letter-spacing: 0 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-footer-brand {
+  border-color: var(--ef-line) !important;
+}
+@media (max-width: 639px) {
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero {
+    min-height: 72svh !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-content {
+    padding: 1.15rem .85rem 1.35rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-content::before {
+    max-width: 20rem;
+    font-size: .54rem !important;
+    letter-spacing: .17em !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown {
+    padding: 1.3rem .25rem 1.45rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-details-section {
+    padding: 1.25rem 1rem 2.5rem !important;
+  }
+}
+
+
+/* DEFAULT CLOSING MESSAGE — shared typographic scale across invitation templates. */
+.invitation-public.invitation-art-v2 .invitation-footer-thanks {
+  max-width: 30ch !important;
+  margin: 1.35rem auto 0 !important;
+  padding: 0 1rem !important;
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(1.12rem, 3.8vw, 1.42rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.32 !important;
+  letter-spacing: 0 !important;
+  text-align: center !important;
+  text-wrap: balance;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-footer-thanks {
+  max-width: 28ch !important;
+  margin-top: 1.25rem !important;
+  color: var(--ef-ink) !important;
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(1.18rem, 3.9vw, 1.45rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0 !important;
+}
+
+
+/* EDITORIAL FLAGSHIP — restrained motion, like a premium printed invitation. */
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-image {
+  animation: editorial-cover-arrive 1.8s cubic-bezier(.2,.65,.25,1) both;
+  will-change: transform;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-content::before,
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-title,
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-date {
+  animation: editorial-type-arrive .9s cubic-bezier(.2,.65,.25,1) both;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-title {
+  animation-delay: .12s;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-date {
+  animation-delay: .24s;
+}
+
+/* The countdown is critical information: never hide it behind scroll reveal. */
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  animation: editorial-countdown-arrive .9s .28s cubic-bezier(.2,.65,.25,1) both;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship.editorial-motion-ready .invitation-intro-block,
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship.editorial-motion-ready .invitation-location-grid,
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship.editorial-motion-ready .invitation-info-grid,
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship.editorial-motion-ready .invitation-rsvp,
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship.editorial-motion-ready .invitation-footer {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  transition: opacity .85s ease, transform .85s cubic-bezier(.2,.65,.25,1);
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship.editorial-motion-ready .editorial-is-visible {
+  opacity: 1 !important;
+  transform: translate3d(0, 0, 0) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-grid > *,
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-info-grid > * {
+  transition: transform .45s ease, box-shadow .45s ease;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-grid > *:hover,
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-info-grid > *:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 32px rgba(41,55,70,.09) !important;
+  }
+}
+@keyframes editorial-countdown-arrive {
+  from { opacity: 0; transform: translate3d(0, 10px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes editorial-cover-arrive {
+  from { transform: scale(1.045); }
+  to { transform: scale(1); }
+}
+@keyframes editorial-type-arrive {
+  from { opacity: 0; transform: translate3d(0, 12px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship *,
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship *::before,
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+    .invitation-public.invitation-art-v2.invitation-template-editorial-flagship.editorial-motion-ready .invitation-intro-block,
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship.editorial-motion-ready .invitation-location-grid,
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship.editorial-motion-ready .invitation-info-grid,
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship.editorial-motion-ready .invitation-rsvp,
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship.editorial-motion-ready .invitation-footer {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+
+/* Editorial flagship refinement: more balanced rhythm and clearer hierarchy. */
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown {
+  max-width: 42rem !important;
+  padding: 1.05rem .5rem !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown-caption {
+  font-size: .62rem !important;
+  letter-spacing: .24em !important;
+  line-height: 1.5 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown-grid {
+  margin-top: .8rem !important;
+  padding: .72rem 0 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown-value {
+  font-size: clamp(1.65rem, 6vw, 2.45rem) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown-unit {
+  font-size: .58rem !important;
+  letter-spacing: .13em !important;
+  margin-top: .35rem !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-details-section {
+  padding-top: 1.25rem !important;
+  padding-bottom: 3rem !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-intro-block {
+  max-width: 48rem !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-details-heading {
+  margin-top: 1.35rem !important;
+  gap: .55rem !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-details-title {
+  font-size: clamp(1.65rem, 4.4vw, 2.2rem) !important;
+  line-height: 1.12 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-grid,
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-info-grid {
+  margin-top: 1.5rem !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-details-rule {
+  transform-origin: center;
+}
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-intro-block.editorial-is-visible .invitation-details-rule {
+  animation: editorial-rule-draw .7s .12s ease both;
+}
+@keyframes editorial-rule-draw {
+  from { transform: scaleX(.25); opacity: .35; }
+  to { transform: scaleX(1); opacity: 1; }
+}
+@media (max-width: 640px) {
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown {
+    padding: .9rem .35rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-details-section {
+    padding-top: 1rem !important;
+  }
+}
+
+
+/* Details heading belongs to the intro chapter, never hide it as a nested reveal target. */
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-details-heading {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+
+/* Editorial flagship: host names use the same restrained display typography as the invitation. */
+.invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-host-names-editorial {
+  max-width: 30ch;
+  margin: 0 auto;
+  color: var(--ef-gold) !important;
+  font-family: "Cormorant Garamond", "Bodoni Moda", Georgia, serif !important;
+  font-size: clamp(1.2rem, 3.8vw, 1.55rem) !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  line-height: 1.3 !important;
+  letter-spacing: .015em !important;
+  text-wrap: balance;
+}
+
+/* EDITORIAL FLAGSHIP — desktop adaptation.
+   Preserve the mobile composition; give wide screens a deliberate editorial rhythm. */
+@media (min-width: 1024px) {
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero {
+    min-height: clamp(560px, 68svh, 760px) !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-image {
+    background-position: center 42% !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-content {
+    padding: 2.4rem 2rem 2.8rem !important;
+    gap: .65rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-content::before {
+    font-size: .72rem !important;
+    letter-spacing: .25em !important;
+    margin: 0 auto .45rem !important;
+    padding: 0 4.25rem !important;
+    background-image: linear-gradient(var(--ef-gold), var(--ef-gold)), linear-gradient(var(--ef-gold), var(--ef-gold)) !important;
+    background-size: 2.6rem 1px, 2.6rem 1px !important;
+    background-position: left center, right center !important;
+    background-repeat: no-repeat !important;
+  }
+  /* Keep only the divider flanking the overline. Remove the legacy pair
+     anchored to the bottom edge of the hero, which caused the duplicate lines. */
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero::before,
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero::after,
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-content::after,
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-date::before,
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-date::after {
+    content: none !important;
+    display: none !important;
+    background: none !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-title {
+    font-size: clamp(4.25rem, 5.4vw, 5.5rem) !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-date {
+    margin-top: .65rem !important;
+    font-size: .82rem !important;
+    letter-spacing: .19em !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown {
+    max-width: 44rem !important;
+    padding: 1.5rem .75rem 1.8rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown-grid {
+    max-width: 38rem !important;
+    margin-top: 1rem !important;
+    padding: .9rem 0 !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-details-section,
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship #detalles {
+    padding: 2.25rem 3.5rem 4rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-intro-block {
+    max-width: 52rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-intro-copy {
+    font-size: clamp(2rem, 2.8vw, 2.5rem) !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-details-heading {
+    margin-top: 1.8rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-grid {
+    margin-top: 2rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-info-grid {
+    max-width: 58rem !important;
+    margin-top: 2rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-rsvp {
+    padding: 4.5rem 3.5rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-footer {
+    padding: 3rem 3.5rem 2.75rem !important;
+  }
+}
+
+
+/* EDITORIAL FLAGSHIP — stronger desktop proportions.
+   The previous width cap kept the countdown and single location card too narrow. */
+@media (min-width: 1024px) {
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero {
+    min-height: clamp(620px, 76svh, 780px) !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-content {
+    padding: 2.1rem 2rem 2.35rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-title {
+    font-size: clamp(4.6rem, 5.8vw, 5.8rem) !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown {
+    width: min(calc(100% - 4rem), 46rem) !important;
+    max-width: 46rem !important;
+    padding: 1.7rem 1rem 2rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-countdown-grid {
+    max-width: 42rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-grid:has(> article:only-child) {
+    max-width: 42rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-location-card,
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-dress-code-card {
+    padding: 1.75rem !important;
+  }
+}
+
+/* EDITORIAL FLAGSHIP — desktop cover gets a visibly more generous photo area. */
+@media (min-width: 1024px) {
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero {
+    min-height: 700px !important;
+    height: 78svh !important;
+    max-height: 820px !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-image,
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-image-backdrop {
+    background-size: cover !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-image {
+    /* Favor the upper part of the portrait so heads are not clipped by the wide desktop crop. */
+    background-position: center 32% !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero-image-backdrop {
+    background-position: center 32% !important;
+  }
+}
+@media (min-width: 1440px) {
+  .invitation-public.invitation-art-v2.invitation-template-editorial-flagship .invitation-hero {
+    min-height: 760px !important;
+  }
+}
+
+
+
+/* ==========================================================================
+   NUEVA COLECCIÓN — NUEVE IDENTIDADES VISUALES
+   El contenido, la lógica RSVP y la estructura funcional siguen compartidos.
+   Cada identidad cambia su dirección de arte sin alterar la plantilla Editorial.
+   ========================================================================== */
+
+/* Base de la nueva colección: portada fotográfica, banda tipográfica y ritmo editorial. */
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) {
+  isolation: isolate;
+  background: var(--inv-background) !important;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-hero {
+  min-height: clamp(31rem, 74svh, 46rem) !important;
+  padding: 0 .65rem !important;
+  align-items: flex-end !important;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-hero-image {
+  background-size: cover !important;
+  background-position: center 38% !important;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-hero-content {
+  z-index: 2 !important;
+  width: min(100%, 58rem) !important;
+  min-height: var(--hero-copy-space, 13.5rem) !important;
+  padding: 1.45rem 1rem 1.65rem !important;
+  gap: .55rem !important;
+  text-align: center !important;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-hero-content::before {
+  display: block !important;
+  position: relative !important;
+  inset: auto !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 auto .25rem !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  color: var(--inv-accent) !important;
+  font-family: var(--font-sans), Arial, sans-serif !important;
+  font-size: .61rem !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+  letter-spacing: .23em !important;
+  text-align: center !important;
+  text-transform: uppercase !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  opacity: .95;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-hero-title {
+  max-width: 16ch !important;
+  margin: 0 auto !important;
+  color: var(--inv-title) !important;
+  font-size: clamp(2.45rem, 7.3vw, 4.7rem) !important;
+  font-weight: 500 !important;
+  line-height: .98 !important;
+  letter-spacing: -.025em !important;
+  text-wrap: balance;
+  text-shadow: none !important;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-hero-date {
+  margin: .55rem auto 0 !important;
+  color: var(--inv-text) !important;
+  font-size: .68rem !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
+  letter-spacing: .17em !important;
+  text-shadow: none !important;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-countdown {
+  width: min(calc(100% - 2rem), 44rem) !important;
+  max-width: 44rem !important;
+  margin: 0 auto !important;
+  padding: 1.2rem 1rem 1.35rem !important;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-details-section {
+  padding-top: 1.8rem !important;
+  padding-bottom: 3.5rem !important;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-details-rule {
+  width: 3.2rem !important;
+  height: 1px !important;
+  margin-inline: auto !important;
+  background: var(--inv-accent) !important;
+  opacity: .8;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-details-title {
+  color: var(--inv-title) !important;
+  font-family: var(--font-display), Georgia, serif !important;
+  font-size: clamp(1.8rem, 4.7vw, 2.65rem) !important;
+  font-weight: 500 !important;
+  line-height: 1.1 !important;
+  letter-spacing: -.02em !important;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-location-card {
+  background: var(--inv-card-bg) !important;
+  color: var(--inv-card-text) !important;
+  border-color: var(--inv-border) !important;
+  box-shadow: 0 12px 32px rgba(35, 31, 28, .055) !important;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-rsvp {
+  background: var(--inv-rsvp-bg) !important;
+  color: var(--inv-rsvp-text) !important;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-footer {
+  background: var(--inv-background) !important;
+  color: var(--inv-text) !important;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-footer-thanks {
+  color: var(--inv-title) !important;
+}
+
+/* 01 — MAISON BOTANIQUE: jardín orgánico, papel cálido y serif romántica. */
+.invitation-public.invitation-art-v2.invitation-template-maison_botanique {
+  --hero-copy-space: 13.4rem;
+  background: var(--inv-background) !important;
+  color: var(--inv-text) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-maison_botanique .invitation-hero-overlay {
+  background: linear-gradient(180deg, rgba(30, 45, 32, .02) 26%, rgba(30, 45, 32, .24) 100%) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-maison_botanique .invitation-hero-content {
+  background: var(--inv-background) !important;
+  border-top: 1px solid var(--inv-border) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-maison_botanique .invitation-hero-content::before {
+  content: "CELEBRAMOS ENTRE FLORES" !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-maison_botanique .invitation-hero-title {
+  color: var(--inv-title) !important;
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-style: italic !important;
+  font-weight: 500 !important;
+  letter-spacing: -.035em !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-maison_botanique .invitation-hero-date {
+  color: var(--inv-accent) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-maison_botanique .invitation-hero::before,
+.invitation-public.invitation-art-v2.invitation-template-maison_botanique .invitation-hero::after {
+  content: "❧" !important;
+  position: absolute !important;
+  z-index: 1 !important;
+  top: 1.2rem !important;
+  color: #F5F0E4 !important;
+  font-family: Georgia, serif !important;
+  font-size: 3.8rem !important;
+  line-height: 1 !important;
+  text-shadow: 0 2px 18px rgba(22, 34, 24, .18) !important;
+  background: none !important;
+  border: 0 !important;
+  width: auto !important;
+  height: auto !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-maison_botanique .invitation-hero::before { left: 1.1rem !important; transform: rotate(-34deg); }
+.invitation-public.invitation-art-v2.invitation-template-maison_botanique .invitation-hero::after { right: 1.1rem !important; transform: scaleX(-1) rotate(-34deg); }
+.invitation-public.invitation-art-v2.invitation-template-maison_botanique .invitation-details-section {
+  background: radial-gradient(ellipse at 0% 5%, color-mix(in srgb, var(--inv-accent) 15%, transparent), transparent 34%), var(--inv-background) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-maison_botanique .invitation-countdown-grid {
+  border-top: 1px solid var(--inv-border) !important;
+  border-bottom: 1px solid var(--inv-border) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-maison_botanique .invitation-location-card {
+  border-radius: 1.8rem .55rem 1.8rem .55rem !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-maison_botanique .invitation-footer {
+  background-image: radial-gradient(ellipse at 100% 0%, rgba(181, 193, 161, .18), transparent 36%) !important;
+}
+
+/* 03 — VELVET ROYALE: borgoña, terciopelo y elegancia de gala para XV años. */
+.invitation-public.invitation-art-v2.invitation-template-velvet_royale {
+  --hero-copy-space: 14rem;
+  background: var(--inv-background) !important;
+  color: var(--inv-text) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-velvet_royale .invitation-hero-overlay {
+  background: linear-gradient(180deg, rgba(38, 9, 22, .04) 24%, rgba(38, 9, 22, .36) 100%) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-velvet_royale .invitation-hero-content {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--inv-background) 88%, #FFFFFF), var(--inv-background)) !important;
+  border-top: 1px solid var(--inv-border) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.08) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-velvet_royale .invitation-hero-content::before {
+  content: "UNA GRAN CELEBRACIÓN" !important;
+  color: var(--inv-accent) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-velvet_royale .invitation-hero-title {
+  color: var(--inv-title) !important;
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(2.65rem, 7.8vw, 4.9rem) !important;
+  font-style: italic !important;
+  letter-spacing: -.035em !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-velvet_royale .invitation-hero-date { color: var(--inv-accent) !important; }
+.invitation-public.invitation-art-v2.invitation-template-velvet_royale .invitation-hero::after {
+  content: "✧" !important;
+  position: absolute !important;
+  z-index: 2 !important;
+  top: 1rem !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  color: var(--inv-accent) !important;
+  font-size: 2rem !important;
+  text-shadow: 0 0 26px rgba(231,194,143,.6) !important;
+  background: none !important;
+  border: 0 !important;
+  width: auto !important;
+  height: auto !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-velvet_royale .invitation-details-section {
+  background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--inv-accent) 18%, transparent), transparent 42%), var(--inv-background) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-velvet_royale .invitation-countdown-grid {
+  border-top: 1px solid color-mix(in srgb, var(--inv-border) 75%, transparent) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--inv-border) 75%, transparent) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-velvet_royale .invitation-location-card {
+  border-radius: 1.3rem !important;
+  box-shadow: 0 14px 36px rgba(19, 4, 11, .18) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-velvet_royale .invitation-footer { background: color-mix(in srgb, var(--inv-background) 85%, #000000) !important; }
+
+/* 04 — CELESTIAL ÉTOILE: cielo nocturno, constelaciones y luz plateada. */
+.invitation-public.invitation-art-v2.invitation-template-celestial_etoile {
+  --hero-copy-space: 13.8rem;
+  background: var(--inv-background) !important;
+  color: var(--inv-text) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-celestial_etoile .invitation-hero-overlay {
+  background:
+    radial-gradient(circle at 20% 18%, rgba(215,218,245,.28) 0 1px, transparent 2px),
+    radial-gradient(circle at 77% 32%, rgba(215,218,245,.35) 0 1px, transparent 2px),
+    radial-gradient(circle at 55% 12%, rgba(215,218,245,.3) 0 1.5px, transparent 2.5px),
+    linear-gradient(180deg, rgba(12,18,45,.12), rgba(12,18,45,.62)) !important;
+  background-size: 125px 110px, 160px 140px, 190px 160px, auto !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-celestial_etoile .invitation-hero-content {
+  background: var(--inv-background) !important;
+  border-top: 1px solid var(--inv-border) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-celestial_etoile .invitation-hero-content::before {
+  content: "BAJO UN CIELO DE ESTRELLAS" !important;
+  color: var(--inv-accent) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-celestial_etoile .invitation-hero-title {
+  color: var(--inv-title) !important;
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(2.65rem, 7.4vw, 4.85rem) !important;
+  font-weight: 400 !important;
+  letter-spacing: .01em !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-celestial_etoile .invitation-hero-date { color: var(--inv-accent) !important; }
+.invitation-public.invitation-art-v2.invitation-template-celestial_etoile .invitation-hero::before {
+  content: "✦   ·   ✧   ·   ✦" !important;
+  position: absolute !important;
+  z-index: 2 !important;
+  top: 1.1rem !important;
+  left: 0 !important;
+  right: 0 !important;
+  color: rgba(223,224,248,.85) !important;
+  font-size: 1.4rem !important;
+  letter-spacing: .55em !important;
+  text-align: center !important;
+  background: none !important;
+  border: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  animation: celestial-twinkle 4.5s ease-in-out infinite alternate;
+}
+.invitation-public.invitation-art-v2.invitation-template-celestial_etoile .invitation-countdown-grid {
+  border-top: 1px solid var(--inv-border) !important;
+  border-bottom: 1px solid var(--inv-border) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-celestial_etoile .invitation-details-section {
+  background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--inv-accent) 18%, transparent), transparent 38%), var(--inv-background) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-celestial_etoile .invitation-location-card {
+  border-radius: 1.4rem !important;
+  box-shadow: 0 14px 40px rgba(4, 8, 28, .24) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-celestial_etoile .invitation-footer { background: color-mix(in srgb, var(--inv-background) 84%, #000000) !important; }
+
+/* 05 — COQUETTE COUTURE: ballet pink, cherry accents and delicate ribbon details. */
+.invitation-public.invitation-art-v2.invitation-template-coquette_couture {
+  --hero-copy-space: 13.5rem;
+  background: var(--inv-background) !important;
+  color: var(--inv-text) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-coquette_couture .invitation-hero-overlay {
+  background: linear-gradient(180deg, rgba(67, 24, 44, .03) 28%, rgba(67, 24, 44, .2) 100%) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-coquette_couture .invitation-hero-content {
+  background: var(--inv-background) !important;
+  border-top: 1px solid var(--inv-border) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-coquette_couture .invitation-hero-content::before {
+  content: "UN SUEÑO HECHO CELEBRACIÓN" !important;
+  color: var(--inv-accent) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-coquette_couture .invitation-hero-title {
+  color: var(--inv-title) !important;
+  font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+  font-style: italic !important;
+  font-weight: 500 !important;
+  letter-spacing: -.045em !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-coquette_couture .invitation-hero-date { color: var(--inv-accent) !important; }
+.invitation-public.invitation-art-v2.invitation-template-coquette_couture .invitation-hero::before {
+  content: "୨୧" !important;
+  position: absolute !important;
+  z-index: 2 !important;
+  top: .8rem !important;
+  right: 1.15rem !important;
+  color: #FCECF0 !important;
+  font-family: Georgia, serif !important;
+  font-size: 3.5rem !important;
+  line-height: 1 !important;
+  text-shadow: 0 2px 18px rgba(91, 35, 59, .2) !important;
+  background: none !important;
+  border: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  animation: coquette-sway 5.5s ease-in-out infinite alternate;
+}
+.invitation-public.invitation-art-v2.invitation-template-coquette_couture .invitation-hero::after {
+  content: "" !important;
+  position: absolute !important;
+  z-index: 1 !important;
+  left: 1rem !important;
+  right: 1rem !important;
+  top: 1rem !important;
+  height: calc(100% - var(--hero-copy-space) - 2rem) !important;
+  border: 1px solid rgba(255,247,248,.72) !important;
+  outline: 1px dotted rgba(255,247,248,.55) !important;
+  outline-offset: 5px !important;
+  background: none !important;
+  width: auto !important;
+  pointer-events: none;
+}
+.invitation-public.invitation-art-v2.invitation-template-coquette_couture .invitation-details-section {
+  background: linear-gradient(180deg, var(--inv-background), color-mix(in srgb, var(--inv-background) 72%, #FFFFFF)) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-coquette_couture .invitation-location-card {
+  border-radius: 1.75rem !important;
+  box-shadow: 0 12px 30px rgba(147, 65, 94, .075) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-coquette_couture .invitation-countdown-grid {
+  border-top: 1px solid var(--inv-border) !important;
+  border-bottom: 1px solid var(--inv-border) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-coquette_couture .invitation-footer { background: color-mix(in srgb, var(--inv-background) 72%, #FFFFFF) !important; }
+
+/* 06 — LITTLE WILDFLOWER: buttercream, meadow florals and gentle organic shapes. */
+.invitation-public.invitation-art-v2.invitation-template-little_wildflower {
+  --hero-copy-space: 13.3rem;
+  background: var(--inv-background) !important;
+  color: var(--inv-text) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-little_wildflower .invitation-hero-overlay {
+  background: linear-gradient(180deg, rgba(48, 59, 31, .03) 25%, rgba(48, 59, 31, .2) 100%) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-little_wildflower .invitation-hero-content {
+  background: var(--inv-background) !important;
+  border-top: 1px solid var(--inv-border) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-little_wildflower .invitation-hero-content::before {
+  content: "UNA NUEVA HISTORIA FLORECE" !important;
+  color: var(--inv-accent) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-little_wildflower .invitation-hero-title {
+  color: var(--inv-title) !important;
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(2.45rem, 7.4vw, 4.5rem) !important;
+  font-style: italic !important;
+  letter-spacing: -.035em !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-little_wildflower .invitation-hero-date { color: var(--inv-accent) !important; }
+.invitation-public.invitation-art-v2.invitation-template-little_wildflower .invitation-hero::before,
+.invitation-public.invitation-art-v2.invitation-template-little_wildflower .invitation-hero::after {
+  content: "✿" !important;
+  position: absolute !important;
+  z-index: 1 !important;
+  bottom: calc(var(--hero-copy-space) + 1rem) !important;
+  color: #FFF5D9 !important;
+  font-size: 2.2rem !important;
+  line-height: 1 !important;
+  text-shadow: 0 2px 15px rgba(59, 67, 39, .2) !important;
+  background: none !important;
+  border: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  animation: wildflower-sway 6s ease-in-out infinite alternate;
+}
+.invitation-public.invitation-art-v2.invitation-template-little_wildflower .invitation-hero::before { left: 1rem !important; }
+.invitation-public.invitation-art-v2.invitation-template-little_wildflower .invitation-hero::after { right: 1rem !important; font-size: 1.65rem !important; animation-delay: -2s; }
+.invitation-public.invitation-art-v2.invitation-template-little_wildflower .invitation-details-section {
+  background: radial-gradient(ellipse at 6% 0%, color-mix(in srgb, var(--inv-accent) 18%, transparent), transparent 36%), var(--inv-background) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-little_wildflower .invitation-countdown-grid {
+  border-top: 1px solid var(--inv-border) !important;
+  border-bottom: 1px solid var(--inv-border) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-little_wildflower .invitation-location-card {
+  border-radius: 1.6rem 1.6rem .6rem 1.6rem !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-little_wildflower .invitation-footer { background: color-mix(in srgb, var(--inv-background) 85%, #D6C99F) !important; }
+
+/* 07 — LUZ DE CIELO: light-filled ivory, mist blue and classical serenity. */
+.invitation-public.invitation-art-v2.invitation-template-luz_de_cielo {
+  --hero-copy-space: 13.8rem;
+  background: var(--inv-background) !important;
+  color: var(--inv-text) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-luz_de_cielo .invitation-hero-overlay {
+  background: linear-gradient(180deg, rgba(18, 44, 58, .02) 24%, rgba(18, 44, 58, .25) 100%) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-luz_de_cielo .invitation-hero-content {
+  background: var(--inv-background) !important;
+  border-top: 1px solid var(--inv-border) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-luz_de_cielo .invitation-hero-content::before {
+  content: "UN DÍA DE LUZ Y BENDICIONES" !important;
+  color: var(--inv-accent) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-luz_de_cielo .invitation-hero-title {
+  color: var(--inv-title) !important;
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(2.65rem, 7.2vw, 4.65rem) !important;
+  font-weight: 400 !important;
+  letter-spacing: -.02em !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-luz_de_cielo .invitation-hero-date { color: var(--inv-accent) !important; }
+.invitation-public.invitation-art-v2.invitation-template-luz_de_cielo .invitation-hero::before {
+  content: "✧" !important;
+  position: absolute !important;
+  z-index: 1 !important;
+  top: 1.25rem !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  color: rgba(255,255,255,.88) !important;
+  font-size: 3.4rem !important;
+  line-height: 1 !important;
+  text-shadow: 0 0 28px rgba(255,255,255,.95) !important;
+  background: none !important;
+  border: 0 !important;
+  width: auto !important;
+  height: auto !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-luz_de_cielo .invitation-details-section {
+  background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--inv-accent) 18%, transparent), transparent 44%), var(--inv-background) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-luz_de_cielo .invitation-countdown-grid {
+  border-top: 1px solid var(--inv-border) !important;
+  border-bottom: 1px solid var(--inv-border) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-luz_de_cielo .invitation-location-card {
+  border-radius: 1.4rem !important;
+  box-shadow: 0 12px 32px rgba(55, 71, 81, .07) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-luz_de_cielo .invitation-footer { background: color-mix(in srgb, var(--inv-background) 88%, #C5D9E0) !important; }
+
+/* 08 — TWO LITTLE SECRETS: dual blush and blue atmospheres for the reveal. */
+.invitation-public.invitation-art-v2.invitation-template-two_little_secrets {
+  --hero-copy-space: 13.7rem;
+  background: var(--inv-background) !important;
+  color: var(--inv-text) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-two_little_secrets .invitation-hero-overlay {
+  background:
+    linear-gradient(90deg, rgba(213,133,150,.2) 0 50%, rgba(122,161,191,.22) 50% 100%),
+    linear-gradient(180deg, rgba(48,35,53,.02), rgba(48,35,53,.25)) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-two_little_secrets .invitation-hero-content {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--inv-background) 82%, #E7AEBB) 0 50%, color-mix(in srgb, var(--inv-background) 82%, #AFC7D9) 50% 100%) !important;
+  border-top: 1px solid var(--inv-border) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-two_little_secrets .invitation-hero-content::before {
+  content: "¿NIÑO O NIÑA?" !important;
+  color: var(--inv-accent) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-two_little_secrets .invitation-hero-title {
+  color: var(--inv-title) !important;
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(2.7rem, 7.4vw, 4.65rem) !important;
+  font-style: italic !important;
+  letter-spacing: -.035em !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-two_little_secrets .invitation-hero-date { color: var(--inv-accent) !important; }
+.invitation-public.invitation-art-v2.invitation-template-two_little_secrets .invitation-hero::before,
+.invitation-public.invitation-art-v2.invitation-template-two_little_secrets .invitation-hero::after {
+  content: "" !important;
+  position: absolute !important;
+  z-index: 1 !important;
+  top: 0 !important;
+  bottom: var(--hero-copy-space) !important;
+  width: 50% !important;
+  background: linear-gradient(180deg, rgba(219,150,162,.08), transparent 55%) !important;
+  border: 0 !important;
+  pointer-events: none;
+}
+.invitation-public.invitation-art-v2.invitation-template-two_little_secrets .invitation-hero::before { left: 0 !important; }
+.invitation-public.invitation-art-v2.invitation-template-two_little_secrets .invitation-hero::after { right: 0 !important; background: linear-gradient(180deg, rgba(139,173,198,.12), transparent 55%) !important; }
+.invitation-public.invitation-art-v2.invitation-template-two_little_secrets .invitation-countdown-grid {
+  border-top: 1px solid var(--inv-border) !important;
+  border-bottom: 1px solid var(--inv-border) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-two_little_secrets .invitation-details-section {
+  background: linear-gradient(90deg, rgba(248,229,231,.48) 0 50%, rgba(229,238,244,.58) 50% 100%) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-two_little_secrets .invitation-location-card {
+  border-radius: 1.6rem !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-two_little_secrets .invitation-footer {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--inv-background) 82%, #E7AEBB) 0 50%, color-mix(in srgb, var(--inv-background) 82%, #AFC7D9) 50% 100%) !important;
+}
+
+/* 09 — STUDIO PARTY: graphic poster energy, cobalt blocks and citrus accents. */
+.invitation-public.invitation-art-v2.invitation-template-studio_party {
+  --hero-copy-space: 14.2rem;
+  background: var(--inv-background) !important;
+  color: var(--inv-text) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-hero-overlay {
+  background: linear-gradient(180deg, rgba(17,29,78,.02) 20%, rgba(17,29,78,.64) 100%) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-hero-content {
+  background: var(--inv-title) !important;
+  border-top: 5px solid var(--inv-accent) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-hero-content::before {
+  content: "VAMOS A CELEBRAR" !important;
+  color: var(--inv-accent) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-hero-title {
+  color: #FFFFFF !important;
+  font-family: var(--font-sans), Arial, sans-serif !important;
+  font-size: clamp(2.5rem, 7.6vw, 4.6rem) !important;
+  font-weight: 900 !important;
+  letter-spacing: -.065em !important;
+  line-height: .91 !important;
+  text-transform: uppercase;
+}
+.invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-hero-date {
+  color: var(--inv-accent) !important;
+  font-weight: 800 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-hero::before {
+  content: "" !important;
+  position: absolute !important;
+  z-index: 1 !important;
+  top: -7rem !important;
+  right: -6rem !important;
+  width: 18rem !important;
+  height: 18rem !important;
+  border: 2.5rem solid rgba(243,198,108,.75) !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-hero::after {
+  content: "" !important;
+  position: absolute !important;
+  z-index: 1 !important;
+  left: -5rem !important;
+  bottom: calc(var(--hero-copy-space) + 2rem) !important;
+  width: 11rem !important;
+  height: 11rem !important;
+  background: var(--inv-accent) !important;
+  border-radius: 2rem !important;
+  transform: rotate(24deg) !important;
+  opacity: .82;
+}
+.invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-countdown {
+  max-width: 48rem !important;
+  padding-block: 1.4rem !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-countdown-grid {
+  border-top: 2px solid var(--inv-accent) !important;
+  border-bottom: 2px solid var(--inv-accent) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-details-section {
+  background: var(--inv-background) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-details-title {
+  font-family: var(--font-sans), Arial, sans-serif !important;
+  font-weight: 900 !important;
+  letter-spacing: -.045em !important;
+  text-transform: uppercase !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-location-card {
+  border-radius: .55rem !important;
+  box-shadow: 5px 5px 0 rgba(36,61,147,.12) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-footer {
+  background: color-mix(in srgb, var(--inv-background) 80%, #E9A67E) !important;
+}
+
+/* Responsive art direction: preserve each identity on small screens, open up on desktop. */
+@media (max-width: 639px) {
+  .invitation-public.invitation-art-v2:is(
+    .invitation-template-maison_botanique,
+    .invitation-template-noir_champagne,
+    .invitation-template-velvet_royale,
+    .invitation-template-celestial_etoile,
+    .invitation-template-coquette_couture,
+    .invitation-template-little_wildflower,
+    .invitation-template-luz_de_cielo,
+    .invitation-template-two_little_secrets,
+    .invitation-template-studio_party
+  ) .invitation-hero {
+    min-height: clamp(28rem, 72svh, 37rem) !important;
+  }
+  .invitation-public.invitation-art-v2:is(
+    .invitation-template-maison_botanique,
+    .invitation-template-noir_champagne,
+    .invitation-template-velvet_royale,
+    .invitation-template-celestial_etoile,
+    .invitation-template-coquette_couture,
+    .invitation-template-little_wildflower,
+    .invitation-template-luz_de_cielo,
+    .invitation-template-two_little_secrets,
+    .invitation-template-studio_party
+  ) .invitation-hero-content {
+    min-height: var(--hero-copy-space) !important;
+    padding: 1.15rem .75rem 1.3rem !important;
+  }
+  .invitation-public.invitation-art-v2:is(
+    .invitation-template-maison_botanique,
+    .invitation-template-noir_champagne,
+    .invitation-template-velvet_royale,
+    .invitation-template-celestial_etoile,
+    .invitation-template-coquette_couture,
+    .invitation-template-little_wildflower,
+    .invitation-template-luz_de_cielo,
+    .invitation-template-two_little_secrets,
+    .invitation-template-studio_party
+  ) .invitation-hero-content::before {
+    font-size: .48rem !important;
+    letter-spacing: .16em !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero::before,
+  .invitation-public.invitation-art-v2.invitation-template-coquette_couture .invitation-hero::after {
+    inset: .65rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-hero::before {
+    width: 11rem !important;
+    height: 11rem !important;
+    border-width: 1.6rem !important;
+    top: -4rem !important;
+    right: -4rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-hero::after {
+    width: 6rem !important;
+    height: 6rem !important;
+    left: -3rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-two_little_secrets .invitation-hero-content {
+    background: linear-gradient(90deg, color-mix(in srgb, var(--inv-background) 82%, #E7AEBB) 0 50%, color-mix(in srgb, var(--inv-background) 82%, #AFC7D9) 50% 100%) !important;
+  }
+}
+@media (min-width: 1024px) {
+  .invitation-public.invitation-art-v2:is(
+    .invitation-template-maison_botanique,
+    .invitation-template-noir_champagne,
+    .invitation-template-velvet_royale,
+    .invitation-template-celestial_etoile,
+    .invitation-template-coquette_couture,
+    .invitation-template-little_wildflower,
+    .invitation-template-luz_de_cielo,
+    .invitation-template-two_little_secrets,
+    .invitation-template-studio_party
+  ) .invitation-hero {
+    min-height: 680px !important;
+    height: 76svh !important;
+    max-height: 820px !important;
+    padding-inline: 1.5rem !important;
+  }
+  .invitation-public.invitation-art-v2:is(
+    .invitation-template-maison_botanique,
+    .invitation-template-noir_champagne,
+    .invitation-template-velvet_royale,
+    .invitation-template-celestial_etoile,
+    .invitation-template-coquette_couture,
+    .invitation-template-little_wildflower,
+    .invitation-template-luz_de_cielo,
+    .invitation-template-two_little_secrets,
+    .invitation-template-studio_party
+  ) .invitation-hero-content {
+    padding: 2rem 2rem 2.2rem !important;
+  }
+  .invitation-public.invitation-art-v2:is(
+    .invitation-template-maison_botanique,
+    .invitation-template-noir_champagne,
+    .invitation-template-velvet_royale,
+    .invitation-template-celestial_etoile,
+    .invitation-template-coquette_couture,
+    .invitation-template-little_wildflower,
+    .invitation-template-luz_de_cielo,
+    .invitation-template-two_little_secrets,
+    .invitation-template-studio_party
+  ) .invitation-details-section {
+    padding: 2.5rem 3.5rem 4rem !important;
+  }
+}
+@keyframes celestial-twinkle {
+  from { opacity: .5; transform: translateY(0); }
+  to { opacity: 1; transform: translateY(4px); }
+}
+@keyframes coquette-sway {
+  from { transform: rotate(-5deg); }
+  to { transform: rotate(5deg); }
+}
+@keyframes wildflower-sway {
+  from { transform: rotate(-8deg) translateY(0); }
+  to { transform: rotate(8deg) translateY(-3px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .invitation-public.invitation-art-v2.invitation-template-celestial_etoile .invitation-hero::before,
+  .invitation-public.invitation-art-v2.invitation-template-coquette_couture .invitation-hero::before,
+  .invitation-public.invitation-art-v2.invitation-template-little_wildflower .invitation-hero::before,
+  .invitation-public.invitation-art-v2.invitation-template-little_wildflower .invitation-hero::after {
+    animation: none !important;
+  }
+}
+
+
+/* ==========================================================================
+   AJUSTES DE REVISIÓN VISUAL — OCTUBRE 2026
+   ========================================================================== */
+
+/* Studio Party: números y etiquetas oscuros sobre el fondo claro de la cuenta. */
+.invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-countdown-caption,
+.invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-countdown-value,
+.invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-countdown-unit {
+  color: var(--inv-text, #272C4C) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-countdown-separator {
+  color: var(--inv-accent, #E35A36) !important;
+}
+
+/* Transición más continua entre cuenta regresiva y mensaje introductorio, en todas. */
+.invitation-public.invitation-art-v2 .invitation-countdown {
+  padding-bottom: clamp(.55rem, 1.8vw, .95rem) !important;
+}
+.invitation-public.invitation-art-v2 .invitation-details-section {
+  padding-top: clamp(.65rem, 1.8vw, 1.1rem) !important;
+}
+
+/* Distintivo decorativo: límite real de tamaño para todas las plantillas. */
+.invitation-public.invitation-art-v2 .invitation-wax-seal {
+  display: block !important;
+  width: min(5rem, 22vw) !important;
+  height: min(5rem, 22vw) !important;
+  max-width: 5rem !important;
+  max-height: 5rem !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  flex: 0 0 auto !important;
+}
+@media (min-width: 640px) {
+  .invitation-public.invitation-art-v2 .invitation-wax-seal {
+    width: 5.75rem !important;
+    height: 5.75rem !important;
+    max-width: 5.75rem !important;
+    max-height: 5.75rem !important;
+  }
+}
+
+/* Mesa de regalos: botón tipo cápsula, discreto y coherente con cada paleta. */
+.invitation-public.invitation-art-v2 .invitation-gift-button {
+  min-height: 2.75rem !important;
+  padding: .7rem 1.05rem !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: 9999px !important;
+  font-size: .68rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  letter-spacing: .035em !important;
+  text-decoration: none !important;
+  box-shadow: 0 5px 15px color-mix(in srgb, var(--inv-accent) 12%, transparent) !important;
+  transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease !important;
+}
+.invitation-public.invitation-art-v2 .invitation-gift-button:hover {
+  background: color-mix(in srgb, var(--inv-accent) 18%, var(--inv-background)) !important;
+  border-color: var(--inv-accent) !important;
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--inv-accent) 18%, transparent) !important;
+  transform: translateY(-1px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .invitation-public.invitation-art-v2 .invitation-gift-button {
+    transition: none !important;
+  }
+}
+
+
+/* Shared editable introduction headline: one source for the hero and intro section. */
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-editorial-flagship,
+  .invitation-template-wedding_editorial,
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-hero-content::before {
+  content: none !important;
+  display: none !important;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-editorial-flagship,
+  .invitation-template-wedding_editorial,
+  .invitation-template-maison_botanique,
+  .invitation-template-noir_champagne,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-coquette_couture,
+  .invitation-template-little_wildflower,
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets,
+  .invitation-template-studio_party
+) .invitation-hero-eyebrow {
+  display: block !important;
+  margin: 0 auto .45rem !important;
+  max-width: 32rem;
+  font-family: var(--font-sans), Arial, sans-serif !important;
+  font-size: clamp(.5rem, 1.2vw, .68rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.5 !important;
+  letter-spacing: .2em !important;
+  text-align: center !important;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+/* El texto superior de portada siempre viene del campo event_label del administrador. */
+.invitation-public.invitation-art-v2 .invitation-hero-content::before {
+  content: none !important;
+  display: none !important;
+}
+.invitation-public.invitation-art-v2 .invitation-hero-eyebrow {
+  display: block !important;
+  margin: 0 auto .45rem !important;
+  max-width: 32rem;
+  color: var(--inv-accent) !important;
+  font-family: var(--font-sans), Arial, sans-serif !important;
+  font-size: clamp(.5rem, 1.2vw, .68rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.5 !important;
+  letter-spacing: .2em !important;
+  text-align: center !important;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+
+
+
+
+/* ==========================================================================
+   NOIR ATELIER — nueva identidad visual
+   Misma composición insignia de Editorial; identidad carbón y champagne.
+   Sin marcos superpuestos, placas flotantes ni ornamentos estructurales.
+   ========================================================================== */
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne {
+  --inv-background: #211F1D !important;
+  --inv-surface: #292522 !important;
+  --inv-title: #F5EFE5 !important;
+  --inv-text: #D8D0C4 !important;
+  --inv-accent: #C6A66B !important;
+  --inv-border: rgba(198,166,107,.48) !important;
+  background: #211F1D !important;
+  color: #D8D0C4 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero {
+  --hero-copy-space: clamp(8.25rem, 29%, 10.75rem) !important;
+  min-height: clamp(34rem, 82svh, 49rem) !important;
+  height: auto !important;
+  padding: 0 1.25rem !important;
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+  background: #211F1D !important;
+  text-align: center !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-image,
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-image-backdrop {
+  inset: 0 0 var(--hero-copy-space) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-image {
+  background-size: cover !important;
+  background-position: center 42% !important;
+  filter: saturate(.72) contrast(1.04) brightness(.88) !important;
+  transform: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-image-backdrop {
+  display: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-overlay {
+  inset: 0 0 var(--hero-copy-space) !important;
+  background: linear-gradient(180deg, rgba(18,16,14,.04) 45%, rgba(18,16,14,.34) 100%) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-frame,
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero::before,
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero::after {
+  display: none !important;
+  content: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-content {
+  position: relative !important;
+  inset: auto !important;
+  transform: none !important;
+  z-index: 3 !important;
+  width: 100% !important;
+  max-width: 58rem !important;
+  min-height: var(--hero-copy-space) !important;
+  margin: 0 auto !important;
+  padding: 1.2rem 1rem 1.55rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: .45rem !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(198,166,107,.55) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: #211F1D !important;
+  color: #F5EFE5 !important;
+  text-align: center !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-content::before {
+  content: none !important;
+  display: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-eyebrow {
+  color: #C6A66B !important;
+  font: 600 .62rem/1.3 var(--font-sans), Arial, sans-serif !important;
+  letter-spacing: .24em !important;
+  text-transform: uppercase !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-title {
+  max-width: 16ch !important;
+  margin: 0 auto !important;
+  color: #F5EFE5 !important;
+  font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(2rem, 6.4vw, 4.4rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.02 !important;
+  letter-spacing: -.035em !important;
+  text-transform: none !important;
+  text-shadow: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-date {
+  margin: .3rem 0 0 !important;
+  color: #C6A66B !important;
+  font: 600 .72rem/1.5 var(--font-sans), Arial, sans-serif !important;
+  letter-spacing: .17em !important;
+  text-transform: uppercase !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne #detalles {
+  background: linear-gradient(180deg, #211F1D, #292522) !important;
+  color: #D8D0C4 !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne #detalles .invitation-intro-block > h2,
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-details-title {
+  color: #C6A66B !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-details-rule {
+  background: #C6A66B !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-countdown-grid {
+  border-top: 1px solid rgba(198,166,107,.42) !important;
+  border-bottom: 1px solid rgba(198,166,107,.42) !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-location-card {
+  border: 1px solid rgba(198,166,107,.55) !important;
+  border-radius: .6rem !important;
+  box-shadow: none !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-footer {
+  background: #1B1917 !important;
+}
+@media (max-width: 639px) {
+  .invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero {
+    min-height: clamp(28rem, 72svh, 36rem) !important;
+    height: auto !important;
+    padding: 0 .65rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-content {
+    min-height: var(--hero-copy-space) !important;
+    padding: 1rem .8rem 1.3rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-content::before {
+    font-size: .56rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-title {
+    font-size: clamp(1.9rem, 8vw, 3rem) !important;
+  }
+}
+@media (min-width: 1024px) {
+  .invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-content {
+    width: 100% !important;
+    max-width: 58rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-image.invitation-hero-image-portrait {
+    background-size: contain !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-image-backdrop.invitation-hero-image-portrait-backdrop {
+    display: block !important;
+    inset: 0 !important;
+    clip-path: inset(0 0 var(--hero-copy-space) 0) !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    filter: blur(28px) saturate(.78) brightness(.68) !important;
+    transform: scale(1.04) !important;
+    opacity: .8 !important;
+  }
+}
+
+
+/* Pie de página: nombres de anfitriones como cierre protagonista y agradecimiento
+   como línea secundaria, más pequeño y ligero. Aplica a las diez plantillas. */
+.invitation-public.invitation-art-v2 .invitation-host-names {
+  display: block !important;
+  max-width: min(90%, 42rem) !important;
+  margin: 0 auto !important;
+  font-family: "Cormorant Garamond", "Bodoni Moda", Georgia, serif !important;
+  font-size: clamp(1.4rem, 3.4vw, 1.9rem) !important;
+  font-weight: 500 !important;
+  line-height: 1.12 !important;
+  letter-spacing: .01em !important;
+  text-wrap: balance !important;
+}
+.invitation-public.invitation-art-v2 .invitation-footer-thanks {
+  margin-top: .85rem !important;
+  font-size: .66rem !important;
+  font-weight: 400 !important;
+  letter-spacing: .12em !important;
+  line-height: 1.55 !important;
+}
+@media (max-width: 639px) {
+  .invitation-public.invitation-art-v2 .invitation-host-names {
+    font-size: clamp(1.35rem, 5.5vw, 1.65rem) !important;
+  }
+  .invitation-public.invitation-art-v2 .invitation-footer-thanks {
+    font-size: .62rem !important;
+    letter-spacing: .1em !important;
+  }
+}
+
+
+/* Cierre de invitación: agradecimiento con identidad tipográfica propia por plantilla.
+   Los nombres de anfitriones permanecen sin cambios. */
+.invitation-public.invitation-art-v2 .invitation-footer-thanks {
+  max-width: 34ch !important;
+  margin: 1rem auto 0 !important;
+  padding: 0 1rem !important;
+  font-size: clamp(1rem, 2.8vw, 1.2rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.35 !important;
+  letter-spacing: .01em !important;
+  text-align: center !important;
+  text-wrap: balance !important;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-editorial-flagship,
+  .invitation-template-wedding_editorial,
+  .invitation-template-noir_champagne,
+  .invitation-template-coquette_couture
+) .invitation-footer-thanks {
+  font-family: "Bodoni Moda", "Cormorant Garamond", Georgia, serif !important;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-maison_botanique,
+  .invitation-template-velvet_royale,
+  .invitation-template-celestial_etoile,
+  .invitation-template-little_wildflower,
+  .invitation-template-baby_soft,
+  .invitation-template-baptism_light
+) .invitation-footer-thanks {
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-style: italic !important;
+}
+.invitation-public.invitation-art-v2:is(
+  .invitation-template-luz_de_cielo,
+  .invitation-template-two_little_secrets
+) .invitation-footer-thanks {
+  font-family: var(--font-display), "Cormorant Garamond", Georgia, serif !important;
+}
+.invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-footer-thanks {
+  font-family: var(--font-sans), Arial, sans-serif !important;
+  font-size: clamp(.9rem, 2.2vw, 1.05rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: .045em !important;
+  text-transform: uppercase !important;
+}
+@media (max-width: 639px) {
+  .invitation-public.invitation-art-v2 .invitation-footer-thanks {
+    font-size: 1rem !important;
+    line-height: 1.32 !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-studio_party .invitation-footer-thanks {
+    font-size: .88rem !important;
+  }
+}
+
+
+/* ==========================================================================
+   PORTADAS VERTICALES EN ESCRITORIO — composición editorial limpia
+   La foto conserva su proporción completa; los laterales usan el fondo de
+   la plantilla. Se elimina el duplicado desenfocado en todas las plantillas.
+   ========================================================================== */
+@media (min-width: 1024px) {
+  .invitation-public.invitation-art-v2 .invitation-hero-image.invitation-hero-image-portrait {
+    background-size: contain !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-color: var(--inv-background, #f3eee5) !important;
+    filter: none !important;
+    transform: none !important;
+  }
+  .invitation-public.invitation-art-v2 .invitation-hero-image-backdrop.invitation-hero-image-portrait-backdrop {
+    display: none !important;
+  }
+}
+
+/* Noir Atelier comparte exactamente la altura móvil de Editorial Flagship.
+   Se evita el clamp anterior, que limitaba la portada en pantallas altas. */
+@media (max-width: 639px) {
+  .invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero {
+    min-height: 72svh !important;
+    height: auto !important;
+  }
+}
+
+/* NOIR ATELIER — igualar únicamente la composición de portada en escritorio
+   a Velvet Royale. Se neutralizan overrides anteriores de altura y fotografía;
+   los estilos móviles y el resto de plantillas permanecen intactos. */
+@media (min-width: 1024px) {
+  .invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero {
+    min-height: 680px !important;
+    height: 76svh !important;
+    max-height: 820px !important;
+    padding-inline: 1.5rem !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-image {
+    filter: none !important;
+    transform: none !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-image.invitation-hero-image-portrait {
+    background-size: contain !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-color: var(--inv-background, #211F1D) !important;
+  }
+  .invitation-public.invitation-art-v2.invitation-template-noir_champagne .invitation-hero-image-backdrop.invitation-hero-image-portrait-backdrop {
+    display: none !important;
+  }
+}

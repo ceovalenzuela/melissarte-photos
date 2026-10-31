@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, useEffect, useRef, useState, type ReactNode } from "react";
-import { Copy, ExternalLink, ImagePlus, RotateCcw, Save, Sparkles, Users } from "lucide-react";
+import { Copy, ExternalLink, ImagePlus, RotateCcw, Save, Sparkles, Users, Mail, Mails, Gift, Heart } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 import { uploadCover } from "@/lib/events";
@@ -29,10 +29,13 @@ interface Props {
 const isIsoDate = (value?: string) => Boolean(value && /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(value));
 
 function defaultEventLabel(template: TemplateKey): string {
-  if (template === "xv_gala") return "Mis XV";
-  if (template === "baby_soft") return "Mi Baby";
-  if (template === "baptism_light") return "Mi Bautizo";
-  return "Boda";
+  if (["xv_gala", "velvet_royale", "celestial_etoile", "coquette_couture"].includes(template)) return "Mis XV";
+  if (["baby_soft", "little_wildflower"].includes(template)) return "Mi Baby";
+  if (["baptism_light", "luz_de_cielo"].includes(template)) return "Mi Bautizo";
+  if (template === "two_little_secrets") return "Revelación";
+  if (template === "studio_party") return "Mi celebración";
+  if (["maison_botanique", "noir_champagne"].includes(template)) return "Nuestra boda";
+  return "Mi celebración";
 }
 
 const emptyContent = (event: Event): InvitationContent => ({
@@ -56,26 +59,28 @@ const emptyContent = (event: Event): InvitationContent => ({
 
 type TemplateKey = InvitationTemplateKey;
 const TEMPLATE_OPTIONS = INVITATION_TEMPLATE_OPTIONS.map((option) => ({ ...option, palette: INVITATION_PALETTES[option.key] }));
+function isKnownTemplateKey(value: string): value is TemplateKey {
+  return Object.prototype.hasOwnProperty.call(INVITATION_PALETTES, value);
+}
+
 function initialDesignForTemplate(template: TemplateKey): InvitationDesign {
-  return { ...(TEMPLATE_OPTIONS.find((option) => option.key === template)?.palette ?? emptyDesign) };
+  return { ...INVITATION_PALETTES[template], art_direction_version: 2 };
 }
 
+// Asigna una plantilla inicial coherente con el tipo de evento; todas pueden cambiarse desde el editor.
 function defaultTemplate(event: Event): TemplateKey {
-  const type = String(event.type ?? "").toLowerCase();
-  if (type.includes("xv")) return "xv_gala";
-  if (type.includes("baby") || type.includes("reveal") || type.includes("gender")) return "baby_soft";
-  if (type.includes("bapt") || type.includes("baut")) return "baptism_light";
-  return "wedding_editorial";
+  const type = String(event.type ?? "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  if (type.includes("xv") || type.includes("quince")) return "velvet_royale";
+  if (type.includes("reveal") || type.includes("gender") || type.includes("revelacion")) return "two_little_secrets";
+  if (type.includes("baby")) return "little_wildflower";
+  if (type.includes("bapt") || type.includes("baut")) return "luz_de_cielo";
+  if (type.includes("birthday") || type.includes("cumple")) return "studio_party";
+  if (type.includes("wedding") || type.includes("boda")) return "wedding_editorial";
+  return "studio_party";
 }
 
-const emptyDesign: InvitationDesign = {
-  accent_color: "#9A7358",
-  background_color: "#FBF7F1",
-  text_color: "#332B27",
-};
 function initialDesign(event: Event): InvitationDesign {
-  const template = defaultTemplate(event);
-  return { ...(TEMPLATE_OPTIONS.find((option) => option.key === template)?.palette ?? emptyDesign) };
+  return { ...INVITATION_PALETTES[defaultTemplate(event)] };
 }
 
 export default function InvitationEditor({ event, organizerToken }: Props) {
@@ -115,7 +120,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
       setLoadError(false);
       const row = (data?.[0] as InvitationRow | undefined) ?? null;
       if (row) {
-        const rowTemplate = (TEMPLATE_OPTIONS.find((option) => option.key === row.template_key)?.key) ?? defaultTemplate(event);
+        const rowTemplate = isKnownTemplateKey(row.template_key) ? row.template_key : defaultTemplate(event);
         setContent({ ...emptyContent(event), ...(row.content_config ?? {}), confirmation_mode: row.content_config?.confirmation_mode ?? (row.rsvp_enabled ? "rsvp" : "none"), event_label: row.content_config?.event_label ?? defaultEventLabel(rowTemplate) });
         setDesign({ ...INVITATION_PALETTES[rowTemplate], ...(row.design_config ?? {}) });
         setTemplateKey(rowTemplate);
@@ -359,7 +364,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                           ? defaultEventLabel(option.key)
                           : current.event_label,
                       }));
-                      setDesign((current) => ({ ...initialDesignForTemplate(option.key), cover_image_url: current.cover_image_url }));
+                      setDesign((current) => ({ ...initialDesignForTemplate(option.key), cover_image_url: current.cover_image_url, wax_seal_image_url: current.wax_seal_image_url }));
                     }}
                     className={`group relative min-w-0 overflow-hidden rounded-2xl border p-3 text-left transition duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${selected ? "shadow-sm ring-1" : "border-[#E7DCC8] bg-white hover:border-[#C5AD88]"}`}
                     style={{ outlineColor: palette.accent_color, borderColor: selected ? palette.border_color : undefined, backgroundColor: selected ? "#FFFFFF" : undefined }}
@@ -382,7 +387,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                     <span className="flex items-start justify-between gap-2">
                       <span className="min-w-0">
                         <span className="block text-sm font-semibold leading-5 text-[#332B27]">{option.label}</span>
-                        <span className="mt-1 block text-xs leading-5 text-[#62594F]">{option.description}</span>
+                        <span className="mt-1.5 block text-sm leading-5 text-[#51483E]">{option.description}</span>
                       </span>
                       <span className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${selected ? "text-white" : "border-[#D6C9B7] bg-white text-transparent"}`}
                       style={selected ? { borderColor: palette.button_color, backgroundColor: palette.button_color } : undefined} aria-hidden="true">
@@ -399,7 +404,24 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                 );
               })}
             </div>
-            <p className="mt-3 text-xs leading-5 text-[#62594F]">Al elegir otra plantilla se aplica su paleta inicial. Tu portada se conserva; los demás colores se pueden ajustar en «Personalizar colores».</p>
+            <p className="mt-3 text-xs leading-5 text-[#62594F]">Al elegir una plantilla activa se aplica su paleta inicial. Tu portada se conserva; los demás colores se pueden ajustar en «Personalizar colores».</p>
+            {design.art_direction_version !== 2 && TEMPLATE_OPTIONS.some((option) => option.key === templateKey) && (
+              <div className="mt-4 rounded-2xl border border-[#D8C39B] bg-[#FBF7EF] p-4">
+                <p className="text-sm font-semibold text-[#51412F]">Esta invitación conserva su diseño original.</p>
+                <p className="mt-1 text-sm leading-5 text-[#6F6252]">Si deseas aplicar la versión actual de «{TEMPLATE_OPTIONS.find((option) => option.key === templateKey)?.label}», puedes actualizarla aquí. Se conservarán la portada, el distintivo y el contenido del evento.</p>
+                <button
+                  type="button"
+                  onClick={() => setDesign((current) => ({
+                    ...initialDesignForTemplate(templateKey),
+                    cover_image_url: current.cover_image_url,
+                    wax_seal_image_url: current.wax_seal_image_url,
+                  }))}
+                  className="mt-3 inline-flex min-h-10 items-center justify-center rounded-full bg-[#51412F] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#392D22]"
+                >
+                  Actualizar al diseño actual
+                </button>
+              </div>
+            )}
           </section>
 
           <section id="editor-message" className="scroll-mt-6 border-t border-[#E7DCC8] pt-6">
@@ -477,6 +499,32 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                   <textarea rows={3} value={content.gift_message ?? ""} onChange={(e) => updateContent("gift_message", e.target.value)} placeholder="Ej. Su presencia es nuestro mejor regalo, pero si desean tener un detalle con nosotros..." maxLength={300} className={inputClass} />
                 </label>
                 <p className="mt-1 text-right text-xs text-[#8A8074]">{(content.gift_message ?? "").length}/300 caracteres</p>
+              </div>
+              <div className="sm:col-span-2">
+                <span className="mb-2 block text-sm font-medium text-[#4E463D]">Icono de regalo</span>
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                  {([
+                    { value: "envelope", label: "Sobre", Icon: Mail },
+                    { value: "gift", label: "Regalo", Icon: Gift },
+                    { value: "envelopes", label: "Lluvia de sobres", Icon: Mails },
+                    { value: "heart", label: "Detalle especial", Icon: Heart },
+                  ] as const).map(({ value, label, Icon }) => {
+                    const selected = (content.gift_icon ?? "gift") === value;
+                    return (
+                      <button
+                        key={value}
+                        type="button"
+                        onClick={() => updateContent("gift_icon", value)}
+                        aria-pressed={selected}
+                        className={`flex min-h-16 items-center gap-2 rounded-xl border px-3 py-2 text-left text-sm transition ${selected ? "border-[#A88249] bg-[#F8F2E8] text-[#6F5635] ring-1 ring-[#A88249]/30" : "border-[#E7DCC8] bg-white text-[#6D655B] hover:border-[#C5AD88]"}`}
+                      >
+                        <Icon size={19} strokeWidth={1.7} />
+                        <span>{label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+                <p className="mt-1 text-xs text-[#8A8074]">Elige el símbolo que acompañará las sugerencias de regalo.</p>
               </div>
               <Field label="Preferencia de regalo (opcional)" value={content.gift_type ?? ""} onChange={(v) => updateContent("gift_type", v)} placeholder="Ej. Sobre, regalo en efectivo o algún detalle" maxLength={120} />
               <Field label="Texto del botón (opcional)" value={content.gift_registry_label ?? ""} onChange={(v) => updateContent("gift_registry_label", v)} placeholder="Ej. Ver mesa de regalos" maxLength={50} />
@@ -583,7 +631,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                 <div className="rounded-xl border border-[#D9C7AA] bg-white p-3 sm:p-4">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#62594F]">Consejo de legibilidad</p>
                   <p className="mt-2 text-sm leading-6 text-[#332B27]">Usa fondos claros con texto oscuro o fondos oscuros con texto claro. Los tonos decorativos funcionan mejor en bordes y detalles que en textos pequeños.</p>
-                  <button type="button" onClick={() => { setDesign({ ...initialDesignForTemplate(templateKey), cover_image_url: design.cover_image_url }); toast.success("Se restauraron los colores originales de la plantilla."); }} className="mt-4 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-full border bg-[#FBF7F0] px-4 py-2 text-sm font-semibold text-[#51483E] transition hover:bg-[#F3E8D7]" style={{ borderColor: design.border_color ?? INVITATION_PALETTES[templateKey].border_color ?? "#D9D8D1" }}>
+                  <button type="button" onClick={() => { setDesign({ ...initialDesignForTemplate(templateKey), cover_image_url: design.cover_image_url, wax_seal_image_url: design.wax_seal_image_url }); toast.success("Se restauraron los colores originales de la plantilla."); }} className="mt-4 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-full border bg-[#FBF7F0] px-4 py-2 text-sm font-semibold text-[#51483E] transition hover:bg-[#F3E8D7]" style={{ borderColor: design.border_color ?? INVITATION_PALETTES[templateKey].border_color ?? "#D9D8D1" }}>
                     <RotateCcw size={15} /> Restaurar colores de la plantilla
                   </button>
                   <p className="mt-2 text-xs leading-5 text-[#7D7467]">Se recupera la paleta inicial de «{TEMPLATE_OPTIONS.find((option) => option.key === templateKey)?.label}». La portada se conserva.</p>

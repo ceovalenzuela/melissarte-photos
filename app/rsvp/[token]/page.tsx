@@ -15,9 +15,24 @@ interface Props {
 
 const organizerAccents: Record<InvitationTemplateKey, { bannerStart: string; bannerEnd: string; bannerText: string; bannerAccent: string; muted: string; soft: string }> = {
   wedding_editorial: { bannerStart: "#344B61", bannerEnd: "#20272D", bannerText: "#F5F3EE", bannerAccent: "#8295A5", muted: "#4D5357", soft: "#EAE7DF" },
+  maison_botanique: { bannerStart: "#40543D", bannerEnd: "#71836A", bannerText: "#FFFDF7", bannerAccent: "#D8CDAF", muted: "#53604F", soft: "#E7EADD" },
+  noir_champagne: { bannerStart: "#1E1B19", bannerEnd: "#44372D", bannerText: "#F8F0E4", bannerAccent: "#C9AC78", muted: "#6A5C4B", soft: "#EAE2D5" },
+  velvet_royale: { bannerStart: "#3B1724", bannerEnd: "#6A2B41", bannerText: "#FFF2E9", bannerAccent: "#D7AF83", muted: "#76505A", soft: "#F1E2DD" },
+  celestial_etoile: { bannerStart: "#161D3B", bannerEnd: "#3A426C", bannerText: "#F7F3FF", bannerAccent: "#B8B7DC", muted: "#626B9A", soft: "#E5E6F2" },
+  coquette_couture: { bannerStart: "#8D3553", bannerEnd: "#C76F88", bannerText: "#FFFBFC", bannerAccent: "#F6C9D6", muted: "#8A5266", soft: "#F8E4EA" },
+  little_wildflower: { bannerStart: "#68764E", bannerEnd: "#A8AF7C", bannerText: "#FFF9EC", bannerAccent: "#D6C99F", muted: "#727B59", soft: "#F0E8CC" },
+  luz_de_cielo: { bannerStart: "#476B7A", bannerEnd: "#99BCC9", bannerText: "#FFFFFF", bannerAccent: "#D6E7ED", muted: "#627D87", soft: "#EAF2F5" },
+  two_little_secrets: { bannerStart: "#69536C", bannerEnd: "#B98B91", bannerText: "#FFF9F5", bannerAccent: "#E7C6C5", muted: "#806B78", soft: "#F2E9ED" },
+  studio_party: { bannerStart: "#243D93", bannerEnd: "#E35A36", bannerText: "#FFFFFF", bannerAccent: "#F3C66C", muted: "#525C88", soft: "#F7E5D1" },
   xv_gala: { bannerStart: "#211B35", bannerEnd: "#49324F", bannerText: "#FFFAF0", bannerAccent: "#E2C47A", muted: "#C9BED1", soft: "#30263F" },
   baby_soft: { bannerStart: "#A85F47", bannerEnd: "#3F7184", bannerText: "#FFFEFA", bannerAccent: "#F0D276", muted: "#756054", soft: "#E9F4F6" },
   baptism_light: { bannerStart: "#263641", bannerEnd: "#426D86", bannerText: "#FFFFFF", bannerAccent: "#C7DBE5", muted: "#536873", soft: "#E3EEF3" },
+  botanical: { bannerStart: "#354B3A", bannerEnd: "#71836A", bannerText: "#FFFDF7", bannerAccent: "#D5C6A5", muted: "#53604F", soft: "#E4E8DC" },
+  noir: { bannerStart: "#211F1D", bannerEnd: "#494039", bannerText: "#F3EDE2", bannerAccent: "#C6A66B", muted: "#6D6255", soft: "#E9E1D5" },
+  pink_atelier: { bannerStart: "#8F2454", bannerEnd: "#C52F70", bannerText: "#FFFAFC", bannerAccent: "#F2C6D7", muted: "#7A3B58", soft: "#F8D2E0" },
+  celestial: { bannerStart: "#303B68", bannerEnd: "#7886BD", bannerText: "#FAFAFF", bannerAccent: "#D5DAF0", muted: "#59658E", soft: "#D5DAF0" },
+  cloud: { bannerStart: "#80634D", bannerEnd: "#B58C66", bannerText: "#FFFEFA", bannerAccent: "#F8EEDC", muted: "#776453", soft: "#F8EEDC" },
+  garden: { bannerStart: "#596F56", bannerEnd: "#B96F55", bannerText: "#FFFCF7", bannerAccent: "#E8D4C1", muted: "#6B5B4F", soft: "#E8E6D8" },
 };
 
 export default async function OrganizerConfirmationsPage({ params }: Props) {
@@ -37,7 +52,12 @@ export default async function OrganizerConfirmationsPage({ params }: Props) {
 
   if (invitationEnabled !== true) notFound();
   const invitation = invitationResult.data?.[0];
-  const templateKeys: InvitationTemplateKey[] = ["wedding_editorial", "xv_gala", "baby_soft", "baptism_light"];
+  const templateKeys: InvitationTemplateKey[] = [
+    "wedding_editorial", "maison_botanique", "noir_champagne", "velvet_royale",
+    "celestial_etoile", "coquette_couture", "little_wildflower", "luz_de_cielo",
+    "two_little_secrets", "studio_party",
+    "xv_gala", "baby_soft", "baptism_light", "botanical", "noir", "pink_atelier", "celestial", "cloud", "garden",
+  ];
   const templateKey: InvitationTemplateKey = templateKeys.includes(invitation?.template_key as InvitationTemplateKey)
     ? (invitation.template_key as InvitationTemplateKey)
     : "wedding_editorial";

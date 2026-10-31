@@ -1,4 +1,4 @@
-export type InvitationTemplateKey = "wedding_editorial" | "xv_gala" | "baby_soft" | "baptism_light";
+export type InvitationTemplateKey = "wedding_editorial" | "maison_botanique" | "noir_champagne" | "velvet_royale" | "celestial_etoile" | "coquette_couture" | "little_wildflower" | "luz_de_cielo" | "two_little_secrets" | "studio_party" | "xv_gala" | "baby_soft" | "baptism_light" | "botanical" | "noir" | "pink_atelier" | "celestial" | "cloud" | "garden";
 
 export type InvitationStatus = "draft" | "published";
 export type RSVPStatus = "attending" | "declined";
@@ -27,6 +27,7 @@ export interface InvitationContent {
   dress_code?: string;
   gift_message?: string;
   gift_type?: string;
+  gift_icon?: "envelope" | "envelopes" | "gift" | "coins" | "heart";
   gift_registry_url?: string;
   gift_registry_label?: string;
   confirmation_mode?: "rsvp" | "whatsapp" | "none";
@@ -50,6 +51,8 @@ export interface InvitationDesign {
   form_background_color?: string;
   form_text_color?: string;
   cover_image_url?: string;
+  /** Version 2 art direction is opt-in so existing published invitations remain unchanged. */
+  art_direction_version?: number;
   wax_seal_image_url?: string;
 }
 

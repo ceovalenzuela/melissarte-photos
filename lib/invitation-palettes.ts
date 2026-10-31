@@ -2,14 +2,50 @@ import type { InvitationDesign, InvitationTemplateKey } from "@/types/invitation
 
 export const INVITATION_PALETTES: Record<InvitationTemplateKey, InvitationDesign> = {
   wedding_editorial: { background_color: "#F5F0E7", accent_color: "#D5B77C", text_color: "#282A2E", title_color: "#111B29", card_background_color: "#34465D", card_text_color: "#F5F0E7", border_color: "#D5B77C", button_color: "#D5B77C", button_text_color: "#111B29", rsvp_background_color: "#111B29", rsvp_text_color: "#F5F0E7", form_background_color: "#FFFDF9", form_text_color: "#282A2E" },
+  maison_botanique: { background_color: "#F4F1E8", accent_color: "#77866B", text_color: "#3C4337", title_color: "#384A3A", card_background_color: "#E7EADD", card_text_color: "#3A4438", border_color: "#C5CEB7", button_color: "#65775D", button_text_color: "#FFFFFF", rsvp_background_color: "#E8EBDD", rsvp_text_color: "#3C4337", form_background_color: "#FFFCF5", form_text_color: "#3C4337" },
+  noir_champagne: { background_color: "#211E1B", accent_color: "#C9AC78", text_color: "#EFE8DC", title_color: "#F8F0E4", card_background_color: "#302A26", card_text_color: "#EFE8DC", border_color: "#8E7957", button_color: "#C9AC78", button_text_color: "#211D1A", rsvp_background_color: "#282320", rsvp_text_color: "#EFE8DC", form_background_color: "#F8F3E9", form_text_color: "#29231F" },
+  velvet_royale: { background_color: "#421C2B", accent_color: "#D7AF83", text_color: "#F8EDE7", title_color: "#FFE8D9", card_background_color: "#572638", card_text_color: "#F8EDE7", border_color: "#A46B73", button_color: "#C88C9A", button_text_color: "#3B1724", rsvp_background_color: "#32131F", rsvp_text_color: "#F9ECE7", form_background_color: "#FFF8F2", form_text_color: "#50323B" },
+  celestial_etoile: { background_color: "#171D3B", accent_color: "#B8B7DC", text_color: "#EEF0FA", title_color: "#F7F3FF", card_background_color: "#283052", card_text_color: "#EDF0FA", border_color: "#777FAF", button_color: "#777FB1", button_text_color: "#FFFFFF", rsvp_background_color: "#161D3A", rsvp_text_color: "#F1EFF9", form_background_color: "#F8F7FF", form_text_color: "#2D3151" },
+  coquette_couture: { background_color: "#FCECF0", accent_color: "#B9506C", text_color: "#5B3540", title_color: "#8D3553", card_background_color: "#FFF7F8", card_text_color: "#5B3540", border_color: "#E8B8C5", button_color: "#B9506C", button_text_color: "#FFFFFF", rsvp_background_color: "#F8DDE5", rsvp_text_color: "#5B3540", form_background_color: "#FFFBFC", form_text_color: "#5B3540" },
+  little_wildflower: { background_color: "#FBF4E5", accent_color: "#8A9A67", text_color: "#514A39", title_color: "#68764E", card_background_color: "#FFF9EC", card_text_color: "#514A39", border_color: "#D6C99F", button_color: "#7E8D5A", button_text_color: "#FFFFFF", rsvp_background_color: "#F0E8CC", rsvp_text_color: "#514A39", form_background_color: "#FFFDF7", form_text_color: "#514A39" },
+  luz_de_cielo: { background_color: "#F6F7F4", accent_color: "#85A9BB", text_color: "#374751", title_color: "#476B7A", card_background_color: "#FFFFFF", card_text_color: "#374751", border_color: "#C5D9E0", button_color: "#6F95A9", button_text_color: "#FFFFFF", rsvp_background_color: "#EAF2F5", rsvp_text_color: "#374751", form_background_color: "#FFFFFF", form_text_color: "#374751" },
+  two_little_secrets: { background_color: "#FBF4EE", accent_color: "#B98B91", text_color: "#51434D", title_color: "#69536C", card_background_color: "#FFF9F5", card_text_color: "#51434D", border_color: "#E7C6C5", button_color: "#8D829D", button_text_color: "#FFFFFF", rsvp_background_color: "#F2E9ED", rsvp_text_color: "#51434D", form_background_color: "#FFFCF8", form_text_color: "#51434D" },
+  studio_party: { background_color: "#FFF4E8", accent_color: "#E35A36", text_color: "#272C4C", title_color: "#233C86", card_background_color: "#F7E5D1", card_text_color: "#272C4C", border_color: "#E9A67E", button_color: "#243D93", button_text_color: "#FFFFFF", rsvp_background_color: "#243D93", rsvp_text_color: "#FFFFFF", form_background_color: "#FFFDF9", form_text_color: "#272C4C" },
   xv_gala: { background_color: "#211B35", accent_color: "#E2C47A", text_color: "#FFFAF0", title_color: "#FFFAF0", card_background_color: "#39304C", card_text_color: "#FFFAF0", border_color: "#D6B66F", button_color: "#805773", button_text_color: "#FFFFFF", rsvp_background_color: "#211B35", rsvp_text_color: "#FFFAF0", form_background_color: "#FFFDF9", form_text_color: "#30283A" },
   baby_soft: { background_color: "#FFF4E8", accent_color: "#A85F47", text_color: "#493C32", title_color: "#875744", card_background_color: "#FFFEFA", card_text_color: "#493C32", border_color: "#B9DCE7", button_color: "#3F7184", button_text_color: "#FFFFFF", rsvp_background_color: "#E9F4F6", rsvp_text_color: "#493C32", form_background_color: "#FFFEFA", form_text_color: "#493C32" },
   baptism_light: { background_color: "#FAF7F0", accent_color: "#426D86", text_color: "#263641", title_color: "#263641", card_background_color: "#FFFFFF", card_text_color: "#263641", border_color: "#C7DBE5", button_color: "#426D86", button_text_color: "#FFFFFF", rsvp_background_color: "#E3EEF3", rsvp_text_color: "#263641", form_background_color: "#FFFFFF", form_text_color: "#263641" },
+  botanical: { background_color: "#F4F3EA", accent_color: "#71836A", text_color: "#343C32", title_color: "#354B3A", card_background_color: "#E4E8DC", card_text_color: "#343C32", border_color: "#B7C1A9", button_color: "#596F56", button_text_color: "#FFFFFF", rsvp_background_color: "#E4E8DC", rsvp_text_color: "#343C32", form_background_color: "#FFFDF7", form_text_color: "#343C32" },
+  noir: { background_color: "#211F1D", accent_color: "#C6A66B", text_color: "#F3EDE2", title_color: "#F3EDE2", card_background_color: "#34302B", card_text_color: "#F3EDE2", border_color: "#8D744E", button_color: "#C6A66B", button_text_color: "#211F1D", rsvp_background_color: "#34302B", rsvp_text_color: "#F3EDE2", form_background_color: "#F8F4EC", form_text_color: "#302A24" },
+  pink_atelier: { background_color: "#FCE9EF", accent_color: "#C52F70", text_color: "#54283C", title_color: "#8F2454", card_background_color: "#F8D2E0", card_text_color: "#54283C", border_color: "#E7A9C2", button_color: "#B82C69", button_text_color: "#FFFFFF", rsvp_background_color: "#F8D2E0", rsvp_text_color: "#54283C", form_background_color: "#FFFAFC", form_text_color: "#54283C" },
+  celestial: { background_color: "#E9ECF8", accent_color: "#7886BD", text_color: "#303752", title_color: "#303B68", card_background_color: "#D5DAF0", card_text_color: "#303752", border_color: "#AEB8DF", button_color: "#59699F", button_text_color: "#FFFFFF", rsvp_background_color: "#D5DAF0", rsvp_text_color: "#303752", form_background_color: "#FAFAFF", form_text_color: "#303752" },
+  cloud: { background_color: "#FFF8E9", accent_color: "#B58C66", text_color: "#55483D", title_color: "#80634D", card_background_color: "#F8EEDC", card_text_color: "#55483D", border_color: "#E8D9C2", button_color: "#9B795F", button_text_color: "#FFFFFF", rsvp_background_color: "#F8EEDC", rsvp_text_color: "#55483D", form_background_color: "#FFFEFA", form_text_color: "#55483D" },
+  garden: { background_color: "#F7F0E7", accent_color: "#B96F55", text_color: "#493C35", title_color: "#6C5142", card_background_color: "#E8E6D8", card_text_color: "#493C35", border_color: "#D9B7A1", button_color: "#71816A", button_text_color: "#FFFFFF", rsvp_background_color: "#E8E6D8", rsvp_text_color: "#493C35", form_background_color: "#FFFCF7", form_text_color: "#493C35" },
 };
 
+// Colección activa: Editorial más nueve identidades visuales independientes.
 export const INVITATION_TEMPLATE_OPTIONS: { key: InvitationTemplateKey; label: string; description: string }[] = [
-  { key: "wedding_editorial", label: "Boda · Editorial", description: "Azul noche, marfil, champagne y carbón" },
-  { key: "xv_gala", label: "XV años · Gala", description: "Ciruela profunda, malva y oro suave" },
-  { key: "baby_soft", label: "Baby shower · Suave", description: "Durazno, terracota y celeste suave" },
-  { key: "baptism_light", label: "Bautizo · Luz", description: "Marfil, azul grisáceo y celeste" },
+  { key: "wedding_editorial", label: "Editorial", description: "Marfil, azul noche y detalles champagne; elegante y minimalista" },
+  { key: "maison_botanique", label: "Maison Botanique", description: "Jardín orgánico, ilustración botánica y romanticismo contemporáneo" },
+  { key: "noir_champagne", label: "Noir Atelier", description: "Carbón profundo, marfil y champagne; elegancia editorial nocturna" },
+  { key: "velvet_royale", label: "Velvet Royale", description: "Borgoña profundo, terciopelo y destellos de lujo" },
+  { key: "celestial_etoile", label: "Celestial Étoile", description: "Cielo nocturno, constelaciones y luz plateada" },
+  { key: "coquette_couture", label: "Coquette Couture", description: "Rosa ballet, cereza, moños y detalles de alta costura" },
+  { key: "little_wildflower", label: "Little Wildflower", description: "Flores silvestres, buttercream y tonos naturales" },
+  { key: "luz_de_cielo", label: "Luz de Cielo", description: "Marfil luminoso, azul niebla y detalles de inspiración clásica" },
+  { key: "two_little_secrets", label: "Two Little Secrets", description: "Dos atmósferas, rosa y azul, para una revelación especial" },
+  { key: "studio_party", label: "Studio Party", description: "Póster editorial, color vibrante y composición gráfica" },
+];
+
+// Estas plantillas se conservan únicamente para mantener el diseño de invitaciones existentes
+// mientras se migran a las nuevas identidades visuales.
+export const INVITATION_RETIRED_TEMPLATE_OPTIONS: { key: InvitationTemplateKey; label: string; description: string }[] = [
+  { key: "xv_gala", label: "Gala", description: "Ciruela, malva y dorado suave; sofisticada y glamourosa" },
+  { key: "baby_soft", label: "Suave", description: "Durazno, terracota y celeste; tonos pastel y formas suaves" },
+  { key: "baptism_light", label: "Luz", description: "Marfil y azul grisáceo; estilo clásico, limpio y sereno" },
+  { key: "botanical", label: "Botánico", description: "Verde salvia, oliva, marfil y rosa empolvado; natural y botánica" },
+  { key: "noir", label: "Noir", description: "Negro espresso, crema y dorado antiguo; elegante y de alto contraste" },
+  { key: "pink_atelier", label: "Pink Atelier", description: "Rosa intenso, blush y champagne; moderno, femenino y vibrante" },
+  { key: "celestial", label: "Celestial", description: "Azul profundo, lavanda y plata; celestial y sofisticada" },
+  { key: "cloud", label: "Nube", description: "Amarillo mantequilla, lavanda, menta y durazno; alegre y delicada" },
+  { key: "garden", label: "Jardín", description: "Verde salvia, terracota y durazno; inspiración jardín y tonos cálidos" },
 ];

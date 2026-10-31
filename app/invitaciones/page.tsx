@@ -155,11 +155,7 @@ export default function InvitationsLandingPage() {
                       title={`Vista previa de invitación demo de ${demo.label}`}
                       src={demo.href}
                       loading="lazy"
-                      className={`pointer-events-none absolute inset-0 border-0 bg-white ${
-                        demo.key === "baby-shower" || demo.key === "bautizo"
-                          ? "h-[125%] w-[125%] origin-top-left scale-[0.8]"
-                          : "h-full w-full"
-                      }`}
+                      className="pointer-events-none absolute inset-0 h-full w-full border-0 bg-white"
                     />
                   </div>
                 </a>

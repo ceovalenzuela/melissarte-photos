@@ -188,22 +188,21 @@ export default function PublicInvitationClient({
   const templatePalette = INVITATION_PALETTES[templateKey];
   const weddingColor = (value: string | undefined, fallback: string, oldColors: string[], newColor: string) =>
     resolveDesignColor(value, fallback, templateKey, oldColors, newColor);
-  // Editorial is the flagship art direction: its palette is deliberately locked
-  // to the template tokens so stale design_config values cannot reintroduce
-  // low-contrast white-on-ivory or the former navy countdown card.
-  const background = isEditorialFlagship ? "#F6F1E8" : weddingColor(design.background_color, templatePalette.background_color ?? "#F5F0E7", ["#F4EAD8", "#FFF7F0", "#F5F3EE"], "#F5F0E7");
-  const accent = isEditorialFlagship ? "#A88750" : weddingColor(design.accent_color, templatePalette.accent_color ?? "#D5B77C", ["#87642F", "#D6A33D", "#344B61"], "#D5B77C");
-  const textColor = isEditorialFlagship ? "#625D55" : weddingColor(design.text_color, templatePalette.text_color ?? "#282A2E", ["#273747", "#39252B", "#4D5357"], "#282A2E");
-  const titleColor = isEditorialFlagship ? "#293746" : weddingColor(design.title_color, templatePalette.title_color ?? "#111B29", ["#273747", "#702638", "#20272D"], "#111B29");
-  const cardBackgroundColor = isEditorialFlagship ? "#FFFCF7" : weddingColor(design.card_background_color, templatePalette.card_background_color ?? "#34465D", ["#FFFCF6", "#FFF7F0", "#EAE7DF", "#FFFFFF"], "#34465D");
-  const cardTextColor = isEditorialFlagship ? "#293746" : weddingColor(design.card_text_color, templatePalette.card_text_color ?? "#F5F0E7", ["#302F30", "#39252B", "#20272D"], "#F5F0E7");
-  const borderColor = isEditorialFlagship ? "#D9C9A8" : weddingColor(design.border_color, templatePalette.border_color ?? "#D5B77C", ["#C9AD6B", "#E5B84F", "#D9D8D1"], "#D5B77C");
-  const buttonColor = isEditorialFlagship ? "#293746" : weddingColor(design.button_color, templatePalette.button_color ?? "#D5B77C", ["#87642F", "#702638", "#344B61"], "#D5B77C");
-  const buttonTextColor = isEditorialFlagship ? "#FFFCF7" : weddingColor(design.button_text_color, templatePalette.button_text_color ?? "#111B29", ["#FFFFFF"], "#111B29");
-  const rsvpBackgroundColor = weddingColor(design.rsvp_background_color, templatePalette.rsvp_background_color ?? "#111B29", ["#273747", "#F0D9D9", "#EAE7DF"], "#111B29");
-  const rsvpTextColor = weddingColor(design.rsvp_text_color, templatePalette.rsvp_text_color ?? "#F5F0E7", ["#FFFAF0", "#39252B", "#20272D"], "#F5F0E7");
-  const formBackgroundColor = weddingColor(design.form_background_color, templatePalette.form_background_color ?? "#FFFDF9", ["#FFFDF8", "#FFF7F0", "#FFFFFF"], "#FFFDF9");
-  const formTextColor = weddingColor(design.form_text_color, templatePalette.form_text_color ?? "#282A2E", ["#302F30", "#39252B", "#20272D"], "#282A2E");
+  // Resolve every palette from saved design values, including the Editorial flagship.
+  // Known legacy defaults migrate forward; user-customized values remain intact.
+  const background = weddingColor(design.background_color, templatePalette.background_color, ["#F4EAD8", "#FFF7F0", "#F5F3EE", "#F5F0E7"], templatePalette.background_color);
+  const accent = weddingColor(design.accent_color, templatePalette.accent_color, ["#87642F", "#D6A33D", "#344B61", "#D5B77C"], templatePalette.accent_color);
+  const textColor = weddingColor(design.text_color, templatePalette.text_color, ["#273747", "#39252B", "#4D5357", "#282A2E"], templatePalette.text_color);
+  const titleColor = weddingColor(design.title_color, templatePalette.title_color, ["#273747", "#702638", "#20272D", "#111B29"], templatePalette.title_color);
+  const cardBackgroundColor = weddingColor(design.card_background_color, templatePalette.card_background_color, ["#FFFCF6", "#FFF7F0", "#EAE7DF", "#FFFFFF", "#34465D"], templatePalette.card_background_color);
+  const cardTextColor = weddingColor(design.card_text_color, templatePalette.card_text_color, ["#302F30", "#39252B", "#20272D", "#F5F0E7"], templatePalette.card_text_color);
+  const borderColor = weddingColor(design.border_color, templatePalette.border_color, ["#C9AD6B", "#E5B84F", "#D9D8D1", "#D5B77C"], templatePalette.border_color);
+  const buttonColor = weddingColor(design.button_color, templatePalette.button_color, ["#87642F", "#702638", "#344B61", "#D5B77C"], templatePalette.button_color);
+  const buttonTextColor = weddingColor(design.button_text_color, templatePalette.button_text_color, ["#FFFFFF", "#111B29"], templatePalette.button_text_color);
+  const rsvpBackgroundColor = cardBackgroundColor;
+  const rsvpTextColor = cardTextColor;
+  const formBackgroundColor = cardBackgroundColor;
+  const formTextColor = cardTextColor;
   const todayInMonterrey = new Intl.DateTimeFormat("en-CA", {
     timeZone: "America/Monterrey",
     year: "numeric",
@@ -376,6 +375,12 @@ export default function PublicInvitationClient({
             "--inv-rsvp-text": rsvpTextColor,
             "--inv-form-bg": formBackgroundColor,
             "--inv-form-text": formTextColor,
+            "--ef-paper": background,
+            "--ef-paper-light": cardBackgroundColor,
+            "--ef-ink": titleColor,
+            "--ef-copy": textColor,
+            "--ef-gold": accent,
+            "--ef-line": borderColor,
           } as CSSProperties}
         >
           <header className={`invitation-hero relative isolate flex min-h-[30svh] items-end justify-center overflow-hidden px-6 pb-5 pt-7 text-center sm:min-h-[420px] sm:px-12 sm:pb-9 sm:pt-10 lg:min-h-[500px] ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>
@@ -397,15 +402,15 @@ export default function PublicInvitationClient({
               >
                 {content.event_label?.trim() || defaultEventLabel(templateKey)}
               </p>
-              <h1 className="invitation-hero-title font-[var(--font-display)] text-4xl leading-tight sm:text-6xl lg:text-7xl" style={isEditorialFlagship ? { color: "#293746", textShadow: "none" } : undefined}>{content.headline || invitation.event_title}</h1>
-              {invitation.event_date && <p className="invitation-hero-date mt-5 text-[1.1rem] font-semibold uppercase tracking-[0.16em] sm:mt-6 sm:text-xl sm:tracking-[0.2em] lg:text-[1.4rem]" style={isEditorialFlagship ? { color: "#625D55", textShadow: "none" } : undefined}>{formatDate(invitation.event_date)}</p>}
+              <h1 className="invitation-hero-title font-[var(--font-display)] text-4xl leading-tight sm:text-6xl lg:text-7xl" style={isEditorialFlagship ? { color: titleColor, textShadow: "none" } : undefined}>{content.headline || invitation.event_title}</h1>
+              {invitation.event_date && <p className="invitation-hero-date mt-5 text-[1.1rem] font-semibold uppercase tracking-[0.16em] sm:mt-6 sm:text-xl sm:tracking-[0.2em] lg:text-[1.4rem]" style={isEditorialFlagship ? { color: textColor, textShadow: "none" } : undefined}>{formatDate(invitation.event_date)}</p>}
               
             </div>
 
           </header>
-          {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} editorial={isEditorialFlagship} />}
+          {invitation.event_date && <Countdown eventDate={invitation.event_date} eventTime={content.ceremony_time} accent={accent} textColor={textColor} titleColor={titleColor} borderColor={borderColor} editorial={isEditorialFlagship} />}
           <section id="detalles" className={`invitation-details-section px-5 pt-7 pb-12 sm:px-12 sm:pt-10 sm:pb-16 lg:px-20 ${templateKey === "wedding_editorial" ? "invitation-wedding-details" : ""}`}>
-            <div className="invitation-intro-block mx-auto max-w-3xl text-center">
+            <div className={`invitation-intro-block mx-auto max-w-3xl text-center ${!content.intro_headline?.trim() && !content.introduction?.trim() && !design.wax_seal_image_url?.startsWith("https://") ? "invitation-intro-block--compact" : ""}`}>
               {design.wax_seal_image_url?.startsWith("https://") ? (
                 <img
                   src={design.wax_seal_image_url}
@@ -419,7 +424,7 @@ export default function PublicInvitationClient({
                   {content.intro_headline.trim()}
                 </p>
               )}
-              {content.introduction && <p className="invitation-introduction mx-auto max-w-xl font-normal text-neutral-700" style={{ color: textColor }}>{content.introduction}</p>}
+              {content.introduction?.trim() && <p className="invitation-introduction mx-auto max-w-xl font-normal text-neutral-700" style={{ color: textColor }}>{content.introduction.trim()}</p>}
               <div className="invitation-details-heading">
                 <span className="invitation-details-rule" aria-hidden="true" />
                 <h2 className="invitation-details-title">Detalles del evento</h2>
@@ -586,7 +591,7 @@ export default function PublicInvitationClient({
               </div>
             )}
             {(content.host_names?.trim() || (content.godparents_enabled && (content.godparents ?? []).some((person) => person.name.trim()))) && (
-              <div aria-hidden="true" className="mx-auto my-7 h-px w-14" style={{ backgroundColor: `${borderColor}AA` }} />
+              <div aria-hidden="true" className="invitation-footer-separator mx-auto my-7 h-px w-14" style={{ backgroundColor: `${borderColor}AA` }} />
             )}
             <p className="invitation-footer-thanks mt-0">Gracias por ser parte de esta historia</p>
             <div className="invitation-footer-brand mt-8 border-t pt-5" style={{ borderColor: `${borderColor}88` }}><a href="https://events.melissartedecorativo.com/invitaciones" aria-label="Conoce las invitaciones de Melissarte" className="inline-flex rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4" style={{ outlineColor: accent }}><img src="/me-logo.png" alt="Melissarte Events — ver invitaciones" className="mx-auto h-auto w-24 max-w-[28vw] object-contain opacity-80 transition-opacity hover:opacity-100 sm:w-28" loading="lazy" /></a></div>
@@ -597,7 +602,7 @@ export default function PublicInvitationClient({
   );
 }
 
-function Countdown({ eventDate, eventTime, accent, textColor, editorial = false }: { eventDate: string; eventTime?: string; accent: string; textColor: string; editorial?: boolean }) {
+function Countdown({ eventDate, eventTime, accent, textColor, titleColor, borderColor, editorial = false }: { eventDate: string; eventTime?: string; accent: string; textColor: string; titleColor: string; borderColor: string; editorial?: boolean }) {
   const [remaining, setRemaining] = useState<number | null>(null);
   useEffect(() => {
     const target = new Date(`${eventDate}T${eventTime || "00:00"}:00`).getTime();
@@ -613,13 +618,13 @@ function Countdown({ eventDate, eventTime, accent, textColor, editorial = false 
   const seconds = Math.floor((remaining % 60_000) / 1_000);
   const parts = [{ value: days, label: "días" }, { value: hours, label: "horas" }, { value: minutes, label: "min" }, { value: seconds, label: "seg" }];
   return (
-    <section className="invitation-countdown mx-auto w-full max-w-xl px-3 py-4 text-center sm:px-5 sm:py-5" aria-label="Cuenta regresiva para el evento" style={editorial ? { background: "transparent", color: "#293746", border: 0, borderRadius: 0, boxShadow: "none", padding: "1.5rem .5rem" } : undefined}>
-      <p className="invitation-countdown-caption text-[9px] font-semibold uppercase tracking-[0.3em] sm:text-[10px]" style={editorial ? { color: "#625D55" } : undefined}>La celebración comienza en</p>
-      <div className="invitation-countdown-grid mx-auto mt-4 grid max-w-2xl grid-cols-4 items-center" style={editorial ? { borderTop: "1px solid #D9C9A8", borderBottom: "1px solid #D9C9A8", padding: ".85rem 0" } : undefined}>
+    <section className="invitation-countdown mx-auto w-full max-w-xl px-3 py-4 text-center sm:px-5 sm:py-5" aria-label="Cuenta regresiva para el evento" style={editorial ? { background: "transparent", color: titleColor, border: 0, borderRadius: 0, boxShadow: "none", padding: "1.5rem .5rem" } : undefined}>
+      <p className="invitation-countdown-caption text-[9px] font-semibold uppercase tracking-[0.3em] sm:text-[10px]" style={editorial ? { color: textColor } : undefined}>La celebración comienza en</p>
+      <div className="invitation-countdown-grid mx-auto mt-4 grid max-w-2xl grid-cols-4 items-center" style={editorial ? { borderTop: `1px solid ${borderColor}`, borderBottom: `1px solid ${borderColor}`, padding: ".85rem 0" } : undefined}>
         {parts.map((part, index) => (
           <div key={part.label} className="invitation-countdown-part relative px-1 sm:px-3">
             {index > 0 && <span aria-hidden="true" className="invitation-countdown-separator absolute left-0 top-1/2 -translate-y-1/2">✦</span>}
-            <p className="invitation-countdown-value font-[var(--font-display)] text-3xl font-normal leading-none tabular-nums sm:text-5xl" style={editorial ? { color: "#293746" } : undefined}>{String(part.value).padStart(2, "0")}</p>
+            <p className="invitation-countdown-value font-[var(--font-display)] text-3xl font-normal leading-none tabular-nums sm:text-5xl" style={editorial ? { color: titleColor } : undefined}>{String(part.value).padStart(2, "0")}</p>
             <p className="invitation-countdown-unit mt-2 text-[8px] font-medium uppercase tracking-[0.14em] sm:text-[9px] sm:tracking-[0.2em]" style={editorial ? { color: "#625D55" } : undefined}>{part.label}</p>
           </div>
         ))}

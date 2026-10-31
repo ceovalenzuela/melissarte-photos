@@ -1,0 +1,2 @@
+-- Reduce abandoned unpaid invitation draft retention to 15 days.
+-- The expire_abandoned_invitation_drafts() function is defined in the preceding migration.

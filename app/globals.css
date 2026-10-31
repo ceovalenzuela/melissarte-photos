@@ -5913,7 +5913,11 @@
     background-size: cover !important;
   }
   .invitation-public.invitation-template-editorial-flagship .invitation-hero-image {
-    background-position: center 48% !important;
+    /* Favor the upper part of the portrait so heads are not clipped by the wide desktop crop. */
+    background-position: center 32% !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-hero-image-backdrop {
+    background-position: center 32% !important;
   }
 }
 @media (min-width: 1440px) {

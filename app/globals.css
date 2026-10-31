@@ -7196,3 +7196,25 @@
     padding: 2rem 2rem 2.2rem !important;
   }
 }
+
+
+/* Escritorio: sólo las fotografías verticales usan imagen completa + fondo difuminado.
+   Las horizontales conservan el recorte cover original. */
+@media (min-width: 1024px) {
+  .invitation-public .invitation-hero-image.invitation-hero-image-portrait {
+    background-size: contain !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    transform: none !important;
+  }
+  .invitation-public .invitation-hero-image-backdrop.invitation-hero-image-portrait-backdrop {
+    display: block !important;
+    inset: -3% !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    filter: blur(30px) saturate(.82) brightness(.72) !important;
+    transform: scale(1.06) !important;
+    opacity: .82 !important;
+  }
+}

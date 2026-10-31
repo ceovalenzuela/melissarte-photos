@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, useEffect, useRef, useState, type ReactNode } from "react";
-import { Copy, ExternalLink, ImagePlus, RotateCcw, Save, Sparkles, Users } from "lucide-react";
+import { Copy, ExternalLink, ImagePlus, RotateCcw, Save, Sparkles, Users, Mail, Gift, Coins, Heart } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 import { uploadCover } from "@/lib/events";
@@ -482,6 +482,32 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                   <textarea rows={3} value={content.gift_message ?? ""} onChange={(e) => updateContent("gift_message", e.target.value)} placeholder="Ej. Su presencia es nuestro mejor regalo, pero si desean tener un detalle con nosotros..." maxLength={300} className={inputClass} />
                 </label>
                 <p className="mt-1 text-right text-xs text-[#8A8074]">{(content.gift_message ?? "").length}/300 caracteres</p>
+              </div>
+              <div className="sm:col-span-2">
+                <span className="mb-2 block text-sm font-medium text-[#4E463D]">Icono de regalo</span>
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                  {([
+                    { value: "envelope", label: "Sobre", Icon: Mail },
+                    { value: "gift", label: "Regalo", Icon: Gift },
+                    { value: "coins", label: "Lluvia de sobres", Icon: Coins },
+                    { value: "heart", label: "Detalle especial", Icon: Heart },
+                  ] as const).map(({ value, label, Icon }) => {
+                    const selected = (content.gift_icon ?? "gift") === value;
+                    return (
+                      <button
+                        key={value}
+                        type="button"
+                        onClick={() => updateContent("gift_icon", value)}
+                        aria-pressed={selected}
+                        className={`flex min-h-16 items-center gap-2 rounded-xl border px-3 py-2 text-left text-sm transition ${selected ? "border-[#A88249] bg-[#F8F2E8] text-[#6F5635] ring-1 ring-[#A88249]/30" : "border-[#E7DCC8] bg-white text-[#6D655B] hover:border-[#C5AD88]"}`}
+                      >
+                        <Icon size={19} strokeWidth={1.7} />
+                        <span>{label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+                <p className="mt-1 text-xs text-[#8A8074]">Elige el símbolo que acompañará las sugerencias de regalo.</p>
               </div>
               <Field label="Preferencia de regalo (opcional)" value={content.gift_type ?? ""} onChange={(v) => updateContent("gift_type", v)} placeholder="Ej. Sobre, regalo en efectivo o algún detalle" maxLength={120} />
               <Field label="Texto del botón (opcional)" value={content.gift_registry_label ?? ""} onChange={(v) => updateContent("gift_registry_label", v)} placeholder="Ej. Ver mesa de regalos" maxLength={50} />

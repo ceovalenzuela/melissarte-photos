@@ -50,7 +50,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
         setError("Este enlace no es válido o ya no está disponible.");
       } else {
         setDraft(row);
-        setContent(row.content_config ?? {});
+        setContent({ ...(row.content_config ?? {}), intro_headline: row.content_config?.intro_headline || "Un momento para compartir", introduction: row.content_config?.introduction || "Nos encantará contar con tu presencia y compartir juntos este día tan especial." });
         setDesign({ ...(row.design_config ?? {}), art_direction_version: 2 });
         const dateFromUrl = new URLSearchParams(window.location.search).get("fecha");
         setEventDate(row.event_date ?? dateFromUrl ?? "");
@@ -88,7 +88,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
     invitation_slug: "preview-" + draft.draft_reference.toLowerCase(),
     template_key: template,
     design_config: { ...palette, ...design },
-    content_config: draft.payment_status === "pending" ? { ...content, event_label: eventLabels[draft.event_type] ?? "Mi celebración", ceremony_time: content.ceremony_time || "17:00", ceremony_venue: content.ceremony_venue || "Lugar de ceremonia (ejemplo)", ceremony_address: content.ceremony_address || "Dirección de ejemplo", dress_code: content.dress_code || "Formal", gift_message: content.gift_message || "Tu presencia es nuestro mejor regalo.", confirmation_mode: content.confirmation_mode || "rsvp" } : content,
+    content_config: draft.payment_status === "pending" ? { ...content, event_label: eventLabels[draft.event_type] ?? "Mi celebración", ceremony_time: undefined, ceremony_venue: undefined, ceremony_address: undefined, reception_title: undefined, religious_ceremony_enabled: true, religious_ceremony_time: content.religious_ceremony_time || "17:00", religious_ceremony_venue: content.religious_ceremony_venue || "Lugar de ceremonia (ejemplo)", religious_ceremony_address: content.religious_ceremony_address || "Dirección de ejemplo", dress_code: content.dress_code || "Formal", gift_message: content.gift_message || "Tu presencia es nuestro mejor regalo.", confirmation_mode: content.confirmation_mode || "rsvp" } : content,
     rsvp_enabled: true,
     max_party_size: 5,
     invitation_status: "draft",
@@ -116,7 +116,8 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
   function hasRequiredDetails() { return Boolean(eventDate && design.cover_image_url && content.headline?.trim() && content.reception_time && content.reception_venue?.trim() && content.reception_address?.trim()); }
 
   async function save(openPreviewAfterSave = false) {
-    if (openPreviewAfterSave && !hasRequiredDetails()) { setError("Completa la foto de portada, los nombres, la fecha y todos los datos de recepción para ver tu invitación."); return; }
+    if (!eventDate) { setError("Selecciona la fecha de tu evento para continuar."); return; }
+    if (openPreviewAfterSave && !hasRequiredDetails()) { setError("Completa la foto, el título y los datos de recepción para ver tu invitación."); return; }
     setSaving(true);
     setError("");
     setNotice("");
@@ -125,7 +126,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
       p_template_key: template,
       p_design_config: design,
       p_content_config: { ...content, event_label: draft?.payment_status === "pending" ? (eventLabels[draft.event_type] ?? "Mi celebración") : content.event_label },
-      p_event_date: eventDate || null,
+      p_event_date: eventDate,
     });
     if (saveError || data !== true) {
       setError(saveError?.message ?? "No fue posible guardar. Es posible que la edición esté bloqueada.");
@@ -153,6 +154,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
   }
 
   async function orderByWhatsApp(selected: "essential" | "plus") {
+    if (!eventDate) { setError("Selecciona la fecha de tu evento para continuar."); return; }
     const whatsappWindow = window.open("about:blank", "_blank");
     if (!whatsappWindow) {
       setError("Permite las ventanas emergentes para continuar por WhatsApp.");
@@ -188,7 +190,8 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
   }
 
   async function continueToCheckout(selected: "essential" | "plus") {
-    if (!hasRequiredDetails()) { setError("Antes de continuar, completa la foto de portada, los nombres y los datos de recepción."); return; }
+    if (!eventDate) { setError("Selecciona la fecha de tu evento para continuar."); return; }
+    if (!hasRequiredDetails()) { setError("Antes de continuar, completa la foto de portada, el título y los datos de recepción."); return; }
     const { data: saved, error: saveError } = await supabase.rpc("update_invitation_draft", { p_access_token: token, p_template_key: template, p_design_config: design, p_content_config: { ...content, event_label: draft?.payment_status === "pending" ? (eventLabels[draft.event_type] ?? "Mi celebración") : content.event_label }, p_event_date: eventDate || null });
     if (saveError || saved !== true) { setError(saveError?.message ?? "No fue posible guardar los datos antes de la compra."); return; }
     setSaving(true);
@@ -232,11 +235,9 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
           <div className="rounded-2xl border border-[#E7DCC8] bg-white p-5">
             <div className="flex items-start justify-between gap-3"><div><h2 className="font-semibold">1. Datos de tu evento</h2><p className="mt-1 text-xs leading-5 text-[#746A5D]">Empieza con la información que tus invitados necesitan conocer.</p></div><span className="shrink-0 rounded-full bg-[#F4EFE6] px-2.5 py-1 text-[10px] font-semibold text-[#806747]">{locked ? "Edición bloqueada" : "Borrador"}</span></div>
             <label className="mt-4 block text-sm font-medium">Portada de tu invitación <span className="text-[#A35B4D]">*</span><input disabled={locked || (draft.payment_status !== "pending" && !(draft.payment_status === "paid" && draft.editing_enabled)) || uploading} type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>{const file=e.target.files?.[0];if(file) void uploadCover(file);e.currentTarget.value="";}} className="mt-1.5 block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-[#F2EBE1] file:px-3 file:py-2 file:text-xs file:font-semibold disabled:opacity-50" /></label>
-            {design.cover_image_url && <img src={design.cover_image_url} alt="Portada seleccionada" className="mt-3 aspect-[4/3] w-full rounded-xl object-cover" />}
+            {design.cover_image_url && <div className="mt-3 flex w-full justify-center"><img src={design.cover_image_url} alt="Portada seleccionada" className="aspect-square w-full max-w-[320px] rounded-xl object-cover object-center" /></div>}
             <label className="mt-4 block text-sm font-medium">Título o nombres <span className="text-[#A35B4D]">*</span><input required disabled={locked} value={content.headline ?? ""} onChange={e=>update("headline",e.target.value)} maxLength={120} placeholder="Ej. Sofía y Alejandro" className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
-            <label className="mt-3 block text-sm font-medium">Texto secundario<input disabled={locked} value={content.subtitle ?? ""} onChange={e=>update("subtitle",e.target.value)} maxLength={180} placeholder="Nos encantará compartir..." className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
-            <label className="mt-3 block text-sm font-medium">Anfitriones<input disabled={locked} value={content.host_names ?? ""} onChange={e=>update("host_names",e.target.value)} maxLength={160} placeholder="Nombres" className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
-            <label className="mt-3 block text-sm font-medium">Fecha del evento<input disabled={locked} type="date" value={eventDate} onChange={e=>setEventDate(e.target.value)} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
+            <label className="mt-3 block text-sm font-medium">Fecha del evento <span className="text-[#A35B4D]">*</span><input required disabled={locked} type="date" value={eventDate} onChange={e=>setEventDate(e.target.value)} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
           </div>
           <div className="rounded-2xl border border-[#E7DCC8] bg-white p-5">
             <h2 className="font-semibold">2. Lugar de recepción</h2>
@@ -256,7 +257,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
             <p className="mt-4 rounded-xl bg-[#F8F6F2] px-3 py-2.5 text-xs leading-5 text-[#746A5D]">La plantilla y la paleta se pueden cambiar antes de pagar. Los colores y ajustes avanzados se habilitan después de confirmar tu compra.</p>
             <button disabled={locked || saving} onClick={()=>void save()} className="mt-4 w-full rounded-full bg-[#263D4B] px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">{saving ? "Guardando..." : "Guardar cambios"}</button>
             <button disabled={locked || saving || uploading || !hasRequiredDetails()} onClick={()=>void save(true)} className="mt-2 w-full rounded-full border border-[#D5B77C] px-4 py-3 text-sm font-semibold text-[#51483E] disabled:opacity-40">Guardar y ver invitación completa</button>
-            <p className="mt-2 text-xs leading-5 text-[#8A8074]">Para crear la vista previa necesitas foto, nombres y todos los datos de recepción. Los detalles adicionales aparecerán con ejemplos y podrás personalizarlos después de la compra.</p>
+            <p className="mt-2 text-xs leading-5 text-[#8A8074]">Para crear la vista previa necesitas foto, título, fecha y todos los datos de recepción. Los detalles adicionales aparecerán con ejemplos y podrás personalizarlos después de la compra.</p>
             {notice && <p role="status" className="mt-2 text-sm text-green-700">{notice}</p>}{error && <p role="alert" className="mt-2 text-sm text-red-700">{error}</p>}
           </div>
           <div className="rounded-2xl border border-[#D5B77C] bg-[#FFFEFC] p-5">

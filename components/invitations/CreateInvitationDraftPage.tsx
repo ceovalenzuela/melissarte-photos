@@ -22,6 +22,7 @@ export default function CreateInvitationDraftPage() {
   const router = useRouter();
 
   async function createDraft() {
+    if (!eventDate) { setError("Selecciona la fecha de tu evento para comenzar."); return; }
     setBusy(true); setError("");
     const { data, error: createError } = await supabase.rpc("create_invitation_draft", { p_event_type: eventType, p_template_key: template });
     const row = data?.[0] as { access_token?: string } | undefined;
@@ -64,12 +65,12 @@ export default function CreateInvitationDraftPage() {
               ); })}
             </div>
           </fieldset>
-          <label className="mt-6 block text-sm font-semibold text-[#38352F]">¿Cuándo será tu evento? <span className="font-normal text-[#8A8074]">(opcional)</span>
-            <input type="date" value={eventDate} onChange={e => setEventDate(e.target.value)} min={new Date().toISOString().slice(0,10)}
+          <label className="mt-6 block text-sm font-semibold text-[#38352F]">¿Cuándo será tu evento? <span className="text-[#A35B4D]">*</span>
+            <input required type="date" value={eventDate} onChange={e => setEventDate(e.target.value)} min={new Date().toISOString().slice(0,10)}
               className="mt-2 min-h-12 w-full rounded-xl border border-[#E7DCC8] bg-[#FFFEFC] px-4 text-base font-normal outline-none transition focus:border-[#B8955B] focus:ring-2 focus:ring-[#B8955B]/15" />
-            <span className="mt-1.5 block text-xs font-normal text-[#8A8074]">Si aún no tienes fecha, puedes agregarla después.</span>
+            <span className="mt-1.5 block text-xs font-normal text-[#8A8074]">La fecha nos ayuda a preparar correctamente tu invitación.</span>
           </label>
-          <button onClick={createDraft} disabled={busy} className="mt-7 min-h-12 w-full rounded-full bg-[#263D4B] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1D3340] disabled:cursor-wait disabled:opacity-60">
+          <button onClick={createDraft} disabled={busy || !eventDate} className="mt-7 min-h-12 w-full rounded-full bg-[#263D4B] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1D3340] disabled:cursor-wait disabled:opacity-60">
             {busy ? "Preparando tu espacio..." : "Comenzar mi invitación"}
           </button>
           {error && <p role="alert" className="mt-4 rounded-xl border border-[#E8C7C1] bg-[#FFF7F5] px-4 py-3 text-sm leading-6 text-[#9C4036]">{error}</p>}

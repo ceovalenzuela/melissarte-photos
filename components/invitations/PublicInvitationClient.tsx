@@ -440,7 +440,7 @@ export default function PublicInvitationClient({
                   <LocationCard title={content.reception_title?.trim() || "Recepción"} time={content.ceremony_time} venue={content.ceremony_venue} address={content.ceremony_address} maps={primaryMapsUrl} calendarUrl={calendarUrl(content.reception_title?.trim() || "Recepción", content.ceremony_time, content.ceremony_venue, content.ceremony_address)} accent={accent} editorial={isEditorialFlagship} />
                 )}
                 {(content.reception_venue || content.reception_time || content.reception_address) && (
-                  <LocationCard title="Celebración" time={content.reception_time} venue={content.reception_venue} address={content.reception_address} maps={receptionMapsUrl} calendarUrl={calendarUrl("Celebración", content.reception_time, content.reception_venue, content.reception_address)} accent={accent} editorial={isEditorialFlagship} />
+                  <LocationCard title="Recepción" time={content.reception_time} venue={content.reception_venue} address={content.reception_address} maps={receptionMapsUrl} calendarUrl={calendarUrl("Recepción", content.reception_time, content.reception_venue, content.reception_address)} accent={accent} editorial={isEditorialFlagship} />
                 )}
               </div>
             )}

@@ -116,6 +116,7 @@ export default function PublicInvitationClient({
 }: Props) {
   const router = useRouter();
   const [loadedCoverUrl, setLoadedCoverUrl] = useState<string | null>(null);
+  const [coverIsPortrait, setCoverIsPortrait] = useState(false);
   const content = invitation.content_config ?? {};
   const design = invitation.design_config ?? {};
   const cover = design.cover_image_url?.startsWith("https://") ? design.cover_image_url : null;
@@ -126,7 +127,10 @@ export default function PublicInvitationClient({
     let active = true;
     const image = new window.Image();
     image.onload = () => {
-      if (active) setLoadedCoverUrl(cover);
+      if (active) {
+        setCoverIsPortrait(image.naturalHeight > image.naturalWidth);
+        setLoadedCoverUrl(cover);
+      }
     };
     image.onerror = () => {
       if (active) setLoadedCoverUrl(cover);
@@ -389,8 +393,8 @@ export default function PublicInvitationClient({
           <header className={`invitation-hero relative isolate flex min-h-[30svh] items-end justify-center overflow-hidden px-6 pb-5 pt-7 text-center sm:min-h-[420px] sm:px-12 sm:pb-9 sm:pt-10 lg:min-h-[500px] ${cover ? "invitation-hero-has-cover" : "invitation-hero-no-cover"}`}>
             {cover ? (
               <>
-                <div aria-hidden="true" className={`invitation-hero-image-backdrop pointer-events-none absolute inset-0 -z-30 hidden bg-cover bg-center blur-2xl scale-110 lg:block ${coverLoaded ? "opacity-70" : "opacity-0"}`} style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />
-                <div aria-hidden="true" className={`absolute inset-0 -z-20 bg-cover bg-center invitation-hero-image transition-all duration-[1200ms] ease-out motion-reduce:transition-none ${coverLoaded ? "scale-100 opacity-100" : "scale-[1.025] opacity-0"}`} style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />
+                <div aria-hidden="true" className={`invitation-hero-image-backdrop pointer-events-none absolute inset-0 -z-30 hidden bg-cover bg-center blur-2xl scale-110 lg:block ${coverIsPortrait ? "invitation-hero-image-portrait-backdrop" : ""} ${coverLoaded ? "opacity-70" : "opacity-0"}`} style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />
+                <div aria-hidden="true" className={`absolute inset-0 -z-20 bg-cover bg-center invitation-hero-image ${coverIsPortrait ? "invitation-hero-image-portrait" : ""} transition-all duration-[1200ms] ease-out motion-reduce:transition-none ${coverLoaded ? "scale-100 opacity-100" : "scale-[1.025] opacity-0"}`} style={{ backgroundImage: `url("${cover.replace(/["\\\\]/g, "")}")` }} />
               </>
             ) : (
               <div aria-hidden="true" className="absolute inset-0 -z-20 invitation-hero-placeholder" style={{ background: `radial-gradient(ellipse at 75% 18%, ${accent}55, transparent 38%), linear-gradient(145deg, ${background} 0%, ${accent} 100%)` }} />
@@ -465,13 +469,30 @@ export default function PublicInvitationClient({
                 {(content.gift_icon || content.gift_message || content.gift_type || safeExternalUrl(content.gift_registry_url)) && (
                   <article className="invitation-location-card flex h-full flex-col rounded-[1.5rem] border p-4 sm:p-5" style={{ backgroundColor: cardBackgroundColor, color: cardTextColor, borderColor: `${borderColor}88` }}>
                     <div className="flex items-center gap-3">
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}>{content.gift_icon === "envelope" ? <Mail size={18} strokeWidth={1.7} /> : content.gift_icon === "envelopes" ? <Mails size={18} strokeWidth={1.7} /> : content.gift_icon === "heart" ? <Heart size={18} strokeWidth={1.7} /> : <Gift size={18} strokeWidth={1.7} />}</span>
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}><Gift size={18} strokeWidth={1.7} /></span>
                       <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Sugerencias de regalo</p>
                     </div>
-                    <div className="min-w-0 flex-1">
+                    {content.gift_icon && (() => {
+                      const giftOptions = {
+                        envelope: { label: "Sobre", Icon: Mail },
+                        envelopes: { label: "Lluvia de sobres", Icon: Mails },
+                        heart: { label: "Detalle especial", Icon: Heart },
+                        gift: { label: "Regalo", Icon: Gift },
+                        coins: { label: "Regalo en efectivo", Icon: Gift },
+                      } as const;
+                      const selected = giftOptions[content.gift_icon as keyof typeof giftOptions] ?? giftOptions.gift;
+                      const SelectedIcon = selected.Icon;
+                      return (
+                        <div className="mt-4 flex flex-col items-center justify-center gap-2 text-center" style={{ color: accent }}>
+                          <SelectedIcon size={30} strokeWidth={1.6} />
+                          <span className="text-sm font-semibold leading-5">{selected.label}</span>
+                        </div>
+                      );
+                    })()}
+                    <div className="min-w-0 flex-1 text-center">
                       {content.gift_message && <p className="mt-3 text-sm leading-5">{content.gift_message}</p>}
                       {content.gift_type && <p className="mt-1.5 text-sm font-medium leading-5">{content.gift_type}</p>}
-                      {safeExternalUrl(content.gift_registry_url) && <a href={safeExternalUrl(content.gift_registry_url)!} target="_blank" rel="noopener noreferrer" className="invitation-gift-button mt-4 inline-flex min-h-11 items-center justify-center gap-2 rounded-full border px-4 py-2.5 text-xs font-semibold transition" style={{ backgroundColor: `${accent}12`, color: accent, borderColor: `${accent}66` }}>{content.gift_registry_label?.trim() || "Ver mesa de regalos"} <ArrowUpRight size={14} strokeWidth={1.8} /></a>}
+                      {safeExternalUrl(content.gift_registry_url) && <div className="mt-3 flex justify-center"><a href={safeExternalUrl(content.gift_registry_url)!} target="_blank" rel="noopener noreferrer" className="invitation-gift-button inline-flex min-h-11 items-center justify-center gap-2 rounded-full border px-4 py-2.5 text-xs font-semibold transition" style={{ backgroundColor: `${accent}12`, color: accent, borderColor: `${accent}66` }}>{content.gift_registry_label?.trim() || "Ver mesa de regalos"} <ArrowUpRight size={14} strokeWidth={1.8} /></a></div>}
                     </div>
                   </article>
                 )}

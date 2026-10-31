@@ -88,7 +88,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
     invitation_slug: "preview-" + draft.draft_reference.toLowerCase(),
     template_key: template,
     design_config: { ...palette, ...design },
-    content_config: { ...content, event_label: eventLabels[draft.event_type] ?? "Mi celebración", ceremony_time: content.ceremony_time || "17:00", ceremony_venue: content.ceremony_venue || "Lugar de ceremonia (ejemplo)", ceremony_address: content.ceremony_address || "Dirección de ejemplo", dress_code: content.dress_code || "Formal", gift_message: content.gift_message || "Tu presencia es nuestro mejor regalo.", confirmation_mode: content.confirmation_mode || "rsvp" },
+    content_config: draft.payment_status === "pending" ? { ...content, event_label: eventLabels[draft.event_type] ?? "Mi celebración", ceremony_time: content.ceremony_time || "17:00", ceremony_venue: content.ceremony_venue || "Lugar de ceremonia (ejemplo)", ceremony_address: content.ceremony_address || "Dirección de ejemplo", dress_code: content.dress_code || "Formal", gift_message: content.gift_message || "Tu presencia es nuestro mejor regalo.", confirmation_mode: content.confirmation_mode || "rsvp" } : content,
     rsvp_enabled: true,
     max_party_size: 5,
     invitation_status: "draft",
@@ -124,7 +124,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
       p_access_token: token,
       p_template_key: template,
       p_design_config: design,
-      p_content_config: { ...content, event_label: eventLabels[draft?.event_type ?? "other"] ?? "Mi celebración" },
+      p_content_config: { ...content, event_label: draft?.payment_status === "pending" ? (eventLabels[draft.event_type] ?? "Mi celebración") : content.event_label },
       p_event_date: eventDate || null,
     });
     if (saveError || data !== true) {
@@ -154,7 +154,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
 
   async function continueToCheckout(selected: "essential" | "plus") {
     if (!hasRequiredDetails()) { setError("Antes de continuar, completa la foto de portada, los nombres y los datos de recepción."); return; }
-    const { data: saved, error: saveError } = await supabase.rpc("update_invitation_draft", { p_access_token: token, p_template_key: template, p_design_config: design, p_content_config: { ...content, event_label: eventLabels[draft?.event_type ?? "other"] ?? "Mi celebración" }, p_event_date: eventDate || null });
+    const { data: saved, error: saveError } = await supabase.rpc("update_invitation_draft", { p_access_token: token, p_template_key: template, p_design_config: design, p_content_config: { ...content, event_label: draft?.payment_status === "pending" ? (eventLabels[draft.event_type] ?? "Mi celebración") : content.event_label }, p_event_date: eventDate || null });
     if (saveError || saved !== true) { setError(saveError?.message ?? "No fue posible guardar los datos antes de la compra."); return; }
     setSaving(true);
     setError("");

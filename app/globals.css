@@ -5900,3 +5900,24 @@
     padding: 1.75rem !important;
   }
 }
+
+/* EDITORIAL FLAGSHIP — desktop cover gets a visibly more generous photo area. */
+@media (min-width: 1024px) {
+  .invitation-public.invitation-template-editorial-flagship .invitation-hero {
+    min-height: 700px !important;
+    height: 78svh !important;
+    max-height: 820px !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-hero-image,
+  .invitation-public.invitation-template-editorial-flagship .invitation-hero-image-backdrop {
+    background-size: cover !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-hero-image {
+    background-position: center 48% !important;
+  }
+}
+@media (min-width: 1440px) {
+  .invitation-public.invitation-template-editorial-flagship .invitation-hero {
+    min-height: 760px !important;
+  }
+}

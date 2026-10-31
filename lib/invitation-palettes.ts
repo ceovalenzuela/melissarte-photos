@@ -26,7 +26,7 @@ export const INVITATION_PALETTES: Record<InvitationTemplateKey, InvitationDesign
 export const INVITATION_TEMPLATE_OPTIONS: { key: InvitationTemplateKey; label: string; description: string }[] = [
   { key: "wedding_editorial", label: "Editorial", description: "Marfil, azul noche y detalles champagne; elegante y minimalista" },
   { key: "maison_botanique", label: "Maison Botanique", description: "Jardín orgánico, ilustración botánica y romanticismo contemporáneo" },
-  { key: "noir_champagne", label: "Noir Champagne", description: "Negro espresso, fotografía cinematográfica y geometría art déco" },
+  { key: "noir_champagne", label: "Noir Atelier", description: "Carbón profundo, marfil y champagne; elegancia editorial nocturna" },
   { key: "velvet_royale", label: "Velvet Royale", description: "Borgoña profundo, terciopelo y destellos de lujo" },
   { key: "celestial_etoile", label: "Celestial Étoile", description: "Cielo nocturno, constelaciones y luz plateada" },
   { key: "coquette_couture", label: "Coquette Couture", description: "Rosa ballet, cereza, moños y detalles de alta costura" },

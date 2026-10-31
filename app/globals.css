@@ -7268,3 +7268,28 @@
     height: auto !important;
   }
 }
+
+/* NOIR ATELIER — igualar únicamente la composición de portada en escritorio
+   a Velvet Royale. Se neutralizan overrides anteriores de altura y fotografía;
+   los estilos móviles y el resto de plantillas permanecen intactos. */
+@media (min-width: 1024px) {
+  .invitation-public.invitation-template-noir_champagne .invitation-hero {
+    min-height: 680px !important;
+    height: 76svh !important;
+    max-height: 820px !important;
+    padding-inline: 1.5rem !important;
+  }
+  .invitation-public.invitation-template-noir_champagne .invitation-hero-image {
+    filter: none !important;
+    transform: none !important;
+  }
+  .invitation-public.invitation-template-noir_champagne .invitation-hero-image.invitation-hero-image-portrait {
+    background-size: contain !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-color: var(--inv-background, #211F1D) !important;
+  }
+  .invitation-public.invitation-template-noir_champagne .invitation-hero-image-backdrop.invitation-hero-image-portrait-backdrop {
+    display: none !important;
+  }
+}

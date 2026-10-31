@@ -295,7 +295,7 @@ export default function InvitationsLandingPage() {
           </div>
           <p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#A88249]">Melissarte Photos</p>
           <h2 className="mt-2 max-w-2xl font-[var(--font-display)] text-2xl font-semibold leading-tight text-[#20262B] sm:text-3xl">Todos los recuerdos de tu evento, en un solo lugar</h2>
-          <p className="mt-3 max-w-3xl text-sm leading-6 text-[#625A50] sm:text-base">Comparte un QR o enlace personalizado para que tus invitados suban fotos, dejen mensajes y compartan sus voces. Revive cada momento desde una galería digital.</p>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-[#625A50] sm:text-base">Complementa tu invitación con un QR o enlace personalizado para que tus invitados compartan fotos, mensajes y audios de tu celebración. Conserva todos esos recuerdos en una galería digital.</p>
           <a href={GALLERY_URL} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[#263D4B] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#172C38] sm:w-fit">
             Conoce la galería digital <ArrowRight size={16} />
           </a>

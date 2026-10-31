@@ -190,15 +190,15 @@ export default function PublicInvitationClient({
     resolveDesignColor(value, fallback, templateKey, oldColors, newColor);
   // Resolve every palette from saved design values, including the Editorial flagship.
   // Known legacy defaults migrate forward; user-customized values remain intact.
-  const background = weddingColor(design.background_color, templatePalette.background_color, ["#F4EAD8", "#FFF7F0", "#F5F3EE", "#F5F0E7"], templatePalette.background_color);
-  const accent = weddingColor(design.accent_color, templatePalette.accent_color, ["#87642F", "#D6A33D", "#344B61", "#D5B77C"], templatePalette.accent_color);
-  const textColor = weddingColor(design.text_color, templatePalette.text_color, ["#273747", "#39252B", "#4D5357", "#282A2E"], templatePalette.text_color);
-  const titleColor = weddingColor(design.title_color, templatePalette.title_color, ["#273747", "#702638", "#20272D", "#111B29"], templatePalette.title_color);
-  const cardBackgroundColor = weddingColor(design.card_background_color, templatePalette.card_background_color, ["#FFFCF6", "#FFF7F0", "#EAE7DF", "#FFFFFF", "#34465D"], templatePalette.card_background_color);
-  const cardTextColor = weddingColor(design.card_text_color, templatePalette.card_text_color, ["#302F30", "#39252B", "#20272D", "#F5F0E7"], templatePalette.card_text_color);
-  const borderColor = weddingColor(design.border_color, templatePalette.border_color, ["#C9AD6B", "#E5B84F", "#D9D8D1", "#D5B77C"], templatePalette.border_color);
-  const buttonColor = weddingColor(design.button_color, templatePalette.button_color, ["#87642F", "#702638", "#344B61", "#D5B77C"], templatePalette.button_color);
-  const buttonTextColor = weddingColor(design.button_text_color, templatePalette.button_text_color, ["#FFFFFF", "#111B29"], templatePalette.button_text_color);
+  const background = weddingColor(design.background_color, (templatePalette.background_color ?? "#F6F1E8"), ["#F4EAD8", "#FFF7F0", "#F5F3EE", "#F5F0E7"], templatePalette.background_color);
+  const accent = weddingColor(design.accent_color, (templatePalette.accent_color ?? "#A88750"), ["#87642F", "#D6A33D", "#344B61", "#D5B77C"], templatePalette.accent_color);
+  const textColor = weddingColor(design.text_color, (templatePalette.text_color ?? "#625D55"), ["#273747", "#39252B", "#4D5357", "#282A2E"], templatePalette.text_color);
+  const titleColor = weddingColor(design.title_color, (templatePalette.title_color ?? "#293746"), ["#273747", "#702638", "#20272D", "#111B29"], templatePalette.title_color);
+  const cardBackgroundColor = weddingColor(design.card_background_color, (templatePalette.card_background_color ?? "#FFFCF7"), ["#FFFCF6", "#FFF7F0", "#EAE7DF", "#FFFFFF", "#34465D"], templatePalette.card_background_color);
+  const cardTextColor = weddingColor(design.card_text_color, (templatePalette.card_text_color ?? "#293746"), ["#302F30", "#39252B", "#20272D", "#F5F0E7"], templatePalette.card_text_color);
+  const borderColor = weddingColor(design.border_color, (templatePalette.border_color ?? "#D9C9A8"), ["#C9AD6B", "#E5B84F", "#D9D8D1", "#D5B77C"], templatePalette.border_color);
+  const buttonColor = weddingColor(design.button_color, (templatePalette.button_color ?? "#293746"), ["#87642F", "#702638", "#344B61", "#D5B77C"], templatePalette.button_color);
+  const buttonTextColor = weddingColor(design.button_text_color, (templatePalette.button_text_color ?? "#FFFCF7"), ["#FFFFFF", "#111B29"], templatePalette.button_text_color);
   const rsvpBackgroundColor = cardBackgroundColor;
   const rsvpTextColor = cardTextColor;
   const formBackgroundColor = cardBackgroundColor;

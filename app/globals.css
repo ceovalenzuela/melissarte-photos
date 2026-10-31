@@ -5807,3 +5807,66 @@
   letter-spacing: .015em !important;
   text-wrap: balance;
 }
+
+/* EDITORIAL FLAGSHIP — desktop adaptation.
+   Preserve the mobile composition; give wide screens a deliberate editorial rhythm. */
+@media (min-width: 1024px) {
+  .invitation-public.invitation-template-editorial-flagship .invitation-hero {
+    min-height: clamp(560px, 68svh, 760px) !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-hero-image {
+    background-position: center 42% !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-hero-content {
+    padding: 2.4rem 2rem 2.8rem !important;
+    gap: .65rem !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-hero-content::before {
+    font-size: .72rem !important;
+    letter-spacing: .25em !important;
+    margin-bottom: .45rem !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-hero-title {
+    font-size: clamp(4.25rem, 5.4vw, 5.5rem) !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-hero-date {
+    margin-top: .65rem !important;
+    font-size: .82rem !important;
+    letter-spacing: .19em !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-countdown {
+    max-width: 44rem !important;
+    padding: 1.5rem .75rem 1.8rem !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-countdown-grid {
+    max-width: 38rem !important;
+    margin-top: 1rem !important;
+    padding: .9rem 0 !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-details-section,
+  .invitation-public.invitation-template-editorial-flagship #detalles {
+    padding: 2.25rem 3.5rem 4rem !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-intro-block {
+    max-width: 52rem !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-intro-copy {
+    font-size: clamp(2rem, 2.8vw, 2.5rem) !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-details-heading {
+    margin-top: 1.8rem !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-location-grid {
+    margin-top: 2rem !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-info-grid {
+    max-width: 58rem !important;
+    margin-top: 2rem !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-rsvp {
+    padding: 4.5rem 3.5rem !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-footer {
+    padding: 3rem 3.5rem 2.75rem !important;
+  }
+}

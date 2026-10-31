@@ -13,8 +13,14 @@ export const INVITATION_PALETTES: Record<InvitationTemplateKey, InvitationDesign
   garden: { background_color: "#F7F0E7", accent_color: "#B96F55", text_color: "#493C35", title_color: "#6C5142", card_background_color: "#E8E6D8", card_text_color: "#493C35", border_color: "#D9B7A1", button_color: "#71816A", button_text_color: "#FFFFFF", rsvp_background_color: "#E8E6D8", rsvp_text_color: "#493C35", form_background_color: "#FFFCF7", form_text_color: "#493C35" },
 };
 
+// Solo las plantillas activas aparecen para nuevas invitaciones.
 export const INVITATION_TEMPLATE_OPTIONS: { key: InvitationTemplateKey; label: string; description: string }[] = [
   { key: "wedding_editorial", label: "Editorial", description: "Marfil, azul noche y detalles champagne; elegante y minimalista" },
+];
+
+// Estas plantillas se conservan únicamente para mantener el diseño de invitaciones existentes
+// mientras se migran a las nuevas identidades visuales.
+export const INVITATION_RETIRED_TEMPLATE_OPTIONS: { key: InvitationTemplateKey; label: string; description: string }[] = [
   { key: "xv_gala", label: "Gala", description: "Ciruela, malva y dorado suave; sofisticada y glamourosa" },
   { key: "baby_soft", label: "Suave", description: "Durazno, terracota y celeste; tonos pastel y formas suaves" },
   { key: "baptism_light", label: "Luz", description: "Marfil y azul grisáceo; estilo clásico, limpio y sereno" },

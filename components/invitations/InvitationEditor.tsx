@@ -489,7 +489,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                   {([
                     { value: "envelope", label: "Sobre", Icon: Mail },
                     { value: "gift", label: "Regalo", Icon: Gift },
-                    { value: "envelopes", label: "Sobres", Icon: Mails },
+                    { value: "envelopes", label: "Lluvia de sobres", Icon: Mails },
                     { value: "heart", label: "Detalle especial", Icon: Heart },
                   ] as const).map(({ value, label, Icon }) => {
                     const selected = (content.gift_icon ?? "gift") === value;

@@ -238,8 +238,21 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
         <section className="space-y-4">
           <div className="rounded-2xl border border-[#E7DCC8] bg-white p-5">
             <div className="flex items-start justify-between gap-3"><div><h2 className="font-semibold">1. Datos de tu evento</h2><p className="mt-1 text-xs leading-5 text-[#746A5D]">Empieza con la información que tus invitados necesitan conocer.</p></div><span className="shrink-0 rounded-full bg-[#F4EFE6] px-2.5 py-1 text-[10px] font-semibold text-[#806747]">{locked ? "Edición bloqueada" : "Borrador"}</span></div>
-            <label className="mt-4 block text-sm font-medium">Portada de tu invitación <span className="text-[#A35B4D]">*</span><input disabled={locked || (draft.payment_status !== "pending" && !(draft.payment_status === "paid" && draft.editing_enabled)) || uploading} type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>{const file=e.target.files?.[0];if(file) void uploadCover(file);e.currentTarget.value="";}} className="mt-1.5 block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-[#F2EBE1] file:px-3 file:py-2 file:text-xs file:font-semibold disabled:opacity-50" /></label>
-            {design.cover_image_url && <div className="mt-3 flex w-full justify-center"><img src={design.cover_image_url} alt="Portada seleccionada" className="aspect-square w-full max-w-[320px] rounded-xl object-cover object-center" /></div>}
+            <div className={`mt-4 rounded-2xl border-2 border-dashed p-4 transition ${design.cover_image_url ? "border-[#B8CDBB] bg-[#F5F9F5]" : "border-[#C7A66E] bg-[#FBF7EF]"}`}>
+              <div className="flex items-start gap-3">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-xl shadow-sm">📷</div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-semibold text-[#302D27]">Foto de portada <span className="text-[#A35B4D]">* Obligatoria</span></p>
+                  <p className="mt-1 text-xs leading-5 text-[#746A5D]">{design.cover_image_url ? "Tu foto ya está cargada. Puedes cambiarla si lo deseas." : "Este será el primer vistazo de tus invitados. Carga aquí la foto principal para habilitar la vista previa completa."}</p>
+                  <label className="mt-3 inline-flex cursor-pointer items-center justify-center rounded-full bg-[#263D4B] px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-[#1D3340]">
+                    {uploading ? "Cargando foto..." : design.cover_image_url ? "Cambiar foto de portada" : "＋ Cargar foto de portada"}
+                    <input disabled={locked || (draft.payment_status !== "pending" && !(draft.payment_status === "paid" && draft.editing_enabled)) || uploading} type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>{const file=e.target.files?.[0];if(file) void uploadCover(file);e.currentTarget.value="";}} className="sr-only" />
+                  </label>
+                  <p className="mt-2 text-[11px] text-[#8A8074]">JPG, PNG o WebP · Máximo 8 MB</p>
+                </div>
+              </div>
+              {design.cover_image_url ? <div className="mt-4 overflow-hidden rounded-xl border border-[#DCE7DC] bg-white"><img src={design.cover_image_url} alt="Foto de portada seleccionada" className="aspect-[4/3] w-full object-cover object-center" /><p className="px-3 py-2 text-xs font-medium text-[#315D43]">✓ Foto de portada lista</p></div> : <div className="mt-4 flex aspect-[16/7] items-center justify-center rounded-xl bg-white/70 text-center text-xs text-[#A18B6B]"><span>Tu foto aparecerá aquí</span></div>}
+            </div>
             <label className="mt-4 block text-sm font-medium">Título o nombres <span className="text-[#A35B4D]">*</span><input required disabled={locked} value={content.headline ?? ""} onChange={e=>update("headline",e.target.value)} maxLength={120} placeholder="Ej. Sofía y Alejandro" className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
             <label className="mt-3 block text-sm font-medium">Fecha del evento <span className="text-[#A35B4D]">*</span><input required disabled={locked} type="date" value={eventDate} onChange={e=>setEventDate(e.target.value)} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
           </div>

@@ -7196,3 +7196,47 @@
     padding: 2rem 2rem 2.2rem !important;
   }
 }
+
+/* Portada 4:5 para todas las plantillas; escritorio conserva la foto completa
+   y utiliza una extensión desenfocada del mismo archivo como relleno lateral. */
+.invitation-public .invitation-hero.invitation-hero-has-cover {
+  position: relative !important;
+  aspect-ratio: 4 / 5 !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+.invitation-public .invitation-hero-has-cover .invitation-hero-image {
+  inset: 0 !important;
+  background-size: contain !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  transform: none !important;
+}
+.invitation-public .invitation-hero-has-cover .invitation-hero-image-backdrop {
+  display: block !important;
+  inset: -3% !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  filter: blur(24px) saturate(.82) brightness(.72) !important;
+  transform: scale(1.06) !important;
+  opacity: .78 !important;
+}
+@media (min-width: 640px) {
+  .invitation-public .invitation-hero.invitation-hero-has-cover {
+    aspect-ratio: 4 / 5 !important;
+    width: min(100%, 76rem) !important;
+    margin-inline: auto !important;
+  }
+  .invitation-public .invitation-hero-has-cover .invitation-hero-image {
+    background-size: contain !important;
+  }
+  .invitation-public .invitation-hero-has-cover .invitation-hero-image-backdrop {
+    filter: blur(34px) saturate(.78) brightness(.68) !important;
+    opacity: .82 !important;
+  }
+}

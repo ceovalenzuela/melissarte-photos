@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState, type CSSProperties } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Clock3, Shirt, Gift, ArrowUpRight, CalendarPlus, Church, PartyPopper, Sparkles, Mail, Coins, Heart } from "lucide-react";
+import { CheckCircle2, Clock3, Shirt, Gift, ArrowUpRight, CalendarPlus, Church, PartyPopper, Sparkles, Mail, Mails, Heart } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { InvitationTemplateKey, PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
 import { INVITATION_PALETTES } from "@/lib/invitation-palettes";
@@ -462,10 +462,10 @@ export default function PublicInvitationClient({
                     </div>
                   </article>
                 )}
-                {(content.gift_message || content.gift_type || safeExternalUrl(content.gift_registry_url)) && (
+                {(content.gift_icon || content.gift_message || content.gift_type || safeExternalUrl(content.gift_registry_url)) && (
                   <article className="invitation-location-card flex h-full flex-col rounded-[1.5rem] border p-4 sm:p-5" style={{ backgroundColor: cardBackgroundColor, color: cardTextColor, borderColor: `${borderColor}88` }}>
                     <div className="flex items-center gap-3">
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}>{content.gift_icon === "envelope" ? <Mail size={18} strokeWidth={1.7} /> : content.gift_icon === "coins" ? <Coins size={18} strokeWidth={1.7} /> : content.gift_icon === "heart" ? <Heart size={18} strokeWidth={1.7} /> : <Gift size={18} strokeWidth={1.7} />}</span>
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}>{content.gift_icon === "envelope" ? <Mail size={18} strokeWidth={1.7} /> : content.gift_icon === "envelopes" ? <Mails size={18} strokeWidth={1.7} /> : content.gift_icon === "heart" ? <Heart size={18} strokeWidth={1.7} /> : <Gift size={18} strokeWidth={1.7} />}</span>
                       <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Sugerencias de regalo</p>
                     </div>
                     <div className="min-w-0 flex-1">

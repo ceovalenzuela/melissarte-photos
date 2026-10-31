@@ -27,16 +27,24 @@ interface Props {
 }
 
 function defaultEventLabel(template: InvitationTemplateKey): string {
-  if (template === "xv_gala") return "Mis XV";
-  if (template === "baby_soft") return "Mi Baby";
-  if (template === "baptism_light") return "Mi Bautizo";
+  if (["xv_gala", "velvet_royale", "celestial_etoile", "coquette_couture"].includes(template)) return "Mis XV";
+  if (["baby_soft", "little_wildflower"].includes(template)) return "Mi Baby";
+  if (["baptism_light", "luz_de_cielo"].includes(template)) return "Mi Bautizo";
+  if (template === "two_little_secrets") return "Revelación";
+  if (template === "studio_party") return "Mi celebración";
   return "Boda";
 }
 
 function defaultIntroHeadline(template: InvitationTemplateKey): string {
-  if (template === "xv_gala") return "Una noche para recordar";
-  if (template === "baby_soft") return "Una nueva historia comienza";
-  if (template === "baptism_light") return "Un día lleno de bendiciones";
+  if (["xv_gala", "velvet_royale"].includes(template)) return "Una noche digna de un sueño";
+  if (template === "celestial_etoile") return "Bajo un cielo de estrellas";
+  if (template === "coquette_couture") return "Un sueño hecho celebración";
+  if (["baby_soft", "little_wildflower"].includes(template)) return "Una nueva historia florece";
+  if (["baptism_light", "luz_de_cielo"].includes(template)) return "Un día lleno de luz y bendiciones";
+  if (template === "maison_botanique") return "Una celebración entre jardines";
+  if (template === "noir_champagne") return "Una noche para recordar";
+  if (template === "two_little_secrets") return "Una sorpresa está por llegar";
+  if (template === "studio_party") return "Hoy celebramos en grande";
   return "Un día para recordar";
 }
 
@@ -132,7 +140,12 @@ export default function PublicInvitationClient({
 
   const coverLoaded = Boolean(cover && loadedCoverUrl === cover);
 
-  const templateKeys: InvitationTemplateKey[] = ["wedding_editorial", "xv_gala", "baby_soft", "baptism_light", "botanical", "noir", "pink_atelier", "celestial", "cloud", "garden"];
+  const templateKeys: InvitationTemplateKey[] = [
+    "wedding_editorial", "maison_botanique", "noir_champagne", "velvet_royale",
+    "celestial_etoile", "coquette_couture", "little_wildflower", "luz_de_cielo",
+    "two_little_secrets", "studio_party",
+    "xv_gala", "baby_soft", "baptism_light", "botanical", "noir", "pink_atelier", "celestial", "cloud", "garden",
+  ];
   const templateKey: InvitationTemplateKey = templateKeys.includes(invitation.template_key as InvitationTemplateKey)
     ? (invitation.template_key as InvitationTemplateKey)
     : "wedding_editorial";

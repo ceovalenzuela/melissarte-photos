@@ -5870,3 +5870,33 @@
     padding: 3rem 3.5rem 2.75rem !important;
   }
 }
+
+
+/* EDITORIAL FLAGSHIP — stronger desktop proportions.
+   The previous width cap kept the countdown and single location card too narrow. */
+@media (min-width: 1024px) {
+  .invitation-public.invitation-template-editorial-flagship .invitation-hero {
+    min-height: clamp(620px, 76svh, 780px) !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-hero-content {
+    padding: 2.1rem 2rem 2.35rem !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-hero-title {
+    font-size: clamp(4.6rem, 5.8vw, 5.8rem) !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-countdown {
+    width: min(calc(100% - 4rem), 46rem) !important;
+    max-width: 46rem !important;
+    padding: 1.7rem 1rem 2rem !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-countdown-grid {
+    max-width: 42rem !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-location-grid:has(> article:only-child) {
+    max-width: 42rem !important;
+  }
+  .invitation-public.invitation-template-editorial-flagship .invitation-location-card,
+  .invitation-public.invitation-template-editorial-flagship .invitation-dress-code-card {
+    padding: 1.75rem !important;
+  }
+}

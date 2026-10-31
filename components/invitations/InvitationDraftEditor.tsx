@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import PublicInvitationClient from "@/components/invitations/PublicInvitationClient";
 import type { InvitationContent, InvitationDesign, InvitationTemplateKey, PublicInvitation } from "@/types/invitation";
@@ -38,7 +38,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
   const [notice, setNotice] = useState("");
   const [linkCopied, setLinkCopied] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewHistoryEntry, setPreviewHistoryEntry] = useState(false);
+  const previewHistoryEntry = useRef(false);
 
   useEffect(() => {
     let active = true;
@@ -65,15 +65,15 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
   useEffect(() => {
     if (!previewOpen) return;
     window.history.pushState({ ...(window.history.state ?? {}), invitationPreview: true }, "", window.location.href);
-    setPreviewHistoryEntry(true);
-    const onPopState = () => { setPreviewOpen(false); setPreviewHistoryEntry(false); };
+    previewHistoryEntry.current = true;
+    const onPopState = () => { previewHistoryEntry.current = false; setPreviewOpen(false); };
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
   }, [previewOpen]);
 
   function closePreview() {
-    if (previewHistoryEntry && window.history.state?.invitationPreview) window.history.back();
-    else { setPreviewOpen(false); setPreviewHistoryEntry(false); }
+    if (previewHistoryEntry.current && window.history.state?.invitationPreview) window.history.back();
+    else { previewHistoryEntry.current = false; setPreviewOpen(false); }
   }
 
   const palette = INVITATION_PALETTES[template];

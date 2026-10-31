@@ -176,9 +176,11 @@ export default function InvitationsLandingPage() {
                           <span className="h-3 w-3 rounded-full bg-[#C5A66A]" />
                         </>
                       )}
+                      </span>
                     </div>
                   </div>
-                </a>                <div className="flex items-center justify-between gap-2 px-3 pb-3 pt-1 sm:px-4 sm:pb-4">
+                </a>
+                <div className="flex items-center justify-between gap-2 px-3 pb-3 pt-1 sm:px-4 sm:pb-4">
                   <div className="min-w-0">
                     <h3 className="font-[var(--font-display)] text-base font-semibold text-[#263D4B] sm:text-lg">{demo.label}</h3>
                     <p className="mt-0.5 text-[10px] text-[#82786B] sm:text-xs">{demo.key === "boda" ? "Editorial · Marfil y salvia" : "Romántico · Rosa y champagne"}</p>

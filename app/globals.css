@@ -7155,3 +7155,34 @@
     opacity: .8 !important;
   }
 }
+
+
+/* Pie de página: nombres de anfitriones como cierre protagonista y agradecimiento
+   como línea secundaria, más pequeño y ligero. Aplica a las diez plantillas. */
+.invitation-public .invitation-host-names {
+  display: block !important;
+  max-width: min(90%, 42rem) !important;
+  margin: 0 auto !important;
+  font-family: "Cormorant Garamond", "Bodoni Moda", Georgia, serif !important;
+  font-size: clamp(1.55rem, 3.8vw, 2.15rem) !important;
+  font-weight: 500 !important;
+  line-height: 1.12 !important;
+  letter-spacing: .01em !important;
+  text-wrap: balance !important;
+}
+.invitation-public .invitation-footer-thanks {
+  margin-top: .85rem !important;
+  font-size: .66rem !important;
+  font-weight: 400 !important;
+  letter-spacing: .12em !important;
+  line-height: 1.55 !important;
+}
+@media (max-width: 639px) {
+  .invitation-public .invitation-host-names {
+    font-size: clamp(1.45rem, 6vw, 1.8rem) !important;
+  }
+  .invitation-public .invitation-footer-thanks {
+    font-size: .62rem !important;
+    letter-spacing: .1em !important;
+  }
+}

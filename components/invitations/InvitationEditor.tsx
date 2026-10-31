@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabase";
 import { uploadCover } from "@/lib/events";
 import type { Event } from "@/types/event";
 import type { InvitationContent, InvitationDesign, InvitationStatus, InvitationTemplateKey } from "@/types/invitation";
-import { INVITATION_PALETTES, INVITATION_TEMPLATE_OPTIONS, INVITATION_RETIRED_TEMPLATE_OPTIONS } from "@/lib/invitation-palettes";
+import { INVITATION_PALETTES, INVITATION_TEMPLATE_OPTIONS } from "@/lib/invitation-palettes";
 
 interface InvitationRow {
   invitation_id: string;
@@ -29,9 +29,12 @@ interface Props {
 const isIsoDate = (value?: string) => Boolean(value && /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(value));
 
 function defaultEventLabel(template: TemplateKey): string {
-  if (template === "xv_gala") return "Mis XV";
-  if (template === "baby_soft") return "Mi Baby";
-  if (template === "baptism_light") return "Mi Bautizo";
+  if (["xv_gala", "velvet_royale", "celestial_etoile", "coquette_couture"].includes(template)) return "Mis XV";
+  if (["baby_soft", "little_wildflower"].includes(template)) return "Mi Baby";
+  if (["baptism_light", "luz_de_cielo"].includes(template)) return "Mi Bautizo";
+  if (template === "two_little_secrets") return "Revelación";
+  if (template === "studio_party") return "Mi celebración";
+  if (["maison_botanique", "noir_champagne"].includes(template)) return "Nuestra boda";
   return "Mi celebración";
 }
 
@@ -56,8 +59,6 @@ const emptyContent = (event: Event): InvitationContent => ({
 
 type TemplateKey = InvitationTemplateKey;
 const TEMPLATE_OPTIONS = INVITATION_TEMPLATE_OPTIONS.map((option) => ({ ...option, palette: INVITATION_PALETTES[option.key] }));
-const RETIRED_TEMPLATE_OPTIONS = INVITATION_RETIRED_TEMPLATE_OPTIONS;
-
 function isKnownTemplateKey(value: string): value is TemplateKey {
   return Object.prototype.hasOwnProperty.call(INVITATION_PALETTES, value);
 }
@@ -66,9 +67,16 @@ function initialDesignForTemplate(template: TemplateKey): InvitationDesign {
   return { ...INVITATION_PALETTES[template] };
 }
 
-// Editorial queda como única plantilla activa mientras desarrollamos la nueva colección.
-function defaultTemplate(_event: Event): TemplateKey {
-  return "wedding_editorial";
+// Asigna una plantilla inicial coherente con el tipo de evento; todas pueden cambiarse desde el editor.
+function defaultTemplate(event: Event): TemplateKey {
+  const type = String(event.type ?? "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  if (type.includes("xv") || type.includes("quince")) return "velvet_royale";
+  if (type.includes("reveal") || type.includes("gender") || type.includes("revelacion")) return "two_little_secrets";
+  if (type.includes("baby")) return "little_wildflower";
+  if (type.includes("bapt") || type.includes("baut")) return "luz_de_cielo";
+  if (type.includes("birthday") || type.includes("cumple")) return "studio_party";
+  if (type.includes("wedding") || type.includes("boda")) return "wedding_editorial";
+  return "studio_party";
 }
 
 function initialDesign(event: Event): InvitationDesign {

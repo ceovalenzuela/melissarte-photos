@@ -399,7 +399,12 @@ export default function PublicInvitationClient({
             <div className="invitation-hero-frame pointer-events-none absolute inset-4 sm:inset-7" aria-hidden="true" />
             <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-white/70 to-transparent opacity-60" />
             <div className="invitation-hero-content invitation-hero-copy relative z-10 mx-auto max-w-4xl">
-              
+              <p
+                className="invitation-hero-eyebrow"
+                style={{ color: accent }}
+              >
+                {content.intro_headline?.trim() || defaultIntroHeadline(templateKey)}
+              </p>
               <h1 className="invitation-hero-title font-[var(--font-display)] text-4xl leading-tight sm:text-6xl lg:text-7xl" style={isEditorialFlagship ? { color: "#293746", textShadow: "none" } : undefined}>{content.headline || invitation.event_title}</h1>
               {invitation.event_date && <p className="invitation-hero-date mt-5 text-[1.1rem] font-semibold uppercase tracking-[0.16em] sm:mt-6 sm:text-xl sm:tracking-[0.2em] lg:text-[1.4rem]" style={isEditorialFlagship ? { color: "#625D55", textShadow: "none" } : undefined}>{formatDate(invitation.event_date)}</p>}
               

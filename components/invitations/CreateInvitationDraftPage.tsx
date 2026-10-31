@@ -14,7 +14,8 @@ const TYPES = [
 ] as const;
 
 export default function CreateInvitationDraftPage() {
-  const [eventType, setEventType] = useState<(typeof TYPES)[number]["value"]>("wedding");
+  const [eventType, setEventType] = useState<(typeof TYPES)[number]["value"] | "">("");
+  const [selectedPackage, setSelectedPackage] = useState<"essential" | "plus" | "">("");
   const [eventDate, setEventDate] = useState("");
   const template: InvitationTemplateKey = INVITATION_TEMPLATE_OPTIONS[0].key;
   const [busy, setBusy] = useState(false);
@@ -22,9 +23,11 @@ export default function CreateInvitationDraftPage() {
   const router = useRouter();
 
   async function createDraft() {
+    if (!eventType) { setError("Selecciona el tipo de invitación para continuar."); return; }
+    if (!selectedPackage) { setError("Selecciona el paquete que deseas."); return; }
     if (!eventDate) { setError("Selecciona la fecha de tu evento para comenzar."); return; }
     setBusy(true); setError("");
-    const { data: row, error: createError } = await supabase.functions.invoke("create-invitation-draft", { body: { event_type: eventType, template_key: template } });
+    const { data: row, error: createError } = await supabase.functions.invoke("create-invitation-draft", { body: { event_type: eventType, template_key: template, package: selectedPackage } });
     if (createError || !row?.access_token) {
       const message = createError?.message ?? "";
       setError(message.includes("invitation_drafts_event_type_check") ? "Estamos terminando de habilitar este tipo de celebración. Inténtalo nuevamente más tarde." : "No fue posible crear tu invitación. Inténtalo nuevamente.");
@@ -51,7 +54,7 @@ export default function CreateInvitationDraftPage() {
         <div className="mx-auto max-w-lg">
           <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#A88249]">Vamos a crear algo especial</p>
           <h1 className="mt-2 font-[var(--font-display)] text-[2rem] font-semibold leading-[1.08] tracking-[-0.035em] sm:text-[2.45rem]">¿Qué vamos a celebrar?</h1>
-          <p className="mt-2 text-sm leading-6 text-[#746A5D]">Elige el tipo de evento para comenzar. Después agregarás tus datos y escogerás el diseño de tu invitación.</p>
+          <p className="mt-2 text-sm leading-6 text-[#746A5D]">Selecciona el tipo de celebración y el paquete que prefieres. Después agregarás tus datos y escogerás el diseño.</p>
           <fieldset className="mt-6">
             <legend className="mb-3 text-sm font-semibold text-[#38352F]">Tipo de celebración</legend>
             <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
@@ -64,12 +67,24 @@ export default function CreateInvitationDraftPage() {
               ); })}
             </div>
           </fieldset>
+          <fieldset className="mt-6">
+            <legend className="mb-3 text-sm font-semibold text-[#38352F]">Elige tu paquete <span className="text-[#A35B4D]">*</span></legend>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {[{value:"essential" as const,label:"Esencial",price:"$199 MXN",detail:"Invitación digital personalizada y confirmaciones por WhatsApp."},{value:"plus" as const,label:"Plus",price:"$349 MXN",detail:"Todo lo de Esencial, además de lista de invitados y seguimiento de confirmaciones."}].map(option=>{const selected=selectedPackage===option.value;return (
+                <button key={option.value} type="button" aria-pressed={selected} onClick={()=>setSelectedPackage(option.value)} className={`rounded-2xl border p-4 text-left transition ${selected?"border-[#A88750] bg-[#F8F4EC] ring-2 ring-[#A88750]/20":"border-[#E7DCC8] bg-[#FFFEFC] hover:border-[#C7AD82]"}`}>
+                  <span className="flex items-center justify-between gap-2 text-sm font-semibold text-[#302D27]">{option.label}<span className="text-[#967443]">{option.price}</span></span>
+                  <span className="mt-2 block text-xs leading-5 text-[#81776A]">{option.detail}</span>
+                  {selected && <span className="mt-3 inline-block text-xs font-semibold text-[#806747]">✓ Seleccionado</span>}
+                </button>
+              );})}
+            </div>
+          </fieldset>
           <label className="mt-6 block text-sm font-semibold text-[#38352F]">¿Cuándo será tu evento? <span className="text-[#A35B4D]">*</span>
             <input required type="date" value={eventDate} onChange={e => setEventDate(e.target.value)} min={new Date().toISOString().slice(0,10)}
               className="mt-2 min-h-12 w-full rounded-xl border border-[#E7DCC8] bg-[#FFFEFC] px-4 text-base font-normal outline-none transition focus:border-[#B8955B] focus:ring-2 focus:ring-[#B8955B]/15" />
             <span className="mt-1.5 block text-xs font-normal text-[#8A8074]">La fecha nos ayuda a preparar correctamente tu invitación.</span>
           </label>
-          <button onClick={createDraft} disabled={busy || !eventDate} className="mt-7 min-h-12 w-full rounded-full bg-[#263D4B] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1D3340] disabled:cursor-wait disabled:opacity-60">
+          <button onClick={createDraft} disabled={busy || !eventType || !selectedPackage || !eventDate} className="mt-7 min-h-12 w-full rounded-full bg-[#263D4B] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1D3340] disabled:cursor-wait disabled:opacity-60">
             {busy ? "Preparando tu espacio..." : "Comenzar mi invitación"}
           </button>
           {error && <p role="alert" className="mt-4 rounded-xl border border-[#E8C7C1] bg-[#FFF7F5] px-4 py-3 text-sm leading-6 text-[#9C4036]">{error}</p>}

@@ -6445,7 +6445,7 @@
   left: 1rem !important;
   right: 1rem !important;
   top: 1rem !important;
-  height: calc(100% - var(--hero-copy-space) - 2rem) !important;
+  height: calc(100% - var(--hero-copy-space) - 1rem) !important;
   border: 1px solid rgba(255,247,248,.72) !important;
   outline: 1px dotted rgba(255,247,248,.55) !important;
   outline-offset: 5px !important;

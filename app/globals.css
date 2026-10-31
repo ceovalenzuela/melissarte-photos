@@ -6874,23 +6874,25 @@
   padding-top: clamp(.65rem, 1.8vw, 1.1rem) !important;
 }
 
-/* Distintivo decorativo: límite real de tamaño para todas las plantillas. */
+/* Distintivo decorativo: ligeramente más visible y cercano a la cuenta regresiva,
+   con las mismas proporciones en todas las plantillas. */
 .invitation-public.invitation-art-v2 .invitation-wax-seal {
   display: block !important;
-  width: min(5rem, 22vw) !important;
-  height: min(5rem, 22vw) !important;
-  max-width: 5rem !important;
-  max-height: 5rem !important;
+  width: min(5.5rem, 24vw) !important;
+  height: min(5.5rem, 24vw) !important;
+  max-width: 5.5rem !important;
+  max-height: 5.5rem !important;
+  margin-top: -.25rem !important;
   object-fit: contain !important;
   object-position: center !important;
   flex: 0 0 auto !important;
 }
 @media (min-width: 640px) {
   .invitation-public.invitation-art-v2 .invitation-wax-seal {
-    width: 5.75rem !important;
-    height: 5.75rem !important;
-    max-width: 5.75rem !important;
-    max-height: 5.75rem !important;
+    width: 6.25rem !important;
+    height: 6.25rem !important;
+    max-width: 6.25rem !important;
+    max-height: 6.25rem !important;
   }
 }
 

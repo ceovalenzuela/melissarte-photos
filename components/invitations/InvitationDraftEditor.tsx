@@ -142,12 +142,14 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
     if (!draft || locked || (draft.payment_status !== "pending" && !(draft.payment_status === "paid" && draft.editing_enabled))) return;
     setUploading(true); setError(""); setNotice("");
     try {
-      const { data: signed, error: signError } = await supabase.functions.invoke("upload-invitation-draft-cover", { body: { access_token: token, content_type: file.type } });
-      if (signError || !signed?.path || !signed?.token) throw new Error(signError?.message ?? "No se pudo preparar la carga.");
-      const { error: uploadError } = await supabase.storage.from("event-covers").uploadToSignedUrl(signed.path, signed.token, file, { contentType: file.type, upsert: false });
-      if (uploadError) throw uploadError;
-      const { data: publicUrl } = supabase.storage.from("event-covers").getPublicUrl(signed.path);
-      setDesign(current => ({ ...current, cover_image_url: publicUrl.publicUrl }));
+      const form = new FormData();
+      form.append("access_token", token);
+      form.append("file", file, file.name);
+      const { data: uploaded, error: uploadError } = await supabase.functions.invoke("upload-invitation-draft-cover", { body: form });
+      if (uploadError || !uploaded?.success || !uploaded?.public_url) {
+        throw new Error(uploadError?.message ?? uploaded?.error ?? "No fue posible validar y guardar la imagen.");
+      }
+      setDesign(current => ({ ...current, cover_image_url: uploaded.public_url }));
       setNotice("Portada cargada. Guarda los cambios para conservarla.");
     } catch (uploadError) {
       setError(uploadError instanceof Error ? uploadError.message : "No fue posible cargar la portada.");

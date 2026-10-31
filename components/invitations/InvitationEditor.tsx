@@ -405,6 +405,23 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
               })}
             </div>
             <p className="mt-3 text-xs leading-5 text-[#62594F]">Al elegir una plantilla activa se aplica su paleta inicial. Tu portada se conserva; los demás colores se pueden ajustar en «Personalizar colores».</p>
+            {design.art_direction_version !== 2 && TEMPLATE_OPTIONS.some((option) => option.key === templateKey) && (
+              <div className="mt-4 rounded-2xl border border-[#D8C39B] bg-[#FBF7EF] p-4">
+                <p className="text-sm font-semibold text-[#51412F]">Esta invitación conserva su diseño original.</p>
+                <p className="mt-1 text-sm leading-5 text-[#6F6252]">Si deseas aplicar la versión actual de «{TEMPLATE_OPTIONS.find((option) => option.key === templateKey)?.label}», puedes actualizarla aquí. Se conservarán la portada, el distintivo y el contenido del evento.</p>
+                <button
+                  type="button"
+                  onClick={() => setDesign((current) => ({
+                    ...initialDesignForTemplate(templateKey),
+                    cover_image_url: current.cover_image_url,
+                    wax_seal_image_url: current.wax_seal_image_url,
+                  }))}
+                  className="mt-3 inline-flex min-h-10 items-center justify-center rounded-full bg-[#51412F] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#392D22]"
+                >
+                  Actualizar al diseño actual
+                </button>
+              </div>
+            )}
           </section>
 
           <section id="editor-message" className="scroll-mt-6 border-t border-[#E7DCC8] pt-6">

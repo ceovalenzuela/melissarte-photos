@@ -64,7 +64,7 @@ function isKnownTemplateKey(value: string): value is TemplateKey {
 }
 
 function initialDesignForTemplate(template: TemplateKey): InvitationDesign {
-  return { ...INVITATION_PALETTES[template] };
+  return { ...INVITATION_PALETTES[template], art_direction_version: 2 };
 }
 
 // Asigna una plantilla inicial coherente con el tipo de evento; todas pueden cambiarse desde el editor.
@@ -364,7 +364,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                           ? defaultEventLabel(option.key)
                           : current.event_label,
                       }));
-                      setDesign((current) => ({ ...initialDesignForTemplate(option.key), cover_image_url: current.cover_image_url }));
+                      setDesign((current) => ({ ...initialDesignForTemplate(option.key), cover_image_url: current.cover_image_url, wax_seal_image_url: current.wax_seal_image_url }));
                     }}
                     className={`group relative min-w-0 overflow-hidden rounded-2xl border p-3 text-left transition duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${selected ? "shadow-sm ring-1" : "border-[#E7DCC8] bg-white hover:border-[#C5AD88]"}`}
                     style={{ outlineColor: palette.accent_color, borderColor: selected ? palette.border_color : undefined, backgroundColor: selected ? "#FFFFFF" : undefined }}

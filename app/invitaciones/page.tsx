@@ -280,15 +280,40 @@ export default function InvitationsLandingPage() {
         </div>
       </section>
 
-      <section id="galeria" className="scroll-mt-5 px-5 pt-10 pb-10 sm:px-8 sm:pt-14 sm:pb-14">
-        <div className="mx-auto flex max-w-5xl flex-col gap-3 rounded-2xl border border-[#E6DED1] bg-[#F2EEE7] px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-7 sm:py-6">
-          <p className="text-xs leading-5 text-[#70675B] sm:text-sm">
-            <Camera size={14} className="mr-1.5 inline-block align-[-2px] text-[#9A7544]" />
-            <span className="font-semibold text-[#35414A]">¿Quieres guardar los recuerdos?</span> Complementa tu evento con una galería de fotos, mensajes y audios.
-          </p>
-          <a href={GALLERY_URL} target="_blank" rel="noopener noreferrer" className="inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold text-[#34465D] underline decoration-[#CDB99D] underline-offset-4">
-            Galería digital desde $349 <ArrowRight size={14} />
-          </a>
+      <section id="galeria" className="scroll-mt-5 px-5 py-10 sm:px-8 sm:py-14">
+        <div className="mx-auto grid max-w-5xl overflow-hidden rounded-3xl border border-[#E6DED1] bg-[#F2EEE7] shadow-[0_12px_34px_rgba(55,45,32,.055)] md:grid-cols-[.95fr_1.05fr]">
+          <div className="relative flex min-h-[250px] items-center justify-center overflow-hidden bg-[#E9E2D6] p-6 sm:min-h-[300px] sm:p-8">
+            <div aria-hidden="true" className="absolute -left-12 -top-12 h-44 w-44 rounded-full border border-[#C5A66A]/35" />
+            <div aria-hidden="true" className="absolute -bottom-16 -right-10 h-52 w-52 rounded-full border border-[#9EAF9A]/45" />
+            <div className="relative w-full max-w-[320px] rounded-2xl border border-white/80 bg-[#FCFAF6] p-3 shadow-[0_10px_28px_rgba(55,45,32,.10)] sm:p-4">
+              <div className="mb-3 flex items-center justify-between gap-2">
+                <span className="text-[9px] font-semibold uppercase tracking-[.2em] text-[#9A7544]">Tus recuerdos</span>
+                <span className="flex items-center gap-1 rounded-full bg-[#F1EEE6] px-2 py-1 text-[9px] text-[#6F796B]"><span className="h-1.5 w-1.5 rounded-full bg-[#91A58D]" />En vivo</span>
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                <div className="col-span-2 row-span-2 flex aspect-[1.55] items-end rounded-lg bg-gradient-to-br from-[#D8C8B2] via-[#B8B49D] to-[#788D7F] p-2">
+                  <span className="rounded-full bg-white/80 px-2 py-1 text-[8px] font-medium text-[#34465D]">Momentos especiales</span>
+                </div>
+                <div className="aspect-square rounded-lg bg-gradient-to-br from-[#E9D5D0] to-[#B8878A]" />
+                <div className="aspect-square rounded-lg bg-gradient-to-br from-[#D7DCCB] to-[#8A9B84]" />
+                <div className="flex aspect-square items-center justify-center rounded-lg bg-[#E9E1D3] text-[#A88249]"><Camera size={21} /></div>
+              </div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E7DFD3] bg-white px-2.5 py-1.5 text-[9px] text-[#625A50]"><MessageCircle size={11} className="text-[#A88249]" />Mensajes</span>
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E7DFD3] bg-white px-2.5 py-1.5 text-[9px] text-[#625A50]"><Sparkles size={11} className="text-[#A88249]" />Audios</span>
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E7DFD3] bg-white px-2.5 py-1.5 text-[9px] text-[#625A50]"><Users size={11} className="text-[#A88249]" />Invitados</span>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col justify-center px-5 py-7 sm:px-8 sm:py-9">
+            <p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#A88249]">Melissarte Photos</p>
+            <h2 className="mt-2 max-w-md font-[var(--font-display)] text-2xl font-semibold leading-tight text-[#20262B] sm:text-3xl">Todos los recuerdos de tu evento, en un solo lugar</h2>
+            <p className="mt-3 max-w-md text-sm leading-6 text-[#625A50]">Comparte un QR o enlace personalizado para que tus invitados suban fotos, dejen mensajes y compartan sus voces. Revive cada momento desde una galería digital.</p>
+            <a href={GALLERY_URL} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[#263D4B] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#172C38] sm:w-fit">
+              Conoce la galería digital <ArrowRight size={16} />
+            </a>
+            <p className="mt-2 text-xs text-[#746A5D]">Opciones desde $349 MXN</p>
+          </div>
         </div>
       </section>
 

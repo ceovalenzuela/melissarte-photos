@@ -13,7 +13,7 @@ import {
 export const metadata = {
   title: "Invitaciones digitales para tu evento | Melissarte",
   description:
-    "Invitaciones digitales personalizadas para bodas, XV años, baby showers y bautizos. Elige tu diseño y compra en línea.",
+    "Invitaciones digitales personalizadas. Elige entre 10 diseños, personaliza tu evento y comparte tu invitación en línea.",
 };
 
 const WHATSAPP_NUMBER = "528133867050";

@@ -338,16 +338,6 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
               <h3 className="text-base font-semibold text-[#332B27]">Diseño de la invitación</h3>
               <p className="mt-1 text-sm leading-6 text-[#6F665B]">Elige el estilo que mejor acompaña tu celebración. Puedes personalizar sus colores después.</p>
             </div>
-            {RETIRED_TEMPLATE_OPTIONS.some((option) => option.key === templateKey) && (
-              <div className="mb-4 rounded-2xl border border-[#E8DCCB] bg-[#F8F4ED] px-4 py-3.5">
-                <p className="text-sm font-semibold text-[#51483E]">
-                  Plantilla anterior: {RETIRED_TEMPLATE_OPTIONS.find((option) => option.key === templateKey)?.label}
-                </p>
-                <p className="mt-1 text-sm leading-5 text-[#756B5F]">
-                  Esta invitación conserva su diseño actual mientras preparamos las nuevas plantillas. Puedes seguir editando y guardando su contenido; su apariencia no cambiará hasta que selecciones otro diseño.
-                </p>
-              </div>
-            )}
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
               {TEMPLATE_OPTIONS.map((option) => {
                 const selected = templateKey === option.key;

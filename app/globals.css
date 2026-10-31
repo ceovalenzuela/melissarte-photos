@@ -6284,7 +6284,7 @@
 }
 .invitation-public.invitation-template-maison_botanique .invitation-countdown-grid {
   border-top: 1px solid var(--inv-border) !important;
-  border-bottom: 1px solid #C5CEB7 !important;
+  border-bottom: 1px solid var(--inv-border) !important;
 }
 .invitation-public.invitation-template-maison_botanique .invitation-location-card {
   border-radius: 1.8rem .55rem 1.8rem .55rem !important;
@@ -6308,7 +6308,7 @@
 }
 .invitation-public.invitation-template-noir_champagne .invitation-hero-content::before {
   content: "UNA NOCHE PARA RECORDAR" !important;
-  color: #C9AC78 !important;
+  color: var(--inv-accent) !important;
 }
 .invitation-public.invitation-template-noir_champagne .invitation-hero-title {
   color: var(--inv-title) !important;
@@ -6350,7 +6350,7 @@
 }
 .invitation-public.invitation-template-noir_champagne .invitation-countdown-grid {
   border-top: 1px solid var(--inv-border) !important;
-  border-bottom: 1px solid #8E7957 !important;
+  border-bottom: 1px solid var(--inv-border) !important;
 }
 .invitation-public.invitation-template-noir_champagne .invitation-location-card {
   border-radius: .4rem !important;
@@ -6376,7 +6376,7 @@
 }
 .invitation-public.invitation-template-velvet_royale .invitation-hero-content::before {
   content: "UNA GRAN CELEBRACIÓN" !important;
-  color: #D7AF83 !important;
+  color: var(--inv-accent) !important;
 }
 .invitation-public.invitation-template-velvet_royale .invitation-hero-title {
   color: var(--inv-title) !important;
@@ -6393,7 +6393,7 @@
   top: 1rem !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
-  color: #E7C28F !important;
+  color: var(--inv-accent) !important;
   font-size: 2rem !important;
   text-shadow: 0 0 26px rgba(231,194,143,.6) !important;
   background: none !important;
@@ -6405,8 +6405,8 @@
   background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--inv-accent) 18%, transparent), transparent 42%), var(--inv-background) !important;
 }
 .invitation-public.invitation-template-velvet_royale .invitation-countdown-grid {
-  border-top: 1px solid rgba(215,175,131,.55) !important;
-  border-bottom: 1px solid rgba(215,175,131,.55) !important;
+  border-top: 1px solid color-mix(in srgb, var(--inv-border) 75%, transparent) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--inv-border) 75%, transparent) !important;
 }
 .invitation-public.invitation-template-velvet_royale .invitation-location-card {
   border-radius: 1.3rem !important;
@@ -6434,7 +6434,7 @@
 }
 .invitation-public.invitation-template-celestial_etoile .invitation-hero-content::before {
   content: "BAJO UN CIELO DE ESTRELLAS" !important;
-  color: #B8B7DC !important;
+  color: var(--inv-accent) !important;
 }
 .invitation-public.invitation-template-celestial_etoile .invitation-hero-title {
   color: var(--inv-title) !important;
@@ -6463,7 +6463,7 @@
 }
 .invitation-public.invitation-template-celestial_etoile .invitation-countdown-grid {
   border-top: 1px solid var(--inv-border) !important;
-  border-bottom: 1px solid #777FAF !important;
+  border-bottom: 1px solid var(--inv-border) !important;
 }
 .invitation-public.invitation-template-celestial_etoile .invitation-details-section {
   background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--inv-accent) 18%, transparent), transparent 38%), var(--inv-background) !important;
@@ -6489,7 +6489,7 @@
 }
 .invitation-public.invitation-template-coquette_couture .invitation-hero-content::before {
   content: "UN SUEÑO HECHO CELEBRACIÓN" !important;
-  color: #B9506C !important;
+  color: var(--inv-accent) !important;
 }
 .invitation-public.invitation-template-coquette_couture .invitation-hero-title {
   color: var(--inv-title) !important;
@@ -6540,7 +6540,7 @@
 }
 .invitation-public.invitation-template-coquette_couture .invitation-countdown-grid {
   border-top: 1px solid var(--inv-border) !important;
-  border-bottom: 1px solid #E8B8C5 !important;
+  border-bottom: 1px solid var(--inv-border) !important;
 }
 .invitation-public.invitation-template-coquette_couture .invitation-footer { background: color-mix(in srgb, var(--inv-background) 72%, #FFFFFF) !important; }
 
@@ -6559,7 +6559,7 @@
 }
 .invitation-public.invitation-template-little_wildflower .invitation-hero-content::before {
   content: "UNA NUEVA HISTORIA FLORECE" !important;
-  color: #7E8D5A !important;
+  color: var(--inv-accent) !important;
 }
 .invitation-public.invitation-template-little_wildflower .invitation-hero-title {
   color: var(--inv-title) !important;
@@ -6592,7 +6592,7 @@
 }
 .invitation-public.invitation-template-little_wildflower .invitation-countdown-grid {
   border-top: 1px solid var(--inv-border) !important;
-  border-bottom: 1px solid #D6C99F !important;
+  border-bottom: 1px solid var(--inv-border) !important;
 }
 .invitation-public.invitation-template-little_wildflower .invitation-location-card {
   border-radius: 1.6rem 1.6rem .6rem 1.6rem !important;
@@ -6614,7 +6614,7 @@
 }
 .invitation-public.invitation-template-luz_de_cielo .invitation-hero-content::before {
   content: "UN DÍA DE LUZ Y BENDICIONES" !important;
-  color: #6F95A9 !important;
+  color: var(--inv-accent) !important;
 }
 .invitation-public.invitation-template-luz_de_cielo .invitation-hero-title {
   color: var(--inv-title) !important;
@@ -6645,7 +6645,7 @@
 }
 .invitation-public.invitation-template-luz_de_cielo .invitation-countdown-grid {
   border-top: 1px solid var(--inv-border) !important;
-  border-bottom: 1px solid #C5D9E0 !important;
+  border-bottom: 1px solid var(--inv-border) !important;
 }
 .invitation-public.invitation-template-luz_de_cielo .invitation-location-card {
   border-radius: 1.4rem !important;
@@ -6665,12 +6665,12 @@
     linear-gradient(180deg, rgba(48,35,53,.02), rgba(48,35,53,.25)) !important;
 }
 .invitation-public.invitation-template-two_little_secrets .invitation-hero-content {
-  background: linear-gradient(90deg, #F8E5E7 0 50%, #E5EEF4 50% 100%) !important;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--inv-background) 82%, #E7AEBB) 0 50%, color-mix(in srgb, var(--inv-background) 82%, #AFC7D9) 50% 100%) !important;
   border-top: 1px solid var(--inv-border) !important;
 }
 .invitation-public.invitation-template-two_little_secrets .invitation-hero-content::before {
   content: "¿NIÑO O NIÑA?" !important;
-  color: #8B718A !important;
+  color: var(--inv-accent) !important;
 }
 .invitation-public.invitation-template-two_little_secrets .invitation-hero-title {
   color: var(--inv-title) !important;
@@ -6696,7 +6696,7 @@
 .invitation-public.invitation-template-two_little_secrets .invitation-hero::after { right: 0 !important; background: linear-gradient(180deg, rgba(139,173,198,.12), transparent 55%) !important; }
 .invitation-public.invitation-template-two_little_secrets .invitation-countdown-grid {
   border-top: 1px solid var(--inv-border) !important;
-  border-bottom: 1px solid #D3DFE6 !important;
+  border-bottom: 1px solid var(--inv-border) !important;
 }
 .invitation-public.invitation-template-two_little_secrets .invitation-details-section {
   background: linear-gradient(90deg, rgba(248,229,231,.48) 0 50%, rgba(229,238,244,.58) 50% 100%) !important;
@@ -6705,7 +6705,7 @@
   border-radius: 1.6rem !important;
 }
 .invitation-public.invitation-template-two_little_secrets .invitation-footer {
-  background: linear-gradient(90deg, #F8E5E7 0 50%, #E5EEF4 50% 100%) !important;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--inv-background) 82%, #E7AEBB) 0 50%, color-mix(in srgb, var(--inv-background) 82%, #AFC7D9) 50% 100%) !important;
 }
 
 /* 09 — STUDIO PARTY: graphic poster energy, cobalt blocks and citrus accents. */
@@ -6759,7 +6759,7 @@
   bottom: calc(var(--hero-copy-space) + 2rem) !important;
   width: 11rem !important;
   height: 11rem !important;
-  background: #E35A36 !important;
+  background: var(--inv-accent) !important;
   border-radius: 2rem !important;
   transform: rotate(24deg) !important;
   opacity: .82;
@@ -6769,11 +6769,11 @@
   padding-block: 1.4rem !important;
 }
 .invitation-public.invitation-template-studio_party .invitation-countdown-grid {
-  border-top: 2px solid #E35A36 !important;
-  border-bottom: 2px solid #E35A36 !important;
+  border-top: 2px solid var(--inv-accent) !important;
+  border-bottom: 2px solid var(--inv-accent) !important;
 }
 .invitation-public.invitation-template-studio_party .invitation-details-section {
-  background: #FFF4E8 !important;
+  background: var(--inv-background) !important;
 }
 .invitation-public.invitation-template-studio_party .invitation-details-title {
   font-family: var(--font-sans), Arial, sans-serif !important;
@@ -6849,7 +6849,7 @@
     left: -3rem !important;
   }
   .invitation-public.invitation-template-two_little_secrets .invitation-hero-content {
-    background: linear-gradient(90deg, #F8E5E7 0 50%, #E5EEF4 50% 100%) !important;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--inv-background) 82%, #E7AEBB) 0 50%, color-mix(in srgb, var(--inv-background) 82%, #AFC7D9) 50% 100%) !important;
   }
 }
 @media (min-width: 1024px) {

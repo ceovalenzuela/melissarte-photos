@@ -5824,7 +5824,12 @@
   .invitation-public.invitation-template-editorial-flagship .invitation-hero-content::before {
     font-size: .72rem !important;
     letter-spacing: .25em !important;
-    margin-bottom: .45rem !important;
+    margin: 0 auto .45rem !important;
+    padding: 0 4.25rem !important;
+    background-image: linear-gradient(var(--ef-gold), var(--ef-gold)), linear-gradient(var(--ef-gold), var(--ef-gold)) !important;
+    background-size: 2.6rem 1px, 2.6rem 1px !important;
+    background-position: left center, right center !important;
+    background-repeat: no-repeat !important;
   }
   .invitation-public.invitation-template-editorial-flagship .invitation-hero-title {
     font-size: clamp(4.25rem, 5.4vw, 5.5rem) !important;

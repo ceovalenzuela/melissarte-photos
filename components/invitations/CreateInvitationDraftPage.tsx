@@ -24,8 +24,7 @@ export default function CreateInvitationDraftPage() {
   async function createDraft() {
     if (!eventDate) { setError("Selecciona la fecha de tu evento para comenzar."); return; }
     setBusy(true); setError("");
-    const { data, error: createError } = await supabase.rpc("create_invitation_draft", { p_event_type: eventType, p_template_key: template });
-    const row = data?.[0] as { access_token?: string } | undefined;
+    const { data: row, error: createError } = await supabase.functions.invoke("create-invitation-draft", { body: { event_type: eventType, template_key: template } });
     if (createError || !row?.access_token) {
       const message = createError?.message ?? "";
       setError(message.includes("invitation_drafts_event_type_check") ? "Estamos terminando de habilitar este tipo de celebración. Inténtalo nuevamente más tarde." : "No fue posible crear tu invitación. Inténtalo nuevamente.");

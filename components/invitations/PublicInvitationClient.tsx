@@ -453,7 +453,7 @@ export default function PublicInvitationClient({
               <div className="invitation-info-grid mx-auto mt-8 grid w-full max-w-4xl grid-cols-1 gap-4 sm:grid-cols-2">
                 {content.dress_code && (
                   <article className="invitation-location-card flex h-full flex-col rounded-[1.5rem] border p-4 sm:p-5" style={{ backgroundColor: cardBackgroundColor, color: cardTextColor, borderColor: `${borderColor}88` }}>
-                    <div className="flex items-center justify-center gap-3 text-center">
+                    <div className="flex items-center gap-3 text-left">
                       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}><Shirt size={18} strokeWidth={1.7} /></span>
                       <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Código de vestimenta</p>
                     </div>

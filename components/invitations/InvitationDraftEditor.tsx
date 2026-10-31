@@ -167,7 +167,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
       p_template_key: template,
       p_design_config: design,
       p_content_config: { ...content, event_label: draft?.payment_status === "pending" ? (eventLabels[draft.event_type] ?? "Mi celebración") : content.event_label },
-      p_event_date: eventDate || null,
+      p_event_date: eventDate,
     });
     if (saveError || saved !== true) {
       whatsappWindow.close();
@@ -192,7 +192,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
   async function continueToCheckout(selected: "essential" | "plus") {
     if (!eventDate) { setError("Selecciona la fecha de tu evento para continuar."); return; }
     if (!hasRequiredDetails()) { setError("Antes de continuar, completa la foto de portada, el título y los datos de recepción."); return; }
-    const { data: saved, error: saveError } = await supabase.rpc("update_invitation_draft", { p_access_token: token, p_template_key: template, p_design_config: design, p_content_config: { ...content, event_label: draft?.payment_status === "pending" ? (eventLabels[draft.event_type] ?? "Mi celebración") : content.event_label }, p_event_date: eventDate || null });
+    const { data: saved, error: saveError } = await supabase.rpc("update_invitation_draft", { p_access_token: token, p_template_key: template, p_design_config: design, p_content_config: { ...content, event_label: draft?.payment_status === "pending" ? (eventLabels[draft.event_type] ?? "Mi celebración") : content.event_label }, p_event_date: eventDate });
     if (saveError || saved !== true) { setError(saveError?.message ?? "No fue posible guardar los datos antes de la compra."); return; }
     setSaving(true);
     setError("");

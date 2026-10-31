@@ -195,7 +195,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
       <div className="mx-auto max-w-3xl px-4 py-6">
         <section className="space-y-4">
           <div className="rounded-2xl border border-[#E7DCC8] bg-white p-5">
-            <div className="flex items-center justify-between"><h2 className="font-semibold">Datos principales</h2><span className="text-xs text-[#8A8074]">{locked ? "Edición bloqueada" : "Borrador"}</span></div>
+            <div className="flex items-center justify-between"><h2 className="font-semibold">Datos principales</h2><p className="mt-1 text-xs leading-5 text-[#746A5D]">Los campos marcados con * son necesarios para generar tu vista previa y preparar tu invitación.</p><span className="text-xs text-[#8A8074]">{locked ? "Edición bloqueada" : "Borrador"}</span></div>
             <label className="mt-4 block text-sm font-medium">Portada de tu invitación <span className="text-[#A35B4D]">*</span><input disabled={locked || (draft.payment_status !== "pending" && !(draft.payment_status === "paid" && draft.editing_enabled)) || uploading} type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>{const file=e.target.files?.[0];if(file) void uploadCover(file);e.currentTarget.value="";}} className="mt-1.5 block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-[#F2EBE1] file:px-3 file:py-2 file:text-xs file:font-semibold disabled:opacity-50" /></label>
             {design.cover_image_url && <img src={design.cover_image_url} alt="Portada seleccionada" className="mt-3 aspect-[4/3] w-full rounded-xl object-cover" />}
             <label className="mt-4 block text-sm font-medium">Título o nombres <span className="text-[#A35B4D]">*</span><input required disabled={locked} value={content.headline ?? ""} onChange={e=>update("headline",e.target.value)} maxLength={120} placeholder="Ej. Sofía y Alejandro" className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
@@ -223,6 +223,13 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
             <button disabled={locked || saving || uploading || !hasRequiredDetails()} onClick={()=>void save(true)} className="mt-2 w-full rounded-full border border-[#D5B77C] px-4 py-3 text-sm font-semibold text-[#51483E] disabled:opacity-40">Guardar y ver invitación completa</button>
             <p className="mt-2 text-xs leading-5 text-[#8A8074]">Para crear la vista previa necesitas foto, nombres y todos los datos de recepción. Los detalles adicionales aparecerán con ejemplos y podrás personalizarlos después de la compra.</p>
             {notice && <p role="status" className="mt-2 text-sm text-green-700">{notice}</p>}{error && <p role="alert" className="mt-2 text-sm text-red-700">{error}</p>}
+          </div>
+          <div className="rounded-2xl border border-[#E7DCC8] bg-white p-5">
+            <h2 className="font-semibold">Funciones que se habilitan después de tu compra</h2>
+            <p className="mt-1 text-sm leading-6 text-[#746A5D]">Por ahora verás estas secciones con información de ejemplo en la vista previa. Después de confirmar tu pago podrás agregar tus datos y personalizarlas.</p>
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+              {["Ceremonia","Código de vestimenta","Sugerencias de regalos","Confirmación de asistencia"].map(label=><div key={label} className="flex items-center gap-3 rounded-xl border border-[#EAE3D9] bg-[#FBF9F5] px-3 py-3"><span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#F0E8DC] text-[#8B744F]">🔒</span><span className="text-sm font-medium text-[#51483E]">{label}</span><span className="ml-auto text-[10px] font-semibold uppercase tracking-wide text-[#9A8973]">Después</span></div>)}
+            </div>
           </div>
           <div className="rounded-2xl border border-[#D5B77C] bg-[#FFFEFC] p-5">
             <h2 className="font-semibold">{draft.payment_status === "paid" ? "Pago validado" : "Continúa con tu compra"}</h2>

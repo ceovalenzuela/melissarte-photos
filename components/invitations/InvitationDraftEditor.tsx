@@ -259,7 +259,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
           <div className="rounded-2xl border border-[#E7DCC8] bg-white p-5">
             <h2 className="font-semibold">Lugar de recepción</h2>
             <label className="mt-3 block text-sm font-medium">Nombre del lugar <span className="text-[#A35B4D]">*</span><input required disabled={locked} value={content.reception_venue ?? ""} onChange={e=>update("reception_venue",e.target.value)} maxLength={160} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
-            <label className="mt-3 block text-sm font-medium">Hora <span className="text-[#A35B4D]">*</span><input required disabled={locked} type="time" value={content.reception_time ?? ""} onChange={e=>update("reception_time",e.target.value)} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
+            <DraftTimePicker label="Hora" required value={content.reception_time ?? ""} disabled={locked} onChange={value => update("reception_time", value)} />
             <label className="mt-3 block text-sm font-medium">Dirección <span className="text-[#A35B4D]">*</span><textarea required disabled={locked} value={content.reception_address ?? ""} onChange={e=>update("reception_address",e.target.value)} maxLength={240} rows={2} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
           </div>
           <div className="rounded-2xl border border-[#E7DCC8] bg-white p-5">
@@ -315,5 +315,62 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
         </div>
       )}
     </main>
+  );
+}
+
+
+function DraftTimePicker({ label, value, onChange, disabled = false, required = false }: {
+  label: string; value: string; onChange: (value: string) => void; disabled?: boolean; required?: boolean;
+}) {
+  const parsed = /^(?:([01]\\d|2[0-3]):([0-5]\\d))$/.exec(value);
+  const [hour, setHour] = useState(parsed?.[1] ?? "18");
+  const [minute, setMinute] = useState(parsed?.[2] ?? "00");
+  const [open, setOpen] = useState(false);
+  const hours = Array.from({ length: 24 }, (_, index) => String(index).padStart(2, "0"));
+  const minutes = Array.from({ length: 12 }, (_, index) => String(index * 5).padStart(2, "0"));
+
+  function showPicker() {
+    const current = /^(?:([01]\\d|2[0-3]):([0-5]\\d))$/.exec(value);
+    if (current) { setHour(current[1]); setMinute(current[2]); }
+    setOpen(true);
+  }
+
+  return (
+    <div className="mt-3 text-sm font-medium">
+      <span className="block"> {label} <span className="text-[#A35B4D]">{required ? "*" : ""}</span></span>
+      <button type="button" disabled={disabled} aria-expanded={open} onClick={showPicker}
+        className="mt-1.5 flex min-h-11 w-full items-center justify-between rounded-xl border border-[#E7DCC8] bg-white px-3 py-2.5 text-left text-sm text-[#302D27] disabled:bg-[#F4F1EC]">
+        <span className={value ? "" : "text-[#8A8074]"}>{value || "Seleccionar hora"}</span>
+        <span className="text-xs text-[#8A8074]">{open ? "Abierto" : "Elegir hora ▾"}</span>
+      </button>
+      {open && (
+        <div className="mt-2 rounded-xl border border-[#E7DCC8] bg-[#FFFEFC] p-3">
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <p className="mb-2 text-xs font-semibold text-[#746A5D]">Hora</p>
+              <div className="grid max-h-40 grid-cols-4 gap-1 overflow-y-auto">
+                {hours.map(item => <button key={item} type="button" aria-pressed={hour === item} onClick={() => setHour(item)}
+                  className={`min-h-9 rounded-lg text-xs ${hour === item ? "bg-[#263D4B] text-white" : "bg-[#F4F1EC] text-[#51483E]"}`}>{item}</button>)}
+              </div>
+            </div>
+            <div>
+              <p className="mb-2 text-xs font-semibold text-[#746A5D]">Minutos</p>
+              <div className="grid max-h-40 grid-cols-3 gap-1 overflow-y-auto">
+                {minutes.map(item => <button key={item} type="button" aria-pressed={minute === item} onClick={() => setMinute(item)}
+                  className={`min-h-9 rounded-lg text-xs ${minute === item ? "bg-[#263D4B] text-white" : "bg-[#F4F1EC] text-[#51483E]"}`}>{item}</button>)}
+              </div>
+            </div>
+          </div>
+          <div className="mt-3 flex items-center justify-between border-t border-[#EEE7DC] pt-3">
+            <span className="font-semibold tabular-nums">{hour}:{minute}</span>
+            <div className="flex gap-2">
+              <button type="button" onClick={() => setOpen(false)} className="rounded-full px-3 py-2 text-xs text-[#746A5D]">Cancelar</button>
+              <button type="button" onClick={() => { onChange(`${hour}:${minute}`); setOpen(false); }} className="rounded-full bg-[#263D4B] px-4 py-2 text-xs font-semibold text-white">Aceptar</button>
+            </div>
+          </div>
+        </div>
+      )}
+      <p className="mt-1 text-[11px] font-normal text-[#8A8074]">Formato de 24 horas.</p>
+    </div>
   );
 }

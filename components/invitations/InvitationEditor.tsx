@@ -700,36 +700,61 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
 }
 
 function Field({ label, value, onChange, placeholder, type = "text", maxLength = 300 }: { label: string; value: string; onChange: (value: string) => void; placeholder?: string; type?: "text" | "time" | "date"; maxLength?: number }) {
-  const isTime = type === "time";
-  function handleChange(rawValue: string) {
-    if (!isTime) {
-      onChange(rawValue);
-      return;
-    }
-    // Avoid the native time picker: Android's WhatsApp in-app browser can crash
-    // when it hands the picker off to the operating system.
-    const digits = rawValue.replace(/\\D/g, "").slice(0, 4);
-    const formatted = digits.length > 2 ? `${digits.slice(0, 2)}:${digits.slice(2)}` : digits;
-    onChange(formatted);
-  }
-
+  if (type === "time") return <TimeField label={label} value={value} onChange={onChange} />;
   return (
     <label className="block text-sm font-medium text-[#4E463D]">
       {label}
-      <input
-        type={isTime ? "text" : type}
-        inputMode={isTime ? "numeric" : undefined}
-        autoComplete="off"
-        value={value}
-        onChange={(e) => handleChange(e.target.value)}
-        placeholder={isTime ? "HH:MM (24 horas)" : placeholder}
-        maxLength={isTime ? 5 : maxLength}
-        pattern={isTime ? "[0-2][0-9]:[0-5][0-9]" : undefined}
-        aria-label={isTime ? `${label}, formato de 24 horas` : undefined}
-        className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] bg-white px-3.5 py-3 text-sm text-[#332B27] outline-none transition focus:border-[#A88249]"
-      />
-      {isTime && <span className="mt-1 block text-xs font-normal text-[#8A8074]">Escribe la hora en formato de 24 horas, por ejemplo 18:30.</span>}
+      <input type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} maxLength={maxLength} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] bg-white px-3.5 py-3 text-sm text-[#332B27] outline-none transition focus:border-[#A88249]" />
     </label>
+  );
+}
+
+function TimeField({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
+  const [open, setOpen] = useState(false);
+  const [hour, setHour] = useState(value.match(/^([01]\\d|2[0-3]):[0-5]\\d$/)?.[1] ?? "18");
+  const [minute, setMinute] = useState(value.match(/^[0-2]\\d:([0-5]\\d)$/)?.[1] ?? "00");
+  const hours = Array.from({ length: 24 }, (_, index) => String(index).padStart(2, "0"));
+  const minutes = Array.from({ length: 12 }, (_, index) => String(index * 5).padStart(2, "0"));
+
+  function applyTime() {
+    onChange(`${hour}:${minute}`);
+    setOpen(false);
+  }
+
+  return (
+    <div className="relative text-sm font-medium text-[#4E463D]">
+      <span className="block">{label}</span>
+      <button type="button" aria-expanded={open} aria-haspopup="dialog" onClick={() => setOpen((current) => !current)} className="mt-1.5 flex min-h-12 w-full items-center justify-between rounded-xl border border-[#E7DCC8] bg-white px-3.5 py-3 text-left text-sm font-normal text-[#332B27] outline-none transition hover:border-[#A88249] focus-visible:ring-2 focus-visible:ring-[#A88249]/30">
+        <span>{value || "Seleccionar hora"}</span>
+        <span className="text-xs text-[#8A8074]">{open ? "Cerrar" : "Elegir ▾"}</span>
+      </button>
+      {open && (
+        <div role="dialog" aria-label={`Seleccionar ${label.toLowerCase()}`} className="absolute z-30 mt-2 w-full rounded-2xl border border-[#E7DCC8] bg-white p-3 shadow-xl">
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <p className="mb-2 text-xs font-semibold text-[#7D7467]">Hora</p>
+              <div className="grid max-h-48 grid-cols-4 gap-1 overflow-y-auto overscroll-contain">
+                {hours.map((item) => <button key={item} type="button" onClick={() => setHour(item)} aria-pressed={hour === item} className={`min-h-9 rounded-lg text-xs ${hour === item ? "bg-[#263D4B] font-semibold text-white" : "bg-[#F8F5EF] text-[#51483E]"}`}>{item}</button>)}
+              </div>
+            </div>
+            <div>
+              <p className="mb-2 text-xs font-semibold text-[#7D7467]">Minutos</p>
+              <div className="grid max-h-48 grid-cols-3 gap-1 overflow-y-auto overscroll-contain">
+                {minutes.map((item) => <button key={item} type="button" onClick={() => setMinute(item)} aria-pressed={minute === item} className={`min-h-9 rounded-lg text-xs ${minute === item ? "bg-[#263D4B] font-semibold text-white" : "bg-[#F8F5EF] text-[#51483E]"}`}>{item}</button>)}
+              </div>
+            </div>
+          </div>
+          <div className="mt-3 flex items-center justify-between border-t border-[#EEE7DC] pt-3">
+            <span className="text-sm font-semibold text-[#332B27]">{hour}:{minute}</span>
+            <div className="flex gap-2">
+              <button type="button" onClick={() => setOpen(false)} className="min-h-9 rounded-full px-3 text-xs text-[#7D7467]">Cancelar</button>
+              <button type="button" onClick={applyTime} className="min-h-9 rounded-full bg-[#263D4B] px-4 text-xs font-semibold text-white">Aceptar</button>
+            </div>
+          </div>
+        </div>
+      )}
+      <span className="mt-1 block text-xs font-normal text-[#8A8074]">Selecciona la hora en formato de 24 horas.</span>
+    </div>
   );
 }
 

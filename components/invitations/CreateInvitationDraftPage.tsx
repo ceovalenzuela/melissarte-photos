@@ -52,9 +52,49 @@ export default function CreateInvitationDraftPage() {
       <section className="w-full max-w-[38rem] rounded-[1.75rem] border border-[#E8DDCA] bg-white px-5 py-7 shadow-[0_12px_40px_rgba(57,47,34,0.07)] sm:px-9 sm:py-9">
         <div className="mb-6 flex justify-center"><img src="/me-logo.png" alt="Melissarte Events" className="h-auto w-28 object-contain sm:w-32" /></div>
         <div className="mx-auto max-w-lg">
-          <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#A88249]">Vamos a crear algo especial</p>
-          <h1 className="mt-2 font-[var(--font-display)] text-[2rem] font-semibold leading-[1.08] tracking-[-0.035em] sm:text-[2.45rem]">¿Qué vamos a celebrar?</h1>
-          <p className="mt-2 text-sm leading-5 text-[#746A5D]">Elige tu evento, paquete y fecha. Después podrás personalizar tu invitación.</p>
+          <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#A88249]">Melissarte · Invitaciones digitales</p>
+          <h1 className="mt-2 font-[var(--font-display)] text-[2rem] font-semibold leading-[1.08] tracking-[-0.035em] sm:text-[2.45rem]">Crea tu invitación gratis</h1>
+          <p className="mt-2 text-sm leading-5 text-[#746A5D]">Personalízala a tu gusto y revisa una vista previa con tus propios datos antes de pagar.</p>
+          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-xl bg-[#F7F4ED] px-3.5 py-3 text-xs text-[#625A50]">
+            <span className="inline-flex items-center gap-1.5"><span className="text-[#8A9B83]">✓</span> Crear y personalizar es gratis</span>
+            <span className="inline-flex items-center gap-1.5"><span className="text-[#8A9B83]">✓</span> Pagas hasta ver tu invitación</span>
+          </div>
+          <div className="mt-5">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-xs font-semibold text-[#38352F]">Conoce nuestros demos</p>
+              <span className="text-[10px] text-[#8A8074]">Explóralos antes de empezar</span>
+            </div>
+            <div className="mt-2 grid grid-cols-2 gap-2.5">
+              <a href="https://events.melissartedecorativo.com/i/boda-sofia-y-alejandro" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2.5 rounded-xl border border-[#E7DCC8] bg-[#FFFEFC] p-2.5 transition hover:border-[#C7AD82] hover:bg-[#FAF7F0]">
+                <span className="flex h-14 w-11 shrink-0 flex-col items-center justify-center rounded-lg border border-[#E5DFD2] bg-[#F4F1E9] text-center">
+                  <span className="text-[7px] uppercase tracking-[.12em] text-[#879783]">Demo</span>
+                  <span className="mt-1 font-[var(--font-display)] text-sm text-[#263D4B]">Boda</span>
+                  <span className="mt-1 text-[8px] text-[#B3925F]">✦ ─ ✦</span>
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-xs font-semibold text-[#302D27]">Boda</span>
+                  <span className="mt-0.5 block text-[10px] leading-4 text-[#81776A]">Estilo editorial</span>
+                  <span className="mt-1 block text-[10px] font-semibold text-[#967443] group-hover:underline">Ver demo ↗</span>
+                </span>
+              </a>
+              <a href="https://events.melissartedecorativo.com/i/xv" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2.5 rounded-xl border border-[#E7DCC8] bg-[#FFFEFC] p-2.5 transition hover:border-[#C7AD82] hover:bg-[#FAF7F0]">
+                <span className="flex h-14 w-11 shrink-0 flex-col items-center justify-center rounded-lg border border-[#EADDE0] bg-[#F5ECEE] text-center">
+                  <span className="text-[7px] uppercase tracking-[.12em] text-[#AD7D89]">Demo</span>
+                  <span className="mt-1 font-[var(--font-display)] text-sm text-[#684957]">XV</span>
+                  <span className="mt-1 text-[8px] text-[#B88B66]">✦ ─ ✦</span>
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-xs font-semibold text-[#302D27]">XV años</span>
+                  <span className="mt-0.5 block text-[10px] leading-4 text-[#81776A]">Estilo romántico</span>
+                  <span className="mt-1 block text-[10px] font-semibold text-[#967443] group-hover:underline">Ver demo ↗</span>
+                </span>
+              </a>
+            </div>
+          </div>
+          <div className="mt-6 border-t border-[#EEE7DC] pt-5">
+            <p className="text-sm font-semibold text-[#38352F]">Comienza tu invitación</p>
+            <p className="mt-1 text-xs leading-5 text-[#81776A]">Selecciona los datos iniciales. Después podrás personalizar el diseño y ver tu vista previa.</p>
+          </div>
           <fieldset className="mt-6">
             <legend className="mb-3 text-sm font-semibold text-[#38352F]">Tipo de celebración</legend>
             <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">

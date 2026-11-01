@@ -218,6 +218,9 @@ function TextInput({
   label: string; value: string; onChange: (value: string) => void; placeholder?: string;
   required?: boolean; type?: "text" | "time" | "date" | "url" | "tel"; maxLength?: number; help?: string;
 }) {
+  if (type === "time") {
+    return <TimeInput label={label} value={value} onChange={onChange} required={required} help={help} />;
+  }
   return <label className="block min-w-0">
     <FieldLabel required={required}>{label}</FieldLabel>
     <input type={type} value={value} onChange={(event) => onChange(event.target.value)}
@@ -225,6 +228,57 @@ function TextInput({
       className="w-full rounded-xl border border-[#DDD3C5] bg-white px-3.5 py-3 text-sm text-[#302B27] outline-none transition placeholder:text-[#81776D] focus:border-[#9C7A4A] focus:ring-2 focus:ring-[#9C7A4A]/15" />
     {help && <span className="mt-1.5 block text-xs leading-5 text-[#62594F]">{help}</span>}
   </label>;
+}
+
+function TimeInput({ label, value, onChange, required = false, help }: {
+  label: string; value: string; onChange: (value: string) => void; required?: boolean; help?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const match = /^(?:([01]\\d|2[0-3]):([0-5]\\d))$/.exec(value);
+  const [hour, setHour] = useState(match?.[1] ?? "18");
+  const [minute, setMinute] = useState(match?.[2] ?? "00");
+  const hours = Array.from({ length: 24 }, (_, index) => String(index).padStart(2, "0"));
+  const minutes = Array.from({ length: 12 }, (_, index) => String(index * 5).padStart(2, "0"));
+
+  function confirm() {
+    onChange(`${hour}:${minute}`);
+    setOpen(false);
+  }
+
+  return <div className="relative min-w-0">
+    <FieldLabel required={required}>{label}</FieldLabel>
+    <button type="button" aria-expanded={open} onClick={() => setOpen((current) => !current)}
+      className="flex min-h-[46px] w-full items-center justify-between rounded-xl border border-[#DDD3C5] bg-white px-3.5 py-3 text-left text-sm text-[#302B27] outline-none transition hover:border-[#9C7A4A] focus-visible:ring-2 focus-visible:ring-[#9C7A4A]/20">
+      <span className={value ? "text-[#302B27]" : "text-[#81776D]"}>{value || "Seleccionar hora"}</span>
+      <span className="text-xs text-[#81776D]">{open ? "Cerrar" : "Elegir ▾"}</span>
+    </button>
+    {open && <div className="absolute z-40 mt-2 w-full rounded-2xl border border-[#E7DCC8] bg-white p-3 shadow-xl">
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <p className="mb-2 text-xs font-semibold text-[#71675D]">Hora</p>
+          <div className="grid max-h-44 grid-cols-4 gap-1 overflow-y-auto">
+            {hours.map(item => <button key={item} type="button" onClick={() => setHour(item)} aria-pressed={hour === item}
+              className={`min-h-9 rounded-lg text-xs ${hour === item ? "bg-[#263D4B] font-semibold text-white" : "bg-[#F8F5EF] text-[#51483E]"}`}>{item}</button>)}
+          </div>
+        </div>
+        <div>
+          <p className="mb-2 text-xs font-semibold text-[#71675D]">Minutos</p>
+          <div className="grid max-h-44 grid-cols-3 gap-1 overflow-y-auto">
+            {minutes.map(item => <button key={item} type="button" onClick={() => setMinute(item)} aria-pressed={minute === item}
+              className={`min-h-9 rounded-lg text-xs ${minute === item ? "bg-[#263D4B] font-semibold text-white" : "bg-[#F8F5EF] text-[#51483E]"}`}>{item}</button>)}
+          </div>
+        </div>
+      </div>
+      <div className="mt-3 flex items-center justify-between border-t border-[#EEE7DC] pt-3">
+        <span className="text-sm font-semibold text-[#332B27]">{hour}:{minute}</span>
+        <div className="flex gap-2">
+          <button type="button" onClick={() => setOpen(false)} className="min-h-9 rounded-full px-3 text-xs text-[#7D7467]">Cancelar</button>
+          <button type="button" onClick={confirm} className="min-h-9 rounded-full bg-[#263D4B] px-4 text-xs font-semibold text-white">Aceptar</button>
+        </div>
+      </div>
+    </div>}
+    {help && <span className="mt-1.5 block text-xs leading-5 text-[#62594F]">{help}</span>}
+  </div>;
 }
 
 function TextArea({

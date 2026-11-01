@@ -48,7 +48,7 @@ export default function DatePicker({ label, value, onChange, min, disabled = fal
         className="flex min-h-12 w-full items-center justify-between gap-3 rounded-xl border border-[#E7DCC8] bg-white px-4 py-3 text-left text-sm text-[#332B27] outline-none transition hover:border-[#B8955B] focus-visible:ring-2 focus-visible:ring-[#B8955B]/25 disabled:bg-[#F4F1EC] disabled:text-[#8A8074]">
         <span className={displayValue ? "" : "text-[#8A8074]"}>{displayValue || placeholder}</span><CalendarDays size={17} className="shrink-0 text-[#9A8060]" />
       </button>
-      {open && !disabled && <div role="dialog" aria-label="Seleccionar fecha" className="absolute left-0 right-0 z-40 mt-2 rounded-2xl border border-[#E7DCC8] bg-white p-3 shadow-xl sm:max-w-sm">
+      {open && !disabled && <div onClick={() => setOpen(false)} className="fixed inset-0 z-[100] flex items-end justify-center bg-black/25 p-3 sm:absolute sm:inset-auto sm:left-0 sm:right-0 sm:top-full sm:mt-2 sm:block sm:bg-transparent sm:p-0"><div role="dialog" aria-modal="true" aria-label="Seleccionar fecha" onClick={(event) => event.stopPropagation()} className="max-h-[85vh] max-h-[85dvh] w-full max-w-sm overflow-y-auto rounded-2xl border border-[#E7DCC8] bg-white p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-xl sm:max-h-none sm:overflow-visible sm:p-3">
         <div className="mb-3 flex items-center justify-between gap-2">
           <button type="button" onClick={() => moveMonth(-1)} aria-label="Mes anterior" className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-[#F7F3EC]"><ChevronLeft size={18}/></button>
           <p className="text-sm font-semibold capitalize text-[#332B27]">{monthLabel}</p>

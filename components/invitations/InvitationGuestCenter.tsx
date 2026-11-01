@@ -5,6 +5,7 @@ import JSZip from "jszip";
 import { CheckCircle2, ChevronLeft, ChevronRight, Copy, Download, Edit2, FileSpreadsheet, MessageCircle, Minus, Plus, RefreshCw, Save, Search, Trash2, Upload, Users, X } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
+import SelectField from "@/components/ui/SelectField";
 
 type Guest = { guest_id: string; guest_name: string; phone: string; family_group: string; passes: number; delivery_status: "pending" | "sent"; sent_at: string | null; created_at: string; attendance_status: "attending" | "declined" | null; party_size: number | null; rsvp_updated_at: string | null };
 type Draft = { name: string; phone: string; countryCode: string; group: string; passes: number };
@@ -293,9 +294,7 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
             <div className="block text-sm font-medium text-[#4E463D]">
               WhatsApp del invitado
               <div className="mt-1.5 grid grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-2">
-                <select aria-label="Lada internacional" value={draft.countryCode} onChange={e => setDraft(d => ({...d,countryCode:e.target.value}))} className="min-w-0 rounded-xl border border-[#E7DCC8] bg-white px-2.5 py-3 text-sm outline-none focus:border-[#A88249]">
-                  {countryCodes.map(item => <option key={item.code} value={item.code}>{item.iso} (+{item.code})</option>)}
-                </select>
+                <SelectField ariaLabel="Lada internacional" value={draft.countryCode} onChange={value => setDraft(d => ({...d,countryCode:value}))} options={countryCodes.map(item => ({ value: item.code, label: `${item.iso} (+${item.code})` }))} placeholder="Lada" className="min-w-0" />
                 <input aria-label="Teléfono de 10 dígitos" type="tel" inputMode="numeric" autoComplete="tel-national" value={draft.phone} onChange={e => setDraft(d => ({...d,phone:e.target.value.replace(/\D/g, "").slice(0,10)}))} placeholder="10 dígitos" maxLength={10} pattern="[0-9]{10}" className="min-w-0 w-full rounded-xl border border-[#E7DCC8] bg-white px-3 py-3 text-sm outline-none focus:border-[#A88249]"/>
               </div>
               <p className="mt-1 text-[11px] font-normal text-[#8A7860]">{countryCodes.find(item => item.code === draft.countryCode)?.name ?? "País seleccionado"} · lada +{draft.countryCode}</p>
@@ -332,8 +331,8 @@ export default function InvitationGuestCenter({ eventId, organizerToken, invitat
       </div> : <>
         <div className="flex flex-col gap-2 sm:flex-row">
           <label className="relative min-w-0 flex-1"><Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9A8E7C]"/><input value={query} onChange={e=>{setQuery(e.target.value);setPage(1);}} placeholder="Buscar invitado o teléfono" className="w-full rounded-xl border border-[#E7DCC8] bg-white py-3 pl-9 pr-3 text-sm outline-none transition focus:border-[#A88249] focus:ring-2 focus:ring-[#A88249]/10"/></label>
-          <select value={rsvpFilter} onChange={e=>{setRsvpFilter(e.target.value);setPage(1);}} aria-label="Filtrar confirmación de asistencia" className="rounded-xl border border-[#E7DCC8] bg-white px-3 py-3 text-sm outline-none transition focus:border-[#A88249] focus:ring-2 focus:ring-[#A88249]/10"><option value="all">Todas las respuestas</option><option value="pending">Por responder</option><option value="attending">Confirmaron</option><option value="declined">No asistirán</option></select>
-          <select value={deliveryFilter} onChange={e=>{setDeliveryFilter(e.target.value);setPage(1);}} aria-label="Filtrar estado de envío" className="rounded-xl border border-[#E7DCC8] bg-white px-3 py-3 text-sm outline-none transition focus:border-[#A88249] focus:ring-2 focus:ring-[#A88249]/10"><option value="all">Todos los envíos</option><option value="pending">Envío pendiente</option><option value="sent">Enviada (marcada)</option></select>
+          <SelectField ariaLabel="Filtrar confirmación de asistencia" value={rsvpFilter} onChange={value=>{setRsvpFilter(value);setPage(1);}} options={[{value:"all",label:"Todas las respuestas"},{value:"pending",label:"Por responder"},{value:"attending",label:"Confirmaron"},{value:"declined",label:"No asistirán"}]} className="min-w-[10rem]" />
+          <SelectField ariaLabel="Filtrar estado de envío" value={deliveryFilter} onChange={value=>{setDeliveryFilter(value);setPage(1);}} options={[{value:"all",label:"Todos los envíos"},{value:"pending",label:"Envío pendiente"},{value:"sent",label:"Enviada (marcada)"}]} className="min-w-[10rem]" />
         </div>
         {loading ? <p className="py-10 text-center text-sm text-[#7D7467]">Cargando invitados...</p> : loadError ? <div role="alert" className="rounded-xl border border-red-200 bg-red-50 px-4 py-8 text-center"><p className="font-medium text-red-800">No pudimos cargar la lista de invitados.</p><p className="mt-1 text-sm text-red-700">Revisa tu conexión e inténtalo de nuevo.</p><button type="button" onClick={() => void loadGuests()} className="mt-4 rounded-lg border border-red-300 bg-white px-4 py-2 text-sm font-semibold text-red-800">Volver a intentar</button></div> : filtered.length === 0 ? <div className="rounded-xl border border-dashed border-[#E7DCC8] px-4 py-10 text-center"><Users className="mx-auto text-[#A88249]" size={26}/><p className="mt-3 font-medium text-[#332B27]">{guests.length ? "No encontramos invitados" : "Aún no hay invitados"}</p><p className="mt-1 text-sm text-[#7D7467]">{guests.length ? "Prueba con otro nombre o filtro." : "Agrega invitados o sube tu lista desde un archivo."}</p></div> :
           <div className="overflow-hidden rounded-2xl border border-[#E8DECF] bg-white shadow-sm">

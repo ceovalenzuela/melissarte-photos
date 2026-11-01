@@ -700,10 +700,35 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
 }
 
 function Field({ label, value, onChange, placeholder, type = "text", maxLength = 300 }: { label: string; value: string; onChange: (value: string) => void; placeholder?: string; type?: "text" | "time" | "date"; maxLength?: number }) {
+  const isTime = type === "time";
+  function handleChange(rawValue: string) {
+    if (!isTime) {
+      onChange(rawValue);
+      return;
+    }
+    // Avoid the native time picker: Android's WhatsApp in-app browser can crash
+    // when it hands the picker off to the operating system.
+    const digits = rawValue.replace(/\\D/g, "").slice(0, 4);
+    const formatted = digits.length > 2 ? `${digits.slice(0, 2)}:${digits.slice(2)}` : digits;
+    onChange(formatted);
+  }
+
   return (
     <label className="block text-sm font-medium text-[#4E463D]">
       {label}
-      <input type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} maxLength={maxLength} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] bg-white px-3.5 py-3 text-sm text-[#332B27] outline-none transition focus:border-[#A88249]" />
+      <input
+        type={isTime ? "text" : type}
+        inputMode={isTime ? "numeric" : undefined}
+        autoComplete="off"
+        value={value}
+        onChange={(e) => handleChange(e.target.value)}
+        placeholder={isTime ? "HH:MM (24 horas)" : placeholder}
+        maxLength={isTime ? 5 : maxLength}
+        pattern={isTime ? "[0-2][0-9]:[0-5][0-9]" : undefined}
+        aria-label={isTime ? `${label}, formato de 24 horas` : undefined}
+        className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] bg-white px-3.5 py-3 text-sm text-[#332B27] outline-none transition focus:border-[#A88249]"
+      />
+      {isTime && <span className="mt-1 block text-xs font-normal text-[#8A8074]">Escribe la hora en formato de 24 horas, por ejemplo 18:30.</span>}
     </label>
   );
 }

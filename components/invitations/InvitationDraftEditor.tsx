@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import PublicInvitationClient from "@/components/invitations/PublicInvitationClient";
 import type { InvitationContent, InvitationDesign, InvitationTemplateKey, PublicInvitation } from "@/types/invitation";
 import { INVITATION_PALETTES, INVITATION_TEMPLATE_OPTIONS } from "@/lib/invitation-palettes";
+import DatePicker from "@/components/ui/DatePicker";
 
 type DraftRow = {
   draft_id: string;
@@ -254,7 +255,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
               {design.cover_image_url ? <div className="mt-4 overflow-hidden rounded-xl border border-[#DCE7DC] bg-white"><img src={design.cover_image_url} alt="Foto de portada seleccionada" className="aspect-[4/3] w-full object-cover object-center" /><p className="px-3 py-2 text-xs font-medium text-[#315D43]">✓ Foto de portada lista</p></div> : <div className="mt-4 flex aspect-[16/7] items-center justify-center rounded-xl bg-white/70 text-center text-xs text-[#A18B6B]"><span>Tu foto aparecerá aquí</span></div>}
             </div>
             <label className="mt-4 block text-sm font-medium">Título o nombres <span className="text-[#A35B4D]">*</span><input required disabled={locked} value={content.headline ?? ""} onChange={e=>update("headline",e.target.value)} maxLength={120} placeholder="Ej. Sofía y Alejandro" className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
-            <label className="mt-3 block text-sm font-medium">Fecha del evento <span className="text-[#A35B4D]">*</span><input required disabled={locked} type="date" value={eventDate} onChange={e=>setEventDate(e.target.value)} className="mt-1.5 w-full rounded-xl border border-[#E7DCC8] px-3 py-2.5 text-sm disabled:bg-[#F4F1EC]" /></label>
+            <div className="mt-3"><DatePicker label="Fecha del evento" required disabled={locked} value={eventDate} onChange={setEventDate} /></div>
           </div>
           <div className="rounded-2xl border border-[#E7DCC8] bg-white p-5">
             <h2 className="font-semibold">Lugar de recepción</h2>

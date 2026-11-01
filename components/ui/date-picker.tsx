@@ -48,7 +48,7 @@ export default function DatePicker({ value, onChange, min, disabled = false, req
 
   return (
     <div className={`relative ${className}`}>
-      <button type="button" disabled={disabled} required={required} aria-label={ariaLabel} aria-expanded={open} aria-haspopup="dialog" onClick={() => { if (!open) setMonth(new Date((selected ?? today).getFullYear(), (selected ?? today).getMonth(), 1)); setOpen(current => !current); }}
+      <button type="button" disabled={disabled} aria-required={required} aria-label={ariaLabel} aria-expanded={open} aria-haspopup="dialog" onClick={() => { if (!open) setMonth(new Date((selected ?? today).getFullYear(), (selected ?? today).getMonth(), 1)); setOpen(current => !current); }}
         className="flex min-h-12 w-full items-center justify-between gap-3 rounded-xl border border-[#E7DCC8] bg-[#FFFEFC] px-4 py-3 text-left text-base font-normal text-[#332B27] outline-none transition hover:border-[#B8955B] focus-visible:ring-2 focus-visible:ring-[#B8955B]/20 disabled:bg-[#F4F1EC] disabled:text-[#8A8074]">
         <span className={display ? "" : "text-[#8A8074]"}>{display || placeholder}</span>
         <CalendarDays size={18} className="shrink-0 text-[#967443]" />

@@ -711,8 +711,8 @@ function Field({ label, value, onChange, placeholder, type = "text", maxLength =
 
 function TimeField({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
   const [open, setOpen] = useState(false);
-  const [hour, setHour] = useState(value.match(/^([01]\\d|2[0-3]):[0-5]\\d$/)?.[1] ?? "18");
-  const [minute, setMinute] = useState(value.match(/^[0-2]\\d:([0-5]\\d)$/)?.[1] ?? "00");
+  const [hour, setHour] = useState(value.match(/^([01]\d|2[0-3]):[0-5]\d$/)?.[1] ?? "18");
+  const [minute, setMinute] = useState(value.match(/^[0-2]\d:([0-5]\d)$/)?.[1] ?? "00");
   const hours = Array.from({ length: 24 }, (_, index) => String(index).padStart(2, "0"));
   const minutes = Array.from({ length: 12 }, (_, index) => String(index * 5).padStart(2, "0"));
 

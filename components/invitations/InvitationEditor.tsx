@@ -8,6 +8,8 @@ import { uploadCover } from "@/lib/events";
 import type { Event } from "@/types/event";
 import type { InvitationContent, InvitationDesign, InvitationStatus, InvitationTemplateKey } from "@/types/invitation";
 import { INVITATION_PALETTES, INVITATION_TEMPLATE_OPTIONS } from "@/lib/invitation-palettes";
+import DatePicker from "@/components/ui/DatePicker";
+import SelectField from "@/components/ui/SelectField";
 
 interface InvitationRow {
   invitation_id: string;
@@ -511,7 +513,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
               <Field label="Código de vestimenta (opcional)" value={content.dress_code ?? ""} onChange={(v) => updateContent("dress_code", v)} placeholder="Ej. Formal" />
               <label className={labelClass}>
                 Fecha límite para confirmar (opcional)
-                <input type="date" value={isIsoDate(content.rsvp_deadline) ? content.rsvp_deadline : ""} onChange={(e) => updateContent("rsvp_deadline", e.target.value)} className={inputClass} />
+                <DatePicker value={isIsoDate(content.rsvp_deadline) ? content.rsvp_deadline : ""} onChange={(value) => updateContent("rsvp_deadline", value)} placeholder="Sin fecha límite" />
                 <span className="mt-1 block text-xs font-normal text-[#8A8074]">Se aceptan confirmaciones hasta el final de ese día, hora de Monterrey.</span>
                 {content.rsvp_deadline && !isIsoDate(content.rsvp_deadline) && <span className="mt-1 block text-xs font-normal text-[#8A8074]">Fecha anterior guardada: {content.rsvp_deadline}. Selecciona una fecha nueva para cambiarla.</span>}
               </label>
@@ -587,11 +589,11 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
             <div className="space-y-4 rounded-2xl bg-white p-4 sm:p-5">
               <label className={labelClass}>
                 Tipo de confirmación
-                <select value={content.confirmation_mode ?? (rsvpEnabled ? "rsvp" : "none")} onChange={(e) => { const mode = e.target.value as "rsvp" | "whatsapp" | "none"; updateContent("confirmation_mode", mode); setRsvpEnabled(mode === "rsvp"); }} className={inputClass}>
-                  <option value="rsvp">RSVP con registro y panel de respuestas</option>
-                  <option value="whatsapp">Formulario con confirmación por WhatsApp (básica)</option>
-                  <option value="none">Sin confirmación de asistencia</option>
-                </select>
+                <SelectField value={content.confirmation_mode ?? (rsvpEnabled ? "rsvp" : "none")} onChange={(value) => { const mode = value as "rsvp" | "whatsapp" | "none"; updateContent("confirmation_mode", mode); setRsvpEnabled(mode === "rsvp"); }} options={[
+                  { value: "rsvp", label: "RSVP con registro y panel de respuestas" },
+                  { value: "whatsapp", label: "Formulario con confirmación por WhatsApp (básica)" },
+                  { value: "none", label: "Sin confirmación de asistencia" },
+                ]} />
               </label>
               {content.confirmation_mode === "whatsapp" && <div>
                 <label className={labelClass}>
@@ -602,9 +604,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
               </div>}
               {(content.confirmation_mode === "rsvp" || content.confirmation_mode === "whatsapp") && <label className="flex flex-wrap items-center gap-3 border-t border-[#F0E9DF] pt-4 text-sm text-[#4E463D]">
                 Máximo de personas por confirmación
-                <select value={maxPartySize} onChange={(e) => setMaxPartySize(Number(e.target.value))} className="rounded-lg border border-[#E7DCC8] bg-white px-3 py-2">
-                  {Array.from({ length: 20 }, (_, i) => i + 1).map((n) => <option key={n} value={n}>{n} {n === 1 ? "persona" : "personas"}</option>)}
-                </select>
+                <SelectField className="min-w-[9rem]" value={String(maxPartySize)} onChange={(value) => setMaxPartySize(Number(value))} options={Array.from({ length: 20 }, (_, i) => i + 1).map((n) => ({ value: String(n), label: String(n) + (n === 1 ? " persona" : " personas") }))} />
               </label>}
             </div>
           </section>
@@ -774,7 +774,6 @@ function ColorField({ label, value, onChange }: { label: string; value: string; 
   const [draft, setDraft] = useState(value);
   const [previousValue, setPreviousValue] = useState(value);
   const validColor = /^#[0-9a-fA-F]{6}$/.test(draft);
-  const pickerValue = /^#[0-9a-fA-F]{6}$/.test(value) ? value : "#9A7358";
 
   // Sync external palette changes (template/reset) without a setState effect.
   if (value !== previousValue) {
@@ -795,17 +794,14 @@ function ColorField({ label, value, onChange }: { label: string; value: string; 
     <div className="min-w-0 text-sm font-medium text-[#4E463D]">
       <label className="block" htmlFor={`color-picker-${label.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`}>{label}</label>
       <div className="mt-1.5 flex min-w-0 items-center gap-2 rounded-xl border border-[#E7DCC8] bg-white p-2">
-        <input
-          id={`color-picker-${label.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`}
-          type="color"
-          aria-label={`Selector de color: ${label}`}
-          value={pickerValue}
-          onChange={(e) => {
-            setDraft(e.target.value.toUpperCase());
-            onChange(e.target.value.toUpperCase());
-          }}
-          className="h-9 w-10 shrink-0 cursor-pointer border-0 bg-transparent"
-        />
+        <div className="flex shrink-0 flex-wrap gap-1.5" role="group" aria-label={`Colores sugeridos para ${label}`}>
+          {["#263D4B", "#A88249", "#9EAF9A", "#C5A66A", "#805A69", "#D7A6A0", "#F6F1E7", "#FFFFFF"].map((swatch) => (
+            <button key={swatch} type="button" aria-label={`Usar color ${swatch}`} aria-pressed={draft.toUpperCase() === swatch}
+              onClick={() => { setDraft(swatch); onChange(swatch); }}
+              className={`h-7 w-7 rounded-full border shadow-sm ${draft.toUpperCase() === swatch ? "ring-2 ring-[#263D4B] ring-offset-1" : "border-black/15"}`}
+              style={{ backgroundColor: swatch }} />
+          ))}
+        </div>
         <input
           type="text"
           aria-label={`Código hexadecimal: ${label}`}

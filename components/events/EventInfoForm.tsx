@@ -1,6 +1,8 @@
 "use client";
 
-import { CalendarDays, CheckCircle2, Circle } from "lucide-react";
+import { CheckCircle2, Circle } from "lucide-react";
+import DatePicker from "@/components/ui/DatePicker";
+import SelectField from "@/components/ui/SelectField";
 
 import { Event } from "@/types/event";
 
@@ -54,15 +56,7 @@ export default function EventInfoForm({
             Fecha
           </label>
 
-          <div className="relative">
-            <CalendarDays size={16} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9A9287]" />
-            <input
-              type="date"
-              className="w-full rounded-xl border border-[#E7DCC8] bg-white py-3 pl-10 pr-4 text-[#1F1F1F] outline-none transition-colors focus:border-[#A88249]"
-              value={values.event_date ?? ""}
-              onChange={(e) => update("event_date", e.target.value)}
-            />
-          </div>
+          <DatePicker value={values.event_date ?? ""} onChange={(value) => update("event_date", value)} />
         </div>
 
         <div>
@@ -70,21 +64,12 @@ export default function EventInfoForm({
             Tipo de evento
           </label>
 
-          <select
-            className="w-full rounded-xl border border-[#E7DCC8] bg-white px-4 py-3 text-[#1F1F1F] outline-none transition-colors focus:border-[#A88249]"
-            value={values.type ?? ""}
-            onChange={(e) => update("type", e.target.value)}
-          >
-            <option value="">Seleccionar...</option>
-            <option value="wedding">Boda</option>
-            <option value="xv">XV Años</option>
-            <option value="birthday">Cumpleaños</option>
-            <option value="baby_shower">Baby shower</option>
-            <option value="gender_reveal">Revelación de género</option>
-            <option value="baptism">Bautizo</option>
-            <option value="corporate">Corporativo</option>
-            <option value="other">Otro</option>
-          </select>
+          <SelectField value={values.type ?? ""} onChange={(value) => update("type", value)} options={[
+            { value: "wedding", label: "Boda" }, { value: "xv", label: "XV Años" },
+            { value: "birthday", label: "Cumpleaños" }, { value: "baby_shower", label: "Baby shower" },
+            { value: "gender_reveal", label: "Revelación de género" }, { value: "baptism", label: "Bautizo" },
+            { value: "corporate", label: "Corporativo" }, { value: "other", label: "Otro" },
+          ]} />
         </div>
 
         <div className="md:col-span-2">

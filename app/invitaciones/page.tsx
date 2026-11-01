@@ -146,50 +146,29 @@ export default function InvitationsLandingPage() {
             </div>
             <p className="text-xs text-[#746A5D]">Entra a cada invitación para conocerla.</p>
           </div>
-          <div className="mx-auto mt-4 grid max-w-2xl grid-cols-2 gap-3 sm:gap-5">
+          <div className="mx-auto mt-4 max-w-2xl divide-y divide-[#EEE7DC] rounded-2xl border border-[#E7DCC8] bg-[#FCFAF6] px-4 sm:px-5">
             {INVITATION_DEMOS.map((demo) => (
-              <article key={demo.key} className="overflow-hidden rounded-2xl border border-[#E8E0D4] bg-[#FCFAF6] shadow-[0_8px_24px_rgba(55,45,32,.045)]">
-                <a href={demo.href} target="_blank" rel="noopener noreferrer" aria-label={`Explorar inspiración de ${demo.label}`} className="group block p-2.5 sm:p-3">
-                  <div className={`relative flex aspect-[4/5] w-full items-center justify-center overflow-hidden rounded-xl border px-3 text-center ${demo.key === "boda" ? "border-[#E5DFD2] bg-[#F4F1E9]" : "border-[#EADDE0] bg-[#F5ECEE]"}`}>
-                    <div className="absolute inset-0 flex flex-col items-center justify-between px-2.5 py-4 text-center sm:px-3 sm:py-5">
-                      <span className={`text-[8px] font-semibold uppercase leading-3 tracking-[.2em] sm:text-[9px] sm:tracking-[.24em] ${demo.key === "boda" ? "text-[#879783]" : "text-[#AD7D89]"}`}>Inspiración</span>
-                      <span className={`flex min-h-9 items-center font-[var(--font-display)] text-[clamp(1.55rem,5vw,2.25rem)] font-semibold leading-none tracking-[-.04em] ${demo.key === "boda" ? "text-[#263D4B]" : "text-[#684957]"}`}>{demo.label}</span>
-                      <span aria-hidden="true" className="flex h-5 shrink-0 items-center gap-2">
-                        <span className={`h-px w-6 sm:w-7 ${demo.key === "boda" ? "bg-[#C5A66A]" : "bg-[#C99AA5]"}`} />
-                        <span className={`text-sm ${demo.key === "boda" ? "text-[#B3925F]" : "text-[#B88B66]"}`}>✦</span>
-                        <span className={`h-px w-6 sm:w-7 ${demo.key === "boda" ? "bg-[#C5A66A]" : "bg-[#C99AA5]"}`} />
-                      </span>
-                      <span className={`flex min-h-12 max-w-[13rem] items-center justify-center font-[var(--font-display)] text-[11px] italic leading-relaxed sm:text-sm ${demo.key === "boda" ? "text-[#777467]" : "text-[#856A75]"}`}>
-                        {demo.key === "boda" ? "Un día para recordar, una historia para celebrar" : "Una noche para brillar y crear recuerdos"}
-                      </span>
-                      <span className="flex h-3 shrink-0 items-center gap-2" aria-label={demo.key === "boda" ? "Paleta marfil, salvia y dorado" : "Paleta rosa, champagne y malva"}>
-                      {demo.key === "boda" ? (
-                        <>
-                          <span className="h-3 w-3 rounded-full bg-[#F6F1E7] ring-1 ring-[#D9D0C1]" />
-                          <span className="h-3 w-3 rounded-full bg-[#9EAF9A]" />
-                          <span className="h-3 w-3 rounded-full bg-[#C5A66A]" />
-                        </>
-                      ) : (
-                        <>
-                          <span className="h-3 w-3 rounded-full bg-[#F2DDE1] ring-1 ring-[#D9BFC4]" />
-                          <span className="h-3 w-3 rounded-full bg-[#D49AA9]" />
-                          <span className="h-3 w-3 rounded-full bg-[#C5A66A]" />
-                        </>
-                      )}
-                      </span>
-                    </div>
-                  </div>
-                </a>
-                <div className="flex items-center justify-between gap-2 px-3 pb-3 pt-1 sm:px-4 sm:pb-4">
-                  <div className="min-w-0">
-                    <h3 className="font-[var(--font-display)] text-base font-semibold text-[#263D4B] sm:text-lg">{demo.label}</h3>
-                    <p className="mt-0.5 text-[10px] text-[#82786B] sm:text-xs">{demo.key === "boda" ? "Editorial · Marfil y salvia" : "Romántico · Rosa y champagne"}</p>
-                  </div>
-                  <a href={demo.href} target="_blank" rel="noopener noreferrer" aria-label={`Abrir ejemplo de ${demo.label}`} className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#CDB99D] text-[#34465D] transition group-hover:bg-[#F8F4EC] hover:bg-white">
-                    <ArrowRight size={16} />
-                  </a>
-                </div>
-              </article>
+              <a
+                key={demo.key}
+                href={demo.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-3 py-3.5 transition"
+                aria-label={`Explorar demo de ${demo.label}`}
+              >
+                <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl font-[var(--font-display)] text-xl ${demo.key === "boda" ? "bg-[#F1EEE5] text-[#40534D]" : "bg-[#F3E9EB] text-[#805A69]"}`}>
+                  {demo.key === "boda" ? "B" : "XV"}
+                </span>
+                <span className="min-w-0 flex-1 text-left">
+                  <span className="block font-[var(--font-display)] text-base font-semibold text-[#263D4B]">{demo.label}</span>
+                  <span className="mt-0.5 block text-xs text-[#82786B]">
+                    {demo.key === "boda" ? "Diseño editorial · Elegante" : "Delicado · Moderno · Sofisticado"}
+                  </span>
+                </span>
+                <span className="shrink-0 text-xs font-semibold text-[#967443] transition group-hover:underline">
+                  Ver demo <span aria-hidden="true">↗</span>
+                </span>
+              </a>
             ))}
           </div>
         </div>

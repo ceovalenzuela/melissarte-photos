@@ -6,6 +6,7 @@ import { CheckCircle2, Clock3, Shirt, Gift, ArrowUpRight, CalendarPlus, Church, 
 import { supabase } from "@/lib/supabase";
 import type { InvitationTemplateKey, PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
 import { INVITATION_PALETTES } from "@/lib/invitation-palettes";
+import SelectField from "@/components/ui/SelectField";
 
 interface PersonalizedGuest {
   guest_id: string;
@@ -570,9 +571,7 @@ export default function PublicInvitationClient({
                   </fieldset>
                   {attendance === "attending" && <div>
                     <label htmlFor="party-size" className="mb-2 block text-sm font-medium">Personas en total</label>
-                    <select id="party-size" value={partySize} onChange={(e) => setPartySize(Number(e.target.value))} className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3.5 outline-none focus:border-neutral-400">
-                      {Array.from({ length: maxPartySize }, (_, index) => index + 1).map((size) => <option key={size} value={size}>{size} {size === 1 ? "persona" : "personas"}</option>)}
-                    </select>
+                    <SelectField value={String(partySize)} onChange={(value) => setPartySize(Number(value))} options={Array.from({ length: maxPartySize }, (_, index) => index + 1).map((size) => ({ value: String(size), label: size + (size === 1 ? " persona" : " personas") }))} />
                   </div>}
                   {errorMessage && <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{errorMessage}</p>}
                   {successMessage && <p role="status" className="flex items-center gap-2 rounded-xl bg-green-50 px-4 py-3 text-sm text-green-800"><CheckCircle2 size={18} />{successMessage}</p>}

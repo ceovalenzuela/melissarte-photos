@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { INVITATION_TEMPLATE_OPTIONS } from "@/lib/invitation-palettes";
+import DatePicker from "@/components/ui/DatePicker";
 import type { InvitationTemplateKey } from "@/types/invitation";
 
 const TYPES = [
@@ -21,6 +22,7 @@ export default function CreateInvitationDraftPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+  const today = (() => { const now = new Date(); return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`; })();
 
   async function createDraft() {
     if (!eventType) { setError("Selecciona el tipo de invitación para continuar."); return; }
@@ -112,11 +114,7 @@ export default function CreateInvitationDraftPage() {
               );})}
             </div>
           </fieldset>
-          <label className="mt-5 block text-sm font-semibold text-[#38352F]">Fecha de tu evento <span className="text-[#A35B4D]">*</span>
-            <input required type="date" value={eventDate} onChange={e => setEventDate(e.target.value)} min={new Date().toISOString().slice(0,10)}
-              className="mt-2 min-h-12 w-full rounded-xl border border-[#E7DCC8] bg-[#FFFEFC] px-4 text-base font-normal outline-none transition focus:border-[#B8955B] focus:ring-2 focus:ring-[#B8955B]/15" />
-            
-          </label>
+          <div className="mt-5"><DatePicker label="Fecha de tu evento" required value={eventDate} onChange={setEventDate} min={today} /></div>
           <button onClick={createDraft} disabled={busy || !eventType || !selectedPackage || !eventDate} className="mt-5 min-h-12 w-full rounded-full bg-[#263D4B] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1D3340] disabled:cursor-not-allowed disabled:bg-[#263D4B]/65 disabled:shadow-none">
             {busy ? "Preparando tu espacio..." : "Comenzar mi invitación"}
           </button>

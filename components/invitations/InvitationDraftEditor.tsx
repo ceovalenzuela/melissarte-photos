@@ -323,7 +323,7 @@ export default function InvitationDraftEditor({ token }: { token: string }) {
 function DraftTimePicker({ label, value, onChange, disabled = false, required = false }: {
   label: string; value: string; onChange: (value: string) => void; disabled?: boolean; required?: boolean;
 }) {
-  const parsed = /^(?:([01]\\d|2[0-3]):([0-5]\\d))$/.exec(value);
+  const parsed = /^(?:([01]\d|2[0-3]):([0-5]\d))$/.exec(value);
   const [hour, setHour] = useState(parsed?.[1] ?? "18");
   const [minute, setMinute] = useState(parsed?.[2] ?? "00");
   const [open, setOpen] = useState(false);
@@ -331,7 +331,7 @@ function DraftTimePicker({ label, value, onChange, disabled = false, required = 
   const minutes = Array.from({ length: 12 }, (_, index) => String(index * 5).padStart(2, "0"));
 
   function showPicker() {
-    const current = /^(?:([01]\\d|2[0-3]):([0-5]\\d))$/.exec(value);
+    const current = /^(?:([01]\d|2[0-3]):([0-5]\d))$/.exec(value);
     if (current) { setHour(current[1]); setMinute(current[2]); }
     setOpen(true);
   }

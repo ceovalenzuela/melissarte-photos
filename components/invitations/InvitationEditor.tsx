@@ -513,7 +513,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
               <Field label="Código de vestimenta (opcional)" value={content.dress_code ?? ""} onChange={(v) => updateContent("dress_code", v)} placeholder="Ej. Formal" />
               <label className={labelClass}>
                 Fecha límite para confirmar (opcional)
-                <DatePicker value={isIsoDate(content.rsvp_deadline) ? content.rsvp_deadline : ""} onChange={(value) => updateContent("rsvp_deadline", value)} placeholder="Sin fecha límite" />
+                <DatePicker value={isIsoDate(content.rsvp_deadline) ? content.rsvp_deadline ?? "" : ""} onChange={(value) => updateContent("rsvp_deadline", value)} placeholder="Sin fecha límite" />
                 <span className="mt-1 block text-xs font-normal text-[#8A8074]">Se aceptan confirmaciones hasta el final de ese día, hora de Monterrey.</span>
                 {content.rsvp_deadline && !isIsoDate(content.rsvp_deadline) && <span className="mt-1 block text-xs font-normal text-[#8A8074]">Fecha anterior guardada: {content.rsvp_deadline}. Selecciona una fecha nueva para cambiarla.</span>}
               </label>

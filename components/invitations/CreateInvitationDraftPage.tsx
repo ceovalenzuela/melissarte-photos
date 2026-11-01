@@ -62,34 +62,24 @@ export default function CreateInvitationDraftPage() {
           <div className="mt-4">
             <div className="flex items-center justify-between gap-3">
               <p className="text-xs font-semibold text-[#38352F]">Conoce nuestros demos</p>
-              <span className="text-[10px] text-[#8A8074]">Explóralos antes de empezar</span>
+              
             </div>
-            <div className="mt-2 grid grid-cols-2 gap-2.5">
-              <a href="https://events.melissartedecorativo.com/i/boda-sofia-y-alejandro" target="_blank" rel="noopener noreferrer" className="group overflow-hidden rounded-xl border border-[#E7DCC8] bg-[#FFFEFC] transition hover:border-[#C7AD82] hover:shadow-sm">
-                <span className="relative flex aspect-[4/3] flex-col items-center justify-center overflow-hidden bg-[#F1EEE5] px-2 text-center">
-                  <span className="absolute inset-2 rounded-[3px] border border-[#CFC4AE]" />
-                  <span className="text-[8px] uppercase tracking-[.24em] text-[#81917D]">Sofía & Alejandro</span>
-                  <span className="my-1 font-[var(--font-display)] text-[clamp(1.2rem,5vw,1.65rem)] italic leading-none text-[#334A4B]">Nuestra boda</span>
-                  <span className="text-[8px] uppercase tracking-[.2em] text-[#9B8055]">Una historia para celebrar</span>
-                  <span className="mt-2 text-[11px] text-[#B3925F]">✦　❧　✦</span>
+            <div className="mt-2 divide-y divide-[#EEE7DC] rounded-xl border border-[#E7DCC8] bg-[#FFFEFC] px-3">
+              <a href="https://events.melissartedecorativo.com/i/boda-sofia-y-alejandro" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3 py-3">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#F1EEE5] font-[var(--font-display)] text-xl text-[#40534D]">B</span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-semibold text-[#302D27]">Boda</span>
+                  <span className="mt-0.5 block text-[11px] text-[#81776A]">Diseño editorial · Elegante</span>
                 </span>
-                <span className="flex items-center justify-between gap-2 px-2.5 py-2">
-                  <span className="min-w-0"><span className="block text-xs font-semibold text-[#302D27]">Boda</span><span className="block text-[10px] text-[#81776A]">Editorial · Salvia y marfil</span></span>
-                  <span className="shrink-0 text-[10px] font-semibold text-[#967443] group-hover:underline">Explorar ↗</span>
-                </span>
+                <span className="shrink-0 text-xs font-semibold text-[#967443] group-hover:underline">Ver demo ↗</span>
               </a>
-              <a href="https://events.melissartedecorativo.com/i/xv" target="_blank" rel="noopener noreferrer" className="group overflow-hidden rounded-xl border border-[#E7DCC8] bg-[#FFFEFC] transition hover:border-[#C7AD82] hover:shadow-sm">
-                <span className="relative flex aspect-[4/3] flex-col items-center justify-center overflow-hidden bg-[#F3E9EB] px-2 text-center">
-                  <span className="absolute inset-2 rounded-[3px] border border-[#D8B9C1]" />
-                  <span className="text-[8px] uppercase tracking-[.24em] text-[#A97986]">Una noche especial</span>
-                  <span className="my-1 font-[var(--font-display)] text-[clamp(1.2rem,5vw,1.65rem)] italic leading-none text-[#754E5E]">Mis XV años</span>
-                  <span className="text-[8px] uppercase tracking-[.2em] text-[#A97986]">Una noche para brillar</span>
-                  <span className="mt-2 text-[11px] text-[#B88B66]">✦　♕　✦</span>
+              <a href="https://events.melissartedecorativo.com/i/xv" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3 py-3">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#F3E9EB] font-[var(--font-display)] text-lg text-[#805A69]">XV</span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-semibold text-[#302D27]">XV años</span>
+                  <span className="mt-0.5 block text-[11px] text-[#81776A]">Delicado · Moderno · Sofisticado</span>
                 </span>
-                <span className="flex items-center justify-between gap-2 px-2.5 py-2">
-                  <span className="min-w-0"><span className="block text-xs font-semibold text-[#302D27]">XV años</span><span className="block text-[10px] text-[#81776A]">Romántico · Rosa y champagne</span></span>
-                  <span className="shrink-0 text-[10px] font-semibold text-[#967443] group-hover:underline">Explorar ↗</span>
-                </span>
+                <span className="shrink-0 text-xs font-semibold text-[#967443] group-hover:underline">Ver demo ↗</span>
               </a>
             </div>
           </div>

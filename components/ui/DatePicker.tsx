@@ -70,7 +70,7 @@ export default function DatePicker({ label, value, onChange, min, disabled = fal
           <button type="button" onClick={() => { onChange(""); setOpen(false); }} className="px-2 py-2 text-xs text-[#7D7467]">Limpiar</button>
           <button type="button" onClick={() => setOpen(false)} className="rounded-full px-3 py-2 text-xs font-semibold text-[#806747]">Cerrar</button>
         </div>
-      </div>}
+      </div></div>}
     </div>
   );
 }

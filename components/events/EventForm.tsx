@@ -8,6 +8,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
+import DatePicker from "@/components/ui/DatePicker";
 
 type Props = {
   title: string;
@@ -35,11 +36,7 @@ export default function EventForm({
         onChange={(e) => onTitleChange(e.target.value)}
       />
 
-      <Input
-        type="date"
-        value={eventDate}
-        onChange={(e) => onDateChange(e.target.value)}
-      />
+      <DatePicker label="Fecha del evento" value={eventDate} onChange={onDateChange} />
 
       <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-[#E7DCC8] bg-[#FDFBF8] p-4">
         <input

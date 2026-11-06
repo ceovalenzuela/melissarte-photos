@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 import type { InvitationTemplateKey, PublicInvitation, RSVPResponse, RSVPStatus } from "@/types/invitation";
 import { INVITATION_PALETTES } from "@/lib/invitation-palettes";
 import SelectField from "@/components/ui/SelectField";
+import InvitationFamilySection from "@/components/invitations/InvitationFamilySection";
 
 interface PersonalizedGuest {
   guest_id: string;
@@ -589,7 +590,14 @@ export default function PublicInvitationClient({
                 <p className={`invitation-host-names ${isEditorialFlagship ? "invitation-host-names-editorial" : ""}`} style={{ color: accent }}>{content.host_names.trim()}</p>
               </>
             )}
-            {content.godparents_enabled && (content.godparents ?? []).some((person) => person.name.trim()) && (
+            {content.family_section?.enabled ? (
+              <InvitationFamilySection
+                section={content.family_section}
+                accent={accent}
+                textColor={textColor}
+                borderColor={borderColor}
+              />
+            ) : !content.family_section && content.godparents_enabled && (content.godparents ?? []).some((person) => person.name.trim()) ? (
               <div className="mx-auto mt-5 mb-5 max-w-2xl">
                 {(content.godparents_heading?.trim() || "Nuestros padrinos") && <p className="mb-3 text-[9px] font-semibold uppercase tracking-[0.24em]" style={{ color: accent }}>{content.godparents_heading?.trim() || "Nuestros padrinos"}</p>}
                 <div className="flex flex-wrap justify-center gap-x-7 gap-y-3">
@@ -601,8 +609,8 @@ export default function PublicInvitationClient({
                   ))}
                 </div>
               </div>
-            )}
-            {(content.host_names?.trim() || (content.godparents_enabled && (content.godparents ?? []).some((person) => person.name.trim()))) && (
+            ) : null}
+            {(content.host_names?.trim() || (content.family_section?.enabled && content.family_section.groups.some((group) => group.people.some((person) => person.name.trim()))) || (!content.family_section && content.godparents_enabled && (content.godparents ?? []).some((person) => person.name.trim()))) && (
               <div aria-hidden="true" className="invitation-footer-separator mx-auto my-7 h-px w-14" style={{ backgroundColor: `${borderColor}AA` }} />
             )}
             <p className="invitation-footer-thanks mt-0">Gracias por ser parte de esta historia</p>

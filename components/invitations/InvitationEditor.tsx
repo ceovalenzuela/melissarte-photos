@@ -549,7 +549,11 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
               <div className="sm:col-span-2">
                 <Field label="Dirección" value={content.ceremony_address ?? ""} onChange={(v) => updateContent("ceremony_address", v)} placeholder="Calle, número, ciudad" />
               </div>
-              <Field label="Código de vestimenta (opcional)" value={content.dress_code ?? ""} onChange={(v) => updateContent("dress_code", v)} placeholder="Ej. Formal" />
+              <label className={labelClass}>
+                Código de vestimenta (opcional)
+                <textarea rows={4} value={content.dress_code ?? ""} onChange={(e) => updateContent("dress_code", e.target.value)} placeholder={"Ej. Semi formal\nHombres: camisa, pantalón y zapatos\nMujeres: vestido largo o corto"} maxLength={500} className={inputClass} />
+                <span className="mt-1 block text-xs font-normal text-[#8A8074]">Puedes usar Enter para separar indicaciones en distintas líneas.</span>
+              </label>
               <label className={labelClass}>
                 Fecha límite para confirmar (opcional)
                 <DatePicker value={isIsoDate(content.rsvp_deadline) ? content.rsvp_deadline ?? "" : ""} onChange={(value) => updateContent("rsvp_deadline", value)} placeholder="Sin fecha límite" />
@@ -571,6 +575,14 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                 <p className="mt-1 text-right text-xs text-[#8A8074]">{(content.gift_message ?? "").length}/300 caracteres</p>
               </div>
               <div className="sm:col-span-2">
+                <div className="mb-3 flex items-center justify-between gap-3 rounded-xl bg-[#FBF8F3] px-3 py-2.5">
+                  <div>
+                    <p className="text-sm font-medium text-[#4E463D]">Mostrar icono de sugerencia</p>
+                    <p className="text-xs text-[#8A8074]">Puedes ocultar el símbolo y conservar el botón de mesa de regalos.</p>
+                  </div>
+                  <input type="checkbox" checked={content.gift_icon_enabled !== false} onChange={(e) => updateContent("gift_icon_enabled", e.target.checked)} aria-label="Mostrar icono de sugerencia de regalo" className="h-4 w-4 shrink-0 accent-[#A88249]" />
+                </div>
+                {content.gift_icon_enabled !== false && <>
                 <span className="mb-2 block text-sm font-medium text-[#4E463D]">Icono de regalo</span>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                   {([
@@ -595,6 +607,7 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
                   })}
                 </div>
                 <p className="mt-1 text-xs text-[#8A8074]">Elige el símbolo que acompañará las sugerencias de regalo.</p>
+                </>}
               </div>
               <Field label="Preferencia de regalo (opcional)" value={content.gift_type ?? ""} onChange={(v) => updateContent("gift_type", v)} placeholder="Ej. Sobre, regalo en efectivo o algún detalle" maxLength={120} />
               <Field label="Texto del botón (opcional)" value={content.gift_registry_label ?? ""} onChange={(v) => updateContent("gift_registry_label", v)} placeholder="Ej. Ver mesa de regalos" maxLength={50} />

@@ -499,7 +499,7 @@ export default function PublicInvitationClient({
                     <div className="min-w-0 flex-1 text-center">
                       {content.gift_message && <p className="mt-3 text-sm leading-5">{content.gift_message}</p>}
                       {content.gift_type && <p className="mt-1.5 text-sm font-medium leading-5">{content.gift_type}</p>}
-                      {safeExternalUrl(content.gift_registry_url) && <div className="mt-3 flex justify-center"><a href={safeExternalUrl(content.gift_registry_url)!} target="_self" className="invitation-gift-button relative z-10 pointer-events-auto inline-flex min-h-11 items-center justify-center gap-2 rounded-full border px-4 py-2.5 text-xs font-semibold transition" style={{ backgroundColor: `${accent}12`, color: accent, borderColor: `${accent}66` }}>{content.gift_registry_label?.trim() || "Ver mesa de regalos"} <ArrowUpRight size={14} strokeWidth={1.8} /></a></div>}
+                      {safeExternalUrl(content.gift_registry_url) && <div className="mt-3 flex justify-center"><a href={safeExternalUrl(content.gift_registry_url)!} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" className="invitation-gift-button relative z-10 pointer-events-auto inline-flex min-h-11 items-center justify-center gap-2 rounded-full border px-4 py-2.5 text-xs font-semibold transition" style={{ backgroundColor: `${accent}12`, color: accent, borderColor: `${accent}66` }}>{content.gift_registry_label?.trim() || "Ver mesa de regalos"} <ArrowUpRight size={14} strokeWidth={1.8} /></a></div>}
                     </div>
                   </article>
                 )}

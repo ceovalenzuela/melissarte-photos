@@ -37,6 +37,7 @@ export interface InvitationContent {
   gift_message?: string;
   gift_type?: string;
   gift_icon?: "envelope" | "envelopes" | "gift" | "coins" | "heart";
+  gift_icon_enabled?: boolean;
   gift_registry_url?: string;
   gift_registry_label?: string;
   confirmation_mode?: "rsvp" | "whatsapp" | "none";

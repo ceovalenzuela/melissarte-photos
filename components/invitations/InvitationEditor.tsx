@@ -117,6 +117,12 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
   const waxSealFileRef = useRef<HTMLInputElement>(null);
   const colorsSectionRef = useRef<HTMLDetailsElement>(null);
   const [content, setContent] = useState<InvitationContent>(() => emptyContent(event));
+  const familySection = content.family_section ?? {
+    enabled: false,
+    type: "godparents" as const,
+    heading: "",
+    groups: [{ title: "", people: [] as Array<{ role?: string; name: string }> }],
+  };
   const [design, setDesign] = useState<InvitationDesign>(() => initialDesign(event));
   const [templateKey, setTemplateKey] = useState<TemplateKey>(() => defaultTemplate(event));
   const [rsvpEnabled, setRsvpEnabled] = useState(true);
@@ -144,7 +150,19 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
       const row = (data?.[0] as InvitationRow | undefined) ?? null;
       if (row) {
         const rowTemplate = isKnownTemplateKey(row.template_key) ? row.template_key : defaultTemplate(event);
-        setContent({ ...emptyContent(event), ...(row.content_config ?? {}), confirmation_mode: row.content_config?.confirmation_mode ?? (row.rsvp_enabled ? "rsvp" : "none"), event_label: row.content_config?.event_label ?? defaultEventLabel(rowTemplate) });
+        const savedContent = row.content_config ?? {};
+        const legacyPeople = savedContent.godparents ?? [];
+        const migratedFamilySection = savedContent.family_section ?? (
+          savedContent.godparents_enabled && legacyPeople.some((person) => person.name?.trim())
+            ? {
+                enabled: true,
+                type: "godparents" as const,
+                heading: savedContent.godparents_heading ?? "Nuestros padrinos",
+                groups: [{ title: "", people: legacyPeople.map((person) => ({ role: person.role, name: person.name })) }],
+              }
+            : undefined
+        );
+        setContent({ ...emptyContent(event), ...savedContent, family_section: migratedFamilySection, confirmation_mode: savedContent.confirmation_mode ?? (row.rsvp_enabled ? "rsvp" : "none"), event_label: savedContent.event_label ?? defaultEventLabel(rowTemplate) });
         const savedDesign = { ...INVITATION_PALETTES[rowTemplate], ...(row.design_config ?? {}) };
         setDesign(rowTemplate === "wedding_editorial" ? migrateEditorialPalette(savedDesign) : savedDesign);
         setTemplateKey(rowTemplate);
@@ -462,27 +480,48 @@ export default function InvitationEditor({ event, organizerToken }: Props) {
               <Field label="Nombres de quienes invitan" value={content.host_names ?? ""} onChange={(v) => updateContent("host_names", v)} placeholder="Ej. Sofía y Alejandro" />
               <div className="sm:col-span-2 rounded-2xl border border-[#E7DCC8] bg-white p-4">
                 <label className="flex cursor-pointer items-center gap-3 text-sm font-medium text-[#4E463D]">
-                  <input type="checkbox" checked={content.godparents_enabled ?? false} onChange={(e) => updateContent("godparents_enabled", e.target.checked)} className="h-4 w-4 accent-[#A88249]" />
-                  Mostrar sección de padrinos
+                  <input type="checkbox" checked={familySection.enabled} onChange={(e) => updateContent("family_section", { ...familySection, enabled: e.target.checked })} className="h-4 w-4 accent-[#A88249]" />
+                  Mostrar sección de familias, padrinos o personas especiales
                 </label>
-                {content.godparents_enabled && (
+                {familySection.enabled && (
                   <div className="mt-4 space-y-4">
-                    <Field label="Título de la sección" value={content.godparents_heading ?? "Nuestros padrinos"} onChange={(v) => updateContent("godparents_heading", v)} placeholder="Ej. Nuestros padrinos" maxLength={60} />
-                    {(content.godparents ?? []).map((godparent, index) => (
-                      <div key={index} className="grid gap-3 rounded-xl border border-[#EEE5D8] p-3 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)_auto] sm:items-end">
-                        <div>
-                          <label className={labelClass}>Título / parentesco</label>
-                          <input value={godparent.role} onChange={(e) => updateContent("godparents", (content.godparents ?? []).map((item, i) => i === index ? { ...item, role: e.target.value } : item))} placeholder="Ej. Madrina" maxLength={40} className={inputClass} />
-                        </div>
-                        <div>
-                          <label className={labelClass}>Nombre</label>
-                          <input value={godparent.name} onChange={(e) => updateContent("godparents", (content.godparents ?? []).map((item, i) => i === index ? { ...item, name: e.target.value } : item))} placeholder="Nombre del padrino o madrina" maxLength={100} className={inputClass} />
-                        </div>
-                        <button type="button" onClick={() => updateContent("godparents", (content.godparents ?? []).filter((_, i) => i !== index))} className="min-h-10 rounded-full border border-[#E7DCC8] px-3 text-xs font-medium text-[#7D7467] hover:bg-[#F7F3EC]">Eliminar</button>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <div>
+                        <label className={labelClass}>Tipo de sección</label>
+                        <select value={familySection.type} onChange={(e) => {
+                          const type = e.target.value as "parents" | "godparents" | "special";
+                          const groups = type === "parents"
+                            ? [{ title: "Familia del novio", people: [] }, { title: "Familia de la novia", people: [] }]
+                            : [{ title: type === "godparents" ? "Padrinos" : "", people: [] }];
+                          updateContent("family_section", { ...familySection, type, groups });
+                        }} className={inputClass}>
+                          <option value="parents">Padres de los novios</option>
+                          <option value="godparents">Padrinos</option>
+                          <option value="special">Personas especiales</option>
+                        </select>
                       </div>
-                    ))}
-                    <button type="button" disabled={(content.godparents ?? []).length >= 8} onClick={() => updateContent("godparents", [...(content.godparents ?? []), { role: "", name: "" }])} className="rounded-full border border-[#D8C5A5] px-4 py-2.5 text-sm font-medium text-[#795D35] disabled:opacity-40">Agregar padrino o madrina</button>
-                    <p className="text-xs leading-5 text-[#8A8074]">Puedes agregar hasta 8 personas. Solo se mostrarán los registros que tengan nombre.</p>
+                      <Field label="Título principal (opcional)" value={familySection.heading ?? ""} onChange={(v) => updateContent("family_section", { ...familySection, heading: v })} placeholder="Ej. Nuestras familias" maxLength={60} />
+                    </div>
+                    <p className="text-xs leading-5 text-[#8A8074]">Los títulos son opcionales. Si los dejas vacíos, la invitación elimina ese espacio automáticamente.</p>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      {familySection.groups.map((group, groupIndex) => (
+                        <div key={groupIndex} className="min-w-0 space-y-3 rounded-xl border border-[#EEE5D8] p-3">
+                          <Field label="Título del grupo (opcional)" value={group.title ?? ""} onChange={(v) => updateContent("family_section", { ...familySection, groups: familySection.groups.map((item, i) => i === groupIndex ? { ...item, title: v } : item) })} placeholder={familySection.type === "parents" ? (groupIndex === 0 ? "Familia del novio" : "Familia de la novia") : "Ej. Padrinos de velación"} maxLength={50} />
+                          {group.people.map((person, personIndex) => (
+                            <div key={personIndex} className="space-y-2 rounded-lg bg-[#FBF8F3] p-3">
+                              <Field label="Rol o parentesco (opcional)" value={person.role ?? ""} onChange={(v) => updateContent("family_section", { ...familySection, groups: familySection.groups.map((item, i) => i === groupIndex ? { ...item, people: item.people.map((entry, j) => j === personIndex ? { ...entry, role: v } : entry) } : item) })} placeholder="Ej. Padre del novio" maxLength={40} />
+                              <Field label="Nombre" value={person.name} onChange={(v) => updateContent("family_section", { ...familySection, groups: familySection.groups.map((item, i) => i === groupIndex ? { ...item, people: item.people.map((entry, j) => j === personIndex ? { ...entry, name: v } : entry) } : item) })} placeholder="Nombre completo" maxLength={100} />
+                              <button type="button" onClick={() => updateContent("family_section", { ...familySection, groups: familySection.groups.map((item, i) => i === groupIndex ? { ...item, people: item.people.filter((_, j) => j !== personIndex) } : item) })} className="text-xs font-medium text-[#8A655C] hover:underline">Eliminar persona</button>
+                            </div>
+                          ))}
+                          <button type="button" disabled={familySection.groups.reduce((total, item) => total + item.people.length, 0) >= 8} onClick={() => updateContent("family_section", { ...familySection, groups: familySection.groups.map((item, i) => i === groupIndex ? { ...item, people: [...item.people, { role: "", name: "" }] } : item) })} className="w-full rounded-full border border-[#D8C5A5] px-3 py-2 text-xs font-medium text-[#795D35] disabled:opacity-40">Agregar persona</button>
+                        </div>
+                      ))}
+                    </div>
+                    {familySection.groups.length < 2 && (
+                      <button type="button" onClick={() => updateContent("family_section", { ...familySection, groups: [...familySection.groups, { title: "", people: [] }] })} className="rounded-full border border-[#D8C5A5] px-4 py-2 text-sm font-medium text-[#795D35]">Agregar segundo grupo</button>
+                    )}
+                    <p className="text-xs leading-5 text-[#8A8074]">Puedes organizar hasta 8 personas en dos columnas. Si un título queda vacío, no se mostrará ni reservará espacio.</p>
                   </div>
                 )}
               </div>

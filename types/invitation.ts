@@ -11,6 +11,15 @@ export interface InvitationContent {
   godparents_enabled?: boolean;
   godparents_heading?: string;
   godparents?: Array<{ role: string; name: string }>;
+  family_section?: {
+    enabled: boolean;
+    type: "parents" | "godparents" | "special";
+    heading?: string;
+    groups: Array<{
+      title?: string;
+      people: Array<{ role?: string; name: string }>;
+    }>;
+  };
   introduction?: string;
   intro_headline?: string;
   ceremony_time?: string;

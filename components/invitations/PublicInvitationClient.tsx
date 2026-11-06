@@ -501,20 +501,9 @@ export default function PublicInvitationClient({
                       {content.gift_type && <p className="mt-1.5 text-sm font-medium leading-5">{content.gift_type}</p>}
                       {safeExternalUrl(content.gift_registry_url) && <div className="mt-3 flex justify-center"><a
                         href={safeExternalUrl(content.gift_registry_url)!}
-                        target="_blank"
+                        target="_self"
                         rel="noopener noreferrer"
                         referrerPolicy="no-referrer"
-                        onClick={(event) => {
-                          event.preventDefault();
-                          const registryUrl = safeExternalUrl(content.gift_registry_url);
-                          if (!registryUrl) return;
-                          const newTab = window.open(registryUrl, "_blank");
-                          if (newTab) {
-                            newTab.opener = null;
-                          } else {
-                            window.location.assign(registryUrl);
-                          }
-                        }}
                         className="invitation-gift-button relative z-10 pointer-events-auto inline-flex min-h-11 items-center justify-center gap-2 rounded-full border px-4 py-2.5 text-xs font-semibold transition" style={{ backgroundColor: `${accent}12`, color: accent, borderColor: `${accent}66` }}>{content.gift_registry_label?.trim() || "Ver mesa de regalos"} <ArrowUpRight size={14} strokeWidth={1.8} /></a></div>}
                     </div>
                   </article>

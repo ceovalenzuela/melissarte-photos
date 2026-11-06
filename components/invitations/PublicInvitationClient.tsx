@@ -469,7 +469,7 @@ export default function PublicInvitationClient({
                       <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Código de vestimenta</p>
                     </div>
                     <div className="min-w-0">
-                      <p className="mt-3 text-sm font-medium leading-5">{content.dress_code}</p>
+                      <p className="mt-3 whitespace-pre-line text-sm font-medium leading-6">{content.dress_code}</p>
                     </div>
                   </article>
                 )}
@@ -479,7 +479,7 @@ export default function PublicInvitationClient({
                       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border" style={{ background: `linear-gradient(145deg, ${accent}1A, ${accent}08)`, borderColor: `${accent}55`, color: accent }}><Gift size={18} strokeWidth={1.7} /></span>
                       <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>Sugerencias de regalo</p>
                     </div>
-                    {content.gift_icon && (() => {
+                    {content.gift_icon_enabled !== false && content.gift_icon && (() => {
                       const giftOptions = {
                         envelope: { label: "Sobre", Icon: Mail },
                         envelopes: { label: "Lluvia de sobres", Icon: Mails },
@@ -610,9 +610,6 @@ export default function PublicInvitationClient({
                 </div>
               </div>
             ) : null}
-            {(content.host_names?.trim() || (content.family_section?.enabled && content.family_section.groups.some((group) => group.people.some((person) => person.name.trim()))) || (!content.family_section && content.godparents_enabled && (content.godparents ?? []).some((person) => person.name.trim()))) && (
-              <div aria-hidden="true" className="invitation-footer-separator mx-auto my-7 h-px w-14" style={{ backgroundColor: `${borderColor}AA` }} />
-            )}
             <p className="invitation-footer-thanks mt-0">Gracias por ser parte de esta historia</p>
             <div className="invitation-footer-brand mt-8 border-t pt-5" style={{ borderColor: `${borderColor}88` }}><a href="https://events.melissartedecorativo.com/invitaciones" aria-label="Conoce las invitaciones de Melissarte" className="inline-flex rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4" style={{ outlineColor: accent }}><img src="/me-logo.png" alt="Melissarte Events — ver invitaciones" className="mx-auto h-auto w-20 max-w-[25vw] object-contain opacity-80 transition-opacity hover:opacity-100 sm:w-24" loading="lazy" /></a></div>
           </footer>

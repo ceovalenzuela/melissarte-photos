@@ -7,7 +7,7 @@ import {
 
 const FUNCTION_NAME = "optimize-existing-thumbnails";
 const BUCKET = "event-photos";
-const BATCH_SIZE = 8;
+const BATCH_SIZE = 1;
 const MAX_DIMENSION = 800;
 const WEBP_QUALITY = 76;
 const CACHE_CONTROL = "604800";
@@ -215,7 +215,6 @@ async function runBatch(state: MigrationState) {
       failed,
       sourceOriginalBytes,
       optimizedThumbnailBytes,
-      estimatedReductionBytes: Math.max(0, sourceOriginalBytes - optimizedThumbnailBytes),
       status: "complete",
     });
     return;
@@ -223,7 +222,7 @@ async function runBatch(state: MigrationState) {
 
   // Start the next small batch in a fresh invocation so image processing
   // does not accumulate CPU or memory usage in one Edge Function request.
-  await new Promise((resolve) => setTimeout(resolve, 250));
+  await new Promise((resolve) => setTimeout(resolve, 50));
   const response = await fetch(`${supabaseUrl}/functions/v1/${FUNCTION_NAME}`, {
     method: "POST",
     headers: {

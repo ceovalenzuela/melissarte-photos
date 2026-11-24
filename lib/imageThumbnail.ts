@@ -1,18 +1,22 @@
 export async function createThumbnail(
   file: File,
-  size = 1200
+  size = 800
 ): Promise<File> {
   return new Promise((resolve, reject) => {
     const image = new Image();
+    const objectUrl = URL.createObjectURL(file);
+
+    const cleanup = () => URL.revokeObjectURL(objectUrl);
 
     image.onload = () => {
+      // Never upscale small source images; only reduce oversized photos.
       const scale = Math.min(
-        size / image.width,
-        size / image.height
+        1,
+        size / Math.max(image.width, image.height)
       );
 
-      const width = Math.round(image.width * scale);
-      const height = Math.round(image.height * scale);
+      const width = Math.max(1, Math.round(image.width * scale));
+      const height = Math.max(1, Math.round(image.height * scale));
 
       const canvas = document.createElement("canvas");
       canvas.width = width;
@@ -21,6 +25,7 @@ export async function createThumbnail(
       const context = canvas.getContext("2d");
 
       if (!context) {
+        cleanup();
         reject(new Error("No se pudo crear el contexto del canvas."));
         return;
       }
@@ -29,17 +34,19 @@ export async function createThumbnail(
 
       canvas.toBlob(
         (blob) => {
-          URL.revokeObjectURL(image.src);
+          cleanup();
 
           if (!blob) {
             reject(new Error("No se pudo generar la miniatura."));
             return;
           }
 
+          const baseName = file.name.replace(/\.[^.]+$/, "");
+
           resolve(
             new File(
               [blob],
-              file.name.replace(/\.\w+$/, ".webp"),
+              `${baseName}.webp`,
               {
                 type: "image/webp",
                 lastModified: file.lastModified,
@@ -48,15 +55,15 @@ export async function createThumbnail(
           );
         },
         "image/webp",
-        0.9
+        0.76
       );
     };
 
     image.onerror = () => {
-      URL.revokeObjectURL(image.src);
+      cleanup();
       reject(new Error("No se pudo cargar la imagen."));
     };
 
-    image.src = URL.createObjectURL(file);
+    image.src = objectUrl;
   });
 }

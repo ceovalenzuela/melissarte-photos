@@ -33,6 +33,12 @@ export interface Photo {
   uploaded_at: string;
 }
 
+// All uploads use unique, immutable paths. A 7-day browser TTL avoids
+// re-downloading the same gallery assets during long-running slideshows,
+// while keeping the stale-copy window after an organizer deletes a photo
+// substantially shorter than a one-year cache.
+const STORAGE_CACHE_CONTROL = "604800";
+
 function buildFilePath(
   eventId: string,
   folder: "originals" | "thumbnails",
@@ -66,13 +72,21 @@ async function uploadSinglePhoto(
 
   const { error: originalError } = await supabase.storage
     .from("event-photos")
-    .upload(original.filePath, originalFile);
+    .upload(original.filePath, originalFile, {
+      cacheControl: STORAGE_CACHE_CONTROL,
+      contentType: originalFile.type || "application/octet-stream",
+      upsert: false,
+    });
 
   if (originalError) throw originalError;
 
   const { error: thumbnailError } = await supabase.storage
     .from("event-photos")
-    .upload(thumbnail.filePath, thumbnailFile);
+    .upload(thumbnail.filePath, thumbnailFile, {
+      cacheControl: STORAGE_CACHE_CONTROL,
+      contentType: "image/webp",
+      upsert: false,
+    });
 
   if (thumbnailError) throw thumbnailError;
 

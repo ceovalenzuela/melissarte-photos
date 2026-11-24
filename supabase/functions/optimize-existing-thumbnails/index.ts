@@ -92,6 +92,7 @@ function resizeToWebp(input: Uint8Array): Promise<Uint8Array> {
 
 type MigrationState = {
   offset: number;
+  endOffset: number;
   limit: number;
   startedAt: string;
   key: string;
@@ -103,7 +104,7 @@ type MigrationState = {
 };
 
 async function runBatch(state: MigrationState) {
-  const end = Math.min(state.offset + BATCH_SIZE - 1, state.limit - 1);
+  const end = Math.min(state.offset + BATCH_SIZE - 1, state.endOffset - 1);
   const { data, error } = await supabaseAdmin
     .from("photos")
     .select("id,file_path,thumbnail_path")
@@ -208,7 +209,7 @@ async function runBatch(state: MigrationState) {
     optimizedThumbnailBytes,
   });
 
-  if (nextOffset >= state.limit || photos.length < BATCH_SIZE) {
+  if (nextOffset >= state.endOffset || photos.length < BATCH_SIZE) {
     console.log("THUMBNAIL_MIGRATION_COMPLETE", {
       total: state.total,
       processed,
@@ -226,6 +227,7 @@ async function runBatch(state: MigrationState) {
   const nextUrl = `${supabaseUrl}/functions/v1/${FUNCTION_NAME}`;
   const nextBody = JSON.stringify({
     offset: nextOffset,
+    endOffset: state.endOffset,
     limit: state.limit,
     startedAt: state.startedAt,
     total: state.total,
@@ -314,6 +316,7 @@ Deno.serve(async (req) => {
       : 657;
     const startedAt = new Date().toISOString();
     const requestedOffset = Number.parseInt(url.searchParams.get("offset") ?? "0", 10);
+    const requestedEndOffset = Number.parseInt(url.searchParams.get("endOffset") ?? "100", 10);
 
     const { count, error } = await supabaseAdmin
       .from("photos")
@@ -331,9 +334,13 @@ Deno.serve(async (req) => {
     const startOffset = Number.isFinite(requestedOffset)
       ? Math.max(0, Math.min(requestedOffset, effectiveLimit))
       : 0;
+    const endOffset = Number.isFinite(requestedEndOffset)
+      ? Math.max(startOffset, Math.min(requestedEndOffset, effectiveLimit))
+      : effectiveLimit;
 
     const state: MigrationState = {
       offset: startOffset,
+      endOffset,
       limit: effectiveLimit,
       startedAt,
       key: key!,
@@ -368,6 +375,7 @@ Deno.serve(async (req) => {
 
   const state: MigrationState = {
     offset: Number(body.offset),
+    endOffset: Number(body.endOffset ?? 100),
     limit: Number(body.limit),
     startedAt: String(body.startedAt),
     key: key!,
@@ -380,6 +388,7 @@ Deno.serve(async (req) => {
 
   if (
     !Number.isInteger(state.offset) || state.offset < 0 ||
+    !Number.isInteger(state.endOffset) || state.endOffset < state.offset ||
     !Number.isInteger(state.limit) || state.limit < 1 ||
     !Number.isFinite(Date.parse(state.startedAt))
   ) {

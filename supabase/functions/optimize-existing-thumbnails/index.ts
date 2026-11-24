@@ -223,31 +223,71 @@ async function runBatch(state: MigrationState) {
   // Start the next small batch in a fresh invocation so image processing
   // does not accumulate CPU or memory usage in one Edge Function request.
   await new Promise((resolve) => setTimeout(resolve, 50));
-  const response = await fetch(`${supabaseUrl}/functions/v1/${FUNCTION_NAME}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-maintenance-key": state.key,
-    },
-    body: JSON.stringify({
-      offset: nextOffset,
-      limit: state.limit,
-      startedAt: state.startedAt,
-      total: state.total,
-      processed,
-      failed,
-      sourceOriginalBytes,
-      optimizedThumbnailBytes,
-    }),
+  const nextUrl = `${supabaseUrl}/functions/v1/${FUNCTION_NAME}`;
+  const nextBody = JSON.stringify({
+    offset: nextOffset,
+    limit: state.limit,
+    startedAt: state.startedAt,
+    total: state.total,
+    processed,
+    failed,
+    sourceOriginalBytes,
+    optimizedThumbnailBytes,
   });
 
-  if (!response.ok) {
-    console.error("THUMBNAIL_MIGRATION_CONTINUATION_FAILED", {
-      nextOffset,
-      status: response.status,
-      response: await response.text(),
-    });
+  // Supabase applies a per-trace request limit to long self-invoking chains.
+  // Respect the returned retry delay instead of losing the migration cursor.
+  for (let attempt = 1; attempt <= 5; attempt++) {
+    try {
+      const response = await fetch(nextUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-maintenance-key": state.key,
+        },
+        body: nextBody,
+      });
+
+      if (response.status === 429) {
+        const retryAfter = Number(response.headers.get("Retry-After") ?? "0");
+        await new Promise((resolve) =>
+          setTimeout(resolve, Math.max(12000, retryAfter * 1000 + 1000))
+        );
+        continue;
+      }
+
+      if (!response.ok) {
+        console.error("THUMBNAIL_MIGRATION_CONTINUATION_FAILED", {
+          nextOffset,
+          status: response.status,
+          response: await response.text(),
+        });
+      }
+      return;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      const retryMatch = message.match(/Retry after (\\d+)ms/i);
+
+      if (message.includes("RateLimitError") && attempt < 5) {
+        const retryMs = retryMatch ? Number(retryMatch[1]) : 12000;
+        await new Promise((resolve) =>
+          setTimeout(resolve, Math.max(12000, retryMs + 1000))
+        );
+        continue;
+      }
+
+      console.error("THUMBNAIL_MIGRATION_CONTINUATION_FAILED", {
+        nextOffset,
+        attempt,
+        message,
+      });
+      return;
+    }
   }
+
+  console.error("THUMBNAIL_MIGRATION_CONTINUATION_RETRIES_EXHAUSTED", {
+    nextOffset,
+  });
 }
 
 Deno.serve(async (req) => {
@@ -273,6 +313,7 @@ Deno.serve(async (req) => {
       ? Math.max(1, Math.min(requestedLimit, 657))
       : 657;
     const startedAt = new Date().toISOString();
+    const requestedOffset = Number.parseInt(url.searchParams.get("offset") ?? "0", 10);
 
     const { count, error } = await supabaseAdmin
       .from("photos")
@@ -286,13 +327,18 @@ Deno.serve(async (req) => {
       );
     }
 
+    const effectiveLimit = Math.min(limit, count ?? 0);
+    const startOffset = Number.isFinite(requestedOffset)
+      ? Math.max(0, Math.min(requestedOffset, effectiveLimit))
+      : 0;
+
     const state: MigrationState = {
-      offset: 0,
-      limit: Math.min(limit, count ?? 0),
+      offset: startOffset,
+      limit: effectiveLimit,
       startedAt,
       key: key!,
       total: Math.min(limit, count ?? 0),
-      processed: 0,
+      processed: startOffset,
       failed: 0,
       sourceOriginalBytes: 0,
       optimizedThumbnailBytes: 0,

@@ -268,10 +268,10 @@ async function runBatch(state: MigrationState) {
       const message = error instanceof Error ? error.message : String(error);
       const retryMatch = message.match(/Retry after (\\d+)ms/i);
 
-      if (message.includes("RateLimitError") && attempt < 5) {
-        const retryMs = retryMatch ? Number(retryMatch[1]) : 12000;
+      if (/rate limit exceeded/i.test(message) && attempt < 5) {
+        const retryMs = retryMatch ? Number(retryMatch[1]) : 15000;
         await new Promise((resolve) =>
-          setTimeout(resolve, Math.max(12000, retryMs + 1000))
+          setTimeout(resolve, Math.max(16000, retryMs + 1000))
         );
         continue;
       }
